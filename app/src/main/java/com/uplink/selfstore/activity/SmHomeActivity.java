@@ -75,8 +75,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_stockset), NineGridItemType.Function, "fun.stockset", R.drawable.ic_sm_stock));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_machineset), NineGridItemType.Function, "fun.machineset", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
@@ -98,8 +98,12 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         case NineGridItemType.Function:
                             intent = new Intent();
                             switch (action) {
-                                case "fun.machineset":
+                                case "fun.machineinfo":
                                     intent = new Intent(getAppContext(), SmMachineInfoActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case "fun.machinestock":
+                                    intent = new Intent(getAppContext(), SmMachineStockActivity.class);
                                     startActivity(intent);
                                     break;
                                 case "fun.closeapp":

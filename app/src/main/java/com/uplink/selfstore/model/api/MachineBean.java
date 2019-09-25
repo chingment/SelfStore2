@@ -10,7 +10,7 @@ public class MachineBean implements Serializable {
 
     private String id;
     public  String name;
-    private String merchantName;
+    private String merchName;
     private String storeName;
     private String logoImgUrl;
     private String currency;
@@ -41,12 +41,12 @@ public class MachineBean implements Serializable {
         this.name = name;
     }
 
-    public String getMerchantName() {
-        return merchantName;
+    public String getMerchName() {
+        return merchName;
     }
 
-    public void setMerchantName(String merchantName) {
-        this.merchantName = merchantName;
+    public void setMerchName(String merchName) {
+        this.merchName = merchName;
     }
 
     public String getStoreName() {

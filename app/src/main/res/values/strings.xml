@@ -33,6 +33,7 @@
     <string name="activity_smmachineinfo_textview_versionname_text">版本号</string>
     <string name="activity_smmachineinfo_textview_currency_text">货币</string>
     <string name="activity_smmachineinfo_textview_currencysymbol_text">货币符号</string>
+    <string name="activity_smmachinestock_navtitle">机器库存</string>
     <string name="activity_cart_navtitle">购物车</string>
     <string name="activity_cart_button_goshopping_text">去逛一逛商品</string>
     <string name="activity_cart_button_gopay_text">去支付</string>

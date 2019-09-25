@@ -32,14 +32,15 @@
 
             <LinearLayout
                 android:id="@+id/btn_payway_wechat"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/size_80"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+
+                android:orientation="vertical">
 
 
                 <ImageView
-                    android:layout_width="@dimen/size_180"
+                    android:layout_width="@dimen/size_80"
                     android:layout_height="@dimen/size_56"
                     android:src="@drawable/icon_payway_wechat"
                     android:background="@null"
@@ -47,17 +48,22 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     />
-
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="@dimen/size_8"
+                     android:text="微信支付"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/btn_payway_zhifubao"
-                android:layout_width="wrap_content"
+
+                android:layout_width="@dimen/size_80"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="@dimen/size_180"
+                    android:layout_width="@dimen/size_80"
                     android:layout_height="@dimen/size_56"
                     android:src="@drawable/icon_payway_zhifubao"
                     android:background="@null"
@@ -65,7 +71,11 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_8"
+                    android:text="支付宝支付"/>
             </LinearLayout>
 
         </LinearLayout>

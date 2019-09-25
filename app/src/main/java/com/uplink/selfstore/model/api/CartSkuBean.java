@@ -54,7 +54,7 @@ public class CartSkuBean implements Serializable {
         return salePrice;
     }
 
-    public void setSalePrice(float salesPrice) {
+    public void setSalePrice(float salePrice) {
         this.salePrice = salePrice;
     }
 

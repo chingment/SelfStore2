@@ -60,7 +60,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         MachineBean machine = AppCacheManager.getMachine();
 
 
-        txt_MerchantName.setText(machine.getMerchantName());
+        txt_MerchantName.setText(machine.getMerchName());
         txt_StoreName.setText(machine.getStoreName());
         txt_MachineId.setText(machine.getId());
         txt_JPushRegId.setText(JPushInterface.getRegistrationID(getAppContext()));
