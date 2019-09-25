@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:layout_width="520px"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/dialog_chooselist_bg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="103px"
+            android:background="@color/dialog_chooselist_title_bg"
+            android:gravity="center"
+            android:text="请选择"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dialog_line" />
+
+        <ListView
+            android:id="@+id/dialog_chooselist"
+            android:layout_width="match_parent"
+            android:layout_height="380px"
+            android:divider="@color/dialog_chooselist_dividerline"
+            android:dividerHeight="1px"
+            android:gravity="center_vertical" />
+
+
+    </LinearLayout>
+</RelativeLayout>

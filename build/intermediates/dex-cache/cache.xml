@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/statusbar.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="243660b62ace5e98ac150028e77483d2dc053d3c">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/2/statusbar_629f1ea35dbd8be7a8c3a62a565fafee77e45a4b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/jcore-android-1.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d2cabf100b12e13cc22b8361a93f854103bb3cca">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/2/jcore-android-1.2.1_c7f58ae326307a385290c5c6ef6d6c47b2ac3af0/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/jcore-android-1.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d2cabf100b12e13cc22b8361a93f854103bb3cca">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/jcore-android-1.2.1_c7f58ae326307a385290c5c6ef6d6c47b2ac3af0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/SignalA/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="904529663ae108a4efacec4601f98aca51141d09">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/classes_47cc855c67f86a3bef33bef0672ef8be017b1293.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/statusbar.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="243660b62ace5e98ac150028e77483d2dc053d3c">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/statusbar_629f1ea35dbd8be7a8c3a62a565fafee77e45a4b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c5072098578cf515c326455998053ac370427ef1">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_cc1e0ea0b1d8fda0a31d8231ee347ef597f94272/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_db55d494503f35a968e66fffd489787fc37dd8c0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/meSdk-3.6.0-SNAPSHOT.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1914a011e716cf39c8b7ab5865d40753a802a4c8">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/2/meSdk-3.6.0-SNAPSHOT_e603965dd1753628043e3b951f46bfc51565f3eb/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/parallel-basic-http-client/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="115c97210a3a46778d904a624f09a3fb4586c431">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/classes_0841da683cbc64d0ff172a0b5c5aee16ea74d516.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/SignalA.LongPolling/build/intermediates/bundles/default/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c1ab492ffc15761c33a0d3000431035bb35887c9">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/classes_20fa3eb7ba4bfca79c0da3689bf562cbedbc4b8f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/jpush-android-3.1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="437ebf84ca874a27d0c0007e628cddc5121a285e">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/jpush-android-3.1.3_cfe7e79e03eb2f522bef4951e4d5d26124139c52.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/jpush-android-3.1.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="437ebf84ca874a27d0c0007e628cddc5121a285e">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/2/jpush-android-3.1.3_cfe7e79e03eb2f522bef4951e4d5d26124139c52/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/chingment/Documents/android/SelfStore/parallel-basic-http-client/build/intermediates/bundles/default/libs/basic-http-client-android-0.88.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="412b550750e96acf8ebbfc0241a340836d7ef319">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/transforms/dex/debug/folders/1000/8/basic-http-client-android-0.88_12a5f75eeeb7ec9f13a6ada2c3a6c4364acb28ad/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/parallel-basic-http-client/build/intermediates/bundles/default/libs/basic-http-client-android-0.88.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="412b550750e96acf8ebbfc0241a340836d7ef319">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/basic-http-client-android-0.88_12a5f75eeeb7ec9f13a6ada2c3a6c4364acb28ad.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chingment/Documents/android/SelfStore/app/libs/meSdk-3.6.0-SNAPSHOT.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1914a011e716cf39c8b7ab5865d40753a802a4c8">
+        <dex dex="/Users/chingment/Documents/android/SelfStore/app/build/intermediates/pre-dexed/debug/meSdk-3.6.0-SNAPSHOT_e603965dd1753628043e3b951f46bfc51565f3eb.jar" />
+    </item>
+
+</items>

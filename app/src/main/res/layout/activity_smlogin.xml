@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_nav_header" />
+
+    <LinearLayout
+        android:layout_below="@+id/layout_header"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+
+
+        <RelativeLayout
+
+            android:layout_width="@dimen/size_250"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+            <RelativeLayout
+                android:id="@+id/login_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="45dp">
+
+                <RelativeLayout
+                    android:id="@+id/login_area_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_42"
+                    android:background="@drawable/boder_bottom">
+
+                    <ImageView
+                        android:id="@+id/ic_input_username"
+                        android:layout_width="@dimen/size_16"
+                        android:layout_height="@dimen/size_16"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_5"
+                        android:layout_marginRight="@dimen/size_16"
+                        android:background="@drawable/ic_input_username" />
+
+                    <EditText
+                        android:id="@+id/txt_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/ic_input_username"
+                        android:background="@null"
+                        android:hint="@string/activity_smlogin_edittext_username_placeholder"
+                        android:maxLength="20"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="@dimen/size_12"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/btn_cancle_username"
+                        android:layout_width="@dimen/size_32"
+                        android:layout_height="@dimen/size_32"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/size_10"
+                        android:src="@drawable/ic_input_right_cancel"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/login_area_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_42"
+                    android:layout_below="@+id/login_area_username"
+                    android:background="@drawable/boder_bottom">
+
+
+                    <ImageView
+                        android:id="@+id/ic_input_password"
+                        android:layout_width="@dimen/size_16"
+                        android:layout_height="@dimen/size_16"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/size_5"
+                        android:layout_marginRight="@dimen/size_16"
+                        android:background="@drawable/ic_input_password" />
+
+                    <EditText
+                        android:id="@+id/txt_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/ic_input_password"
+                        android:background="@null"
+                        android:hint="@string/activity_smlogin_edittext_password_placeholder"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/text"
+                        android:textColorHint="@color/text_hint"
+                        android:textSize="@dimen/size_12" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_20"
+                android:layout_below="@+id/login_area"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/widget_common_btn"
+                android:gravity="center"
+                android:text="@string/activity_smlogin_button_login_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_10"/>
+
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

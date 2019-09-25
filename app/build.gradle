@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHH')
+    return formattedDate
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+
+    defaultConfig {
+        applicationId "com.uplink.selfstore"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        useLibrary 'org.apache.http.legacy'
+    }
+
+
+    signingConfigs {
+        release {
+            storeFile file("../CarIns.jks")
+            storePassword 'ching003'
+            keyAlias 'CarIns'
+            keyPassword 'ching003'
+        }
+        config {
+            keyAlias 'CarIns'
+            keyPassword 'ching003'
+            storeFile file('../CarIns.jks')
+            storePassword 'ching003'
+        }
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "ENVIRONMENT", "\"http:/api.term.17fanju.com\""
+            buildConfigField "String", "APPKEY", "\"test\""
+            buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
+            buildConfigField "boolean", "SHOWDEBUG", "true"
+        }
+        release {
+            buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
+            buildConfigField "String", "APPKEY", "\"haoyilian\""
+            buildConfigField "String", "APPSECRET", "\"7460e6512f1940f68c00fe1fdb2b7eb1\""
+            buildConfigField "boolean", "SHOWDEBUG", "true"
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    if (output.outputFile != null && output.outputFile.name.endsWith('.apk')
+                            && 'release'.equals(variant.buildType.name)) {
+                        def apkFile = new File(
+                                output.outputFile.getParent(),
+                                "HYL_v${variant.versionName}_c${variant.versionCode}_t${buildTime()}.apk")
+                        output.outputFile = apkFile
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile project(':parallel-basic-http-client')
+    compile project(':SignalA')
+    compile project(':SignalA.LongPolling')
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.alibaba:fastjson:1.1.67.android'
+    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
+    testCompile 'junit:junit:4.12'
+}

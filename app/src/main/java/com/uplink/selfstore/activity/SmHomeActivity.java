@@ -1,0 +1,145 @@
+package com.uplink.selfstore.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+
+import com.uplink.selfstore.R;
+import com.uplink.selfstore.activity.adapter.NineGridItemdapter;
+import com.uplink.selfstore.model.common.NineGridItemBean;
+import com.uplink.selfstore.model.common.NineGridItemType;
+import com.uplink.selfstore.own.AppManager;
+import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.my.MyGridView;
+import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.NoDoubleClickUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
+
+    private CustomConfirmDialog confirmDialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_smhome);
+
+        setNavTtile(this.getResources().getString(R.string.activity_smhome_navtitle));
+        initView();
+        initEvent();
+
+        confirmDialog = new CustomConfirmDialog(SmHomeActivity.this, "", true);
+        confirmDialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = v.getTag().toString();
+                LogUtil.e("tag:" + tag);
+                switch (tag) {
+                    case "fun.closeapp":
+                        setShowStatuBar(false);
+                        AppManager.getAppManager().AppExit(SmHomeActivity.this);
+                        break;
+                    case "fun.rootsys":
+                        setShowStatuBar(false);
+                        Intent it = new Intent();
+                        it.setAction("com.fourfaith.reboot");
+                        it.putExtra("mode", "0");//0 重启 1 关机
+                        sendBroadcast(it);
+                        break;
+                    case "fun.exitmanager":
+                        Intent l_Intent = new Intent(SmHomeActivity.this, MainActivity.class);
+                        startActivity(l_Intent);
+                        finish();
+                        break;
+                }
+                confirmDialog.dismiss();
+            }
+        });
+
+        confirmDialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                confirmDialog.dismiss();
+            }
+        });
+    }
+
+    private void initView() {
+
+        MyGridView gridview = (MyGridView) findViewById(R.id.gridview_ninegrid);
+
+        final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
+
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_stockset), NineGridItemType.Function, "fun.stockset", R.drawable.ic_sm_stock));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_machineset), NineGridItemType.Function, "fun.machineset", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
+
+        NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(getAppContext(), gridviewitems);
+
+        gridview.setAdapter(nineGridItemdapter);
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (!NoDoubleClickUtil.isDoubleClick()) {
+                    NineGridItemBean gridviewitem = gridviewitems.get(position);
+                    int type = gridviewitem.getType();
+                    String action = gridviewitem.getAction();
+                    Intent intent;
+                    switch (type) {
+                        case NineGridItemType.Function:
+                            intent = new Intent();
+                            switch (action) {
+                                case "fun.machineset":
+                                    intent = new Intent(getAppContext(), SmMachineInfoActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case "fun.closeapp":
+                                    confirmDialog.getTipsImage().setVisibility(View.GONE);
+                                    confirmDialog.getBtnSure().setTag("fun.closeapp");
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_closeapp));
+                                    confirmDialog.show();
+                                    break;
+                                case "fun.rootsys":
+                                    confirmDialog.getTipsImage().setVisibility(View.GONE);
+                                    confirmDialog.getBtnSure().setTag("fun.rootsys");
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_rootsys));
+                                    confirmDialog.show();
+                                    break;
+                                case "fun.exitmanager":
+                                    confirmDialog.getTipsImage().setVisibility(View.GONE);
+                                    confirmDialog.getBtnSure().setTag("fun.exitmanager");
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_exitmanager));
+                                    confirmDialog.show();
+                                    break;
+
+                            }
+                    }
+                }
+            }
+        });
+    }
+
+    private void initEvent() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (!NoDoubleClickUtil.isDoubleClick()) {
+            switch (v.getId()) {
+                case R.id.nav_back:
+                    finish();
+                    break;
+            }
+        }
+    }
+}

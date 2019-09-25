@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_bg"
+    >
+
+    <LinearLayout
+        android:layout_width="621px"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/dialog"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="103px"
+            android:gravity="center"
+            android:text="金额输入"
+            android:textColor="@color/dialog_title"
+            android:textSize="@dimen/size_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dialog_line" />
+
+        <EditText
+            android:id="@+id/dialog_txt_eidt"
+            android:layout_width="match_parent"
+            android:layout_height="88px"
+            android:layout_margin="30px"
+            android:background="@drawable/dialog_input_bg"
+            android:gravity="center_vertical"
+            android:hint="请在这里输入"
+            android:inputType="numberDecimal"
+            android:maxLength="10"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:textColor="@color/dialog_text_normal"
+            android:textSize="@dimen/size_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/dialog_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90px"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_confirm_btn_sure"
+                android:layout_width="308px"
+                android:layout_height="89px"
+                android:layout_marginBottom="1px"
+                android:layout_marginRight="0px"
+                android:background="@drawable/dialog_confirm_leftbtn"
+                android:text="确认"
+                android:textColor="@color/dialog_confirm_btn_sure"
+                android:textSize="@dimen/size_16" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/dialog_line" />
+
+
+            <Button
+                android:id="@+id/dialog_confirm_btn_cancle"
+                android:layout_width="308px"
+                android:layout_height="89px"
+                android:layout_marginBottom="1px"
+                android:layout_marginLeft="0px"
+                android:background="@drawable/dialog_confirm_rightbtn"
+                android:text="取消"
+                android:textColor="@color/dialog_confirm_btn_cancle"
+                android:textSize="@dimen/size_16" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

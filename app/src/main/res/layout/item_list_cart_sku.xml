@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp">
+
+
+    <LinearLayout
+        android:id="@+id/btn_delete"
+        android:layout_width="@dimen/size_22"
+        android:layout_height="match_parent"
+        android:gravity="left|center"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:layout_width="@dimen/size_18"
+            android:layout_height="@dimen/size_18"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:contentDescription="@string/image_content_description"
+            android:gravity="center"
+            android:src="@drawable/tmp_btn_cart_delete" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/size_80"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:id="@+id/img_main"
+            android:layout_width="@dimen/size_70"
+            android:layout_height="@dimen/size_70"
+            android:background="@null"
+            android:contentDescription="@string/image_content_description"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_default" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        tools:ignore="UselessParent"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+
+            tools:ignore="UselessParent">
+
+
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="left"
+                    android:maxLines="3"
+                    android:text="商品名称"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/size_10" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:orientation="horizontal"
+            >
+
+
+            <TextView
+                android:id="@+id/txt_price_currencySymbol"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_16"
+                android:gravity="bottom"
+                android:includeFontPadding="false"
+                android:text="¥"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="@dimen/size_13" />
+
+            <TextView
+                android:id="@+id/txt_price_integer"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_16"
+                android:includeFontPadding="false"
+                android:gravity="bottom"
+                android:text="10"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="@dimen/size_13" />
+
+            <TextView
+                android:id="@+id/txt_price_decimal"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_16"
+                android:includeFontPadding="false"
+                android:text=".99"
+                android:gravity="bottom"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="@dimen/size_10" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="@dimen/size_80"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+
+        >
+
+        <LinearLayout
+            android:id="@+id/btn_decrease"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/size_18"
+                android:layout_height="@dimen/size_18"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:contentDescription="@string/image_content_description"
+                android:gravity="center"
+                android:src="@drawable/tmp_btn_cart_decrease" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txt_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#333333"
+                android:textSize="@dimen/size_10" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/btn_increase"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="@dimen/size_18"
+                android:layout_height="@dimen/size_18"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:contentDescription="@string/image_content_description"
+                android:gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/tmp_btn_cart_increase" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

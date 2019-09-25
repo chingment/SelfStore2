@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_bg">
+
+    <LinearLayout
+
+        android:layout_width="@dimen/size_300"
+        android:padding="@dimen/size_10"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/dialog"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right"
+            >
+            <ImageView
+                android:id="@+id/dialog_btn_close"
+                android:layout_width="@dimen/size_10"
+                android:layout_height="@dimen/size_10"
+                android:contentDescription="@string/image_content_description"
+                android:src="@drawable/dialog_ic_delete" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/dialog_confirm_tips_img"
+                android:layout_width="@dimen/size_60"
+                android:layout_height="@dimen/size_60"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:contentDescription="@string/image_content_description"
+                android:src="@drawable/img_default" />
+
+
+            <TextView
+                android:id="@+id/dialog_confirm_tips_txt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_30"
+                android:gravity="center_horizontal|center"
+                android:text="提示信息"
+                android:textColor="@color/dialog_tips"
+                android:textSize="@dimen/size_10" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:paddingTop="@dimen/size_10"
+            android:paddingBottom="@dimen/size_10"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <Button
+                    android:id="@+id/dialog_confirm_btn_cancle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_20"
+                    android:paddingLeft="@dimen/size_20"
+                    android:paddingRight="@dimen/size_20"
+                    android:text="@string/dialog_confirm_btn_cancle_text"
+                    android:background="@drawable/dialog_btn_cancle"
+                    android:textColor="@color/dialog_confirm_btn_cancle"
+                    android:textSize="@dimen/size_8" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <Button
+                    android:id="@+id/dialog_confirm_btn_sure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_marginLeft="0dp"
+                    android:paddingLeft="@dimen/size_20"
+                    android:paddingRight="@dimen/size_20"
+                    android:text="@string/dialog_confirm_btn_sure_text"
+                    android:background="@drawable/dialog_btn_sure"
+                    android:textColor="@color/dialog_confirm_btn_sure"
+                    android:textSize="@dimen/size_8"
+                    tools:ignore="RtlHardcoded" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

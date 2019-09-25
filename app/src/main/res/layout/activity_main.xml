@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/size_2"
+    android:paddingBottom="@dimen/size_2"
+    android:paddingLeft="@dimen/size_2"
+    android:paddingRight="@dimen/size_2"
+    android:background="@color/white"
+    >
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:layout_marginBottom="@dimen/size_4"
+        >
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:src="@null"
+            android:padding="0dp"
+            android:contentDescription="@string/image_content_description"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_body"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/layout_header"
+        android:layout_above="@+id/layout_footer"
+        android:layout_marginBottom="@dimen/size_4"
+        >
+        <com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager
+            android:id="@+id/banner_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
+            />
+
+        <com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/banner_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/size_10"
+            android:padding="@dimen/size_5" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_footer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_70"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent"
+        >
+
+        <LinearLayout
+            android:background="@color/transparent"
+            android:baselineAligned="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+
+                android:gravity="center_vertical|center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_buy"
+                    android:layout_width="@dimen/size_180"
+                    android:layout_height="@dimen/size_56"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/tmp_btn_buy"
+                    android:contentDescription="@string/image_content_description"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:baselineAligned="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/btn_pick"
+                    android:layout_width="@dimen/size_180"
+                    android:layout_height="@dimen/size_56"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/tmp_btn_pick"
+                    android:contentDescription="@string/image_content_description"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,424 @@
+package com.uplink.selfstore.http;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.URLEncoder;
+import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import com.uplink.selfstore.R;
+import com.uplink.selfstore.own.AppContext;
+import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.AbFileUtil;
+import com.uplink.selfstore.utils.ToastUtil;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+/**
+ * Created by tiansj on 15/2/27.
+ */
+public class HttpClient {
+
+    private static final int CONNECT_TIME_OUT = 10;
+    private static final int WRITE_TIME_OUT = 60;
+    private static final int READ_TIME_OUT = 60;
+    private static final int MAX_REQUESTS_PER_HOST = 10;
+    private static final String TAG = HttpClient.class.getSimpleName();
+    private static final String UTF_8 = "UTF-8";
+    private static final MediaType MEDIA_TYPE = MediaType.parse("text/plain;");
+    private static OkHttpClient client;
+    //json请求
+    private static final MediaType MediaType_JSON = MediaType.parse("application/json; charset=utf-8");
+
+    static {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS);
+        builder.writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS);
+        builder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
+        builder.networkInterceptors().add(new LoggingInterceptor());
+
+        client = builder.build();
+
+
+        client.dispatcher().setMaxRequestsPerHost(MAX_REQUESTS_PER_HOST);
+    }
+
+    /**
+     * LoggingInterceptor
+     */
+    static class LoggingInterceptor implements Interceptor {
+        @Override
+        public Response intercept(Interceptor.Chain chain) throws IOException {
+            Request request = chain.request();
+
+            //long t1 = System.nanoTime();
+            //LogUtil.i(TAG, String.format("Sending request %s on %s%n%s",
+            //request.url(), chain.connection(), request.headers()));
+
+            Response response = chain.proceed(request);
+
+            //long t2 = System.nanoTime();
+            //LogUtil.i(TAG, String.format("Received response for %s in %.1fms%n%s",
+            //response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+            return response;
+        }
+    }
+
+    /**
+     * 网络判断
+     *
+     * @return
+     */
+    public static boolean isNetworkAvailable() {
+        try {
+            ConnectivityManager connectivityManager = (ConnectivityManager) AppContext.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
+        } catch (Exception e) {
+            LogUtil.v("ConnectivityManager", e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * 普通get方法
+     *
+     * @param url
+     * @param param
+     * @param handler
+     */
+    public static void get(String url, Map<String, String> param, final HttpResponseHandler handler) {
+
+        if (!isNetworkAvailable()) {
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_SHORT);
+
+            return;
+        }
+
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+        }
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    handler.sendSuccessMessage(response.body().string());
+                } catch (Exception e) {
+                    handler.sendFailureMessage("读取数据发生异常", e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                String msg = "读取数据服务发生异常";
+
+                if (e instanceof SocketTimeoutException) {
+                    msg = "读取数据服务连接超时";
+                } else if (e instanceof ConnectException) {
+                    msg = "读取数据服务连接失败";
+
+                } else if (e instanceof UnknownHostException) {
+                    msg = "读取数据服务连接不存在";
+                }
+
+                handler.sendFailureMessage(msg, e);
+            }
+        });
+    }
+
+
+    /**
+     * 普通post方法
+     *
+     * @param url
+     * @param param
+     * @param handler
+     */
+    public static void post(String url, Map<String, String> param, final HttpResponseHandler handler) {
+        if (!isNetworkAvailable()) {
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_LONG);
+            return;
+        }
+        String paramStr = "";
+        if (param != null && param.size() > 0) {
+            paramStr = url += mapToQueryString(param);
+            url = url + "?" + paramStr;
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE, paramStr);
+        Request request = new Request.Builder().url(url).post(body).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    handler.sendSuccessMessage(response.body().string());
+                } catch (Exception e) {
+                    handler.sendFailureMessage("读取数据发生异常", e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                String msg = "读取数据服务发生异常";
+
+                if (e instanceof SocketTimeoutException) {
+                    msg = "读取数据服务连接超时";
+                } else if (e instanceof ConnectException) {
+                    msg = "读取数据服务连接失败";
+
+                } else if (e instanceof UnknownHostException) {
+                    msg = "读取数据服务连接不存在";
+                }
+
+                handler.sendFailureMessage(msg, e);
+            }
+        });
+    }
+
+
+    public static void getByAppSecret(String key, String secret, String url, Map<String, String> param, final HttpResponseHandler handler) {
+
+        if (!isNetworkAvailable()) {
+            handler.sendFailureMessage("网络连接不可用,请检查设置", null);
+            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用,请检查设置", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        handler.sendBeforeSendMessage();
+
+        String data = "";
+        if (param != null && param.size() > 0) {
+            data = mapToQueryString(param);
+            url = url + "?" + data;
+
+        }
+
+        Request.Builder requestBuilder = new Request.Builder().url(url);
+        requestBuilder.addHeader("key", "" + key);
+        String currenttime = (System.currentTimeMillis() / 1000) + "";
+        requestBuilder.addHeader("timestamp", currenttime);
+        String sign = Config.getSign(key, secret, data, currenttime);
+        requestBuilder.addHeader("sign", "" + sign);
+        requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
+
+        LogUtil.i(TAG, "Request.url====>>>" + url);
+        Request request = requestBuilder.build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String body = response.body().string();
+                    LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
+                    handler.sendSuccessMessage(body);
+                } catch (Exception e) {
+                    LogUtil.i(TAG, "Request.onFailure====>>>" + e.getMessage());
+                    handler.sendFailureMessage("读取数据发生异常", e);
+                }
+
+                handler.sendCompleteMessage("");
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+                String msg = "读取数据服务发生异常";
+
+                if (e instanceof SocketTimeoutException) {
+                    msg = "读取数据服务连接超时";
+                } else if (e instanceof ConnectException) {
+                    msg = "读取数据服务连接失败";
+
+                } else if (e instanceof UnknownHostException) {
+                    msg = "读取数据服务连接不存在";
+                }
+                handler.sendFailureMessage(msg, e);
+
+            }
+        });
+    }
+
+    public static void postByAppSecret(String key, String secret, String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+
+        try
+
+        {
+            if (!isNetworkAvailable()) {
+                Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
+                handler.sendCompleteMessage("");
+                return;
+            }
+
+            handler.sendBeforeSendMessage();
+
+            JSONObject json = new JSONObject();
+            try {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    json.put(entry.getKey(), entry.getValue());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                handler.sendCompleteMessage("");
+                return;
+            }
+
+            Request.Builder requestBuilder = new Request.Builder().url(url);
+            requestBuilder.addHeader("key", "" + key);
+            String currenttime = (System.currentTimeMillis() / 1000) + "";
+            requestBuilder.addHeader("timestamp", currenttime);
+            String sign = Config.getSign(key, secret, json.toString(), currenttime);
+            requestBuilder.addHeader("sign", "" + sign);
+            requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
+
+
+            try {
+                JSONObject jsonImgData = new JSONObject();
+                if (filePaths != null) {
+                    if (filePaths.size() > 0) {
+                        for (Map.Entry<String, String> entry : filePaths.entrySet()) {
+                            JSONObject jsonImgItem = new JSONObject();
+                            String filePath = entry.getValue();
+                            LogUtil.e(TAG, "filePath>>==>>" + filePath);
+                            jsonImgItem.put("type", filePath.substring(filePath.lastIndexOf(".")));
+                            String base64ImgStr = AbFileUtil.GetBase64ImageStr(filePath);
+                            LogUtil.e(TAG, "filePath>>==>>" + base64ImgStr.length());
+                            jsonImgItem.put("data", base64ImgStr);
+                            jsonImgData.put(entry.getKey(), jsonImgItem);
+                        }
+                        json.put("imgData", jsonImgData);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                handler.sendCompleteMessage("");
+                return;
+            }
+
+            String data = json.toString();
+
+            LogUtil.i("Request.url:" + url);
+            LogUtil.i("Request.postData:" + data);
+
+
+            RequestBody body = RequestBody.create(MediaType_JSON, data);
+
+            requestBuilder.post(body);
+
+
+            client.newCall(requestBuilder.build()).enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+
+                    try {
+                        String body = response.body().string();
+                        LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
+                        handler.sendSuccessMessage(body);
+
+                    } catch (Exception e) {
+                        LogUtil.i(TAG, "Request.onFailure====>>>" + response);
+                        handler.sendFailureMessage("读取数据发生异常", e);
+                    }
+
+                    handler.sendCompleteMessage("");
+                }
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    String msg = "读取数据服务发生异常";
+
+                    if (e instanceof SocketTimeoutException) {
+                        msg = "读取数据服务连接超时";
+                    } else if (e instanceof ConnectException) {
+                        msg = "读取数据服务连接失败";
+
+                    } else if (e instanceof UnknownHostException) {
+                        msg = "读取数据服务连接不存在";
+                    }
+
+                    handler.sendFailureMessage(msg, e);
+                }
+            });
+        } catch (Exception ex) {
+
+            handler.sendCompleteMessage("");
+        }
+    }
+
+//    public static void getByMy(String url, Map<String, String> param, final HttpResponseHandler handler) {
+//        getByAppSecret(BuildConfig.APPKEY,BuildConfig.APPSECRET,url,param,handler);
+//    }
+//
+//    public static void postByMy(String url, Map<String, Object> params,Map<String, String> filePaths, final HttpResponseHandler handler) {
+//        postByAppSecret(BuildConfig.APPKEY,BuildConfig.APPSECRET,url,params,filePaths,handler);
+//    }
+
+    /**
+     * 判断是否为 json
+     *
+     * @param responseBody
+     * @return
+     * @throws Exception
+     */
+
+    private static String judgeJSON(String responseBody) throws Exception {
+        if (!isJsonString(responseBody)) {
+            throw new Exception("server response not json string (response = " + responseBody + ")");
+        }
+        return responseBody;
+    }
+
+    /**
+     * 判断是否为 json
+     *
+     * @param responseBody
+     * @return
+     */
+    private static boolean isJsonString(String responseBody) {
+        return !TextUtils.isEmpty(responseBody) && (responseBody.startsWith("{") && responseBody.endsWith("}"));
+    }
+
+    /**
+     * get
+     *
+     * @param map
+     * @return
+     */
+    public static String mapToQueryString(Map<String, String> map) {
+        StringBuilder string = new StringBuilder();
+        /*if(map.size() > 0) {
+            string.append("?");
+        }*/
+        try {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                string.append(entry.getKey());
+                string.append("=");
+                string.append(URLEncoder.encode(entry.getValue(), UTF_8));
+                string.append("&");
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return string.toString().substring(0, string.length() - 1);
+    }
+
+}
