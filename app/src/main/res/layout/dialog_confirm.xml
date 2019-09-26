@@ -7,7 +7,7 @@
 
     <LinearLayout
 
-        android:layout_width="@dimen/size_300"
+        android:layout_width="@dimen/size_200"
         android:padding="@dimen/size_10"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
