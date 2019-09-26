@@ -37,7 +37,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SmMachineStockActivity">
+        <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -200,7 +200,7 @@
         <activity android:name=".activity.PositionActivity" />
         <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.PayWayActivity" />
-        <!--<activity android:name=".activity.SmMachineStockActivity"></activity>-->
+        <activity android:name=".activity.SmMachineStockActivity"></activity>
     </application>
 
 </manifest>

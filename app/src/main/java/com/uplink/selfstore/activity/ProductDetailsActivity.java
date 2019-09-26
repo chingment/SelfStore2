@@ -13,8 +13,10 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.model.api.CartOperateType;
+import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
@@ -23,6 +25,7 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.net.URL;
+import java.util.List;
 
 public class ProductDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -94,10 +97,11 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
 
     private void initData() {
 
-
-        banner_adapter = new BannerAdapter(getAppContext(), product.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
-        banner_pager.setAdapter(banner_adapter);
-        banner_indicator.setViewPager(banner_pager);
+        if(product.getDisplayImgUrls()!=null) {
+            banner_adapter = new BannerAdapter(getAppContext(), product.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
+            banner_pager.setAdapter(banner_adapter);
+            banner_indicator.setViewPager(banner_pager);
+        }
 
         txt_name.setText(product.getName());
         txt_briefInfo.setText(product.getBriefDes());
@@ -145,6 +149,12 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                     });
                     break;
                 case R.id.btn_buy:
+                    List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+
+                    if (cartSkus == null || cartSkus.size() <= 0) {
+                        showToast(getAppContext().getString(R.string.activity_cart_tips_cartismust));
+                        return;
+                    }
                     Intent intent2 = new Intent(getAppContext(), CartActivity.class);
                     startActivity(intent2);
                     break;

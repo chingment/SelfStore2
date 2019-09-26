@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_bg"
+    >
+
+    <LinearLayout
+
+        android:layout_width="@dimen/size_300"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/dialog"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_20"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="@dimen/size_30"
+                android:id="@+id/btn_close"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal|center_vertical"
+                >
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_10"
+                    android:layout_height="@dimen/size_10"
+                    android:contentDescription="@string/image_content_description"
+                    android:src="@drawable/dialog_ic_delete" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/size_200"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/white"
+            >
+
+
+            <ImageView
+                android:id="@+id/img_top"
+                android:layout_width="@dimen/size_200"
+                android:layout_height="@dimen/size_30"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/image_content_description"
+                android:padding="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/pay_a1" />
+
+            <TextView
+                android:id="@+id/txt_paytitle"
+                android:layout_below="@+id/img_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/size_4"
+                android:text="支付金额"
+                android:textColor="@color/text_111"
+                android:textSize="@dimen/size_12" />
+
+
+            <TextView
+                android:id="@+id/txt_payamount"
+                android:layout_below="@+id/txt_paytitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="¥18.00"
+                android:textColor="@color/text_ff5500"
+                android:textSize="@dimen/size_12" />
+
+
+            <ImageView
+                android:id="@+id/img_payqrcode"
+                android:layout_below="@+id/txt_payamount"
+                android:layout_width="@dimen/size_100"
+                android:layout_height="@dimen/size_100"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/image_content_description"
+                android:padding="0dp"
+                android:scaleType="fitXY"/>
+
+
+
+            <TextView
+                android:id="@+id/txt_paytips"
+                android:layout_below="@+id/img_payqrcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/size_10"
+                android:text="请使用微信支付"
+                android:textColor="@color/text_888"
+                android:textSize="@dimen/size_10" />
+
+
+            <TextView
+                android:id="@+id/txt_payseconds"
+                android:layout_below="@+id/txt_paytips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/size_10"
+                android:text="120'"
+                android:textColor="@color/text_555"
+                android:textSize="@dimen/size_10" />
+
+
+
+
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+</RelativeLayout>

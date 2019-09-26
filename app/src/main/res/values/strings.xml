@@ -38,7 +38,9 @@
     <string name="activity_cart_button_goshopping_text">去逛一逛商品</string>
     <string name="activity_cart_button_gopay_text">去支付</string>
     <string name="activity_cart_tips_cartisnull">购物车为空，请逛一逛商品</string>
+    <string name="activity_cart_tips_cartismust">购物车为空，请先加入购物车</string>
     <string name="activity_cart_tips_delete_confirm">从购物车里删除该商品?</string>
+    <string name="activity_cart_tips_payclose_confirm">确认要退出支付?</string>
     <string name="activity_initdata_button_retry_text">重试</string>
     <string name="activity_initdata_textview_loading_msg_text">正在初始化数据...</string>
     <string name="activity_initdata_tips_retry">重试连接</string>

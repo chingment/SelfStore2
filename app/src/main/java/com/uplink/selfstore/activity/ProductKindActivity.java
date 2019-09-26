@@ -19,10 +19,12 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.ProductKindBodyAdapter;
 import com.uplink.selfstore.activity.adapter.ProductKindNameAdapter;
 import com.uplink.selfstore.activity.adapter.ProductKindSkuAdapter;
+import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ProductKindBean;
 import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -183,6 +185,12 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
                     startActivity(intent);
                     break;
                 case R.id.btn_gosettlement:
+                    List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+
+                    if (cartSkus == null || cartSkus.size() <= 0) {
+                        showToast(getAppContext().getString(R.string.activity_cart_tips_cartismust));
+                        return;
+                    }
                     intent = new Intent(getAppContext(), CartActivity.class);
                     startActivity(intent);
                     break;
