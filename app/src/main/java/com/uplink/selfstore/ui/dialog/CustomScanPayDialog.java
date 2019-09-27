@@ -87,9 +87,4 @@ public class CustomScanPayDialog extends Dialog {
 
     }
 
-
-    @Override
-    public void show() {
-        super.show();
-    }
 }

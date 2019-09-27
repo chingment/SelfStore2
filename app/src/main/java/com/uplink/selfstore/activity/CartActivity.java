@@ -218,6 +218,18 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog_ScanPay != null&&dialog_ScanPay.isShowing()) {
+            dialog_ScanPay.cancel();
+        }
+
+        if (dialog_ScanPay_ConfirmClose != null&&dialog_ScanPay_ConfirmClose.isShowing()) {
+            dialog_ScanPay_ConfirmClose.cancel();
+        }
+    }
+
     private  void  paySend(final int payWay,int payCaller) {
         MachineBean machine = AppCacheManager.getMachine();
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();

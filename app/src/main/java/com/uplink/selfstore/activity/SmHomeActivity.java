@@ -146,4 +146,12 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (confirmDialog != null && confirmDialog.isShowing()) {
+            confirmDialog.cancel();
+        }
+    }
 }

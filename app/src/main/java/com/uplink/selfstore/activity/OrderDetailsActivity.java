@@ -109,7 +109,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         txt_OrderSn.setText(bean.getSn()+"");
 
-        dialog_ContactKefu.getTipsImage().setImageBitmap(BitmapUtil.createQrCodeBitmap(bean.getCsrQrCode()));
+        if(bean.getCsrQrCode()!=null) {
+            dialog_ContactKefu.getTipsImage().setImageBitmap(BitmapUtil.createQrCodeBitmap(bean.getCsrQrCode()));
+        }
 
         OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, bean.getSkus());
         list_skus.setAdapter(cartSkuAdapter);
@@ -158,5 +160,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
         }
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
+            dialog_PickupCompelte.cancel();
+        }
 
+        if (dialog_ContactKefu != null && dialog_ContactKefu.isShowing()) {
+            dialog_ContactKefu.cancel();
+        }
+    }
 }

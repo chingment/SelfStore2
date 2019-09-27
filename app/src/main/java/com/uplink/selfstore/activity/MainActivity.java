@@ -165,7 +165,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         banner_pager.setFocusableInTouchMode(true);
         banner_pager.requestFocus();
         banner_pager.setInterval(5000);
-        banner_indicator.setPadding(5, 5, 10, 5);
+        //banner_indicator.setPadding(5, 5, 10, 5);
 
         dialog_NumKey = new CustomNumKeyDialog(MainActivity.this);
     }
