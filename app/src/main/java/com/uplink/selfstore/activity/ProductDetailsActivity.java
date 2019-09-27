@@ -21,6 +21,7 @@ import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -97,7 +98,12 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
 
     private void initData() {
 
+
         if(product.getDisplayImgUrls()!=null) {
+
+            for (int i=0;i<product.getDisplayImgUrls().size();i++){
+                LogUtil.d("sdads:"+product.getDisplayImgUrls().get(i).getUrl());
+            }
             banner_adapter = new BannerAdapter(getAppContext(), product.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
             banner_pager.setAdapter(banner_adapter);
             banner_indicator.setViewPager(banner_pager);

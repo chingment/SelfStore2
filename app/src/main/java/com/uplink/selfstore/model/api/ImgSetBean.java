@@ -8,15 +8,33 @@ import java.io.Serializable;
 
 public class ImgSetBean implements Serializable {
     private String id;
-    private String imgUrl;
+    private String url;
     private Boolean isMain;
+    private String name;
+    private int priority;
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getName() {
+        return name;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Boolean getIsMain() {

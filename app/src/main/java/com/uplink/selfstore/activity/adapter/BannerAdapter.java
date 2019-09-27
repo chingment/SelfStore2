@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,9 @@ public class BannerAdapter extends PagerAdapter {
             //item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             //ImageView.ScaleType.FIT_XY
             item.setScaleType(scaleType);
-            CommonUtil.loadImageFromUrl(context, item, bean.getImgUrl());
+            
+            LogUtil.d("图片："+bean.getUrl());
+            CommonUtil.loadImageFromUrl(context, item, bean.getUrl());
             container.addView(item);
         }
 
