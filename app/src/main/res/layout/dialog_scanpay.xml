@@ -40,7 +40,17 @@
                     android:src="@drawable/dialog_ic_delete" />
             </LinearLayout>
         </LinearLayout>
-
+        <ImageView
+            android:id="@+id/img_top"
+            android:layout_width="@dimen/size_160"
+            android:layout_height="@dimen/size_30"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_content_description"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/pay_a1" />
         <RelativeLayout
             android:layout_width="@dimen/size_200"
             android:layout_height="wrap_content"
@@ -49,26 +59,12 @@
             android:background="@color/white"
             >
 
-
-            <ImageView
-                android:id="@+id/img_top"
-                android:layout_width="@dimen/size_200"
-                android:layout_height="@dimen/size_30"
-                android:layout_centerHorizontal="true"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/image_content_description"
-                android:padding="0dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/pay_a1" />
-
             <TextView
                 android:id="@+id/txt_paytitle"
-                android:layout_below="@+id/img_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginBottom="@dimen/size_4"
                 android:text="支付金额"
                 android:textColor="@color/text_111"
                 android:textSize="@dimen/size_12" />
@@ -82,6 +78,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="¥18.00"
+                android:layout_marginBottom="@dimen/size_2"
+                android:layout_marginTop="@dimen/size_2"
                 android:textColor="@color/text_ff5500"
                 android:textSize="@dimen/size_12" />
 
@@ -106,7 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginBottom="@dimen/size_10"
+                android:layout_marginTop="@dimen/size_8"
+                android:layout_marginBottom="@dimen/size_8"
                 android:text="请使用微信支付"
                 android:textColor="@color/text_888"
                 android:textSize="@dimen/size_10" />
@@ -119,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginBottom="@dimen/size_10"
+                android:layout_marginBottom="@dimen/size_8"
                 android:text="120'"
                 android:textColor="@color/text_555"
                 android:textSize="@dimen/size_10" />

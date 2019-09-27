@@ -71,6 +71,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:gravity="center"
+
                 >
 
                 <Button

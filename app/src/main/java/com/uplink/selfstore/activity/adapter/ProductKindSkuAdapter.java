@@ -105,7 +105,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         txt_name.setText(bean.getName());
 
 
-        int quantity = CartActivity.getQuantity(bean.getId());
+        int quantity = CartActivity.getQuantity(bean.getRefSku().getId());
 
         if (quantity == 0) {
             btn_decrease.setVisibility(View.INVISIBLE);
@@ -115,7 +115,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             txt_quantity.setVisibility(View.VISIBLE);
         }
 
-        txt_quantity.setText(quantity + "");
+        txt_quantity.setText(String.valueOf(quantity));
 
 
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());

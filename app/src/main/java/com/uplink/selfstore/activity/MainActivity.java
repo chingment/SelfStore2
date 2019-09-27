@@ -83,13 +83,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
 
 
-        if (location == null) {
-            if (providers.contains(LocationManager.GPS_PROVIDER)) {
-                locationProvider = LocationManager.GPS_PROVIDER;
-                LogUtil.i(TAG, "loaction check provider:" + locationProvider);
-                location = locationManager.getLastKnownLocation(locationProvider);
-            }
+        if (providers.contains(LocationManager.GPS_PROVIDER)) {
+            locationProvider = LocationManager.GPS_PROVIDER;
+            LogUtil.i(TAG, "loaction check provider:" + locationProvider);
+            location = locationManager.getLastKnownLocation(locationProvider);
         }
+
 
         if (!providers.contains(LocationManager.NETWORK_PROVIDER) && !providers.contains(LocationManager.GPS_PROVIDER)) {
             LogUtil.d(TAG, "loaction check provider: 没有可用的位置提供器");

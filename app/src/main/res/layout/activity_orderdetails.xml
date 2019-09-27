@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/activity_orderdetaiks_textview_ordersn_text"
                     android:textColor="@color/field_name"
-                    android:textSize="@dimen/size_10" />
+                    android:textSize="@dimen/size_14" />
 
                 <TextView
                     android:id="@+id/txt_OrderSn"
@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:textColor="@color/field_value"
-                    android:textSize="@dimen/size_10" />
+                    android:textSize="@dimen/size_14" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -72,7 +72,6 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:orientation="vertical">
-
             <com.uplink.selfstore.ui.my.MyListView
                 android:id="@+id/list_skus"
                 android:layout_width="match_parent"
@@ -85,36 +84,6 @@
                 android:paddingLeft="@dimen/size_20"
                 android:paddingRight="@dimen/size_20"
                 android:scrollbars="none" />
-
-
-            <LinearLayout
-                android:id="@+id/list_empty_tip"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="@dimen/size_250"
-                    android:layout_height="@dimen/size_250"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/size_20"
-                    android:layout_marginRight="@dimen/size_20"
-                    android:layout_marginTop="@dimen/size_100"
-                    android:src="@drawable/cart_empty" />
-
-                <TextView
-                    android:id="@+id/btn_goshopping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/size_30"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/size_30"
-                    android:text="@string/activity_cart_button_goshopping_text"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size_16" />
-
-            </LinearLayout>
         </LinearLayout>
     </com.uplink.selfstore.ui.my.MyScrollView>
 

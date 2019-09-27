@@ -124,16 +124,13 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         m.what = what;
         m.obj = msg;
         handler_msg.sendMessage(m);
-
     }
 
     public void setMachineInitData() {
 
         setTips(0x0001, getAppContext().getString(R.string.activity_initdata_tips_settingmachine));
         Map<String, String> params = new HashMap<>();
-        params.put("machineId", getAppContext().getDeviceId());//appContext.getDeviceId()
-        //params.put("machineId", "000000000000000");
-
+        params.put("machineId", getAppContext().getDeviceId());
         params.put("datetime", AppCacheManager.getLastUpdateTime());
 
         getByMy(Config.URL.machine_InitData, params, false, "", new HttpResponseHandler() {
