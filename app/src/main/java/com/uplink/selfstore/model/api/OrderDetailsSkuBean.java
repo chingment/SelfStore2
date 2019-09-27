@@ -10,7 +10,7 @@ public class OrderDetailsSkuBean implements Serializable {
 
     private String id;
     private String name;
-    private String imgUrl;
+    private String mainImgUrl;
     private int quantity;
     private int quantityBySuccess;
 
@@ -30,13 +30,6 @@ public class OrderDetailsSkuBean implements Serializable {
         this.name = name;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -48,6 +41,14 @@ public class OrderDetailsSkuBean implements Serializable {
 
     public int getQuantityBySuccess() {
         return quantityBySuccess;
+    }
+
+    public String getMainImgUrl() {
+        return mainImgUrl;
+    }
+
+    public void setMainImgUrl(String mainImgUrl) {
+        this.mainImgUrl = mainImgUrl;
     }
 
     public void setQuantityBySuccess(int quantityBySuccess) {

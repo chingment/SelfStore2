@@ -89,9 +89,16 @@ public class AppCacheManager {
 
     }
 
-    public static void setCartSkus(List<CartSkuBean> bean) {
-        ArrayList<CartSkuBean> been1 = (ArrayList<CartSkuBean>) bean;
-        AppCacheManager.getCache().put(Cache_Key_Cart, been1);
+    public static void setCartSkus(List<CartSkuBean> list) {
+        if(list==null)
+        {
+            AppCacheManager.getCache().remove(Cache_Key_Cart);
+        }
+        else
+        {
+            ArrayList<CartSkuBean>   bean= (ArrayList<CartSkuBean>) list;
+            AppCacheManager.getCache().put(Cache_Key_Cart, bean);
+        }
     }
 
     public static List<CartSkuBean> getCartSkus() {

@@ -2,7 +2,6 @@ package com.uplink.selfstore.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -41,9 +40,11 @@ import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.my.MyTimeTask;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
 
 import org.json.JSONArray;
@@ -68,8 +69,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private View list_empty_tip;
     private CustomScanPayDialog dialog_ScanPay;
     private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
-    private MyTimeTask taskByCheckPayStatus;
     private CountDownTimer taskByCheckPayTimeout;
+    private String lastOrderId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,9 +109,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         dialog_ScanPay_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 taskByCheckPayTimeout.cancel();
                 dialog_ScanPay_ConfirmClose.dismiss();
                 dialog_ScanPay.dismiss();
+                orderCancle(lastOrderId, "取消订单");
+                lastOrderId = "";
             }
         });
 
@@ -122,24 +126,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             }
         });
 
-
-        taskByCheckPayStatus = new MyTimeTask(1000, new TimerTask() {
-            @Override
-            public void run() {
-                //LogUtil.i("查询支付状态");
-                orderPayStatusQuery();
-                //mHandler.sendEmptyMessage(TIMER);
-                //或者发广播，启动服务都是可以的
-
-            }
-        });
-
         taskByCheckPayTimeout = new CountDownTimer(120 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                LogUtil.i("支付倒计时:" + String.valueOf(millisUntilFinished));
-                long s = (millisUntilFinished / 1000);
-                dialog_ScanPay.getPaySecondsText().setText(String.valueOf(s) + "'");
+                long seconds = (millisUntilFinished / 1000);
+                LogUtil.i("支付倒计时:" + seconds);
+                dialog_ScanPay.getPaySecondsText().setText(seconds+ "'");
+                payStatusQuery();
             }
 
             @Override
@@ -216,18 +209,16 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.btn_payway_wechat:
-                    goPay(1);
+                    paySend(1,10);
                     break;
                 case R.id.btn_payway_zhifubao:
-                    goPay(2);
+                    paySend(2,20);
                     break;
             }
         }
     }
 
-
-
-    private  void  goPay( int payWay) {
+    private  void  paySend(final int payWay,int payCaller) {
         MachineBean machine = AppCacheManager.getMachine();
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
@@ -236,92 +227,108 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
 
 
+        Map<String, Object> params = new HashMap<>();
+        params.put("machineId", machine.getId() + "");
+        params.put("payWay", payWay + "");
+        params.put("payCaller", payCaller + "");
 
-       // taskByCheckPayStatus.start();
-        taskByCheckPayTimeout.start();
+        HashMap<String, ProductBean> products = AppCacheManager.getGlobalDataSet().getProducts();
 
-        dialog_ScanPay.getPayAmountText().setText("11.00");
 
-        switch (payWay) {
-            case 1:
-                dialog_ScanPay.getPayQrCodeImage().setImageBitmap(createBitmap("sadadd", BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_wechat)));
-                dialog_ScanPay.getPayTipsText().setText("请使用微信扫码支付");
-                break;
-            case 2:
-                dialog_ScanPay.getPayQrCodeImage().setImageBitmap(createBitmap("sadadd", BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_zhifubao)));
-                dialog_ScanPay.getPayTipsText().setText("请使用支付宝扫码支付");
-                break;
-        }
+        JSONArray json_Skus = new JSONArray();
 
-        dialog_ScanPay.show();
-    }
-
-    private static Bitmap createBitmap(String str) {
-        Bitmap bitmap = null;
-        BitMatrix result = null;
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
         try {
-            DisplayMetrics dm = new DisplayMetrics();
-            int width = dm.widthPixels - 100;
-            result = multiFormatWriter.encode(str, BarcodeFormat.QR_CODE, 400, 400);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            bitmap = barcodeEncoder.createBitmap(result);
-        } catch (WriterException e) {
+            for (CartSkuBean bean : cartSkus) {
+                ProductBean sku = products.get(bean.getProductId());
+                if (sku != null) {
+                    JSONObject json_Sku = new JSONObject();
+                    json_Sku.put("id", bean.getId());
+                    json_Sku.put("quantity", bean.getQuantity());
+                    json_Skus.put(json_Sku);
+                }
+            }
+
+        } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IllegalArgumentException iae) { // ?
-            return null;
+            return;
         }
-        return bitmap;
+
+        params.put("productSkus", json_Skus);
+
+        postByMy(Config.URL.order_Reserve, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<OrderReserveResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderReserveResultBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    taskByCheckPayTimeout.start();
+                    OrderReserveResultBean d = rt.getData();
+                    lastOrderId=d.getOrderId();
+                    dialog_ScanPay.getPayAmountText().setText(d.getChargeAmount());
+
+                    switch (payWay) {
+                        case 1:
+                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_wechat3)));
+                            dialog_ScanPay.getPayTipsText().setText("请使用微信扫码支付");
+                            break;
+                        case 2:
+                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_zhifubao3)));
+                            dialog_ScanPay.getPayTipsText().setText("请使用支付宝扫码支付");
+                            break;
+                    }
+
+                    dialog_ScanPay.show();
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+
+            }
+        });
+
     }
 
-    private static Bitmap createBitmap(String str, Bitmap logo) {
-        Bitmap a = createBitmap(str);
-        if (a == null)
-            return null;
+    public void payStatusQuery() {
 
-        return addLogo(a, logo);
-    }
+        if(StringUtil.isEmptyNotNull(lastOrderId))
+            return;
 
-    private static Bitmap addLogo(Bitmap src, Bitmap logo) {
-        if (src == null) {
-            return null;
-        }
+        Map<String, String> params = new HashMap<>();
+        MachineBean machine = AppCacheManager.getMachine();
+        params.put("machineId", machine.getId());
+        params.put("orderId", lastOrderId);
 
-        if (logo == null) {
-            return src;
-        }
+        getByMy(Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
 
-        //获取图片的宽高
-        int srcWidth = src.getWidth();
-        int srcHeight = src.getHeight();
-        int logoWidth = logo.getWidth();
-        int logoHeight = logo.getHeight();
+                ApiResultBean<OrderPayStatusQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderPayStatusQueryResultBean>>() {
+                });
 
-        if (srcWidth == 0 || srcHeight == 0) {
-            return null;
-        }
 
-        if (logoWidth == 0 || logoHeight == 0) {
-            return src;
-        }
-
-        //logo大小为二维码整体大小的1/5
-        float scaleFactor = srcWidth * 1.0f / 5 / logoWidth;
-        Bitmap bitmap = Bitmap.createBitmap(srcWidth, srcHeight, Bitmap.Config.ARGB_8888);
-        try {
-            Canvas canvas = new Canvas(bitmap);
-            canvas.drawBitmap(src, 0, 0, null);
-            canvas.scale(scaleFactor, scaleFactor, srcWidth / 2, srcHeight / 2);
-            canvas.drawBitmap(logo, (srcWidth - logoWidth) / 2, (srcHeight - logoHeight) / 2, null);
-
-            canvas.save(Canvas.ALL_SAVE_FLAG);
-            canvas.restore();
-        } catch (Exception e) {
-            bitmap = null;
-            e.getStackTrace();
-        }
-
-        return bitmap;
+                if (rt.getResult() == Result.SUCCESS) {
+                    OrderPayStatusQueryResultBean d = rt.getData();
+                    //4 为 已完成支付
+                    if (d.getStatus() == 3000) {
+                        taskByCheckPayTimeout.cancel();
+                        AppCacheManager.setCartSkus(null);
+                        Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("dataBean", d.getOrderDetails());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            }
+        });
     }
 
     public static CartStatisticsBean getStatistics() {
@@ -463,43 +470,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         handler.onSuccess("");
 
         //getSumQuantity();
-    }
-
-    public void orderPayStatusQuery() {
-
-        Map<String, String> params = new HashMap<>();
-
-        MachineBean machine = AppCacheManager.getMachine();
-
-        params.put("machineId", machine.getId());
-        //params.put("orderId", orderPayUrlBuildResult.getOrderId());
-
-
-        getByMy(Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-
-                ApiResultBean<OrderPayStatusQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderPayStatusQueryResultBean>>() {
-                });
-
-
-                if (rt.getResult() == Result.SUCCESS) {
-                    OrderPayStatusQueryResultBean d = rt.getData();
-                    //4 为 已完成支付
-                    if (d.getStatus() == 3000) {
-                        taskByCheckPayStatus.stop();
-
-                        Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("dataBean", d.getOrderDetails());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        });
     }
 
 }

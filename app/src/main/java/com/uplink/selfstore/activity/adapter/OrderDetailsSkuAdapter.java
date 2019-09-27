@@ -72,7 +72,7 @@ public class OrderDetailsSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         TextView txt_quantitybysuccess = ViewHolder.get(convertView, R.id.txt_quantitybysuccess);
 
-        CommonUtil.loadImageFromUrl(context, img_main, bean.getImgUrl());
+        CommonUtil.loadImageFromUrl(context, img_main, bean.getMainImgUrl());
         txt_name.setText(bean.getName());
         txt_quantity.setText(String.valueOf(bean.getQuantity()));
         txt_quantitybysuccess.setText(String.valueOf(bean.getQuantityBySuccess()));

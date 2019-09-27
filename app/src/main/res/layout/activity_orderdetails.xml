@@ -134,6 +134,44 @@
             android:orientation="horizontal">
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical|center_horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btn_PickupCompeled"
+                    android:layout_width="@dimen/size_100"
+                    android:layout_height="@dimen/size_36"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_round_primary"
+                    android:text="@string/activity_orderdetails_btn_pickupcompelte"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical|center_horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btn_ContactKefu"
+                    android:layout_width="@dimen/size_100"
+                    android:layout_height="@dimen/size_36"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_round_primary"
+                    android:text="@string/activity_orderdetails_btn_contactkefu"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_12" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </RelativeLayout>

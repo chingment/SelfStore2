@@ -11,6 +11,11 @@ public class OrderDetailsBean implements Serializable {
 
     private String sn;
     private List<OrderDetailsSkuBean> skus;
+    private String csrQrCode;
+
+    public String getCsrQrCode() {
+        return csrQrCode;
+    }
 
     public String getSn() {
         return sn;
