@@ -82,7 +82,7 @@
                     android:paddingRight="@dimen/size_20"
                     android:text="@string/dialog_confirm_btn_cancle_text"
                     android:background="@drawable/dialog_btn_cancle"
-                    android:textColor="@color/dialog_confirm_btn_cancle"
+                    android:textColor="#fff"
                     android:textSize="@dimen/size_8" />
 
             </LinearLayout>

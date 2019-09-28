@@ -28,7 +28,7 @@
     <color name="dialog_confirm_btn_sure">#000000</color>
     <color name="dialog_confirm_btn_sure_bg">#FFFFFF</color>
     <color name="dialog_confirm_btn_cancle">#000000</color>
-    <color name="dialog_confirm_btn_cancle_bg">#EDEDED</color>
+    <color name="dialog_confirm_btn_cancle_bg">#ffb000</color>
     <color name="dialog_confirm_bottom_lr_color">#fff8f8f8</color>
     <color name="dialog_radio_kuang">#FF9100</color>
     <color name="dialog_text_normal">#333333</color>
