@@ -123,11 +123,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         workManager.run(pickupSkus,new Handler() {
             @Override
             public void handleMessage(Message msg) {
+
+
                 PickupSkuBean sku=(PickupSkuBean)msg.obj;
                 LogUtil.d("取货流程消息通知:" + sku.getName());
                 CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
                 curpickupsku_tip1.setText(sku.getName()+",正在出货中");
                 curpickupsku_tip2.setText("");
+
+
             }
         });
 //
