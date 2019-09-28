@@ -1,6 +1,7 @@
 package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by chingment on 2019/2/28.
@@ -13,6 +14,15 @@ public class OrderDetailsSkuBean implements Serializable {
     private String mainImgUrl;
     private int quantity;
     private int quantityBySuccess;
+    private List<SlotBean> slots;
+
+    public List<SlotBean> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<SlotBean> slots) {
+        this.slots = slots;
+    }
 
     public String getId() {
         return id;

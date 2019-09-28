@@ -51,8 +51,6 @@ public class BannerAdapter extends PagerAdapter {
             //item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             //ImageView.ScaleType.FIT_XY
             item.setScaleType(scaleType);
-            
-            LogUtil.d("图片："+bean.getUrl());
             CommonUtil.loadImageFromUrl(context, item, bean.getUrl());
             container.addView(item);
         }
