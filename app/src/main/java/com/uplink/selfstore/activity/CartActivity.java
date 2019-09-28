@@ -383,7 +383,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public static void operate(int type,String productId, String productSkuId, final CarOperateHandler handler) {
 
-        LogUtil.e("productId:" + productId,",productSkuId:"+productSkuId);
+        // LogUtil.e("productId:" + productId,",productSkuId:"+productSkuId);
 
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 

@@ -188,8 +188,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         dialog_NumKey.setOnSureListener(new CustomNumKeyDialog.OnSureListener() {
             @Override
             public void onClick(View v, String number) {
-
-                LogUtil.e("sure");
                 LogUtil.e("number:" + number);
             }
         });

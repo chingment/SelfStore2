@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,22 +26,13 @@ public class CustomNumKeyDialog extends Dialog {
     private Context context;
 
 
-    private LinearLayout txt_all;
-
-    private List<String> number = new ArrayList<>();
+    // private LinearLayout txt_all;
+    private TextView txt_val;
 
     public CustomNumKeyDialog(Context context) {
         super(context, R.style.dialog_style);
         this.context = context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_numkey, null);
-
-
-        number.add("");
-        number.add("");
-        number.add("");
-        number.add("");
-        number.add("");
-        number.add("");
     }
 
     @Override
@@ -51,7 +43,7 @@ public class CustomNumKeyDialog extends Dialog {
 
         final Dialog _this=this;
 
-        txt_all = (LinearLayout) this.layoutRes.findViewById(R.id.txt_all);
+        txt_val = (TextView) this.layoutRes.findViewById(R.id.txt_val);
         final LinearLayout btn_close = (LinearLayout) this.layoutRes.findViewById(R.id.btn_close);
         final Button btn_0 = (Button) this.layoutRes.findViewById(R.id.btn_0);
         final Button btn_1 = (Button) this.layoutRes.findViewById(R.id.btn_1);
@@ -63,7 +55,9 @@ public class CustomNumKeyDialog extends Dialog {
         final Button btn_7 = (Button) this.layoutRes.findViewById(R.id.btn_7);
         final Button btn_8 = (Button) this.layoutRes.findViewById(R.id.btn_8);
         final Button btn_9 = (Button) this.layoutRes.findViewById(R.id.btn_9);
-        final LinearLayout btn_delete = (LinearLayout) this.layoutRes.findViewById(R.id.btn_delete);
+
+        final ImageView btn_delete = (ImageView) this.layoutRes.findViewById(R.id.btn_delete);
+        final LinearLayout btn_clear = (LinearLayout) this.layoutRes.findViewById(R.id.btn_clear);
         final LinearLayout btn_sure = (LinearLayout) this.layoutRes.findViewById(R.id.btn_sure);
 
         btn_close.setOnClickListener(new View.OnClickListener() {
@@ -165,40 +159,29 @@ public class CustomNumKeyDialog extends Dialog {
             }
         });
 
-        btn_delete.setOnClickListener(new View.OnClickListener() {
+        btn_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                int count = txt_all.getChildCount();
-
-                for (int i = count - 1; i >= 0; i--) {
-
-                    if (txt_all.getChildAt(i) instanceof TextView) {
-
-                        TextView txt = (TextView) txt_all.getChildAt(i);
-                        if (!StringUtil.isEmptyNotNull(txt.getText().toString())) {
-                            txt.setText("");
-                            number.set(i, "");
-                            txt.setBackground(context.getResources().getDrawable(R.drawable.dialog_numkey_input_normal));
-                            break;
-                        }
-                    }
-                }
+                txt_val.setText("");
             }
         });
 
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String val= txt_val.getText().toString();
+                if(val.length()>=1) {
+                    val = val.substring(0, val.length() - 1);
+                }
+                txt_val.setText(val);
+            }
+        });
 
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String s_number = "";
-                for (int i = 0; i < number.size(); i++) {
-                    s_number += number.get(i);
-                }
-
-                surekListener.onClick(v, s_number);
+                String val= txt_val.getText().toString();
+                surekListener.onClick(v, val);
             }
         });
 
@@ -206,29 +189,11 @@ public class CustomNumKeyDialog extends Dialog {
     }
 
     private void getNum(String num) {
-        LogUtil.e("num:" + num);
-
-
-        int count = txt_all.getChildCount();
-
-        for (int i = 0; i < count; i++) {
-
-            if (txt_all.getChildAt(i) instanceof TextView) {
-
-                TextView txt = (TextView) txt_all.getChildAt(i);
-                if (StringUtil.isEmptyNotNull(txt.getText().toString())) {
-                    txt.setText(num);
-                    txt.setBackground(context.getResources().getDrawable(R.drawable.dialog_numkey_input_fill));
-                    number.set(i, num);
-                    break;
-                }
-
-            }
-        }
-
+        String val=txt_val.getText()+num;
+        txt_val.setText(val);
     }
 
-    public OnSureListener surekListener;
+    private OnSureListener surekListener;
 
     public void setOnSureListener(OnSureListener surekListener) {
         this.surekListener = surekListener;
@@ -242,17 +207,5 @@ public class CustomNumKeyDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-
-        int count = txt_all.getChildCount();
-
-        for (int i = 0; i < count; i++) {
-            if (txt_all.getChildAt(i) instanceof TextView) {
-                TextView txt = (TextView) txt_all.getChildAt(i);
-                number.set(i, "");
-                txt.setText("");
-                txt.setBackground(context.getResources().getDrawable(R.drawable.dialog_numkey_input_normal));
-            }
-        }
-
     }
 }
