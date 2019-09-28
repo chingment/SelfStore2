@@ -17,6 +17,7 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,8 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                String skuId = v.getTag().toString();
-                operate(CartOperateType.DELETE,"", skuId);
+                CartSkuBean sku = (CartSkuBean)v.getTag();
+                operate(CartOperateType.DELETE,sku.getProductId(), sku.getId());
                 delete_Dialog.dismiss();
 
             }
@@ -124,7 +125,7 @@ public class CartSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), bean.getMainImgUrl());
-                delete_Dialog.getBtnSure().setTag(bean.getId());
+                delete_Dialog.getBtnSure().setTag(bean);
                 delete_Dialog.show();
 
             }

@@ -172,6 +172,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                         CartSkuBean cartSku = new CartSkuBean();
                         cartSku.setId(product.getRefSku().getId());
+                        cartSku.setProductId(product.getId());
                         cartSku.setMainImgUrl(product.getMainImgUrl());
                         cartSku.setQuantity(bean.getQuantity());
                         cartSku.setName(product.getName());

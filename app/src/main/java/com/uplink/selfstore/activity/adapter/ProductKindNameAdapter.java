@@ -64,8 +64,6 @@ public class ProductKindNameAdapter extends BaseAdapter {
         }
         ProductKindBean bean = beans.get(position);
 
-        LogUtil.d("分类2:"+bean.getName());
-
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
         View selected_bg = ViewHolder.get(convertView, R.id.selected_bg);
         txt_name.setText(bean.getName());

@@ -20,6 +20,7 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ProductBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
     private List<ProductBean> beans = new ArrayList<>();
     private CallBackListener mCallBackListener;
     private GlobalDataSetBean globalDataSet;
-
+    private ProductBean bean;
     public ProductKindSkuAdapter(Context context, GlobalDataSetBean globalDataSet, List<ProductBean> beans) {
         this.context = context;
         this.beans = beans;
@@ -77,7 +78,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             isGONE = true;
         }
 
-        final ProductBean bean = beans.get(position);
+        bean = beans.get(position);
 
         if (bean == null) {
             isGONE = true;
@@ -143,6 +144,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         btn_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 CartActivity.operate(CartOperateType.DECREASE,bean.getId(),bean.getRefSku().getId(), new CarOperateHandler() {
                     @Override
