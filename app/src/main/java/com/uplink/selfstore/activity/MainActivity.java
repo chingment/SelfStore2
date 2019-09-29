@@ -231,11 +231,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
-
-                    //String s = null;
-                    //s.split("1");
-
-                    LogUtil.e("点击开始购买");
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;

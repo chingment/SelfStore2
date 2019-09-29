@@ -192,14 +192,12 @@ public class CustomNumKeyDialog extends Dialog {
 
 
     }
-    private void playSound(int id)
-    {
-         MediaPlayer mediaPlayer = MediaPlayer.create(context,id);
-       // 用prepare方法，会报错误java.lang.IllegalStateExceptio
-       // mediaPlayer.prepare();
+    private void playSound(int id) {
+        MediaPlayer mediaPlayer = MediaPlayer.create(context, id);
         mediaPlayer.start();
 
     }
+
     private void getNum(String num) {
         String val=txt_val.getText()+num;
         txt_val.setText(val);
