@@ -19,11 +19,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
+import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
+import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.OrderDetailsBean;
+import com.uplink.selfstore.model.api.OrderPickupStatusQueryResultBean;
+import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
+import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
@@ -34,7 +44,9 @@ import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.ToastUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -189,6 +201,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             @Override
             public void onClick(View v, String number) {
                 LogUtil.e("number:" + number);
+                search(number);
             }
         });
     }
@@ -235,5 +248,42 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     break;
             }
         }
+    }
+
+    private void search(String pickCode){
+
+        Map<String, String> params = new HashMap<>();
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        params.put("machineId", machine.getId());
+        params.put("pickCode", pickCode);
+
+        getByMy(Config.URL.order_Search, params, true,"正在寻找订单", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<OrderDetailsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsBean>>() {
+                });
+
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    OrderDetailsBean d=rt.getData();
+
+                    Intent intent= new Intent(MainActivity.this, OrderDetailsActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("dataBean", d);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+
+                }
+                else
+                {
+                    showToast(rt.getMessage());
+                }
+            }
+        });
     }
 }

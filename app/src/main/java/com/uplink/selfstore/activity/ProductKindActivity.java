@@ -178,7 +178,8 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
             Intent intent = null;
             switch (v.getId()) {
                 case R.id.btn_back:
-                    finish();
+                    intent = new Intent(getAppContext(), MainActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.btn_cart:
                     intent = new Intent(getAppContext(), CartActivity.class);
