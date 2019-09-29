@@ -2,6 +2,7 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                playSound(R.raw.s0);
                 String num = btn_0.getTag().toString();
                 getNum(num);
 
@@ -81,7 +82,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                playSound(R.raw.s1);
                 String num = btn_1.getTag().toString();
                 getNum(num);
             }
@@ -90,7 +91,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                playSound(R.raw.s2);
                 String num = btn_2.getTag().toString();
                 getNum(num);
             }
@@ -99,6 +100,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playSound(R.raw.s3);
                 String num = btn_3.getTag().toString();
                 getNum(num);
 
@@ -108,7 +110,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                playSound(R.raw.s4);
                 String num = btn_4.getTag().toString();
                 getNum(num);
             }
@@ -117,6 +119,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playSound(R.raw.s5);
                 String num = btn_5.getTag().toString();
                 getNum(num);
 
@@ -126,7 +129,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                playSound(R.raw.s6);
                 String num = btn_6.getTag().toString();
                 getNum(num);
             }
@@ -135,7 +138,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                playSound(R.raw.s7);
                 String num = btn_7.getTag().toString();
                 getNum(num);
             }
@@ -144,6 +147,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playSound(R.raw.s8);
                 String num = btn_8.getTag().toString();
                 getNum(num);
 
@@ -153,6 +157,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playSound(R.raw.s9);
                 String num = btn_9.getTag().toString();
                 getNum(num);
 
@@ -187,7 +192,14 @@ public class CustomNumKeyDialog extends Dialog {
 
 
     }
+    private void playSound(int id)
+    {
+         MediaPlayer mediaPlayer = MediaPlayer.create(context,id);
+       // 用prepare方法，会报错误java.lang.IllegalStateExceptio
+       // mediaPlayer.prepare();
+        mediaPlayer.start();
 
+    }
     private void getNum(String num) {
         String val=txt_val.getText()+num;
         txt_val.setText(val);
