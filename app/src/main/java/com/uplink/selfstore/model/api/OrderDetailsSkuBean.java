@@ -14,6 +14,16 @@ public class OrderDetailsSkuBean implements Serializable {
     private String mainImgUrl;
     private int quantity;
     private int quantityBySuccess;
+    private int quantityByException;
+
+    public int getQuantityByException() {
+        return quantityByException;
+    }
+
+    public void setQuantityByException(int quantityByException) {
+        this.quantityByException = quantityByException;
+    }
+
     private List<SlotBean> slots;
 
     public List<SlotBean> getSlots() {

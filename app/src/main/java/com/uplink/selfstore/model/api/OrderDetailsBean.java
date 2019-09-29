@@ -9,28 +9,32 @@ import java.util.List;
 
 public class OrderDetailsBean implements Serializable {
 
-    private String sn;
-    private List<OrderDetailsSkuBean> skus;
-    private String csrQrCode;
+    private String orderSn;
+    private String orderId;
 
-    public String getCsrQrCode() {
-        return csrQrCode;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public String getSn() {
-        return sn;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
-    public void setSn(String sn) {
-        this.sn = sn;
+    private List<OrderDetailsSkuBean> productSkus;
+
+    public String getOrderSn() {
+        return orderSn;
     }
 
-    public List<OrderDetailsSkuBean> getSkus() {
-        return skus;
+    public void setOrderSn(String orderSn) {
+        this.orderSn = orderSn;
     }
 
-    public void setSkus(List<OrderDetailsSkuBean> skus) {
-        this.skus = skus;
+    public List<OrderDetailsSkuBean> getProductSkus() {
+        return productSkus;
     }
 
+    public void setProductSkus(List<OrderDetailsSkuBean> productSkus) {
+        this.productSkus = productSkus;
+    }
 }

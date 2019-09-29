@@ -15,6 +15,15 @@ public class MachineBean implements Serializable {
     private String logoImgUrl;
     private String currency;
     private String currencySymbol;
+    private String csrQrCode;
+
+    public String getCsrQrCode() {
+        return csrQrCode;
+    }
+
+    public void setCsrQrCode(String csrQrCode) {
+        this.csrQrCode = csrQrCode;
+    }
 
     public String getLogoImgUrl() {
         return logoImgUrl;

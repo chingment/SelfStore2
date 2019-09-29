@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
@@ -31,6 +32,7 @@ public class CustomConfirmDialog extends Dialog {
     private Context context;
     private Button btnSure;
     private Button btnCancle;
+    private LinearLayout btnArea;
     private View btnClose;
     private TextView txtTipsText;
     private ImageView txtTipsImage;
@@ -49,6 +51,11 @@ public class CustomConfirmDialog extends Dialog {
     public ImageView getTipsImage() {
         return this.txtTipsImage;
     }
+
+    public LinearLayout getBtnArea() {
+        return this.btnArea;
+    }
+
     public CustomConfirmDialog(Context context, String tips, boolean isCancle) {
         super(context, R.style.dialog_style);
         this.context = context;
@@ -59,7 +66,7 @@ public class CustomConfirmDialog extends Dialog {
         btnSure = (Button) this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure);
         btnCancle = (Button) this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle);
         btnClose = this.layoutRes.findViewById(R.id.dialog_btn_close);
-
+        btnArea=(LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_area);
         txtTipsText.setText(tips);
 
         if (!isCancle) {

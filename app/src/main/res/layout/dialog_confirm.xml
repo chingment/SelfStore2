@@ -58,6 +58,7 @@
 
 
         <LinearLayout
+            android:id="@+id/dialog_confirm_btn_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"

@@ -3,7 +3,9 @@ package com.uplink.selfstore.own;
 import android.os.Handler;
 import android.os.Message;
 
+import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
+import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -21,16 +23,44 @@ public class MachinePickupWorkManager {
     private PickupSkuBean currentPickupProductSku = null;
     private List<PickupSkuBean> allPickupProductSkus = new ArrayList<>();
     private Handler handlerPickupMsg;
+    private Thread currentThread;
+    private boolean isWorking = true;
 
-    public  void  run(List<PickupSkuBean> _allPickupProductSkus,Handler _handlerPickupMsg){
+    private List<PickupSkuBean> getAllPickupProductSkus(List<OrderDetailsSkuBean> skus) {
 
-        this.allPickupProductSkus=_allPickupProductSkus;
-        this.handlerPickupMsg=_handlerPickupMsg;
+        List<PickupSkuBean> p1 = new ArrayList<>();
+
+        for (int i = 0; i < skus.size(); i++) {
+            OrderDetailsSkuBean sku = skus.get(i);
+            List<SlotBean> slots = sku.getSlots();
+            for (int j = 0; j < slots.size(); j++) {
+                SlotBean slot = slots.get(j);
+                PickupSkuBean pickSku = new PickupSkuBean();
+
+                pickSku.setId(sku.getId());
+                pickSku.setName(sku.getName());
+                pickSku.setMainImgUrl(sku.getMainImgUrl());
+                pickSku.setSlotId(slot.getSlotId());
+                pickSku.setUniqueId(slot.getUniqueId());
+                pickSku.setStatus(slot.getStatus());
+
+                p1.add(pickSku);
+            }
+        }
+
+        return p1;
+    }
+
+    public void run(List<OrderDetailsSkuBean> _allPickupProductSkus, Handler _handlerPickupMsg) {
+
+        this.allPickupProductSkus = getAllPickupProductSkus(_allPickupProductSkus);
+        this.handlerPickupMsg = _handlerPickupMsg;
+        this.isWorking = true;
 
         Runnable runnable = new Runnable() {
             public void run() {
-                while (true) {
-                    System.out.println("取货流程："+DateUtil.getNowDate());
+                while (isWorking) {
+                    System.out.println("取货流程：" + DateUtil.getNowDate());
                     try {
 
                         if (currentPickupProductSku == null) {
@@ -42,8 +72,7 @@ public class MachinePickupWorkManager {
                                     //机器接收到等待取货，改状态为3011 为取货中,
                                     allPickupProductSkus.get(i).setStartTime(DateUtil.getNowDate());
                                     currentPickupProductSku = allPickupProductSkus.get(i);
-
-                                    setPickupMsg(0x0001,currentPickupProductSku);
+                                    setPickupMsg(0x0001, currentPickupProductSku);
                                     break;
                                 }
                             }
@@ -55,14 +84,14 @@ public class MachinePickupWorkManager {
 
                             Date pickupTimeout = c.getTime();
 
-                            if(pickupTimeout.getTime()<DateUtil.getNowDate().getTime()) {
+                            if (pickupTimeout.getTime() < DateUtil.getNowDate().getTime()) {
                                 //设置状态为 6000 代表异常错误
                                 currentPickupProductSku.setStatus(6000);
 
-                                setPickupMsg(0x0002,currentPickupProductSku);
+                                setPickupMsg(0x0002, currentPickupProductSku);
 
 
-                                currentPickupProductSku=null;
+                                currentPickupProductSku = null;
                             }
                         }
                         Thread.sleep(1000);
@@ -72,8 +101,8 @@ public class MachinePickupWorkManager {
                 }
             }
         };
-        Thread thread = new Thread(runnable);
-        thread.start();
+        currentThread = new Thread(runnable);
+        currentThread.start();
     }
 
     private void setPickupMsg(int what, PickupSkuBean msg) {
@@ -81,5 +110,15 @@ public class MachinePickupWorkManager {
         m.what = what;
         m.obj = msg;
         handlerPickupMsg.sendMessage(m);
+    }
+
+    public void stop() {
+        if (currentThread != null) {
+            isWorking = false;
+        }
+    }
+
+    public void reSetAllPickupProductSkus(List<OrderDetailsSkuBean> _allPickupProductSkus){
+        this.allPickupProductSkus=getAllPickupProductSkus(_allPickupProductSkus);
     }
 }

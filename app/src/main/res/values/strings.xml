@@ -63,6 +63,7 @@
     <string name="activity_orderdetails_btn_pickupcompelte">完成，返回购物</string>
     <string name="activity_orderdetails_btn_contactkefu">异常，联系客服</string>
     <string name="activity_orderdetails_contactkefu_tips">请打开微信扫一扫，联系客服</string>
+    <string name="activity_orderdetails_tips_outpickup_confirm">确认已完成取货?</string>
     <string name="dialog_confirm_btn_cancle_text">否</string>
     <string name="dialog_confirm_btn_sure_text">是</string>
 </resources>

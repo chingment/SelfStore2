@@ -229,6 +229,11 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         if (dialog_ScanPay_ConfirmClose != null&&dialog_ScanPay_ConfirmClose.isShowing()) {
             dialog_ScanPay_ConfirmClose.cancel();
         }
+
+        if(taskByCheckPayTimeout!=null)
+        {
+            taskByCheckPayTimeout.cancel();
+        }
     }
 
     private  void  paySend(final int payWay,int payCaller) {

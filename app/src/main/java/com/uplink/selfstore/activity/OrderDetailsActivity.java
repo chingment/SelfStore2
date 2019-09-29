@@ -29,6 +29,7 @@ import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
+import com.uplink.selfstore.model.api.OrderPickupStatusQueryResultBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
@@ -37,6 +38,7 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.MachinePickupWorkManager;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyListView;
+import com.uplink.selfstore.ui.my.MyTimeTask;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -52,6 +54,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimerTask;
 
 public class OrderDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -67,19 +70,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private  ImageView curpickupsku_img_main;
     private TextView curpickupsku_tip1;
     private TextView curpickupsku_tip2;
-
-   // private PickupSkuBean curPickupSku = null;
-    private List<PickupSkuBean> pickupSkus = new ArrayList<>();
-
-   // private Handler taskByPickup_HandlerMsg;
-
+    private OrderDetailsBean orderDetails;
+    private MyTimeTask taskByGetPickupStatus;
+    private MachinePickupWorkManager workManagerByPickup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetails);
         setNavTtile(this.getResources().getString(R.string.activity_orderdetails_navtitle));
 
-        OrderDetailsBean orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
+        orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
 
         initView();
@@ -87,40 +87,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         setView(orderDetails);
 
-
-        for (int i = 0; i < orderDetails.getSkus().size(); i++) {
-            OrderDetailsSkuBean sku = orderDetails.getSkus().get(i);
-            List<SlotBean> slots = sku.getSlots();
-            for (int j = 0; j < slots.size(); j++) {
-                SlotBean slot = slots.get(j);
-                PickupSkuBean pickSku = new PickupSkuBean();
-
-                pickSku.setId(sku.getId());
-                pickSku.setName(sku.getName());
-                pickSku.setMainImgUrl(sku.getMainImgUrl());
-                pickSku.setSlotId(slot.getSlotId());
-                pickSku.setUniqueId(slot.getUniqueId());
-                pickSku.setStatus(slot.getStatus());
-
-                pickupSkus.add(pickSku);
-            }
-        }
-
-
-//        taskByPickup_HandlerMsg = new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {
-//                PickupSkuBean sku=(PickupSkuBean)msg.obj;
-//
-//                LogUtil.d("取货流程消息通知:" + sku.getName());
-//                CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
-//                curpickupsku_tip1.setText(sku.getName()+",正在出货中");
-//                curpickupsku_tip2.setText("");
-//            }
-//        };
-
-        MachinePickupWorkManager  workManager=new MachinePickupWorkManager();
-        workManager.run(pickupSkus,new Handler() {
+        workManagerByPickup=new MachinePickupWorkManager();
+        workManagerByPickup.run(orderDetails.getProductSkus(),new Handler() {
             @Override
             public void handleMessage(Message msg) {
 
@@ -134,53 +102,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             }
         });
-//
-//
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                while (true) {
-//                    System.out.println("execute task");
-//                    try {
-//
-//                        if (curPickupSku == null) {
-//                            for (int i = 0; i < pickupSkus.size(); i++) {
-//                                if (pickupSkus.get(i).getStatus() == 2000) {
-//                                    pickupSkus.get(i).setStatus(2001);
-//                                    pickupSkus.get(i).setStartTime(DateUtil.getNowDate());
-//                                    curPickupSku = pickupSkus.get(i);
-//                                    setTips(0x0001,curPickupSku);
-//                                    break;
-//                                }
-//                            }
-//                        } else {
-//                            LogUtil.d("取货流程:" + curPickupSku.getName() + ",正在取货中");
-//                            Calendar c = Calendar.getInstance();
-//                            c.setTime(curPickupSku.getStartTime());
-//                            c.add(Calendar.MINUTE, 1);
-//
-//                            Date pickupTimeout = c.getTime();
-//
-//                            if(pickupTimeout.getTime()<DateUtil.getNowDate().getTime()) {
-//                                curPickupSku=null;
-//                            }
-//                        }
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        };
-//        Thread thread = new Thread(runnable);
-//        thread.start();
-    }
 
-//    public void setTips(int what, PickupSkuBean msg) {
-//        final Message m = new Message();
-//        m.what = what;
-//        m.obj = msg;
-//        taskByPickup_HandlerMsg.sendMessage(m);
-//    }
+        taskByGetPickupStatus =new MyTimeTask(1000, new TimerTask() {
+            @Override
+            public void run() {
+                getPickupStatus();
+            }
+        });
+        taskByGetPickupStatus.start();
+    }
 
     private void initView() {
 
@@ -193,7 +123,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         list_skus.setPressed(false);
         list_skus.setEnabled(false);
 
-        dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_cart_tips_payclose_confirm), true);
+        dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_tips_outpickup_confirm), true);
+        dialog_PickupCompelte.getTipsImage().setImageDrawable(getResources().getDrawable((R.drawable.dialog_icon_warn)));
         dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,8 +141,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         });
 
         dialog_ContactKefu = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_contactkefu_tips), false);
-        dialog_ContactKefu.getBtnSure().setVisibility(View.GONE);
-        dialog_ContactKefu.getBtnCancle().setVisibility(View.GONE);
+        dialog_ContactKefu.getBtnArea().setVisibility(View.GONE);
 
         curpickupsku_img_main = (ImageView) findViewById(R.id.curpickupsku_img_main);
         curpickupsku_tip1 = (TextView) findViewById(R.id.curpickupsku_tip1);
@@ -225,20 +155,21 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     public void setView(OrderDetailsBean bean) {
 
+        MachineBean machine = AppCacheManager.getMachine();
+
         if(bean==null) {
             LogUtil.i("bean为空");
             return;
         }
 
-        txt_OrderSn.setText(bean.getSn()+"");
+        txt_OrderSn.setText(bean.getOrderSn()+"");
 
-        if(bean.getCsrQrCode()!=null) {
-            dialog_ContactKefu.getTipsImage().setImageBitmap(BitmapUtil.createQrCodeBitmap(bean.getCsrQrCode()));
+        if(machine.getCsrQrCode()!=null) {
+            dialog_ContactKefu.getTipsImage().setImageBitmap(BitmapUtil.createQrCodeBitmap(machine.getCsrQrCode()));
         }
 
-        OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, bean.getSkus());
+        OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, bean.getProductSkus());
         list_skus.setAdapter(cartSkuAdapter);
-        list_skus.setVisibility(View.VISIBLE);
     }
 
     private void loadData(String orderId) {
@@ -269,6 +200,36 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     }
 
+    public void getPickupStatus() {
+
+        Map<String, String> params = new HashMap<>();
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        params.put("machineId", machine.getId());
+        params.put("orderId", orderDetails.getOrderId());
+
+
+        getByMy(Config.URL.order_PickupStatusQuery, params, false,"", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<OrderPickupStatusQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderPickupStatusQueryResultBean>>() {
+                });
+
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    OrderPickupStatusQueryResultBean data=rt.getData();
+
+                    OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, data.getProductSkus());
+                    list_skus.setAdapter(cartSkuAdapter);
+                    //workManagerByPickup.reSetAllPickupProductSkus(data.getProductSkus());
+                }
+            }
+        });
+    }
 
     @Override
     public void onClick(View v) {
@@ -292,6 +253,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         if (dialog_ContactKefu != null && dialog_ContactKefu.isShowing()) {
             dialog_ContactKefu.cancel();
+        }
+
+        if(taskByGetPickupStatus!=null)
+        {
+            taskByGetPickupStatus.stop();
+        }
+
+        if(workManagerByPickup!=null)
+        {
+            workManagerByPickup.stop();
         }
     }
 }

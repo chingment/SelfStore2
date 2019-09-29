@@ -35,7 +35,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
     private List<ProductBean> beans = new ArrayList<>();
     private CallBackListener mCallBackListener;
     private GlobalDataSetBean globalDataSet;
-    private ProductBean bean;
+
     public ProductKindSkuAdapter(Context context, GlobalDataSetBean globalDataSet, List<ProductBean> beans) {
         this.context = context;
         this.beans = beans;
@@ -78,7 +78,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             isGONE = true;
         }
 
-        bean = beans.get(position);
+       final ProductBean   bean = beans.get(position);
 
         if (bean == null) {
             isGONE = true;
