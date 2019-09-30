@@ -40,7 +40,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
         txt_MerchantName = (TextView) findViewById(R.id.txt_MerchantName);
         txt_StoreName = (TextView) findViewById(R.id.txt_StoreName);
         txt_MachineId = (TextView) findViewById(R.id.txt_MachineId);
@@ -51,11 +51,11 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_CurrencySymbol= (TextView) findViewById(R.id.txt_CurrencySymbol);
     }
 
-    private void initEvent() {
+    protected void initEvent() {
 
     }
 
-    private void initData() {
+    protected void initData() {
 
         MachineBean machine = AppCacheManager.getMachine();
 

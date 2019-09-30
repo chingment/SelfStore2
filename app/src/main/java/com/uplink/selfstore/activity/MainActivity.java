@@ -166,7 +166,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
 
-    private void initView() {
+    protected void initView() {
         layout_header = (RelativeLayout) findViewById(R.id.layout_header);
         banner_pager = (AutoLoopViewPager) findViewById(R.id.banner_pager);
         banner_indicator = (CirclePageIndicator) findViewById(R.id.banner_indicator);

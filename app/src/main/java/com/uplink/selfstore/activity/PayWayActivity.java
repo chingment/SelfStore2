@@ -43,7 +43,7 @@ public class PayWayActivity extends SwipeBackActivity implements View.OnClickLis
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
         btn_back = findViewById(R.id.btn_back);
         btn_payway_wechat = findViewById(R.id.btn_payway_wechat);
         btn_payway_zhifubao = findViewById(R.id.btn_payway_zhifubao);

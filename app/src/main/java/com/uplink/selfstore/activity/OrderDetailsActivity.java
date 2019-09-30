@@ -94,7 +94,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
 
                 PickupSkuBean sku=(PickupSkuBean)msg.obj;
-                LogUtil.d("取货流程消息通知:" + sku.getName());
+                LogUtil.d("取货流程消息通知:" + sku.getName()+","+sku.getMainImgUrl());
                 CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
                 curpickupsku_tip1.setText(sku.getName()+",正在出货中");
                 curpickupsku_tip2.setText("");
@@ -112,7 +112,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         taskByGetPickupStatus.start();
     }
 
-    private void initView() {
+    protected void initView() {
 
         txt_OrderSn = (TextView) findViewById(R.id.txt_OrderSn);
         btn_PickupCompeled = (View) findViewById(R.id.btn_PickupCompeled);
@@ -129,6 +129,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 dialog_PickupCompelte.dismiss();
+                if(taskByGetPickupStatus!=null)
+                {
+                    taskByGetPickupStatus.stop();
+                }
+
+                if(workManagerByPickup!=null)
+                {
+                    workManagerByPickup.stop();
+                }
                 Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                 startActivity(intent);
             }

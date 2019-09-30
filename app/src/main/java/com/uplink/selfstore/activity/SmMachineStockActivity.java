@@ -32,16 +32,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
     }
 
 
-    private void initEvent() {
+    protected void initEvent() {
 
     }
 
-    private void initData() {
+    protected void initData() {
         int row_int = 10;
         int col_int = 10;
         //清除表格所有行

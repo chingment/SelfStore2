@@ -60,7 +60,7 @@ public class PayActivity extends SwipeBackActivity implements View.OnClickListen
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
 
         img_payqrcode = (ImageView) findViewById(R.id.img_payqrcode);
         txt_payseconds = (TextView) findViewById(R.id.txt_payseconds);

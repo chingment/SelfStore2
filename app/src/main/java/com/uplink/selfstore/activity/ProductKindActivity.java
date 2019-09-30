@@ -68,7 +68,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
         btn_back = findViewById(R.id.btn_back);
         btn_cart = findViewById(R.id.btn_cart);
         btn_gosettlement = findViewById(R.id.btn_gosettlement);

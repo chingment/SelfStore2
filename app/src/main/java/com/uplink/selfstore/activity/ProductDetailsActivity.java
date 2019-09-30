@@ -61,7 +61,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
         btn_back = findViewById(R.id.btn_back);
         btn_cart = findViewById(R.id.btn_cart);
         btn_increase = findViewById(R.id.btn_increase);

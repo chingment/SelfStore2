@@ -81,7 +81,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
         btn_back = findViewById(R.id.btn_back);
         btn_goshopping = findViewById(R.id.btn_goshopping);
         // btn_gopay = findViewById(R.id.btn_gopay);

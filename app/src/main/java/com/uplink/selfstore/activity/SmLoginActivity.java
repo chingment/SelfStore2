@@ -41,7 +41,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         initData();
     }
 
-    private void initView() {
+    protected void initView() {
 
         btn_login = (Button) this.findViewById(R.id.btn_login);
         txt_username = (EditText) this.findViewById(R.id.txt_username);
@@ -49,11 +49,11 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
     }
 
-    private void initEvent() {
+    protected void initEvent() {
         btn_login.setOnClickListener(this);
     }
 
-    private void initData() {
+    protected void initData() {
 
         String lastUsername = AppCacheManager.getLastUserName();
 
