@@ -117,5 +117,7 @@
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/chingment/Documents/github/SelfStore2/parallel-basic-http-client/libs/basic-http-client-android-0.88.jar:unspecified@jar" level="project" />
     <orderEntry type="module" module-name="parallel-basic-http-client" />
     <orderEntry type="module" module-name="SignalA" />
+    <orderEntry type="module" module-name="parallel-basic-http-client" />
+    <orderEntry type="module" module-name="SignalA" />
   </component>
 </module>

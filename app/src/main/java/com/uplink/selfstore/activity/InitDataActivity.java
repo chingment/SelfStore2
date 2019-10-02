@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
@@ -67,6 +68,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         txt_machineId=(TextView) findViewById(R.id.txt_machineId);
     }
 
+    @SuppressLint("HandlerLeak")
     private void initEvent() {
         btn_retry.setOnClickListener(this);
         loading_ani.start();

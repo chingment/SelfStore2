@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,6 +62,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private TextView curpickupsku_tip2;
     private OrderDetailsBean orderDetails;
     private MyTimeTask taskByGetPickupStatus;
+
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

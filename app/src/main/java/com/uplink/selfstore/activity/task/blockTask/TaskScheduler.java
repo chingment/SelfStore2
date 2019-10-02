@@ -27,9 +27,9 @@ public class TaskScheduler {
 
     public void enqueue(ITask task) {
         //因为TaskScheduler这里写成单例，如果isRunning改成false的话，不判断一下，就会一直都是false
-        if (!mExecutor.isRunning()) {
-            mExecutor.startRunning();
-        }
+//        if (!mExecutor.isRunning()) {
+//            mExecutor.startRunning();
+//        }
         //按照优先级插入队列 依次播放
         mTaskQueue.add(task);
     }
