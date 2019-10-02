@@ -77,10 +77,10 @@
 
                 <Button
                     android:id="@+id/dialog_confirm_btn_cancle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/size_50"
                     android:layout_height="@dimen/size_20"
-                    android:paddingLeft="@dimen/size_10"
-                    android:paddingRight="@dimen/size_10"
+                    android:paddingLeft="@dimen/size_5"
+                    android:paddingRight="@dimen/size_5"
                     android:text="@string/dialog_confirm_btn_cancle_text"
                     android:background="@drawable/dialog_btn_cancle"
                     android:textColor="#fff"
@@ -99,11 +99,11 @@
 
                 <Button
                     android:id="@+id/dialog_confirm_btn_sure"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/size_50"
                     android:layout_height="@dimen/size_20"
                     android:layout_marginLeft="0dp"
-                    android:paddingLeft="@dimen/size_10"
-                    android:paddingRight="@dimen/size_10"
+                    android:paddingLeft="@dimen/size_5"
+                    android:paddingRight="@dimen/size_5"
                     android:text="@string/dialog_confirm_btn_sure_text"
                     android:background="@drawable/dialog_btn_sure"
                     android:textColor="@color/dialog_confirm_btn_sure"

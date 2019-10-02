@@ -87,10 +87,11 @@ public class ToastUtil {
                 Toast toast =Toast.makeText(context, message, Toast.LENGTH_LONG);
                 LinearLayout layout = (LinearLayout) toast.getView();
                 TextView tv = (TextView) layout.getChildAt(0);
-                tv.setTextSize(30);
-
-                //toast.se
-                toast.setGravity(Gravity.CENTER, 0, 0);
+                tv.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.size_3));
+                layout.setBackgroundResource(R.drawable.dialog_loading_bg);
+                tv.setTextColor(context.getResources().getColor(R.color.white));
+                tv.setPadding(25,5,25,5);
+                toast.setGravity(Gravity.CENTER, 5, 5);
                 toast.show();
                 Looper.loop();
             }
