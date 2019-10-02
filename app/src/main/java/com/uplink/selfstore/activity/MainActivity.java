@@ -245,6 +245,14 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(dialog_NumKey!=null&&dialog_NumKey.isShowing()) {
+            dialog_NumKey.cancel();
+        }
+    }
+
     private void search(String pickCode){
 
         Map<String, String> params = new HashMap<>();

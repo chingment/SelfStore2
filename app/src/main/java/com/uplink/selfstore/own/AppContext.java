@@ -45,8 +45,6 @@ public class AppContext extends Application {
         params.add("key1", "value1");
         params.add("key2", "value2");
         params.add("key3", "value3");
-
-
         LogCollector.setDebugMode(true);
         LogCollector.init(getApplicationContext(), UPLOAD_URL, params);
 

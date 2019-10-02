@@ -77,7 +77,7 @@
             android:background="@drawable/dialog_numkey_input_normal"
             android:paddingLeft="@dimen/size_5"
             android:gravity="left|center_vertical"
-            android:text=""
+            android:text="939099"
             android:textSize="@dimen/size_16"/>
 
 

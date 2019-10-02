@@ -1,34 +1,25 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
+import com.uplink.selfstore.activity.task.PickTask;
+import com.uplink.selfstore.activity.task.blockTask.TaskPriority;
+import com.uplink.selfstore.activity.task.blockTask.TaskScheduler;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
-import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.OrderPickupStatusQueryResultBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.Result;
@@ -46,8 +37,6 @@ import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -87,21 +76,52 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         setView(orderDetails);
 
-        workManagerByPickup=new MachinePickupWorkManager();
-        workManagerByPickup.run(orderDetails.getProductSkus(),new Handler() {
+//        workManagerByPickup=new MachinePickupWorkManager();
+//        workManagerByPickup.run(orderDetails.getProductSkus(),new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//
+//
+//                PickupSkuBean sku=(PickupSkuBean)msg.obj;
+//                LogUtil.d("取货流程消息通知:" + sku.getName()+","+sku.getMainImgUrl());
+//                CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
+//                curpickupsku_tip1.setText(sku.getName()+",正在出货中");
+//                curpickupsku_tip2.setText("");
+//
+//
+//            }
+//        });
+
+       final Handler hd=  new Handler() {
             @Override
             public void handleMessage(Message msg) {
 
 
-                PickupSkuBean sku=(PickupSkuBean)msg.obj;
-                LogUtil.d("取货流程消息通知:" + sku.getName()+","+sku.getMainImgUrl());
+                PickupSkuBean sku = (PickupSkuBean) msg.obj;
+                LogUtil.d("取货流程消息通知:" + sku.getName() + "," + sku.getMainImgUrl());
                 CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
-                curpickupsku_tip1.setText(sku.getName()+",正在出货中");
+                curpickupsku_tip1.setText(sku.getName() + ",正在出货中");
                 curpickupsku_tip2.setText("");
 
 
             }
-        });
+        };
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+
+                List<PickupSkuBean> pickUps=getAllPickupProductSkus(orderDetails.getProductSkus());
+
+                for(int i=0;i<pickUps.size();i++) {
+                    PickTask pickTask=new PickTask(pickUps.get(i));
+                    pickTask.setPriority(TaskPriority.DEFAULT); //设置优先级，默认是DEFAULT
+                    pickTask.setHandlerMsg(hd);
+                    TaskScheduler.getInstance().enqueue(pickTask);
+                }
+            }
+        };
+        Thread currentThread = new Thread(runnable);
+        currentThread.start();
 
         taskByGetPickupStatus =new MyTimeTask(1000, new TimerTask() {
             @Override
@@ -109,8 +129,34 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 getPickupStatus();
             }
         });
-        taskByGetPickupStatus.start();
+        //taskByGetPickupStatus.start();
     }
+
+    private List<PickupSkuBean> getAllPickupProductSkus(List<OrderDetailsSkuBean> skus) {
+
+        List<PickupSkuBean> p1 = new ArrayList<>();
+
+        for (int i = 0; i < skus.size(); i++) {
+            OrderDetailsSkuBean sku = skus.get(i);
+            List<SlotBean> slots = sku.getSlots();
+            for (int j = 0; j < slots.size(); j++) {
+                SlotBean slot = slots.get(j);
+                PickupSkuBean pickSku = new PickupSkuBean();
+
+                pickSku.setId(sku.getId());
+                pickSku.setName(sku.getName());
+                pickSku.setMainImgUrl(sku.getMainImgUrl());
+                pickSku.setSlotId(slot.getSlotId());
+                pickSku.setUniqueId(slot.getUniqueId());
+                pickSku.setStatus(slot.getStatus());
+
+                p1.add(pickSku);
+            }
+        }
+
+        return p1;
+    }
+
 
     protected void initView() {
 

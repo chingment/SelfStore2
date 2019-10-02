@@ -154,7 +154,9 @@ public class PayActivity extends SwipeBackActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        taskByCheckPayStatus.stop();
+        if(taskByCheckPayStatus!=null) {
+            taskByCheckPayStatus.stop();
+        }
     }
 
     @Override
