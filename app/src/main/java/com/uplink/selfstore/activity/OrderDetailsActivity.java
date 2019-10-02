@@ -61,7 +61,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private TextView curpickupsku_tip2;
     private OrderDetailsBean orderDetails;
     private MyTimeTask taskByGetPickupStatus;
-    private MachinePickupWorkManager workManagerByPickup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,23 +75,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         setView(orderDetails);
 
-//        workManagerByPickup=new MachinePickupWorkManager();
-//        workManagerByPickup.run(orderDetails.getProductSkus(),new Handler() {
-//            @Override
-//            public void handleMessage(Message msg) {
-//
-//
-//                PickupSkuBean sku=(PickupSkuBean)msg.obj;
-//                LogUtil.d("取货流程消息通知:" + sku.getName()+","+sku.getMainImgUrl());
-//                CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
-//                curpickupsku_tip1.setText(sku.getName()+",正在出货中");
-//                curpickupsku_tip2.setText("");
-//
-//
-//            }
-//        });
-
-       final Handler hd=  new Handler() {
+        final Handler hd = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 PickupSkuBean sku = (PickupSkuBean) msg.obj;
@@ -119,27 +102,31 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货异常");
                         curpickupsku_tip2.setText("出货异常......");
                         break;
-                }
 
+                }
             }
         };
+
 
         Runnable runnable = new Runnable() {
             public void run() {
+                List<PickupSkuBean> pickUps = getAllPickupProductSkus(orderDetails.getProductSkus());
 
-                List<PickupSkuBean> pickUps=getAllPickupProductSkus(orderDetails.getProductSkus());
-
-                for(int i=0;i<pickUps.size();i++) {
-                    PickTask pickTask=new PickTask(pickUps.get(i));
+                for (int i = 0; i < pickUps.size(); i++) {
+                    PickTask pickTask = new PickTask(pickUps.get(i));
                     pickTask.setHandlerMsg(hd);
                     TaskScheduler.getInstance().enqueue(pickTask);
                 }
+
+                TaskScheduler.getInstance().startRunning();
             }
         };
-        Thread currentThread = new Thread(runnable);
-        currentThread.start();
 
-        taskByGetPickupStatus =new MyTimeTask(1000, new TimerTask() {
+        Thread  currentThreadByPickup = new Thread(runnable);
+
+        currentThreadByPickup.start();
+
+        taskByGetPickupStatus = new MyTimeTask(1000, new TimerTask() {
             @Override
             public void run() {
                 getPickupStatus();
@@ -196,12 +183,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     taskByGetPickupStatus.stop();
                 }
 
-                if(workManagerByPickup!=null)
-                {
-                    workManagerByPickup.stop();
-                }
+                TaskScheduler.getInstance().clearExecutor();
+
                 Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         dialog_PickupCompelte.getBtnCancle().setOnClickListener(new View.OnClickListener() {
@@ -331,9 +317,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             taskByGetPickupStatus.stop();
         }
 
-        if(workManagerByPickup!=null)
-        {
-            workManagerByPickup.stop();
-        }
+       TaskScheduler.getInstance().clearExecutor();
     }
 }

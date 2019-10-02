@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+
+import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +33,7 @@ public class ShowTaskExecutor {
             public void run() {
                 try {
                     while (isRunning) { //死循环
+                        LogUtil.d("isRunning....");
                         ITask iTask;
                         iTask = taskQueue.take(); //取任务
                         if (iTask != null) {
@@ -78,6 +82,7 @@ public class ShowTaskExecutor {
 
     public void startRunning() {
         isRunning = true;
+        LogUtil.d("startRunning:"+isRunning);
     }
 
     public void pauseRunning() {
@@ -89,11 +94,13 @@ public class ShowTaskExecutor {
     }
 
     public void resetExecutor() {
+        LogUtil.d("重置任务");
         isRunning = true;
         taskQueue.clear();
     }
 
     public void clearExecutor() {
+        LogUtil.d("暂停任务，清除所有任务");
         pauseRunning();
         taskQueue.clear();
     }

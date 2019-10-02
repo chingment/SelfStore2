@@ -19,7 +19,6 @@ public class TaskScheduler {
 
     private void initExecutor() {
         mExecutor = new ShowTaskExecutor(mTaskQueue);
-        mExecutor.start();
     }
 
     public static TaskScheduler getInstance() {
@@ -33,6 +32,11 @@ public class TaskScheduler {
         }
         //按照优先级插入队列 依次播放
         mTaskQueue.add(task);
+    }
+
+    public void startRunning() {
+        mExecutor.startRunning();
+        mExecutor.start();
     }
 
     public void resetExecutor() {
