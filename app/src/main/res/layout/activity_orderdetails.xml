@@ -102,14 +102,15 @@
                 android:layout_centerHorizontal="true">
                 <TextView
                     android:id="@+id/curpickupsku_tip1"
-                    android:layout_width="match_parent"
+                    android:layout_width="@dimen/size_300"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/size_8"
                     android:layout_marginTop="@dimen/size_8"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:text="正在出货中"
+                    android:text="商品名称"
+                    android:maxLength="50"
                     android:textColor="#333333"
                     android:textSize="@dimen/size_18" />
             </LinearLayout>

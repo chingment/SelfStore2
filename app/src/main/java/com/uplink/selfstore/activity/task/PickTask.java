@@ -35,14 +35,20 @@ public class PickTask extends BaseTask {
     @Override
     public void doTask() {
         super.doTask();
-        Log.i("LogTask", "--doTask-" + pickupSku.getName());
+        Log.i("LogTask", "--doTask-");
 
         sendHandlerMsg(0x0001, pickupSku);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(10000);
+                    sendHandlerMsg(0x0002, pickupSku);
+                    Thread.sleep(2000);
+                    sendHandlerMsg(0x0003, pickupSku);
+                    Thread.sleep(2000);
+                    sendHandlerMsg(0x0004, pickupSku);
+                    Thread.sleep(2000);
                     unLockBlock();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -50,31 +56,13 @@ public class PickTask extends BaseTask {
 
             }
         }).start();
-
-
-//        try {
-//            //Thread.sleep(10000);
-//            unLockBlock();
-//        }
-//        catch (InterruptedException e)
-//        {
-//            e.printStackTrace();
-//        }
-
-        //如果这个Task的执行时间是不确定的，比如上传图片，那么在上传成功后需要手动调用
-        //unLockBlock方法解除阻塞，例如：
-//        uploadImage(new UploadListener{
-//            void onSuccess(){
-//                unLockBlock();
-//            }
-//        });
     }
 
     //任务执行完的回调，在这里你可以做些释放资源或者埋点之类的操作
     @Override
     public void finishTask() {
         super.finishTask();
-        Log.i("LogTask", "--finishTask-" + pickupSku.getName());
+        Log.i("LogTask", "--finishTask-");
     }
 
 }

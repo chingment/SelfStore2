@@ -95,14 +95,31 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
        final Handler hd=  new Handler() {
             @Override
             public void handleMessage(Message msg) {
-
-
                 PickupSkuBean sku = (PickupSkuBean) msg.obj;
-                LogUtil.d("取货流程消息通知:" + sku.getName() + "," + sku.getMainImgUrl());
-                CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
-                curpickupsku_tip1.setText(sku.getName() + ",正在出货中");
-                curpickupsku_tip2.setText("");
-
+                switch (msg.what) {
+                    case 0x0001:
+                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",准备就绪");
+                        CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
+                        curpickupsku_tip1.setText(sku.getName());
+                        curpickupsku_tip2.setText("出货就绪......");
+                        break;
+                    case 0x0002:
+                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货开始");
+                        curpickupsku_tip2.setText("出货开始......");
+                        break;
+                    case 0x0003:
+                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货中");
+                        curpickupsku_tip2.setText("出货中......");
+                        break;
+                    case 0x0004:
+                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货完成");
+                        curpickupsku_tip2.setText("出货完成......");
+                        break;
+                    case 0x0005:
+                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货异常");
+                        curpickupsku_tip2.setText("出货异常......");
+                        break;
+                }
 
             }
         };
@@ -114,7 +131,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                 for(int i=0;i<pickUps.size();i++) {
                     PickTask pickTask=new PickTask(pickUps.get(i));
-                    pickTask.setPriority(TaskPriority.DEFAULT); //设置优先级，默认是DEFAULT
                     pickTask.setHandlerMsg(hd);
                     TaskScheduler.getInstance().enqueue(pickTask);
                 }
