@@ -82,12 +82,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
         Location location = null;
 
-//        if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
-//            locationProvider = LocationManager.NETWORK_PROVIDER;
-//            LogUtil.i(TAG, "loaction check provider:" + locationProvider);
-//            location = locationManager.getLastKnownLocation(locationProvider);
-//        }
-
 
         if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
             LogUtil.i(TAG, "lGPS模块正常");
@@ -108,20 +102,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
 
 
-//        if(location==null) {
-//
-//            LogUtil.i(TAG, "loaction check provider: criteria");
-//
-//            Criteria criteria = new Criteria();
-//            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//            criteria.setAltitudeRequired(false);
-//            criteria.setBearingRequired(false);
-//            criteria.setCostAllowed(true);
-//            criteria.setPowerRequirement(Criteria.POWER_LOW);
-//
-//            locationProvider = locationManager.getBestProvider(criteria, true);
-//        }
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -137,6 +117,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         location = locationManager.getLastKnownLocation(locationProvider);
 
         updateWithNewLocation(location);
+
         locationManager.requestLocationUpdates(locationProvider, 2000, 10, locationListener);
 
     }
