@@ -1,17 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-media-compat:25.1.0@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.android/build-cache/ca760673cf70751d3d54ce6641dbee7fe840a578/output/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06b1122f1dcc1dda0bf525edcf30daf0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/ca760673cf70751d3d54ce6641dbee7fe840a578/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/ca760673cf70751d3d54ce6641dbee7fe840a578/output/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06b1122f1dcc1dda0bf525edcf30daf0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06b1122f1dcc1dda0bf525edcf30daf0/jars/classes.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-media-compat/25.1.0/support-media-compat-25.1.0-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-media-compat/25.1.0/support-media-compat-25.1.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-media-compat/25.1.0/6c34b384280ce037b1e0bcdded55fcd8f9067bb6/support-media-compat-25.1.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

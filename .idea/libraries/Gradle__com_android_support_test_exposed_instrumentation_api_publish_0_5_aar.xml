@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support.test:exposed-instrumentation-api-publish:0.5@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f147504993a097524d4f726869910405/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f147504993a097524d4f726869910405/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4b485a5d1d0de3115c4f85913e4ac8d9/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4b485a5d1d0de3115c4f85913e4ac8d9/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

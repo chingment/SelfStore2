@@ -1,17 +1,15 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-core-ui:25.1.0@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.android/build-cache/872bac313733e4db18707088a11a037be7a8c9b5/output/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/939f9b257537d99a5a49f1eb0d52fe6e/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/872bac313733e4db18707088a11a037be7a8c9b5/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/872bac313733e4db18707088a11a037be7a8c9b5/output/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/939f9b257537d99a5a49f1eb0d52fe6e/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/939f9b257537d99a5a49f1eb0d52fe6e/jars/classes.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.1.0/support-core-ui-25.1.0-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-core-ui/25.1.0/support-core-ui-25.1.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-core-ui/25.1.0/5c8223c75100dce9dd9588fb385a55a64ee2c54e/support-core-ui-25.1.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
