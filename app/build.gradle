@@ -36,7 +36,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../CarIns.jks")
+            storeFile file('/Users/chingment/Documents/github/SelfStore2/carins.jks')
             storePassword 'ching003'
             keyAlias 'CarIns'
             keyPassword 'ching003'
@@ -90,11 +90,13 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-    implementation 'com.android.support:appcompat-v7:25.1.0'
+    implementation project(':parallel-basic-http-client')
+    implementation project(':SignalA')
+    implementation project(':SignalA.LongPolling')
+    implementation 'com.android.support:appcompat-v7:25.4.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'com.android.support:design:25.1.0'
+    implementation 'com.android.support:design:25.4.0'
     implementation 'com.squareup.okhttp3:okhttp:3.5.0'
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.alibaba:fastjson:1.1.67.android'

@@ -26,9 +26,8 @@ android {
 }
 
 dependencies {
-    implementation files('libs/basic-http-client-android-0.88.jar')
-    implementation project(':parallel-basic-http-client')
-    implementation project(':SignalA')
+    compile project(':parallel-basic-http-client')
+    compile project(':SignalA')
 
 }
 

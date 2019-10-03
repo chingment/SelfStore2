@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation files('libs/basic-http-client-android-0.88.jar')
+    compile files('libs/basic-http-client-android-0.88.jar')
 }
 
 //apply from: '../maven_push.gradle'

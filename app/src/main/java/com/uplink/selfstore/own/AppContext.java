@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.telephony.TelephonyManager;
 
 import com.uplink.selfstore.activity.InitDataActivity;
-import com.uplink.selfstore.logcollector.LogCollector;
-import com.uplink.selfstore.logcollector.upload.HttpParameters;
 import com.uplink.selfstore.utils.LogUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -41,12 +39,12 @@ public class AppContext extends Application {
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);          // 初始化 JPus
 
-        HttpParameters params = new HttpParameters();
-        params.add("key1", "value1");
-        params.add("key2", "value2");
-        params.add("key3", "value3");
-        LogCollector.setDebugMode(true);
-        LogCollector.init(getApplicationContext(), UPLOAD_URL, params);
+//        HttpParameters params = new HttpParameters();
+//        params.add("key1", "value1");
+//        params.add("key2", "value2");
+//        params.add("key3", "value3");
+//        LogCollector.setDebugMode(true);
+//        LogCollector.init(getApplicationContext(), UPLOAD_URL, params);
 
         // 程序崩溃时触发线程以下用来捕获程序崩溃异常
         //Thread.setDefaultUncaughtExceptionHandler(handler);
@@ -55,7 +53,7 @@ public class AppContext extends Application {
     private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            LogCollector.upload(false);
+            //LogCollector.upload(false);
             restartApp(); //发生崩溃异常时,重启应用
         }
     };
