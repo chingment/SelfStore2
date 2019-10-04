@@ -1,1 +1,1 @@
-include ':app',':SignalA', ':parallel-basic-http-client',  ':SignalA.LongPolling'
+include ':app'

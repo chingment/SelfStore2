@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class NineGridItemAdapter extends BaseAdapter {
 
 
         if (bean.getIcon() instanceof Integer) {
-            item_img.setImageDrawable(context.getResources().getDrawable(((int) bean.getIcon())));
+            item_img.setImageDrawable(ContextCompat.getDrawable(context,((int) bean.getIcon())));
         } else {
             CommonUtil.loadImageFromUrl(context, item_img, bean.getIcon().toString());
         }

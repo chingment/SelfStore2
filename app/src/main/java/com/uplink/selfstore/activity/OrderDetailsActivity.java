@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -176,7 +177,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         list_skus.setEnabled(false);
 
         dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_tips_outpickup_confirm), true);
-        dialog_PickupCompelte.getTipsImage().setImageDrawable(getResources().getDrawable((R.drawable.dialog_icon_warn)));
+        dialog_PickupCompelte.getTipsImage().setImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this,(R.drawable.dialog_icon_warn)));
         dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

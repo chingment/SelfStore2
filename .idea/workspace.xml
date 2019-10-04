@@ -25,6 +25,12 @@
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="com.uplink.selfstore" />
   </component>
+  <component name="AutomaticModuleUnloader">
+    <loaded-modules>
+      <module name="SelfStore2" />
+      <module name="app" />
+    </loaded-modules>
+  </component>
   <component name="AvailableLibraryUpdateStorage">
     <library-updates>
       <library-update>
@@ -92,14 +98,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle____local_aars____Users_chingment_Documents_github_SelfStore2_SignalA_libs_basic_http_client_android_0_88_jar_unspecified_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.1.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
@@ -107,14 +110,63 @@
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/SignalA.LongPolling.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SignalA.LongPolling/SignalA.LongPolling.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/libs/basic-http-client-android-0.88.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/ConnectedState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/ConnectingState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/DisconnectedState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/DisconnectingState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/JSONHelper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/LongPollingTransport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/NegotiatingState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/ReconnectingState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/StopableState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/StopableStateWithCallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/SignalA/SignalA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SignalA/SignalA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/Connection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/ConnectionBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/ConnectionState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/SendCallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/SignalAUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubConnection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubInvocation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubInvocationMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubInvokeCallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubOnDataCallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/HubResultCallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/IHubProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/OnDataCallback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/hubs/Subscription.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/transport/ITransport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/transport/ProcessResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/transport/StateBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/transport/TransportHelper.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/libs/jcore-android-1.2.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/libs/meSdk-3.6.0-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/libs/statusbar.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/NineGridItemAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/NineGridItemAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindNameAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindNameAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/libs/basic-http-client-android-0.88.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/parallel-basic-http-client.iml" beforeDir="false" afterPath="$PROJECT_DIR$/parallel-basic-http-client/parallel-basic-http-client.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/src/main/java/com/zsoft/parallelhttpclient/DoParallelHttpRequestTask.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/src/main/java/com/zsoft/parallelhttpclient/ParallelAsyncTaskFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parallel-basic-http-client/src/main/java/com/zsoft/parallelhttpclient/ParallelHttpClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -148,28 +200,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="SelfStore2" type="f1a62948:ProjectNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="SelfStore2" type="f1a62948:ProjectNode" />
-                <item name="SelfStore2" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="SelfStore2" type="f1a62948:ProjectNode" />
-                <item name="SelfStore2" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="SelfStore2" type="f1a62948:ProjectNode" />
-                <item name=":app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="SelfStore2" type="f1a62948:ProjectNode" />
-                <item name=":app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -185,35 +215,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="38" column="21" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SignalA/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+            <state relative-caret-position="97">
+              <caret line="100" column="48" selection-start-line="100" selection-start-column="48" selection-end-line="100" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/parallel-basic-http-client/build.gradle">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="6" column="56" lean-forward="true" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="56" />
+            <state relative-caret-position="159">
+              <caret line="17" selection-start-line="17" selection-start-column="2" selection-end-line="21" selection-end-column="7" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/DisconnectingState.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="81" selection-start-line="81" selection-end-line="81" />
+            <state relative-caret-position="89">
+              <caret line="179" column="75" selection-start-line="179" selection-start-column="62" selection-end-line="179" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/settings.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="14" selection-start-column="14" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/swipebacklayout/SwipeBackLayout.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1171">
+              <caret line="335" column="30" selection-start-line="335" selection-start-column="18" selection-end-line="335" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -230,6 +269,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>buildscript</find>
+    </findStrings>
+  </component>
   <component name="GenerateSignedApkSettings">
     <option name="EXPORT_PRIVATE_KEY" value="false" />
     <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/carins.jks" />
@@ -242,8 +286,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/ProductDetailsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmMachineInfoActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmMachineStockActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
@@ -270,33 +312,36 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/task/PickTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/task/blockTask/ShowTaskExecutor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/task/blockTask/TaskScheduler.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" />
         <option value="$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/ConnectingState.java" />
         <option value="$PROJECT_DIR$/gradle.properties" />
         <option value="$PROJECT_DIR$/gradlew" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/NineGridItemAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/BannerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/ProductKindActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/OrderDetailsSkuAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductChildKindAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindBodyAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindNameAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindSkuAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomNumKeyDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_numkey.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/SignalA.LongPolling/build.gradle" />
         <option value="$PROJECT_DIR$/SignalA/build.gradle" />
         <option value="$PROJECT_DIR$/parallel-basic-http-client/build.gradle" />
+        <option value="$PROJECT_DIR$/SignalA.LongPolling/build.gradle" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/NineGridItemAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindNameAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCacheManager.java" />
+        <option value="$PROJECT_DIR$/build.gradle" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="2" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="711" />
@@ -340,6 +385,28 @@
       <pane id="AndroidView">
         <subPane>
           <expand>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="activity" type="462c0819:PsiDirectoryNode" />
+            </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
@@ -549,12 +616,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="711" extended-state="6" />
+    <frame x="0" y="27" width="1280" height="711" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8060201" visible="true" weight="0.31340873" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8061224" visible="true" weight="0.2625202" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
-      <window_info id="Captures" order="2" sideWeight="0.19397993" side_tool="true" visible="true" weight="0.31340873" />
+      <window_info id="Captures" order="2" sideWeight="0.19387755" side_tool="true" visible="true" weight="0.2625202" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.51140064" side_tool="true" weight="0.20516963" />
@@ -571,17 +638,17 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.17528272" side_tool="true" weight="0.44295302" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48869145" weight="0.32718122" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.7576737" weight="0.6862416" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.7576737" weight="0.22818792" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.8247173" visible="true" weight="0.49832216" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.8247173" visible="true" weight="0.5067114" />
       <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.49434572" weight="0.7533557" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Android Model" order="3" side_tool="true" />
-      <window_info anchor="right" id="Gradle" order="4" visible="true" weight="0.17689823" />
+      <window_info anchor="right" id="Gradle" order="4" visible="true" weight="0.07673667" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Preview" order="7" />
@@ -620,6 +687,11 @@
       <window_info anchor="right" id="Preview" order="7" />
     </layout-to-restore>
   </component>
+  <component name="UnloadedModulesList">
+    <module name="parallel-basic-http-client" />
+    <module name="SignalA.LongPolling" />
+    <module name="SignalA" />
+  </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
@@ -653,26 +725,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/ConnectionBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignalA/src/main/java/com/zsoft/signala/Connection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-25/optional/org.apache.http.legacy.jar!/org/apache/http/impl/client/AbstractHttpClient.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -826,13 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/NineGridItemAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="20" column="40" selection-start-line="20" selection-start-column="35" selection-end-line="20" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/OrderDetailsSkuAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="97">
@@ -875,33 +920,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindNameAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
-          <folding>
-            <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1326#1327#0" expanded="true" />
-            <element signature="e#1368#1369#0" expanded="true" />
-            <element signature="e#1468#1469#0" expanded="true" />
-            <element signature="e#1499#1500#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/PositionActivity.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/MyJsonObject.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
           <caret line="105" column="15" selection-start-line="105" selection-start-column="15" selection-end-line="105" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/swipebacklayout/SwipeBackLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="369" column="15" selection-start-line="369" selection-start-column="15" selection-end-line="369" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -948,11 +972,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/local.properties">
+    <entry file="file://$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/DisconnectingState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/app/proguard-rules.pro">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-118">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
       <provider selected="true" editor-type-id="text-editor">
@@ -961,55 +996,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/proguard-rules.pro">
+    <entry file="file://$PROJECT_DIR$/SignalA/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="38" column="21" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="21" />
+        <state relative-caret-position="75">
+          <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SignalA.LongPolling/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignalA.LongPolling/src/main/java/com/zsoft/signala/transport/longpolling/DisconnectingState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="81" selection-start-line="81" selection-end-line="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignalA/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="51" selection-start-line="6" selection-start-column="51" selection-end-line="6" selection-end-column="51" />
+        <state relative-caret-position="405">
+          <caret line="29" column="67" selection-start-line="29" selection-start-column="67" selection-end-line="29" selection-end-column="67" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parallel-basic-http-client/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="6" column="56" lean-forward="true" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="56" />
+        <state relative-caret-position="210">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/local.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/NineGridItemAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="59" column="38" selection-start-line="59" selection-start-column="38" selection-end-line="59" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindNameAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="69" column="52" selection-start-line="69" selection-start-column="52" selection-end-line="69" selection-end-column="52" />
+          <folding>
+            <element signature="e#1191#1192#0" expanded="true" />
+            <element signature="e#1226#1227#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCacheManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="105" column="38" selection-start-line="105" selection-start-column="38" selection-end-line="105" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="179" column="75" selection-start-line="179" selection-start-column="62" selection-end-line="179" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/swipebacklayout/SwipeBackLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1171">
+          <caret line="335" column="30" selection-start-line="335" selection-start-column="18" selection-end-line="335" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="14" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="100" column="48" selection-start-line="100" selection-start-column="48" selection-end-line="100" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="17" selection-start-line="17" selection-start-column="2" selection-end-line="21" selection-end-column="7" />
         </state>
       </provider>
     </entry>

@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,10 +68,10 @@ public class ProductKindNameAdapter extends BaseAdapter {
 
         if (position == current_position) {
             selected_bg.setVisibility(View.VISIBLE);
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.white));
+            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
         } else {
             selected_bg.setVisibility(View.INVISIBLE);
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.gray));
+            convertView.setBackgroundColor(ContextCompat.getColor(context,R.color.gray));
         }
         return convertView;
     }
