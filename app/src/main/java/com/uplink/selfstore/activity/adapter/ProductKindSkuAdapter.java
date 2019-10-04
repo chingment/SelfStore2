@@ -32,55 +32,50 @@ import java.util.List;
 public class ProductKindSkuAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ProductBean> beans = new ArrayList<>();
+    private List<ProductBean> items = new ArrayList<>();
     private CallBackListener mCallBackListener;
     private GlobalDataSetBean globalDataSet;
 
-    public ProductKindSkuAdapter(Context context, GlobalDataSetBean globalDataSet, List<ProductBean> beans) {
+    public ProductKindSkuAdapter(Context context, List<ProductBean> items,GlobalDataSetBean globalDataSet) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
         this.globalDataSet = globalDataSet;
     }
 
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return beans.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return beans.get(position);
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        // TODO Auto-generated method stub
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_sku_tmp1, parent, false);
         }
 
         boolean isGONE = false;
-        if (beans == null) {
+        if (items == null) {
             isGONE = true;
         }
 
-        if (beans.size() <= 0) {
+        if (items.size() <= 0) {
             isGONE = true;
         }
 
-       final ProductBean   bean = beans.get(position);
+       final ProductBean   item = items.get(position);
 
-        if (bean == null) {
+        if (item == null) {
             isGONE = true;
         }
 
@@ -103,10 +98,10 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         ImageView btn_increase = ViewHolder.get(convertView, R.id.btn_increase);
 
-        txt_name.setText(bean.getName());
+        txt_name.setText(item.getName());
 
 
-        int quantity = CartActivity.getQuantity(bean.getRefSku().getId());
+        int quantity = CartActivity.getQuantity(item.getRefSku().getId());
 
         if (quantity == 0) {
             btn_decrease.setVisibility(View.INVISIBLE);
@@ -122,7 +117,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
 
 
-        String[] price = CommonUtil.getPrice(String.valueOf(bean.getRefSku().getSalePrice()));
+        String[] price = CommonUtil.getPrice(String.valueOf(item.getRefSku().getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
 
@@ -134,7 +129,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
 
                 Intent intent = new Intent(context, ProductDetailsActivity.class);
                 Bundle b = new Bundle();
-                b.putSerializable("dataBean", bean);
+                b.putSerializable("dataBean", item);
                 intent.putExtras(b);
                 context.startActivity(intent);
             }
@@ -146,7 +141,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
 
 
-                CartActivity.operate(CartOperateType.DECREASE,bean.getId(),bean.getRefSku().getId(), new CarOperateHandler() {
+                CartActivity.operate(CartOperateType.DECREASE,item.getId(),item.getRefSku().getId(), new CarOperateHandler() {
                     @Override
                     public void onSuccess(String response) {
                         notifyDataSetChanged();
@@ -167,7 +162,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                CartActivity.operate(CartOperateType.INCREASE, bean.getId(),bean.getRefSku().getId(), new CarOperateHandler() {
+                CartActivity.operate(CartOperateType.INCREASE, item.getId(),item.getRefSku().getId(), new CarOperateHandler() {
                     @Override
                     public void onSuccess(String response) {
                         notifyDataSetChanged();
@@ -184,7 +179,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             }
         });
 
-        CommonUtil.loadImageFromUrl(context, img_main, bean.getMainImgUrl());
+        CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());
         convertView.setClickable(false);
 
 

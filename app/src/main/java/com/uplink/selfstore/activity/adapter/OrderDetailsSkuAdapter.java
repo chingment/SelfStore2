@@ -29,42 +29,37 @@ public class OrderDetailsSkuAdapter extends BaseAdapter {
 
 
     private Context context;
-    private List<OrderDetailsSkuBean> beans = new ArrayList<>();
+    private List<OrderDetailsSkuBean> items;
 
 
-    public OrderDetailsSkuAdapter(Context context, List<OrderDetailsSkuBean> beans) {
+    public OrderDetailsSkuAdapter(Context context, List<OrderDetailsSkuBean> items) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
     }
 
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return beans.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return beans.get(position);
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        // TODO Auto-generated method stub
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_orderdetails_sku, parent, false);
         }
 
-        final OrderDetailsSkuBean bean = beans.get(position);
+        final OrderDetailsSkuBean item = items.get(position);
 
 
         ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
@@ -72,10 +67,10 @@ public class OrderDetailsSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         TextView txt_quantitybysuccess = ViewHolder.get(convertView, R.id.txt_quantitybysuccess);
 
-        CommonUtil.loadImageFromUrl(context, img_main, bean.getMainImgUrl());
-        txt_name.setText(bean.getName());
-        txt_quantity.setText(String.valueOf(bean.getQuantity()));
-        txt_quantitybysuccess.setText(String.valueOf(bean.getQuantityBySuccess()));
+        CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());
+        txt_name.setText(item.getName());
+        txt_quantity.setText(String.valueOf(item.getQuantity()));
+        txt_quantitybysuccess.setText(String.valueOf(item.getQuantityBySuccess()));
 
         return convertView;
     }

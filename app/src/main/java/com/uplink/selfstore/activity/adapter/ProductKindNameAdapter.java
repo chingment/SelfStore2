@@ -22,12 +22,12 @@ import java.util.List;
 public class ProductKindNameAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ProductKindBean> beans = new ArrayList<>();
+    private List<ProductKindBean> items = new ArrayList<>();
     private int current_position;
 
-    public ProductKindNameAdapter(Context context, List<ProductKindBean> beans, int position) {
+    public ProductKindNameAdapter(Context context, List<ProductKindBean> items, int position) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
         this.current_position = position;
     }
 //
@@ -40,19 +40,16 @@ public class ProductKindNameAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return beans.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return beans.get(position);
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
@@ -62,11 +59,11 @@ public class ProductKindNameAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_productkind_name, parent, false);
         }
-        ProductKindBean bean = beans.get(position);
+        ProductKindBean item = items.get(position);
 
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
         View selected_bg = ViewHolder.get(convertView, R.id.selected_bg);
-        txt_name.setText(bean.getName());
+        txt_name.setText(item.getName());
 
         if (position == current_position) {
             selected_bg.setVisibility(View.VISIBLE);

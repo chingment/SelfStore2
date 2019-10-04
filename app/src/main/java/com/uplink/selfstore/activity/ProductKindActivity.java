@@ -146,7 +146,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         }
 
 
-        productKindSkuAdapter = new ProductKindSkuAdapter(ProductKindActivity.this, globalDataSet, productSkusByKind);
+        productKindSkuAdapter = new ProductKindSkuAdapter(ProductKindActivity.this, productSkusByKind,globalDataSet);
         productKindSkuAdapter.setCallBackListener(new ProductKindSkuAdapter.CallBackListener() {
             @Override
             public void callBackImg(ImageView goodsImg) {

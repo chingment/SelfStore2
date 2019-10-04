@@ -16,12 +16,12 @@ import com.uplink.selfstore.utils.CommonUtil;
 import java.util.List;
 
 
-public class NineGridItemdapter extends BaseAdapter {
+public class NineGridItemAdapter extends BaseAdapter {
 
     private List<NineGridItemBean> items;
     private Context context;
 
-    public NineGridItemdapter(Context context, List<NineGridItemBean> items) {
+    public NineGridItemAdapter(Context context, List<NineGridItemBean> items) {
         this.items = items;
         this.context = context;
     }

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.adapter.NineGridItemdapter;
+import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.own.AppManager;
@@ -81,7 +81,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
 
-        NineGridItemdapter nineGridItemdapter = new NineGridItemdapter(getAppContext(), gridviewitems);
+        NineGridItemAdapter nineGridItemdapter = new NineGridItemAdapter(getAppContext(), gridviewitems);
 
         gridview.setAdapter(nineGridItemdapter);
 

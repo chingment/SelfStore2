@@ -22,18 +22,18 @@ import java.util.List;
 public class BannerAdapter extends PagerAdapter {
 
     private Context context;
-    private List<ImgSetBean> beans = new ArrayList<>();
+    private List<ImgSetBean> items;
     private ImageView.ScaleType scaleType;
 
-    public BannerAdapter(Context context, List<ImgSetBean> beans, ImageView.ScaleType scaleType) {
+    public BannerAdapter(Context context, List<ImgSetBean> items, ImageView.ScaleType scaleType) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
         this.scaleType = scaleType;
     }
 
     @Override
     public int getCount() {
-        return beans.size();
+        return items.size();
     }
 
     @Override
@@ -43,19 +43,19 @@ public class BannerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView item = new ImageView(context);
-        if (beans.size() > 0) {
-            ImgSetBean bean = beans.get(position);
+        ImageView imageView = new ImageView(context);
+        if (items.size() > 0) {
+            ImgSetBean item = items.get(position);
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
-            item.setLayoutParams(params);
+            imageView.setLayoutParams(params);
             //item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             //ImageView.ScaleType.FIT_XY
-            item.setScaleType(scaleType);
-            CommonUtil.loadImageFromUrl(context, item, bean.getUrl());
-            container.addView(item);
+            imageView.setScaleType(scaleType);
+            CommonUtil.loadImageFromUrl(context, imageView, item.getUrl());
+            container.addView(imageView);
         }
 
-        return item;
+        return imageView;
     }
 
     @Override

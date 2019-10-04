@@ -26,48 +26,43 @@ import java.util.List;
 public class ProductChildKindAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ProductChildKindBean> beans = new ArrayList<>();
+    private List<ProductChildKindBean> items;
     private HashMap<String, ProductBean> productSkus = new HashMap<String, ProductBean>();
     private GlobalDataSetBean globalDataSet;
 
-    public ProductChildKindAdapter(Context context, List<ProductChildKindBean> beans, HashMap<String, ProductBean> productSkus) {
+    public ProductChildKindAdapter(Context context, List<ProductChildKindBean> items, HashMap<String, ProductBean> productSkus) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
         this.productSkus = productSkus;
     }
 
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return beans.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return beans.get(position);
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        // TODO Auto-generated method stub
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_productkind_child, parent, false);
         }
-        ProductChildKindBean bean = beans.get(position);
+        ProductChildKindBean item = items.get(position);
 
 
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
 
-        txt_name.setText(bean.getName());
+        txt_name.setText(item.getName());
 
         //GridView list_productsku = ViewHolder.get(convertView, R.id.list_productsku);
         GridView list_productsku = ViewHolder.get(convertView, R.id.list_productsku);
@@ -78,7 +73,7 @@ public class ProductChildKindAdapter extends BaseAdapter {
 
         List<ProductBean> productSkusByKind = new ArrayList<>();
 
-        for (String child : bean.getChilds()) {
+        for (String child : item.getChilds()) {
 
             ProductBean sku = productSkus.get(child);
             if (sku != null) {
@@ -86,7 +81,7 @@ public class ProductChildKindAdapter extends BaseAdapter {
             }
         }
 
-        ProductKindSkuAdapter productKindSkuAdapter = new ProductKindSkuAdapter(context,globalDataSet, productSkusByKind);
+        ProductKindSkuAdapter productKindSkuAdapter = new ProductKindSkuAdapter(context, productSkusByKind,globalDataSet);
         productKindSkuAdapter.setCallBackListener(new ProductKindSkuAdapter.CallBackListener() {
             @Override
             public void callBackImg(ImageView goodsImg) {

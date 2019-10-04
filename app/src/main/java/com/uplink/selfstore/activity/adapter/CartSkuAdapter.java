@@ -29,13 +29,13 @@ import java.util.List;
 public class CartSkuAdapter extends BaseAdapter {
 
     private Context context;
-    private List<CartSkuBean> beans = new ArrayList<>();
+    private List<CartSkuBean> items;
     private CustomConfirmDialog delete_Dialog;
     private GlobalDataSetBean globalDataSet;
 
-    public CartSkuAdapter(Context context, GlobalDataSetBean globalDataSet, List<CartSkuBean> beans) {
+    public CartSkuAdapter(Context context, GlobalDataSetBean globalDataSet, List<CartSkuBean> items) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
         this.globalDataSet = globalDataSet;
 
         delete_Dialog = new CustomConfirmDialog(context, context.getString(R.string.activity_cart_tips_delete_confirm), true);
@@ -63,30 +63,25 @@ public class CartSkuAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return beans.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return beans.get(position);
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        // TODO Auto-generated method stub
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_cart_sku, parent, false);
         }
-        final CartSkuBean bean = beans.get(position);
+        final CartSkuBean item = items.get(position);
 
         View btn_delete = ViewHolder.get(convertView, R.id.btn_delete);
         ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
@@ -98,11 +93,11 @@ public class CartSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         View btn_increase = ViewHolder.get(convertView, R.id.btn_increase);
 
-        CommonUtil.loadImageFromUrl(context, img_main, bean.getMainImgUrl());
-        txt_name.setText(bean.getName());
-        txt_quantity.setText(String.valueOf(bean.getQuantity()));
+        CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());
+        txt_name.setText(item.getName());
+        txt_quantity.setText(String.valueOf(item.getQuantity()));
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
-        String[] price = CommonUtil.getPrice(String.valueOf(bean.getSalePrice()));
+        String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
 //
@@ -124,8 +119,8 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), bean.getMainImgUrl());
-                delete_Dialog.getBtnSure().setTag(bean);
+                CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), item.getMainImgUrl());
+                delete_Dialog.getBtnSure().setTag(item);
                 delete_Dialog.show();
 
             }
@@ -137,9 +132,9 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if (bean.getQuantity() == 1)
+                if (item.getQuantity() == 1)
                     return;
-                operate(CartOperateType.DECREASE,bean.getProductId(), bean.getId());
+                operate(CartOperateType.DECREASE,item.getProductId(), item.getId());
             }
         });
 
@@ -148,7 +143,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operate(CartOperateType.INCREASE,bean.getProductId(), bean.getId());
+                operate(CartOperateType.INCREASE,item.getProductId(), item.getId());
             }
         });
 

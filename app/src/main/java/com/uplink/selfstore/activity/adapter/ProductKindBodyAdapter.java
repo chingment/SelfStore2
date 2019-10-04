@@ -25,14 +25,14 @@ import java.util.List;
 public class ProductKindBodyAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ProductKindBean> beans = new ArrayList<>();
+    private List<ProductKindBean> items = new ArrayList<>();
     private HashMap<String, ProductBean> productSkus = new HashMap<String, ProductBean>();
     private int current_position;
 
 
-    public ProductKindBodyAdapter(Context context, List<ProductKindBean> beans, HashMap<String, ProductBean> productSkus) {
+    public ProductKindBodyAdapter(Context context, List<ProductKindBean> items, HashMap<String, ProductBean> productSkus) {
         this.context = context;
-        this.beans = beans;
+        this.items = items;
         this.productSkus = productSkus;
     }
 
@@ -43,19 +43,16 @@ public class ProductKindBodyAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return beans.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return beans.get(position);
+        return items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
@@ -70,10 +67,10 @@ public class ProductKindBodyAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_productkind_body, parent, false);
         }
-        ProductKindBean bean = beans.get(position);
+        ProductKindBean item = items.get(position);
 
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
-        txt_name.setText(bean.getName());
+        txt_name.setText(item.getName());
 
         // MyGridView list_kind_child =ViewHolder.get(convertView, R.id.list_kind_child);
         MyListView list_kind_child = ViewHolder.get(convertView, R.id.list_kind_child);
