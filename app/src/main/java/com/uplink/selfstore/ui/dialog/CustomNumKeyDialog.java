@@ -72,7 +72,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s0);
+                //playSound(R.raw.s0);
                 String num = btn_0.getTag().toString();
                 getNum(num);
 
@@ -82,7 +82,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s1);
+                //playSound(R.raw.s1);
                 String num = btn_1.getTag().toString();
                 getNum(num);
             }
@@ -91,7 +91,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s2);
+                //playSound(R.raw.s2);
                 String num = btn_2.getTag().toString();
                 getNum(num);
             }
@@ -110,7 +110,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s4);
+                //playSound(R.raw.s4);
                 String num = btn_4.getTag().toString();
                 getNum(num);
             }
@@ -119,7 +119,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s5);
+                //playSound(R.raw.s5);
                 String num = btn_5.getTag().toString();
                 getNum(num);
 
@@ -129,7 +129,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s6);
+                //playSound(R.raw.s6);
                 String num = btn_6.getTag().toString();
                 getNum(num);
             }
@@ -138,7 +138,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s7);
+                //playSound(R.raw.s7);
                 String num = btn_7.getTag().toString();
                 getNum(num);
             }
@@ -147,7 +147,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s8);
+                //playSound(R.raw.s8);
                 String num = btn_8.getTag().toString();
                 getNum(num);
 
@@ -157,7 +157,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s9);
+                //playSound(R.raw.s9);
                 String num = btn_9.getTag().toString();
                 getNum(num);
 
