@@ -27,7 +27,7 @@ android {
 
 dependencies {
     compile project(':parallel-basic-http-client')
-    compile project(':SignalA')
+    implementation project(':SignalA')
 
 }
 
