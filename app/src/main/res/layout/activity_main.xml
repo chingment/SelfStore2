@@ -51,8 +51,8 @@
 
         <com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator
             android:id="@+id/banner_indicator"
-            android:layout_width="@dimen/size_10"
-            android:layout_height="@dimen/size_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_30"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/size_10"

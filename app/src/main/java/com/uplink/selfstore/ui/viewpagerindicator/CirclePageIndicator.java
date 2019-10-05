@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.utils.LogUtil;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.widget.LinearLayout.HORIZONTAL;
@@ -85,7 +86,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         final int defaultOrientation = res.getInteger(R.integer.default_circle_indicator_orientation);
         final int defaultStrokeColor = res.getColor(R.color.default_circle_indicator_stroke_color);
         final float defaultStrokeWidth = res.getDimension(R.dimen.default_circle_indicator_stroke_width);
-        final float defaultRadius = res.getDimension(R.dimen.default_circle_indicator_radius);
+        final float defaultRadius = res.getDimension(R.dimen.size_5);//设置园的半径
         final boolean defaultCentered = res.getBoolean(R.bool.default_circle_indicator_centered);
         final boolean defaultSnap = res.getBoolean(R.bool.default_circle_indicator_snap);
 
@@ -277,6 +278,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             dX = shortOffset;
             dY = longOffset + cx;
         }
+        LogUtil.d("dx:"+dX+",dy:"+dY);
         canvas.drawCircle(dX, dY, mRadius, mPaintFill);
     }
 
