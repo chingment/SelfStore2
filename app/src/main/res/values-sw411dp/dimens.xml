@@ -63,4 +63,24 @@
 	<dimen name="size_3">3.4250dp</dimen>
 	<dimen name="size_2">2.2833dp</dimen>
 	<dimen name="size_1">1.1417dp</dimen>
+	<dimen name="sp_1">1.1417sp</dimen>
+	<dimen name="sp_2">2.2833sp</dimen>
+	<dimen name="sp_3">3.4250sp</dimen>
+	<dimen name="sp_4">4.5667sp</dimen>
+	<dimen name="sp_5">5.7083sp</dimen>
+	<dimen name="sp_6">6.8500sp</dimen>
+	<dimen name="sp_7">7.9917sp</dimen>
+	<dimen name="sp_8">9.1333sp</dimen>
+	<dimen name="sp_9">10.2750sp</dimen>
+	<dimen name="sp_10">11.4167sp</dimen>
+	<dimen name="sp_11">12.5583sp</dimen>
+	<dimen name="sp_12">13.7000sp</dimen>
+	<dimen name="sp_13">14.8417sp</dimen>
+	<dimen name="sp_14">15.9833sp</dimen>
+	<dimen name="sp_15">17.1250sp</dimen>
+	<dimen name="sp_16">18.2667sp</dimen>
+	<dimen name="sp_17">19.4083sp</dimen>
+	<dimen name="sp_18">20.5500sp</dimen>
+	<dimen name="sp_19">21.6917sp</dimen>
+	<dimen name="sp_20">22.8333sp</dimen>
 </resources>

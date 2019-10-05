@@ -169,7 +169,7 @@
                     android:background="@drawable/btn_round_primary"
                     android:text="@string/activity_productkind_button_gosettlement_text"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/size_12" />
+                    android:textSize="@dimen/sp_12" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
