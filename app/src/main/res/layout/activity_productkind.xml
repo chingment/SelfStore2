@@ -29,7 +29,7 @@
             tools:ignore="UselessParent">
             <ListView
                 android:id="@+id/list_kind_name"
-                android:layout_width="@dimen/size_50"
+                android:layout_width="@dimen/size_60"
                 android:layout_height="match_parent"
                 android:background="@color/gray"
                 android:divider="@null"
