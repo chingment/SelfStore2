@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-def buildTime() {
+def static buildTime() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMddHH')
     return formattedDate
@@ -72,9 +72,9 @@ android {
                     def fileName
 
                     if (variant.buildType.name.equals('release')) {//如果是release包
-                        fileName = "fanju_release_v${defaultConfig.versionName}.apk"
+                        fileName = "fanju_release_v${defaultConfig.versionName}_t${buildTime()}.apk"
                     } else if (variant.buildType.name.equals('debug')) {//如果是debug包
-                        fileName = "fanju_debug_v${defaultConfig.versionName}.apk"
+                        fileName = "fanju_debug_v${defaultConfig.versionName}_t${buildTime()}.apk"
                     }
                     outputFileName = fileName
 
