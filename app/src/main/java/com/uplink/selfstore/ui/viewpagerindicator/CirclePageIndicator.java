@@ -278,7 +278,6 @@ public class CirclePageIndicator extends View implements PageIndicator {
             dX = shortOffset;
             dY = longOffset + cx;
         }
-        LogUtil.d("dx:"+dX+",dy:"+dY);
         canvas.drawCircle(dX, dY, mRadius, mPaintFill);
     }
 

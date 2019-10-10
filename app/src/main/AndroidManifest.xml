@@ -197,7 +197,6 @@
         </receiver>
 
         <activity android:name=".activity.SmLoginActivity" />
-        <activity android:name=".activity.PositionActivity" />
         <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.PayWayActivity" />
         <activity android:name=".activity.SmMachineStockActivity"></activity>

@@ -11,7 +11,6 @@ public class OrderReserveResultBean implements Serializable {
     private String orderId;
     private String orderSn;
     private String chargeAmount;
-    private String payUrl;
 
     public String getChargeAmount() {
         return chargeAmount;
@@ -21,13 +20,6 @@ public class OrderReserveResultBean implements Serializable {
         this.chargeAmount = chargeAmount;
     }
 
-    public String getPayUrl() {
-        return payUrl;
-    }
-
-    public void setPayUrl(String payUrl) {
-        this.payUrl = payUrl;
-    }
 
     public String getOrderSn() {
         return orderSn;

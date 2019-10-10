@@ -28,6 +28,7 @@ import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.OrderReserveResultBean;
 import com.uplink.selfstore.model.api.ProductBean;
@@ -236,7 +237,57 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
     }
 
-    private  void  paySend(final int payWay,int payCaller) {
+    private  void  buildBayParams(final String orderId,final int payWay,final int payCaller)
+    {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderId", orderId);
+        params.put("payWay", payWay + "");
+        params.put("payCaller", payCaller + "");
+
+        postByMy(Config.URL.order_BuildPayParams, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<OrderBuildPayParamsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderBuildPayParamsResultBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    OrderBuildPayParamsResultBean d = rt.getData();
+
+                    taskByCheckPayTimeout.start();
+                    lastOrderId=orderId;
+                    dialog_ScanPay.getPayAmountText().setText(d.getChargeAmount());
+
+                    switch (payWay) {
+                        case 1:
+                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_wechat3)));
+                            dialog_ScanPay.getPayTipsText().setText("请使用微信扫码支付");
+                            break;
+                        case 2:
+                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_zhifubao3)));
+                            dialog_ScanPay.getPayTipsText().setText("请使用支付宝扫码支付");
+                            break;
+                    }
+
+                    dialog_ScanPay.show();
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+
+            }
+        });
+
+
+    }
+
+    private  void  paySend(final int payWay,final int payCaller) {
         MachineBean machine = AppCacheManager.getMachine();
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
@@ -281,23 +332,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    taskByCheckPayTimeout.start();
+
                     OrderReserveResultBean d = rt.getData();
-                    lastOrderId=d.getOrderId();
-                    dialog_ScanPay.getPayAmountText().setText(d.getChargeAmount());
-
-                    switch (payWay) {
-                        case 1:
-                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_wechat3)));
-                            dialog_ScanPay.getPayTipsText().setText("请使用微信扫码支付");
-                            break;
-                        case 2:
-                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_zhifubao3)));
-                            dialog_ScanPay.getPayTipsText().setText("请使用支付宝扫码支付");
-                            break;
-                    }
-
-                    dialog_ScanPay.show();
+                    buildBayParams(d.getOrderId(),payWay,payCaller);
 
                 } else {
                     showToast(rt.getMessage());
