@@ -44,8 +44,8 @@
     <color name="custom_date_picker_split_line">#11112233</color>
     <color name="custom_date_picker_text1">#59B29C</color>
     <color name="custom_date_picker_text2">#333333</color>
-    <color name="widget_common_btn_n">#0099CC</color>
-    <color name="widget_common_btn_f">#1279CE</color>
+    <color name="widget_common_btn_n">#ffb000</color>
+    <color name="widget_common_btn_f">#FA931E</color>
     <color name="widget_btn_1_n">#ff5500</color>
     <color name="widget_btn_1_f">#ff5500</color>
     <color name="widget_btn_2_n">#5AD485</color>

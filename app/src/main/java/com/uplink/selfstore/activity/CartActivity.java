@@ -159,6 +159,16 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     public void setList() {
+
+//        List<CartSkuBean> cartSkusByCache=new ArrayList<>();
+//        if( getIntent().getSerializableExtra("cartSkuBean")!=null) {
+//            cartSkusByCache.add((CartSkuBean)getIntent().getSerializableExtra("cartSkuBean"));
+//        }
+//        else {
+//
+//            cartSkusByCache = AppCacheManager.getCartSkus();
+//        }
+
         List<CartSkuBean> cartSkusByCache = AppCacheManager.getCartSkus();
         //检查当前机器商品库存是否存在，不存在的过滤
         List<CartSkuBean> cartSkus = new ArrayList<>();

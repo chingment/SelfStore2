@@ -26,6 +26,7 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -155,14 +156,33 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                     });
                     break;
                 case R.id.btn_buy:
-                    List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+                    //List<CartSkuBean> cartSkus = new ArrayList<>();
 
-                    if (cartSkus == null || cartSkus.size() <= 0) {
-                        showToast(getAppContext().getString(R.string.activity_cart_tips_cartismust));
-                        return;
-                    }
-                    Intent intent2 = new Intent(getAppContext(), CartActivity.class);
-                    startActivity(intent2);
+                    CartSkuBean cartSku=new CartSkuBean();
+                    cartSku.setId(product.getRefSku().getId());
+                    cartSku.setProductId(product.getId());
+                    cartSku.setQuantity(1);
+                    //cartSkus.add(cartSku);
+
+//                    if (cartSkus == null || cartSkus.size() <= 0) {
+//                        showToast(getAppContext().getString(R.string.activity_cart_tips_cartismust));
+//                        return;
+//                    }
+
+                    CartActivity.operate(CartOperateType.INCREASE,product.getId(), product.getRefSku().getId(), new CarOperateHandler() {
+                        @Override
+                        public void onSuccess(String response) {
+
+                            Intent intent2 = new Intent(getAppContext(), CartActivity.class);
+                            //Bundle bundle=new Bundle();
+                            //bundle.putSerializable("cartSkuBean", cartSku);
+                            //intent2.putExtras(bundle);
+                            startActivity(intent2);
+
+                        }
+                    });
+
+
                     break;
             }
         }
