@@ -1,23 +1,46 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.MachineSlotStockResultBean;
+import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.model.api.SlotProductSkuBean;
+import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.ViewHolder;
+import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SmMachineStockActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;
+
+    private CustomSlotEditDialog dialog_SlotEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +57,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     protected void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
+
+        dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
+
     }
 
 
@@ -42,6 +68,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     protected void initData() {
+
+        getSlotStock();
+    }
+
+    private  void drawsStock(HashMap<String, SlotProductSkuBean> slotProductSkus) {
         int row_int = 10;
         int col_int = 10;
         //清除表格所有行
@@ -56,6 +87,39 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 //tv用于显示
                 View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
+
+                TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
+                TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
+                TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
+                TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
+                ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
+
+                //CommonUtil.loadImageFromUrl(convertView, img_main, item.getMainImgUrl());
+
+                String slotId=i+""+j;
+                SlotProductSkuBean slotProductSku = slotProductSkus.get(slotId);
+               if(slotProductSku==null)
+               {
+                   txt_name.setText("暂无商品");
+               }
+               else
+               {
+                   txt_name.setText(slotProductSku.getName());
+                   txt_sellQuantity.setText(slotProductSku.getSellQuantity()+"");
+                   txt_lockQuantity.setText(slotProductSku.getLockQuantity()+"");
+                   txt_sumQuantity.setText(slotProductSku.getSumQuantity()+"");
+
+                   CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slotProductSku.getMainImgUrl());
+
+
+               }
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog_SlotEdit.show();
+                    }
+                });
 
                 tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
             }
@@ -77,5 +141,36 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     break;
             }
         }
+    }
+
+    private void getSlotStock(){
+
+        Map<String, String> params = new HashMap<>();
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        params.put("machineId", machine.getId());
+
+
+        getByMy(Config.URL.machine_GetSlotStock, params, true,"正在获取库存", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<MachineSlotStockResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<MachineSlotStockResultBean>>() {
+                });
+
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    MachineSlotStockResultBean d=rt.getData();
+                    drawsStock(d.getSlotProductSkus());
+                }
+                else
+                {
+                    showToast(rt.getMessage());
+                }
+            }
+        });
     }
 }
