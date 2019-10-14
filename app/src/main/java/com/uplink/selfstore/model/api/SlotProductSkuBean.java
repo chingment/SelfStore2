@@ -9,6 +9,16 @@ public class SlotProductSkuBean implements Serializable {
     private  String mainImgUrl;
     private  String sumQuantity;
 
+    public String getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(String salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    private  String salePrice;
+
     public String getId() {
         return id;
     }

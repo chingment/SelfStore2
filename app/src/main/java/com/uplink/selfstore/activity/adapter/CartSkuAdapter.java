@@ -45,7 +45,7 @@ public class CartSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 CartSkuBean sku = (CartSkuBean)v.getTag();
-                operate(CartOperateType.DELETE,sku.getProductId(), sku.getId());
+                operate(CartOperateType.DELETE, sku.getId());
                 delete_Dialog.dismiss();
 
             }
@@ -134,7 +134,7 @@ public class CartSkuAdapter extends BaseAdapter {
 
                 if (item.getQuantity() == 1)
                     return;
-                operate(CartOperateType.DECREASE,item.getProductId(), item.getId());
+                operate(CartOperateType.DECREASE, item.getId());
             }
         });
 
@@ -143,7 +143,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operate(CartOperateType.INCREASE,item.getProductId(), item.getId());
+                operate(CartOperateType.INCREASE, item.getId());
             }
         });
 
@@ -151,8 +151,8 @@ public class CartSkuAdapter extends BaseAdapter {
     }
 
 
-    private void operate(int type,String productId, String productSkuId) {
-        CartActivity.operate(type,productId, productSkuId, new CarOperateHandler() {
+    private void operate(int type, String productSkuId) {
+        CartActivity.operate(type, productSkuId, new CarOperateHandler() {
             @Override
             public void onSuccess(String response) {
                 notifyDataSetChanged();

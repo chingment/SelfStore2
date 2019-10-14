@@ -17,10 +17,9 @@ import com.uplink.selfstore.activity.ProductDetailsActivity;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
-import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +31,11 @@ import java.util.List;
 public class ProductKindSkuAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ProductBean> items = new ArrayList<>();
+    private List<ProductSkuBean> items = new ArrayList<>();
     private CallBackListener mCallBackListener;
     private GlobalDataSetBean globalDataSet;
 
-    public ProductKindSkuAdapter(Context context, List<ProductBean> items,GlobalDataSetBean globalDataSet) {
+    public ProductKindSkuAdapter(Context context, List<ProductSkuBean> items, GlobalDataSetBean globalDataSet) {
         this.context = context;
         this.items = items;
         this.globalDataSet = globalDataSet;
@@ -73,7 +72,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             isGONE = true;
         }
 
-       final ProductBean   item = items.get(position);
+       final ProductSkuBean item = items.get(position);
 
         if (item == null) {
             isGONE = true;
@@ -101,7 +100,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         txt_name.setText(item.getName());
 
 
-        int quantity = CartActivity.getQuantity(item.getRefSku().getId());
+        int quantity = CartActivity.getQuantity(item.getId());
 
         if (quantity == 0) {
             btn_decrease.setVisibility(View.INVISIBLE);
@@ -117,7 +116,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
 
 
-        String[] price = CommonUtil.getPrice(String.valueOf(item.getRefSku().getSalePrice()));
+        String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
 
@@ -141,7 +140,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
 
 
-                CartActivity.operate(CartOperateType.DECREASE,item.getId(),item.getRefSku().getId(), new CarOperateHandler() {
+                CartActivity.operate(CartOperateType.DECREASE,item.getId(), new CarOperateHandler() {
                     @Override
                     public void onSuccess(String response) {
                         notifyDataSetChanged();
@@ -162,7 +161,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                CartActivity.operate(CartOperateType.INCREASE, item.getId(),item.getRefSku().getId(), new CarOperateHandler() {
+                CartActivity.operate(CartOperateType.INCREASE,item.getId(), new CarOperateHandler() {
                     @Override
                     public void onSuccess(String response) {
                         notifyDataSetChanged();

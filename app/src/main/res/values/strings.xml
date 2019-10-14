@@ -57,7 +57,6 @@
     <string name="activity_smhome_confrimtips_closeapp">确定关闭应用？</string>
     <string name="activity_smhome_confrimtips_rootsys">确定重启系统？</string>
     <string name="activity_smhome_confrimtips_exitmanager">确定退出管理？</string>
-
     <string name="activity_orderdetails_navtitle">订单详情</string>
     <string name="activity_orderdetaiks_textview_ordersn_text">订单号</string>
     <string name="activity_orderdetails_btn_pickupcompelte">完成，返回购物</string>
@@ -66,4 +65,10 @@
     <string name="activity_orderdetails_tips_outpickup_confirm">确认已完成取货?</string>
     <string name="dialog_confirm_btn_cancle_text">否</string>
     <string name="dialog_confirm_btn_sure_text">是</string>
+    <string name="activity_smmachinestock_textview_productskuslotname_text">货道编号</string>
+    <string name="activity_smmachinestock_textview_productskuname_text">商品名称</string>
+    <string name="activity_smmachinestock_textview_productskusaleprice_text">商品价格</string>
+    <string name="activity_smmachinestock_textview_productskusellqty_text">可售数量</string>
+    <string name="activity_smmachinestock_textview_productskulockqty_text">锁定数量</string>
+    <string name="activity_smmachinestock_textview_productskusumqty_text">实际数量</string>
 </resources>

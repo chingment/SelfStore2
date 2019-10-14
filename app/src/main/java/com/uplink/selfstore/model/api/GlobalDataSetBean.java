@@ -13,15 +13,15 @@ public class GlobalDataSetBean implements Serializable {
 
     private MachineBean machine;
     private List<ProductKindBean> productKinds;
-    private HashMap<String,ProductBean> products;
+    private HashMap<String, ProductSkuBean> productSkus;
     private List<ImgSetBean> banners;
 
-    public HashMap<String, ProductBean> getProducts() {
-        return products;
+    public HashMap<String, ProductSkuBean> getProductSkus() {
+        return productSkus;
     }
 
-    public void setProducts(HashMap<String, ProductBean> products) {
-        this.products = products;
+    public void setProductSkus(HashMap<String, ProductSkuBean> productSkus) {
+        this.productSkus = productSkus;
     }
 
     public MachineBean getMachine() {

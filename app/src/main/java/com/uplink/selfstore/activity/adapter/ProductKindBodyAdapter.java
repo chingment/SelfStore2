@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.model.api.ProductKindBean;
-import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.my.MyListView;
 
@@ -26,11 +26,11 @@ public class ProductKindBodyAdapter extends BaseAdapter {
 
     private Context context;
     private List<ProductKindBean> items = new ArrayList<>();
-    private HashMap<String, ProductBean> productSkus = new HashMap<String, ProductBean>();
+    private HashMap<String, ProductSkuBean> productSkus = new HashMap<String, ProductSkuBean>();
     private int current_position;
 
 
-    public ProductKindBodyAdapter(Context context, List<ProductKindBean> items, HashMap<String, ProductBean> productSkus) {
+    public ProductKindBodyAdapter(Context context, List<ProductKindBean> items, HashMap<String, ProductSkuBean> productSkus) {
         this.context = context;
         this.items = items;
         this.productSkus = productSkus;

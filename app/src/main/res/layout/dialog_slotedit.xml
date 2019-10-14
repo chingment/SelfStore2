@@ -42,6 +42,582 @@
         </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/size_100"
+                android:layout_height="@dimen/size_100"
+                android:layout_gravity="top|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal"
+                >
+
+            <ImageView
+
+                android:id="@+id/img_SkuImg"
+
+                android:layout_width="@dimen/size_78"
+                android:layout_height="@dimen/size_78"
+                android:src="@drawable/default_image"
+                android:contentDescription="@string/image_content_description"
+                />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="@dimen/size_10"
+                >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_24"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/size_3"
+                        android:paddingTop="@dimen/size_3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_smmachinestock_textview_productskuslotname_text"
+                            android:textColor="@color/field_name"
+                            android:textSize="@dimen/sp_10" />
+
+                        <TextView
+                            android:id="@+id/txt_SlotName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/field_value"
+                            android:textSize="@dimen/sp_10" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_24"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/size_3"
+                        android:paddingTop="@dimen/size_3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_smmachinestock_textview_productskuname_text"
+                            android:textColor="@color/field_name"
+                            android:textSize="@dimen/sp_10"  />
+
+                        <TextView
+                            android:id="@+id/txt_SkuName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/field_value"
+                            android:textSize="@dimen/sp_10" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/layout_deposit"
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_height="@dimen/size_24"
+                        android:paddingBottom="@dimen/size_3"
+                        android:paddingTop="@dimen/size_3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_smmachinestock_textview_productskusaleprice_text"
+                            android:textColor="@color/field_name"
+                            android:textSize="@dimen/sp_10"  />
+
+                        <TextView
+                            android:id="@+id/txt_SalePrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/field_value"
+                            android:textSize="@dimen/sp_10" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_24"
+                        android:paddingBottom="@dimen/size_3"
+                        android:paddingTop="@dimen/size_3"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_smmachinestock_textview_productskusellqty_text"
+                            android:textColor="@color/field_name"
+                            android:textSize="@dimen/sp_10"  />
+
+                        <TextView
+                            android:id="@+id/txt_SellQty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/field_value"
+                            android:textSize="@dimen/sp_10"  />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_24"
+                        android:paddingBottom="@dimen/size_3"
+                        android:paddingTop="@dimen/size_3"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_smmachinestock_textview_productskulockqty_text"
+                            android:textColor="@color/field_name"
+                            android:textSize="@dimen/sp_10"  />
+
+                        <TextView
+                            android:id="@+id/txt_LockQty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/field_value"
+                            android:textSize="@dimen/sp_10"  />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_24"
+                        android:paddingBottom="@dimen/size_3"
+                        android:paddingTop="@dimen/size_3"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_smmachinestock_textview_productskusumqty_text"
+                            android:textColor="@color/field_name"
+                            android:textSize="@dimen/sp_10"  />
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:baselineAligned="false"
+                            android:layout_gravity="right|center_vertical"
+                            android:gravity="right|center_vertical"
+                            >
+
+
+                            <ImageView
+                                android:id="@+id/btn_decrease"
+                                android:layout_width="@dimen/size_18"
+                                android:layout_height="@dimen/size_18"
+                                android:background="@null"
+                                android:contentDescription="@string/image_content_description"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/tmp_btn_cart_decrease" />
+
+                            <TextView
+                                android:id="@+id/txt_SumQty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:width="@dimen/size_12"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/size_10" />
+
+                            <ImageView
+                                android:id="@+id/btn_increase"
+                                android:layout_width="@dimen/size_18"
+                                android:layout_height="@dimen/size_18"
+                                android:background="@null"
+                                android:contentDescription="@string/image_content_description"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/tmp_btn_cart_increase" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/txt_all"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_32"
+            android:layout_marginBottom="@dimen/size_20"
+            android:layout_marginTop="@dimen/size_20"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/txt_val"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="@dimen/size_32"
+                android:layout_marginLeft="@dimen/size_16"
+                android:background="@drawable/dialog_numkey_input_normal"
+                android:paddingLeft="@dimen/size_5"
+                android:gravity="left|center_vertical"
+                android:text=""
+                android:textSize="@dimen/size_16"/>
+
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="@dimen/size_42"
+                android:layout_height="@dimen/size_26"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/dialog_keynum_detele"
+                android:layout_marginLeft="@dimen/size_8"
+                android:layout_marginRight="@dimen/size_16"
+                android:contentDescription="@string/image_content_description"
+                />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/table_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e0e0e0"
+            android:orientation="horizontal"
+         >
+
+
+
+
+            <LinearLayout
+                android:id="@+id/all_key"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="@dimen/size_200"
+                android:background="@color/white"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+            <LinearLayout style="@style/layout_input_amount_style">
+
+                <Button
+                    android:id="@+id/btn_A"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="A"
+                    android:text="A" />
+
+                <Button
+                    android:id="@+id/btn_B"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="B"
+                    android:text="B" />
+
+                <Button
+                    android:id="@+id/btn_C"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="C"
+                    android:text="C" />
+
+                <Button
+                    android:id="@+id/btn_D"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="D"
+                    android:text="D" />
+
+                <Button
+                    android:id="@+id/btn_E"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="E"
+                    android:text="E" />
+
+
+                <Button
+                    android:id="@+id/btn_F"
+                    style="@style/btn_input_amount_style"
+                    android:tag="F"
+                    android:text="F" />
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/layout_input_amount_style">
+
+                <Button
+                    android:id="@+id/btn_G"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="G"
+                    android:text="G" />
+
+                <Button
+                    android:id="@+id/btn_H"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="H"
+                    android:text="H" />
+
+                <Button
+                    android:id="@+id/btn_I"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="I"
+                    android:text="I" />
+
+                <Button
+                    android:id="@+id/btn_J"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="J"
+                    android:text="J" />
+
+
+                <Button
+                    android:id="@+id/btn_K"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="K"
+                    android:text="K" />
+
+                <Button
+                    android:id="@+id/btn_L"
+                    style="@style/btn_input_amount_style"
+                    android:tag="L"
+                    android:text="L" />
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/layout_input_amount_style">
+
+                <Button
+                    android:id="@+id/btn_M"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="M"
+                    android:text="M" />
+
+                <Button
+                    android:id="@+id/btn_N"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="N"
+                    android:text="N" />
+
+                <Button
+                    android:id="@+id/btn_O"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="O"
+                    android:text="O" />
+
+                <Button
+                    android:id="@+id/btn_P"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="P"
+                    android:text="P" />
+
+                <Button
+                    android:id="@+id/btn_Q"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="Q"
+                    android:text="Q" />
+
+                <Button
+                    android:id="@+id/btn_R"
+                    style="@style/btn_input_amount_style"
+
+                    android:tag="R"
+                    android:text="R" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/layout_input_amount_style">
+
+                <Button
+                    android:id="@+id/btn_S"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="S"
+                    android:text="S" />
+
+                <Button
+                    android:id="@+id/btn_T"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="T"
+                    android:text="T" />
+
+                <Button
+                    android:id="@+id/btn_U"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="U"
+                    android:text="U" />
+
+                <Button
+                    android:id="@+id/btn_V"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="V"
+                    android:text="V" />
+
+                <Button
+                    android:id="@+id/btn_W"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="W"
+                    android:text="W" />
+
+                <Button
+                    android:id="@+id/btn_X"
+                    style="@style/btn_input_amount_style"
+
+                    android:tag="X"
+                    android:text="X" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/layout_input_amount_style">
+
+                <Button
+                    android:id="@+id/btn_Y"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="Y"
+                    android:text="Y" />
+
+                <Button
+                    android:id="@+id/btn_Z"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="Z"
+                    android:text="Z" />
+
+                <Button
+                    android:id="@+id/btn_0"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="0"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/btn_1"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="1"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/btn_2"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="2"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/btn_3"
+                    style="@style/btn_input_amount_style"
+
+                    android:tag="3"
+                    android:text="3" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/layout_input_amount_style">
+
+                <Button
+                    android:id="@+id/btn_4"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="4"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/btn_5"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="5"
+                    android:text="5" />
+
+                <Button
+                    android:id="@+id/btn_6"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="6"
+                    android:text="6" />
+
+                <Button
+                    android:id="@+id/btn_7"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="7"
+                    android:text="7" />
+
+                <Button
+                    android:id="@+id/btn_8"
+                    style="@style/btn_input_amount_style"
+                    android:layout_marginRight="1dp"
+                    android:tag="8"
+                    android:text="8" />
+
+                <Button
+                    android:id="@+id/btn_9"
+                    style="@style/btn_input_amount_style"
+
+                    android:tag="9"
+                    android:text="9" />
+
+
+            </LinearLayout>
+
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/list_search_skus"
+                android:layout_width="@dimen/size_100"
+                android:layout_height="match_parent"
+                android:background="@color/gray"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+
+
+        </LinearLayout>
+
+
 
 
 

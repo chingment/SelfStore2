@@ -1,8 +1,5 @@
 package com.uplink.selfstore.activity;
 
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +16,6 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.MachineSlotStockResultBean;
-import com.uplink.selfstore.model.api.ProductBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotProductSkuBean;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -31,7 +27,6 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SmMachineStockActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -72,7 +67,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         getSlotStock();
     }
 
-    private  void drawsStock(HashMap<String, SlotProductSkuBean> slotProductSkus) {
+    private  void drawsStock(HashMap<String, SlotProductSkuBean> slotStocks) {
         int row_int = 10;
         int col_int = 10;
         //清除表格所有行
@@ -96,27 +91,25 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 //CommonUtil.loadImageFromUrl(convertView, img_main, item.getMainImgUrl());
 
-                String slotId=i+""+j;
-                SlotProductSkuBean slotProductSku = slotProductSkus.get(slotId);
-               if(slotProductSku==null)
-               {
-                   txt_name.setText("暂无商品");
-               }
-               else
-               {
-                   txt_name.setText(slotProductSku.getName());
-                   txt_sellQuantity.setText(slotProductSku.getSellQuantity()+"");
-                   txt_lockQuantity.setText(slotProductSku.getLockQuantity()+"");
-                   txt_sumQuantity.setText(slotProductSku.getSumQuantity()+"");
+                String slotId = i + "" + j;
+                final SlotProductSkuBean slotStock = slotStocks.get(slotId);
+                if (slotStock == null) {
+                    txt_name.setText("暂无商品");
+                } else {
+                    txt_name.setText(slotStock.getName());
+                    txt_sellQuantity.setText(slotStock.getSellQuantity() + "");
+                    txt_lockQuantity.setText(slotStock.getLockQuantity() + "");
+                    txt_sumQuantity.setText(slotStock.getSumQuantity() + "");
 
-                   CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slotProductSku.getMainImgUrl());
+                    CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slotStock.getMainImgUrl());
 
 
-               }
+                }
 
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog_SlotEdit.setSlotStock(slotStock);
                         dialog_SlotEdit.show();
                     }
                 });
@@ -152,7 +145,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         params.put("machineId", machine.getId());
 
 
-        getByMy(Config.URL.machine_GetSlotStock, params, true,"正在获取库存", new HttpResponseHandler() {
+        getByMy(Config.URL.machine_SlotStocks, params, true,"正在获取库存", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -164,7 +157,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 if (rt.getResult() == Result.SUCCESS) {
 
                     MachineSlotStockResultBean d=rt.getData();
-                    drawsStock(d.getSlotProductSkus());
+                    drawsStock(d.getSlotStocks());
                 }
                 else
                 {

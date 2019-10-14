@@ -2,23 +2,15 @@ package com.uplink.selfstore.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
@@ -31,7 +23,7 @@ import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.OrderReserveResultBean;
-import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
@@ -39,7 +31,6 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
 import com.uplink.selfstore.ui.my.MyListView;
-import com.uplink.selfstore.ui.my.MyTimeTask;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -57,7 +48,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TimerTask;
 
 public class CartActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "CartActivity";
@@ -174,20 +164,19 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         List<CartSkuBean> cartSkus = new ArrayList<>();
 
         if (this.getGlobalDataSet() != null) {
-            if (this.getGlobalDataSet().getProducts() != null) {
+            if (this.getGlobalDataSet().getProductSkus() != null) {
 
                 for (CartSkuBean bean :
                         cartSkusByCache) {
-                    ProductBean product = this.getGlobalDataSet().getProducts().get(bean.getProductId());
-                    if (product != null) {
+                    ProductSkuBean productSku = this.getGlobalDataSet().getProductSkus().get(bean.getId());
+                    if (productSku != null) {
 
                         CartSkuBean cartSku = new CartSkuBean();
-                        cartSku.setId(product.getRefSku().getId());
-                        cartSku.setProductId(product.getId());
-                        cartSku.setMainImgUrl(product.getMainImgUrl());
+                        cartSku.setId(productSku.getId());
+                        cartSku.setMainImgUrl(productSku.getMainImgUrl());
                         cartSku.setQuantity(bean.getQuantity());
-                        cartSku.setName(product.getName());
-                        cartSku.setSalePrice(product.getRefSku().getSalePrice());
+                        cartSku.setName(productSku.getName());
+                        cartSku.setSalePrice(productSku.getSalePrice());
 
                         cartSkus.add(cartSku);
 
@@ -311,14 +300,14 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         params.put("payWay", payWay + "");
         params.put("payCaller", payCaller + "");
 
-        HashMap<String, ProductBean> products = AppCacheManager.getGlobalDataSet().getProducts();
+        HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
 
 
         JSONArray json_Skus = new JSONArray();
 
         try {
             for (CartSkuBean bean : cartSkus) {
-                ProductBean sku = products.get(bean.getProductId());
+                ProductSkuBean sku = productSkus.get(bean.getId());
                 if (sku != null) {
                     JSONObject json_Sku = new JSONObject();
                     json_Sku.put("id", bean.getId());
@@ -398,18 +387,18 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public static CartStatisticsBean getStatistics() {
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-        HashMap<String, ProductBean> products = AppCacheManager.getGlobalDataSet().getProducts();
+        HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
 
 
         CartStatisticsBean statistics = new CartStatisticsBean();
         int sumQuantity = 0;
         float sumSalesPrice = 0;
         for (CartSkuBean bean : cartSkus) {
-            if (products != null) {
-                ProductBean product = products.get(bean.getProductId());
-                if (product != null) {
+            if (productSkus != null) {
+                ProductSkuBean productSku = productSkus.get(bean.getId());
+                if (productSku != null) {
                     sumQuantity += bean.getQuantity();
-                    sumSalesPrice += bean.getQuantity() * product.getRefSku().getSalePrice();
+                    sumSalesPrice += bean.getQuantity() * productSku.getSalePrice();
                 }
             }
         }
@@ -433,13 +422,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         return quantity;
     }
 
-    public static void operate(int type,String productId, String productSkuId, final CarOperateHandler handler) {
+    public static void operate(int type,String productSkuId, final CarOperateHandler handler) {
 
         // LogUtil.e("productId:" + productId,",productSkuId:"+productSkuId);
 
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
-        HashMap<String, ProductBean> products = AppCacheManager.getGlobalDataSet().getProducts();
+        HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
 
         int postion = -1;
         for (int i = 0; i < cartSkus.size(); i++) {
@@ -476,7 +465,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 if (postion > -1) {
                     cartSkus.get(postion).setQuantity(cur_Quantity + 1);
                 } else {
-                    cartSkus.add(new CartSkuBean(productSkuId,productId, 1));
+                    cartSkus.add(new CartSkuBean(productSkuId, 1));
                 }
 
                 break;
@@ -502,10 +491,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         int sumQuantity = 0;
         float sumSalesPrice = 0;
         for (CartSkuBean bean : cartSkus) {
-            ProductBean product = products.get(bean.getProductId());
-            if (product != null) {
+            ProductSkuBean productSku = productSkus.get(bean.getId());
+            if (productSku != null) {
                 sumQuantity += bean.getQuantity();
-                sumSalesPrice += bean.getQuantity() * product.getRefSku().getSalePrice();
+                sumSalesPrice += bean.getQuantity() * productSku.getSalePrice();
             }
         }
 

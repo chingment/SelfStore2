@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ProductChildKindBean;
-import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 
 import java.util.ArrayList;
@@ -27,10 +27,10 @@ public class ProductChildKindAdapter extends BaseAdapter {
 
     private Context context;
     private List<ProductChildKindBean> items;
-    private HashMap<String, ProductBean> productSkus = new HashMap<String, ProductBean>();
+    private HashMap<String, ProductSkuBean> productSkus = new HashMap<String, ProductSkuBean>();
     private GlobalDataSetBean globalDataSet;
 
-    public ProductChildKindAdapter(Context context, List<ProductChildKindBean> items, HashMap<String, ProductBean> productSkus) {
+    public ProductChildKindAdapter(Context context, List<ProductChildKindBean> items, HashMap<String, ProductSkuBean> productSkus) {
         this.context = context;
         this.items = items;
         this.productSkus = productSkus;
@@ -71,11 +71,11 @@ public class ProductChildKindAdapter extends BaseAdapter {
         list_productsku.setPressed(false);
         list_productsku.setEnabled(false);
 
-        List<ProductBean> productSkusByKind = new ArrayList<>();
+        List<ProductSkuBean> productSkusByKind = new ArrayList<>();
 
         for (String child : item.getChilds()) {
 
-            ProductBean sku = productSkus.get(child);
+            ProductSkuBean sku = productSkus.get(child);
             if (sku != null) {
                 productSkusByKind.add(sku);
             }

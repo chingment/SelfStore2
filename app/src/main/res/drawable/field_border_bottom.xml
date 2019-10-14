@@ -7,7 +7,7 @@
         </shape>
     </item>
     <!-- 主体背景颜色值 -->
-    <item android:bottom="1px"> <!--设置只有底部有边框-->
+    <item android:bottom="@dimen/size_1"> <!--设置只有底部有边框-->
         <shape>
             <solid android:color="@color/white" />
         </shape>

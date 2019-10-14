@@ -9,9 +9,11 @@
     <include layout="@layout/layout_nav_header" />
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_height="match_parent"
         android:scrollbars="vertical">
     <TableLayout
+        android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/table_slotstock"/>

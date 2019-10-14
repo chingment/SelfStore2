@@ -9,16 +9,6 @@ import java.io.Serializable;
 public class CartSkuBean implements Serializable {
 
     private String id;
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    private String productId;
     private int quantity;
     private String name;
     private String mainImgUrl;
@@ -28,9 +18,8 @@ public class CartSkuBean implements Serializable {
 
     }
 
-    public CartSkuBean(String id,String productId,  int quantity) {
+    public CartSkuBean(String id,  int quantity) {
         this.id = id;
-        this.productId=productId;
         this.quantity = quantity;
     }
 

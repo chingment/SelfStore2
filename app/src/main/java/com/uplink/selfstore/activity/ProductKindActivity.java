@@ -23,7 +23,7 @@ import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ProductKindBean;
-import com.uplink.selfstore.model.api.ProductBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -132,13 +132,13 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         list_kind_name.setAdapter(list_kind_name_adapter);
 
 
-        List<ProductBean> productSkusByKind = new ArrayList<>();
+        List<ProductSkuBean> productSkusByKind = new ArrayList<>();
 
-        HashMap<String, ProductBean> productSkus = globalDataSet.getProducts();
+        HashMap<String, ProductSkuBean> productSkus = globalDataSet.getProductSkus();
 
         for (String skuId : kind.getChilds()) {
             if(productSkus!=null) {
-                ProductBean productSku = productSkus.get(skuId);
+                ProductSkuBean productSku = productSkus.get(skuId);
                 if (productSku != null) {
                     productSkusByKind.add(productSku);
                 }

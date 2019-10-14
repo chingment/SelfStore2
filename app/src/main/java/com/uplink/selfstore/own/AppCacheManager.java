@@ -113,15 +113,15 @@ public class AppCacheManager {
 
     }
 
-    public static ProductBean getProductSku(String skuId) {
-        ProductBean bean = null;
+    public static ProductSkuBean getProductSku(String skuId) {
+        ProductSkuBean bean = null;
 
         GlobalDataSetBean globalDataSet = getGlobalDataSet();
 
         if (globalDataSet != null) {
-            if (globalDataSet.getProducts() != null) {
+            if (globalDataSet.getProductSkus() != null) {
 
-                HashMap<String, ProductBean> skus = globalDataSet.getProducts();
+                HashMap<String, ProductSkuBean> skus = globalDataSet.getProductSkus();
 
                 bean = skus.get(skuId);
 
