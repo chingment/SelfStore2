@@ -15,7 +15,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.activity.task.PickTask;
-import com.uplink.selfstore.activity.task.blockTask.TaskPriority;
 import com.uplink.selfstore.activity.task.blockTask.TaskScheduler;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -25,23 +24,19 @@ import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.OrderPickupStatusQueryResultBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.model.api.SlotBean;
+import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.own.MachinePickupWorkManager;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.my.MyTimeTask;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,9 +140,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         for (int i = 0; i < skus.size(); i++) {
             OrderDetailsSkuBean sku = skus.get(i);
-            List<SlotBean> slots = sku.getSlots();
+            List<PickupSlotBean> slots = sku.getSlots();
             for (int j = 0; j < slots.size(); j++) {
-                SlotBean slot = slots.get(j);
+                PickupSlotBean slot = slots.get(j);
                 PickupSkuBean pickSku = new PickupSkuBean();
 
                 pickSku.setId(sku.getId());

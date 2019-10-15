@@ -2,7 +2,6 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,22 +15,20 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.MainActivity;
-import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
-import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.ProductSkuSearchResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SearchProductSkuBean;
-import com.uplink.selfstore.model.api.SlotProductSkuBean;
+import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,35 +41,68 @@ public class CustomSlotEditDialog extends Dialog {
     private TextView txt_val;
     private ImageView img_SkuImg;
     private TextView txt_SlotName;
+    private TextView txt_SkuId;
     private TextView txt_SkuName;
-    private TextView txt_SalePrice;
     private TextView txt_SellQty;
     private TextView txt_LockQty;
     private TextView txt_SumQty;
-
+    private TextView txt_MaxQty;
+    private ImageButton btn_keydelete;
+    private Button btn_delete;
+    private Button btn_fill;
+    private View btn_decrease;
+    private View btn_increase;
     private ListView list_search_skus;
-    public CustomSlotEditDialog(Context context) {
+
+    public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.context = (BaseFragmentActivity)context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
+        initView();
+        initEvent();
+        initData();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setContentView(layoutRes);
+    }
+
+    protected void initView() {
         btn_close = ViewHolder.get(this.layoutRes, R.id.btn_close);
         txt_val = ViewHolder.get(this.layoutRes, R.id.txt_val);
 
         img_SkuImg = ViewHolder.get(this.layoutRes, R.id.img_SkuImg);
         txt_SlotName = ViewHolder.get(this.layoutRes, R.id.txt_SlotName);
+        txt_SkuId = ViewHolder.get(this.layoutRes, R.id.txt_SkuId);
         txt_SkuName = ViewHolder.get(this.layoutRes, R.id.txt_SkuName);
-        txt_SalePrice = ViewHolder.get(this.layoutRes, R.id.txt_SalePrice);
         txt_SellQty = ViewHolder.get(this.layoutRes, R.id.txt_SellQty);
         txt_LockQty = ViewHolder.get(this.layoutRes, R.id.txt_LockQty);
         txt_SumQty = ViewHolder.get(this.layoutRes, R.id.txt_SumQty);
-
-
+        txt_MaxQty = ViewHolder.get(this.layoutRes, R.id.txt_MaxQty);
         list_search_skus = ViewHolder.get(this.layoutRes, R.id.list_search_skus);
+        btn_keydelete =  ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
+        btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
+        btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
+        btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
+        btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
+    }
 
-        ImageButton btn_delete =  ViewHolder.get(this.layoutRes, R.id.btn_delete);
+    protected void initEvent() {
 
-        btn_delete.setOnClickListener(new View.OnClickListener() {
+
+        final Dialog _this=this;
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _this.dismiss();
+            }
+        });
+
+        btn_keydelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String val= txt_val.getText().toString();
@@ -83,9 +113,82 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-        //btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
-        //txt_quantity = ViewHolder.get(this.layoutRes, R.id.txt_quantity);
-        //btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
+
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txt_SkuId.setText("");
+                txt_SkuName.setText("暂无设置");
+                txt_SellQty.setText("0");
+                txt_LockQty.setText("0");
+                txt_SumQty.setText("0");
+                img_SkuImg.setImageResource(R.drawable.default_image);
+            }
+        });
+
+
+        btn_fill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                    ((BaseFragmentActivity) context).showToast("请先设置商品");
+                    return;
+                }
+                int sumQty=Integer.valueOf(txt_MaxQty.getText()+"");
+                int lockQty=Integer.valueOf(txt_LockQty.getText()+"");
+                int sellQty=sumQty-lockQty;
+                txt_SellQty.setText(String.valueOf(sellQty));
+                txt_SumQty.setText(String.valueOf(sumQty));
+            }
+        });
+
+
+
+
+
+        //点击减去
+        btn_decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                    ((BaseFragmentActivity) context).showToast("请先设置商品");
+                    return;
+                }
+
+                int sumQty=Integer.valueOf(txt_SumQty.getText()+"");
+                int lockQty=Integer.valueOf(txt_LockQty.getText()+"");
+
+                if(sumQty>lockQty) {
+                    sumQty -= 1;
+                    int sellQty = sumQty - lockQty;
+                    txt_SellQty.setText(String.valueOf(sellQty));
+                    txt_SumQty.setText(String.valueOf(sumQty));
+
+                }
+            }
+        });
+
+
+        //点击添加
+        btn_increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                    ((BaseFragmentActivity) context).showToast("请先设置商品");
+                    return;
+                }
+
+                int sumQty=Integer.valueOf(txt_SumQty.getText()+"");
+                int lockQty=Integer.valueOf(txt_LockQty.getText()+"");
+                sumQty+=1;
+
+                int sellQty=sumQty-lockQty;
+                txt_SellQty.setText(String.valueOf(sellQty));
+                txt_SumQty.setText(String.valueOf(sumQty));
+            }
+        });
 
         LinearLayout all_key =ViewHolder.get(this.layoutRes, R.id.all_key);
         for (int i = 0; i < all_key.getChildCount(); i++) {
@@ -105,54 +208,44 @@ public class CustomSlotEditDialog extends Dialog {
             }
 
         }
+    }
+
+    protected void initData() {
+
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+    public void setSlot(SlotBean slot) {
 
-        final Dialog _this=this;
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _this.dismiss();
-            }
-        });
-    }
+        txt_SlotName.setText(slot.getId());
 
-    public void setSlotStock(SlotProductSkuBean slotStock)
-    {
-        if(slotStock==null) {
-            txt_SlotName.setText("暂无设置");
+        if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
+            txt_SkuId.setText("");
             txt_SkuName.setText("暂无设置");
-            txt_SalePrice.setText("0");
             txt_SellQty.setText("0");
             txt_LockQty.setText("0");
             txt_SumQty.setText("0");
             img_SkuImg.setImageResource(R.drawable.default_image);
-        }
-        else
-        {
-            txt_SlotName.setText(slotStock.getSlotId());
-            txt_SkuName.setText(slotStock.getName());
-            txt_SalePrice.setText(slotStock.getSalePrice());
-            txt_SellQty.setText(String.valueOf(slotStock.getSellQuantity()));
-            txt_LockQty.setText(String.valueOf(slotStock.getLockQuantity()));
-            txt_SumQty.setText(String.valueOf(slotStock.getSumQuantity()));
-            CommonUtil.loadImageFromUrl(context, img_SkuImg, slotStock.getMainImgUrl());
+        } else {
+
+            txt_SkuId.setText(slot.getProductSkuId());
+            txt_SkuName.setText(slot.getProductSkuName());
+            txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
+            txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
+            txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
+            txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
+
+            CommonUtil.loadImageFromUrl(context, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
     }
 
     private void getKey(String key) {
         String val=txt_val.getText()+key;
-        search(key);
+        search(val);
         txt_val.setText(val);
     }
 
-    private void search(String key)
-    {
+    private void search(String key) {
         Map<String, String> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
@@ -178,12 +271,12 @@ public class CustomSlotEditDialog extends Dialog {
                         @Override
                         public void setSlot(SearchProductSkuBean skuBean) {
 
-                            txt_SlotName.setText("暂无设置");
+                            txt_SkuId.setText(skuBean.getId());
                             txt_SkuName.setText(skuBean.getName());
-                            txt_SalePrice.setText("0");
                             txt_SellQty.setText("0");
                             txt_LockQty.setText("0");
                             txt_SumQty.setText("0");
+
                             CommonUtil.loadImageFromUrl(context, img_SkuImg, skuBean.getMainImgUrl());
 
                         }

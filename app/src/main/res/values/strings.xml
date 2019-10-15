@@ -71,4 +71,7 @@
     <string name="activity_smmachinestock_textview_productskusellqty_text">可售数量</string>
     <string name="activity_smmachinestock_textview_productskulockqty_text">锁定数量</string>
     <string name="activity_smmachinestock_textview_productskusumqty_text">实际数量</string>
+    <string name="button_save_text">保存</string>
+    <string name="button_fill_text">置满</string>
+    <string name="button_delete_text">删除</string>
 </resources>

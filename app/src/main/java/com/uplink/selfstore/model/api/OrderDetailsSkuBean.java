@@ -24,13 +24,13 @@ public class OrderDetailsSkuBean implements Serializable {
         this.quantityByException = quantityByException;
     }
 
-    private List<SlotBean> slots;
+    private List<PickupSlotBean> slots;
 
-    public List<SlotBean> getSlots() {
+    public List<PickupSlotBean> getSlots() {
         return slots;
     }
 
-    public void setSlots(List<SlotBean> slots) {
+    public void setSlots(List<PickupSlotBean> slots) {
         this.slots = slots;
     }
 

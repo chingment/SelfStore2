@@ -72,14 +72,14 @@ public class AppContext extends Application {
 
     public String getDeviceId() {
         String DEVICE_ID = "000000000000000";
-        try {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            DEVICE_ID = tm.getDeviceId();
-        } catch (Exception ex) {
-
-        }
-
-        LogUtil.i("设备id：" + DEVICE_ID);
+//        try {
+//            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//            DEVICE_ID = tm.getDeviceId();
+//        } catch (Exception ex) {
+//
+//        }
+//
+//        LogUtil.i("设备id：" + DEVICE_ID);
 
         return DEVICE_ID;
     }

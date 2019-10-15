@@ -107,6 +107,21 @@
                         android:paddingTop="@dimen/size_3">
 
                         <TextView
+                            android:id="@+id/txt_SkuId"
+                            android:layout_height="0dp"
+                            android:layout_width="0dp"
+                            android:visibility="gone"
+                            android:text=""/>
+
+                        <TextView
+                            android:id="@+id/txt_MaxQty"
+                            android:layout_height="0dp"
+                            android:layout_width="0dp"
+                            android:visibility="gone"
+                            android:text=""/>
+
+
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/activity_smmachinestock_textview_productskuname_text"
@@ -257,11 +272,56 @@
 
 
         <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_32"
+            android:gravity="center_vertical|right"
+            android:paddingRight="@dimen/size_10"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="@dimen/size_50"
+                android:layout_height="@dimen/size_20"
+                android:background="@drawable/widget_common_btn"
+                android:gravity="center"
+                android:text="@string/button_delete_text"
+                android:layout_marginRight="@dimen/size_10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"/>
+
+            <Button
+                android:id="@+id/btn_fill"
+                android:layout_width="@dimen/size_50"
+                android:layout_height="@dimen/size_20"
+                android:background="@drawable/widget_common_btn"
+                android:gravity="center"
+                android:text="@string/button_fill_text"
+                android:layout_marginRight="@dimen/size_10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"/>
+
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="@dimen/size_50"
+                android:layout_height="@dimen/size_20"
+                android:background="@drawable/widget_common_btn"
+                android:gravity="center"
+                android:text="@string/button_save_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"/>
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/txt_all"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_32"
-            android:layout_marginBottom="@dimen/size_20"
-            android:layout_marginTop="@dimen/size_20"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
 
@@ -271,7 +331,7 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="@dimen/size_32"
-                android:layout_marginLeft="@dimen/size_16"
+                android:layout_marginLeft="@dimen/size_9"
                 android:background="@drawable/dialog_numkey_input_normal"
                 android:paddingLeft="@dimen/size_5"
                 android:gravity="left|center_vertical"
@@ -280,14 +340,14 @@
 
 
             <ImageButton
-                android:id="@+id/btn_delete"
+                android:id="@+id/btn_keydelete"
                 android:layout_width="@dimen/size_42"
                 android:layout_height="@dimen/size_26"
                 android:background="@null"
                 android:scaleType="centerInside"
                 android:src="@drawable/dialog_keynum_detele"
                 android:layout_marginLeft="@dimen/size_8"
-                android:layout_marginRight="@dimen/size_16"
+                android:layout_marginRight="@dimen/size_9"
                 android:contentDescription="@string/image_content_description"
                 />
 
@@ -303,10 +363,6 @@
             android:background="#e0e0e0"
             android:orientation="horizontal"
          >
-
-
-
-
             <LinearLayout
                 android:id="@+id/all_key"
                 android:layout_width="0dp"
@@ -321,35 +377,35 @@
                 <Button
                     android:id="@+id/btn_A"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="A"
                     android:text="A" />
 
                 <Button
                     android:id="@+id/btn_B"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="B"
                     android:text="B" />
 
                 <Button
                     android:id="@+id/btn_C"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="C"
                     android:text="C" />
 
                 <Button
                     android:id="@+id/btn_D"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="D"
                     android:text="D" />
 
                 <Button
                     android:id="@+id/btn_E"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="E"
                     android:text="E" />
 
@@ -368,14 +424,14 @@
                 <Button
                     android:id="@+id/btn_G"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="G"
                     android:text="G" />
 
                 <Button
                     android:id="@+id/btn_H"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="H"
                     android:text="H" />
 
@@ -389,7 +445,7 @@
                 <Button
                     android:id="@+id/btn_J"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="J"
                     android:text="J" />
 
@@ -397,7 +453,7 @@
                 <Button
                     android:id="@+id/btn_K"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="K"
                     android:text="K" />
 
@@ -414,35 +470,35 @@
                 <Button
                     android:id="@+id/btn_M"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="M"
                     android:text="M" />
 
                 <Button
                     android:id="@+id/btn_N"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="N"
                     android:text="N" />
 
                 <Button
                     android:id="@+id/btn_O"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="O"
                     android:text="O" />
 
                 <Button
                     android:id="@+id/btn_P"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="P"
                     android:text="P" />
 
                 <Button
                     android:id="@+id/btn_Q"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="Q"
                     android:text="Q" />
 
@@ -462,35 +518,35 @@
                 <Button
                     android:id="@+id/btn_S"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="S"
                     android:text="S" />
 
                 <Button
                     android:id="@+id/btn_T"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="T"
                     android:text="T" />
 
                 <Button
                     android:id="@+id/btn_U"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="U"
                     android:text="U" />
 
                 <Button
                     android:id="@+id/btn_V"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="V"
                     android:text="V" />
 
                 <Button
                     android:id="@+id/btn_W"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="W"
                     android:text="W" />
 
@@ -510,35 +566,35 @@
                 <Button
                     android:id="@+id/btn_Y"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="Y"
                     android:text="Y" />
 
                 <Button
                     android:id="@+id/btn_Z"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="Z"
                     android:text="Z" />
 
                 <Button
                     android:id="@+id/btn_0"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="0"
                     android:text="0" />
 
                 <Button
                     android:id="@+id/btn_1"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="1"
                     android:text="1" />
 
                 <Button
                     android:id="@+id/btn_2"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="2"
                     android:text="2" />
 
@@ -558,35 +614,35 @@
                 <Button
                     android:id="@+id/btn_4"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="4"
                     android:text="4" />
 
                 <Button
                     android:id="@+id/btn_5"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="5"
                     android:text="5" />
 
                 <Button
                     android:id="@+id/btn_6"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="6"
                     android:text="6" />
 
                 <Button
                     android:id="@+id/btn_7"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="7"
                     android:text="7" />
 
                 <Button
                     android:id="@+id/btn_8"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="8"
                     android:text="8" />
 
@@ -607,7 +663,7 @@
                 android:id="@+id/list_search_skus"
                 android:layout_width="@dimen/size_100"
                 android:layout_height="match_parent"
-                android:background="@color/gray"
+                android:background="@color/white"
                 android:divider="@null"
                 android:fadingEdge="none"
                 android:overScrollMode="never"

@@ -5,7 +5,7 @@ import android.os.Message;
 
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
-import com.uplink.selfstore.model.api.SlotBean;
+import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -32,9 +32,9 @@ public class MachinePickupWorkManager {
 
         for (int i = 0; i < skus.size(); i++) {
             OrderDetailsSkuBean sku = skus.get(i);
-            List<SlotBean> slots = sku.getSlots();
+            List<PickupSlotBean> slots = sku.getSlots();
             for (int j = 0; j < slots.size(); j++) {
-                SlotBean slot = slots.get(j);
+                PickupSlotBean slot = slots.get(j);
                 PickupSkuBean pickSku = new PickupSkuBean();
 
                 pickSku.setId(sku.getId());

@@ -115,14 +115,14 @@
                 <Button
                     android:id="@+id/btn_1"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="1"
                     android:text="1" />
 
                 <Button
                     android:id="@+id/btn_2"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="2"
                     android:text="2" />
 
@@ -138,14 +138,14 @@
                 <Button
                     android:id="@+id/btn_4"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="4"
                     android:text="4" />
 
                 <Button
                     android:id="@+id/btn_5"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="5"
                     android:text="5" />
 
@@ -161,14 +161,14 @@
                 <Button
                     android:id="@+id/btn_7"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="7"
                     android:text="7" />
 
                 <Button
                     android:id="@+id/btn_8"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="8"
                     android:text="8" />
 

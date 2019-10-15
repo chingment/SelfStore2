@@ -35,7 +35,7 @@ public class Config {
         public static final String order_Details = BuildConfig.ENVIRONMENT + "/api/Order/Details";
         public static final String order_PayUrlBuild = BuildConfig.ENVIRONMENT + "/api/Order/PayUrlBuild";
         public static final String machine_Login= BuildConfig.ENVIRONMENT + "/api/Machine/Login";
-        public static final String machine_SlotStocks= BuildConfig.ENVIRONMENT + "/api/Machine/SlotStocks";
+        public static final String machine_Slots= BuildConfig.ENVIRONMENT + "/api/Machine/GetSlots";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
     }
 }
