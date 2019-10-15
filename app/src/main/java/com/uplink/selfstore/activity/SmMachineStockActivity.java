@@ -78,7 +78,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
             for (int j = 1; j <= col_int; j++) {
                 //tv用于显示
-                View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+                final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
 
                 TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
@@ -89,19 +89,19 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 //CommonUtil.loadImageFromUrl(convertView, img_main, item.getMainImgUrl());
 
-                String slotId = i + "" + j;
+                final String slotId = i + "" + j;
 
-                SlotBean slot=null;
+                final SlotBean slot=stocks.get(slotId);
 
-                if(stocks!=null) {
-                    if(stocks.size()>0) {
-                        slot = stocks.get(slotId);
-                    }
-                }
+//                if(stocks!=null) {
+//                    if(stocks.size()>0) {
+//                        slot = stocks.get(slotId);
+//                    }
+//                }
 
                 if (slot == null) {
-                    slot=new SlotBean();
-                    slot.setId(slotId);
+                    //slot=new SlotBean();
+                    //slot.setId(slotId);
                     txt_name.setText("暂无商品");
                     txt_sellQuantity.setText("0");
                     txt_lockQuantity.setText("0");
@@ -117,12 +117,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 }
 
-                convertView.setTag(slot);
+               // convertView.setTag(slot);
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SlotBean l_Slot=(SlotBean)v.getTag();
-                        dialog_SlotEdit.setSlot(l_Slot);
+                        // SlotBean l_Slot=(SlotBean)v.getTag();
+                        dialog_SlotEdit.setTouchView(convertView);
+                        dialog_SlotEdit.setSlot(slotId,slot);
                         dialog_SlotEdit.show();
                     }
                 });

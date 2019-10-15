@@ -50,9 +50,12 @@ public class CustomSlotEditDialog extends Dialog {
     private ImageButton btn_keydelete;
     private Button btn_delete;
     private Button btn_fill;
+    private Button btn_save;
     private View btn_decrease;
     private View btn_increase;
     private ListView list_search_skus;
+
+    private View touchView;
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -86,6 +89,7 @@ public class CustomSlotEditDialog extends Dialog {
         btn_keydelete =  ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
         btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
         btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
+        btn_save=ViewHolder.get(this.layoutRes, R.id.btn_save);
         btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
         btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
     }
@@ -123,6 +127,7 @@ public class CustomSlotEditDialog extends Dialog {
                 txt_LockQty.setText("0");
                 txt_SumQty.setText("0");
                 img_SkuImg.setImageResource(R.drawable.default_image);
+
             }
         });
 
@@ -139,11 +144,17 @@ public class CustomSlotEditDialog extends Dialog {
                 int sellQty=sumQty-lockQty;
                 txt_SellQty.setText(String.valueOf(sellQty));
                 txt_SumQty.setText(String.valueOf(sumQty));
+
             }
         });
 
 
-
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               saveSlot();
+            }
+        });
 
 
         //点击减去
@@ -215,9 +226,26 @@ public class CustomSlotEditDialog extends Dialog {
 
     }
 
-    public void setSlot(SlotBean slot) {
+    public  void  setTouchView(View v)
+    {
+        touchView=v;
+    }
 
-        txt_SlotName.setText(slot.getId());
+    private void  setTouchViewData()
+    {
+        TextView txt_name = ViewHolder.get(touchView, R.id.txt_name);
+        TextView txt_sellQuantity = ViewHolder.get(touchView, R.id.txt_sellQuantity);
+        TextView txt_lockQuantity = ViewHolder.get(touchView, R.id.txt_lockQuantity);
+        TextView txt_sumQuantity = ViewHolder.get(touchView, R.id.txt_sumQuantity);
+        ImageView img_main = ViewHolder.get(touchView, R.id.img_main);
+
+        txt_name.setText("Dadd");
+
+    }
+
+    public void setSlot(String slotId,SlotBean slot) {
+
+        txt_SlotName.setText(slotId);
 
         if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
             txt_SkuId.setText("");
@@ -225,6 +253,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_SellQty.setText("0");
             txt_LockQty.setText("0");
             txt_SumQty.setText("0");
+            txt_MaxQty.setText("10");
             img_SkuImg.setImageResource(R.drawable.default_image);
         } else {
 
@@ -241,11 +270,11 @@ public class CustomSlotEditDialog extends Dialog {
 
     private void getKey(String key) {
         String val=txt_val.getText()+key;
-        search(val);
+        searchSkus(val);
         txt_val.setText(val);
     }
 
-    private void search(String key) {
+    private void searchSkus(String key) {
         Map<String, String> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
@@ -286,4 +315,42 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
     }
+
+    private void  saveSlot() {
+        MachineBean machine = AppCacheManager.getMachine();
+
+        setTouchViewData();
+        String id=String.valueOf(txt_SlotName.getText());
+        String productSkuId=String.valueOf(txt_SkuId.getText());
+        int sumQuantity=Integer.valueOf(txt_SumQty.getText()+"");
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("machineId", machine.getId());
+        params.put("productSkuId", productSkuId);
+        params.put("sumQuantity", sumQuantity);
+
+        context.postByMy(Config.URL.machine_SaveSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+                context.showToast(rt.getMessage());
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+
+            }
+        });
+    }
+
+
 }

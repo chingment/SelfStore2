@@ -136,30 +136,7 @@
                             android:textColor="@color/field_value"
                             android:textSize="@dimen/sp_10" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/layout_deposit"
-                        android:layout_width="match_parent"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:layout_height="@dimen/size_24"
-                        android:paddingBottom="@dimen/size_3"
-                        android:paddingTop="@dimen/size_3">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/activity_smmachinestock_textview_productskusaleprice_text"
-                            android:textColor="@color/field_name"
-                            android:textSize="@dimen/sp_10"  />
-
-                        <TextView
-                            android:id="@+id/txt_SalePrice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:textColor="@color/field_value"
-                            android:textSize="@dimen/sp_10" />
-                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_24"
