@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
@@ -23,6 +24,7 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
+import com.uplink.selfstore.utils.ToastUtil;
 
 import java.net.URL;
 
@@ -142,6 +144,11 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                     startActivity(intent);
                     break;
                 case R.id.btn_increase:
+                    if(productSku.isOffSell())
+                    {
+                        ToastUtil.showMessage(ProductDetailsActivity.this, "商品已下架", Toast.LENGTH_LONG);
+                        return;
+                    }
                     CartActivity.operate(CartOperateType.INCREASE,productSku.getId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
@@ -150,28 +157,24 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                     });
                     break;
                 case R.id.btn_buy:
-                    //List<CartSkuBean> cartSkus = new ArrayList<>();
+
+
+                    if(productSku.isOffSell())
+                    {
+                        ToastUtil.showMessage(ProductDetailsActivity.this, "商品已下架", Toast.LENGTH_LONG);
+                        return;
+                    }
 
                     CartSkuBean cartSku=new CartSkuBean();
                     cartSku.setId(productSku.getId());
                     cartSku.setQuantity(1);
-                    //cartSkus.add(cartSku);
 
-//                    if (cartSkus == null || cartSkus.size() <= 0) {
-//                        showToast(getAppContext().getString(R.string.activity_cart_tips_cartismust));
-//                        return;
-//                    }
 
                     CartActivity.operate(CartOperateType.INCREASE, productSku.getId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
-
                             Intent intent2 = new Intent(getAppContext(), CartActivity.class);
-                            //Bundle bundle=new Bundle();
-                            //bundle.putSerializable("cartSkuBean", cartSku);
-                            //intent2.putExtras(bundle);
                             startActivity(intent2);
-
                         }
                     });
 

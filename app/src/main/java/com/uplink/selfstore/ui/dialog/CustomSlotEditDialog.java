@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -36,7 +37,7 @@ import java.util.Map;
 public class CustomSlotEditDialog extends Dialog {
 
     private View layoutRes;// 布局文件
-    private BaseFragmentActivity context;
+    private SmMachineStockActivity context;
     private View btn_close;
     private TextView txt_val;
     private ImageView img_SkuImg;
@@ -54,12 +55,11 @@ public class CustomSlotEditDialog extends Dialog {
     private View btn_decrease;
     private View btn_increase;
     private ListView list_search_skus;
-
-    private View touchView;
+    private SlotBean slot;
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.context = (BaseFragmentActivity)context;
+        this.context = (SmMachineStockActivity)context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
         initView();
@@ -114,6 +114,7 @@ public class CustomSlotEditDialog extends Dialog {
                     val = val.substring(0, val.length() - 1);
                 }
                 txt_val.setText(val);
+                searchSkus(val);
             }
         });
 
@@ -136,7 +137,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
-                    ((BaseFragmentActivity) context).showToast("请先设置商品");
+                    ((SmMachineStockActivity) context).showToast("请先设置商品");
                     return;
                 }
                 int sumQty=Integer.valueOf(txt_MaxQty.getText()+"");
@@ -187,7 +188,7 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
-                    ((BaseFragmentActivity) context).showToast("请先设置商品");
+                    ((SmMachineStockActivity) context).showToast("请先设置商品");
                     return;
                 }
 
@@ -226,28 +227,13 @@ public class CustomSlotEditDialog extends Dialog {
 
     }
 
-    public  void  setTouchView(View v)
-    {
-        touchView=v;
-    }
+    public void setSlot(SlotBean slot) {
 
-    private void  setTouchViewData()
-    {
-        TextView txt_name = ViewHolder.get(touchView, R.id.txt_name);
-        TextView txt_sellQuantity = ViewHolder.get(touchView, R.id.txt_sellQuantity);
-        TextView txt_lockQuantity = ViewHolder.get(touchView, R.id.txt_lockQuantity);
-        TextView txt_sumQuantity = ViewHolder.get(touchView, R.id.txt_sumQuantity);
-        ImageView img_main = ViewHolder.get(touchView, R.id.img_main);
+        this.slot=slot;
 
-        txt_name.setText("Dadd");
+        txt_SlotName.setText(slot.getId());
 
-    }
-
-    public void setSlot(String slotId,SlotBean slot) {
-
-        txt_SlotName.setText(slotId);
-
-        if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
+        if(StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
             txt_SkuId.setText("");
             txt_SkuName.setText("暂无设置");
             txt_SellQty.setText("0");
@@ -256,22 +242,20 @@ public class CustomSlotEditDialog extends Dialog {
             txt_MaxQty.setText("10");
             img_SkuImg.setImageResource(R.drawable.default_image);
         } else {
-
             txt_SkuId.setText(slot.getProductSkuId());
             txt_SkuName.setText(slot.getProductSkuName());
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
             txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
-
             CommonUtil.loadImageFromUrl(context, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
     }
 
     private void getKey(String key) {
         String val=txt_val.getText()+key;
-        searchSkus(val);
         txt_val.setText(val);
+        searchSkus(val);
     }
 
     private void searchSkus(String key) {
@@ -319,7 +303,6 @@ public class CustomSlotEditDialog extends Dialog {
     private void  saveSlot() {
         MachineBean machine = AppCacheManager.getMachine();
 
-        setTouchViewData();
         String id=String.valueOf(txt_SlotName.getText());
         String productSkuId=String.valueOf(txt_SkuId.getText());
         int sumQuantity=Integer.valueOf(txt_SumQty.getText()+"");
@@ -329,19 +312,18 @@ public class CustomSlotEditDialog extends Dialog {
         params.put("productSkuId", productSkuId);
         params.put("sumQuantity", sumQuantity);
 
+
         context.postByMy(Config.URL.machine_SaveSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                ApiResultBean<SlotBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SlotBean>>() {
                 });
 
                 context.showToast(rt.getMessage());
 
                 if (rt.getResult() == Result.SUCCESS) {
-
-
-
+                    context.setSlot(rt.getData());
                 }
             }
 

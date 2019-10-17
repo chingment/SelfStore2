@@ -7,6 +7,7 @@
     >
 
 
+
     <LinearLayout
         android:layout_width="@dimen/size_90"
         android:layout_height="wrap_content"
@@ -14,6 +15,10 @@
         android:orientation="vertical"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
+
+
+
+
         <ImageView
             android:layout_marginTop="@dimen/size_7"
             android:id="@+id/img_main"
@@ -34,7 +39,6 @@
             android:text="商品名称"
             android:textColor="#333333"
             android:textSize="@dimen/sp_10" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -124,7 +128,26 @@
 
 
         </LinearLayout>
+
+
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txt_isOffSellTip"
+        android:visibility="gone"
+        android:layout_width="@dimen/size_60"
+        android:layout_height="@dimen/size_20"
+        android:layout_marginTop="@dimen/size_50"
+        android:layout_centerInParent="true"
+        android:background="@color/black"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:height="@dimen/size_10"
+        android:textSize="@dimen/sp_10"
+        android:textColor="@color/white"
+        android:text="商品已下架"
+
+        />
 
 </RelativeLayout>

@@ -37,6 +37,7 @@ public class Config {
         public static final String machine_Login= BuildConfig.ENVIRONMENT + "/api/Machine/Login";
         public static final String machine_Slots= BuildConfig.ENVIRONMENT + "/api/Machine/GetSlots";
         public static final String machine_SaveSlot= BuildConfig.ENVIRONMENT + "/api/Machine/SaveSlot";
+        public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
     }
 }

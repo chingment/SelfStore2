@@ -383,4 +383,21 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
+    public void sendRunStatus(String status){
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("machineId", machine.getId() + "");
+        params.put("status", status);
+
+
+        postByMy(Config.URL.machine_SendRunStatus, params, null, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+            }
+        });
+    }
+
 }

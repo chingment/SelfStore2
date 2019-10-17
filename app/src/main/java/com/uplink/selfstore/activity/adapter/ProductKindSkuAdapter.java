@@ -3,6 +3,7 @@ package com.uplink.selfstore.activity.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.CartActivity;
@@ -20,6 +22,7 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +99,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         ImageView btn_decrease = ViewHolder.get(convertView, R.id.btn_decrease);
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         ImageView btn_increase = ViewHolder.get(convertView, R.id.btn_increase);
-
+        TextView txt_isOffSellTip = ViewHolder.get(convertView, R.id.txt_isOffSellTip);
         txt_name.setText(item.getName());
 
 
@@ -119,6 +122,19 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
+
+        if(item.isOffSell())
+        {
+            txt_isOffSellTip.setVisibility(View.VISIBLE);
+            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_color));
+            convertView.setAlpha(0.5f);
+        }
+        else
+        {
+            txt_isOffSellTip.setVisibility(View.GONE);
+            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+            convertView.setAlpha(1f);
+        }
 
 
         //点击图片
@@ -161,6 +177,13 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+
+                if(item.isOffSell())
+                {
+                    ToastUtil.showMessage(context, "商品已下架", Toast.LENGTH_LONG);
+                    return;
+                }
+
                 CartActivity.operate(CartOperateType.INCREASE,item.getId(), new CarOperateHandler() {
                     @Override
                     public void onSuccess(String response) {
@@ -177,6 +200,8 @@ public class ProductKindSkuAdapter extends BaseAdapter {
                 });
             }
         });
+
+
 
         CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());
         convertView.setClickable(false);

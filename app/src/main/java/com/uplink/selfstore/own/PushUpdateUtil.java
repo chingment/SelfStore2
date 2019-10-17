@@ -11,8 +11,11 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.ProductKindBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
+import com.uplink.selfstore.model.api.UpdateProductSkuStockBean;
 import com.uplink.selfstore.utils.LogUtil;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,8 +43,9 @@ public class PushUpdateUtil {
             case "update_banner":
                 update_banner(content);//更新机器banner
                 break;
-            case "update_product_kinds":
-                update_product_kind(content);//更新机器种类
+            case "update:productSkuStock":
+                LogUtil.d("进入update:productSkuStock");
+                update_productSku_Stock(content);//更新机器种类
                 break;
         }
     }
@@ -118,5 +122,51 @@ public class PushUpdateUtil {
                 }
             }
         }
+    }
+
+    public  static void update_productSku_Stock(String content){
+        LogUtil.d("进入update:productSkuStock2");
+        List<UpdateProductSkuStockBean> updateProductSkuStocks = JSON.parseObject(content, new TypeReference<List<UpdateProductSkuStockBean>>() {
+        });
+
+
+        GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
+
+        HashMap<String, ProductSkuBean> productSkus=globalDataSet.getProductSkus();
+
+        for (UpdateProductSkuStockBean updateStock:
+                updateProductSkuStocks     ) {
+
+           if(productSkus.get(updateStock.getId())!=null){
+
+               productSkus.get(updateStock.getId()).setLockQuantity(updateStock.getLockQuantity());
+               productSkus.get(updateStock.getId()).setSellQuantity(updateStock.getSellQuantity());
+               productSkus.get(updateStock.getId()).setSellQuantity(updateStock.getSumQuantity());
+               productSkus.get(updateStock.getId()).setSalePrice(updateStock.getSalePrice());
+               productSkus.get(updateStock.getId()).setSalePriceByVip(updateStock.getSalePriceByVip());
+               productSkus.get(updateStock.getId()).setOffSell(updateStock.isOffSell());
+           }
+
+        }
+
+        globalDataSet.setProductSkus(productSkus);
+
+
+        List<Activity> acts = AppManager.getAppManager().getActivityStack();
+        if (acts != null) {
+            if (acts.size() > 0) {
+                for (Activity act : acts) {
+
+                    if (act instanceof ProductKindActivity) {
+
+                        ProductKindActivity act_ProductKind = (ProductKindActivity) act;
+
+                        act_ProductKind.loadKindData();
+                        break;
+                    }
+                }
+            }
+        }
+
     }
 }

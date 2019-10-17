@@ -67,6 +67,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                 confirmDialog.dismiss();
             }
         });
+
+        sendRunStatus("setting");
     }
 
     protected void initView() {

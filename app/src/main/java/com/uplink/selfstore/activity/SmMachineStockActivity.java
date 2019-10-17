@@ -36,6 +36,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private TableLayout table_slotstock;
 
     private CustomSlotEditDialog dialog_SlotEdit;
+
+    private HashMap<String, SlotBean> slots;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,24 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         getSlots();
     }
 
-    private  void drawsStock(HashMap<String, SlotBean> stocks) {
+    public  void  setSlot(SlotBean slot)
+    {
+        slots.get(slot.getId()).setProductSkuId(slot.getProductSkuId());
+        slots.get(slot.getId()).setProductSkuName(slot.getProductSkuName());
+        slots.get(slot.getId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
+        slots.get(slot.getId()).setOffSell(slot.isOffSell());
+        slots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
+        slots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
+        slots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
+        slots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
+
+        drawsStock(slots);
+    }
+
+    public   void drawsStock(HashMap<String, SlotBean> slots) {
+
+        this.slots=slots;
+
         int row_int = 10;
         int col_int = 10;
         //清除表格所有行
@@ -91,17 +110,23 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 final String slotId = i + "" + j;
 
-                final SlotBean slot=stocks.get(slotId);
 
-//                if(stocks!=null) {
-//                    if(stocks.size()>0) {
-//                        slot = stocks.get(slotId);
-//                    }
-//                }
+                SlotBean slot=null;
+                if(slots!=null) {
+                    if(slots.size()>0) {
+                        slot = slots.get(slotId);
+                    }
+                }
 
-                if (slot == null) {
-                    //slot=new SlotBean();
-                    //slot.setId(slotId);
+                if(slot==null)
+                {
+                    slot=new SlotBean();
+                    slot.setId(slotId);
+
+                    slots.put(slotId,slot);
+                }
+
+                if (slot.getProductSkuId() == null) {
                     txt_name.setText("暂无商品");
                     txt_sellQuantity.setText("0");
                     txt_lockQuantity.setText("0");
@@ -117,13 +142,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 }
 
-               // convertView.setTag(slot);
+                convertView.setTag(slot);
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // SlotBean l_Slot=(SlotBean)v.getTag();
-                        dialog_SlotEdit.setTouchView(convertView);
-                        dialog_SlotEdit.setSlot(slotId,slot);
+                        SlotBean l_Slot=(SlotBean)v.getTag();
+                        dialog_SlotEdit.setSlot(l_Slot);
                         dialog_SlotEdit.show();
                     }
                 });
