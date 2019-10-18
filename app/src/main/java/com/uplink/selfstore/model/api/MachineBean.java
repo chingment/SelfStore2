@@ -16,6 +16,10 @@ public class MachineBean implements Serializable {
     private String currency;
     private String currencySymbol;
     private String csrQrCode;
+    private String cabinetId_1;
+    private String cabinetName_1;
+    private int cabinetMaxRow_1;
+    private int cabinetMaxCol_1;
 
     public String getCsrQrCode() {
         return csrQrCode;
@@ -83,4 +87,35 @@ public class MachineBean implements Serializable {
         this.currencySymbol = currencySymbol;
     }
 
+    public String getCabinetId_1() {
+        return cabinetId_1;
+    }
+
+    public void setCabinetId_1(String cabinetId_1) {
+        this.cabinetId_1 = cabinetId_1;
+    }
+
+    public String getCabinetName_1() {
+        return cabinetName_1;
+    }
+
+    public void setCabinetName_1(String cabinetName_1) {
+        this.cabinetName_1 = cabinetName_1;
+    }
+
+    public int getCabinetMaxRow_1() {
+        return cabinetMaxRow_1;
+    }
+
+    public void setCabinetMaxRow_1(int cabinetMaxRow_1) {
+        this.cabinetMaxRow_1 = cabinetMaxRow_1;
+    }
+
+    public int getCabinetMaxCol_1() {
+        return cabinetMaxCol_1;
+    }
+
+    public void setCabinetMaxCol_1(int cabinetMaxCol_1) {
+        this.cabinetMaxCol_1 = cabinetMaxCol_1;
+    }
 }

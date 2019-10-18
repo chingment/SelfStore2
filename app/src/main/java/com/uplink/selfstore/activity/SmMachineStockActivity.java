@@ -38,6 +38,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private CustomSlotEditDialog dialog_SlotEdit;
 
     private HashMap<String, SlotBean> slots;
+
+    private String cabinetId="";
+    private String cabinetName="";
+    private int cabinetMaxRow=0;
+    private int cabinetMaxCol=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         setNavTtile(this.getResources().getString(R.string.activity_smmachinestock_navtitle));
         setNavBackVisible(true);
         setNavBtnVisible(true);
+
+        MachineBean machine = AppCacheManager.getMachine();
+        cabinetId=machine.getCabinetId_1();
+        cabinetMaxRow=machine.getCabinetMaxRow_1();
+        cabinetMaxCol=machine.getCabinetMaxCol_1();
+
 
         initView();
         initEvent();
@@ -85,20 +97,21 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         this.slots=slots;
 
-        int row_int = 10;
-        int col_int = 10;
+        int row_int = cabinetMaxRow;
+        int col_int = cabinetMaxCol;
         //清除表格所有行
         table_slotstock.removeAllViews();
         //全部列自动填充空白处
         table_slotstock.setStretchAllColumns(true);
         //生成X行，Y列的表格
-        for (int i = 1; i <= row_int; i++) {
+        for (int i = cabinetMaxRow; i >0; i--) {
             TableRow tableRow = new TableRow(SmMachineStockActivity.this);
 
-            for (int j = 1; j <= col_int; j++) {
+            for (int j = 0; j < col_int; j++) {
                 //tv用于显示
                 final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
+                TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
 
                 TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
                 TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
@@ -108,8 +121,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 //CommonUtil.loadImageFromUrl(convertView, img_main, item.getMainImgUrl());
 
-                final String slotId = i + "" + j;
+                final String slotId = cabinetId+"r"+(i-1) + "c" + j;
 
+                txt_SlotId.setText(slotId);
 
                 SlotBean slot=null;
                 if(slots!=null) {

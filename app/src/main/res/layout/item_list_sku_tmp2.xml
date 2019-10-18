@@ -23,7 +23,7 @@
             android:contentDescription="@string/image_content_description"
             />
 
-    <LinearLayout
+       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
@@ -42,8 +42,8 @@
             android:text="商品名称"
             android:textColor="#333333"
             android:textSize="@dimen/size_6" />
-    </LinearLayout>
-        <LinearLayout
+       </LinearLayout>
+       <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
@@ -88,10 +88,24 @@
                     android:text="0"
                     android:textColor="#e6a23c"
                     android:textSize="@dimen/sp_6" />
-
-
         </LinearLayout>
     </LinearLayout>
 
+
+
+    <TextView
+        android:id="@+id/txt_SlotId"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_20"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal|right"
+        android:layout_alignParentTop="true"
+
+        android:height="@dimen/size_10"
+        android:textSize="@dimen/sp_10"
+        android:textColor="@color/black"
+        android:text="01"
+
+        />
 
 </RelativeLayout>

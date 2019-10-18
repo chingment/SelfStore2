@@ -100,7 +100,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playSound(R.raw.s3);
+                //playSound(R.raw.s3);
                 String num = btn_3.getTag().toString();
                 getNum(num);
 

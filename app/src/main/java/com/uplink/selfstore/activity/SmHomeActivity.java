@@ -5,11 +5,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
+import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
+import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
+import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -17,7 +25,9 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -51,9 +61,34 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         sendBroadcast(it);
                         break;
                     case "fun.exitmanager":
-                        Intent l_Intent = new Intent(SmHomeActivity.this, MainActivity.class);
-                        startActivity(l_Intent);
-                        finish();
+
+
+                        Map<String, String> params = new HashMap<>();
+                        params.put("machineId", getAppContext().getDeviceId());
+                        params.put("datetime", AppCacheManager.getLastUpdateTime());
+
+                        getByMy(Config.URL.machine_InitData, params, false, "", new HttpResponseHandler() {
+                            @Override
+                            public void onSuccess(String response) {
+                                ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
+                                });
+                                if (rt.getResult() == Result.SUCCESS) {
+                                    AppCacheManager.setGlobalDataSet(rt.getData());
+
+                                    Intent l_Intent = new Intent(SmHomeActivity.this, MainActivity.class);
+                                    startActivity(l_Intent);
+                                    finish();
+                                } else {
+                                  showToast(rt.getMessage());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(String msg, Exception e) {
+
+                            }
+                        });
+
                         break;
                 }
                 confirmDialog.dismiss();
