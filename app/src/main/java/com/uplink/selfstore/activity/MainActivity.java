@@ -4,36 +4,29 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
-import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
-import com.uplink.selfstore.model.api.OrderPickupStatusQueryResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
@@ -43,7 +36,6 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
-import com.uplink.selfstore.utils.ToastUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,11 +62,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //byte frameHand=(byte)0x24;
-        byte[] data_3= new byte[] {(byte) 0x1};
-        byte[] buffer=Pack((byte)0x82,data_3);
-
-        dataAnalysis(buffer,buffer.length);
+        //GetSlotNRC("n12r34c56");
+//        //byte frameHand=(byte)0x24;
+//        byte[] data_3= new byte[] {(byte) 0x1};
+//        byte[] buffer=Pack((byte)0x82,data_3);
+//
+//        dataAnalysis(buffer,buffer.length);
 
         initView();
         initEvent();
@@ -431,4 +424,48 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         return packData;
     }
 
+
+    private  SlotNRC GetSlotNRC(String slotId)
+    {
+
+
+        int n_index=slotId.indexOf('n');
+
+        if(n_index<0)
+        {
+            return null;
+        }
+
+        int r_index=slotId.indexOf('r');
+        if(r_index<0)
+        {
+            return  null;
+        }
+
+        int c_index=slotId.indexOf('c');
+
+        if(c_index<0)
+        {
+            return null;
+        }
+
+        try {
+            SlotNRC slotNRC=new SlotNRC();
+
+            String str_n = slotId.substring(n_index + 1, r_index - n_index);
+            String str_r = slotId.substring(r_index + 1, c_index);
+            String str_c = slotId.substring(c_index + 1, slotId.length());
+
+            slotNRC.setCabinetId(str_n);
+            slotNRC.setRow(Integer.valueOf(str_r));
+            slotNRC.setRow(Integer.valueOf(str_c));
+
+            return  slotNRC;
+        }
+        catch (NullPointerException ex)
+        {
+            return  null;
+        }
+
+    }
 }

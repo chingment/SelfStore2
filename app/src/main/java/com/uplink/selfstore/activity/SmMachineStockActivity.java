@@ -124,7 +124,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 final String slotId = cabinetId+"r"+(i-1) + "c" + j;
 
                 txt_SlotId.setText(slotId);
-
+                txt_SlotId.setVisibility(View.GONE);
                 SlotBean slot=null;
                 if(slots!=null) {
                     if(slots.size()>0) {
