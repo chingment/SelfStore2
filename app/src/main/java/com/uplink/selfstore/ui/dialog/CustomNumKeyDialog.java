@@ -217,5 +217,6 @@ public class CustomNumKeyDialog extends Dialog {
     @Override
     public void show() {
         super.show();
+        txt_val.setText("");
     }
 }

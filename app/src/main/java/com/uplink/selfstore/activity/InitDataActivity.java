@@ -30,6 +30,8 @@ import com.uplink.selfstore.utils.LogUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class InitDataActivity extends BaseFragmentActivity implements View.OnClickListener {
     private String TAG = "InitDataActivity";
 
@@ -133,6 +135,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setTips(0x0001, getAppContext().getString(R.string.activity_initdata_tips_settingmachine));
         Map<String, String> params = new HashMap<>();
         params.put("machineId", getAppContext().getDeviceId());
+        params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
         params.put("datetime", AppCacheManager.getLastUpdateTime());
 
         getByMy(Config.URL.machine_InitData, params, false, "", new HttpResponseHandler() {
@@ -155,4 +158,5 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         });
 
     }
+
 }

@@ -323,7 +323,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         params.put("productSkus", json_Skus);
 
-        postByMy(Config.URL.order_Reserve, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(Config.URL.order_Reserve, params, null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

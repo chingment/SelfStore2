@@ -88,8 +88,6 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             return convertView;
         }
 
-        //convertView.setVisibility(View.VISIBLE);
-
 
         final ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
@@ -100,24 +98,11 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         ImageView btn_increase = ViewHolder.get(convertView, R.id.btn_increase);
         TextView txt_isOffSellTip = ViewHolder.get(convertView, R.id.txt_isOffSellTip);
+
         txt_name.setText(item.getName());
-
-
         int quantity = CartActivity.getQuantity(item.getId());
-
-        if (quantity == 0) {
-            btn_decrease.setVisibility(View.INVISIBLE);
-            txt_quantity.setVisibility(View.INVISIBLE);
-        } else {
-            btn_decrease.setVisibility(View.VISIBLE);
-            txt_quantity.setVisibility(View.VISIBLE);
-        }
-
         txt_quantity.setText(String.valueOf(quantity));
-
-
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
-
 
         String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);
@@ -125,82 +110,90 @@ public class ProductKindSkuAdapter extends BaseAdapter {
 
         if(item.isOffSell())
         {
+            btn_decrease.setVisibility(View.GONE);
+            txt_quantity.setVisibility(View.GONE);
+            btn_increase.setVisibility(View.GONE);
             txt_isOffSellTip.setVisibility(View.VISIBLE);
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_color));
             convertView.setAlpha(0.5f);
         }
         else
         {
+            if (quantity == 0) {
+                btn_decrease.setVisibility(View.INVISIBLE);
+                txt_quantity.setVisibility(View.INVISIBLE);
+            } else {
+                btn_decrease.setVisibility(View.VISIBLE);
+                txt_quantity.setVisibility(View.VISIBLE);
+            }
+            btn_increase.setVisibility(View.VISIBLE);
             txt_isOffSellTip.setVisibility(View.GONE);
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             convertView.setAlpha(1f);
-        }
 
+            //点击图片
+            img_main.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        //点击图片
-        img_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(context, ProductDetailsActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable("dataBean", item);
-                intent.putExtras(b);
-                context.startActivity(intent);
-            }
-        });
-
-        //点击减去
-        btn_decrease.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                CartActivity.operate(CartOperateType.DECREASE,item.getId(), new CarOperateHandler() {
-                    @Override
-                    public void onSuccess(String response) {
-                        notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void callAnimation() {
-
-
-                    }
-                });
-            }
-        });
-
-
-        //点击添加
-        btn_increase.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if(item.isOffSell())
-                {
-                    ToastUtil.showMessage(context, "商品已下架", Toast.LENGTH_LONG);
-                    return;
+                    Intent intent = new Intent(context, ProductDetailsActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("dataBean", item);
+                    intent.putExtras(b);
+                    context.startActivity(intent);
                 }
+            });
 
-                CartActivity.operate(CartOperateType.INCREASE,item.getId(), new CarOperateHandler() {
-                    @Override
-                    public void onSuccess(String response) {
-                        notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void callAnimation() {
-
-                        if (mCallBackListener != null) {
-                            mCallBackListener.callBackImg(img_main);
+            //点击减去
+            btn_decrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CartActivity.operate(CartOperateType.DECREASE,item.getId(), new CarOperateHandler() {
+                        @Override
+                        public void onSuccess(String response) {
+                            notifyDataSetChanged();
                         }
-                    }
-                });
-            }
-        });
 
+                        @Override
+                        public void callAnimation() {
+
+
+                        }
+                    });
+                }
+            });
+
+
+            //点击添加
+            btn_increase.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if(item.isOffSell())
+                    {
+                        ToastUtil.showMessage(context, "商品已下架", Toast.LENGTH_LONG);
+                        return;
+                    }
+
+                    CartActivity.operate(CartOperateType.INCREASE,item.getId(), new CarOperateHandler() {
+                        @Override
+                        public void onSuccess(String response) {
+                            notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void callAnimation() {
+
+                            if (mCallBackListener != null) {
+                                mCallBackListener.callBackImg(img_main);
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
 
 
         CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());

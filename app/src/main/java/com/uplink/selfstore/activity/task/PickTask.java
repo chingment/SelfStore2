@@ -49,6 +49,9 @@ public class PickTask extends BaseTask {
                     Thread.sleep(2000);
                     sendHandlerMsg(0x0004, pickupSku);
                     Thread.sleep(2000);
+
+
+
                     unLockBlock();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
