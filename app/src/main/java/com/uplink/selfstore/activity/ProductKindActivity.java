@@ -238,7 +238,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
         // 属性动画实现（从0到贝塞尔曲线的长度之间进行插值计算，获取中间过程的距离值）
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, mPathMeasure.getLength());
-        valueAnimator.setDuration(1400);
+        valueAnimator.setDuration(2200);
 
         // 匀速线性插值器
         valueAnimator.setInterpolator(new LinearInterpolator());

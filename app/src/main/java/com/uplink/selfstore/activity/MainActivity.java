@@ -120,10 +120,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
         locationManager.requestLocationUpdates(locationProvider, 2000, 10, locationListener);
 
-//        Intent intent2 = new Intent();
-//        intent2.setAction("android.intent.action.hidenavigation");
-//        intent2.putExtra("enable", "true");
-//        sendBroadcast(intent2);
     }
 
     @Override

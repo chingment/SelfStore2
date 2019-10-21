@@ -67,7 +67,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         params.put("machineId", getAppContext().getDeviceId());
                         params.put("datetime", AppCacheManager.getLastUpdateTime());
 
-                        getByMy(Config.URL.machine_InitData, params, false, "", new HttpResponseHandler() {
+                        getByMy(Config.URL.machine_InitData, params, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
