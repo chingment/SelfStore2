@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -62,12 +65,15 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         break;
                     case "fun.exitmanager":
 
-
-                        Map<String, String> params = new HashMap<>();
+                        //todo 改为重新获取数据方法
+                        Map<String, Object> params = new HashMap<>();
                         params.put("machineId", getAppContext().getDeviceId());
-                        params.put("datetime", AppCacheManager.getLastUpdateTime());
+                        params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
+                        params.put("appVersionCode", BuildConfig.VERSION_CODE);
+                        params.put("appVersionName", BuildConfig.VERSION_NAME);
+                        params.put("macAddress", "");
 
-                        getByMy(Config.URL.machine_InitData, params, true, "正在退出", new HttpResponseHandler() {
+                        postByMy(Config.URL.machine_InitData, params,null, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
