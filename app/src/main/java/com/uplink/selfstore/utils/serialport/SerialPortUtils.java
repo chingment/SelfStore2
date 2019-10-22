@@ -30,7 +30,7 @@ public class SerialPortUtils {
     public SerialPort serialPort = null;
     public InputStream inputStream = null;
     public OutputStream outputStream = null;
-    public ChangeTool changeTool = new ChangeTool();
+    public ChangeToolUtils changeTool = new ChangeToolUtils();
 
     private final String TAG = "SerialPortUtils";
 

@@ -2,8 +2,8 @@ package com.uplink.selfstore.model;
 
 public class SlotNRC {
     private String cabinetId="";
-    private int row;
-    private int col;
+    private int row=-1;
+    private int col=-1;
 
     public SlotNRC()
     {

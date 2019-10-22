@@ -1,33 +1,33 @@
 package com.uplink.selfstore.utils.serialport;
 
-public class ChangeTool {
+public  class ChangeToolUtils {
     //-------------------------------------------------------
     // 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数
-    public int isOdd(int num) {
+    public static int isOdd(int num) {
         return num & 1;
     }
 
     //-------------------------------------------------------
     //Hex字符串转int
-    public int HexToInt(String inHex) {
+    public static int HexToInt(String inHex) {
         return Integer.parseInt(inHex, 16);
     }
 
     //-------------------------------------------------------
     //Hex字符串转byte
-    public byte HexToByte(String inHex) {
+    public static byte HexToByte(String inHex) {
         return (byte) Integer.parseInt(inHex, 16);
     }
 
     //-------------------------------------------------------
     //1字节转2个Hex字符
-    public String Byte2Hex(Byte inByte) {
+    public static String Byte2Hex(Byte inByte) {
         return String.format("%02x", new Object[]{inByte}).toUpperCase();
     }
 
     //-------------------------------------------------------
     //字节数组转转hex字符串
-    public String ByteArrToHex(byte[] inBytArr) {
+    public static String ByteArrToHex(byte[] inBytArr) {
         StringBuilder strBuilder = new StringBuilder();
         for (byte valueOf : inBytArr) {
             strBuilder.append(Byte2Hex(Byte.valueOf(valueOf)));
@@ -38,7 +38,7 @@ public class ChangeTool {
 
     //-------------------------------------------------------
     //字节数组转转hex字符串，可选长度
-    public String ByteArrToHex(byte[] inBytArr, int offset, int byteCount) {
+    public static String ByteArrToHex(byte[] inBytArr, int offset, int byteCount) {
         StringBuilder strBuilder = new StringBuilder();
         int j = byteCount;
         for (int i = offset; i < j; i++) {
@@ -50,7 +50,7 @@ public class ChangeTool {
 
     //-------------------------------------------------------
     //把hex字符串转字节数组
-    public byte[] HexToByteArr(String inHex) {
+    public static byte[] HexToByteArr(String inHex) {
         byte[] result;
         int hexlen = inHex.length();
         if (isOdd(hexlen) == 1) {
@@ -70,7 +70,7 @@ public class ChangeTool {
 
     //-------------------------------------------------------
     //把int转字节数组
-    public  byte[] intToByteArray(int a) {
+    public  static byte[] intToByteArray(int a) {
         return new byte[]{
                 (byte) (a & 0xFF),
                 (byte) ((a >> 8) & 0xFF),
@@ -79,12 +79,25 @@ public class ChangeTool {
         };
     }
 
+
+
+
     //-------------------------------------------------------
     //把字节数组转int
-    public int byteArrayToInt(byte[] b) {
+    public static int byteArrayToInt(byte[] b) {
         return   b[0] & 0xFF |
                 (b[1] & 0xFF) << 8 |
                 (b[2] & 0xFF) << 16 |
                 (b[3] & 0xFF) << 24;
+    }
+
+    public static String intToHex(int i){
+        String hex = Integer.toHexString(i);
+        return hex;
+    }
+
+    public  static byte intToByte(int i){
+        String hex = Integer.toHexString(i);
+        return  HexToByte(hex);
     }
 }

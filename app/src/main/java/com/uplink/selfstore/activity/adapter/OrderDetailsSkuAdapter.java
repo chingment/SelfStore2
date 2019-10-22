@@ -66,11 +66,13 @@ public class OrderDetailsSkuAdapter extends BaseAdapter {
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         TextView txt_quantitybysuccess = ViewHolder.get(convertView, R.id.txt_quantitybysuccess);
+        TextView txt_quantitybyexception = ViewHolder.get(convertView, R.id.txt_quantitybyexception);
 
         CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());
         txt_name.setText(item.getName());
         txt_quantity.setText(String.valueOf(item.getQuantity()));
         txt_quantitybysuccess.setText(String.valueOf(item.getQuantityBySuccess()));
+        txt_quantitybyexception.setText(String.valueOf(item.getQuantityByException()));
 
         return convertView;
     }

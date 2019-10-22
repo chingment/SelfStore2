@@ -420,48 +420,4 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         return packData;
     }
 
-
-    private  SlotNRC GetSlotNRC(String slotId)
-    {
-
-
-        int n_index=slotId.indexOf('n');
-
-        if(n_index<0)
-        {
-            return null;
-        }
-
-        int r_index=slotId.indexOf('r');
-        if(r_index<0)
-        {
-            return  null;
-        }
-
-        int c_index=slotId.indexOf('c');
-
-        if(c_index<0)
-        {
-            return null;
-        }
-
-        try {
-            SlotNRC slotNRC=new SlotNRC();
-
-            String str_n = slotId.substring(n_index + 1, r_index - n_index);
-            String str_r = slotId.substring(r_index + 1, c_index);
-            String str_c = slotId.substring(c_index + 1, slotId.length());
-
-            slotNRC.setCabinetId(str_n);
-            slotNRC.setRow(Integer.valueOf(str_r));
-            slotNRC.setRow(Integer.valueOf(str_c));
-
-            return  slotNRC;
-        }
-        catch (NullPointerException ex)
-        {
-            return  null;
-        }
-
-    }
 }

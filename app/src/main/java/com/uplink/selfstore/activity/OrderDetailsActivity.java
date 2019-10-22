@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -17,6 +18,7 @@ import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.activity.task.PickTask;
 import com.uplink.selfstore.activity.task.blockTask.TaskScheduler;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.machineCtrl.DeShangMidCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -35,6 +37,8 @@ import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+
+import org.apache.commons.logging.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,8 +61,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private TextView curpickupsku_tip1;
     private TextView curpickupsku_tip2;
     private OrderDetailsBean orderDetails;
-    private MyTimeTask taskByGetPickupStatus;
-
+    private MyTimeTask taskByPickup;
+    private DeShangMidCtrl midCtrl;
+    private Handler midCtrlHandler;
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,70 +73,67 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
-
         initView();
         initEvent();
+        initData();
 
-        setView(orderDetails);
+        // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
+        // pickupQueryStatus("ba0ebe970a2840adaf0b5e59c9522317");
+        // pickupEventNotify("ba0ebe970a2840adaf0b5e59c9522317",3011,"已发送取货命令");
+        //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
+        //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
 
-        final Handler hd = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                PickupSkuBean sku = (PickupSkuBean) msg.obj;
-                switch (msg.what) {
-                    case 0x0001:
-                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",准备就绪");
-                        CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, sku.getMainImgUrl());
-                        curpickupsku_tip1.setText(sku.getName());
-                        curpickupsku_tip2.setText("出货就绪......");
-                        break;
-                    case 0x0002:
-                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货开始");
-                        curpickupsku_tip2.setText("出货开始......");
-                        break;
-                    case 0x0003:
-                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货中");
-                        curpickupsku_tip2.setText("出货中......");
-                        break;
-                    case 0x0004:
-                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货完成");
-                        curpickupsku_tip2.setText("出货完成......");
-                        break;
-                    case 0x0005:
-                        LogUtil.d("取货流程消息通知:" + sku.getName() + ",出货异常");
-                        curpickupsku_tip2.setText("出货异常......");
-                        break;
+        try {
 
-                }
-            }
-        };
+            midCtrlHandler = new Handler();
+            //串口，波特率
+            midCtrl = new DeShangMidCtrl(2, 9600);
+            //x轴上面有多少货物
+            midCtrl.setMaxRow((byte)0x7);
+            //y轴上面有多少货物
+            midCtrl.setMaxCol((byte) 0x7);
 
-
-        Runnable runnable = new Runnable() {
-            public void run() {
-                List<PickupSkuBean> pickUps = getAllPickupProductSkus(orderDetails.getProductSkus());
-
-                for (int i = 0; i < pickUps.size(); i++) {
-                    PickTask pickTask = new PickTask(pickUps.get(i));
-                    pickTask.setHandlerMsg(hd);
-                    TaskScheduler.getInstance().enqueue(pickTask);
+            //取y轴上面第几个货物
+            midCtrl.setMacCol((byte) 0x0);
+            //取x轴上面第几个货物
+            midCtrl.setMacRow((byte) 0x0);
+            //取货
+            midCtrl.setMacRunning();
+            //串口数据监听事件
+            midCtrl.setOnSendUIReport(new DeShangMidCtrl.OnSendUIReport() {
+                @Override
+                public void OnSendUI(int status, String message) {
+                    LogUtil.d("status:"+status+",message:"+message);
+                    midCtrlHandler.post(runnable);
+                    //获取未取货的
+                    //发起取货命令
+                    //更改运行状态
                 }
 
-                TaskScheduler.getInstance().startRunning();
-            }
-        };
+                //开线程更新UI
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        //Toast.makeText(getApplicationContext(), msgString, Toast.LENGTH_SHORT).show();
+                    }
+                };
+            });
+        }
+        catch (Exception ex)
+        {
+            showToast("设备驱动发生异常");
+        }
 
-        Thread  currentThreadByPickup = new Thread(runnable);
 
-        currentThreadByPickup.start();
 
-        taskByGetPickupStatus = new MyTimeTask(1000, new TimerTask() {
+        taskByPickup = new MyTimeTask(1000, new TimerTask() {
             @Override
             public void run() {
-                getPickupStatus();
+                LogUtil.d("监控取货进度");
+
             }
         });
-        //taskByGetPickupStatus.start();
+        taskByPickup.start();
     }
 
     private List<PickupSkuBean> getAllPickupProductSkus(List<OrderDetailsSkuBean> skus) {
@@ -159,8 +161,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         return p1;
     }
 
-
-    protected void initView() {
+    private void initView() {
 
         txt_OrderSn = (TextView) findViewById(R.id.txt_OrderSn);
         btn_PickupCompeled = (View) findViewById(R.id.btn_PickupCompeled);
@@ -177,9 +178,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void onClick(View v) {
                 dialog_PickupCompelte.dismiss();
-                if(taskByGetPickupStatus!=null)
+                if(taskByPickup!=null)
                 {
-                    taskByGetPickupStatus.stop();
+                    taskByPickup.stop();
                 }
 
                 TaskScheduler.getInstance().clearExecutor();
@@ -209,61 +210,70 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         btn_ContactKefu.setOnClickListener(this);
     }
 
-    public void setView(OrderDetailsBean bean) {
+    private void initData() {
 
         MachineBean machine = AppCacheManager.getMachine();
 
-        if(bean==null) {
+        if(orderDetails==null) {
             LogUtil.i("bean为空");
             return;
         }
 
-        txt_OrderSn.setText(bean.getOrderSn()+"");
+        txt_OrderSn.setText(orderDetails.getOrderSn()+"");
 
         if(machine.getCsrQrCode()!=null) {
             dialog_ContactKefu.getTipsImage().setImageBitmap(BitmapUtil.createQrCodeBitmap(machine.getCsrQrCode()));
         }
 
-        OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, bean.getProductSkus());
+        OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
         list_skus.setAdapter(cartSkuAdapter);
     }
 
-    private void loadData(String orderId) {
+    private void setProductSkuPickupSuccess(String productSkuId,String slotId) {
+        List<OrderDetailsSkuBean> productSkus =orderDetails.getProductSkus();
 
+        for(int i=0;i<productSkus.size();i++) {
+            if(productSkus.get(i).getId().equals(productSkuId)) {
+                int quantityBySuccess=productSkus.get(i).getQuantityBySuccess();
+                int quantityByException=productSkus.get(i).getQuantityByException();
+                int quantity=productSkus.get(i).getQuantity();
+                if((quantityBySuccess+quantityByException)<quantity) {
+                    productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
 
-        Map<String, String> params = new HashMap<>();
-
-        MachineBean machine = AppCacheManager.getMachine();
-
-        params.put("machineId", machine.getId());
-        params.put("orderId", orderId);
-
-
-        getByMy(Config.URL.order_Details, params, false,"", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-
-                ApiResultBean<OrderDetailsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsBean>>() {
-                });
-
-                if (rt.getResult() == Result.SUCCESS) {
-                    setView(rt.getData());
                 }
             }
+        }
 
-        });
-
+        OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
+        list_skus.setAdapter(skuAdapter);
     }
 
-    public void getPickupStatus() {
+    private void setProductSkuPickupException(String productSkuId,String slotId) {
+        List<OrderDetailsSkuBean> productSkus =orderDetails.getProductSkus();
+
+        for(int i=0;i<productSkus.size();i++) {
+            if(productSkus.get(i).getId().equals(productSkuId)) {
+                int quantityBySuccess=productSkus.get(i).getQuantityBySuccess();
+                int quantityByException=productSkus.get(i).getQuantityByException();
+                int quantity=productSkus.get(i).getQuantity();
+                if((quantityBySuccess+quantityByException)<quantity) {
+                    productSkus.get(i).setQuantityByException(quantityByException + 1);
+                }
+            }
+        }
+
+        OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
+        list_skus.setAdapter(skuAdapter);
+    }
+
+    public void pickupQueryStatus(String uniqueId) {
 
         Map<String, String> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
 
         params.put("machineId", machine.getId());
-        params.put("orderId", orderDetails.getOrderId());
+        params.put("uniqueId", uniqueId);
 
 
         getByMy(Config.URL.order_PickupStatusQuery, params, false,"", new HttpResponseHandler() {
@@ -277,11 +287,35 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    OrderPickupStatusQueryResultBean data=rt.getData();
 
-                    OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, data.getProductSkus());
-                    list_skus.setAdapter(cartSkuAdapter);
-                    //workManagerByPickup.reSetAllPickupProductSkus(data.getProductSkus());
+                }
+            }
+        });
+    }
+
+    public void pickupEventNotify(String uniqueId,int status,String remark) {
+
+        Map<String, Object> params = new HashMap<>();
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        params.put("machineId", machine.getId());
+        params.put("uniqueId", uniqueId);
+        params.put("status", status);
+        params.put("remark", remark);
+
+        postByMy(Config.URL.order_PickupEventNotify, params, null,false,"", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+
                 }
             }
         });
@@ -311,9 +345,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             dialog_ContactKefu.cancel();
         }
 
-        if(taskByGetPickupStatus!=null)
+        if(taskByPickup!=null)
         {
-            taskByGetPickupStatus.stop();
+            taskByPickup.stop();
+        }
+
+        if(midCtrl!=null)
+        {
+            midCtrl.stop();
         }
 
        TaskScheduler.getInstance().clearExecutor();

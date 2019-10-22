@@ -2,19 +2,22 @@ package com.uplink.selfstore.activity.task;
 
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.util.Log;
 
 import com.uplink.selfstore.activity.task.blockTask.BaseTask;
+import com.uplink.selfstore.machineCtrl.DeShangMidCtrl;
+import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.PickupSkuBean;
+import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 /**
  * Created by chingment on 2019/10/1.
  */
 
 public class PickTask extends BaseTask {
-    PickupSkuBean pickupSku;
-    Handler handlerMsg;
+    private PickupSkuBean pickupSku;
+    private Handler handlerMsg;
+    private DeShangMidCtrl  midCtrl=new DeShangMidCtrl(2,9600);
 
     public PickTask(PickupSkuBean pickupSku) {
         this.pickupSku = pickupSku;
@@ -43,12 +46,20 @@ public class PickTask extends BaseTask {
             @Override
             public void run() {
                 try {
-                    sendHandlerMsg(0x0002, pickupSku);
+
+                    SlotNRC slotNRC=GetSlotNRC(pickupSku.getSlotId());
+                    if(slotNRC!=null) {
+                        midCtrl.setMacCol(ChangeToolUtils.intToByte(slotNRC.getCol()));
+                        midCtrl.setMacRow(ChangeToolUtils.intToByte(slotNRC.getRow()));
+                        midCtrl.setMacRunning();
+                    }
+
+//                    sendHandlerMsg(0x0002, pickupSku);
                     Thread.sleep(2000);
-                    sendHandlerMsg(0x0003, pickupSku);
-                    Thread.sleep(2000);
-                    sendHandlerMsg(0x0004, pickupSku);
-                    Thread.sleep(2000);
+//                    sendHandlerMsg(0x0003, pickupSku);
+//                    Thread.sleep(2000);
+//                    sendHandlerMsg(0x0004, pickupSku);
+//                    Thread.sleep(2000);
 
 
 
@@ -66,6 +77,50 @@ public class PickTask extends BaseTask {
     public void finishTask() {
         super.finishTask();
         Log.i("LogTask", "--finishTask-");
+    }
+
+    private SlotNRC GetSlotNRC(String slotId)
+    {
+
+
+        int n_index=slotId.indexOf('n');
+
+        if(n_index<0)
+        {
+            return null;
+        }
+
+        int r_index=slotId.indexOf('r');
+        if(r_index<0)
+        {
+            return  null;
+        }
+
+        int c_index=slotId.indexOf('c');
+
+        if(c_index<0)
+        {
+            return null;
+        }
+
+        try {
+            SlotNRC slotNRC=new SlotNRC();
+
+            String str_n = slotId.substring(n_index + 1, r_index - n_index);
+            String str_r = slotId.substring(r_index + 1, c_index);
+            String str_c = slotId.substring(c_index + 1, slotId.length());
+
+            slotNRC.setCabinetId(str_n);
+            slotNRC.setRow(Integer.valueOf(str_r));
+            slotNRC.setRow(Integer.valueOf(str_c));
+
+            return  slotNRC;
+        }
+        catch (NullPointerException ex)
+        {
+            return  null;
+        }
+
     }
 
 }
