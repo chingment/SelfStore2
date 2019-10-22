@@ -128,12 +128,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             midCtrl.setMaxRow((byte)0x7);
             //y轴上面有多少货物
             midCtrl.setMaxCol((byte) 0x7);
-            //取y轴上面第几个货物
-            midCtrl.setMacCol((byte) 0x0);
-            //取x轴上面第几个货物
-            midCtrl.setMacRow((byte) 0x0);
-            //取货
-            midCtrl.setMacRunning();
             //串口数据监听事件
             midCtrl.setOnSendUIReport(new DeShangMidCtrl.OnSendUIReport() {
                 @Override
@@ -163,8 +157,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         PickupSlotBean slot = slots.get(j);
 
                         if(slot.getStatus()==3010&&currentPickupSku==null) {
-                            slot.setStatus(3011);
 
+                            //取y轴上面第几个货物
+                            midCtrl.setMacCol((byte) 0x0);
+                            //取x轴上面第几个货物
+                            midCtrl.setMacRow((byte) 0x0);
+                            //取货
+                            midCtrl.setMacRunning();
+
+                            slot.setStatus(3011);
 
                             PickupSkuBean pickSku = new PickupSkuBean();
                             pickSku.setId(sku.getId());
