@@ -64,6 +64,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private MyTimeTask taskByPickup;
     private DeShangMidCtrl midCtrl;
     private Handler midCtrlHandler;
+    private PickupSkuBean currentPickupSku=null;
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +84,50 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
         //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
 
+        midCtrlHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+
+                switch (msg.what) {
+                    case 0x0001:
+                        LogUtil.d("取货流程消息通知:" + currentPickupSku.getName() + ",准备就绪");
+                        CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
+                        curpickupsku_tip1.setText(currentPickupSku.getName());
+                        curpickupsku_tip2.setText("出货就绪......");
+                        break;
+                    case 0x0002:
+                        LogUtil.d("取货流程消息通知:" + currentPickupSku.getName() + ",出货开始");
+                        curpickupsku_tip2.setText("出货开始......");
+                        break;
+                    case 0x0003:
+                        LogUtil.d("取货流程消息通知:" + currentPickupSku.getName() + ",出货中");
+                        curpickupsku_tip2.setText("出货中......");
+                        break;
+                    case 0x0004:
+                        LogUtil.d("取货流程消息通知:" + currentPickupSku.getName() + ",出货完成");
+                        curpickupsku_tip2.setText("出货完成......");
+                        break;
+                    case 0x0005:
+                        LogUtil.d("取货流程消息通知:" + currentPickupSku.getName() + ",出货异常");
+                        curpickupsku_tip2.setText("出货异常......");
+                        break;
+                    case 0x0006:
+                        LogUtil.d("取货流程消息通知:" + currentPickupSku.getName() + "");
+                        curpickupsku_tip2.setText((String)msg.obj);
+                        break;
+
+                }
+            }
+        };
+
         try {
 
-            midCtrlHandler = new Handler();
             //串口，波特率
             midCtrl = new DeShangMidCtrl(2, 9600);
             //x轴上面有多少货物
             midCtrl.setMaxRow((byte)0x7);
             //y轴上面有多少货物
             midCtrl.setMaxCol((byte) 0x7);
-
             //取y轴上面第几个货物
             midCtrl.setMacCol((byte) 0x0);
             //取x轴上面第几个货物
@@ -104,19 +139,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 @Override
                 public void OnSendUI(int status, String message) {
                     LogUtil.d("status:"+status+",message:"+message);
-                    midCtrlHandler.post(runnable);
-                    //获取未取货的
-                    //发起取货命令
-                    //更改运行状态
+                    sendMidCtrlHandlerMsg(0x0006,message);
                 }
 
-                //开线程更新UI
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        //Toast.makeText(getApplicationContext(), msgString, Toast.LENGTH_SHORT).show();
-                    }
-                };
             });
         }
         catch (Exception ex)
@@ -125,15 +150,49 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
 
 
-
         taskByPickup = new MyTimeTask(1000, new TimerTask() {
             @Override
             public void run() {
                 LogUtil.d("监控取货进度");
 
+                List<OrderDetailsSkuBean> skus =orderDetails.getProductSkus();
+                for (int i = 0; i < skus.size(); i++) {
+                    OrderDetailsSkuBean sku = skus.get(i);
+                    List<PickupSlotBean> slots = sku.getSlots();
+                    for (int j = 0; j < slots.size(); j++) {
+                        PickupSlotBean slot = slots.get(j);
+
+                        if(slot.getStatus()==3010&&currentPickupSku==null) {
+                            slot.setStatus(3011);
+
+
+                            PickupSkuBean pickSku = new PickupSkuBean();
+                            pickSku.setId(sku.getId());
+                            pickSku.setName(sku.getName());
+                            pickSku.setMainImgUrl(sku.getMainImgUrl());
+                            pickSku.setSlotId(slot.getSlotId());
+                            pickSku.setUniqueId(slot.getUniqueId());
+                            pickSku.setStatus(slot.getStatus());
+
+                            currentPickupSku = pickSku;
+
+                            sendMidCtrlHandlerMsg(0x0001,"正在取货中");
+                        }
+
+
+                    }
+                }
+
             }
         });
         taskByPickup.start();
+    }
+
+    private void sendMidCtrlHandlerMsg(int what, String msg) {
+        final Message m = new Message();
+        m.what = what;
+        m.obj = msg;
+        midCtrlHandler.sendMessage(m);
     }
 
     private List<PickupSkuBean> getAllPickupProductSkus(List<OrderDetailsSkuBean> skus) {
@@ -160,6 +219,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         return p1;
     }
+
+
+
 
     private void initView() {
 
