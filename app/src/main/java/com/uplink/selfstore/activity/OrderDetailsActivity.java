@@ -75,14 +75,17 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         currentPickupSku=getCurrentPickupProductSku();
         if(currentPickupSku!=null) {
+            LogUtil.d("currentPickupSku不为空");
             CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
             curpickupsku_tip1.setText(currentPickupSku.getName());
             curpickupsku_tip2.setText("准备出货......");
         }
         else
         {
+            LogUtil.d("currentPickupSku为空");
+            curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
             curpickupsku_tip1.setText("出货完成");
-            curpickupsku_tip1.setText("");
+            curpickupsku_tip2.setText("欢迎再次购买......");
         }
 
         // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
@@ -102,6 +105,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             LogUtil.d("检查有到有待取货商品");
                             isPicking=true;
                             setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                        }
+                        else
+                        {
+                            curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
+                            curpickupsku_tip1.setText("出货完成");
+                            curpickupsku_tip2.setText("欢迎再次购买......");
                         }
                         break;
                     case 0xa://出货完成
