@@ -139,7 +139,9 @@ public class SerialPortUtils {
 
     public void writeData(byte outputData[]){
         try {
-            outputStream.write(outputData);
+            if(outputStream!=null) {
+                outputStream.write(outputData);
+            }
         } catch (IOException e) {
             Log.e(TAG, "run: 写数据异常：" +e.toString());
         }

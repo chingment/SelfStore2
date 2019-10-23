@@ -2,6 +2,7 @@ package com.uplink.selfstore.machineCtrl;
 
 import android.util.Log;
 
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 import com.uplink.selfstore.utils.serialport.SerialPortUtils;
 
@@ -9,7 +10,7 @@ public class DeShangMidCtrl {
     private String TAG = "DeShangMidCtrl";
     private SerialPortUtils serialPortUtils;
     private WriteThread writeThread;
-    private volatile Thread blinker_writeThread;
+    private volatile boolean exit = false;
 
     private boolean framePack = true;
     //帧头
@@ -108,6 +109,7 @@ public class DeShangMidCtrl {
 
     public DeShangMidCtrl(int com,int baudrate) {
 
+
         serialPortUtils = new SerialPortUtils(com, baudrate);
 
         //串口数据监听事件
@@ -119,21 +121,18 @@ public class DeShangMidCtrl {
             }
         });
 
-        //写数据的线程
-        writeThread = new WriteThread();
-
-        blinker_writeThread = writeThread;
-
-        writeThread.start();
 
         if (serialPortUtils != null) {
             serialPortUtils.openSerialPort();
+            //写数据的线程
+            writeThread = new WriteThread();
+            writeThread.start();
         }
+
     }
 
-
     public void stop(){
-        blinker_writeThread=null;
+        exit=true;
     }
 
     //接收到的串口数据进行分析
@@ -312,7 +311,7 @@ public class DeShangMidCtrl {
                             combinationCount = 0x1;
                             macStatus = gotoZeroPointStatus;
                             Log.d(TAG,"处理完成整个取货操作！！！");
-                            onSendUIReport.OnSendUI(macStatus,"处理完成整个取货操作！！！");
+                            //onSendUIReport.OnSendUI(macStatus,"处理完成整个取货操作！！！");
                         }
                     }
 
@@ -502,14 +501,15 @@ public class DeShangMidCtrl {
         public void run() {
             super.run();
 
-            Thread thisThread = Thread.currentThread();
-            while (blinker_writeThread == thisThread){
+            while (!exit){
+
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
+                LogUtil.d("exite:"+exit);
                // onSendUIReport.OnSendUI(macStatus,"");
 
                 switch (macStatus){

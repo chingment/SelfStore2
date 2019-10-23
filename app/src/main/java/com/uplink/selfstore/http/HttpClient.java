@@ -56,7 +56,7 @@ public class HttpClient {
         builder.writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS);
         builder.readTimeout(READ_TIME_OUT, TimeUnit.SECONDS);
         builder.networkInterceptors().add(new LoggingInterceptor());
-
+        builder.addInterceptor((new RetryIntercepter(3)));
         client = builder.build();
 
 
@@ -80,6 +80,30 @@ public class HttpClient {
             //long t2 = System.nanoTime();
             //LogUtil.i(TAG, String.format("Received response for %s in %.1fms%n%s",
             //response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+            return response;
+        }
+    }
+
+    static class RetryIntercepter implements Interceptor {
+
+        public int maxRetry;//最大重试次数
+        private int retryNum = 0;//假如设置为3次重试的话，则最大可能请求4次（默认1次+3次重试）
+
+        public RetryIntercepter(int maxRetry) {
+            this.maxRetry = maxRetry;
+        }
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            System.out.println("retryNum=" + retryNum);
+            Response response = chain.proceed(request);
+            LogUtil.d("response.isSuccessful():"+response.isSuccessful());
+            while (!response.isSuccessful() && retryNum < maxRetry) {
+                retryNum++;
+                System.out.println("retryNum=" + retryNum);
+                response = chain.proceed(request);
+            }
             return response;
         }
     }
