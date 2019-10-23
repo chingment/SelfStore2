@@ -6,10 +6,12 @@ import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 import com.uplink.selfstore.utils.serialport.SerialPortUtils;
 
 public class DeShangMidCtrl {
-    private boolean framePack = true;
+    private String TAG = "DeShangMidCtrl";
     private SerialPortUtils serialPortUtils;
     private WriteThread writeThread;
     private volatile Thread blinker_writeThread;
+
+    private boolean framePack = true;
     //帧头
     private byte frameHand = (byte)0x24;
     //数据长度
@@ -20,8 +22,6 @@ public class DeShangMidCtrl {
     private byte [] frameEndPack = {(byte)0x0D,(byte)0x0A};
     //异或结果
     private byte xorAns = (byte)0xff;
-    //mid level 的tag
-    private String TAG = "MidLevel";
     //
     private boolean reading = false;
     //0xC1 握手命令
@@ -106,23 +106,26 @@ public class DeShangMidCtrl {
     //组合命令的子命令。
     private byte combinationCount = (byte) 0x1;
 
-    public DeShangMidCtrl(int com,int baudrate){
-        //
-//        serialPortUtils = new SerialPortUtils(com,baudrate);
-//
-//        //串口数据监听事件
-//        serialPortUtils.setOnDataReceiveListener(new SerialPortUtils.OnDataReceiveListener() {
-//            @Override
-//            public void onDataReceive(byte[] buffer, int size) {
-//                //接收到的串口数据进行分析
-//                dataAnalysis(buffer,size);
-//            }
-//        });
+    public DeShangMidCtrl(int com,int baudrate) {
+
+        serialPortUtils = new SerialPortUtils(com, baudrate);
+
+        //串口数据监听事件
+        serialPortUtils.setOnDataReceiveListener(new SerialPortUtils.OnDataReceiveListener() {
+            @Override
+            public void onDataReceive(byte[] buffer, int size) {
+                //接收到的串口数据进行分析
+                dataAnalysis(buffer, size);
+            }
+        });
 
         //写数据的线程
         writeThread = new WriteThread();
-        blinker_writeThread=writeThread;
+
+        blinker_writeThread = writeThread;
+
         writeThread.start();
+
         if (serialPortUtils != null) {
             serialPortUtils.openSerialPort();
         }
@@ -255,43 +258,44 @@ public class DeShangMidCtrl {
     }
 
     private void UnPack(byte cmd,byte [] arrBuffer){
-        Log.d(TAG,"cmd :"+ ChangeToolUtils.Byte2Hex(cmd)+", arrBuffer : " + ChangeToolUtils.ByteArrToHex(arrBuffer) );
+        Log.d(TAG,"cmd :"+ ChangeToolUtils.byte2Hex(cmd)+", arrBuffer : " + ChangeToolUtils.byteArrToHex(arrBuffer) );
         switch (cmd) {
             case singleControlCmd:
                 if (arrBuffer[0]==successProcess){
-                    Log.d( TAG,"单独动作控制命令"+ ChangeToolUtils.Byte2Hex(cmd)+":处理成功");
+                    Log.d( TAG,"单独动作控制命令"+ ChangeToolUtils.byte2Hex(cmd)+":处理成功");
                 }else if (arrBuffer[0]==failProcess){
-                    Log.d( TAG,"单独动作控制命令"+ ChangeToolUtils.Byte2Hex(cmd)+":处理失败");
+                    Log.d( TAG,"单独动作控制命令"+ ChangeToolUtils.byte2Hex(cmd)+":处理失败");
                 }else {
-                    Log.d( TAG,"单独动作控制命令"+ ChangeToolUtils.Byte2Hex(cmd)+":未知状态");
+                    Log.d( TAG,"单独动作控制命令"+ ChangeToolUtils.byte2Hex(cmd)+":未知状态");
                 }
                 break;
 
             case combinationControlCmd:
                 if (arrBuffer[0]==successProcess){
-                    Log.d( TAG,"组合动作控制命令"+ ChangeToolUtils.Byte2Hex(cmd)+":处理成功");
+                    Log.d( TAG,"组合动作控制命令"+ ChangeToolUtils.byte2Hex(cmd)+":处理成功");
                     if (macStatus==combinationStatus){
                         running = true;
                     }
 
                     if (macStatus==gotoZeroPointStatus){
+                        onSendUIReport.OnSendUI(gotoZeroPointStatus,"");
                         Log.d(TAG,"归原点，处理成功");
                         macStatus = idleStatus;
                     }
                 }else if (arrBuffer[0]==failProcess){
-                    Log.d( TAG,"组合动作控制命令"+ ChangeToolUtils.Byte2Hex(cmd)+":处理失败");
+                    Log.d( TAG,"组合动作控制命令"+ ChangeToolUtils.byte2Hex(cmd)+":处理失败");
                 }else {
-                    Log.d( TAG,"组合动作控制命令"+ ChangeToolUtils.Byte2Hex(cmd)+":未知状态");
+                    Log.d( TAG,"组合动作控制命令"+ ChangeToolUtils.byte2Hex(cmd)+":未知状态");
                 }
                 break;
 
             case readStatusCmd:
                 if (arrBuffer[1]==returnFreeStatus){
-                    Log.d( TAG,"读动作状态反馈命令,读取"+ ChangeToolUtils.Byte2Hex(arrBuffer[0]) +"状态，状态为空闲！！！");
+                    Log.d( TAG,"读动作状态反馈命令,读取"+ ChangeToolUtils.byte2Hex(arrBuffer[0]) +"状态，状态为空闲！！！");
                 }else if (arrBuffer[1]==returnRuningStatus){
-                    Log.d( TAG,"读动作状态反馈命令,读取"+ ChangeToolUtils.Byte2Hex(arrBuffer[0]) +"状态，状态为运行中！！！");
+                    Log.d( TAG,"读动作状态反馈命令,读取"+ ChangeToolUtils.byte2Hex(arrBuffer[0]) +"状态，状态为运行中！！！");
                 }else if (arrBuffer[1]==returnCompleteStatus) {
-                    Log.d(TAG, "读动作状态反馈命令,读取" + ChangeToolUtils.Byte2Hex(arrBuffer[0]) + "状态，状态为完成！！！");
+                    Log.d(TAG, "读动作状态反馈命令,读取" + ChangeToolUtils.byte2Hex(arrBuffer[0]) + "状态，状态为完成！！！");
 
                     if (macStatus==combinationStatus){
                         running = false;
@@ -313,25 +317,25 @@ public class DeShangMidCtrl {
                     }
 
                 } else {
-                    Log.d( TAG,"读动作状态反馈命令,读取" + ChangeToolUtils.Byte2Hex(arrBuffer[0]) + "状态，状态为未知！！！");
+                    Log.d( TAG,"读动作状态反馈命令,读取" + ChangeToolUtils.byte2Hex(arrBuffer[0]) + "状态，状态为未知！！！");
                 }
                 break;
 
             case xyMoveCmd:
                 if (arrBuffer[0]==successProcess){
-                    Log.d( TAG,"X轴Y轴移动行列数设置命令"+ ChangeToolUtils.Byte2Hex(cmd)+":处理成功");
+                    Log.d( TAG,"X轴Y轴移动行列数设置命令"+ ChangeToolUtils.byte2Hex(cmd)+":处理成功");
                     if (macStatus==xyMoveStatus){
                         macStatus = readCurrentXYValueStatus;
                     }
                 }else if (arrBuffer[0]==failProcess){
-                    Log.d( TAG,"X轴Y轴移动行列数设置命令"+ ChangeToolUtils.Byte2Hex(cmd)+":处理失败");
+                    Log.d( TAG,"X轴Y轴移动行列数设置命令"+ ChangeToolUtils.byte2Hex(cmd)+":处理失败");
                 }else {
-                    Log.d( TAG,"X轴Y轴移动行列数设置命令"+ ChangeToolUtils.Byte2Hex(cmd)+":未知状态");
+                    Log.d( TAG,"X轴Y轴移动行列数设置命令"+ ChangeToolUtils.byte2Hex(cmd)+":未知状态");
                 }
                 break;
 
             case readCurrentXYValueCmd:
-                Log.d(TAG,"读当前XY值命令,读取X值为：" + ChangeToolUtils.Byte2Hex(arrBuffer[0]) + ", 读取Y值为：" + ChangeToolUtils.Byte2Hex(arrBuffer[1]) );
+                Log.d(TAG,"读当前XY值命令,读取X值为：" + ChangeToolUtils.byte2Hex(arrBuffer[0]) + ", 读取Y值为：" + ChangeToolUtils.byte2Hex(arrBuffer[1]) );
                 if ((arrBuffer[0]== MacRow)&&(arrBuffer[1]== MacCol)){
                     Log.d(TAG,"读出来是要移动的值，正确无误！！！");
                     if (macStatus==readCurrentXYValueStatus){
@@ -342,16 +346,16 @@ public class DeShangMidCtrl {
 
             case saveXValueCmd:
                 if (arrBuffer[1]==saveOk){
-                    Log.d( TAG,"X轴参数配置命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+":处理成功");
+                    Log.d( TAG,"X轴参数配置命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+":处理成功");
 
                     if (macStatus==saveXValueStatus){
                         macStatus = readXValueStatus;
                     }
 
                 }else if (arrBuffer[1]==saveFail){
-                    Log.d( TAG,"X轴参数配置命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+":处理失败");
+                    Log.d( TAG,"X轴参数配置命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+":处理失败");
                 }else {
-                    Log.d( TAG,"X轴参数配置命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+":未知状态");
+                    Log.d( TAG,"X轴参数配置命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+":未知状态");
                 }
                 break;
 
@@ -359,7 +363,7 @@ public class DeShangMidCtrl {
                 byte []dataReadXvalue = new byte[]{arrBuffer[1],arrBuffer[2],arrBuffer[3],arrBuffer[4]};
                 int valueReadXvalue = ChangeToolUtils.byteArrayToInt(dataReadXvalue);
                 String strReadXvalue = Integer.toString(valueReadXvalue);
-                Log.d(TAG,"读取X轴参数命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+",参数值："+strReadXvalue);
+                Log.d(TAG,"读取X轴参数命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+",参数值："+strReadXvalue);
                 if ( (arrBuffer[0]==0) &&(arrBuffer[1]== macMaxRow)){
                     if (macStatus==readXValueStatus){
                         macStatus = saveYValueStatus;
@@ -369,14 +373,14 @@ public class DeShangMidCtrl {
 
             case saveYValueCmd:
                 if (arrBuffer[1]==saveOk){
-                    Log.d( TAG,"Y轴参数配置命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+":处理成功");
+                    Log.d( TAG,"Y轴参数配置命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+":处理成功");
                     if (macStatus==saveYValueStatus) {
                         macStatus = readYValueStatus;
                     }
                 }else if (arrBuffer[1]==saveFail){
-                    Log.d( TAG,"Y轴参数配置命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+":处理失败");
+                    Log.d( TAG,"Y轴参数配置命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+":处理失败");
                 }else {
-                    Log.d( TAG,"Y轴参数配置命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+":未知状态");
+                    Log.d( TAG,"Y轴参数配置命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+":未知状态");
                 }
                 break;
 
@@ -384,7 +388,7 @@ public class DeShangMidCtrl {
                 byte []dataReadYvalue = new byte[]{arrBuffer[1],arrBuffer[2],arrBuffer[3],arrBuffer[4]};
                 int valueReadYvalue = ChangeToolUtils.byteArrayToInt(dataReadYvalue);
                 String strReadYvalue = Integer.toString(valueReadYvalue);
-                Log.d(TAG,"读取Y轴参数命令:"+ ChangeToolUtils.Byte2Hex(cmd)+",参数:"+ ChangeToolUtils.Byte2Hex(arrBuffer[0])+",参数值："+strReadYvalue);
+                Log.d(TAG,"读取Y轴参数命令:"+ ChangeToolUtils.byte2Hex(cmd)+",参数:"+ ChangeToolUtils.byte2Hex(arrBuffer[0])+",参数值："+strReadYvalue);
                 if ( (arrBuffer[0]==0) &&(arrBuffer[1]== macMaxCol)){
                     if (macStatus==readYValueStatus){
                         macStatus = saveControlStatus;
@@ -394,44 +398,44 @@ public class DeShangMidCtrl {
 
             case saveControl:
                 if (arrBuffer[0]==saveOk){
-                    Log.d( TAG,"保存命令"+ ChangeToolUtils.Byte2Hex(cmd)+":保存成功");
+                    Log.d( TAG,"保存命令"+ ChangeToolUtils.byte2Hex(cmd)+":保存成功");
                     if (macStatus==saveControlStatus){
                         macStatus = idleStatus;
                         onSendUIReport.OnSendUI(macStatus,"完成初始化！！！");
                     }
                 }else if (arrBuffer[0]==saveFail){
-                    Log.d( TAG,"保存命令"+ ChangeToolUtils.Byte2Hex(cmd)+":保存失败");
+                    Log.d( TAG,"保存命令"+ ChangeToolUtils.byte2Hex(cmd)+":保存失败");
                 }else {
-                    Log.d( TAG,"保存命令"+ ChangeToolUtils.Byte2Hex(cmd)+":未知状态");
+                    Log.d( TAG,"保存命令"+ ChangeToolUtils.byte2Hex(cmd)+":未知状态");
                 }
                 break;
             default:
-                Log.d( TAG,"命令"+ ChangeToolUtils.Byte2Hex(cmd)+":未知命令");
+                Log.d( TAG,"命令"+ ChangeToolUtils.byte2Hex(cmd)+":未知命令");
                 break;
         }
     }
 
     private void UnPack(byte cmd){
-        Log.d(TAG,"cmd :"+ ChangeToolUtils.Byte2Hex(cmd) );
+        Log.d(TAG,"cmd :"+ ChangeToolUtils.byte2Hex(cmd) );
         switch (cmd){
             case handshake:
-                Log.d( TAG,"命令"+ ChangeToolUtils.Byte2Hex(cmd)+":握手成功");
+                Log.d( TAG,"命令"+ ChangeToolUtils.byte2Hex(cmd)+":握手成功");
                 if (macStatus == sendHandPackStatus) {
                     macStatus = saveXValueStatus;
                 }
                 break;
 
             default:
-                Log.d( TAG,"命令"+ ChangeToolUtils.Byte2Hex(cmd)+":未知命令");
+                Log.d( TAG,"命令"+ ChangeToolUtils.byte2Hex(cmd)+":未知命令");
                 break;
         }
     }
 
     //发生命令数据，至单片机。命令本身不需要参数。
-    public void SendPack(byte cmd){
+    private void SendPack(byte cmd){
         byte [] packData = Pack(cmd);
 
-        Log.d(TAG,"发送命令帧："+ ChangeToolUtils.ByteArrToHex(packData));
+        Log.d(TAG,"发送命令帧："+ ChangeToolUtils.byteArrToHex(packData));
 
         if (serialPortUtils != null){
             serialPortUtils.writeData(packData);
@@ -439,10 +443,10 @@ public class DeShangMidCtrl {
     }
 
     //发生命令数据，至单片机。命令本身需要参数。
-    public void SendPack(byte cmd,byte [] data){
+    private void SendPack(byte cmd,byte [] data){
         byte [] packData = Pack(cmd,data);
 
-        Log.d(TAG,"发送命令帧："+ ChangeToolUtils.ByteArrToHex(packData));
+        Log.d(TAG,"发送命令帧："+ ChangeToolUtils.byteArrToHex(packData));
 
         if (serialPortUtils != null){
             serialPortUtils.writeData(packData);
@@ -501,80 +505,78 @@ public class DeShangMidCtrl {
             Thread thisThread = Thread.currentThread();
             while (blinker_writeThread == thisThread){
                 try {
-                    currentThread().sleep(200);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
+               // onSendUIReport.OnSendUI(macStatus,"");
 
                 switch (macStatus){
-
                     case sendHandPackStatus:
-                        onSendUIReport.OnSendUI(macStatus,"发送握手命令");
                         //发送握手命令
+                        //onSendUIReport.OnSendUI(macStatus,"发送握手命令");
                         SendPack(sendHandPackCmd);
                         break;
-
                     case saveXValueStatus:
-                        onSendUIReport.OnSendUI(macStatus,"设置x上面有多多少个货物");
                         //设置x上面有多多少个货物
+                        //onSendUIReport.OnSendUI(macStatus,"设置x上面有多多少个货物");
                         byte data_1[] = new byte[] {(byte) 0x0, macMaxRow,(byte) 0x0,(byte) 0x0,(byte) 0x0};
                         SendPack(saveXValueCmd,data_1);
                         break;
 
                     case readXValueStatus:
-                        onSendUIReport.OnSendUI(macStatus,"读取x上面有多少个货物");
                         //读取x上面有多少个货物
+                        //onSendUIReport.OnSendUI(macStatus,"读取x上面有多少个货物");
                         byte data_2[] = new byte[] {(byte) 0x0};
                         SendPack(readXValueCmd,data_2);
                         break;
 
                     case saveYValueStatus:
-                        onSendUIReport.OnSendUI(macStatus,"设置y上面有多多少个货物");
                         //设置y上面有多多少个货物
+                        //onSendUIReport.OnSendUI(macStatus,"设置y上面有多多少个货物");
                         byte data_3[] = new byte[] {(byte) 0x0, macMaxCol,(byte) 0x0,(byte) 0x0,(byte) 0x0};
                         SendPack(saveYValueCmd,data_3);
                         break;
 
                     case readYValueStatus:
-                        onSendUIReport.OnSendUI(macStatus,"读取y上面有多少个货物");
                         //读取y上面有多少个货物
+                        //onSendUIReport.OnSendUI(macStatus,"读取y上面有多少个货物");
                         byte data_4[] = new byte[] {(byte) 0x0};
                         SendPack(readYValueCmd,data_4);
                         break;
 
                     case saveControlStatus:
-                        onSendUIReport.OnSendUI(macStatus,"保存");
                         //保存
+                        //onSendUIReport.OnSendUI(macStatus,"保存");
                         SendPack(saveControl);
                         break;
 
                     case idleStatus:
                         onSendUIReport.OnSendUI(macStatus,"空闲");
                         //空闲
+                        //onSendUIReport.OnSendUI(macStatus,"空闲");
                         break;
-
                     case xyMoveStatus:
-                        onSendUIReport.OnSendUI(macStatus,"XY移动状态");
-                        //
+                        //XY移动状态
+                        //onSendUIReport.OnSendUI(macStatus,"XY移动状态");
                         byte data_7[] = new byte[] {MacRow, MacCol};
                         SendPack(xyMoveCmd,data_7);
                         break;
 
                     case readCurrentXYValueStatus:
-                        onSendUIReport.OnSendUI(macStatus,"读取当前XY值状态");
-                        //
+                        //读取当前XY值状态
+                        //onSendUIReport.OnSendUI(macStatus,"读取当前XY值状态");
                         SendPack(readCurrentXYValueCmd);
                         break;
-
                     case combinationStatus:
                         if (running){
                             //查询状态
-                            onSendUIReport.OnSendUI(macStatus,"查看运行状态");
+                            //onSendUIReport.OnSendUI(macStatus,"查看运行状态");
                             SendPack(readStatusCmd);
                         }else {
                             //发送组合命令
-                            onSendUIReport.OnSendUI(macStatus,"发送组合命令");
+                            //onSendUIReport.OnSendUI(macStatus,"发送组合命令");
                             byte data_9[] = new byte[] {combinationCount};
                             SendPack(combinationControlCmd,data_9);
                         }
@@ -582,7 +584,7 @@ public class DeShangMidCtrl {
 
                     case gotoZeroPointStatus:
                         //利用组合命令去归原点。
-                        onSendUIReport.OnSendUI(macStatus,"利用组合命令去归原点");
+                        //onSendUIReport.OnSendUI(macStatus,"利用组合命令去归原点");
                         byte data_10[] = new byte[] {combinationCount};
                         SendPack(combinationControlCmd,data_10);
                         break;
@@ -638,15 +640,15 @@ public class DeShangMidCtrl {
         return macMaxCol;
     }
 
-    public void Close(){
+    public void close(){
         if (serialPortUtils != null) {
             serialPortUtils.closeSerialPort();
         }
     }
 
-    public OnSendUIReport onSendUIReport = null;
-    public static interface OnSendUIReport {
-        public void OnSendUI(int status,String message);
+    private OnSendUIReport onSendUIReport = null;
+    public interface OnSendUIReport {
+        void OnSendUI(int status,String message);
     }
     public void setOnSendUIReport(OnSendUIReport dataReceiveListener) {
         onSendUIReport = dataReceiveListener;

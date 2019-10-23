@@ -119,7 +119,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
-                //CommonUtil.loadImageFromUrl(convertView, img_main, item.getMainImgUrl());
 
                 final String slotId = cabinetId+"r"+(i-1) + "c" + j;
 
@@ -182,6 +181,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             switch (v.getId()) {
                 case R.id.nav_back:
                     finish();
+                    break;
+                default:
                     break;
             }
         }

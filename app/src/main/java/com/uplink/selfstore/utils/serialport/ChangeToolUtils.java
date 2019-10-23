@@ -9,28 +9,28 @@ public  class ChangeToolUtils {
 
     //-------------------------------------------------------
     //Hex字符串转int
-    public static int HexToInt(String inHex) {
+    public static int hexToInt(String inHex) {
         return Integer.parseInt(inHex, 16);
     }
 
     //-------------------------------------------------------
     //Hex字符串转byte
-    public static byte HexToByte(String inHex) {
+    public static byte hexToByte(String inHex) {
         return (byte) Integer.parseInt(inHex, 16);
     }
 
     //-------------------------------------------------------
     //1字节转2个Hex字符
-    public static String Byte2Hex(Byte inByte) {
+    public static String byte2Hex(Byte inByte) {
         return String.format("%02x", new Object[]{inByte}).toUpperCase();
     }
 
     //-------------------------------------------------------
     //字节数组转转hex字符串
-    public static String ByteArrToHex(byte[] inBytArr) {
+    public static String byteArrToHex(byte[] inBytArr) {
         StringBuilder strBuilder = new StringBuilder();
         for (byte valueOf : inBytArr) {
-            strBuilder.append(Byte2Hex(Byte.valueOf(valueOf)));
+            strBuilder.append(byte2Hex(Byte.valueOf(valueOf)));
             strBuilder.append(" ");
         }
         return strBuilder.toString();
@@ -42,7 +42,7 @@ public  class ChangeToolUtils {
         StringBuilder strBuilder = new StringBuilder();
         int j = byteCount;
         for (int i = offset; i < j; i++) {
-            strBuilder.append(Byte2Hex(Byte.valueOf(inBytArr[i])));
+            strBuilder.append(byte2Hex(Byte.valueOf(inBytArr[i])));
             strBuilder.append(" ");
         }
         return strBuilder.toString();
@@ -62,7 +62,7 @@ public  class ChangeToolUtils {
         }
         int j = 0;
         for (int i = 0; i < hexlen; i += 2) {
-            result[j] = HexToByte(inHex.substring(i, i + 2));
+            result[j] = hexToByte(inHex.substring(i, i + 2));
             j++;
         }
         return result;
@@ -98,6 +98,6 @@ public  class ChangeToolUtils {
 
     public  static byte intToByte(int i){
         String hex = Integer.toHexString(i);
-        return  HexToByte(hex);
+        return  hexToByte(hex);
     }
 }
