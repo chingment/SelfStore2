@@ -161,6 +161,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     public void onClick(View v) {
                         SlotBean l_Slot=(SlotBean)v.getTag();
                         dialog_SlotEdit.setSlot(l_Slot);
+                        dialog_SlotEdit.clearSearch();
                         dialog_SlotEdit.show();
                     }
                 });

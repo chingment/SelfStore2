@@ -2,6 +2,7 @@ package com.uplink.selfstore.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -25,6 +27,7 @@ import java.util.Map;
 
 public class SmLoginActivity extends SwipeBackActivity implements View.OnClickListener {
 
+    View nav_back;
     Button btn_login;//登录按钮
     EditText txt_username;//账户
     EditText txt_password;//密码
@@ -43,6 +46,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
     protected void initView() {
 
+        nav_back=this.findViewById(R.id.nav_back);
         btn_login = (Button) this.findViewById(R.id.btn_login);
         txt_username = (EditText) this.findViewById(R.id.txt_username);
         txt_password = (EditText) this.findViewById(R.id.txt_password);
@@ -51,6 +55,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
     protected void initEvent() {
         btn_login.setOnClickListener(this);
+        nav_back.setOnClickListener(this);
     }
 
     protected void initData() {
@@ -78,6 +83,8 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
+                    showToast("返回");
+                    LogUtil.d("返回");
                     finish();
                     break;
                 case R.id.btn_login:

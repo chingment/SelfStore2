@@ -38,7 +38,7 @@ public  class ChangeToolUtils {
 
     //-------------------------------------------------------
     //字节数组转转hex字符串，可选长度
-    public static String ByteArrToHex(byte[] inBytArr, int offset, int byteCount) {
+    public static String byteArrToHex(byte[] inBytArr, int offset, int byteCount) {
         StringBuilder strBuilder = new StringBuilder();
         int j = byteCount;
         for (int i = offset; i < j; i++) {
@@ -50,7 +50,7 @@ public  class ChangeToolUtils {
 
     //-------------------------------------------------------
     //把hex字符串转字节数组
-    public static byte[] HexToByteArr(String inHex) {
+    public static byte[] hexToByteArr(String inHex) {
         byte[] result;
         int hexlen = inHex.length();
         if (isOdd(hexlen) == 1) {
@@ -99,5 +99,19 @@ public  class ChangeToolUtils {
     public  static byte intToByte(int i){
         String hex = Integer.toHexString(i);
         return  hexToByte(hex);
+    }
+
+    public static String byteArrToString(byte[] bytearray) {
+        String result = "";
+        char temp;
+        char s2 = '\u0000';
+        int length = bytearray.length;
+        for (int i = 0; i < length; i++) {
+            temp = (char) bytearray[i];
+            if(temp!=s2) {
+                result += temp;
+            }
+        }
+        return result;
     }
 }

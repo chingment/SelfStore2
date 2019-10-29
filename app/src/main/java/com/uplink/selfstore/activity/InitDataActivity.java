@@ -61,10 +61,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
-        Intent intent2 = new Intent();
-        intent2.setAction("android.intent.action.hidenavigation");
-        intent2.putExtra("enable", false);
-        sendBroadcast(intent2);
+//        Intent intent2 = new Intent();
+//        intent2.setAction("android.intent.action.hidenavigation");
+//        intent2.putExtra("enable", false);
+//        sendBroadcast(intent2);
 
     }
 

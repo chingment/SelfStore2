@@ -228,19 +228,21 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        customDialogLoading.setProgressText(loadingMsg);
-                        customDialogLoading.showDialog();
+                        if(!customDialogLoading.isShowing()) {
+                            customDialogLoading.setProgressText(loadingMsg);
+                            customDialogLoading.showDialog();
 
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
 
-                                if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                                    customDialogLoading.cancelDialog();
+                                    if (customDialogLoading != null && customDialogLoading.isShowing()) {
+                                        customDialogLoading.cancelDialog();
+                                    }
                                 }
-                            }
-                        }, 6000);
+                            }, 6000);
+                        }
 
                     }
                 }

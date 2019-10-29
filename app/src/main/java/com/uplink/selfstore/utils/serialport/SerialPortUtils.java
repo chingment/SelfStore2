@@ -11,28 +11,22 @@ import android_serialport_api.SerialPort;
 
 
 public class SerialPortUtils {
-
+    private final String TAG = "SerialPortUtils";
     private SerialPort serialport = null;
-
     //串口名称
     private String com2Name = "/dev/ttymxc1";
     private String com3Name = "/dev/ttymxc2";
     private String com4Name = "/dev/ttymxc3";
     private String whichCom;
 
-    //波特率
-    private int baudrate = 0;
-    //是否打开串口标志
-    public boolean serialPortStatus = false;
-
-    public boolean readStatus = true; //线程状态，为了安全终止线程
-    public boolean writeStatus = true;
-    public SerialPort serialPort = null;
-    public InputStream inputStream = null;
-    public OutputStream outputStream = null;
-    public ChangeToolUtils changeTool = new ChangeToolUtils();
-
-    private final String TAG = "SerialPortUtils";
+    private int baudrate = 0;    //波特率
+    private boolean serialPortStatus = false;    //是否打开串口标志
+    private boolean readStatus = true; //线程状态，为了安全终止线程
+    private boolean writeStatus = true;
+    private SerialPort serialPort = null;
+    private InputStream inputStream = null;
+    private OutputStream outputStream = null;
+    private ChangeToolUtils changeTool = new ChangeToolUtils();
 
     public SerialPortUtils(int com,int baudrate) {
         setComInfo(com,baudrate);
@@ -170,7 +164,7 @@ public class SerialPortUtils {
                 try {
                     size = inputStream.read(buffer);
                     if (size > 0){
-                        Log.d(TAG, "run: 接收到了数据：" + changeTool.ByteArrToHex(buffer,0,size));
+                        Log.d(TAG, "run: 接收到了数据：" + changeTool.byteArrToHex(buffer,0,size));
                         Log.d(TAG, "run: 接收到了数据大小：" + String.valueOf(size));
                         onDataReceiveListener.onDataReceive(buffer,size);
                     }

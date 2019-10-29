@@ -3,6 +3,8 @@ package com.uplink.selfstore.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.machineCtrl.WeiGuangMidCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.ProductSkuSearchResultBean;
@@ -31,6 +34,7 @@ import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +43,7 @@ public class CustomSlotEditDialog extends Dialog {
     private View layoutRes;// 布局文件
     private SmMachineStockActivity context;
     private View btn_close;
-    private TextView txt_val;
+    private TextView txt_searchKey;
     private ImageView img_SkuImg;
     private TextView txt_SlotName;
     private TextView txt_SkuId;
@@ -51,21 +55,55 @@ public class CustomSlotEditDialog extends Dialog {
     private ImageButton btn_keydelete;
     private Button btn_delete;
     private Button btn_fill;
+    private Button btn_save;
     private View btn_decrease;
     private View btn_increase;
     private ListView list_search_skus;
     private SlotBean slot;
 
-    private CustomConfirmDialog dialog_ConfirmClose;
-
+    private WeiGuangMidCtrl weiGuangMidCtrl;
+    private  Handler weiGuangMidCtrlMsgHandler;
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.context = (SmMachineStockActivity)context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
+        weiGuangMidCtrl=new WeiGuangMidCtrl();
+
+        weiGuangMidCtrlMsgHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+
+                switch (msg.what) {
+                    case 0x1:
+                    String content=(String) msg.obj;
+                    txt_searchKey.setText(content);
+                    searchSkus(content);
+                    default:
+                        break;
+
+                }
+            }
+        };
+
+        weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
+            @Override
+            public void OnSendUI(int type,int status, String content) {
+                sendMidCtrlHandlerMsg(type,status, content);
+            }
+        });
+        weiGuangMidCtrl.open();
+
         initView();
         initEvent();
         initData();
+    }
+
+    private void sendMidCtrlHandlerMsg(int type,int status, String content) {
+        final Message m = new Message();
+        m.what = type;
+        m.obj = content;
+        weiGuangMidCtrlMsgHandler.sendMessage(m);
     }
 
     @Override
@@ -76,7 +114,7 @@ public class CustomSlotEditDialog extends Dialog {
 
     protected void initView() {
         btn_close = ViewHolder.get(this.layoutRes, R.id.btn_close);
-        txt_val = ViewHolder.get(this.layoutRes, R.id.txt_val);
+        txt_searchKey = ViewHolder.get(this.layoutRes, R.id.txt_searchKey);
 
         img_SkuImg = ViewHolder.get(this.layoutRes, R.id.img_SkuImg);
         txt_SlotName = ViewHolder.get(this.layoutRes, R.id.txt_SlotName);
@@ -92,9 +130,8 @@ public class CustomSlotEditDialog extends Dialog {
         btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
         btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
         btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
+        btn_save= ViewHolder.get(this.layoutRes, R.id.btn_save);
 
-        dialog_ConfirmClose = new CustomConfirmDialog(this.context,  "确认要保存", true);
-        dialog_ConfirmClose.getTipsImage().setVisibility(View.GONE);
     }
 
     protected void initEvent() {
@@ -105,18 +142,18 @@ public class CustomSlotEditDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_ConfirmClose.show();
+                _this.dismiss();
             }
         });
 
         btn_keydelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String val= txt_val.getText().toString();
+                String val= txt_searchKey.getText().toString();
                 if(val.length()>=1) {
                     val = val.substring(0, val.length() - 1);
                 }
-                txt_val.setText(val);
+                txt_searchKey.setText(val);
                 searchSkus(val);
             }
         });
@@ -152,6 +189,45 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MachineBean machine = AppCacheManager.getMachine();
+
+                String id=String.valueOf(txt_SlotName.getText());
+                String productSkuId=String.valueOf(txt_SkuId.getText());
+                int sumQuantity=Integer.valueOf(txt_SumQty.getText()+"");
+                Map<String, Object> params = new HashMap<>();
+                params.put("id", id);
+                params.put("machineId", machine.getId());
+                params.put("productSkuId", productSkuId);
+                params.put("sumQuantity", sumQuantity);
+
+
+                context.postByMy(Config.URL.machine_SaveSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+
+                        ApiResultBean<SlotBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SlotBean>>() {
+                        });
+
+                        context.showToast(rt.getMessage());
+
+                        if (rt.getResult() == Result.SUCCESS) {
+                            _this.dismiss();
+                            context.setSlot(rt.getData());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg, Exception e) {
+
+                    }
+                });
+            }
+        });
 
         //点击减去
         btn_decrease.setOnClickListener(new View.OnClickListener() {
@@ -197,55 +273,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-
-        dialog_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                MachineBean machine = AppCacheManager.getMachine();
-
-                String id=String.valueOf(txt_SlotName.getText());
-                String productSkuId=String.valueOf(txt_SkuId.getText());
-                int sumQuantity=Integer.valueOf(txt_SumQty.getText()+"");
-                Map<String, Object> params = new HashMap<>();
-                params.put("id", id);
-                params.put("machineId", machine.getId());
-                params.put("productSkuId", productSkuId);
-                params.put("sumQuantity", sumQuantity);
-
-
-                context.postByMy(Config.URL.machine_SaveSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
-                    @Override
-                    public void onSuccess(String response) {
-
-                        ApiResultBean<SlotBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SlotBean>>() {
-                        });
-
-                        context.showToast(rt.getMessage());
-
-                        if (rt.getResult() == Result.SUCCESS) {
-                            dialog_ConfirmClose.dismiss();
-                            _this.dismiss();
-                            context.setSlot(rt.getData());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(String msg, Exception e) {
-
-                    }
-                });
-
-            }
-        });
-
-        dialog_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog_ConfirmClose.dismiss();
-            }
-        });
 
         LinearLayout all_key =ViewHolder.get(this.layoutRes, R.id.all_key);
         for (int i = 0; i < all_key.getChildCount(); i++) {
@@ -298,8 +325,8 @@ public class CustomSlotEditDialog extends Dialog {
     }
 
     private void getKey(String key) {
-        String val=txt_val.getText()+key;
-        txt_val.setText(val);
+        String val=txt_searchKey.getText()+key;
+        txt_searchKey.setText(val);
         searchSkus(val);
     }
 
@@ -340,9 +367,25 @@ public class CustomSlotEditDialog extends Dialog {
                         }
                     });
                     list_search_skus.setAdapter(slotSkuSearchAdapter);
+
+                    if(d.getProductSkus()!=null) {
+                        if (d.getProductSkus().size() == 1)
+                        {
+                            SearchProductSkuBean skuBean=d.getProductSkus().get(0);
+                            txt_SkuId.setText(skuBean.getId());
+                            txt_SkuName.setText(skuBean.getName());
+                            CommonUtil.loadImageFromUrl(context, img_SkuImg, skuBean.getMainImgUrl());
+                        }
+                    }
                 }
             }
         });
     }
+
+    public void clearSearch() {
+        txt_searchKey.setText("");
+        SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(context, new ArrayList<SearchProductSkuBean>());
+        list_search_skus.setAdapter(slotSkuSearchAdapter);}
+
 
 }
