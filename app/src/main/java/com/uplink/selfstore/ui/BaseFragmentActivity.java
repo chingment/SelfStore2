@@ -250,6 +250,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public void onSuccess(String response) {
+                if (isShowLoading) {
+                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
+                        customDialogLoading.cancelDialog();
+                    }
+                }
                 final String s = response;
 
                 if (s.indexOf("\"result\":") > -1) {
@@ -269,16 +274,12 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public void onFailure(String msg, Exception e) {
-                handler.onFailure(msg, e);
-            }
-
-            @Override
-            public void onComplete(String response) {
                 if (isShowLoading) {
-                    customDialogLoading.cancelDialog();
+                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
+                        customDialogLoading.cancelDialog();
+                    }
                 }
-
-                handler.onComplete(response);
+                handler.onFailure(msg, e);
             }
         });
     }
@@ -291,15 +292,33 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onBeforeSend() {
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        customDialogLoading.setProgressText(loadingMsg);
-                        customDialogLoading.showDialog();
+                        if(!customDialogLoading.isShowing()) {
+                            customDialogLoading.setProgressText(loadingMsg);
+                            customDialogLoading.showDialog();
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (customDialogLoading != null && customDialogLoading.isShowing()) {
+                                        customDialogLoading.cancelDialog();
+                                    }
+                                }
+                            }, 6000);
+                        }
+
                     }
                 }
             }
 
             @Override
             public void onSuccess(String response) {
-
+                if (isShowLoading) {
+                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
+                        customDialogLoading.cancelDialog();
+                    }
+                }
                 final String s = response;
                 if (s.indexOf("\"result\":") > -1) {
                     //运行在子线程,,
@@ -317,21 +336,12 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public void onFailure(String msg, Exception e) {
-
-                if (customDialogLoading != null) {
-                    customDialogLoading.cancelDialog();
+                if (isShowLoading) {
+                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
+                        customDialogLoading.cancelDialog();
+                    }
                 }
-
                 handler.onFailure(msg, e);
-            }
-
-            @Override
-            public void onComplete(String response) {
-                if (customDialogLoading != null) {
-                    customDialogLoading.cancelDialog();
-                }
-
-                handler.onComplete(response);
             }
         });
     }

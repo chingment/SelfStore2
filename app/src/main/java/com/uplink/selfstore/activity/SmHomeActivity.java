@@ -91,7 +91,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                             @Override
                             public void onFailure(String msg, Exception e) {
-
+                                showToast(msg);
                             }
                         });
 

@@ -132,7 +132,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
                         @Override
                         public void onFailure(String msg, Exception e) {
-
+                            showToast(msg);
                         }
                     });
 

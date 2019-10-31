@@ -29,8 +29,7 @@ import okhttp3.Request;
 public class HttpResponseHandler {
     protected static final int SUCCESS_MESSAGE = 0;
     protected static final int FAILURE_MESSAGE = 1;
-    protected static final int COMPLETE_MESSAGE = 2;
-    protected static final int BEFORESEMD_MESSAGE = 3;
+    protected static final int BEFORESEMD_MESSAGE = 2;
 
     private Handler handler;
 
@@ -70,10 +69,6 @@ public class HttpResponseHandler {
     public void onFailure(String msg, Exception e) {
     }
 
-    public void onComplete(String response) {
-
-    }
-
     public void onBeforeSend() {
 
     }
@@ -94,14 +89,6 @@ public class HttpResponseHandler {
         sendMessage(obtainMessage(FAILURE_MESSAGE, new Object[]{e, msg}));
     }
 
-    protected void sendCompleteMessage(String msg) {
-        try {
-            sendMessage(obtainMessage(COMPLETE_MESSAGE, msg));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     protected void sendBeforeSendMessage() {
         sendMessage(obtainMessage(BEFORESEMD_MESSAGE, null));
     }
@@ -118,10 +105,6 @@ public class HttpResponseHandler {
         onFailure(msg, e);
     }
 
-    protected void handleCompleteMessage(String response) {
-        onComplete(response);
-    }
-
     protected void handleBeforeSendMessage() {
         onBeforeSend();
     }
@@ -136,9 +119,6 @@ public class HttpResponseHandler {
             case FAILURE_MESSAGE:
                 Object[] response = (Object[]) msg.obj;
                 handleFailureMessage((String) response[1], (Exception) response[0]);
-                break;
-            case COMPLETE_MESSAGE:
-                handleCompleteMessage((String) msg.obj);
                 break;
             case BEFORESEMD_MESSAGE:
                 handleBeforeSendMessage();

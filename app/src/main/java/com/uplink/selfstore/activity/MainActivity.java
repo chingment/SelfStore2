@@ -269,6 +269,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     showToast(rt.getMessage());
                 }
             }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
+            }
         });
     }
 

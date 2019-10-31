@@ -217,6 +217,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     showToast(rt.getMessage());
                 }
             }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
+            }
         });
     }
 }

@@ -124,172 +124,75 @@ public class HttpClient {
         return false;
     }
 
-    /**
-     * 普通get方法
-     *
-     * @param url
-     * @param param
-     * @param handler
-     */
-    public static void get(String url, Map<String, String> param, final HttpResponseHandler handler) {
-
-        if (!isNetworkAvailable()) {
-            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_SHORT);
-
-            return;
-        }
-
-        if (param != null && param.size() > 0) {
-            url = url + "?" + mapToQueryString(param);
-        }
-        Request request = new Request.Builder().url(url).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    handler.sendSuccessMessage(response.body().string());
-                } catch (Exception e) {
-                    handler.sendFailureMessage("读取数据发生异常", e);
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-                String msg = "读取数据服务发生异常";
-
-                if (e instanceof SocketTimeoutException) {
-                    msg = "读取数据服务连接超时";
-                } else if (e instanceof ConnectException) {
-                    msg = "读取数据服务连接失败";
-
-                } else if (e instanceof UnknownHostException) {
-                    msg = "读取数据服务连接不存在";
-                }
-
-                handler.sendFailureMessage(msg, e);
-            }
-        });
-    }
-
-
-    /**
-     * 普通post方法
-     *
-     * @param url
-     * @param param
-     * @param handler
-     */
-    public static void post(String url, Map<String, String> param, final HttpResponseHandler handler) {
-        if (!isNetworkAvailable()) {
-            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用", Toast.LENGTH_LONG);
-            return;
-        }
-        String paramStr = "";
-        if (param != null && param.size() > 0) {
-            paramStr = url += mapToQueryString(param);
-            url = url + "?" + paramStr;
-        }
-        RequestBody body = RequestBody.create(MEDIA_TYPE, paramStr);
-        Request request = new Request.Builder().url(url).post(body).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    handler.sendSuccessMessage(response.body().string());
-                } catch (Exception e) {
-                    handler.sendFailureMessage("读取数据发生异常", e);
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                String msg = "读取数据服务发生异常";
-
-                if (e instanceof SocketTimeoutException) {
-                    msg = "读取数据服务连接超时";
-                } else if (e instanceof ConnectException) {
-                    msg = "读取数据服务连接失败";
-
-                } else if (e instanceof UnknownHostException) {
-                    msg = "读取数据服务连接不存在";
-                }
-
-                handler.sendFailureMessage(msg, e);
-            }
-        });
-    }
-
 
     public static void getByAppSecret(String key, String secret, String url, Map<String, String> param, final HttpResponseHandler handler) {
 
-        if (!isNetworkAvailable()) {
-            handler.sendFailureMessage("网络连接不可用,请检查设置", null);
-            ToastUtil.showMessage(AppContext.getInstance(), "网络连接不可用,请检查设置", Toast.LENGTH_SHORT);
-            return;
-        }
-
-        handler.sendBeforeSendMessage();
-
-        String data = "";
-        if (param != null && param.size() > 0) {
-            data = mapToQueryString(param);
-            url = url + "?" + data;
-
-        }
-
-        Request.Builder requestBuilder = new Request.Builder().url(url);
-        requestBuilder.addHeader("key", "" + key);
-        String currenttime = (System.currentTimeMillis() / 1000) + "";
-        requestBuilder.addHeader("timestamp", currenttime);
-        String sign = Config.getSign(key, secret, data, currenttime);
-        requestBuilder.addHeader("sign", "" + sign);
-        requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
-
-        LogUtil.i(TAG, "Request.url====>>>" + url);
-        Request request = requestBuilder.build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    String body = response.body().string();
-                    LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
-                    handler.sendSuccessMessage(body);
-                } catch (Exception e) {
-                    LogUtil.i(TAG, "Request.onFailure====>>>" + e.getMessage());
-                    handler.sendFailureMessage("读取数据发生异常", e);
-                }
-
-                handler.sendCompleteMessage("");
+        try {
+            if (!isNetworkAvailable()) {
+                handler.sendFailureMessage("网络连接不可用,请检查设置", null);
+                return;
             }
 
-            @Override
-            public void onFailure(Call call, IOException e) {
+            handler.sendBeforeSendMessage();
 
-                String msg = "读取数据服务发生异常";
-
-                if (e instanceof SocketTimeoutException) {
-                    msg = "读取数据服务连接超时";
-                } else if (e instanceof ConnectException) {
-                    msg = "读取数据服务连接失败";
-
-                } else if (e instanceof UnknownHostException) {
-                    msg = "读取数据服务连接不存在";
-                }
-                handler.sendFailureMessage(msg, e);
+            String data = "";
+            if (param != null && param.size() > 0) {
+                data = mapToQueryString(param);
+                url = url + "?" + data;
 
             }
-        });
+
+            Request.Builder requestBuilder = new Request.Builder().url(url);
+            requestBuilder.addHeader("key", "" + key);
+            String currenttime = (System.currentTimeMillis() / 1000) + "";
+            requestBuilder.addHeader("timestamp", currenttime);
+            String sign = Config.getSign(key, secret, data, currenttime);
+            requestBuilder.addHeader("sign", "" + sign);
+            requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
+
+            LogUtil.i(TAG, "Request.url====>>>" + url);
+            Request request = requestBuilder.build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                    try {
+                        String body = response.body().string();
+                        LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
+                        handler.sendSuccessMessage(body);
+                    } catch (Exception e) {
+                        LogUtil.i(TAG, "Request.onFailure====>>>" + e.getMessage());
+                        handler.sendFailureMessage("读取数据发生异常", e);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                    String msg = "读取数据服务发生异常";
+
+                    if (e instanceof SocketTimeoutException) {
+                        msg = "读取数据服务连接超时";
+                    } else if (e instanceof ConnectException) {
+                        msg = "读取数据服务连接失败";
+
+                    } else if (e instanceof UnknownHostException) {
+                        msg = "读取数据服务连接不存在";
+                    }
+                    handler.sendFailureMessage(msg, e);
+
+                }
+            });
+        } catch (Exception ex) {
+            handler.sendFailureMessage("数据获取发生异常",ex);
+        }
     }
 
     public static void postByAppSecret(String key, String secret, String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
 
         try
-
         {
             if (!isNetworkAvailable()) {
-                Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
-                handler.sendCompleteMessage("");
+                handler.sendFailureMessage("网络连接不可用,请检查设置",null);
                 return;
             }
 
@@ -302,7 +205,7 @@ public class HttpClient {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                handler.sendCompleteMessage("");
+                handler.sendFailureMessage("提交数据转换发生异常",null);
                 return;
             }
 
@@ -334,7 +237,7 @@ public class HttpClient {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                handler.sendCompleteMessage("");
+                handler.handleFailureMessage("提交数据转换发生异常",e);
                 return;
             }
 
@@ -363,7 +266,6 @@ public class HttpClient {
                         handler.sendFailureMessage("读取数据发生异常", e);
                     }
 
-                    handler.sendCompleteMessage("");
                 }
 
                 @Override
@@ -376,15 +278,14 @@ public class HttpClient {
                         msg = "读取数据服务连接失败";
 
                     } else if (e instanceof UnknownHostException) {
-                        msg = "读取数据服务连接不存在";
+                        msg = "读取数据服务网络异常或连接不存在";
                     }
 
                     handler.sendFailureMessage(msg, e);
                 }
             });
         } catch (Exception ex) {
-
-            handler.sendCompleteMessage("");
+            handler.sendFailureMessage("数据提交发生异常",ex);
         }
     }
 

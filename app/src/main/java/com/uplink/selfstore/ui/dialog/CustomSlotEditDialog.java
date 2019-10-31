@@ -162,6 +162,12 @@ public class CustomSlotEditDialog extends Dialog {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                    ((SmMachineStockActivity) context).showToast("没有可删除的商品");
+                    return;
+                }
+
                 txt_SkuId.setText("");
                 txt_SkuName.setText("暂无设置");
                 txt_SellQty.setText("0");
