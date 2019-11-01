@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -52,8 +53,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public static final String mJpush_KEY_MESSAGE = "message";
     public static final String mJpush_KEY_EXTRAS = "extras";
     private CustomDialogLoading customDialogLoading;
-
-
+    private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
 
     public CustomDialogLoading getCustomDialogLoading() {
@@ -106,6 +106,33 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     }
 
+    public void  useClosePageCountTimer()
+    {
+        if(closePageCountTimer==null) {
+            closePageCountTimer = new ClosePageCountTimer(this, 120);
+        }
+    }
+
+    public void  closePageCountTimerStart() {
+
+
+        new Handler(getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if(closePageCountTimer!=null) {
+                    closePageCountTimer.start();
+                }
+            }
+        });
+    }
+
+    public void  closePageCountTimerStop() {
+
+        if(closePageCountTimer!=null) {
+            closePageCountTimer.cancel();
+        }
+    }
+
 
     public void setShowStatuBar(boolean isshow) {
 
@@ -132,6 +159,22 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            //获取触摸动作，如果ACTION_UP，计时开始。
+            case MotionEvent.ACTION_UP:
+                closePageCountTimerStart();
+                break;
+            //否则其他动作计时取消
+            default:
+                closePageCountTimerStop();
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+
     /**
      * Activity从后台重新回到前台时被调用
      */
@@ -156,6 +199,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onResume() {
         isForeground = true;
         super.onResume();
+        closePageCountTimerStart();
         MobclickAgent.onResume(this);
     }
 
@@ -166,6 +210,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onPause() {
         isForeground = false;
         super.onPause();
+        closePageCountTimerStop();
         MobclickAgent.onPause(this);
     }
 
@@ -177,6 +222,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onStop() {
         isForeground = false;
         super.onStop();
+        closePageCountTimerStop();
     }
 
     /**
@@ -186,13 +232,15 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mJpush_MessageReceiver);
         AppManager.getAppManager().finishActivity(this);
+        closePageCountTimerStop();
         super.onDestroy();
+
     }
 
     @Override
     public void finish() {
+        closePageCountTimerStop();
         super.finish();
-
     }
 
     public boolean isAppOnForeground() {

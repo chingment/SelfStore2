@@ -62,10 +62,10 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
         setNavTtile(this.getResources().getString(R.string.activity_productkind_navtitle));
 
-
         initView();
         initEvent();
         initData();
+        useClosePageCountTimer();
     }
 
     protected void initView() {

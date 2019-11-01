@@ -42,6 +42,8 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
+
+        useClosePageCountTimer();
     }
 
     protected void initView() {

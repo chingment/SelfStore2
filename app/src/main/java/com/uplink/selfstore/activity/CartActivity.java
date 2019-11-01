@@ -70,6 +70,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initView();
         initEvent();
         initData();
+
+        useClosePageCountTimer();
     }
 
     protected void initView() {
@@ -100,7 +102,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         dialog_ScanPay_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                closePageCountTimerStart();
                 taskByCheckPayTimeout.cancel();
                 dialog_ScanPay_ConfirmClose.dismiss();
                 dialog_ScanPay.dismiss();
@@ -113,6 +115,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
 
+                closePageCountTimerStart();
                 dialog_ScanPay_ConfirmClose.dismiss();
             }
         });
@@ -128,8 +131,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
             @Override
             public void onFinish() {
-                dialog_ScanPay.getPaySecondsText().setText("支付超时，请返回重新下单");
-                finish();
+                closePageCountTimerStart();
+                if(dialog_ScanPay!=null&&dialog_ScanPay.isShowing()) {
+                    dialog_ScanPay.dismiss();
+                }
+                if(dialog_ScanPay_ConfirmClose!=null&&dialog_ScanPay_ConfirmClose.isShowing()) {
+                    dialog_ScanPay_ConfirmClose.dismiss();
+                }
             }
         };
     }
@@ -269,7 +277,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                             dialog_ScanPay.getPayTipsText().setText("请使用支付宝扫码支付");
                             break;
                     }
-
+                    closePageCountTimerStop();
                     dialog_ScanPay.show();
 
                 } else {

@@ -135,7 +135,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 {
                     slot=new SlotBean();
                     slot.setId(slotId);
-
                     slots.put(slotId,slot);
                 }
 

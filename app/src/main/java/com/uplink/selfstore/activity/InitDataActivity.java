@@ -48,7 +48,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-         setShowStatuBar(true);
+        setShowStatuBar(true);
 
         if (AppCacheManager.getGlobalDataSet() != null) {
             Intent intent = new Intent(getAppContext(), MainActivity.class);
@@ -60,11 +60,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initView();
         initEvent();
         initData();
-
-        Intent intent2 = new Intent();
-        intent2.setAction("android.intent.action.hidenavigation");
-        intent2.putExtra("enable", false);
-        sendBroadcast(intent2);
 
     }
 

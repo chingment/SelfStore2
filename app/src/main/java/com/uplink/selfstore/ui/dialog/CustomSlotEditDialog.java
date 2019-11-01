@@ -86,13 +86,19 @@ public class CustomSlotEditDialog extends Dialog {
             }
         };
 
-        weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
-            @Override
-            public void OnSendUI(int type,int status, String content) {
-                sendMidCtrlHandlerMsg(type,status, content);
-            }
-        });
-        weiGuangMidCtrl.open();
+        try {
+            weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
+                @Override
+                public void OnSendUI(int type, int status, String content) {
+                    sendMidCtrlHandlerMsg(type, status, content);
+                }
+            });
+            weiGuangMidCtrl.open();
+        }
+        catch (Exception ex)
+        {
+            ((SmMachineStockActivity) context).showToast("扫描器串口打开失败");
+        }
 
         initView();
         initEvent();
