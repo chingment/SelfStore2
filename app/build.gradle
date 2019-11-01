@@ -36,16 +36,16 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('/Users/chingment/Documents/github/SelfStore2/carins.jks')
+            storeFile file('/Users/chingment/Documents/github/SelfStore2/selfstore.jks')
             storePassword 'ching003'
-            keyAlias 'CarIns'
+            keyAlias 'SelfStore'
             keyPassword 'ching003'
         }
         config {
-            keyAlias 'CarIns'
-            keyPassword 'ching003'
-            storeFile file('../CarIns.jks')
+            storeFile file('/Users/chingment/Documents/github/SelfStore2/selfstore.jks')
             storePassword 'ching003'
+            keyAlias 'SelfStore'
+            keyPassword 'ching003'
         }
     }
 
