@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -13,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.machineCtrl.MachineCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.MachineSlotsResultBean;
@@ -21,9 +23,11 @@ import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
+import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.HashMap;
@@ -37,12 +41,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     private CustomSlotEditDialog dialog_SlotEdit;
 
-    private HashMap<String, SlotBean> slots;
+    private String cabinetId = "";
+    private String cabinetName = "";
+    private int[] cabinetRowColLayout = null;
+    private HashMap<String, SlotBean> cabinetSlots = null;
 
-    private String cabinetId="";
-    private String cabinetName="";
-    private int cabinetMaxRow=0;
-    private int cabinetMaxCol=0;
+    private Button btn_ScanSlots;
+
+    private MachineCtrl machineCtrl = new MachineCtrl();
+    private CustomDialogLoading customDialogRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +61,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         setNavBtnVisible(true);
 
         MachineBean machine = AppCacheManager.getMachine();
-        cabinetId=machine.getCabinetId_1();
-        cabinetMaxRow=machine.getCabinetMaxRow_1();
-        cabinetMaxCol=machine.getCabinetMaxCol_1();
-
+        cabinetId = machine.getCabinetId_1();
+        cabinetRowColLayout = machine.getCabinetRowColLayout_1();
 
         initView();
         initEvent();
@@ -67,47 +72,49 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     protected void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
-
+        btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
+        customDialogRunning = new CustomDialogLoading(this);
     }
 
 
     protected void initEvent() {
-
+        btn_ScanSlots.setOnClickListener(this);
     }
 
     protected void initData() {
         getSlots();
     }
 
-    public  void  setSlot(SlotBean slot)
-    {
-        slots.get(slot.getId()).setProductSkuId(slot.getProductSkuId());
-        slots.get(slot.getId()).setProductSkuName(slot.getProductSkuName());
-        slots.get(slot.getId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
-        slots.get(slot.getId()).setOffSell(slot.isOffSell());
-        slots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
-        slots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
-        slots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
-        slots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
+    public void setSlot(SlotBean slot) {
+        cabinetSlots.get(slot.getId()).setProductSkuId(slot.getProductSkuId());
+        cabinetSlots.get(slot.getId()).setProductSkuName(slot.getProductSkuName());
+        cabinetSlots.get(slot.getId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
+        cabinetSlots.get(slot.getId()).setOffSell(slot.isOffSell());
+        cabinetSlots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
+        cabinetSlots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
+        cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
+        cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
 
-        drawsStock(slots);
+        drawsCabinetStock(cabinetRowColLayout, cabinetSlots);
     }
 
-    public   void drawsStock(HashMap<String, SlotBean> slots) {
+    public void drawsCabinetStock(int[] rowColLayout, HashMap<String, SlotBean> slots) {
 
-        this.slots=slots;
+        this.cabinetRowColLayout = rowColLayout;
+        this.cabinetSlots = slots;
 
-        int row_int = cabinetMaxRow;
-        int col_int = cabinetMaxCol;
+        int rowLength = rowColLayout.length;
+
         //清除表格所有行
         table_slotstock.removeAllViews();
         //全部列自动填充空白处
         table_slotstock.setStretchAllColumns(true);
         //生成X行，Y列的表格
-        for (int i = cabinetMaxRow; i >0; i--) {
+        for (int i = rowLength; i > 0; i--) {
             TableRow tableRow = new TableRow(SmMachineStockActivity.this);
+            int colLength = rowColLayout[i - 1];
 
-            for (int j = 0; j < col_int; j++) {
+            for (int j = 0; j < colLength; j++) {
                 //tv用于显示
                 final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
@@ -120,22 +127,21 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
 
-                final String slotId = cabinetId+"r"+(i-1) + "c" + j;
+                final String slotId = cabinetId + "r" + (i - 1) + "c" + j;
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);
-                SlotBean slot=null;
-                if(slots!=null) {
-                    if(slots.size()>0) {
+                SlotBean slot = null;
+                if (slots != null) {
+                    if (slots.size() > 0) {
                         slot = slots.get(slotId);
                     }
                 }
 
-                if(slot==null)
-                {
-                    slot=new SlotBean();
+                if (slot == null) {
+                    slot = new SlotBean();
                     slot.setId(slotId);
-                    slots.put(slotId,slot);
+                    slots.put(slotId, slot);
                 }
 
                 if (slot.getProductSkuId() == null) {
@@ -158,7 +164,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SlotBean l_Slot=(SlotBean)v.getTag();
+                        SlotBean l_Slot = (SlotBean) v.getTag();
                         dialog_SlotEdit.setSlot(l_Slot);
                         dialog_SlotEdit.clearSearch();
                         dialog_SlotEdit.show();
@@ -182,22 +188,57 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 case R.id.nav_back:
                     finish();
                     break;
+                case R.id.btn_ScanSlots:
+                    machineCtrl.scanSlot(new MachineCtrl.ScanListener() {
+                        @Override
+                        public void receive(int status, String message, MachineCtrl.ScanResult result) {
+                            LogUtil.d("status:" + status + ",message:" + message);
+
+                            switch (status) {
+                                case 1:
+                                    showToast(message);
+                                    break;
+                                case 2:
+                                    //扫描中
+
+                                    customDialogRunning.setProgressText(message);
+
+                                    if (!customDialogRunning.isShowing()) {
+                                        customDialogRunning.show();
+                                    }
+
+                                    break;
+                                case 3:
+                                    //扫描结果
+                                    drawsCabinetStock(result.rowColLayout, cabinetSlots);
+
+                                    if (customDialogRunning.isShowing()) {
+                                        customDialogRunning.cancel();
+                                    }
+
+                                    break;
+                            }
+
+                        }
+                    });
+
+                    break;
                 default:
                     break;
             }
         }
     }
 
-    private void getSlots(){
+    private void getSlots() {
 
         Map<String, String> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
 
         params.put("machineId", machine.getId());
+        params.put("cabinetId", "0");//默认第一个机柜，以后扩展机柜需要
 
-
-        getByMy(Config.URL.machine_Slots, params, true,"正在获取库存", new HttpResponseHandler() {
+        getByMy(Config.URL.machine_Slots, params, true, "正在获取库存", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -207,12 +248,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-
-                    MachineSlotsResultBean d=rt.getData();
-                    drawsStock(d.getSlots());
-                }
-                else
-                {
+                    MachineSlotsResultBean d = rt.getData();
+                    drawsCabinetStock(d.getRowColLayout(), d.getSlots());
+                } else {
                     showToast(rt.getMessage());
                 }
             }

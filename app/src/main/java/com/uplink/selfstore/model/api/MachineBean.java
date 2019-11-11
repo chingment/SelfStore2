@@ -18,8 +18,8 @@ public class MachineBean implements Serializable {
     private String csrQrCode;
     private String cabinetId_1;
     private String cabinetName_1;
-    private int cabinetMaxRow_1;
-    private int cabinetMaxCol_1;
+    private int[] cabinetRowColLayout_1;
+
 
     public String getCsrQrCode() {
         return csrQrCode;
@@ -103,19 +103,11 @@ public class MachineBean implements Serializable {
         this.cabinetName_1 = cabinetName_1;
     }
 
-    public int getCabinetMaxRow_1() {
-        return cabinetMaxRow_1;
+    public int[] getCabinetRowColLayout_1() {
+        return cabinetRowColLayout_1;
     }
 
-    public void setCabinetMaxRow_1(int cabinetMaxRow_1) {
-        this.cabinetMaxRow_1 = cabinetMaxRow_1;
-    }
-
-    public int getCabinetMaxCol_1() {
-        return cabinetMaxCol_1;
-    }
-
-    public void setCabinetMaxCol_1(int cabinetMaxCol_1) {
-        this.cabinetMaxCol_1 = cabinetMaxCol_1;
+    public void setCabinetRowColLayout_1(int[] cabinetRowColLayout_1) {
+        this.cabinetRowColLayout_1 = cabinetRowColLayout_1;
     }
 }

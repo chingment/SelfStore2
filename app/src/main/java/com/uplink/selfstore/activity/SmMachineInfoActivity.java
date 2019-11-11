@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.machineCtrl.MachineCtrl;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -24,8 +25,12 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private TextView txt_Location;
     private TextView txt_JPushRegId;
     private TextView txt_AppVersion;
+    private TextView txt_MachineCtrlSdkVersion;
     private TextView txt_Currency;
     private TextView txt_CurrencySymbol;
+
+    private MachineCtrl machineCtrl=new MachineCtrl();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_Location = (TextView) findViewById(R.id.txt_Location);
         txt_JPushRegId = (TextView) findViewById(R.id.txt_JPushRegId);
         txt_AppVersion= (TextView) findViewById(R.id.txt_AppVersion);
+        txt_MachineCtrlSdkVersion=(TextView) findViewById(R.id.txt_MachineCtrlSdkVersion);
         txt_Currency= (TextView) findViewById(R.id.txt_Currency);
         txt_CurrencySymbol= (TextView) findViewById(R.id.txt_CurrencySymbol);
     }
@@ -65,6 +71,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_MachineId.setText(machine.getId());
         txt_JPushRegId.setText(JPushInterface.getRegistrationID(getAppContext()));
         txt_AppVersion.setText(BuildConfig.VERSION_NAME);
+        txt_MachineCtrlSdkVersion.setText(machineCtrl.vesion());
         txt_Currency.setText(machine.getCurrency());
         txt_CurrencySymbol.setText(machine.getCurrencySymbol());
 //        Location location = LocationUtil.getInstance(SmMachineInfoActivity.this).showLocation();

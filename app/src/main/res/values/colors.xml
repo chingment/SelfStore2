@@ -50,8 +50,12 @@
     <color name="widget_btn_1_f">#ff5500</color>
     <color name="widget_btn_2_n">#5AD485</color>
     <color name="widget_btn_2_f">#4BC175</color>
+    <color name="widget_btn_blue_n">#55CDFA</color>
+    <color name="widget_btn_blue_f">#62D0F9</color>
     <color name="widget_btn_green_n">#5AD485</color>
     <color name="widget_btn_green_f">#4BC175</color>
+    <color name="widget_btn_orange_n">#FA9145</color>
+    <color name="widget_btn_orange_f">#FA955A</color>
     <color name="radio_selector_edit_color_true">#666</color>
     <color name="radio_selector_edit_color_false">#ccc</color>
     <color name="popu_list_bg">#FFF</color>

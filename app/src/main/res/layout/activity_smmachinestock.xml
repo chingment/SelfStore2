@@ -7,6 +7,57 @@
     android:orientation="vertical">
 
     <include layout="@layout/layout_nav_header" />
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_32"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/size_10"
+        android:paddingRight="@dimen/size_10"
+        android:orientation="horizontal">
+
+
+
+            <Button
+                android:layout_marginLeft="@dimen/size_10"
+                android:id="@+id/btn_ScanSlots"
+                android:layout_width="@dimen/size_50"
+                android:layout_height="@dimen/size_20"
+                android:background="@drawable/widget_btn_green"
+                android:gravity="center"
+                android:text="@string/button_scanslot_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"/>
+
+        <Button
+            android:layout_marginLeft="@dimen/size_10"
+            android:id="@+id/btn_onekeypickuptest"
+            android:layout_width="@dimen/size_50"
+            android:layout_height="@dimen/size_20"
+            android:background="@drawable/widget_common_btn"
+            android:gravity="center"
+            android:text="@string/button_onekeypickuptest_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_10"/>
+
+            <Button
+                android:layout_marginLeft="@dimen/size_10"
+                android:id="@+id/btn_save"
+                android:layout_width="@dimen/size_50"
+                android:layout_height="@dimen/size_20"
+                android:background="@drawable/widget_btn_orange"
+                android:gravity="center"
+                android:text="@string/button_savedata_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10"/>
+
+
+
+
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="fill_parent"
         android:background="@color/white"

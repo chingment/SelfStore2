@@ -30,7 +30,8 @@
     <string name="activity_smmachineinfo_textview_machineid_text">机器编码</string>
     <string name="activity_smmachineinfo_textview_localtion_text">地理位置</string>
     <string name="activity_smmachineinfo_textview_paytimeout_text">支付超时（秒）</string>
-    <string name="activity_smmachineinfo_textview_versionname_text">版本号</string>
+    <string name="activity_smmachineinfo_textview_versionname_text">程序版本号</string>
+    <string name="activity_smmachineinfo_textview_machinectrlsdkversion_text">设备控制版本号</string>
     <string name="activity_smmachineinfo_textview_currency_text">货币</string>
     <string name="activity_smmachineinfo_textview_currencysymbol_text">货币符号</string>
     <string name="activity_smmachinestock_navtitle">机器库存</string>
@@ -72,6 +73,10 @@
     <string name="activity_smmachinestock_textview_productskulockqty_text">锁定数量</string>
     <string name="activity_smmachinestock_textview_productskusumqty_text">实际数量</string>
     <string name="button_save_text">保存</string>
+    <string name="button_savedata_text">保存数据</string>
     <string name="button_fill_text">置满</string>
     <string name="button_delete_text">删除</string>
+    <string name="button_pickuptest_text">测试取货</string>
+    <string name="button_scanslot_text">扫描货道</string>
+    <string name="button_onekeypickuptest_text">测试取货</string>
 </resources>
