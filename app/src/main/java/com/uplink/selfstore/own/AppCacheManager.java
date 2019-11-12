@@ -62,11 +62,15 @@ public class AppCacheManager {
 
     public static MachineBean getMachine() {
 
-        GlobalDataSetBean globalDataSet = getGlobalDataSet();
-        if(globalDataSet==null)
-            return null;
+        MachineBean bean=new MachineBean();
 
-        MachineBean bean = globalDataSet.getMachine();
+        GlobalDataSetBean globalDataSet = getGlobalDataSet();
+        if(globalDataSet==null) {
+            bean.setId("");
+            return bean;
+        }
+
+        bean = globalDataSet.getMachine();
 
         return bean;
 

@@ -16,7 +16,7 @@ public class MachineBean implements Serializable {
     private String currency;
     private String currencySymbol;
     private String csrQrCode;
-    private String cabinetId_1;
+    private int cabinetId_1;
     private String cabinetName_1;
     private int[] cabinetRowColLayout_1;
 
@@ -87,11 +87,11 @@ public class MachineBean implements Serializable {
         this.currencySymbol = currencySymbol;
     }
 
-    public String getCabinetId_1() {
+    public int getCabinetId_1() {
         return cabinetId_1;
     }
 
-    public void setCabinetId_1(String cabinetId_1) {
+    public void setCabinetId_1(int cabinetId_1) {
         this.cabinetId_1 = cabinetId_1;
     }
 

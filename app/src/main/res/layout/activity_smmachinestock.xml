@@ -42,6 +42,7 @@
             android:textSize="@dimen/sp_10"/>
 
             <Button
+                android:visibility="gone"
                 android:layout_marginLeft="@dimen/size_10"
                 android:id="@+id/btn_save"
                 android:layout_width="@dimen/size_50"

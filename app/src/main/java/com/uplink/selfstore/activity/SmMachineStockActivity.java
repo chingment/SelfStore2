@@ -34,6 +34,8 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
+import org.json.JSONArray;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +45,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;
     private CustomSlotEditDialog dialog_SlotEdit;
-    private String cabinetId = "0";//默认第一个机柜，以后扩展机柜需要
+    private int cabinetId = 0;//默认第一个机柜，以后扩展机柜需要
     private String cabinetName = "第一个机柜";
     private int[] cabinetRowColLayout = null;
     private HashMap<String, SlotBean> cabinetSlots = null;
@@ -101,6 +103,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 1:
                                 //异常消息
                                 showToast(message);
+                                if (customDialogRunning.isShowing()) {
+                                    customDialogRunning.hide();
+                                }
                                 break;
                             case 2:
                                 //扫描中
@@ -112,11 +117,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 3:
                                 //扫描结果
                                 if (result != null) {
-                                    drawsCabinetStock(result.rowColLayout, cabinetSlots);
-                                }
-
-                                if (customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancel();
+                                    saveCabinetRowColLayout(cabinetId,result.rowColLayout);
                                 }
                                 break;
                         }
@@ -131,7 +132,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         });
     }
 
-    //what 1：代表处理扫描货道
     private void sendUpdateUICmd(int what,Bundle data) {
         final Message m = new Message();
         m.what = what;
@@ -140,7 +140,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     protected void initData() {
-        getSlots();
+        getCabinetSlots();
     }
 
     public void setSlot(SlotBean slot) {
@@ -153,10 +153,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
         cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
 
-        drawsCabinetStock(cabinetRowColLayout, cabinetSlots);
+        drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
     }
 
-    public void drawsCabinetStock(int[] rowColLayout, HashMap<String, SlotBean> slots) {
+    public void drawsCabinetSlots(int[] rowColLayout, HashMap<String, SlotBean> slots) {
 
         this.cabinetRowColLayout = rowColLayout;
         this.cabinetSlots = slots;
@@ -265,16 +265,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
     }
 
-    private void getSlots() {
+    private void getCabinetSlots() {
 
         Map<String, String> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
 
         params.put("machineId", machine.getId());
-        params.put("cabinetId",cabinetId);
+        params.put("cabinetId",String.valueOf(cabinetId));
 
-        getByMy(Config.URL.machine_Slots, params, true, "正在获取库存", new HttpResponseHandler() {
+        getByMy(Config.URL.machine_GetCabinetSlots, params, true, "正在获取库存", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -285,7 +285,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 if (rt.getResult() == Result.SUCCESS) {
                     MachineSlotsResultBean d = rt.getData();
-                    drawsCabinetStock(d.getRowColLayout(), d.getSlots());
+                    drawsCabinetSlots(d.getRowColLayout(), d.getSlots());
                 } else {
                     showToast(rt.getMessage());
                 }
@@ -294,6 +294,48 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             @Override
             public void onFailure(String msg, Exception e) {
                 showToast(msg);
+            }
+        });
+    }
+
+    private void saveCabinetRowColLayout(final int cabinetId, final int[]cabinetRowColLayout) {
+        MachineBean machine = AppCacheManager.getMachine();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("machineId", machine.getId());
+        params.put("cabinetId", cabinetId);
+
+
+        JSONArray json_cabinetRowColLayout = new JSONArray();
+        for (int item : cabinetRowColLayout) {
+            json_cabinetRowColLayout.put(item);
+        }
+
+        params.put("cabinetRowColLayout", json_cabinetRowColLayout);
+
+        postByMy(Config.URL.machine_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<SlotBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SlotBean>>() {
+                });
+
+                showToast(rt.getMessage());
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    drawsCabinetSlots(cabinetRowColLayout,cabinetSlots);
+                }
+
+                if (customDialogRunning.isShowing()) {
+                    customDialogRunning.hide();
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                if (customDialogRunning.isShowing()) {
+                    customDialogRunning.hide();
+                }
             }
         });
     }

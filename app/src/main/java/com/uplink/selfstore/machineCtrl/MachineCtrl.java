@@ -57,8 +57,7 @@ public class MachineCtrl {
         }
     }
 
-    public boolean isOnline()
-    {
+    public boolean isOnline() {
         if (sym == null) {
             return false;
         }
@@ -119,7 +118,7 @@ public class MachineCtrl {
 
                 ScanResult scanResult = new ScanResult();
                 scanResult.setRows(5);
-                int[] s=new int[]{8,7,6,5,4};
+                int[] s=new int[]{8,7,6,5,16};
                 scanResult.setRowColLayout(s);
                 scanListener.receive(3, "扫描结束", scanResult);
                 cmd_ScanSlotIsStopListener = true;

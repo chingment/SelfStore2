@@ -70,9 +70,9 @@ public class CustomSlotEditDialog extends Dialog {
 
         weiGuangMidCtrl=new WeiGuangMidCtrl();
 
-        weiGuangMidCtrlMsgHandler = new Handler() {
+        weiGuangMidCtrlMsgHandler = new Handler(new Handler.Callback() {
             @Override
-            public void handleMessage(Message msg) {
+            public boolean handleMessage(Message msg) {
 
                 switch (msg.what) {
                     case 0x1:
@@ -83,8 +83,10 @@ public class CustomSlotEditDialog extends Dialog {
                         break;
 
                 }
+
+                return  false;
             }
-        };
+        });
 
         try {
             weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
@@ -97,7 +99,7 @@ public class CustomSlotEditDialog extends Dialog {
         }
         catch (Exception ex)
         {
-            ((SmMachineStockActivity) context).showToast("扫描器串口打开失败");
+            //((SmMachineStockActivity) context).showToast("扫描器串口打开失败");
         }
 
         initView();
@@ -132,6 +134,8 @@ public class CustomSlotEditDialog extends Dialog {
         txt_MaxQty = ViewHolder.get(this.layoutRes, R.id.txt_MaxQty);
         list_search_skus = ViewHolder.get(this.layoutRes, R.id.list_search_skus);
         btn_keydelete =  ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
+
+        btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
         btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
         btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
         btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
@@ -218,7 +222,7 @@ public class CustomSlotEditDialog extends Dialog {
                 params.put("sumQuantity", sumQuantity);
 
 
-                context.postByMy(Config.URL.machine_SaveSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                context.postByMy(Config.URL.machine_SaveCabinetSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -350,7 +354,7 @@ public class CustomSlotEditDialog extends Dialog {
         params.put("machineId", machine.getId());
         params.put("key", key);
 
-       context.getByMy(Config.URL.productSku_Search, params, true,"正在寻找", new HttpResponseHandler() {
+       context.getByMy(Config.URL.productSku_Search, params, false,"正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
