@@ -20,6 +20,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.machineCtrl.ScanMidCtrl;
 import com.uplink.selfstore.machineCtrl.WeiGuangMidCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -61,46 +62,57 @@ public class CustomSlotEditDialog extends Dialog {
     private ListView list_search_skus;
     private SlotBean slot;
 
-    private WeiGuangMidCtrl weiGuangMidCtrl;
+    private ScanMidCtrl scanMidCtrl=new ScanMidCtrl();
+
+    //private WeiGuangMidCtrl weiGuangMidCtrl;
     private  Handler weiGuangMidCtrlMsgHandler;
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.context = (SmMachineStockActivity)context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
-        weiGuangMidCtrl=new WeiGuangMidCtrl();
 
-        weiGuangMidCtrlMsgHandler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-
-                switch (msg.what) {
-                    case 0x1:
-                    String content=(String) msg.obj;
-                    txt_searchKey.setText(content);
-                    searchSkus(content);
-                    default:
-                        break;
-
-                }
-
-                return  false;
-            }
-        });
-
-        try {
-            weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
-                @Override
-                public void OnSendUI(int type, int status, String content) {
-                    sendMidCtrlHandlerMsg(type, status, content);
-                }
-            });
-            weiGuangMidCtrl.open();
+        if(!scanMidCtrl.connect()) {
+            ((SmMachineStockActivity) context).showToast("扫描设备连接失败");
         }
-        catch (Exception ex)
-        {
-            //((SmMachineStockActivity) context).showToast("扫描器串口打开失败");
+
+        if(!scanMidCtrl.isNormarl()) {
+            ((SmMachineStockActivity) context).showToast("扫描设备状态异常");
         }
+
+//        weiGuangMidCtrl=new WeiGuangMidCtrl();
+//
+//        weiGuangMidCtrlMsgHandler = new Handler(new Handler.Callback() {
+//            @Override
+//            public boolean handleMessage(Message msg) {
+//
+//                switch (msg.what) {
+//                    case 0x1:
+//                    String content=(String) msg.obj;
+//                    txt_searchKey.setText(content);
+//                    searchSkus(content);
+//                    default:
+//                        break;
+//
+//                }
+//
+//                return  false;
+//            }
+//        });
+//
+//        try {
+//            weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
+//                @Override
+//                public void OnSendUI(int type, int status, String content) {
+//                    sendMidCtrlHandlerMsg(type, status, content);
+//                }
+//            });
+//            weiGuangMidCtrl.open();
+//        }
+//        catch (Exception ex)
+//        {
+//            //((SmMachineStockActivity) context).showToast("扫描器串口打开失败");
+//        }
 
         initView();
         initEvent();
@@ -401,7 +413,8 @@ public class CustomSlotEditDialog extends Dialog {
     public void clearSearch() {
         txt_searchKey.setText("");
         SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(context, new ArrayList<SearchProductSkuBean>());
-        list_search_skus.setAdapter(slotSkuSearchAdapter);}
+        list_search_skus.setAdapter(slotSkuSearchAdapter);
+    }
 
 
 }

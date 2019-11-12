@@ -27,27 +27,28 @@ public class ScanMidCtrl {
     private byte[] frameHead =new byte[]{(byte)0x55,(byte)0xAA};
 
     public ScanMidCtrl() {
+
     }
 
     public void setTimeOut(int nTimeout) {
         this.nTimeout = nTimeout;
     }
 
-    public int connect() {
+    public boolean connect() {
         String strPort="/dev/ttymxc2";
         int nBaudrate=115200;
         try {
             mSerialPort = new SerialPort(new File(strPort), nBaudrate, 0);
             this.out = mSerialPort.getOutputStream();
             this.in = mSerialPort.getInputStream();
-            return RC_SUCCESS;
+            return true;
         } catch (SecurityException var4) {
             var4.printStackTrace();
-            return RC_NOPERMISSION;
+            return false;
         } catch (IOException var5) {
             var5.printStackTrace();
             Log.e(TAG, String.format("connect to %s:%d failed", strPort, nBaudrate));
-            return RC_ERROR;
+            return false;
         }
     }
 
@@ -192,7 +193,7 @@ public class ScanMidCtrl {
         return nRead;
     }
 
-    public boolean getDeviceStatus() {
+    public boolean isNormarl() {
         byte[] sz = new byte[6];
         sz[0] = (byte) 0x55;
         sz[1] = (byte) 0xAA;
