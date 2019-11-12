@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
+import com.uplink.selfstore.machineCtrl.MachineCtrl;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
@@ -42,6 +43,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private LoadingView loading_ani;
     private TextView loading_msg;
     private TextView txt_machineId;
+
+    private MachineCtrl machineCtrl=new MachineCtrl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +79,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         btn_retry.setOnClickListener(this);
         loading_ani.start();
 
-        handler_msg = new Handler() {
+        handler_msg = new Handler(new Handler.Callback() {
             @Override
-            public void handleMessage(Message msg) {
+            public boolean handleMessage(Message msg) {
                 loading_msg.setText(msg.obj.toString());
 
                 switch (msg.what) {
@@ -97,8 +100,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                         btn_retry.setVisibility(View.INVISIBLE);
                         break;
                 }
+
+                return  false;
             }
-        };
+        });
     }
 
     private void initData() {
@@ -139,6 +144,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
+        params.put("ctrlSdkVersionCode", machineCtrl.vesion());
         params.put("macAddress", "");
 
         postByMy(Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {

@@ -1,6 +1,10 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +42,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;
-
     private CustomSlotEditDialog dialog_SlotEdit;
-
-    private String cabinetId = "";
-    private String cabinetName = "";
+    private String cabinetId = "0";//默认第一个机柜，以后扩展机柜需要
+    private String cabinetName = "第一个机柜";
     private int[] cabinetRowColLayout = null;
     private HashMap<String, SlotBean> cabinetSlots = null;
-
     private Button btn_ScanSlots;
-
     private MachineCtrl machineCtrl = new MachineCtrl();
     private CustomDialogLoading customDialogRunning;
+    private Handler handler_UpdateUI;
+    private final int MESSAGE_WHAT_SCANSLOTS=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,62 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     protected void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
+
+
+        handler_UpdateUI = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                Bundle bundle;
+                switch (msg.what) {
+                    case MESSAGE_WHAT_SCANSLOTS:
+                        bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        MachineCtrl.ScanResult result = null;
+                        if (bundle.getSerializable("result") != null) {
+                            result = (MachineCtrl.ScanResult) bundle.getSerializable("result");
+                        }
+                        switch (status) {
+                            case 1:
+                                //异常消息
+                                showToast(message);
+                                break;
+                            case 2:
+                                //扫描中
+                                customDialogRunning.setProgressText(message);
+                                if (!customDialogRunning.isShowing()) {
+                                    customDialogRunning.show();
+                                }
+                                break;
+                            case 3:
+                                //扫描结果
+                                if (result != null) {
+                                    drawsCabinetStock(result.rowColLayout, cabinetSlots);
+                                }
+
+                                if (customDialogRunning.isShowing()) {
+                                    customDialogRunning.cancel();
+                                }
+                                break;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+
+                return false;
+            }
+        });
+    }
+
+    //what 1：代表处理扫描货道
+    private void sendUpdateUICmd(int what,Bundle data) {
+        final Message m = new Message();
+        m.what = what;
+        m.setData(data);
+        handler_UpdateUI.sendMessage(m);
     }
 
     protected void initData() {
@@ -127,7 +185,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
 
-                final String slotId = cabinetId + "r" + (i - 1) + "c" + j;
+                final String slotId = "n"+cabinetId + "r" + (i - 1) + "c" + j;
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);
@@ -193,35 +251,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         @Override
                         public void receive(int status, String message, MachineCtrl.ScanResult result) {
                             LogUtil.d("status:" + status + ",message:" + message);
-
-                            switch (status) {
-                                case 1:
-                                    showToast(message);
-                                    break;
-                                case 2:
-                                    //扫描中
-
-                                    customDialogRunning.setProgressText(message);
-
-                                    if (!customDialogRunning.isShowing()) {
-                                        customDialogRunning.show();
-                                    }
-
-                                    break;
-                                case 3:
-                                    //扫描结果
-                                    drawsCabinetStock(result.rowColLayout, cabinetSlots);
-
-                                    if (customDialogRunning.isShowing()) {
-                                        customDialogRunning.cancel();
-                                    }
-
-                                    break;
-                            }
-
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("status",status);
+                            bundle.putString("message",message);
+                            bundle.putSerializable("result",result);
+                            sendUpdateUICmd(MESSAGE_WHAT_SCANSLOTS,bundle);
                         }
                     });
-
                     break;
                 default:
                     break;
@@ -236,7 +272,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         MachineBean machine = AppCacheManager.getMachine();
 
         params.put("machineId", machine.getId());
-        params.put("cabinetId", "0");//默认第一个机柜，以后扩展机柜需要
+        params.put("cabinetId",cabinetId);
 
         getByMy(Config.URL.machine_Slots, params, true, "正在获取库存", new HttpResponseHandler() {
             @Override
