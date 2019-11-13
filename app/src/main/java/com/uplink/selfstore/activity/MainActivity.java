@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,7 +12,14 @@ import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -161,6 +169,54 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
 
         dialog_NumKey = new CustomNumKeyDialog(MainActivity.this);
+
+
+//        ImageView  mIv_inner = new ImageView(getAppContext());
+//        ImageView  mIv_outer = new ImageView(getAppContext());
+//
+//        GradientDrawable drawable_outer = new GradientDrawable(); //共用一个Drawable背景会有bug,这里new俩
+//        drawable_outer.setShape(GradientDrawable.OVAL);
+//        //drawable_outer.setColor(...);
+//        GradientDrawable drawable_inner = new GradientDrawable();
+//        drawable_inner.setShape(GradientDrawable.OVAL);
+//       // drawable_inner.setColor(getResources().getColor(...);
+//
+//
+//            mIv_inner.setBackground(drawable_inner);
+//            mIv_outer.setBackground(drawable_outer);
+//
+//
+//
+//        //  2.ImageView添加到FrameLayout
+//        FrameLayout.LayoutParams  mParams_inner = new FrameLayout.LayoutParams(16, 16);
+//        FrameLayout.LayoutParams  mParams_outer = new FrameLayout.LayoutParams(28,28);
+//        mParams_inner.gravity = Gravity.CENTER;
+//        mParams_outer.gravity = Gravity.CENTER;
+//
+//        FrameLayout  mFramelayout = new FrameLayout(getAppContext());
+//        mFramelayout.addView(mIv_inner, mParams_inner);
+//        mFramelayout.addView(mIv_outer, mParams_outer);
+//
+//
+//        //  3.设置动画
+//        ScaleAnimation anim_scale = new ScaleAnimation(16 / 28 , 1f, 16 / 28, 1f,
+////外圆从和内圆等大的位置开始缩放,这样好处是他俩的包裹父布局的大小能确定为外圆的大小
+//                ScaleAnimation.RELATIVE_TO_SELF,0.5f,ScaleAnimation.RELATIVE_TO_SELF,0.5f);
+//        AlphaAnimation anim_alpha = new AlphaAnimation(1.0f, 0.3f);
+//        anim_scale.setRepeatCount(AnimationSet.INFINITE);
+//        anim_alpha.setRepeatCount(AnimationSet.INFINITE);
+//
+//        AnimationSet  mAnimationSet = new AnimationSet(true);
+//        mAnimationSet.addAnimation(anim_scale);
+//        mAnimationSet.addAnimation(anim_alpha);
+//        mAnimationSet.setInterpolator(new DecelerateInterpolator());
+//        mAnimationSet.setFillAfter(false);
+//        mAnimationSet.setDuration(1555);
+//
+//       // mLayout.addView(mFramelayout,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));  //加到当前布局
+//
+//        mIv_outer.startAnimation(mAnimationSet);
+
     }
 
     private void initEvent() {

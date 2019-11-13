@@ -97,9 +97,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        MachineCtrl.ScanResult result = null;
+                        MachineCtrl.ScanSlotResult result = null;
                         if (bundle.getSerializable("result") != null) {
-                            result = (MachineCtrl.ScanResult) bundle.getSerializable("result");
+                            result = (MachineCtrl.ScanSlotResult) bundle.getSerializable("result");
                         }
                         switch (status) {
                             case 1:
@@ -248,9 +248,18 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     finish();
                     break;
                 case R.id.btn_ScanSlots:
-                    machineCtrl.scanSlot(new MachineCtrl.ScanListener() {
+
+                    if (!machineCtrl.connect()) {
+                        showToast("机器连接失败");
+                    }
+
+                    if (!machineCtrl.isNormarl()) {
+                        showToast("机器状态异常");
+                    }
+
+                    machineCtrl.scanSlot(new MachineCtrl.ScanSlotListener() {
                         @Override
-                        public void receive(int status, String message, MachineCtrl.ScanResult result) {
+                        public void receive(int status, String message, MachineCtrl.ScanSlotResult result) {
                             LogUtil.d("status:" + status + ",message:" + message);
                             Bundle bundle = new Bundle();
                             bundle.putInt("status",status);

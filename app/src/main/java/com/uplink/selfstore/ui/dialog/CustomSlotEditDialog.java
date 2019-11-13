@@ -19,6 +19,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -32,6 +33,7 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -58,11 +60,16 @@ public class CustomSlotEditDialog extends Dialog {
     private Button btn_save;
     private View btn_decrease;
     private View btn_increase;
+    private View btn_pick_test;
+
     private ListView list_search_skus;
     private SlotBean slot;
     private ScanMidCtrl scanMidCtrl=new ScanMidCtrl();
+    private MachineCtrl machineCtrl=new MachineCtrl();
     private Handler handler_UpdateUI;
     private final int MESSAGE_WHAT_SCANSEARCH=1;
+    private final int MESSAGE_WHAT_PICKUP=2;
+    private CustomDialogLoading customDialogRunning;
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.context = (SmMachineStockActivity) context;
@@ -70,12 +77,13 @@ public class CustomSlotEditDialog extends Dialog {
 
 
         if (!scanMidCtrl.connect()) {
-            ((SmMachineStockActivity) context).showToast("扫描设备连接失败");
+            ((SmMachineStockActivity) context).showToast("扫描器连接失败");
         }
 
         if (!scanMidCtrl.isNormarl()) {
-            ((SmMachineStockActivity) context).showToast("扫描设备状态异常");
+            ((SmMachineStockActivity) context).showToast("扫描器状态异常");
         }
+
 
         handler_UpdateUI = new Handler(new Handler.Callback() {
             @Override
@@ -88,6 +96,42 @@ public class CustomSlotEditDialog extends Dialog {
                         String scanResult = bundle.getString("result");
                         txt_searchKey.setText(scanResult);
                         searchSkus(scanResult);
+                    case MESSAGE_WHAT_PICKUP:
+                        bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        MachineCtrl.PickupResult pickupResult = null;
+                        if (bundle.getSerializable("result") != null) {
+                            pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
+                        }
+                        switch (status) {
+                            case 1:
+                                //异常消息
+                               ((SmMachineStockActivity) context).showToast(message);
+                                if (customDialogRunning.isShowing()) {
+                                    customDialogRunning.hide();
+                                }
+                                break;
+                            case 2:
+                                //扫描中
+                                customDialogRunning.setProgressText(message);
+                                if (!customDialogRunning.isShowing()) {
+                                    customDialogRunning.show();
+                                }
+                                break;
+                            case 3:
+                                //扫描结果
+                                ((SmMachineStockActivity) context).showToast(message);
+                                if (customDialogRunning.isShowing()) {
+                                    customDialogRunning.hide();
+                                }
+
+//                                if (pickupResult != null) {
+//                                    saveCabinetRowColLayout(cabinetId,result.rowColLayout);
+//                                }
+                                break;
+                        }
+                        break;
                     default:
                         break;
 
@@ -105,7 +149,6 @@ public class CustomSlotEditDialog extends Dialog {
                 sendUpdateUICmd(MESSAGE_WHAT_SCANSEARCH, bundle);
             }
         });
-
 
 
         initView();
@@ -141,12 +184,14 @@ public class CustomSlotEditDialog extends Dialog {
         list_search_skus = ViewHolder.get(this.layoutRes, R.id.list_search_skus);
         btn_keydelete =  ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
 
-        btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
+        btn_pick_test = ViewHolder.get(this.layoutRes, R.id.btn_pick_test);
         btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
         btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
         btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
         btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
         btn_save= ViewHolder.get(this.layoutRes, R.id.btn_save);
+
+        customDialogRunning = new CustomDialogLoading(this.context);
 
     }
 
@@ -171,6 +216,34 @@ public class CustomSlotEditDialog extends Dialog {
                 }
                 txt_searchKey.setText(val);
                 searchSkus(val);
+            }
+        });
+
+
+        btn_pick_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!machineCtrl.connect()) {
+                   context.showToast("机器连接失败");
+                }
+
+                if (!machineCtrl.isNormarl()) {
+                    context.showToast("机器状态异常");
+                }
+
+                machineCtrl.pickUp(0,0,new MachineCtrl.PickupListener() {
+                    @Override
+                    public void receive(int status, String message, MachineCtrl.PickupResult result) {
+
+                        LogUtil.d("status:" + status + ",message:" + message);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("status",status);
+                        bundle.putString("message",message);
+                        bundle.putSerializable("result",result);
+                        sendUpdateUICmd(MESSAGE_WHAT_PICKUP,bundle);
+                    }
+                });
             }
         });
 
