@@ -1,4 +1,4 @@
-package com.uplink.selfstore.machineCtrl;
+package com.uplink.selfstore.deviceCtrl;
 
 import android.VendingMachine.symvdio;
 

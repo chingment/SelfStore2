@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.machineCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;

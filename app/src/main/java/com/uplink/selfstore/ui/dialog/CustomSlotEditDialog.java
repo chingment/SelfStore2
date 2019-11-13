@@ -20,8 +20,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.machineCtrl.ScanMidCtrl;
-import com.uplink.selfstore.machineCtrl.WeiGuangMidCtrl;
+import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.ProductSkuSearchResultBean;
@@ -61,69 +60,64 @@ public class CustomSlotEditDialog extends Dialog {
     private View btn_increase;
     private ListView list_search_skus;
     private SlotBean slot;
-
     private ScanMidCtrl scanMidCtrl=new ScanMidCtrl();
-
-    //private WeiGuangMidCtrl weiGuangMidCtrl;
-    private  Handler weiGuangMidCtrlMsgHandler;
+    private Handler handler_UpdateUI;
+    private final int MESSAGE_WHAT_SCANSEARCH=1;
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.context = (SmMachineStockActivity)context;
+        this.context = (SmMachineStockActivity) context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
 
-        if(!scanMidCtrl.connect()) {
+        if (!scanMidCtrl.connect()) {
             ((SmMachineStockActivity) context).showToast("扫描设备连接失败");
         }
 
-        if(!scanMidCtrl.isNormarl()) {
+        if (!scanMidCtrl.isNormarl()) {
             ((SmMachineStockActivity) context).showToast("扫描设备状态异常");
         }
 
-//        weiGuangMidCtrl=new WeiGuangMidCtrl();
-//
-//        weiGuangMidCtrlMsgHandler = new Handler(new Handler.Callback() {
-//            @Override
-//            public boolean handleMessage(Message msg) {
-//
-//                switch (msg.what) {
-//                    case 0x1:
-//                    String content=(String) msg.obj;
-//                    txt_searchKey.setText(content);
-//                    searchSkus(content);
-//                    default:
-//                        break;
-//
-//                }
-//
-//                return  false;
-//            }
-//        });
-//
-//        try {
-//            weiGuangMidCtrl.setOnSendUIReport(new WeiGuangMidCtrl.OnSendUIReport() {
-//                @Override
-//                public void OnSendUI(int type, int status, String content) {
-//                    sendMidCtrlHandlerMsg(type, status, content);
-//                }
-//            });
-//            weiGuangMidCtrl.open();
-//        }
-//        catch (Exception ex)
-//        {
-//            //((SmMachineStockActivity) context).showToast("扫描器串口打开失败");
-//        }
+        handler_UpdateUI = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                Bundle bundle;
+                switch (msg.what) {
+                    case MESSAGE_WHAT_SCANSEARCH:
+                        bundle = msg.getData();
+                        String scanResult = bundle.getString("result");
+                        txt_searchKey.setText(scanResult);
+                        searchSkus(scanResult);
+                    default:
+                        break;
+
+                }
+
+                return false;
+            }
+        });
+
+        scanMidCtrl.setScanListener(new ScanMidCtrl.ScanListener() {
+            @Override
+            public void receive(String result) {
+                Bundle bundle = new Bundle();
+                bundle.putString("result", result);
+                sendUpdateUICmd(MESSAGE_WHAT_SCANSEARCH, bundle);
+            }
+        });
+
+
 
         initView();
         initEvent();
         initData();
     }
 
-    private void sendMidCtrlHandlerMsg(int type,int status, String content) {
+    private void sendUpdateUICmd(int what,Bundle data) {
         final Message m = new Message();
-        m.what = type;
-        m.obj = content;
-        weiGuangMidCtrlMsgHandler.sendMessage(m);
+        m.what = what;
+        m.setData(data);
+        handler_UpdateUI.sendMessage(m);
     }
 
     @Override

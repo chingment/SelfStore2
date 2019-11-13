@@ -5,7 +5,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.uplink.selfstore.activity.task.blockTask.BaseTask;
-import com.uplink.selfstore.machineCtrl.DeShangMidCtrl;
+import com.uplink.selfstore.deviceCtrl.DeShangMidCtrl;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;

@@ -1,6 +1,10 @@
-package com.uplink.selfstore.machineCtrl;
+package com.uplink.selfstore.deviceCtrl;
 
 import android.util.Log;
+
+import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +28,7 @@ public class ScanMidCtrl {
     private boolean FALSE = false;
     private boolean bLog = true;
 
+    private boolean isReadStream = false; //线程状态，为了安全终止线程
     private byte[] frameHead =new byte[]{(byte)0x55,(byte)0xAA};
 
     public ScanMidCtrl() {
@@ -41,6 +46,8 @@ public class ScanMidCtrl {
             mSerialPort = new SerialPort(new File(strPort), nBaudrate, 0);
             this.out = mSerialPort.getOutputStream();
             this.in = mSerialPort.getInputStream();
+            this.isReadStream=true;
+            new ReadThread().start();
             return true;
         } catch (SecurityException var4) {
             var4.printStackTrace();
@@ -54,6 +61,7 @@ public class ScanMidCtrl {
 
     public void disconnect() {
         try {
+            isReadStream=false;
             if (this.out != null) {
                 this.out.close();
             }
@@ -153,33 +161,7 @@ public class ScanMidCtrl {
 
                                 Log.v(TAG, strLog);
                             }
-
-                            if (nRead == 0 && byRead[0] != 36) {
-                                int nFind = 0;
-
-                                for(i = 1; i < nReaded; ++i) {
-                                    if (byRead[i] == 36) {
-                                        nFind = i;
-                                        break;
-                                    }
-                                }
-
-                                if (nFind > 0) {
-                                    nReaded -= nFind;
-
-                                    for(i = 0; i < nReaded; ++i) {
-                                        byRead[i] = byRead[nFind + i];
-                                    }
-                                } else {
-                                    nReaded = 0;
-                                }
-
-                                if (this.bLog) {
-                                    Log.v(TAG, String.format("Read change to :%d", nReaded));
-                                }
-                            }
-
-                            nRead += nReaded;
+                            nRead = nReaded;
                         }
 
                         bTryAgain = true;
@@ -210,12 +192,80 @@ public class ScanMidCtrl {
         sz[5] = xorAns;
 
 
+        byte[] rd = new byte[9];
+
         if (this.write(sz) != 6) {
             return false;
-        } else if (this.read(sz, 6, this.nTimeout) == 6) {
-            return sz[2] == -63 & (sz[1] ^ sz[2] ^ sz[3]) == 0;
+        } else if (this.read(rd, 9, this.nTimeout) == 9) {
+            return rd[3] == 0 & (rd[0] ^ rd[1] ^ rd[2] ^ rd[3] ^ rd[4] ^ rd[5] ^ rd[6]^ rd[7]) == 3;
         } else {
             return false;
         }
+    }
+
+    private class ReadThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            //判断进程是否在运行，更安全的结束进程
+            while (isReadStream){
+
+                try {
+                    currentThread().sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                Log.d(TAG, "进入读线程run");
+                byte[] buffer = new byte[1024];
+                int size; //读取数据的大小
+                try {
+                    size = in.read(buffer);
+                    Log.d(TAG, "run: 接收到了数据：" + ChangeToolUtils.byteArrToHex(buffer,0,size));
+                    Log.d(TAG, "run: 接收到了数据大小：" + String.valueOf(size));
+
+                    //判断长度是否大于3个字节，有效命令数据
+                    if (size > 3){
+
+                        byte cmd=buffer[2];
+
+                        switch (cmd)
+                        {
+                            case (byte)0x30:
+                                LogUtil.d("解释扫描结果");
+                                byte[] data=new byte[size-6];
+                                for(int i=0;i<data.length;i++)
+                                {
+                                    //String str1 = ChangeToolUtils.byte2Hex(buffer[i+5]);
+                                    //Log.d(TAG, "str1:"+str1);
+                                    data[i]=buffer[i+5];
+                                }
+                                String scanResult = ChangeToolUtils.byteArrToString(data);
+                                Log.d(TAG, "扫描内容:"+scanResult);
+                                if(scanListener!=null) {
+                                    scanListener.receive(scanResult);
+                                }
+                                break;
+                                default:
+                                    break;
+                        }
+                    }
+                } catch (IOException e) {
+                    Log.e(TAG, "run: 数据读取异常：" +e.toString());
+                }
+            }
+        }
+    }
+
+    private ScanListener scanListener = null;
+
+    public void setScanListener(ScanListener scanListener) {
+        this.scanListener = scanListener;
+    }
+
+    public interface ScanListener {
+        //1 异常错误
+        void receive(String result);
     }
 }

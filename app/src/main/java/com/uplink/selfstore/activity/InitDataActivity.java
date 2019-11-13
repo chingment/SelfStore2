@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
-import com.uplink.selfstore.machineCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
@@ -53,7 +53,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
         setShowStatuBar(true);
-        getDeviceStatus();
+        //getDeviceStatus();
         if (AppCacheManager.getGlobalDataSet() != null) {
             Intent intent = new Intent(getAppContext(), MainActivity.class);
             startActivity(intent);

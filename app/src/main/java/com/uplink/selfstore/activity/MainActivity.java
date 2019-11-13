@@ -21,7 +21,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.machineCtrl.WeiGuangMidCtrl;
+import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -62,13 +62,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //GetSlotNRC("n12r34c56");
-//        //byte frameHand=(byte)0x24;
-//        byte[] data_3= new byte[] {(byte) 0x1};
-//        byte[] buffer=Pack((byte)0x82,data_3);
-//
-//        dataAnalysis(buffer,buffer.length);
 
         initView();
         initEvent();
