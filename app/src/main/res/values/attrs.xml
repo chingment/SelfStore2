@@ -23,4 +23,8 @@
         <attr name="aspectRatioY" format="integer" />
         <attr name="imageResource" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="BreatheView">
+        <attr name="duration" format="integer"></attr>
+    </declare-styleable>
 </resources>

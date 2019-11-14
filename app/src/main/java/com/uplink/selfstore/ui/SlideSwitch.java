@@ -138,6 +138,7 @@ public class SlideSwitch extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         if (shape == SHAPE_RECT) {
             paint.setColor(color_theme_false);
             canvas.drawRect(backRect, paint);

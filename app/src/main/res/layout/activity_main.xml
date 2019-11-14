@@ -11,12 +11,15 @@
     android:background="@color/white"
     >
 
+
     <RelativeLayout
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_40"
         android:layout_marginBottom="@dimen/size_4"
         >
+
+
 
         <ImageView
             android:id="@+id/img_logo"
@@ -31,6 +34,7 @@
             />
 
     </RelativeLayout>
+
 
 
     <RelativeLayout

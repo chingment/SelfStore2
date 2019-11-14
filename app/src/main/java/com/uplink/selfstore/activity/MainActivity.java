@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -40,6 +41,7 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
+import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -171,15 +173,23 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         dialog_NumKey = new CustomNumKeyDialog(MainActivity.this);
 
 
+//        MyBreathLight brv = (MyBreathLight) findViewById(R.id.brv);
+//        brv.setInterval(2000) //设置闪烁间隔时间
+//                .setCoreRadius(5f)//设置中心圆半径
+//                .setDiffusMaxWidth(10f)//设置闪烁圆的最大半径
+//                .setDiffusColor(Color.parseColor("#ff4600"))//设置闪烁圆的颜色
+//                .setCoreColor(Color.parseColor("#FA931E"))//设置中心圆的颜色
+//                .onStart();
+
 //        ImageView  mIv_inner = new ImageView(getAppContext());
 //        ImageView  mIv_outer = new ImageView(getAppContext());
 //
 //        GradientDrawable drawable_outer = new GradientDrawable(); //共用一个Drawable背景会有bug,这里new俩
 //        drawable_outer.setShape(GradientDrawable.OVAL);
-//        //drawable_outer.setColor(...);
+//        drawable_outer.setColor(getResources().getColor(R.color.red));
 //        GradientDrawable drawable_inner = new GradientDrawable();
 //        drawable_inner.setShape(GradientDrawable.OVAL);
-//       // drawable_inner.setColor(getResources().getColor(...);
+//        drawable_inner.setColor(getResources().getColor(R.color.red));
 //
 //
 //            mIv_inner.setBackground(drawable_inner);
@@ -213,9 +223,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 //        mAnimationSet.setFillAfter(false);
 //        mAnimationSet.setDuration(1555);
 //
-//       // mLayout.addView(mFramelayout,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));  //加到当前布局
-//
 //        mIv_outer.startAnimation(mAnimationSet);
+//
+//        layout_header.addView(mFramelayout,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));  //加到当前布局
+//
+
 
     }
 

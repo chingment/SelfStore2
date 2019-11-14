@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +31,7 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
+import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.DisplayUtil;
@@ -57,6 +59,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private Handler handler_UpdateUI;
     private final int MESSAGE_WHAT_SCANSLOTS=1;
 
+    private  MyBreathLight breathlight_machine;
+    private  MyBreathLight breathlight_scangan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +69,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         setNavTtile(this.getResources().getString(R.string.activity_smmachinestock_navtitle));
         setNavBackVisible(true);
         setNavBtnVisible(true);
+
 
         MachineBean machine = AppCacheManager.getMachine();
         cabinetId = machine.getCabinetId_1();
@@ -80,6 +85,22 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         customDialogRunning = new CustomDialogLoading(this);
+
+//        breathlight_machine=(MyBreathLight) findViewById(R.id.breathlight_machine);
+//        breathlight_machine.setInterval(2000) //设置闪烁间隔时间
+//                .setCoreRadius(5f)//设置中心圆半径
+//                .setDiffusMaxWidth(8f)//设置闪烁圆的最大半径
+//                .setDiffusColor(Color.parseColor("#ff4600"))//设置闪烁圆的颜色
+//                .setCoreColor(Color.parseColor("#FA931E"))//设置中心圆的颜色
+//                .onStart();
+//
+//        breathlight_scangan=(MyBreathLight) findViewById(R.id.breathlight_scangan);
+//        breathlight_scangan.setInterval(2000) //设置闪烁间隔时间
+//                .setCoreRadius(5f)//设置中心圆半径
+//                .setDiffusMaxWidth(8f)//设置闪烁圆的最大半径
+//                .setDiffusColor(Color.parseColor("#ff4600"))//设置闪烁圆的颜色
+//                .setCoreColor(Color.parseColor("#FA931E"))//设置中心圆的颜色
+//                .onStart();
     }
 
 
