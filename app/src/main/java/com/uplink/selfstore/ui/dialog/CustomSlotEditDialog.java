@@ -22,6 +22,7 @@ import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
+import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.ProductSkuSearchResultBean;
@@ -66,9 +67,6 @@ public class CustomSlotEditDialog extends Dialog {
     private SlotBean slot;
     private ScanMidCtrl scanMidCtrl=new ScanMidCtrl();
     private MachineCtrl machineCtrl=new MachineCtrl();
-    private Handler handler_UpdateUI;
-    private final int MESSAGE_WHAT_SCANSEARCH=1;
-    private final int MESSAGE_WHAT_PICKUP=2;
     private CustomDialogLoading customDialogRunning;
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -84,83 +82,70 @@ public class CustomSlotEditDialog extends Dialog {
             ((SmMachineStockActivity) context).showToast("扫描器状态异常");
         }
 
-
-        handler_UpdateUI = new Handler(new Handler.Callback() {
+        machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
 
-                Bundle bundle;
-                switch (msg.what) {
-                    case MESSAGE_WHAT_SCANSEARCH:
-                        bundle = msg.getData();
-                        String scanResult = bundle.getString("result");
-                        txt_searchKey.setText(scanResult);
-                        searchSkus(scanResult);
-                    case MESSAGE_WHAT_PICKUP:
-                        bundle = msg.getData();
-                        int status = bundle.getInt("status");
-                        String message = bundle.getString("message");
-                        MachineCtrl.PickupResult pickupResult = null;
-                        if (bundle.getSerializable("result") != null) {
-                            pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
-                        }
-                        switch (status) {
-                            case 1:
-                                //异常消息
-                               ((SmMachineStockActivity) context).showToast(message);
-                                if (customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
-                                }
-                                break;
-                            case 2:
-                                //扫描中
-                                customDialogRunning.setProgressText(message);
-                                if (!customDialogRunning.isShowing()) {
-                                    customDialogRunning.show();
-                                }
-                                break;
-                            case 3:
-                                //扫描结果
-                                ((SmMachineStockActivity) context).showToast(message);
-                                if (customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
-                                }
-
-//                                if (pickupResult != null) {
-//                                    saveCabinetRowColLayout(cabinetId,result.rowColLayout);
-//                                }
-                                break;
+                Bundle  bundle = msg.getData();
+                int status = bundle.getInt("status");
+                String message = bundle.getString("message");
+                MachineCtrl.PickupResult pickupResult = null;
+                if (bundle.getSerializable("result") != null) {
+                    pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
+                }
+                switch (status) {
+                    case 1:
+                        //异常消息
+                        ((SmMachineStockActivity) context).showToast(message);
+                        if (customDialogRunning.isShowing()) {
+                            customDialogRunning.hide();
                         }
                         break;
-                    default:
+                    case 2:
+                        //扫描中
+                        customDialogRunning.setProgressText(message);
+                        if (!customDialogRunning.isShowing()) {
+                            customDialogRunning.show();
+                        }
                         break;
-
+                    case 3:
+                        //扫描结果
+                        ((SmMachineStockActivity) context).showToast(message);
+                        if (customDialogRunning.isShowing()) {
+                            customDialogRunning.hide();
+                        }
+                        break;
                 }
 
-                return false;
+                return  false;
             }
-        });
+        }));
 
-        scanMidCtrl.setScanListener(new ScanMidCtrl.ScanListener() {
-            @Override
-            public void receive(String result) {
-                Bundle bundle = new Bundle();
-                bundle.putString("result", result);
-                sendUpdateUICmd(MESSAGE_WHAT_SCANSEARCH, bundle);
-            }
-        });
+
+        scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+
+                        Bundle bundle;
+                        switch (msg.what) {
+                            case ScanMidCtrl.MESSAGE_WHAT_SCANRESULT:
+                                bundle = msg.getData();
+                                String scanResult = bundle.getString("result");
+                                txt_searchKey.setText(scanResult);
+                                searchSkus(scanResult);
+                                break;
+                        }
+
+
+                        return false;
+                    }
+                })
+        );
 
 
         initView();
         initEvent();
         initData();
-    }
-
-    private void sendUpdateUICmd(int what,Bundle data) {
-        final Message m = new Message();
-        m.what = what;
-        m.setData(data);
-        handler_UpdateUI.sendMessage(m);
     }
 
     @Override
@@ -204,6 +189,8 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 _this.dismiss();
+                machineCtrl.disConnect();
+                scanMidCtrl.disconnect();
             }
         });
 
@@ -226,24 +213,21 @@ public class CustomSlotEditDialog extends Dialog {
 
                 if (!machineCtrl.connect()) {
                    context.showToast("机器连接失败");
+                   return;
                 }
 
                 if (!machineCtrl.isNormarl()) {
                     context.showToast("机器状态异常");
+                    return;
+                }
+                String slotId=String.valueOf(txt_SlotName.getText());
+                SlotNRC slotNRC=SlotNRC.GetSlotNRC(slotId);
+                if(slotNRC==null) {
+                    context.showToast("货道编号解释错误");
+                    return;
                 }
 
-                machineCtrl.pickUp(0,0,new MachineCtrl.PickupListener() {
-                    @Override
-                    public void receive(int status, String message, MachineCtrl.PickupResult result) {
-
-                        LogUtil.d("status:" + status + ",message:" + message);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("status",status);
-                        bundle.putString("message",message);
-                        bundle.putSerializable("result",result);
-                        sendUpdateUICmd(MESSAGE_WHAT_PICKUP,bundle);
-                    }
-                });
+                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
             }
         });
 

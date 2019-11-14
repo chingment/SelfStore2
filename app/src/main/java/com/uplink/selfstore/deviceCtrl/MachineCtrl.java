@@ -1,7 +1,11 @@
 package com.uplink.selfstore.deviceCtrl;
 
 import android.VendingMachine.symvdio;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
+import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.Serializable;
@@ -16,6 +20,9 @@ public class MachineCtrl {
     private boolean cmd_PickupIsStopListener = true;
 
     private symvdio sym = null;
+
+    public static final int MESSAGE_WHAT_SCANSLOTS=1;
+    public static final int MESSAGE_WHAT_PICKUP=2;
 
     public MachineCtrl() {
         sym = new symvdio();
@@ -57,6 +64,9 @@ public class MachineCtrl {
         if (sym != null) {
             sym.disconnect();
         }
+
+        cmd_ScanSlotIsStopListener = true;
+        cmd_PickupIsStopListener = true;
     }
 
     public boolean isNormarl() {
@@ -67,8 +77,7 @@ public class MachineCtrl {
         return  sym.SY_MV_DIO_Slave_ConnectSts();
     }
 
-    public void scanSlot(ScanSlotListener scanSlotListener) {
-        this.scanSlotListener = scanSlotListener;
+    public void scanSlot() {
 
         //this.current_Cmd = this.cmd_ScanSlot;
         //this.cmd_ScanSlotIsStopListener = false;
@@ -77,66 +86,90 @@ public class MachineCtrl {
 //        scanListenerThread.start();
 
         if (sym == null) {
-            this.scanSlotListener.receive(1, "启动前，检查设备对象为空", null);
+            sendScanSlotHandlerMessage(1, "启动前，检查设备对象为空", null);
         }
         else if (!this.connect()) {
-            this.scanSlotListener.receive(1, "启动前，检查设备连接失败", null);
+            sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
-            this.scanSlotListener.receive(1, "启动前，检查设备不在线", null);
+            sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
         }
         else {
             int rc_status = sym.SN_MV_SelfAutoScan(0);
             if (rc_status == 0) {
                 this.current_Cmd = this.cmd_ScanSlot;
                 this.cmd_ScanSlotIsStopListener = false;
-                ScanListenerThread scanListenerThread = new ScanListenerThread();
+                ScanSlotListenerThread scanListenerThread = new ScanSlotListenerThread();
                 scanListenerThread.start();
             } else {
-                this.scanSlotListener.receive(1, "扫描货道启动失败", null);
+                sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
             }
         }
     }
 
-
-    public void pickUp(int row,int col,PickupListener pickupListener) {
-
-        this.pickupListener=pickupListener;
+    public void pickUp(int row,int col) {
 
         if (sym == null) {
-            this.pickupListener.receive(1, "启动前，检查设备对象为空", null);
+           sendPickupHandlerMessage(1, "启动前，检查设备对象为空", null);
         }
         else if (!this.connect()) {
-            this.pickupListener.receive(1, "启动前，检查设备连接失败", null);
+            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
-            this.pickupListener.receive(1, "启动前，检查设备不在线", null);
+            sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
         }
         else {
             int rc_status = sym.SN_MV_AutoStart(0,row,col);
             if (rc_status == 0) {
                 this.current_Cmd = this.cmd_Pickup;
-                this.cmd_PickupIsStopListener = false;
-                PickupListenerThread pickupListenerThread = new PickupListenerThread();
-                pickupListenerThread.start();
             } else {
-                this.pickupListener.receive(1, "取货启动失败", null);
+                sendPickupHandlerMessage(1, "取货启动失败", null);
             }
         }
     }
 
-    private ScanSlotListener scanSlotListener = null;
-    private PickupListener pickupListener=null;
 
-    public interface ScanSlotListener {
-        //1 异常错误
-        void receive(int status, String message, ScanSlotResult result);
+    public void setScanSlotHandler(Handler scanSlotHandler) {
+        this.scanSlotHandler=scanSlotHandler;
     }
 
-    public interface PickupListener {
-        //1 异常错误
-        void receive(int status, String message, PickupResult result);
+    public void  setPickupHandler(Handler pickupHandler) {
+        this.pickupHandler=pickupHandler;
+        this.cmd_PickupIsStopListener = false;
+        PickupListenerThread pickupListenerThread = new PickupListenerThread();
+        pickupListenerThread.start();
     }
 
-    private class ScanListenerThread extends Thread {
+
+    private Handler scanSlotHandler = null;
+    private Handler pickupHandler=null;
+
+    private void sendScanSlotHandlerMessage(int status, String message, ScanSlotResult result) {
+        if(scanSlotHandler!=null) {
+            Message m = new Message();
+            m.what = MESSAGE_WHAT_SCANSLOTS;
+            Bundle data=new Bundle();
+            data.putInt("status",status);
+            data.putString("message",message);
+            data.putSerializable("result",result);
+            m.setData(data);
+            scanSlotHandler.sendMessage(m);
+        }
+    }
+
+    private void sendPickupHandlerMessage(int status, String message, PickupResult result) {
+        if(pickupHandler!=null) {
+            Message m = new Message();
+            m.what = MESSAGE_WHAT_PICKUP;
+            Bundle data=new Bundle();
+            data.putInt("status",status);
+            data.putString("message",message);
+            data.putSerializable("result",result);
+            m.setData(data);
+            pickupHandler.sendMessage(m);
+        }
+    }
+
+
+    private class ScanSlotListenerThread extends Thread {
 
         @Override
         public void run() {
@@ -180,11 +213,11 @@ public class MachineCtrl {
                                     scanSlotResult.setRowColLayout(rowColLayout);
                                 }
 
-                                scanSlotListener.receive(3, "扫描结束", scanSlotResult);
+                                sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
                                 cmd_ScanSlotIsStopListener = true;
                             }
                         } else {
-                            scanSlotListener.receive(2, "正在扫描", null);
+                            sendScanSlotHandlerMessage(2, "正在扫描", null);
                         }
                     }
                 }
@@ -193,28 +226,6 @@ public class MachineCtrl {
     }
 
     public class ScanSlotResult implements Serializable {
-
-        public int rows;
-        public int[] rowColLayout;
-
-        public int getRows() {
-            return rows;
-        }
-
-        public void setRows(int rows) {
-            this.rows = rows;
-        }
-
-        public int[] getRowColLayout() {
-            return rowColLayout;
-        }
-
-        public void setRowColLayout(int[] rowColLayout) {
-            this.rowColLayout = rowColLayout;
-        }
-    }
-
-    public class PickupResult implements Serializable {
 
         public int rows;
         public int[] rowColLayout;
@@ -256,29 +267,41 @@ public class MachineCtrl {
                     if (rc_status[0] == 0) {
                         int action = rc_status[3];//表示扫描是否结束
 
-                        if(action==0)
-                        {
-                            pickupListener.receive(0, "空闲状态，没有执行动作", null);
+                        if(action==0) {
+                            sendPickupHandlerMessage(0, "空闲状态，没有执行动作", null);
                         }
-                        else if(action==1)
-                        {
-                            pickupListener.receive(1, "正在取货中", null);
+                        else if(action==1) {
+                            sendPickupHandlerMessage(1, "正在取货中", null);
                         }
-                        else if(action==2)
-                        {
-                            pickupListener.receive(2, "取货完成", null);
+                        else if(action==2) {
+                            sendPickupHandlerMessage(2, "取货完成", null);
                         }
-                        else
-                        {
-
-                        }
-
-                    }
-                    else {
-
                     }
                 }
             }
         }
     }
+
+    public class PickupResult implements Serializable {
+
+        public int rows;
+        public int[] rowColLayout;
+
+        public int getRows() {
+            return rows;
+        }
+
+        public void setRows(int rows) {
+            this.rows = rows;
+        }
+
+        public int[] getRowColLayout() {
+            return rowColLayout;
+        }
+
+        public void setRowColLayout(int[] rowColLayout) {
+            this.rowColLayout = rowColLayout;
+        }
+    }
+
 }

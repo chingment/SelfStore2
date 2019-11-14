@@ -30,7 +30,6 @@ import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import org.json.JSONArray;
@@ -70,6 +69,44 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         cabinetId = machine.getCabinetId_1();
         cabinetRowColLayout = machine.getCabinetRowColLayout_1();
 
+        machineCtrl.setScanSlotHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle bundle;
+                        bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        MachineCtrl.ScanSlotResult result = null;
+                        if (bundle.getSerializable("result") != null) {
+                            result = (MachineCtrl.ScanSlotResult) bundle.getSerializable("result");
+                        }
+                        switch (status) {
+                            case 1:
+                                //异常消息
+                                showToast(message);
+                                if (customDialogRunning.isShowing()) {
+                                    customDialogRunning.hide();
+                                }
+                                break;
+                            case 2:
+                                //扫描中
+                                customDialogRunning.setProgressText(message);
+                                if (!customDialogRunning.isShowing()) {
+                                    customDialogRunning.show();
+                                }
+                                break;
+                            case 3:
+                                //扫描结果
+                                if (result != null) {
+                                    saveCabinetRowColLayout(cabinetId, result.rowColLayout);
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                })
+        );
+
         initView();
         initEvent();
         initData();
@@ -101,61 +138,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     protected void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
-
-
-        handler_UpdateUI = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-
-                Bundle bundle;
-                switch (msg.what) {
-                    case MESSAGE_WHAT_SCANSLOTS:
-                        bundle = msg.getData();
-                        int status = bundle.getInt("status");
-                        String message = bundle.getString("message");
-                        MachineCtrl.ScanSlotResult result = null;
-                        if (bundle.getSerializable("result") != null) {
-                            result = (MachineCtrl.ScanSlotResult) bundle.getSerializable("result");
-                        }
-                        switch (status) {
-                            case 1:
-                                //异常消息
-                                showToast(message);
-                                if (customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
-                                }
-                                break;
-                            case 2:
-                                //扫描中
-                                customDialogRunning.setProgressText(message);
-                                if (!customDialogRunning.isShowing()) {
-                                    customDialogRunning.show();
-                                }
-                                break;
-                            case 3:
-                                //扫描结果
-                                if (result != null) {
-                                    saveCabinetRowColLayout(cabinetId,result.rowColLayout);
-                                }
-                                break;
-                        }
-
-                        break;
-                    default:
-                        break;
-                }
-
-                return false;
-            }
-        });
     }
 
-    private void sendUpdateUICmd(int what,Bundle data) {
-        final Message m = new Message();
-        m.what = what;
-        m.setData(data);
-        handler_UpdateUI.sendMessage(m);
-    }
 
     protected void initData() {
         getCabinetSlots();
@@ -267,23 +251,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                     if (!machineCtrl.connect()) {
                         showToast("机器连接失败");
+                        return;
                     }
 
                     if (!machineCtrl.isNormarl()) {
                         showToast("机器状态异常");
+                        return;
                     }
 
-                    machineCtrl.scanSlot(new MachineCtrl.ScanSlotListener() {
-                        @Override
-                        public void receive(int status, String message, MachineCtrl.ScanSlotResult result) {
-                            LogUtil.d("status:" + status + ",message:" + message);
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("status",status);
-                            bundle.putString("message",message);
-                            bundle.putSerializable("result",result);
-                            sendUpdateUICmd(MESSAGE_WHAT_SCANSLOTS,bundle);
-                        }
-                    });
+                    machineCtrl.scanSlot();
                     break;
                 default:
                     break;

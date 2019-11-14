@@ -1,5 +1,8 @@
 package com.uplink.selfstore.deviceCtrl;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.uplink.selfstore.utils.LogUtil;
@@ -30,6 +33,9 @@ public class ScanMidCtrl {
 
     private boolean isReadStream = false; //线程状态，为了安全终止线程
     private byte[] frameHead =new byte[]{(byte)0x55,(byte)0xAA};
+
+
+    public static final int MESSAGE_WHAT_SCANRESULT=1;
 
     public ScanMidCtrl() {
 
@@ -243,9 +249,7 @@ public class ScanMidCtrl {
                                 }
                                 String scanResult = ChangeToolUtils.byteArrToString(data);
                                 Log.d(TAG, "扫描内容:"+scanResult);
-                                if(scanListener!=null) {
-                                    scanListener.receive(scanResult);
-                                }
+                                sendHandlerMessage(scanResult);
                                 break;
                                 default:
                                     break;
@@ -258,14 +262,20 @@ public class ScanMidCtrl {
         }
     }
 
-    private ScanListener scanListener = null;
+    private Handler scanHandler = null;
 
-    public void setScanListener(ScanListener scanListener) {
-        this.scanListener = scanListener;
+    public void setScanHandler(Handler handler) {
+        this.scanHandler = handler;
     }
 
-    public interface ScanListener {
-        //1 异常错误
-        void receive(String result);
+    private void sendHandlerMessage(String result) {
+        if(scanHandler!=null) {
+            Message m = new Message();
+            m.what = MESSAGE_WHAT_SCANRESULT;
+            Bundle data=new Bundle();
+            data.putString("result",result);
+            m.setData(data);
+            scanHandler.sendMessage(m);
+        }
     }
 }

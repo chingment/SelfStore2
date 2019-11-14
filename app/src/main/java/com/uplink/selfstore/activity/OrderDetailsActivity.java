@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.DeShangMidCtrl;
 import com.uplink.selfstore.model.SlotNRC;
@@ -55,12 +56,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private TextView curpickupsku_tip1;
     private TextView curpickupsku_tip2;
     private OrderDetailsBean orderDetails;
-
-    private DeShangMidCtrl midCtrl;
-    private Handler midCtrlHandler;
+    private Handler handler_UpdateUI;
     private PickupSkuBean currentPickupSku=null;
     private Boolean isPicking=false;
-    @SuppressLint("HandlerLeak")
+
+    private MachineCtrl machineCtrl=new MachineCtrl();
+    private final int MESSAGE_WHAT_PICKUP=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,15 +74,46 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         initData();
 
-        currentPickupSku=getCurrentPickupProductSku();
-        if(currentPickupSku!=null) {
+        machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+
+
+                        switch (msg.what) {
+                            case 0x6: //状态机空闲，检查有无未取货商品
+                                currentPickupSku = getCurrentPickupProductSku();
+                                if (currentPickupSku != null && isPicking.equals(false)) {
+                                    LogUtil.d("检查有到有待取货商品");
+                                    isPicking = true;
+                                    setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                                } else {
+                                    curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
+                                    curpickupsku_tip1.setText("出货完成");
+                                    curpickupsku_tip2.setText("欢迎再次购买......");
+                                }
+                                break;
+                            case 0xa://出货完成
+                                LogUtil.d("出货完成");
+                                if (currentPickupSku != null && isPicking.equals(true)) {
+                                    setPickupSuccess(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                                }
+                            default:
+                                break;
+
+                        }
+
+                        return false;
+                    }
+                })
+        );
+
+        currentPickupSku = getCurrentPickupProductSku();
+        if (currentPickupSku != null) {
             LogUtil.d("currentPickupSku不为空");
             CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
             curpickupsku_tip1.setText(currentPickupSku.getName());
             curpickupsku_tip2.setText("准备出货......");
-        }
-        else
-        {
+        } else {
             LogUtil.d("currentPickupSku为空");
             curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
             curpickupsku_tip1.setText("出货完成");
@@ -93,68 +125,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         // pickupEventNotify("ba0ebe970a2840adaf0b5e59c9522317",3011,"已发送取货命令");
         //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
         //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
-
-        midCtrlHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-
-                switch (msg.what) {
-                    case 0x6: //状态机空闲，检查有无未取货商品
-                        currentPickupSku = getCurrentPickupProductSku();
-                        if (currentPickupSku != null && isPicking.equals(false)) {
-                            LogUtil.d("检查有到有待取货商品");
-                            isPicking=true;
-                            setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-                        }
-                        else
-                        {
-                            curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
-                            curpickupsku_tip1.setText("出货完成");
-                            curpickupsku_tip2.setText("欢迎再次购买......");
-                        }
-                        break;
-                    case 0xa://出货完成
-                        LogUtil.d("出货完成");
-                        if (currentPickupSku != null&&isPicking.equals(true)) {
-                            setPickupSuccess(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-                        }
-                    default:
-                        break;
-
-                }
-            }
-        };
-
-        try {
-
-            //串口，波特率
-            midCtrl = new DeShangMidCtrl(2, 9600);
-
-            //串口数据监听事件
-            midCtrl.setOnSendUIReport(new DeShangMidCtrl.OnSendUIReport() {
-                @Override
-                public void OnSendUI(int status, String message) {
-                    LogUtil.d("status:" + status + ",message:" + message);
-                    sendMidCtrlHandlerMsg(status, message);
-                }
-            });
-
-            //x轴上面有多少货物
-            midCtrl.setMaxRow((byte) 0x7);
-            //y轴上面有多少货物
-            midCtrl.setMaxCol((byte) 0x7);
-
-        } catch (Exception ex) {
-            showToast("设备驱动发生异常");
-        }
     }
 
-    private void sendMidCtrlHandlerMsg(int what, String msg) {
-        final Message m = new Message();
-        m.what = what;
-        m.obj = msg;
-        midCtrlHandler.sendMessage(m);
-    }
 
     // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
     private PickupSkuBean getCurrentPickupProductSku() {
@@ -192,9 +164,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         return pickSku;
     }
 
-
-
-
     private void initView() {
 
         txt_OrderSn = (TextView) findViewById(R.id.txt_OrderSn);
@@ -207,16 +176,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         list_skus.setEnabled(false);
 
         dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_tips_outpickup_confirm), true);
-        dialog_PickupCompelte.getTipsImage().setImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this,(R.drawable.dialog_icon_warn)));
+        dialog_PickupCompelte.getTipsImage().setImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this, (R.drawable.dialog_icon_warn)));
         dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog_PickupCompelte.dismiss();
 
-                if(midCtrl!=null)
-                {
-                    midCtrl.stop();
-                }
                 Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                 startActivity(intent);
                 finish();
@@ -260,7 +225,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
         list_skus.setAdapter(cartSkuAdapter);
     }
-
 
     //设置商品卡槽去货中
     private void setPickuping(String productSkuId,String slotId,String uniqueId) {
@@ -353,16 +317,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                       switch (status)
                       {
                           case 3012:
-                              SlotNRC slotNRC = GetSlotNRC(currentPickupSku.getSlotId());
+                              SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
                               if (slotNRC != null) {
-                                  midCtrl.setMacCol(ChangeToolUtils.intToByte(slotNRC.getCol()));
-                                  midCtrl.setMacRow(ChangeToolUtils.intToByte(slotNRC.getRow()));
-                                  //取y轴上面第几个货物
-                                  //midCtrl.setMacCol((byte) 0x0);
-                                  //取x轴上面第几个货物
-                                  //midCtrl.setMacRow((byte) 0x0);
-                                  //取货
-                                  midCtrl.setMacRunning();
+                                  machineCtrl.pickUp(slotNRC.getRow(),slotNRC.getCol());
                               }
                               break;
                           case 4000:
@@ -411,6 +368,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -421,54 +379,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (dialog_ContactKefu != null && dialog_ContactKefu.isShowing()) {
             dialog_ContactKefu.cancel();
         }
-
-        if(midCtrl!=null)
-        {
-            midCtrl.stop();
-        }
-
     }
 
-    private SlotNRC GetSlotNRC(String slotId) {
-
-
-        int n_index=slotId.indexOf('n');
-
-        if(n_index<0)
-        {
-            return null;
-        }
-
-        int r_index=slotId.indexOf('r');
-        if(r_index<0)
-        {
-            return  null;
-        }
-
-        int c_index=slotId.indexOf('c');
-
-        if(c_index<0)
-        {
-            return null;
-        }
-
-        try {
-            SlotNRC slotNRC=new SlotNRC();
-
-            String str_n = slotId.substring(n_index + 1, r_index - n_index);
-            String str_r = slotId.substring(r_index + 1, c_index);
-            String str_c = slotId.substring(c_index + 1, slotId.length());
-
-            slotNRC.setCabinetId(str_n);
-            slotNRC.setRow(Integer.valueOf(str_r));
-            slotNRC.setCol(Integer.valueOf(str_c));
-
-            return  slotNRC;
-        }
-        catch (NullPointerException ex)
-        {
-            return  null;
-        }
-
-    }
 }
