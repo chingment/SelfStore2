@@ -3,7 +3,6 @@ package com.uplink.selfstore.activity.handler;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import okhttp3.Request;
 
 /**
  * Created by chingment on 2018/6/14.
@@ -23,12 +22,14 @@ public class CarOperateHandler {
     public CarOperateHandler() {
         // Set up a handler to post events back to the correct thread if possible
         if (Looper.myLooper() != null) {
-            handler = new Handler() {
+            handler = new Handler(new Handler.Callback() {
                 @Override
-                public void handleMessage(Message msg) {
+                public boolean handleMessage(Message msg) {
                     CarOperateHandler.this.handleMessage(msg);
+
+                    return false;
                 }
-            };
+            });
         }
     }
 

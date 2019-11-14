@@ -1,17 +1,13 @@
 package com.uplink.selfstore.activity;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,7 +30,6 @@ import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.DisplayUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 

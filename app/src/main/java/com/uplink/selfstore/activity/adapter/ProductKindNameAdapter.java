@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.model.api.ProductKindBean;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.utils.LogUtil;
+
 
 import java.util.ArrayList;
 import java.util.List;

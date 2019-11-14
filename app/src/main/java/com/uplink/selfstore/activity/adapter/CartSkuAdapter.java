@@ -17,9 +17,8 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.LogUtil;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**

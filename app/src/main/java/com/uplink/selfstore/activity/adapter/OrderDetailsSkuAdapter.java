@@ -9,16 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.CartActivity;
-import com.uplink.selfstore.activity.handler.CarOperateHandler;
-import com.uplink.selfstore.model.api.CartOperateType;
-import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.utils.CommonUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

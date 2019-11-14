@@ -22,13 +22,11 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.OrderPayUrlBuildResultBean;
-import com.uplink.selfstore.model.api.OrderReserveResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.my.MyTimeTask;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.HashMap;

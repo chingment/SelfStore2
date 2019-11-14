@@ -1,18 +1,15 @@
 package com.uplink.selfstore.activity.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.uplink.selfstore.R;
+
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.LogUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

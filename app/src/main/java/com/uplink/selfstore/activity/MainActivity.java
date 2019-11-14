@@ -4,23 +4,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.ScaleAnimation;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -30,8 +20,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
-import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -41,7 +29,6 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
-import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -169,66 +156,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         banner_pager.requestFocus();
         banner_pager.setInterval(5000);
 
-
         dialog_NumKey = new CustomNumKeyDialog(MainActivity.this);
-
-
-//        MyBreathLight brv = (MyBreathLight) findViewById(R.id.brv);
-//        brv.setInterval(2000) //设置闪烁间隔时间
-//                .setCoreRadius(5f)//设置中心圆半径
-//                .setDiffusMaxWidth(10f)//设置闪烁圆的最大半径
-//                .setDiffusColor(Color.parseColor("#ff4600"))//设置闪烁圆的颜色
-//                .setCoreColor(Color.parseColor("#FA931E"))//设置中心圆的颜色
-//                .onStart();
-
-//        ImageView  mIv_inner = new ImageView(getAppContext());
-//        ImageView  mIv_outer = new ImageView(getAppContext());
-//
-//        GradientDrawable drawable_outer = new GradientDrawable(); //共用一个Drawable背景会有bug,这里new俩
-//        drawable_outer.setShape(GradientDrawable.OVAL);
-//        drawable_outer.setColor(getResources().getColor(R.color.red));
-//        GradientDrawable drawable_inner = new GradientDrawable();
-//        drawable_inner.setShape(GradientDrawable.OVAL);
-//        drawable_inner.setColor(getResources().getColor(R.color.red));
-//
-//
-//            mIv_inner.setBackground(drawable_inner);
-//            mIv_outer.setBackground(drawable_outer);
-//
-//
-//
-//        //  2.ImageView添加到FrameLayout
-//        FrameLayout.LayoutParams  mParams_inner = new FrameLayout.LayoutParams(16, 16);
-//        FrameLayout.LayoutParams  mParams_outer = new FrameLayout.LayoutParams(28,28);
-//        mParams_inner.gravity = Gravity.CENTER;
-//        mParams_outer.gravity = Gravity.CENTER;
-//
-//        FrameLayout  mFramelayout = new FrameLayout(getAppContext());
-//        mFramelayout.addView(mIv_inner, mParams_inner);
-//        mFramelayout.addView(mIv_outer, mParams_outer);
-//
-//
-//        //  3.设置动画
-//        ScaleAnimation anim_scale = new ScaleAnimation(16 / 28 , 1f, 16 / 28, 1f,
-////外圆从和内圆等大的位置开始缩放,这样好处是他俩的包裹父布局的大小能确定为外圆的大小
-//                ScaleAnimation.RELATIVE_TO_SELF,0.5f,ScaleAnimation.RELATIVE_TO_SELF,0.5f);
-//        AlphaAnimation anim_alpha = new AlphaAnimation(1.0f, 0.3f);
-//        anim_scale.setRepeatCount(AnimationSet.INFINITE);
-//        anim_alpha.setRepeatCount(AnimationSet.INFINITE);
-//
-//        AnimationSet  mAnimationSet = new AnimationSet(true);
-//        mAnimationSet.addAnimation(anim_scale);
-//        mAnimationSet.addAnimation(anim_alpha);
-//        mAnimationSet.setInterpolator(new DecelerateInterpolator());
-//        mAnimationSet.setFillAfter(false);
-//        mAnimationSet.setDuration(1555);
-//
-//        mIv_outer.startAnimation(mAnimationSet);
-//
-//        layout_header.addView(mFramelayout,new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));  //加到当前布局
-//
-
-
     }
 
     private void initEvent() {
@@ -336,155 +264,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 showToast(msg);
             }
         });
-    }
-
-
-    private void dataAnalysis(byte[] buffer, int length) {
-        //处理读逻辑
-        Log.d(TAG, "正在处理读逻辑");
-        boolean reading = true;
-        byte frameHand = (byte) 0x24;
-        boolean framePack = true;
-        int dataLength = -1;
-        byte xorAns = (byte) 0xff;
-        byte[] frameEndPack = {(byte) 0x0D, (byte) 0x0A};
-        int frameEndLength = 2;
-        for (int i = 0; i < length; i++) {
-
-            if ((buffer[i] == (byte) frameHand) && (framePack)) {
-                Log.d(TAG, "开始解包！！！出现帧头");
-                framePack = false;
-                dataLength = -1;
-                xorAns = (byte) 0xff;
-                continue;
-            }
-
-            if ((dataLength == -1) && (!framePack)) {
-                dataLength = buffer[i];
-                xorAns = (byte) dataLength;
-
-                if (dataLength >= 2) {
-                    dataLength--;
-                } else {
-                    Log.d(TAG, "帧长度错误！！！采用丢包策略！！！");
-                    framePack = true;
-                    dataLength = -1;
-                    xorAns = (byte) 0xff;
-                    return;
-                }
-                Log.d(TAG, "帧长度正常！！！继续解包！！！");
-                continue;
-            }
-
-            if (i + dataLength + frameEndLength <= length) {
-                byte cmd = (byte) buffer[i];
-                xorAns = (byte) (xorAns ^ cmd);
-                dataLength--;
-                i++;
-                if (dataLength > 0) {
-                    byte[] data = new byte[dataLength];
-                    int cnt = 0;
-
-                    while (dataLength > 0) {
-                        data[cnt] = buffer[i];
-                        xorAns = (byte) (xorAns ^ buffer[i]);
-                        dataLength--;
-                        i++;
-                        cnt++;
-                    }
-
-                    if (xorAns != buffer[i]) {
-                        Log.d(TAG, "dataLeng>1,xor错误，导致解包失败！！！");
-                        framePack = true;
-                        dataLength = -1;
-                        xorAns = (byte) 0xff;
-                        continue;
-                    } else {
-                        i++;
-                        if ((buffer[i] != frameEndPack[0]) || (buffer[i + 1] != frameEndPack[1])) {
-                            Log.d(TAG, "dataLeng>1,没有帧尾，导致解包失败！！！");
-                            framePack = true;
-                            dataLength = -1;
-                            xorAns = (byte) 0xff;
-                            continue;
-                        } else {
-                            Log.d(TAG, "unPack(cmd,buffer); 成功解包！！！");
-                            //解包
-                            //UnPack(cmd,data);
-
-                            //计算新的包;
-                            i++;
-                            framePack = true;
-                            dataLength = -1;
-                            xorAns = (byte) 0xff;
-                            continue;
-                        }
-                    }
-
-                } else if (dataLength == 0) {
-                    if (xorAns != buffer[i]) {
-                        Log.d(TAG, "dataLeng==1,xor错误，导致解包失败！！！");
-                        framePack = true;
-                        dataLength = -1;
-                        xorAns = (byte) 0xff;
-                        continue;
-                    } else {
-                        i++;
-                        if ((buffer[i] != frameEndPack[0]) || (buffer[i + 1] != frameEndPack[1])) {
-                            Log.d(TAG, "dataLeng==1,没有帧尾，导致解包失败！！！");
-                            framePack = true;
-                            dataLength = -1;
-                            xorAns = (byte) 0xff;
-                            return;
-                        } else {
-                            Log.d(TAG, "unPack(cmd); 成功解包！！！");
-                            //解包
-                            //UnPack(cmd);
-                            //计算新的包;
-                            i++;
-                            framePack = true;
-                            dataLength = -1;
-                            xorAns = (byte) 0xff;
-                            continue;
-                        }
-                    }
-                }
-            } else {
-                Log.d(TAG, "现在的偏移量+包长+帧尾 > buffer长度，导致解包错，采用丢包策略！！！");
-                framePack = true;
-                dataLength = -1;
-                xorAns = (byte) 0xff;
-                continue;
-            }
-        }
-        //读逻辑处理完
-        Log.d(TAG, "读逻辑处理完");
-        reading = false;
-    }
-
-    private byte [] Pack(byte cmd,byte [] data){
-        byte frameHand = (byte) 0x24;
-        byte[] frameEndPack = {(byte) 0x0D, (byte) 0x0A};
-        byte length = (byte) (2 +data.length);
-        int packLength = 1 + 1 +  1 + data.length + 1 + frameEndPack.length;
-        byte xorAns = length;
-        xorAns = xorAns = (byte) (xorAns ^ cmd);
-        byte packData [] = new byte[packLength];
-
-        packData[0] = frameHand;
-        packData[1] = length;
-        packData[2] = cmd;
-
-        for (int i=0;i<data.length;i++){
-            packData[3+i] = data[i];
-            xorAns = (byte)(xorAns ^ packData[3+i]);
-        }
-
-        packData[3 + data.length] = xorAns;
-        packData[4 + data.length] = frameEndPack[0];
-        packData[5 + data.length] = frameEndPack[1];
-
-        return packData;
     }
 
 }
