@@ -265,17 +265,11 @@ public class MachineCtrl {
                 if (sym != null) {
                     int[] rc_status = sym.SN_MV_Get_FlowStatus();
                     if (rc_status[0] == 0) {
-                        int action = rc_status[3];//表示扫描是否结束
-
-                        if(action==0) {
-                            sendPickupHandlerMessage(0, "空闲状态，没有执行动作", null);
-                        }
-                        else if(action==1) {
-                            sendPickupHandlerMessage(1, "正在取货中", null);
-                        }
-                        else if(action==2) {
-                            sendPickupHandlerMessage(2, "取货完成", null);
-                        }
+                        PickupResult result=new PickupResult();
+                        result.setActionCount(rc_status[1]);//动作总数
+                        result.setCurrentActionId(rc_status[2]);//当前动作号
+                        result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
+                        sendPickupHandlerMessage(2, "", result);
                     }
                 }
             }
@@ -283,25 +277,94 @@ public class MachineCtrl {
     }
 
     public class PickupResult implements Serializable {
+        private int actionCount;
+        private int currentActionId;
+        private String currentActionName;
+        private int currentActionStatusCode;
+        private String currentActionStatusName;
 
-        public int rows;
-        public int[] rowColLayout;
-
-        public int getRows() {
-            return rows;
+        public int getActionCount() {
+            return actionCount;
         }
 
-        public void setRows(int rows) {
-            this.rows = rows;
+        public void setActionCount(int actionCount) {
+            this.actionCount = actionCount;
         }
 
-        public int[] getRowColLayout() {
-            return rowColLayout;
+        public int getCurrentActionId() {
+            return currentActionId;
         }
 
-        public void setRowColLayout(int[] rowColLayout) {
-            this.rowColLayout = rowColLayout;
+        public void setCurrentActionId(int currentActionId) {
+            this.currentActionId = currentActionId;
+
+            switch (currentActionId){
+
+                case  0:
+                    this.currentActionName="机器停止复位";
+                    break;
+                case  1:
+                    this.currentActionName="回到原点";
+                    break;
+                case  2:
+                    this.currentActionName="XY移动";
+                    break;
+                case  3:
+                    this.currentActionName="接货动作1";
+                    break;
+                case  4:
+                    this.currentActionName="接货动作2";
+                    break;
+                case  5:
+                    this.currentActionName="Y 轴上移至出货口";
+                    break;
+                case  6:
+                    this.currentActionName="Y 轴下移至出货口";
+                    break;
+                case  7:
+                    this.currentActionName="货架移动至出货口";
+                    break;
+                case  8:
+                    this.currentActionName="提货动作";
+                    break;
+                 default:
+                     this.currentActionName="未知动作";
+                     break;
+            }
         }
+
+        public String getCurrentActionName() {
+            return currentActionName;
+        }
+
+        public int getCurrentActionStatusCode() {
+            return currentActionStatusCode;
+        }
+
+        public void setCurrentActionStatusCode(int currentActionStatusCode) {
+            this.currentActionStatusCode = currentActionStatusCode;
+
+            switch (currentActionStatusCode)
+            {
+                case 0:
+                    this.currentActionStatusName="空闲状态，没有执行动作";
+                    break;
+                case 1:
+                    this.currentActionStatusName="动作执行中";
+                    break;
+                case 2:
+                    this.currentActionStatusName="动作执行完成";
+                    break;
+                 default:
+                     this.currentActionStatusName="未知状态";
+                     break;
+            }
+        }
+
+        public String getCurrentActionStatusName() {
+            return currentActionStatusName;
+        }
+
     }
 
 }

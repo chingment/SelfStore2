@@ -65,28 +65,21 @@ public class CustomSlotEditDialog extends Dialog {
 
     private ListView list_search_skus;
     private SlotBean slot;
-    private ScanMidCtrl scanMidCtrl=new ScanMidCtrl();
-    private MachineCtrl machineCtrl=new MachineCtrl();
+    private ScanMidCtrl scanMidCtrl = new ScanMidCtrl();
+    private MachineCtrl machineCtrl = new MachineCtrl();
     private CustomDialogLoading customDialogRunning;
+
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.context = (SmMachineStockActivity) context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
 
-        if (!scanMidCtrl.connect()) {
-            ((SmMachineStockActivity) context).showToast("扫描器连接失败");
-        }
-
-        if (!scanMidCtrl.isNormarl()) {
-            ((SmMachineStockActivity) context).showToast("扫描器状态异常");
-        }
-
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
 
-                Bundle  bundle = msg.getData();
+                Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
                 String message = bundle.getString("message");
                 MachineCtrl.PickupResult pickupResult = null;
@@ -94,30 +87,22 @@ public class CustomSlotEditDialog extends Dialog {
                     pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
                 }
                 switch (status) {
-                    case 1:
-                        //异常消息
+                    case 1://异常消息
                         ((SmMachineStockActivity) context).showToast(message);
                         if (customDialogRunning.isShowing()) {
                             customDialogRunning.hide();
                         }
                         break;
-                    case 2:
-                        //扫描中
-                        customDialogRunning.setProgressText(message);
+                    case 2://当前动作状态
+                        if(pickupResult!=null) {
+                            customDialogRunning.setProgressText(pickupResult.getCurrentActionName()+","+pickupResult.getCurrentActionStatusName());
+                        }
                         if (!customDialogRunning.isShowing()) {
                             customDialogRunning.show();
                         }
                         break;
-                    case 3:
-                        //扫描结果
-                        ((SmMachineStockActivity) context).showToast(message);
-                        if (customDialogRunning.isShowing()) {
-                            customDialogRunning.hide();
-                        }
-                        break;
                 }
-
-                return  false;
+                return false;
             }
         }));
 
@@ -167,14 +152,14 @@ public class CustomSlotEditDialog extends Dialog {
         txt_SumQty = ViewHolder.get(this.layoutRes, R.id.txt_SumQty);
         txt_MaxQty = ViewHolder.get(this.layoutRes, R.id.txt_MaxQty);
         list_search_skus = ViewHolder.get(this.layoutRes, R.id.list_search_skus);
-        btn_keydelete =  ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
+        btn_keydelete = ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
 
         btn_pick_test = ViewHolder.get(this.layoutRes, R.id.btn_pick_test);
         btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
         btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
         btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
         btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
-        btn_save= ViewHolder.get(this.layoutRes, R.id.btn_save);
+        btn_save = ViewHolder.get(this.layoutRes, R.id.btn_save);
 
         customDialogRunning = new CustomDialogLoading(this.context);
 
@@ -183,7 +168,7 @@ public class CustomSlotEditDialog extends Dialog {
     protected void initEvent() {
 
 
-        final Dialog _this=this;
+        final Dialog _this = this;
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,8 +182,8 @@ public class CustomSlotEditDialog extends Dialog {
         btn_keydelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String val= txt_searchKey.getText().toString();
-                if(val.length()>=1) {
+                String val = txt_searchKey.getText().toString();
+                if (val.length() >= 1) {
                     val = val.substring(0, val.length() - 1);
                 }
                 txt_searchKey.setText(val);
@@ -212,17 +197,17 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 if (!machineCtrl.connect()) {
-                   context.showToast("机器连接失败");
-                   return;
+                    context.showToast("机器连接失败");
+                    return;
                 }
 
                 if (!machineCtrl.isNormarl()) {
                     context.showToast("机器状态异常");
                     return;
                 }
-                String slotId=String.valueOf(txt_SlotName.getText());
-                SlotNRC slotNRC=SlotNRC.GetSlotNRC(slotId);
-                if(slotNRC==null) {
+                String slotId = String.valueOf(txt_SlotName.getText());
+                SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
+                if (slotNRC == null) {
                     context.showToast("货道编号解释错误");
                     return;
                 }
@@ -236,7 +221,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
                     ((SmMachineStockActivity) context).showToast("没有可删除的商品");
                     return;
                 }
@@ -255,13 +240,13 @@ public class CustomSlotEditDialog extends Dialog {
         btn_fill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
                     ((SmMachineStockActivity) context).showToast("请先设置商品");
                     return;
                 }
-                int sumQty=Integer.valueOf(txt_MaxQty.getText()+"");
-                int lockQty=Integer.valueOf(txt_LockQty.getText()+"");
-                int sellQty=sumQty-lockQty;
+                int sumQty = Integer.valueOf(txt_MaxQty.getText() + "");
+                int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
+                int sellQty = sumQty - lockQty;
                 txt_SellQty.setText(String.valueOf(sellQty));
                 txt_SumQty.setText(String.valueOf(sumQty));
 
@@ -275,9 +260,9 @@ public class CustomSlotEditDialog extends Dialog {
 
                 MachineBean machine = AppCacheManager.getMachine();
 
-                String id=String.valueOf(txt_SlotName.getText());
-                String productSkuId=String.valueOf(txt_SkuId.getText());
-                int sumQuantity=Integer.valueOf(txt_SumQty.getText()+"");
+                String id = String.valueOf(txt_SlotName.getText());
+                String productSkuId = String.valueOf(txt_SkuId.getText());
+                int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 Map<String, Object> params = new HashMap<>();
                 params.put("id", id);
                 params.put("machineId", machine.getId());
@@ -313,15 +298,15 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
                     ((BaseFragmentActivity) context).showToast("请先设置商品");
                     return;
                 }
 
-                int sumQty=Integer.valueOf(txt_SumQty.getText()+"");
-                int lockQty=Integer.valueOf(txt_LockQty.getText()+"");
+                int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
+                int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
 
-                if(sumQty>lockQty) {
+                if (sumQty > lockQty) {
                     sumQty -= 1;
                     int sellQty = sumQty - lockQty;
                     txt_SellQty.setText(String.valueOf(sellQty));
@@ -337,29 +322,29 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if(StringUtil.isEmptyNotNull(txt_SkuId.getText()+"")) {
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
                     ((SmMachineStockActivity) context).showToast("请先设置商品");
                     return;
                 }
 
-                int sumQty=Integer.valueOf(txt_SumQty.getText()+"");
-                int lockQty=Integer.valueOf(txt_LockQty.getText()+"");
-                sumQty+=1;
+                int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
+                int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
+                sumQty += 1;
 
-                int sellQty=sumQty-lockQty;
+                int sellQty = sumQty - lockQty;
                 txt_SellQty.setText(String.valueOf(sellQty));
                 txt_SumQty.setText(String.valueOf(sumQty));
             }
         });
 
 
-        LinearLayout all_key =ViewHolder.get(this.layoutRes, R.id.all_key);
+        LinearLayout all_key = ViewHolder.get(this.layoutRes, R.id.all_key);
         for (int i = 0; i < all_key.getChildCount(); i++) {
-            LinearLayout viewchild = (LinearLayout)all_key.getChildAt(i);
+            LinearLayout viewchild = (LinearLayout) all_key.getChildAt(i);
 
-            for (int j=0;j<viewchild.getChildCount();j++){
+            for (int j = 0; j < viewchild.getChildCount(); j++) {
 
-                Button key_btn = (Button)viewchild.getChildAt(j);
+                Button key_btn = (Button) viewchild.getChildAt(j);
 
                 key_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -380,11 +365,11 @@ public class CustomSlotEditDialog extends Dialog {
 
     public void setSlot(SlotBean slot) {
 
-        this.slot=slot;
+        this.slot = slot;
 
         txt_SlotName.setText(slot.getId());
 
-        if(StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
+        if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
             txt_SkuId.setText("");
             txt_SkuName.setText("暂无设置");
             txt_SellQty.setText("0");
@@ -404,7 +389,7 @@ public class CustomSlotEditDialog extends Dialog {
     }
 
     private void getKey(String key) {
-        String val=txt_searchKey.getText()+key;
+        String val = txt_searchKey.getText() + key;
         txt_searchKey.setText(val);
         searchSkus(val);
     }
@@ -417,7 +402,7 @@ public class CustomSlotEditDialog extends Dialog {
         params.put("machineId", machine.getId());
         params.put("key", key);
 
-       context.getByMy(Config.URL.productSku_Search, params, false,"正在寻找", new HttpResponseHandler() {
+        context.getByMy(Config.URL.productSku_Search, params, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -428,7 +413,7 @@ public class CustomSlotEditDialog extends Dialog {
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    ProductSkuSearchResultBean d=rt.getData();
+                    ProductSkuSearchResultBean d = rt.getData();
 
                     SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(context, d.getProductSkus());
                     slotSkuSearchAdapter.setCallBackListener(new SlotSkuSearchAdapter.CallBackListener() {
@@ -447,10 +432,9 @@ public class CustomSlotEditDialog extends Dialog {
                     });
                     list_search_skus.setAdapter(slotSkuSearchAdapter);
 
-                    if(d.getProductSkus()!=null) {
-                        if (d.getProductSkus().size() == 1)
-                        {
-                            SearchProductSkuBean skuBean=d.getProductSkus().get(0);
+                    if (d.getProductSkus() != null) {
+                        if (d.getProductSkus().size() == 1) {
+                            SearchProductSkuBean skuBean = d.getProductSkus().get(0);
                             txt_SkuId.setText(skuBean.getId());
                             txt_SkuName.setText(skuBean.getName());
                             CommonUtil.loadImageFromUrl(context, img_SkuImg, skuBean.getMainImgUrl());
@@ -467,5 +451,15 @@ public class CustomSlotEditDialog extends Dialog {
         list_search_skus.setAdapter(slotSkuSearchAdapter);
     }
 
+    @Override
+    public void show() {
+        super.show();
+        if (!scanMidCtrl.connect()) {
+            ((SmMachineStockActivity) context).showToast("扫描器连接失败");
+        }
 
+        if (!scanMidCtrl.isNormarl()) {
+            ((SmMachineStockActivity) context).showToast("扫描器状态异常");
+        }
+    }
 }
