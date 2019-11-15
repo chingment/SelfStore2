@@ -51,7 +51,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private MachineCtrl machineCtrl = new MachineCtrl();
     private CustomDialogLoading customDialogRunning;
     private Handler handler_UpdateUI;
-    private final int MESSAGE_WHAT_SCANSLOTS=1;
 
     private  MyBreathLight breathlight_machine;
     private  MyBreathLight breathlight_scangan;
@@ -85,14 +84,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 //异常消息
                                 showToast(message);
                                 if (customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
+                                    customDialogRunning.cancelDialog();
                                 }
                                 break;
                             case 2:
                                 //扫描中
                                 customDialogRunning.setProgressText(message);
                                 if (!customDialogRunning.isShowing()) {
-                                    customDialogRunning.show();
+                                    customDialogRunning.showDialog();
                                 }
                                 break;
                             case 3:
@@ -159,6 +158,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     public void drawsCabinetSlots(int[] rowColLayout, HashMap<String, SlotBean> slots) {
+
 
         this.cabinetRowColLayout = rowColLayout;
         this.cabinetSlots = slots;
@@ -236,6 +236,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             table_slotstock.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
 
         }
+
+
+        // customDialogRunning.hide();
     }
 
     @Override
@@ -329,14 +332,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
 
                 if (customDialogRunning.isShowing()) {
-                    customDialogRunning.hide();
+                    customDialogRunning.cancelDialog();
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
                 if (customDialogRunning.isShowing()) {
-                    customDialogRunning.hide();
+                    customDialogRunning.cancelDialog();
                 }
             }
         });

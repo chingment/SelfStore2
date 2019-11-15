@@ -41,7 +41,7 @@
             <GridView
                 android:id="@+id/list_kind_body"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:columnWidth="100dp"
@@ -53,6 +53,7 @@
                 android:overScrollMode="never"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"
+                android:layout_marginBottom="@dimen/size_66"
                 android:verticalSpacing="0dp" />
         </LinearLayout>
 

@@ -90,15 +90,23 @@ public class CustomSlotEditDialog extends Dialog {
                     case 1://异常消息
                         ((SmMachineStockActivity) context).showToast(message);
                         if (customDialogRunning.isShowing()) {
-                            customDialogRunning.hide();
+                            customDialogRunning.cancelDialog();
                         }
                         break;
                     case 2://当前动作状态
-                        if(pickupResult!=null) {
-                            customDialogRunning.setProgressText(pickupResult.getCurrentActionName()+","+pickupResult.getCurrentActionStatusName());
-                        }
-                        if (!customDialogRunning.isShowing()) {
-                            customDialogRunning.show();
+                        if (pickupResult != null) {
+                            customDialogRunning.setProgressText(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
+
+                            if (!customDialogRunning.isShowing()) {
+                                customDialogRunning.showDialog();
+                            }
+
+                            if(pickupResult.getCurrentActionId()==7)
+                            {
+                                if(pickupResult.getCurrentActionStatusCode()==2){
+                                    customDialogRunning.cancelDialog();
+                                }
+                            }
                         }
                         break;
                 }
@@ -112,15 +120,10 @@ public class CustomSlotEditDialog extends Dialog {
                     public boolean handleMessage(Message msg) {
 
                         Bundle bundle;
-                        switch (msg.what) {
-                            case ScanMidCtrl.MESSAGE_WHAT_SCANRESULT:
-                                bundle = msg.getData();
-                                String scanResult = bundle.getString("result");
-                                txt_searchKey.setText(scanResult);
-                                searchSkus(scanResult);
-                                break;
-                        }
-
+                        bundle = msg.getData();
+                        String scanResult = bundle.getString("result");
+                        txt_searchKey.setText(scanResult);
+                        searchSkus(scanResult);
 
                         return false;
                     }

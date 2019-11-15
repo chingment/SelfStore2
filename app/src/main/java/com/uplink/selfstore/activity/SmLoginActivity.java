@@ -84,8 +84,6 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
-                    showToast("返回");
-                    LogUtil.d("返回");
                     finish();
                     break;
                 case R.id.btn_login:
