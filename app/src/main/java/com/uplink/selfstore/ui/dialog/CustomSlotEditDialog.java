@@ -205,6 +205,12 @@ public class CustomSlotEditDialog extends Dialog {
                     context.showToast("机器状态异常");
                     return;
                 }
+
+                if(!machineCtrl.isIdle()) {
+                    context.showToast("机器不在空闲状态");
+                    return;
+                }
+
                 String slotId = String.valueOf(txt_SlotName.getText());
                 SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
                 if (slotNRC == null) {

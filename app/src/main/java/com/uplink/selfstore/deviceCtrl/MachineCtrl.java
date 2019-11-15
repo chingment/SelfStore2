@@ -126,6 +126,34 @@ public class MachineCtrl {
         }
     }
 
+    public boolean isIdle() {
+        boolean flag = false;
+
+        if (sym != null) {
+            boolean flag1 = false;
+            int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
+            if (rc_status1[0] == 0) {
+                if (rc_status1[2] == 0) {
+                    flag1 = true;
+                }
+            }
+
+            boolean flag2 = false;
+            int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
+            if (rc_status2[0] == 0) {
+                if (rc_status2[3] == 0) {
+                    flag2 = true;
+                }
+            }
+
+            if (flag1 && flag2) {
+                return true;
+            }
+
+            return false;
+        }
+        return false;
+    }
 
     public void setScanSlotHandler(Handler scanSlotHandler) {
         this.scanSlotHandler=scanSlotHandler;
@@ -270,6 +298,10 @@ public class MachineCtrl {
                         result.setCurrentActionId(rc_status[2]);//当前动作号
                         result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
                         sendPickupHandlerMessage(2, "", result);
+                    }
+                    else
+                    {
+                        sendPickupHandlerMessage(1, "动作状态查询失败", null);
                     }
                 }
             }
