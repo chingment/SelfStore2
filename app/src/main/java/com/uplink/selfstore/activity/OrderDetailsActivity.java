@@ -16,7 +16,6 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.deviceCtrl.DeShangMidCtrl;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;

@@ -463,9 +463,5 @@ public class CustomSlotEditDialog extends Dialog {
         if (!scanMidCtrl.connect()) {
             ((SmMachineStockActivity) context).showToast("扫描器连接失败");
         }
-
-        if (!scanMidCtrl.isNormarl()) {
-            ((SmMachineStockActivity) context).showToast("扫描器状态异常");
-        }
     }
 }

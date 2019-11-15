@@ -18,7 +18,7 @@ public class MachineCtrl {
     private int cmd_Pickup = 2;//取货命令
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
-
+    private PickupListenerThread pickupListenerThread;
     private symvdio sym = null;
 
     public static final int MESSAGE_WHAT_SCANSLOTS=1;
@@ -120,6 +120,13 @@ public class MachineCtrl {
             int rc_status = sym.SN_MV_AutoStart(0,row,col);
             if (rc_status == 0) {
                 this.current_Cmd = this.cmd_Pickup;
+                this.cmd_PickupIsStopListener = false;
+
+                if(pickupListenerThread==null) {
+                    pickupListenerThread = new PickupListenerThread();
+                    pickupListenerThread.start();
+                }
+
             } else {
                 sendPickupHandlerMessage(1, "取货启动失败", null);
             }
@@ -161,9 +168,6 @@ public class MachineCtrl {
 
     public void  setPickupHandler(Handler pickupHandler) {
         this.pickupHandler=pickupHandler;
-        this.cmd_PickupIsStopListener = false;
-        PickupListenerThread pickupListenerThread = new PickupListenerThread();
-        pickupListenerThread.start();
     }
 
 
