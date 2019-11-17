@@ -76,7 +76,7 @@ public class LocationUtil {
     private void setLocation(Location location) {
         this.location = location;
         String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
-        LogUtil.d( TAG, address );
+        LogUtil.d(TAG, address );
     }
 
     //获取经纬度
@@ -111,7 +111,7 @@ public class LocationUtil {
         @Override
         public void onStatusChanged(String provider, int status, Bundle arg2) {
 
-            LogUtil.e("1");
+            LogUtil.e(TAG,"1");
         }
 
         /**
@@ -119,7 +119,7 @@ public class LocationUtil {
          */
         @Override
         public void onProviderEnabled(String provider) {
-            LogUtil.e("2");
+            LogUtil.e(TAG,"2");
         }
 
         /**
@@ -127,7 +127,7 @@ public class LocationUtil {
          */
         @Override
         public void onProviderDisabled(String provider) {
-            LogUtil.e("3");
+            LogUtil.e(TAG,"3");
         }
 
         /**
@@ -135,7 +135,7 @@ public class LocationUtil {
          */
         @Override
         public void onLocationChanged(Location location) {
-            LogUtil.e("4");
+            LogUtil.e(TAG,"4");
             location.getAccuracy();//精确度
             setLocation( location );
         }

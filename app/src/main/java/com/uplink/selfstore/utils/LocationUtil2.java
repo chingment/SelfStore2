@@ -8,7 +8,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -18,168 +20,151 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 public class LocationUtil2 {
-    public String cityName;
-    // 此对象能通过经纬度来获取相应的城市等信息
-    private Geocoder geocoder;
-    private LocationManager locationManager;
-    private String provider;
-    private Location location;
-    private Context context;
-    /*
-     * 通过地理坐标获取城市名 其中CN分别是city和name的首字母缩写
-     */
-    public String getCNBylocation(Context context) {
-        geocoder = new Geocoder(context);
-        String serviceName = Context.LOCATION_SERVICE;
-        // 实例化一个LocationManager对象
-        locationManager = (LocationManager) context.getSystemService(serviceName);
-        // provider的类型
-        // String provider = LocationManager.NETWORK_PROVIDER;
-        getProvider();
-        //openGPS();
-        // 通过最后一次的地理位置来获得Location对象
-        location = locationManager.getLastKnownLocation(provider);
-        if(location == null){
-            locationManager.requestLocationUpdates("gps", 60000, 1, locationListener);
-        }
-        String queryed_name = updateWithNewLocation(location);
-        if ((queryed_name != null) && (0 != queryed_name.length())) {
-            cityName = queryed_name;
-        }
-        /**
-         * 第二个参数表示更新的周期，单位为毫秒；第三个参数表示最小距离间隔，单位是米 设定每30秒进行一次自动定位
-         */
-        locationManager.requestLocationUpdates(provider, 30000, 50,
-                locationListener);
-        return cityName;
-    }
-
+    // 纬度
+    public static double latitude = 0.0;
+    // 经度
+    public static double longitude = 0.0;
+    public static LocationManager locationManager;
+    public static Location location;
+    private static String provider;
     /**
-     * 方位改变时触发，进行调用
+     * 初始化位置信息
+     *
+     * @param context
      */
-    private final LocationListener locationListener = new LocationListener() {
-        String tempCityName;
+    public static void initLocation(Context context) {
 
-        public void onLocationChanged(Location location) {
-            tempCityName = updateWithNewLocation(location);
-            if ((tempCityName != null) && (tempCityName.length() != 0)) {
-                cityName = tempCityName;
+        LocationListener locationListener = new LocationListener() {
+
+            @Override
+            public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+                // TODO Auto-generated method stub
+
             }
-        }
 
-        public void onProviderDisabled(String provider) {
-            tempCityName = updateWithNewLocation(null);
-            if ((tempCityName != null) && (tempCityName.length() != 0)) {
-                cityName = tempCityName;
+            @Override
+            public void onProviderEnabled(String arg0) {
+                // TODO Auto-generated method stub
+
             }
-        }
-        public void onProviderEnabled(String provider) {
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
 
-    /**
-     * 更新location
-     */
-    private String updateWithNewLocation(Location location1) {
-        String mcityName = "";
-        double lat = 0;
-        double lng = 0;
-        List<Address> addList = null;
-        if (location1 != null) {
-            lat = location1.getLatitude();
-            lng = location1.getLongitude();
+            @Override
+            public void onProviderDisabled(String arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onLocationChanged(Location arg0) {
+                // TODO Auto-generated method stub
+                // 更新当前经纬度
+            }
+        };
+
+        //获取定位服务
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        //获取当前可用的位置控制器
+        List<String> list = locationManager.getProviders(true);
+
+        if (list.contains(LocationManager.GPS_PROVIDER)) {
+            //是否为GPS位置控制器
+            provider = LocationManager.GPS_PROVIDER;
+        }
+        else if (list.contains(LocationManager.NETWORK_PROVIDER)) {
+            //是否为网络位置控制器
+            provider = LocationManager.NETWORK_PROVIDER;
+
         } else {
-            System.out.println("无法获取地理信息");
-        }
-        try {
-            addList = geocoder.getFromLocation(lat, lng, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (addList != null && addList.size() > 0) {
-            for (int i = 0; i < addList.size(); i++) {
-                Address add = addList.get(i);
-                mcityName += add.getLocality();
-            }
-        }
-        if (mcityName.length() != 0) {
-            return mcityName.substring(0, (mcityName.length() - 1));
-        } else {
-            return mcityName;
-        }
-    }
-
-    /**
-     * 通过经纬度获取地址信息的另一种方法
-     */
-    public String GetAddr(String latitude, String longitude) {
-        String addr = "";
-		/*
-		 * 也可以是http://maps.google.cn/maps/geo?output=csv&key=abcdef&q=%s,%s，
-		 * 不过解析出来的是英文地址 密钥可以随便写一个key=abc
-		 * output=csv,也可以是xml或json，不过使用csv返回的数据最简洁方便解析
-		 */
-        String url = String.format(
-                "http://maps.google.cn/maps/geo?output=csv&key=abcdef&q=%s,%s",
-                latitude, longitude);
-        URL myURL = null;
-        URLConnection httpsConn = null;
-        try {
-            myURL = new URL(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        }
-        try {
-            httpsConn = (URLConnection) myURL.openConnection();
-            if (httpsConn != null) {
-                InputStreamReader insr = new InputStreamReader(
-                        httpsConn.getInputStream(), "UTF-8");
-                BufferedReader br = new BufferedReader(insr);
-                String data = null;
-                if ((data = br.readLine()) != null) {
-                    String[] retList = data.split(",");
-                    if (retList.length > 2 && ("200".equals(retList[0]))) {
-                        addr = retList[2];
-                    } else {
-                        addr = "";
-                    }
-                }
-                insr.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return addr;
-    }
-
-    private void openGPS() {
-
-        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)
-                || locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER)
-                ){
-            Toast.makeText(context, " 位置源已设置！ ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "请检查网络或GPS是否打开",
+                    Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(context, " 位置源未设置！", Toast.LENGTH_SHORT).show();
+
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ActivityCompat.checkSelfPermission( context, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission( context, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        if (ActivityCompat.checkSelfPermission( context, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission( context, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+
+        location = locationManager.getLastKnownLocation(provider);
+
+
+        if (location != null) {
+            //获取当前位置，这里只用到了经纬度
+            String stringPosition = "纬度为：" + location.getLatitude() + ",经度为："
+                    + location.getLongitude();
+            longitude=location.getLongitude();
+            latitude=location.getLatitude();
+            Toast.makeText(context, stringPosition, Toast.LENGTH_LONG).show();
+
+        }
+        //绑定定位事件，监听位置是否改变
+        //第一个参数为控制器类型第二个参数为监听位置变化的时间间隔（单位：毫秒）
+        //第三个参数为位置变化的间隔（单位：米）第四个参数为位置监听器
+
+        locationManager.requestLocationUpdates(provider, 2000, 2, locationListener);
+
+
+
     }
 
-    private void getProvider() {
-        // TODO Auto-generated method stub
-        // 构建位置查询条件
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);  //高精度
-        criteria.setAltitudeRequired(false);  //不查询海拔
-        criteria.setBearingRequired(false);  //不查询方位
-        criteria.setCostAllowed(true);  //不允许付费
-        criteria.setPowerRequirement(Criteria.POWER_LOW);  //低耗
-        // 返回最合适的符合条件的 provider ，第 2 个参数为 true 说明 , 如果只有一个 provider 是有效的 , 则返回当前  provider
-        provider = locationManager.getBestProvider(criteria, true);
+
+    public static String getAddress(Location location,Context context) throws IOException {
+        if(location==null){
+            LogUtil.d("错误","未找到location");
+            return "";
+        }
+
+        Geocoder geocoder = new Geocoder(context);
+        boolean flag = geocoder.isPresent();
+        LogUtil.d("位置信息","the flag is "+flag);
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+
+            //根据经纬度获取地理位置信息
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+            LogUtil.d("经度",Double.toString(location.getLatitude()));
+            LogUtil.d("纬度",Double.toString(location.getLongitude()));
+
+
+            //根据地址获取地理位置信息
+            //List<Address> addresses = geocoder.getFromLocationName( "广东省珠海市香洲区沿河路321号", 1);
+
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);
+                for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                    stringBuilder.append(address.getAddressLine(i)).append("\n");
+                }
+                stringBuilder.append(address.getCountryName()).append("_");//国家
+                stringBuilder.append(address.getFeatureName()).append("_");//周边地址
+                stringBuilder.append(address.getLocality()).append("_");//市
+                stringBuilder.append(address.getPostalCode()).append("_");
+                stringBuilder.append(address.getCountryCode()).append("_");//国家编码
+                stringBuilder.append(address.getAdminArea()).append("_");//省份
+                stringBuilder.append(address.getSubAdminArea()).append("_");
+                stringBuilder.append(address.getThoroughfare()).append("_");//道路
+                stringBuilder.append(address.getSubLocality()).append("_");//香洲区
+                stringBuilder.append(address.getLatitude()).append("_");//经度
+                stringBuilder.append(address.getLongitude());//维度
+                /*System.out.println(stringBuilder.toString());*/
+                LogUtil.d("获取到的地理位置为：",stringBuilder.toString());
+
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            Toast.makeText(context, "报错", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 }
-

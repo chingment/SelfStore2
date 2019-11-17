@@ -31,6 +31,7 @@ import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -50,97 +51,21 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
-    private LocationManager mLocationManager;//位置管理器
-
-    private static final int LOCATION_CODE = 1;
-    private String locationProvider;
-
+    public LocationUtil locationUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        locationUtil= LocationUtil.getInstance(getAppContext());
         initView();
         initEvent();
         initData();
-
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(true);
-
-        for (String provider : providers) {
-            LogUtil.i(TAG, "loaction provider:" + provider);
-        }
-
-        Location location = null;
-
-
-        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-            LogUtil.i(TAG, "lGPS模块正常");
-
-        }
-
-
-        if (providers.contains(LocationManager.GPS_PROVIDER)) {
-            locationProvider = LocationManager.GPS_PROVIDER;
-            LogUtil.i(TAG, "loaction check provider:" + locationProvider);
-            location = locationManager.getLastKnownLocation(locationProvider);
-        }
-
-
-        if (!providers.contains(LocationManager.NETWORK_PROVIDER) && !providers.contains(LocationManager.GPS_PROVIDER)) {
-            LogUtil.d(TAG, "loaction check provider: 没有可用的位置提供器");
-            return;
-        }
-
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-
-
-        location = locationManager.getLastKnownLocation(locationProvider);
-
-        updateWithNewLocation(location);
-
-        locationManager.requestLocationUpdates(locationProvider, 2000, 10, locationListener);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         sendRunStatus("running");
-    }
-
-    private final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            updateWithNewLocation(location);
-        }
-
-        public void onProviderDisabled(String provider) {
-            updateWithNewLocation(null);
-        }
-
-        public void onProviderEnabled(String provider) {
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
-
-    private void updateWithNewLocation(Location location) {
-        if (location == null) {
-            LogUtil.i("地理位置:location == null");
-        } else {
-            LogUtil.i("地理位置:" + location.getLatitude() + "，" + location.getLongitude());
-        }
     }
 
 
@@ -191,8 +116,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     public void loadLogo() {
-
-
         CommonUtil.loadImageFromUrl(getAppContext(), img_logo, this.getGlobalDataSet().getMachine().getLogoImgUrl());
     }
 

@@ -48,7 +48,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
         setShowStatuBar(true);
-        //getDeviceStatus();
+
         if (AppCacheManager.getGlobalDataSet() != null) {
             Intent intent = new Intent(getAppContext(), MainActivity.class);
             startActivity(intent);
@@ -163,25 +163,4 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         });
 
     }
-
-    public boolean getDeviceStatus() {
-        byte[] sz = new byte[6];
-        sz[0] = (byte) 0x55;
-        sz[1] = (byte) 0xAA;
-        sz[2] = (byte) 0x01;
-        sz[3] = (byte) 0x00;
-        sz[4] = (byte) 0x00;
-
-        byte xorAns = 0x00;
-
-        for (int j = 0; j < sz.length - 1; j++) {
-            xorAns = (byte) (xorAns ^ sz[j]);
-        }
-
-        sz[5] = xorAns;
-
-        String str = ChangeToolUtils.byteArrToHex(sz);
-        return true;
-    }
-
 }
