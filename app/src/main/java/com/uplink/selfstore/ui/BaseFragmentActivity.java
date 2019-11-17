@@ -1,5 +1,6 @@
 package com.uplink.selfstore.ui;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import com.umeng.analytics.MobclickAgent;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.activity.InitDataActivity;
+import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.jpush.LocalBroadcastManager;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -105,6 +108,24 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         AppManager.getAppManager().addActivity(this);
 
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())) {
+
+            Activity activity= AppManager.getAppManager().currentActivity();
+
+            if(activity instanceof InitDataActivity){
+                if (AppCacheManager.getGlobalDataSet() != null) {
+                    Intent intent = new Intent(getAppContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else {
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
 
     }
 
@@ -136,7 +157,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
 
-    public void setShowStatuBar(boolean isshow) {
+    public void setShowStatusBar(boolean isshow) {
 
         Intent intent = new Intent();
         intent.setAction("android.intent.action.hidenavigation");
