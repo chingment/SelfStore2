@@ -111,7 +111,7 @@ public class LocationUtil {
         @Override
         public void onStatusChanged(String provider, int status, Bundle arg2) {
 
-            LogUtil.e(TAG,"1");
+           // LogUtil.e(TAG,"1");
         }
 
         /**
@@ -119,7 +119,8 @@ public class LocationUtil {
          */
         @Override
         public void onProviderEnabled(String provider) {
-            LogUtil.e(TAG,"2");
+
+            //LogUtil.e(TAG,"2");
         }
 
         /**
@@ -127,7 +128,8 @@ public class LocationUtil {
          */
         @Override
         public void onProviderDisabled(String provider) {
-            LogUtil.e(TAG,"3");
+
+            //LogUtil.e(TAG,"3");
         }
 
         /**
