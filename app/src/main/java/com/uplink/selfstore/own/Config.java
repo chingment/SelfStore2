@@ -36,9 +36,10 @@ public class Config {
         public static final String order_Details = BuildConfig.ENVIRONMENT + "/api/Order/Details";
         public static final String order_PayUrlBuild = BuildConfig.ENVIRONMENT + "/api/Order/PayUrlBuild";
         public static final String machine_Login= BuildConfig.ENVIRONMENT + "/api/Machine/Login";
-        public static final String machine_GetCabinetSlots= BuildConfig.ENVIRONMENT + "/api/Machine/GetCabinetSlots";
-        public static final String machine_SaveCabinetSlot= BuildConfig.ENVIRONMENT + "/api/Machine/SaveCabinetSlot";
-        public static final String machine_SaveCabinetRowColLayout= BuildConfig.ENVIRONMENT + "/api/Machine/SaveCabinetRowColLayout";
+        public static final String machine_Logout= BuildConfig.ENVIRONMENT + "/api/Machine/Logout";
+        public static final String stockSetting_GetCabinetSlots= BuildConfig.ENVIRONMENT + "/api/StockSetting/GetCabinetSlots";
+        public static final String stockSetting_SaveCabinetSlot= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetSlot";
+        public static final String stockSetting_SaveCabinetRowColLayout= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetRowColLayout";
         public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
     }

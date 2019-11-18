@@ -13,6 +13,7 @@ import java.util.List;
 
 public class AppCacheManager {
 
+    private static String Cache_Key_OpUserInfo = "Cache_Key_OpUserInfo";
     private static String Cache_Key_LastUserName = "Cache_LastUserName";
     private static String Cache_Key_LastUpdateTime = "Cache_LastUpdateTime";
     private static String Cache_Key_Machine = "Cache_Machine";
@@ -36,6 +37,18 @@ public class AppCacheManager {
         String userName = AppCacheManager.getCache().getAsString(Cache_Key_LastUserName);
 
         return userName;
+
+    }
+
+    public static void setOpUserInfo(OpUserInfoBean opUserInfoBean) {
+        AppCacheManager.getCache().put(Cache_Key_OpUserInfo, opUserInfoBean);
+    }
+
+    public static OpUserInfoBean getOpUserInfo() {
+
+        OpUserInfoBean opUserInfoBean = (OpUserInfoBean)AppCacheManager.getCache().getAsObject(Cache_Key_OpUserInfo);
+
+        return opUserInfoBean;
 
     }
 

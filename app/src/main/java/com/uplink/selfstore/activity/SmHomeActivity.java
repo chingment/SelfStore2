@@ -73,16 +73,14 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         params.put("appVersionName", BuildConfig.VERSION_NAME);
                         params.put("macAddress", "");
 
-                        postByMy(Config.URL.machine_InitData, params,null, true, "正在退出", new HttpResponseHandler() {
+                        postByMy(Config.URL.machine_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
-                                ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
+                                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                                 });
                                 if (rt.getResult() == Result.SUCCESS) {
-                                    AppCacheManager.setGlobalDataSet(rt.getData());
-
-                                    Intent l_Intent = new Intent(SmHomeActivity.this, MainActivity.class);
-                                    startActivity(l_Intent);
+                                    Intent intent = new Intent(getAppContext(), InitDataActivity.class);
+                                    startActivity(intent);
                                     finish();
                                 } else {
                                   showToast(rt.getMessage());

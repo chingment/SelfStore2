@@ -13,6 +13,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.MachineLoginResultBean;
+import com.uplink.selfstore.model.api.OpUserInfoBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
@@ -113,12 +114,13 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                         @Override
                         public void onSuccess(String response) {
 
-                            ApiResultBean<MachineLoginResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<MachineLoginResultBean>>() {
+                            ApiResultBean<OpUserInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OpUserInfoBean>>() {
                             });
 
                             if (rt.getResult() == Result.SUCCESS) {
 
                                 AppCacheManager.setLastUserName(rt.getData().getUserName());
+                                AppCacheManager.setOpUserInfo(rt.getData());
 
                                 Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
                                 startActivity(intent);

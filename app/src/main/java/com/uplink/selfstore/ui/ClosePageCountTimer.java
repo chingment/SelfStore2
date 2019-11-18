@@ -30,6 +30,6 @@ public class ClosePageCountTimer extends CountDownTimer {
     @Override
     public void onTick(long millisUntilFinished) {
         long seconds = (millisUntilFinished / 1000);
-        LogUtil.i("主页倒计时:" + seconds);
+       // LogUtil.i("主页倒计时:" + seconds);
     }
 }

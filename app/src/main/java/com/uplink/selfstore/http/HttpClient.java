@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.utils.LogUtil;
@@ -224,6 +225,9 @@ public class HttpClient {
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
+            if(AppCacheManager.getOpUserInfo()!=null) {
+                requestBuilder.addHeader("X-Token", "" + AppCacheManager.getOpUserInfo().getToken());
+            }
 
             try {
                 JSONObject jsonImgData = new JSONObject();

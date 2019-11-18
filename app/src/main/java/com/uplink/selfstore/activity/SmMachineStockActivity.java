@@ -279,7 +279,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         params.put("machineId", machine.getId());
         params.put("cabinetId",String.valueOf(cabinetId));
 
-        getByMy(Config.URL.machine_GetCabinetSlots, params, true, "正在获取库存", new HttpResponseHandler() {
+        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, "正在获取库存", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -318,7 +318,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         params.put("cabinetRowColLayout", json_cabinetRowColLayout);
 
-        postByMy(Config.URL.machine_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

@@ -279,7 +279,7 @@ public class CustomSlotEditDialog extends Dialog {
                 params.put("sumQuantity", sumQuantity);
 
 
-                context.postByMy(Config.URL.machine_SaveCabinetSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                context.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
