@@ -5,9 +5,12 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+
+import com.tamic.statinterface.stats.db.DbManager;
+import com.tamic.statinterface.stats.util.LogUtil;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
-//import com.tamic.statInterface.statsdk.core.TcStatInterface;
+import com.tamic.statinterface.stats.core.TcStatInterface;
 /**
  * Created by chingment on 2017/8/23.
  */
@@ -35,25 +38,37 @@ public class AppContext extends Application {
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);          // 初始化 JPus
 
+        DbManager.getInstance().init(this);
+
         // you app id
         int appId = 21212;
         // assets
+//        String fileName = "";
         String fileName = "stat_id.json";
-        String url = "http://www.baidu.com";
         // init statSdk
-       //TcStatInterface.initialize(this, appId, "you app chanel", fileName);
-       // TcStatInterface.setUrl(url);
-       // TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_TIME_ONE);
-
+        TcStatInterface.initialize(this, appId, "zuber", fileName);
+        // set upload url
+        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/Login");
+        // Set loadPolicy
+        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_DEVELOPMENT, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
+        TcStatInterface.recordAppStart();
 //        HttpParameters params = new HttpParameters();
 //        params.add("key1", "value1");
 //        params.add("key2", "value2");
 //        params.add("key3", "value3");
-//        LogCollector.setDebugMode(true);
+//       LogCollector.setDebugMode(true);
 //        LogCollector.init(getApplicationContext(), UPLOAD_URL, params);
 
         // 程序崩溃时触发线程以下用来捕获程序崩溃异常
-        //Thread.setDefaultUncaughtExceptionHandler(handler);
+         Thread.setDefaultUncaughtExceptionHandler(handler);
+    }
+
+    @Override
+    public void onTerminate() {
+       // LogUtil.i(debug, TAG, "【StatAppliation.onTerminate()】【start】");
+        DbManager.getInstance().destroy();
+        TcStatInterface.recordAppEnd();
+        super.onTerminate();
     }
 
     private Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {

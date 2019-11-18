@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.umeng.analytics.MobclickAgent;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
@@ -39,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
-//import com.tamic.statInterface.statsdk.core.TcStatInterface;
+
 /**
  * Created by chingment on 2017/8/23.
  */
@@ -221,7 +222,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onResume();
         closePageCountTimerStart();
         MobclickAgent.onResume(this);
-       // TcStatInterface.recordPageStart(BaseFragmentActivity.this);
+        TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
     /**
@@ -233,7 +234,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onPause();
         closePageCountTimerStop();
         MobclickAgent.onPause(this);
-       // TcStatInterface.recordPageEnd();
+        TcStatInterface.recordPageEnd();
     }
 
 
@@ -256,7 +257,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mJpush_MessageReceiver);
         AppManager.getAppManager().finishActivity(this);
         closePageCountTimerStop();
-       // TcStatInterface.recordAppEnd();
+        TcStatInterface.recordAppEnd();
     }
 
     @Override

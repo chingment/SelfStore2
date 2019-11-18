@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -31,7 +32,7 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-//import com.tamic.statInterface.statsdk.core.TcStatInterface;
+
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -121,10 +122,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
-//        TcStatInterface.onEvent("main", "onlick", "send data");
-//        //发送数据
-//        TcStatInterface.reportData();
+       // TcStatInterface.("onclick", "open next");
+        //发送数据
+        TcStatInterface.reportData();
 
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {

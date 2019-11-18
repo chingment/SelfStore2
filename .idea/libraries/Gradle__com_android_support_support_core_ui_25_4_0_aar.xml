@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-core-ui:25.4.0@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5eb6d7e49ee9ddd3e82956f0124d5610/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06e3746b70611d95b70b4a01d43042e4/support-core-ui-25.4.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5eb6d7e49ee9ddd3e82956f0124d5610/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5eb6d7e49ee9ddd3e82956f0124d5610/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06e3746b70611d95b70b4a01d43042e4/support-core-ui-25.4.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/06e3746b70611d95b70b4a01d43042e4/support-core-ui-25.4.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
