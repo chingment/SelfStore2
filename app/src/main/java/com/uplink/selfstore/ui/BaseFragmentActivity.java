@@ -10,10 +10,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +30,6 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
-import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
@@ -42,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
-
+//import com.tamic.statInterface.statsdk.core.TcStatInterface;
 /**
  * Created by chingment on 2017/8/23.
  */
@@ -224,6 +221,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onResume();
         closePageCountTimerStart();
         MobclickAgent.onResume(this);
+       // TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
     /**
@@ -235,6 +233,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onPause();
         closePageCountTimerStop();
         MobclickAgent.onPause(this);
+       // TcStatInterface.recordPageEnd();
     }
 
 
@@ -253,11 +252,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
      */
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mJpush_MessageReceiver);
         AppManager.getAppManager().finishActivity(this);
         closePageCountTimerStop();
-        super.onDestroy();
-
+       // TcStatInterface.recordAppEnd();
     }
 
     @Override
@@ -448,7 +447,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             }
         }
     }
-
 
     public void orderCancle(String orderId, String reason) {
 

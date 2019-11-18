@@ -1,14 +1,7 @@
 package com.uplink.selfstore.activity;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -37,8 +30,8 @@ import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+//import com.tamic.statInterface.statsdk.core.TcStatInterface;
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -128,6 +121,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+
+//        TcStatInterface.onEvent("main", "onlick", "send data");
+//        //发送数据
+//        TcStatInterface.reportData();
+
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:

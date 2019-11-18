@@ -12,13 +12,11 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
-import com.uplink.selfstore.model.api.MachineLoginResultBean;
 import com.uplink.selfstore.model.api.OpUserInfoBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 

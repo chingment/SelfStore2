@@ -37,3 +37,8 @@
 -keep class com.alibaba.fastjson.**{*;}
 
 -keep class com.uplink.selfstore.model.**{*;}
+
+### keep Statsdk
+-keep class com.tamic.statInterface.statsdk.db.** { *; }
+### keep Statsdk
+-keep class com.tamic.statInterface.statsdk.model.header** { *; }

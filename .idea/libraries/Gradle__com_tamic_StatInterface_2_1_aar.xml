@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tamic:StatInterface:2.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/36a57fd86c4f4e7af679e3a4df7f3c4e/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/36a57fd86c4f4e7af679e3a4df7f3c4e/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.tamic/StatInterface/2.1/4a61c56a2ab132733b1f2a4890aeceeb59bde3ea/StatInterface-2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

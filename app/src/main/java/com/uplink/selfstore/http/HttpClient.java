@@ -158,6 +158,10 @@ public class HttpClient {
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
+            if(AppCacheManager.getOpUserInfo()!=null) {
+                requestBuilder.addHeader("X-Token", "" + AppCacheManager.getOpUserInfo().getToken());
+            }
+
             LogUtil.i(TAG, "Request.url====>>>" + url);
             Request request = requestBuilder.build();
             client.newCall(request).enqueue(new Callback() {

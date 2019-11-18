@@ -111,7 +111,7 @@
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.10.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.14.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.5@jar" level="project" />
-    <orderEntry type="library" name="Gradle: com.alibaba:fastjson:1.1.67.android@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.alibaba:fastjson:1.2.8@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.umeng.analytics:analytics:6.1.4@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.zxing:core:3.2.1@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:design:25.4.0@aar" level="project" />

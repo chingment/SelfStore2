@@ -1,6 +1,5 @@
 package com.uplink.selfstore.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,7 +33,6 @@ import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
-import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.util.HashMap;
 import java.util.List;
