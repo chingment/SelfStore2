@@ -124,6 +124,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     public void onClick(View v) {
        // TcStatInterface.("onclick", "open next");
         //发送数据
+
+
         TcStatInterface.reportData();
 
         if (!NoDoubleClickUtil.isDoubleClick()) {
