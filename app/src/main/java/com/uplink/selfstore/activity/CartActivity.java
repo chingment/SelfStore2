@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
@@ -218,9 +219,11 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.btn_payway_wechat:
+                    TcStatInterface.onEvent("btn_payway_wechat", null);
                     paySend(1,10);
                     break;
                 case R.id.btn_payway_zhifubao:
+                    TcStatInterface.onEvent("btn_payway_zhifubao", null);
                     paySend(2,20);
                     break;
             }

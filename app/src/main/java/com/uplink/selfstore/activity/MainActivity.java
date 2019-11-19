@@ -54,6 +54,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
+
+        setShowStatusBar(false);
     }
 
     @Override
@@ -122,19 +124,15 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-       // TcStatInterface.("onclick", "open next");
-        //发送数据
-
-
-        TcStatInterface.reportData();
-
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
+                    TcStatInterface.onEvent("btn_buy", null);
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
+                    TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;
             }

@@ -10,6 +10,8 @@ import com.tamic.statinterface.stats.db.DbManager;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
+import com.uplink.selfstore.utils.LogUtil;
+
 /**
  * Created by chingment on 2017/8/23.
  */
@@ -38,12 +40,9 @@ public class AppContext extends Application {
         JPushInterface.init(this);  // 初始化 JPus
 
         DbManager.getInstance().init(this);
-
-        int appId = 21212;
-        String fileName = "stat_id.json";
-        TcStatInterface.initialize(this, appId, "zuber", fileName);
-        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/Login");
-        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_DEVELOPMENT, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
+        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
+        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/Upload");
+        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.recordAppStart();
 
         AppCrashHandler.getInstance().init(this);
@@ -52,7 +51,6 @@ public class AppContext extends Application {
 
     @Override
     public void onTerminate() {
-       // LogUtil.i(debug, TAG, "【StatAppliation.onTerminate()】【start】");
         DbManager.getInstance().destroy();
         TcStatInterface.recordAppEnd();
         super.onTerminate();
@@ -68,7 +66,7 @@ public class AppContext extends Application {
 //
 //        }
 //
-//        LogUtil.i("设备id：" + DEVICE_ID);
+        LogUtil.i("设备id：" + DEVICE_ID);
 
         return DEVICE_ID;
     }

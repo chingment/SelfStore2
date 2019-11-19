@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
@@ -117,7 +118,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                TcStatInterface.onEvent("btn_delete", null);
                 CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), item.getMainImgUrl());
                 delete_Dialog.getBtnSure().setTag(item);
                 delete_Dialog.show();
@@ -130,7 +131,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                TcStatInterface.onEvent("btn_decrease", null);
                 if (item.getQuantity() == 1)
                     return;
                 operate(CartOperateType.DECREASE, item.getId());
@@ -142,6 +143,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TcStatInterface.onEvent("btn_increase", null);
                 operate(CartOperateType.INCREASE, item.getId());
             }
         });

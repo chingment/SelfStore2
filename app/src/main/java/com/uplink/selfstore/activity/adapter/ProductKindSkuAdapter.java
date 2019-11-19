@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.ProductDetailsActivity;
@@ -135,7 +136,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             img_main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    TcStatInterface.onEvent("btn_img", null);
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", item);
@@ -148,6 +149,8 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             btn_decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    TcStatInterface.onEvent("btn_decrease", null);
+
                     CartActivity.operate(CartOperateType.DECREASE,item.getId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
@@ -168,7 +171,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             btn_increase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    TcStatInterface.onEvent("btn_increase", null);
 
                     if(item.isOffSell())
                     {

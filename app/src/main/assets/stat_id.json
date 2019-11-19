@@ -1,5 +1,13 @@
 {
-    "LoginActivity":"LoginActivity",
-    "SecondActivity":"SecondActivity",
-    "MainActivity":"MainActivity"
+    "InitDataActivity":"InitDataActivity",
+    "MainActivity":"MainActivity",
+    "OrderDetailsActivity":"OrderDetailsActivity",
+    "PayActivity":"PayActivity",
+    "PayWayActivity":"PayWayActivity",
+    "ProductDetailsActivity":"ProductDetailsActivity",
+    "ProductKindActivity":"ProductKindActivity",
+    "SmHomeActivity":"SmHomeActivity",
+    "SmLoginActivity":"SmLoginActivity",
+    "SmMachineInfoActivity":"SmMachineInfoActivity",
+    "SmMachineStockActivity":"SmMachineStockActivity"
 }

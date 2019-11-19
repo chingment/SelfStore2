@@ -158,7 +158,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         Intent intent = new Intent();
         intent.setAction("android.intent.action.hidenavigation");
-        intent.putExtra("enable", isshow == false ? "true" : "false");
+       // intent.putExtra("enable", isshow == false ? "true" : "false");
+        intent.putExtra("enable", false);
         sendBroadcast(intent);
     }
 

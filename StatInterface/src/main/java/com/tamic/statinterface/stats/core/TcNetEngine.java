@@ -73,9 +73,7 @@ public class TcNetEngine {
 
     private void init() {
 
-        if (StaticsConfig.DEBUG) {
-            mHostUrl = NetConfig.URL;
-        }
+        mHostUrl = NetConfig.ONLINE_URL;
         headers = new HashMap<String, String>();
     }
 

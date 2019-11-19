@@ -15,7 +15,7 @@ public class NetConfig {
     /**
      * You Url
      */
-    public static String ONLINE_URL ="http://api.term.17fanju.com/api/Machine/Login";
+    public static String ONLINE_URL ="";
 
     /**
      * 数据上报Debug Url
