@@ -92,6 +92,8 @@ public class MachineCtrl {
             sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
+        } else if (!this.isIdle()) {
+            sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         }
         else {
             int rc_status = sym.SN_MV_SelfAutoScan(0);
@@ -115,6 +117,8 @@ public class MachineCtrl {
             sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
             sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
+        } else if (!this.isIdle()) {
+            sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         }
         else {
             int rc_status = sym.SN_MV_AutoStart(0,row,col);

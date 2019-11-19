@@ -10,14 +10,20 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.activity.InitDataActivity;
+import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
@@ -125,6 +131,23 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
      */
     private void uploadExceptionToServer(Throwable ex) {
 
+        Writer writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+        ex.printStackTrace(printWriter);
+        Throwable cause = ex.getCause();
+        while (cause != null) {
+            cause.printStackTrace(printWriter);
+            cause = cause.getCause();
+        }
+        printWriter.close();
+        String result = writer.toString();
+
+        HashMap<String, String> parameters = new HashMap<String, String>();
+
+        parameters.put("error",result);
+
+        LogUtil.e(result);
+        TcStatInterface.onEvent("app_exception", parameters);
 
     }
 }

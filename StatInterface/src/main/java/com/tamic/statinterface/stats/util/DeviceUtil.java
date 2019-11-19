@@ -160,11 +160,20 @@ public class DeviceUtil {
 
     public static String getDeviceId(Context context){
         String DEVICE_ID = "DEVICE_ID";
-        SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(context);
-        String device_id = preferencesHelper.getString(DEVICE_ID);
-        if(TextUtils.isEmpty(device_id)) {
-            device_id = UUID.randomUUID().toString();
-            preferencesHelper.putString(DEVICE_ID,device_id);
+        String device_id="000000000000000";
+        try {
+
+            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(context);
+            String s_device_id = preferencesHelper.getString(DEVICE_ID);
+            if(TextUtils.isEmpty(s_device_id)) {
+                s_device_id = UUID.randomUUID().toString();
+                preferencesHelper.putString(DEVICE_ID,s_device_id);
+            }
+
+            device_id=s_device_id;
+        }
+        catch (Exception ex) {
+
         }
         return device_id;
     }

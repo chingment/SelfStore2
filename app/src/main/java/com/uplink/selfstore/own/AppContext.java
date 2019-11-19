@@ -5,12 +5,17 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.tamic.statinterface.stats.db.DbManager;
+import com.tamic.statinterface.stats.sp.SharedPreferencesHelper;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.utils.LogUtil;
+
+import java.util.UUID;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -41,7 +46,7 @@ public class AppContext extends Application {
 
         DbManager.getInstance().init(this);
         TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
-        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/Upload");
+        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/Login");
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.recordAppStart();
 
@@ -58,7 +63,7 @@ public class AppContext extends Application {
 
 
     public String getDeviceId() {
-        String DEVICE_ID = "000000000000000";
+//        String DEVICE_ID = "000000000000000";
 //        try {
 //            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 //            DEVICE_ID = tm.getDeviceId();
@@ -66,8 +71,28 @@ public class AppContext extends Application {
 //
 //        }
 //
-        LogUtil.i("设备id：" + DEVICE_ID);
+//        LogUtil.i("设备id：" + DEVICE_ID);
+//
+//        return DEVICE_ID;
 
-        return DEVICE_ID;
+        String DEVICE_ID = "DEVICE_ID";
+        String device_id="000000000000000";
+//        try {
+//
+//            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(app.getApplicationContext());
+//            String s_device_id = preferencesHelper.getString(DEVICE_ID);
+//            if(TextUtils.isEmpty(s_device_id)) {
+//                s_device_id = UUID.randomUUID().toString();
+//                preferencesHelper.putString(DEVICE_ID,s_device_id);
+//            }
+//
+//            device_id=s_device_id;
+//        }
+//        catch (Exception ex) {
+//
+//        }
+
+        LogUtil.i("设备id：" + device_id);
+        return  device_id;
     }
 }
