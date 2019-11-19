@@ -11,7 +11,7 @@ import android.view.View;
 import com.uplink.selfstore.R;
 
 public class TestActivity extends FragmentActivity {
-
+    private static final String TAG = "TestActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

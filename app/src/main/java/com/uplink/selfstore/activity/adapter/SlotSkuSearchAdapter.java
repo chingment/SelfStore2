@@ -16,7 +16,7 @@ import com.uplink.selfstore.utils.CommonUtil;
 import java.util.List;
 
 public class SlotSkuSearchAdapter extends BaseAdapter {
-
+    private static final String TAG = "SlotSkuSearchAdapter";
     private Context context;
     private List<SearchProductSkuBean> items;
     private SlotSkuSearchAdapter.CallBackListener mCallBackListener;

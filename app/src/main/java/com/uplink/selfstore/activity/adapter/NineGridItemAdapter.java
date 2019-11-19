@@ -18,7 +18,7 @@ import java.util.List;
 
 
 public class NineGridItemAdapter extends BaseAdapter {
-
+    private static final String TAG = "NineGridItemAdapter";
     private List<NineGridItemBean> items;
     private Context context;
 

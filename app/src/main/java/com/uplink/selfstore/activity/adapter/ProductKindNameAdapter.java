@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 public class ProductKindNameAdapter extends BaseAdapter {
-
+    private static final String TAG = "ProductKindNameAdapter";
     private Context context;
     private List<ProductKindBean> items = new ArrayList<>();
     private int current_position;

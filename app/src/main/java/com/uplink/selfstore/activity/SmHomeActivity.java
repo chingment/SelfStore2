@@ -31,7 +31,7 @@ import java.util.Map;
 import cn.jpush.android.api.JPushInterface;
 
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "SmHomeActivity";
     private CustomConfirmDialog confirmDialog;
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 public class BannerAdapter extends PagerAdapter {
-
+    private static final String TAG = "BannerAdapter";
     private Context context;
     private List<ImgSetBean> items;
     private ImageView.ScaleType scaleType;

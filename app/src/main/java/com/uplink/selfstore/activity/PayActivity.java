@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.TimerTask;
 
 public class PayActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "PayActivity";
     private ImageView img_payqrcode;
     private TextView txt_payseconds;
     private TextView btn_gohome;

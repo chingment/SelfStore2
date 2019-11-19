@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ProductKindActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "ProductKindActivity";
     private View btn_back;
     private View btn_cart;
     private View btn_gosettlement;

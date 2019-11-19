@@ -32,7 +32,7 @@ import java.util.List;
  */
 
 public class ProductKindSkuAdapter extends BaseAdapter {
-
+    private static final String TAG = "ProductKindSkuAdapter";
     private Context context;
     private List<ProductSkuBean> items = new ArrayList<>();
     private CallBackListener mCallBackListener;

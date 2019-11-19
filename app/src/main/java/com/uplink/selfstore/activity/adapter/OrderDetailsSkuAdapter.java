@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class OrderDetailsSkuAdapter extends BaseAdapter {
-
+    private static final String TAG = "OrderDetailsSkuAdapter";
 
     private Context context;
     private List<OrderDetailsSkuBean> items;

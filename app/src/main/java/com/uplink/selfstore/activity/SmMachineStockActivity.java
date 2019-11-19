@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SmMachineStockActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "SmMachineStockActivity";
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;

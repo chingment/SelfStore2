@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PayWayActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "PayWayActivity";
     private View btn_back;
     private View btn_payway_wechat;
     private View btn_payway_zhifubao;

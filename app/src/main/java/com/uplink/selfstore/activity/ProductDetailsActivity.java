@@ -28,7 +28,7 @@ import com.uplink.selfstore.utils.ToastUtil;
 import java.net.URL;
 
 public class ProductDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "ProductDetailsActivity";
     private View btn_back;
     private View btn_cart;
     private View btn_increase;

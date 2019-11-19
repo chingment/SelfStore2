@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "OrderDetailsActivity";
     private TextView txt_OrderSn;
     private MyListView list_skus;
 

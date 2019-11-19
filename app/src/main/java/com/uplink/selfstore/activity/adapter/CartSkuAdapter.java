@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 public class CartSkuAdapter extends BaseAdapter {
-
+    private static final String TAG = "CartSkuAdapter";
     private Context context;
     private List<CartSkuBean> items;
     private CustomConfirmDialog delete_Dialog;

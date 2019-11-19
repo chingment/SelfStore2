@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SmLoginActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "SmLoginActivity";
     View nav_back;
     Button btn_login;//登录按钮
     EditText txt_username;//账户

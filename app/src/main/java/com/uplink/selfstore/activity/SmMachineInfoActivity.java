@@ -18,7 +18,7 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import cn.jpush.android.api.JPushInterface;
 
 public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnClickListener {
-
+    private static final String TAG = "SmMachineInfoActivity";
     private TextView txt_MerchantName;
     private TextView txt_StoreName;
     private TextView txt_MachineId;

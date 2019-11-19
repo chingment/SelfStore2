@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class ProductKindBodyAdapter extends BaseAdapter {
-
+    private static final String TAG = "ProductKindBodyAdapter";
     private Context context;
     private List<ProductKindBean> items = new ArrayList<>();
     private HashMap<String, ProductSkuBean> productSkus = new HashMap<String, ProductSkuBean>();

@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 public class ProductChildKindAdapter extends BaseAdapter {
-
+    private static final String TAG = "ProductChildKindAdapter";
     private Context context;
     private List<ProductChildKindBean> items;
     private HashMap<String, ProductSkuBean> productSkus = new HashMap<String, ProductSkuBean>();

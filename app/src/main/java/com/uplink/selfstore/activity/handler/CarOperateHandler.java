@@ -10,7 +10,7 @@ import android.os.Message;
 
 public class CarOperateHandler {
 
-
+    private static final String TAG = "CarOperateHandler";
     protected static final int SUCCESS_MESSAGE = 0;
 
 

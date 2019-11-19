@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.tamic.statinterface.stats.db.DbManager;
-import com.tamic.statinterface.stats.util.LogUtil;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
