@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.umeng.analytics.MobclickAgent;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
@@ -221,7 +220,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = true;
         super.onResume();
         closePageCountTimerStart();
-        MobclickAgent.onResume(this);
         TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
@@ -233,7 +231,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = false;
         super.onPause();
         closePageCountTimerStop();
-        MobclickAgent.onPause(this);
         TcStatInterface.recordPageEnd();
     }
 

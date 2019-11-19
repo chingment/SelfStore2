@@ -56,14 +56,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask" />
-        <!-- 友盟 -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5a6313dcf43e482e16000109" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="HaoYiLian" />
-
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
@@ -190,12 +182,6 @@
         <activity android:name=".activity.SmHomeActivity" />
         <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.SmMachineInfoActivity" />
-
-        <service android:name=".service.LogService">
-            <intent-filter>
-                <action android:name="com.uplink.selfstore.service.LogService" />
-            </intent-filter>
-        </service>
 
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
