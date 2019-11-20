@@ -25,7 +25,6 @@ import java.util.UUID;
 
 public class AppContext extends Application {
 
-    private static final String UPLOAD_URL = "http://demo.api.term.17fanju.com/Api/Machine/UploadLog";
     private static AppContext app;
 
     public AppContext() {
@@ -53,7 +52,7 @@ public class AppContext extends Application {
                 restartApp();
             }
         });
-        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/UpLoadTraceLog");
+        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.recordAppStart();
         //AppCrashHandler.getInstance().init(this);
