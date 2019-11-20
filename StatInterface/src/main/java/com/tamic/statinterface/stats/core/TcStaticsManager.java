@@ -30,7 +30,7 @@ import java.util.HashMap;
  */
 public interface TcStaticsManager {
 
-     boolean onInit(int appId, String channel, String fileName);
+     boolean onInit(int appId, String channel, String fileName, TcCrashHandler.ExceptionHandler exceptionHandler);
 
      void onSend();
 

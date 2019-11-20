@@ -77,7 +77,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
     }
 
     @Override
-    public boolean onInit(int appId, String channel, String fileName) {
+    public boolean onInit(int appId, String channel, String fileName, TcCrashHandler.ExceptionHandler exceptionHandler) {
 
         if (mUploadThread == null) {
             mUploadThread = new UploadThread();
@@ -91,7 +91,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
         StaticsAgent.init();
 
         // init CrashHandler
-        TcCrashHandler.getInstance().init(mContext);
+        TcCrashHandler.getInstance().init(mContext,exceptionHandler);
 
         // load pageIdMaps
         pageIdMaps = getStatIdMaps(fileName);
@@ -368,8 +368,8 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
                     if (msg.obj != null && msg.obj instanceof DataBlock) {
                         DataBlock dataBlock = (DataBlock) msg.obj;
                         if (dataBlock.getAppActions().isEmpty() &&
-                                dataBlock.getEvent().isEmpty() &&
-                                dataBlock.getPage().isEmpty()) {
+                                dataBlock.getEvents().isEmpty() &&
+                                dataBlock.getPages().isEmpty()) {
                             return;
                         }
                         LogUtil.d(TAG, "TcStatfacr >> report is Start");

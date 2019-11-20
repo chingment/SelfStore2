@@ -36,14 +36,14 @@ import java.util.List;
  */
 public class DataBlock {
     private List<AppAction> appActions;
-    private List<Page> page;
-    private List<Event> event;
+    private List<Page> pages;
+    private List<Event> events;
     private List<ExceptionInfo> exceptionInfos;
 
     private DataBlock(Builder builder) {
         appActions = builder.appActions;
-        page = builder.page;
-        event = builder.event;
+        pages = builder.pages;
+        events = builder.events;
         exceptionInfos = builder.exceptionInfos;
     }
 
@@ -51,12 +51,12 @@ public class DataBlock {
         return appActions;
     }
 
-    public List<Page> getPage() {
-        return page;
+    public List<Page> getPages() {
+        return pages;
     }
 
-    public List<Event> getEvent() {
-        return event;
+    public List<Event> getEvents() {
+        return events;
     }
 
     public List<ExceptionInfo> getExceptionInfos() {
@@ -67,22 +67,22 @@ public class DataBlock {
     public String toString() {
         return "DataBlock{" +
                 "appActions=" + appActions +
-                ", page=" + page +
-                ", event=" + event +
+                ", pages=" + pages +
+                ", events=" + events +
                 ", exceptionInfos=" + exceptionInfos +
                 '}';
     }
 
     public static final class Builder {
         private List<AppAction> appActions;
-        private List<Page> page;
-        private List<Event> event;
+        private List<Page> pages;
+        private List<Event> events;
         private List<ExceptionInfo> exceptionInfos;
 
         public Builder(List<TcNote> list) {
             appActions = new ArrayList<>();
-            page = new ArrayList<>();
-            event = new ArrayList<>();
+            pages = new ArrayList<>();
+            events = new ArrayList<>();
             exceptionInfos = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 if (!TextUtils.isEmpty(list.get(i).getFirstCloumn())) {
@@ -91,25 +91,25 @@ public class DataBlock {
                 }
                 if (!TextUtils.isEmpty(list.get(i).getSecondCloumn())) {
                     Page page1 = JsonUtil.parseObject(list.get(i).getSecondCloumn(), Page.class);
-                    page.add(page1);
+                    pages.add(page1);
                 }
                 if (!TextUtils.isEmpty(list.get(i).getThirdCloumn())) {
                     Event event1 = JsonUtil.parseObject(list.get(i).getThirdCloumn(), Event.class);
-                    event.add(event1);
+                    events.add(event1);
                 }
                 if (!TextUtils.isEmpty(list.get(i).getFourCloumn())) {
                     ExceptionInfo exceptionInfo = JsonUtil.parseObject(list.get(i).getFourCloumn(), ExceptionInfo.class);
                     exceptionInfos.add(exceptionInfo);
                 }
             }
-            Collections.sort(page, new Comparator<Page>() {
+            Collections.sort(pages, new Comparator<Page>() {
 
                 @Override
                 public int compare(Page lhs, Page rhs) {
                     return lhs.getPage_start_time().compareTo(rhs.getPage_start_time());
                 }
             });
-            Collections.sort(event, new Comparator<Event>() {
+            Collections.sort(events, new Comparator<Event>() {
                 @Override
                 public int compare(Event lhs, Event rhs) {
                     return lhs.getAction_time().compareTo(rhs.getAction_time());
@@ -123,12 +123,12 @@ public class DataBlock {
         }
 
         public Builder page(List<Page> page) {
-            this.page = page;
+            this.pages = page;
             return this;
         }
 
         public Builder event(List<Event> event) {
-            this.event = event;
+            this.events = event;
             return this;
         }
 

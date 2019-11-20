@@ -3,6 +3,8 @@ package com.tamic.statinterface.stats.core;
 import android.content.Context;
 import android.util.Log;
 
+import com.tamic.statinterface.stats.bean.body.DataBlock;
+import com.tamic.statinterface.stats.db.helper.DataConstruct;
 import com.tamic.statinterface.stats.db.helper.StaticsAgent;
 import com.tamic.statinterface.stats.bean.body.ExceptionInfo;
 import com.tamic.statinterface.stats.util.DeviceUtil;
@@ -18,8 +20,9 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
     private TcCrashHandler() {
     }
 
-    public void init(Context context) {
+    public void init(Context context,ExceptionHandler exceptionHandler) {
         this.context = context;
+        this.exceptionHandler=exceptionHandler;
         uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -44,9 +47,23 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
             }
             Log.i("jiangTest", stringBuffer.toString());
             StaticsAgent.storeObject(new ExceptionInfo(DeviceUtil.getPhoneModel(), DeviceUtil.getSystemModel(), String.valueOf(DeviceUtil.getSystemVersion()), stringBuffer.toString()));
-        }
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
 
+            DataConstruct.storeEvents();
+            DataConstruct.storePage();
+            DataBlock dataBlock = StaticsAgent.getDataBlock();
+
+            TcUpLoadManager.getInstance(context).report(dataBlock);
+            Log.i("jiangTest", dataBlock.toString());
+        }
+
+        exceptionHandler.Handler();
+        //android.os.Process.killProcess(android.os.Process.myPid());
+        //System.exit(0);
+    }
+
+    private ExceptionHandler exceptionHandler = null;
+
+    public interface ExceptionHandler {
+        void Handler();
     }
 }

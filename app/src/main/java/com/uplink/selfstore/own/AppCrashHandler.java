@@ -64,9 +64,9 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         //导出异常信息到SD卡
-        dumpExceptionToSDCard(ex);
+       // dumpExceptionToSDCard(ex);
         //上传异常信息到服务器
-        uploadExceptionToServer(ex);
+       // uploadExceptionToServer(ex);
         //延时1秒杀死进程
         SystemClock.sleep(2000);
         restartApp();

@@ -5,9 +5,11 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.tamic.statinterface.stats.core.TcCrashHandler;
 import com.tamic.statinterface.stats.db.DbManager;
 import com.tamic.statinterface.stats.sp.SharedPreferencesHelper;
 import com.uplink.selfstore.activity.InitDataActivity;
@@ -45,12 +47,16 @@ public class AppContext extends Application {
         JPushInterface.init(this);  // 初始化 JPus
 
         DbManager.getInstance().init(this);
-        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
-        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/Login");
+        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json", new TcCrashHandler.ExceptionHandler() {
+            @Override
+            public void Handler() {
+                restartApp();
+            }
+        });
+        TcStatInterface.setUrl("http://api.term.17fanju.com/api/Machine/UpLoadTraceLog");
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.recordAppStart();
-
-        AppCrashHandler.getInstance().init(this);
+        //AppCrashHandler.getInstance().init(this);
 
     }
 
@@ -59,6 +65,19 @@ public class AppContext extends Application {
         DbManager.getInstance().destroy();
         TcStatInterface.recordAppEnd();
         super.onTerminate();
+    }
+
+    private void restartApp() {
+        SystemClock.sleep(2000);
+        Intent intent = new Intent(app.getApplicationContext(), InitDataActivity.class);
+        PendingIntent restartIntent = PendingIntent.getActivity(app.getApplicationContext(), 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
+        //退出程序
+        AlarmManager mgr = (AlarmManager) app.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+                restartIntent); // 1秒钟后重启应用
+
+        //结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
 
