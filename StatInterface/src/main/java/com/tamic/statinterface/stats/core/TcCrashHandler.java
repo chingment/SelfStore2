@@ -48,8 +48,8 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
             Log.i("jiangTest", stringBuffer.toString());
             StaticsAgent.storeObject(new ExceptionInfo(DeviceUtil.getPhoneModel(), DeviceUtil.getSystemModel(), String.valueOf(DeviceUtil.getSystemVersion()), stringBuffer.toString()));
 
-            DataConstruct.storeEvents();
-            DataConstruct.storePage();
+            //DataConstruct.storeEvents();
+            //DataConstruct.storePage();
             DataBlock dataBlock = StaticsAgent.getDataBlock();
 
             TcUpLoadManager.getInstance(context).report(dataBlock);
