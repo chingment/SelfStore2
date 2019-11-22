@@ -154,12 +154,12 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
 
-    public void setShowStatusBar(boolean isshow) {
+    public void setHideStatusBar(boolean isshow) {
 
         Intent intent = new Intent();
         intent.setAction("android.intent.action.hidenavigation");
        // intent.putExtra("enable", isshow == false ? "true" : "false");
-        intent.putExtra("enable", false);
+        intent.putExtra("enable", isshow);
         sendBroadcast(intent);
     }
 

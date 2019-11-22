@@ -39,13 +39,13 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(Thread thread, Throwable ex) {
         if (ex != null) {
             StackTraceElement[] stackTraceElements = ex.getStackTrace();
-            Log.i("jiangTest", stackTraceElements.length + "---");
+            Log.e("jiangTest", stackTraceElements.length + "---");
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(ex.getMessage()).append("\n");
             for (int i = stackTraceElements.length - 1; i >= 0; i--) {
                 stringBuffer.append(stackTraceElements[i].getFileName()).append(":").append(stackTraceElements[i].getClassName()).append(stackTraceElements[i].getMethodName()).append("(").append(stackTraceElements[i].getLineNumber()).append(")").append("\n");
             }
-            Log.i("jiangTest", stringBuffer.toString());
+            Log.e("jiangTest", stringBuffer.toString());
             StaticsAgent.storeObject(new ExceptionInfo(DeviceUtil.getPhoneModel(), DeviceUtil.getSystemModel(), String.valueOf(DeviceUtil.getSystemVersion()), stringBuffer.toString()));
 
             //DataConstruct.storeEvents();
@@ -53,6 +53,7 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
             DataBlock dataBlock = StaticsAgent.getDataBlock();
 
             TcUpLoadManager.getInstance(context).report(dataBlock);
+
             Log.i("jiangTest", dataBlock.toString());
         }
 

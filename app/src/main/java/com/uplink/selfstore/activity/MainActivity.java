@@ -55,7 +55,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initEvent();
         initData();
 
-        setShowStatusBar(false);
+//
     }
 
     @Override
@@ -124,15 +124,27 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
+        
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
+
+//                    Intent intent2 = new Intent();
+//                    intent2.setAction("android.intent.action.cameraSnapService");
+//                    intent2.putExtra("cameraId", 0);
+//                    sendBroadcast(intent2);
+
                     TcStatInterface.onEvent("btn_buy", null);
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
+
+                    Intent intent3 = new Intent();
+                    intent3.setAction("android.intent.action.cameraSnapService");
+                    intent3.putExtra("cameraId", 1);
+                    sendBroadcast(intent3);
+
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;

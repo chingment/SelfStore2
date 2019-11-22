@@ -28,6 +28,7 @@ import com.alibaba.fastjson.JSON;
 import com.tamic.statinterface.stats.bean.body.AppActionType;
 import com.tamic.statinterface.stats.bean.body.ViewPath;
 import com.tamic.statinterface.stats.constants.StaticsConfig;
+import com.tamic.statinterface.stats.db.DbManager;
 import com.tamic.statinterface.stats.db.helper.DataConstruct;
 import com.tamic.statinterface.stats.db.helper.StaticsAgent;
 import com.tamic.statinterface.stats.bean.body.DataBlock;
@@ -83,6 +84,9 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
             mUploadThread = new UploadThread();
             mUploadThread.start();
         }
+
+        // init DbManager
+        DbManager.getInstance().init(mContext);
 
         // init  ObserverPresenter
         paObserverPresenter = new TcObserverPresenter(this);
@@ -244,7 +248,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
      */
     void onScheduleTimeOut() {
 
-        LogUtil.d(LOG_TAG, "onScheduleTimeOut  is sendData");
+      //  LogUtil.d(LOG_TAG, "onScheduleTimeOut  is sendData");
         onSend();
     }
 

@@ -51,11 +51,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                 LogUtil.e("tag:" + tag);
                 switch (tag) {
                     case "fun.closeapp":
-                        setShowStatusBar(false);
+                        setHideStatusBar(false);
                         AppManager.getAppManager().AppExit(SmHomeActivity.this);
                         break;
                     case "fun.rootsys":
-                        setShowStatusBar(false);
+                        setHideStatusBar(false);
                         Intent it = new Intent();
                         it.setAction("com.fourfaith.reboot");
                         it.putExtra("mode", "0");//0 重启 1 关机

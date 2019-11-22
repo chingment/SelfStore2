@@ -21,6 +21,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
@@ -47,9 +48,20 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
+        setHideStatusBar(false);
         initView();
         initEvent();
         initData();
+
+        Intent intent = new Intent(InitDataActivity.this, CameraSnapService.class);
+        startService(intent);
+
+//        Intent intent3 = new Intent();
+//        intent3.setAction("android.intent.action.CameraSnapService");
+//        intent3.putExtra("cmd", "cmd2");
+//        intent3.putExtra("value", "value2");
+//        sendBroadcast(intent3);
+
     }
 
     protected void initView() {

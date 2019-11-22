@@ -15,6 +15,7 @@ import com.tamic.statinterface.stats.sp.SharedPreferencesHelper;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.UUID;
@@ -45,15 +46,18 @@ public class AppContext extends Application {
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);  // 初始化 JPus
 
-        DbManager.getInstance().init(this);
+        //DbManager.getInstance().init(this);
+
+        CameraWindow.show(this);
+
+        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
+        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json", new TcCrashHandler.ExceptionHandler() {
             @Override
             public void Handler() {
                 restartApp();
             }
         });
-        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
-        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.recordAppStart();
         //AppCrashHandler.getInstance().init(this);
 
