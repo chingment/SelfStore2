@@ -65,8 +65,8 @@ public class CustomSlotEditDialog extends Dialog {
 
     private ListView list_search_skus;
     private SlotBean slot;
-    private ScanMidCtrl scanMidCtrl = new ScanMidCtrl();
-    private MachineCtrl machineCtrl = new MachineCtrl();
+    private ScanMidCtrl scanMidCtrl;
+    private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
 
     public CustomSlotEditDialog(final Context context) {
@@ -75,6 +75,8 @@ public class CustomSlotEditDialog extends Dialog {
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
 
+        machineCtrl = new MachineCtrl();
+        machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -101,8 +103,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 customDialogRunning.showDialog();
                             }
 
-                            if(pickupResult.getCurrentActionId()==7)
-                            {
+                            if(pickupResult.getCurrentActionId()==7){
                                 if(pickupResult.getCurrentActionStatusCode()==2){
                                     customDialogRunning.cancelDialog();
                                 }
@@ -114,7 +115,8 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-
+        scanMidCtrl = new ScanMidCtrl();
+        scanMidCtrl.connect();
         scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -199,7 +201,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if (!machineCtrl.connect()) {
+                if (!machineCtrl.isConnect()) {
                     context.showToast("机器连接失败");
                     return;
                 }
@@ -463,7 +465,7 @@ public class CustomSlotEditDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        if (!scanMidCtrl.connect()) {
+        if (!scanMidCtrl.isConnect()) {
             ((SmMachineStockActivity) context).showToast("扫描器连接失败");
         }
     }

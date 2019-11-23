@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 public class MachineCtrl {
 
+    private boolean isConnect = false;
     private int current_Cmd = 0;//当前命令 0：代表空闲
 
     private int cmd_ScanSlot = 1;//扫描货道命令
@@ -36,27 +37,15 @@ public class MachineCtrl {
         return version;
     }
 
-    public boolean connect() {
+    public void connect() {
 
         try {
-
-
-            if (sym == null) {
-                return false;
-            }
-
             int rc_status = sym.Connect("ttymxc1", 9600);
-
             if (rc_status == 0) {
-                return true;
+                isConnect = true;
             }
-
-
-            return false;
-        }
-        catch (Exception ex)
-        {
-            return  false;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -73,8 +62,12 @@ public class MachineCtrl {
         if (sym == null) {
             return false;
         }
-
         return  sym.SY_MV_DIO_Slave_ConnectSts();
+    }
+
+    public boolean isConnect()
+    {
+        return  isConnect;
     }
 
     public void scanSlot() {
@@ -85,10 +78,7 @@ public class MachineCtrl {
 //        ScanListenerThread scanListenerThread = new ScanListenerThread();
 //        scanListenerThread.start();
 
-        if (sym == null) {
-            sendScanSlotHandlerMessage(1, "启动前，检查设备对象为空", null);
-        }
-        else if (!this.connect()) {
+        if (!isConnect) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
@@ -110,11 +100,8 @@ public class MachineCtrl {
 
     public void pickUp(int row,int col) {
 
-        if (sym == null) {
-           sendPickupHandlerMessage(1, "启动前，检查设备对象为空", null);
-        }
-        else if (!this.connect()) {
-            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
+        if (isConnect) {
+           sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
             sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
         } else if (!this.isIdle()) {

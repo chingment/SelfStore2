@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import android_serialport_api.SerialPort;
 
 public class ScanMidCtrl {
+    private boolean isConnect=false;
     private static String TAG = "ScanMidCtrl";
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
@@ -29,7 +30,7 @@ public class ScanMidCtrl {
 
     }
 
-    public boolean connect() {
+    public void connect() {
         String strPort = "/dev/ttymxc2";
         int nBaudrate = 115200;
         try {
@@ -39,15 +40,12 @@ public class ScanMidCtrl {
             readThread = new ReadThread();
             readThread.start();
 
-
-            return true;
+            isConnect=true;
         } catch (SecurityException var4) {
             var4.printStackTrace();
-            return false;
         } catch (IOException var5) {
             var5.printStackTrace();
             Log.e(TAG, String.format("connect to %s:%d failed", strPort, nBaudrate));
-            return false;
         }
     }
 
@@ -74,6 +72,11 @@ public class ScanMidCtrl {
             var2.printStackTrace();
         }
 
+    }
+
+    public boolean isConnect()
+    {
+        return  isConnect;
     }
 
     private class ReadThread extends Thread {
