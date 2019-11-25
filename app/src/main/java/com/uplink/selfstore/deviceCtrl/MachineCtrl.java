@@ -26,7 +26,13 @@ public class MachineCtrl {
     public static final int MESSAGE_WHAT_PICKUP=2;
 
     public MachineCtrl() {
-        sym = new symvdio();
+        try {
+            sym = new symvdio();
+        }
+        catch (Exception ex)
+        {
+            sym=null;
+        }
     }
 
     public String vesion() {
@@ -38,6 +44,10 @@ public class MachineCtrl {
     }
 
     public void connect() {
+
+        if(sym==null) {
+            return;
+        }
 
         try {
             int rc_status = sym.Connect("ttymxc1", 9600);

@@ -12,7 +12,7 @@ public class SlotBean implements Serializable {
     private  int sellQuantity;
     private  boolean isOffSell;
     private  int maxQuantity;
-
+    private int version;
     public String getId() {
         return id;
     }
@@ -84,5 +84,13 @@ public class SlotBean implements Serializable {
 
     public void setMaxQuantity(int maxQuantity) {
         this.maxQuantity = maxQuantity;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

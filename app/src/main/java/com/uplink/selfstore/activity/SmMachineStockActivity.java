@@ -69,7 +69,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         cabinetRowColLayout = machine.getCabinetRowColLayout_1();
 
         machineCtrl = new MachineCtrl();
-        machineCtrl.connect();
+        //machineCtrl.connect();
         machineCtrl.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -147,16 +147,18 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     public void setSlot(SlotBean slot) {
-        cabinetSlots.get(slot.getId()).setProductSkuId(slot.getProductSkuId());
-        cabinetSlots.get(slot.getId()).setProductSkuName(slot.getProductSkuName());
-        cabinetSlots.get(slot.getId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
-        cabinetSlots.get(slot.getId()).setOffSell(slot.isOffSell());
-        cabinetSlots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
-        cabinetSlots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
-        cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
-        cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
-
-        drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
+        if(slot!=null) {
+            cabinetSlots.get(slot.getId()).setProductSkuId(slot.getProductSkuId());
+            cabinetSlots.get(slot.getId()).setProductSkuName(slot.getProductSkuName());
+            cabinetSlots.get(slot.getId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
+            cabinetSlots.get(slot.getId()).setOffSell(slot.isOffSell());
+            cabinetSlots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
+            cabinetSlots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
+            cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
+            cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
+            cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
+            drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
+        }
     }
 
     public void drawsCabinetSlots(int[] rowColLayout, HashMap<String, SlotBean> slots) {

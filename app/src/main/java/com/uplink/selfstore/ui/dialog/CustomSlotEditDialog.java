@@ -49,6 +49,7 @@ public class CustomSlotEditDialog extends Dialog {
     private TextView txt_searchKey;
     private ImageView img_SkuImg;
     private TextView txt_SlotName;
+    private TextView txt_Version;
     private TextView txt_SkuId;
     private TextView txt_SkuName;
     private TextView txt_SellQty;
@@ -76,7 +77,7 @@ public class CustomSlotEditDialog extends Dialog {
 
 
         machineCtrl = new MachineCtrl();
-        machineCtrl.connect();
+        //machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -116,7 +117,7 @@ public class CustomSlotEditDialog extends Dialog {
         }));
 
         scanMidCtrl = new ScanMidCtrl();
-        scanMidCtrl.connect();
+        //scanMidCtrl.connect();
         scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -148,6 +149,7 @@ public class CustomSlotEditDialog extends Dialog {
         btn_close = ViewHolder.get(this.layoutRes, R.id.btn_close);
         txt_searchKey = ViewHolder.get(this.layoutRes, R.id.txt_searchKey);
 
+        txt_Version=ViewHolder.get(this.layoutRes, R.id.txt_Version);
         img_SkuImg = ViewHolder.get(this.layoutRes, R.id.img_SkuImg);
         txt_SlotName = ViewHolder.get(this.layoutRes, R.id.txt_SlotName);
         txt_SkuId = ViewHolder.get(this.layoutRes, R.id.txt_SkuId);
@@ -273,13 +275,16 @@ public class CustomSlotEditDialog extends Dialog {
 
                 String id = String.valueOf(txt_SlotName.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
-                int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
+                int version=Integer.valueOf(txt_Version.getText()+"");
+                int lockQuantity = Integer.valueOf(txt_LockQty.getText() + "");
+                int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
                 Map<String, Object> params = new HashMap<>();
                 params.put("id", id);
                 params.put("machineId", machine.getId());
                 params.put("productSkuId", productSkuId);
-                params.put("sumQuantity", sumQuantity);
-
+                params.put("sellQuantity", sellQuantity);
+                params.put("lockQuantity", lockQuantity);
+                params.put("version", version);
 
                 context.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
@@ -381,6 +386,7 @@ public class CustomSlotEditDialog extends Dialog {
         txt_SlotName.setText(slot.getId());
 
         if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
+            txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_SkuId.setText("");
             txt_SkuName.setText("暂无设置");
             txt_SellQty.setText("0");
@@ -389,6 +395,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_MaxQty.setText("10");
             img_SkuImg.setImageResource(R.drawable.default_image);
         } else {
+            txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_SkuId.setText(slot.getProductSkuId());
             txt_SkuName.setText(slot.getProductSkuName());
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
