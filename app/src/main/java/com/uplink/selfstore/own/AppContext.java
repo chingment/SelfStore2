@@ -48,7 +48,7 @@ public class AppContext extends Application {
 
         //DbManager.getInstance().init(this);
 
-        CameraWindow.show(this);
+        //CameraWindow.show(this);
 
         TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
