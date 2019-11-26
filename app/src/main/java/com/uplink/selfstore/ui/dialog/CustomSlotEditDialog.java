@@ -276,14 +276,13 @@ public class CustomSlotEditDialog extends Dialog {
                 String id = String.valueOf(txt_SlotName.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
                 int version=Integer.valueOf(txt_Version.getText()+"");
-                int lockQuantity = Integer.valueOf(txt_LockQty.getText() + "");
+                int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
                 Map<String, Object> params = new HashMap<>();
                 params.put("id", id);
                 params.put("machineId", machine.getId());
                 params.put("productSkuId", productSkuId);
-                params.put("sellQuantity", sellQuantity);
-                params.put("lockQuantity", lockQuantity);
+                params.put("sumQuantity", sumQuantity);
                 params.put("version", version);
 
                 context.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
@@ -401,7 +400,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
-            txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
+            txt_MaxQty.setText(String.valueOf(slot.getMaxLimitSumQuantity()));
             CommonUtil.loadImageFromUrl(context, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
     }

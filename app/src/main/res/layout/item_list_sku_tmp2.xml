@@ -62,7 +62,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="#67c23a"
+                    android:textColor="@color/sellQuantity"
                     android:textSize="@dimen/sp_6" />
 
                 <TextView
@@ -74,7 +74,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="#f56c6c"
+                    android:textColor="@color/lockQuantity"
                     android:textSize="@dimen/sp_6"/>
 
                 <TextView
@@ -86,7 +86,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="#e6a23c"
+                    android:textColor="@color/sumQuantity"
                     android:textSize="@dimen/sp_6" />
         </LinearLayout>
     </LinearLayout>

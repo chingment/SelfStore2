@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -155,7 +156,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetSlots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
             cabinetSlots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
             cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
-            cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
+            cabinetSlots.get(slot.getId()).setMaxLimitSumQuantity(slot.getMaxLimitSumQuantity());
             cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
             drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
         }
@@ -221,6 +222,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                     CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getProductSkuMainImgUrl());
 
+                    if(slot.getLockQuantity()>0)
+                    {
+                        GradientDrawable drawable = new GradientDrawable();
+                        drawable.setCornerRadius(0);
+                        drawable.setStroke(1,getResources().getColor(R.color.lockQuantity));
+                        convertView.setBackgroundDrawable(drawable);
+                    }
                 }
 
                 convertView.setTag(slot);

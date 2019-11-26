@@ -90,4 +90,7 @@
     <color name="item_title">#333333</color>
     <color name="field_name">#666</color>
     <color name="field_value">#111</color>
+    <color name="lockQuantity">#f56c6c</color>
+    <color name="sumQuantity">#e6a23c</color>
+    <color name="sellQuantity">#67c23a</color>
 </resources>

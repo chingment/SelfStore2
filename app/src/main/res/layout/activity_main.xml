@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_40"
         android:layout_marginBottom="@dimen/size_4"
+        android:background="@color/white"
         >
 
 
@@ -31,6 +32,7 @@
             android:contentDescription="@string/image_content_description"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
+            android:background="@color/white"
             />
 
     </RelativeLayout>

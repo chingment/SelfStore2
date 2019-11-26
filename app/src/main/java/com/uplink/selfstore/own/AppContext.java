@@ -85,20 +85,23 @@ public class AppContext extends Application {
 
 
     public String getDeviceId() {
-//        String DEVICE_ID = "000000000000000";
-//        try {
-//            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//            DEVICE_ID = tm.getDeviceId();
-//        } catch (Exception ex) {
-//
-//        }
-//
-//        LogUtil.i("设备id：" + DEVICE_ID);
-//
-//        return DEVICE_ID;
+        //todo 获取方式必须跟statinterface里获取的设备号一致
+        String DEVICE_ID = "000000000000000";
+        try {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            if(tm!=null) {
+                DEVICE_ID = tm.getDeviceId();
+            }
+        } catch (Exception ex) {
 
-        String DEVICE_ID = "DEVICE_ID";
-        String device_id="000000000000000";
+        }
+
+        LogUtil.i("设备id：" + DEVICE_ID);
+
+        return DEVICE_ID;
+
+//        String DEVICE_ID = "DEVICE_ID";
+//        String device_id="000000000000000";
 //        try {
 //
 //            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(app.getApplicationContext());
@@ -113,8 +116,8 @@ public class AppContext extends Application {
 //        catch (Exception ex) {
 //
 //        }
-
-        LogUtil.i("设备id：" + device_id);
-        return  device_id;
+//
+//        LogUtil.i("设备id：" + device_id);
+//        return  device_id;
     }
 }

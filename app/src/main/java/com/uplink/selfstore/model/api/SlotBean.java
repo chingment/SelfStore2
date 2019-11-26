@@ -11,7 +11,7 @@ public class SlotBean implements Serializable {
     private  int lockQuantity;
     private  int sellQuantity;
     private  boolean isOffSell;
-    private  int maxQuantity;
+    private  int maxLimitSumQuantity;
     private int version;
     public String getId() {
         return id;
@@ -78,12 +78,12 @@ public class SlotBean implements Serializable {
         isOffSell = offSell;
     }
 
-    public int getMaxQuantity() {
-        return maxQuantity;
+    public int getMaxLimitSumQuantity() {
+        return maxLimitSumQuantity;
     }
 
-    public void setMaxQuantity(int maxQuantity) {
-        this.maxQuantity = maxQuantity;
+    public void setMaxLimitSumQuantity(int maxLimitSumQuantity) {
+        this.maxLimitSumQuantity = maxLimitSumQuantity;
     }
 
     public int getVersion() {
