@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +31,9 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,29 +126,40 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         banner_indicator.setViewPager(banner_pager);
     }
 
+    public static void writeLog(String fileName,String content) {
+
+        FileWriter writer = null;
+        try {
+            String path = Environment.getExternalStorageDirectory().getCanonicalPath() + "/CrashLog/";
+            File file = new File(path);
+            if (!file.exists()) {  //没有创建文件夹则创建
+                file.mkdirs();
+            }
+            // 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+            writer = new FileWriter(path + fileName, true);
+            writer.write(content);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
-
-//                    Intent intent2 = new Intent();
-//                    intent2.setAction("android.intent.action.cameraSnapService");
-//                    intent2.putExtra("cameraId", 0);
-//                    sendBroadcast(intent2);
-
                     TcStatInterface.onEvent("btn_buy", null);
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-
                     Intent intent3 = new Intent();
                     intent3.setAction("android.intent.action.cameraSnapService");
                     intent3.putExtra("cameraId", 1);
                     sendBroadcast(intent3);
-
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;

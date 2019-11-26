@@ -100,6 +100,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.46'
     implementation 'com.google.zxing:core:3.2.1'
     implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
     testImplementation 'junit:junit:4.12'
     implementation files('libs/SYMVDIO.jar')
     compile project(':StatInterface')

@@ -94,8 +94,9 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
         // init StaticsAgent
         StaticsAgent.init();
 
+
         // init CrashHandler
-        TcCrashHandler.getInstance().init(mContext,exceptionHandler);
+        //TcCrashHandler.getInstance().init(mContext,exceptionHandler);
 
         // load pageIdMaps
         pageIdMaps = getStatIdMaps(fileName);

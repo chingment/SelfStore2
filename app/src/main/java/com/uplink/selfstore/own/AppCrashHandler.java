@@ -9,145 +9,190 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.tamic.statinterface.stats.core.TcStatInterface;
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
-    //文件夹目录
-    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/crash_log/";
-    //文件名
-    private static final String FILE_NAME = "crash";
-    //文件名后缀
-    private static final String FILE_NAME_SUFFIX = ".trace";
-    //上下文
-    private Context mContext;
 
-    //单例模式
-    private static AppCrashHandler sInstance = new AppCrashHandler();
-    private AppCrashHandler() {}
-    public static AppCrashHandler getInstance() {
-        return sInstance;
-    }
 
+    private static final String TAG = "CrashHandler";
     /**
-     * 初始化方法
-     *
-     * @param context
+     * 系统默认的UncaughtException处理类
      */
-    public void init(Context context) {
-        //将当前实例设为系统默认的异常处理器
-        Thread.setDefaultUncaughtExceptionHandler(this);
-        //获取Context，方便内部使用
-        mContext = context.getApplicationContext();
+    private Thread.UncaughtExceptionHandler mDefaultHandler;
+    /**
+     * 程序的Context对象
+     */
+    private Context mContext;
+    /**
+     * 错误报告文件的扩展名
+     */
+    private static final String CRASH_REPORTER_EXTENSION = ".log";
+
+    /**
+     * CrashHandler实例
+     */
+    private static AppCrashHandler INSTANCE;
+
+    /**
+     * 保证只有一个CrashHandler实例
+     */
+    private AppCrashHandler() {
     }
 
     /**
-     * 捕获异常回掉
+     * 获取CrashHandler实例 ,单例模式
+     */
+    public static AppCrashHandler getInstance() {
+        if (INSTANCE == null) {
+            synchronized (AppCrashHandler.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new AppCrashHandler();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    /**
+     * 初始化,注册Context对象,
+     * 获取系统默认的UncaughtException处理器,
+     * 设置该CrashHandler为程序的默认处理器
      *
-     * @param thread 当前线程
-     * @param ex     异常信息
+     * @param ctx
+     */
+    public void init(Context ctx) {
+        mContext = ctx;
+        mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(this);
+    }
+
+    /**
+     * 当UncaughtException发生时会转入该函数来处理
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        //导出异常信息到SD卡
-       // dumpExceptionToSDCard(ex);
-        //上传异常信息到服务器
-       // uploadExceptionToServer(ex);
-        //延时1秒杀死进程
-        SystemClock.sleep(2000);
-        restartApp();
-    }
-
-    private void restartApp() {
-        Intent intent = new Intent(mContext, InitDataActivity.class);
-        PendingIntent restartIntent = PendingIntent.getActivity(mContext.getApplicationContext(), 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
-        //退出程序
-        AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
-                restartIntent); // 1秒钟后重启应用
-
-        //结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
-        android.os.Process.killProcess(android.os.Process.myPid());
+        handleException(ex);
+        if (mDefaultHandler != null) {
+            //收集完信息后，交给系统自己处理崩溃
+            mDefaultHandler.uncaughtException(thread, ex);
+        }
     }
 
     /**
-     * 导出异常信息到SD卡
-     *
-     * @param ex
+     * 自定义错误处理,收集错误信息
+     * 发送错误报告等操作均在此完成.
+     * 开发者可以根据自己的情况来自定义异常处理逻辑
      */
-    private void dumpExceptionToSDCard(Throwable ex) {
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+    private void handleException(Throwable ex) {
+        if (ex == null) {
+            Log.w(TAG, "handleException--- ex==null");
             return;
         }
-        //创建文件夹
-        File dir = new File(PATH);
-        if (!dir.exists()) {
-            dir.mkdirs();
+        String msg = ex.getLocalizedMessage();
+        if (msg == null) {
+            return;
         }
-        //获取当前时间
-        long current = System.currentTimeMillis();
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(current));
-        //以当前时间创建log文件
-        File file = new File(PATH + FILE_NAME + time + FILE_NAME_SUFFIX);
-        try {
-            //输出流操作
-            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-            //导出手机信息和异常信息
-            PackageManager pm = mContext.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
-            pw.println("发生异常时间：" + time);
-            pw.println("应用版本：" + pi.versionName);
-            pw.println("应用版本号：" + pi.versionCode);
-            pw.println("android版本号：" + Build.VERSION.RELEASE);
-            pw.println("android版本号API：" + Build.VERSION.SDK_INT);
-            pw.println("手机制造商:" + Build.MANUFACTURER);
-            pw.println("手机型号：" + Build.MODEL);
-            ex.printStackTrace(pw);
-            //关闭输出流
-            pw.close();
-        } catch (Exception e) {
+        //收集设备信息
+        //保存错误报告文件
+        saveCrashInfoToFile(ex);
+    }
 
+
+    /**
+     * 获取错误报告文件路径
+     *
+     * @param ctx
+     * @return
+     */
+    public static String[] getCrashReportFiles(Context ctx) {
+        File filesDir = new File(getCrashFilePath(ctx));
+        String[] fileNames = filesDir.list();
+        int length = fileNames.length;
+        String[] filePaths = new String[length];
+        for (int i = 0; i < length; i++) {
+            filePaths[i] = getCrashFilePath(ctx) + fileNames[i];
         }
+        return filePaths;
     }
 
     /**
-     * 上传异常信息到服务器
+     * 保存错误信息到文件中
      *
      * @param ex
+     * @return
      */
-    private void uploadExceptionToServer(Throwable ex) {
-
-        Writer writer = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(writer);
+    private void saveCrashInfoToFile(Throwable ex) {
+        Writer info = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(info);
         ex.printStackTrace(printWriter);
         Throwable cause = ex.getCause();
         while (cause != null) {
             cause.printStackTrace(printWriter);
             cause = cause.getCause();
         }
+        String result = info.toString();
         printWriter.close();
-        String result = writer.toString();
+        StringBuilder sb = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+        String now = sdf.format(new Date());
+        sb.append("TIME:").append(now);//崩溃时间
+        //程序信息
+        sb.append("\nAPPLICATION_ID:").append(BuildConfig.APPLICATION_ID);//软件APPLICATION_ID
+        sb.append("\nVERSION_CODE:").append(BuildConfig.VERSION_CODE);//软件版本号
+        sb.append("\nVERSION_NAME:").append(BuildConfig.VERSION_NAME);//VERSION_NAME
+        sb.append("\nBUILD_TYPE:").append(BuildConfig.BUILD_TYPE);//是否是DEBUG版本
+        //设备信息
+        sb.append("\nMODEL:").append(android.os.Build.MODEL);
+        sb.append("\nRELEASE:").append(Build.VERSION.RELEASE);
+        sb.append("\nSDK:").append(Build.VERSION.SDK_INT);
+        sb.append("\nEXCEPTION:").append(ex.getLocalizedMessage());
+        sb.append("\nSTACK_TRACE:").append(result);
+        try {
+            FileWriter writer = new FileWriter(getCrashFilePath(mContext) + now + CRASH_REPORTER_EXTENSION,true);
+            writer.write(sb.toString());
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        HashMap<String, String> parameters = new HashMap<String, String>();
-
-        parameters.put("error",result);
-
-        LogUtil.e(result);
-        TcStatInterface.onEvent("app_exception", parameters);
-
+    /**
+     * 获取文件夹路径
+     *
+     * @param context
+     * @return
+     */
+    private static String getCrashFilePath(Context context) {
+        String path = null;
+        try {
+            path = Environment.getExternalStorageDirectory().getCanonicalPath() + "/CrashLog/";
+            File file = new File(path);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "getCrashFilePath: " + path);
+        return path;
     }
 }

@@ -18,6 +18,8 @@ import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.util.UUID;
 
 /**
@@ -50,6 +52,8 @@ public class AppContext extends Application {
 
         //CameraWindow.show(this);
 
+        AppCrashHandler.getInstance().init(this);
+
         TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json", new TcCrashHandler.ExceptionHandler() {
@@ -59,7 +63,6 @@ public class AppContext extends Application {
             }
         });
         TcStatInterface.recordAppStart();
-        //AppCrashHandler.getInstance().init(this);
 
     }
 
@@ -100,8 +103,8 @@ public class AppContext extends Application {
 
         return DEVICE_ID;
 
-//        String DEVICE_ID = "DEVICE_ID";
-//        String device_id="000000000000000";
+ //       String DEVICE_ID = "DEVICE_ID";
+ //       String device_id="000000000000000";
 //        try {
 //
 //            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(app.getApplicationContext());
@@ -116,7 +119,7 @@ public class AppContext extends Application {
 //        catch (Exception ex) {
 //
 //        }
-//
+
 //        LogUtil.i("设备id：" + device_id);
 //        return  device_id;
     }
