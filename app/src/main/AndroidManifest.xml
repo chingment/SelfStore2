@@ -191,6 +191,7 @@
         <activity android:name=".activity.PayWayActivity" />
         <activity android:name=".activity.SmMachineStockActivity"></activity>
         <service android:name=".service.CameraSnapService"></service>
+        <service android:name=".service.MachineCtrlService"></service>
     </application>
 
 </manifest>

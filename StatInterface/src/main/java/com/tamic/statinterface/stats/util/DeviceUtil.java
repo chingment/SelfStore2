@@ -161,36 +161,36 @@ public class DeviceUtil {
 
     public static String getDeviceId(Context context){
 
-//        String DEVICE_ID = "000000000000000";
+        String DEVICE_ID = "000000000000000";
+        try {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if(tm!=null) {
+                DEVICE_ID = tm.getDeviceId();
+            }
+        } catch (Exception ex) {
+
+        }
+
+        LogUtil.i("设备id：" + DEVICE_ID);
+
+        return DEVICE_ID;
+
+//        String DEVICE_ID = "DEVICE_ID";
+//        String device_id="000000000000000";
 //        try {
-//            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//            if(tm!=null) {
-//                DEVICE_ID = tm.getDeviceId();
+//
+//            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(context);
+//            String s_device_id = preferencesHelper.getString(DEVICE_ID);
+//            if(TextUtils.isEmpty(s_device_id)) {
+//                s_device_id = UUID.randomUUID().toString();
+//                preferencesHelper.putString(DEVICE_ID,s_device_id);
 //            }
-//        } catch (Exception ex) {
+//
+//            device_id=s_device_id;
+//        }
+//        catch (Exception ex) {
 //
 //        }
-//
-//        LogUtil.i("设备id：" + DEVICE_ID);
-//
-//        return DEVICE_ID;
-
-        String DEVICE_ID = "DEVICE_ID";
-        String device_id="000000000000000";
-        try {
-
-            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(context);
-            String s_device_id = preferencesHelper.getString(DEVICE_ID);
-            if(TextUtils.isEmpty(s_device_id)) {
-                s_device_id = UUID.randomUUID().toString();
-                preferencesHelper.putString(DEVICE_ID,s_device_id);
-            }
-
-            device_id=s_device_id;
-        }
-        catch (Exception ex) {
-
-        }
-        return device_id;
+//        return device_id;
     }
 }

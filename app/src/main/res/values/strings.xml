@@ -62,8 +62,8 @@
     <string name="activity_smhome_confrimtips_exitmanager">确定退出管理？</string>
     <string name="activity_orderdetails_navtitle">订单详情</string>
     <string name="activity_orderdetaiks_textview_ordersn_text">订单号</string>
-    <string name="activity_orderdetails_btn_pickupcompelte">完成，返回购物</string>
-    <string name="activity_orderdetails_btn_contactkefu">异常，联系客服</string>
+    <string name="activity_orderdetails_btn_pickupcompelte">完成取货</string>
+    <string name="activity_orderdetails_btn_contactkefu">联系客服</string>
     <string name="activity_orderdetails_contactkefu_tips">请打开微信扫一扫，联系客服</string>
     <string name="activity_orderdetails_tips_outpickup_confirm">确认已完成取货?</string>
     <string name="dialog_confirm_btn_cancle_text">否</string>

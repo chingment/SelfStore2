@@ -70,7 +70,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         cabinetRowColLayout = machine.getCabinetRowColLayout_1();
 
         machineCtrl = new MachineCtrl();
-        //machineCtrl.connect();
         machineCtrl.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -265,6 +264,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 case R.id.btn_ScanSlots:
 
                     if (!machineCtrl.isConnect()) {
+                        machineCtrl.connect();
+                    }
+
+                    if(!machineCtrl.isConnect()){
                         showToast("机器连接失败");
                         return;
                     }

@@ -43,10 +43,11 @@ public class MachineCtrl {
         return version;
     }
 
-    public void connect() {
+    public boolean connect() {
 
         if(sym==null) {
-            return;
+            isConnect=false;
+            return isConnect;
         }
 
         try {
@@ -56,7 +57,13 @@ public class MachineCtrl {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            isConnect=false;
+            return isConnect;
         }
+        finally {
+            return isConnect;
+        }
+
     }
 
     public void disConnect() {
