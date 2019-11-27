@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
+import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
@@ -25,10 +27,16 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
+import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
@@ -42,7 +50,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private LoadingView loading_ani;
     private TextView loading_msg;
     private TextView txt_machineId;
-
+    private MyListView list_log;
+    private List<LogBean> logs=new ArrayList<>();
     private MachineCtrl machineCtrl=new MachineCtrl();
 
     private boolean initIsRun=false;
@@ -90,6 +99,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         loading_bar = (ProgressBar) findViewById(R.id.loading_bar);
         loading_msg = (TextView) findViewById(R.id.loading_msg);
         txt_machineId=(TextView) findViewById(R.id.txt_machineId);
+        list_log=(MyListView)findViewById(R.id.list_log);
     }
 
 
@@ -100,7 +110,17 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         handler_msg = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
+                String content=msg.obj.toString();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+                String dateTime = sdf.format(new Date());
                 loading_msg.setText(msg.obj.toString());
+
+                LogBean log=new LogBean();
+                log.setDateTime(dateTime);
+                log.setContent(content);
+                logs.add(log);
+                LogAdapter logAdapter = new LogAdapter(InitDataActivity.this,logs);
+                list_log.setAdapter(logAdapter);
 
                 switch (msg.what) {
                     case 0x0001:

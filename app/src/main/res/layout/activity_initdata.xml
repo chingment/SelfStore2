@@ -3,13 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center|center_horizontal|center_vertical"
     android:orientation="vertical"
     tools:context="com.uplink.selfstore.activity.InitDataActivity">
 
 
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_200"
+        android:orientation="vertical">
+    <com.uplink.selfstore.ui.my.MyListView
+        android:id="@+id/list_log"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/dividerline"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        android:paddingLeft="@dimen/size_20"
+        android:paddingRight="@dimen/size_20"
+        android:scrollbars="none" />
+    </LinearLayout
+        >
     <com.uplink.selfstore.ui.LoadingView
         android:id="@+id/loading_ani"
         android:layout_width="match_parent"
