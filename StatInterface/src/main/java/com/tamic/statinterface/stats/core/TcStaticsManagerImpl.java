@@ -78,7 +78,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
     }
 
     @Override
-    public boolean onInit(int appId, String channel, String fileName, TcCrashHandler.ExceptionHandler exceptionHandler) {
+    public boolean onInit(int appId, String channel, String fileName) {
 
         if (mUploadThread == null) {
             mUploadThread = new UploadThread();
@@ -94,10 +94,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
         // init StaticsAgent
         StaticsAgent.init();
 
-
-        // init CrashHandler
-        //TcCrashHandler.getInstance().init(mContext,exceptionHandler);
-
+        int a=1/0;
         // load pageIdMaps
         pageIdMaps = getStatIdMaps(fileName);
 

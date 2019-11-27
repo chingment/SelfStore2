@@ -66,9 +66,9 @@ public class TcStatSdk {
 
     }
 
-    protected void init(int appId, String channel, String fileName, TcCrashHandler.ExceptionHandler exceptionHandler) {
+    protected void init(int appId, String channel, String fileName) {
 
-        staticsManager.onInit(appId, channel, fileName,exceptionHandler);
+        staticsManager.onInit(appId, channel, fileName);
 
     }
 

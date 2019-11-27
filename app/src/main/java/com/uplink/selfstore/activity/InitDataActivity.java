@@ -48,7 +48,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        setHideStatusBar(false);
+        setHideStatusBar(true);
         initView();
         initEvent();
         initData();
@@ -143,7 +143,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
         params.put("ctrlSdkVersionCode", machineCtrl.vesion());
-        params.put("macAddress", "");
+        params.put("macAddress", getAppContext().getMacAddress());
 
         postByMy(Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {
             @Override

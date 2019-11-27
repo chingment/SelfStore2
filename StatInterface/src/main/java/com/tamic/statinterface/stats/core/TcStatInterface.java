@@ -78,11 +78,11 @@ public final class TcStatInterface {
      * @param appId
      * @param channel
      */
-    public static void initialize(Context aContext, int appId, String channel, String fileName, TcCrashHandler.ExceptionHandler exceptionHandler) {
+    public static void initialize(Context aContext, int appId, String channel, String fileName) {
 
         context = aContext;
 
-        TcStatSdk.getInstance(aContext).init(appId, channel, fileName,exceptionHandler);
+        TcStatSdk.getInstance(aContext).init(appId, channel, fileName);
 
     }
 

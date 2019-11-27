@@ -5,6 +5,8 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -53,15 +55,15 @@ public class AppContext extends Application {
         //CameraWindow.show(this);
 
         AppCrashHandler.getInstance().init(this);
-
-        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
-        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
-        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json", new TcCrashHandler.ExceptionHandler() {
+        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override
             public void Handler() {
                 restartApp();
             }
         });
+        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
+        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
+        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
         TcStatInterface.recordAppStart();
 
     }
@@ -123,4 +125,11 @@ public class AppContext extends Application {
 //        LogUtil.i("设备id：" + device_id);
 //        return  device_id;
     }
+
+    public String getMacAddress() {
+        WifiManager wifi = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = wifi.getConnectionInfo();
+        return info != null ? info.getMacAddress() : "";
+    }
+
 }
