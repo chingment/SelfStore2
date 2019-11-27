@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.util.HashMap;
@@ -32,7 +34,7 @@ import java.util.Map;
 import cn.jpush.android.api.JPushInterface;
 
 public class InitDataActivity extends BaseFragmentActivity implements View.OnClickListener {
-    private String TAG = "InitDataActivity";
+    private final String TAG = "InitDataActivity";
 
     private Handler handler_msg;
     private Button btn_retry;
@@ -43,6 +45,21 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
     private MachineCtrl machineCtrl=new MachineCtrl();
 
+    private boolean initIsRun=false;
+    private Handler initHandler = new Handler();
+    private Runnable initRunable = new Runnable() {
+        @Override
+        public void run() {
+
+            LogUtil.i(TAG,"初始化数据检查");
+            if(!initIsRun) {
+                initIsRun=true;
+                setMachineInitData();
+            }
+
+            initHandler.postDelayed(this, 1000);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +70,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
+        initHandler.postDelayed(initRunable, 1000);
+
         Intent intent = new Intent(InitDataActivity.this, CameraSnapService.class);
         startService(intent);
+
 
 //        Intent intent3 = new Intent();
 //        intent3.setAction("android.intent.action.CameraSnapService");
@@ -86,6 +106,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                     case 0x0001:
                         break;
                     case 0x0002:
+                        initIsRun=false;
                         btn_retry.setVisibility(View.VISIBLE);
                         break;
                     case 0x0003:
@@ -107,8 +128,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private void initData() {
 
         txt_machineId.setText(getAppContext().getDeviceId());
-
-        setMachineInitData();
     }
 
     @Override
@@ -124,6 +143,15 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                     }
                 }, 2000);
                 break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(initHandler!=null&&initRunable!=null) {
+            initHandler.removeCallbacks(initRunable);
         }
     }
 

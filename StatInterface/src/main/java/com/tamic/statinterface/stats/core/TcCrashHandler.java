@@ -15,6 +15,8 @@ import com.tamic.statinterface.stats.util.DeviceUtil;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -25,6 +27,7 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
     private Context context;
     public static TcCrashHandler INSTANCE;
     private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+
 
     private TcCrashHandler() {
     }
@@ -75,7 +78,12 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
         //System.exit(0);
     }
 
-    public  void  saveToSdCard(String content) {
+    private   String getSaveFolder() {
+        String path = Environment.getExternalStorageDirectory() + "/CrashLog/";
+        return  path;
+    }
+
+    private   void  saveToSdCard(String content) {
         try {
 
             StringBuilder sb = new StringBuilder();
@@ -94,12 +102,12 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
             sb.append("\nSDK:").append(Build.VERSION.SDK_INT);
             sb.append("\nSTACK_TRACE:").append(content);
 
-            String path = Environment.getExternalStorageDirectory().getCanonicalPath() + "/CrashLog/";
-            File file = new File(path);
+            String folder = getSaveFolder();
+            File file = new File(folder);
             if (!file.exists()) {
                 file.mkdirs();
             }
-            String savePath=path+ now + ".log";
+            String savePath=folder+ now + ".log";
             FileWriter writer = new FileWriter(savePath,true);
             writer.write(sb.toString());
             writer.close();
@@ -107,6 +115,30 @@ public class TcCrashHandler implements Thread.UncaughtExceptionHandler {
             e.printStackTrace();
         }
     }
+
+    private void deleteSdCardLogFile(){
+
+        File mfolder = new File(getSaveFolder()); //打开目录文件夹
+        if(mfolder.isDirectory()){
+            File[] AllFiles = mfolder.listFiles(); //列出目录下的所有文件
+            ArrayList<String> mFilesList = new ArrayList<String>();  //存放 下的所有文件
+            for (int i = 0; i < AllFiles.length; i++) {
+                File mFile = AllFiles[i]; //得到文件
+                String mName = mFile.getName(); //得到文件的名字
+                if (mName.endsWith(".log")) {  //筛选出log
+                    mFilesList.add(mName); //把文件名添加到链表里
+                }
+            }
+            Collections.sort(mFilesList);   // 将文件按自然排序升序排列
+            //判断日志文件如果大于5，就要处理
+            for (int i = 0; i < mFilesList.size() - 4; i++) {
+                String Name = mFilesList.get(i); //得到链表最早的文件名
+                File mFile = new File(mfolder, Name);  //得到最早的文件
+                mFile.delete(); //删除
+            }
+        }
+    }
+
 
     private ExceptionHandler exceptionHandler = null;
 
