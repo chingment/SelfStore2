@@ -158,7 +158,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 case R.id.btn_pick:
                     Intent intent3 = new Intent();
                     intent3.setAction("android.intent.action.cameraSnapService");
-                    intent3.putExtra("cameraId", 1);
+                    intent3.putExtra("cameraId", 0);
+                    intent3.putExtra("uniqueId", "dasdad");
                     sendBroadcast(intent3);
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();

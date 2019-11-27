@@ -31,7 +31,8 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
     private Camera mCamera;
     private boolean mCameraIsRunning; // 是否已在监控拍照
     private CommandReceiver cmdReceiver;
-    private String mUniqueId="";
+    private String mUniqueId = "";
+
     @Override
     public void onCreate() {
         LogUtil.d(TAG, "onCreate...");
@@ -50,14 +51,14 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         return START_NOT_STICKY;
     }
 
-    private void autoTakePic(SurfaceView preview,int cameraId,String uniqueId) {
+    private void autoTakePic(SurfaceView preview, int cameraId, String uniqueId) {
         LogUtil.d(TAG, "autoTakePic...");
 
         try {
 
-            if(!mCameraIsRunning) {
+            if (!mCameraIsRunning) {
                 mCameraIsRunning = true;
-                mUniqueId=uniqueId;
+                mUniqueId = uniqueId;
                 mCamera = Camera.open(cameraId);
                 if (mCamera == null) {
                     LogUtil.w(TAG, "getFacingFrontCamera return null");
@@ -69,9 +70,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
                 // 防止某些手机拍摄的照片亮度不够
                 Thread.sleep(500);
                 mCamera.takePicture(null, null, this);
-            }
-            else
-            {
+            } else {
                 LogUtil.w(TAG, "Camera running");
             }
         } catch (Exception e) {
@@ -85,25 +84,13 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         LogUtil.d(TAG, "onPictureTaken...");
         try {
             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            String path;
-            path = getSDPath();
-            if (path != null) {
-                File dir = new File(path + "/cameratest");
-                if (!dir.exists()) {
-                    dir.mkdir();
-                }
-                path = dir.toString();
-            } else {
-                path = "/sdcard";
-            }
-
-            File file = new File(path, mUniqueId+".jpg");
+            String path = getSaveSdCardPath();
+            File file = new File(path, mUniqueId + ".jpg");
             FileOutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             outputStream.close();
             camera.stopPreview();
-            camera.startPreview();//����������֮�����Ԥ��
-
+            camera.startPreview();
             Log.e(TAG, "拍照结束");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
@@ -112,13 +99,17 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         releaseCamera();
     }
 
-    public String getSDPath() {
-        File sdDir = null;
+    public String getSaveSdCardPath() {
         boolean sdCardExist = Environment.getExternalStorageState()
                 .equals(android.os.Environment.MEDIA_MOUNTED);
         if (sdCardExist) {
-            sdDir = Environment.getExternalStorageDirectory();
-            return sdDir.toString();
+            String path = Environment.getExternalStorageDirectory().toString() + "/SelfStoreImages";
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+
+            return path;
         }
 
         return null;
@@ -126,8 +117,8 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
 
     private void releaseCamera() {
 
-        mUniqueId="";
-        mCameraIsRunning=false;
+        mUniqueId = "";
+        mCameraIsRunning = false;
         if (mCamera != null) {
             LogUtil.d(TAG, "releaseCamera...");
             mCamera.stopPreview();
@@ -150,7 +141,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
 
     private class CommandReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context,final Intent intent) {
+        public void onReceive(Context context, final Intent intent) {
             LogUtil.i(TAG, "onReceive");
             //if ( intent.getAction().equals("android.intent.action.cmdservice") ){
             Handler handler = new Handler();
@@ -159,11 +150,10 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
                 public void run() {
 
                     int cameraId = intent.getIntExtra("cameraId", -1);
-                    String uniqueId=intent.getStringExtra("uniqueId");
-
-                    if(cameraId>=0) {
+                    String uniqueId = intent.getStringExtra("uniqueId");
+                    if (cameraId >= 0 && uniqueId != null) {
                         SurfaceView preview = CameraWindow.getDummyCameraView();
-                        autoTakePic(preview,cameraId,uniqueId);
+                        autoTakePic(preview, cameraId, uniqueId);
                     }
                 }
             }, 1000);//3秒后执行Runnable中的run方法
