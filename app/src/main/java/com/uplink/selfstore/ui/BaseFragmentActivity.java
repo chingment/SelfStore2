@@ -220,7 +220,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = true;
         super.onResume();
         closePageCountTimerStart();
-        TcStatInterface.recordPageStart(BaseFragmentActivity.this);
+        //TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
     /**
@@ -231,7 +231,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = false;
         super.onPause();
         closePageCountTimerStop();
-        TcStatInterface.recordPageEnd();
+        //TcStatInterface.recordPageEnd();
     }
 
 

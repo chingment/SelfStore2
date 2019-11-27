@@ -182,9 +182,6 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
                     startActivity(intent);
                     break;
                 case R.id.btn_cart:
-                    intent = new Intent(getAppContext(), CartActivity.class);
-                    startActivity(intent);
-                    break;
                 case R.id.btn_gosettlement:
                     List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
