@@ -18,6 +18,7 @@ import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -29,6 +30,7 @@ import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.text.SimpleDateFormat;
@@ -51,6 +53,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private TextView loading_msg;
     private TextView txt_machineId;
     private MyListView list_log;
+    private View btn_appexit;
     private List<LogBean> logs=new ArrayList<>();
     private MachineCtrl machineCtrl=new MachineCtrl();
 
@@ -100,11 +103,23 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         loading_msg = (TextView) findViewById(R.id.loading_msg);
         txt_machineId=(TextView) findViewById(R.id.txt_machineId);
         list_log=(MyListView)findViewById(R.id.list_log);
+        btn_appexit=(View)findViewById(R.id.btn_appexit);
     }
 
 
     private void initEvent() {
-        btn_retry.setOnClickListener(this);
+
+        LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LogUtil.e("长按触发");
+                setHideStatusBar(false);
+                AppManager.getAppManager().AppExit(InitDataActivity.this);
+                return true;
+            }
+        });
+
+
         loading_ani.start();
 
         handler_msg = new Handler(new Handler.Callback() {

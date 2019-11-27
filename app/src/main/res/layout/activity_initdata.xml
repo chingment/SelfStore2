@@ -22,8 +22,7 @@
         android:paddingLeft="@dimen/size_20"
         android:paddingRight="@dimen/size_20"
         android:scrollbars="none" />
-    </LinearLayout
-        >
+    </LinearLayout>
     <com.uplink.selfstore.ui.LoadingView
         android:id="@+id/loading_ani"
         android:layout_width="match_parent"
@@ -94,5 +93,12 @@
                 android:textColor="@color/field_value"
                 android:textSize="@dimen/size_10" />
         </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/btn_appexit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_200"
+        android:orientation="vertical">
+
     </LinearLayout>
 </LinearLayout>

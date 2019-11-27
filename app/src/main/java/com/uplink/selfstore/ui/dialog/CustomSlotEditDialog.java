@@ -204,6 +204,10 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 if (!machineCtrl.isConnect()) {
+                    machineCtrl.connect();
+                }
+
+                if (!machineCtrl.isConnect()) {
                     context.showToast("机器连接失败");
                     return;
                 }

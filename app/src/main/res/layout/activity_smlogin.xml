@@ -131,6 +131,14 @@
 
 
 
+            <LinearLayout
+                android:layout_below="@+id/btn_login"
+                android:id="@+id/btn_appexit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_100"
+                android:orientation="vertical">
+
+            </LinearLayout>
         </RelativeLayout>
 
 

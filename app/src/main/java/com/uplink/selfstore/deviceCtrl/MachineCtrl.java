@@ -117,7 +117,7 @@ public class MachineCtrl {
 
     public void pickUp(int row,int col) {
 
-        if (isConnect) {
+        if (!isConnect) {
            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
             sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);

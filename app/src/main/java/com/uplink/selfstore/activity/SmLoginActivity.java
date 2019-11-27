@@ -2,6 +2,7 @@ package com.uplink.selfstore.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +16,11 @@ import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OpUserInfoBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -29,7 +33,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     Button btn_login;//登录按钮
     EditText txt_username;//账户
     EditText txt_password;//密码
-
+    View btn_appexit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +54,22 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         btn_login = (Button) this.findViewById(R.id.btn_login);
         txt_username = (EditText) this.findViewById(R.id.txt_username);
         txt_password = (EditText) this.findViewById(R.id.txt_password);
-
+        btn_appexit= (View) this.findViewById(R.id.btn_appexit);
     }
 
     protected void initEvent() {
         btn_login.setOnClickListener(this);
         nav_back.setOnClickListener(this);
+
+        LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LogUtil.e("长按触发");
+                setHideStatusBar(false);
+                AppManager.getAppManager().AppExit(SmLoginActivity.this);
+                return true;
+            }
+        });
     }
 
     protected void initData() {
