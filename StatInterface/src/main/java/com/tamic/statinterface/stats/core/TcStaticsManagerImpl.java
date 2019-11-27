@@ -94,7 +94,6 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
         // init StaticsAgent
         StaticsAgent.init();
 
-        int a=1/0;
         // load pageIdMaps
         pageIdMaps = getStatIdMaps(fileName);
 
