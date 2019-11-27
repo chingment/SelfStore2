@@ -35,6 +35,7 @@ import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -134,6 +135,14 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 log.setDateTime(dateTime);
                 log.setContent(content);
                 logs.add(log);
+                Collections.reverse(logs);
+
+                int size=10;
+                if(logs.size()>=size)
+                {
+                    logs.remove(size-1);
+                }
+
                 LogAdapter logAdapter = new LogAdapter(InitDataActivity.this,logs);
                 list_log.setAdapter(logAdapter);
 
