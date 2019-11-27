@@ -117,7 +117,7 @@ public class CustomSlotEditDialog extends Dialog {
         }));
 
         scanMidCtrl = new ScanMidCtrl();
-        //scanMidCtrl.connect();
+
         scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -471,7 +471,10 @@ public class CustomSlotEditDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        if (!scanMidCtrl.isConnect()) {
+
+        scanMidCtrl.connect();
+
+        if(!scanMidCtrl.isConnect()){
             ((SmMachineStockActivity) context).showToast("扫描器连接失败");
         }
     }

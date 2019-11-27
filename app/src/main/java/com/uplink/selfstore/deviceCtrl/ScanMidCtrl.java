@@ -30,7 +30,7 @@ public class ScanMidCtrl {
 
     }
 
-    public void connect() {
+    public boolean connect() {
         String strPort = "/dev/ttymxc2";
         int nBaudrate = 115200;
         try {
@@ -40,12 +40,18 @@ public class ScanMidCtrl {
             readThread = new ReadThread();
             readThread.start();
 
-            isConnect=true;
+            isConnect = true;
         } catch (SecurityException var4) {
             var4.printStackTrace();
+            isConnect = false;
+            return isConnect;
         } catch (IOException var5) {
             var5.printStackTrace();
             Log.e(TAG, String.format("connect to %s:%d failed", strPort, nBaudrate));
+            isConnect = false;
+            return isConnect;
+        } finally {
+            return isConnect;
         }
     }
 
