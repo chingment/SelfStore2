@@ -92,35 +92,29 @@ public class CustomSlotEditDialog extends Dialog {
                 switch (status) {
                     case 1://异常消息
                         ((SmMachineStockActivity) context).showToast(message);
-                        if (customDialogRunning.isShowing()) {
-                            customDialogRunning.cancelDialog();
-                        }
                         break;
-                    case 2://当前动作状态
+                    case 2://取货中
                         if (pickupResult != null) {
                             LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName()+"," + pickupResult.getCurrentActionStatusName());
+
                             customDialogRunning.setProgressText("正在取货中..请稍等");
 
                             if (!customDialogRunning.isShowing()) {
                                 customDialogRunning.showDialog();
 
-//                                new Handler().postDelayed(new Runnable() {
-//                                    public void run() {
-//
-//                                        LogUtil.i("正在执行关闭窗口");
-//                                        if (customDialogRunning != null && customDialogRunning.isShowing()) {
-//                                            customDialogRunning.cancelDialog();
-//                                        }
-//                                    }
-//
-//                                }, 6 * 1000);
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+                                        LogUtil.i("正在执行关闭窗口");
+                                        if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                            customDialogRunning.cancelDialog();
+                                        }
+                                    }
+                                }, 120 * 1000);
                             }
 
-                            if(pickupResult.getCurrentActionId()==1){
-                                if(pickupResult.getCurrentActionStatusCode()==2){
-                                    customDialogRunning.cancelDialog();
-                                    ((SmMachineStockActivity) context).showToast("取货完成");
-                                }
+                            if(pickupResult.isPickupComplete()) {
+                                customDialogRunning.cancelDialog();
+                                ((SmMachineStockActivity) context).showToast("取货完成");
                             }
                         }
                         break;

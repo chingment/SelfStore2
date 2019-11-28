@@ -28,6 +28,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -44,17 +45,12 @@ import java.util.Map;
 
 public class UpdateAppService extends Service {
     private static String TAG = "UpdateAppService";
-    /** 安卓系统下载类 **/
-    DownloadManager manager;
-
-    /** 接收下载完的广播 **/
-    DownloadCompleteReceiver receiver;
-
-    Handler handler_msg;
-    CustomDialogLoading customDialogLoading;
-
+    private DownloadManager manager;
+    private DownloadCompleteReceiver receiver;
+    private Handler handler_msg;
+    private CustomDialogLoading customDialogLoading;
     private CommandReceiver cmdReceiver;
-    /** 初始化下载器 **/
+
     private void downloadManagerApk(String downpath) {
 
         try {
@@ -124,18 +120,21 @@ public class UpdateAppService extends Service {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-
                                     if (customDialogLoading != null && customDialogLoading.isShowing()) {
                                         customDialogLoading.cancelDialog();
                                     }
                                 }
-                            }, 6000);
+                            }, 30*60*1000);
                         }
                         break;
                     case 2:
                         if(customDialogLoading!=null) {
                             customDialogLoading.cancelDialog();
                         }
+                        break;
+                    case 3:
+                        BaseFragmentActivity act=(BaseFragmentActivity)AppManager.getAppManager().currentActivity();
+                        act.showToast("已经是最新版本");
                         break;
                 }
                 return  false;
@@ -214,44 +213,48 @@ public class UpdateAppService extends Service {
             super.run();
 
 
+            Map<String, String> params = new HashMap<>();
+            params.put("appId", BuildConfig.APPLICATION_ID);
+            params.put("appKey", BuildConfig.APPKEY);
+            HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_CheckUpdate, params, new HttpResponseHandler() {
 
-                    Map<String, String> params = new HashMap<>();
-                    params.put("appId", BuildConfig.APPLICATION_ID);
-                    params.put("appKey",BuildConfig.APPKEY);
-                    HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_CheckUpdate, params, new HttpResponseHandler() {
+                @Override
+                public void onBeforeSend() {
 
-                        @Override
-                        public void onBeforeSend() {
+                }
 
-                        }
+                @Override
+                public void onSuccess(String response) {
+                    ApiResultBean<CheckUpdateBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CheckUpdateBean>>() {
+                    });
 
-                        @Override
-                        public void onSuccess(String response) {
-                            ApiResultBean<CheckUpdateBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CheckUpdateBean>>() {
-                            });
-
-                            if(rt.getResult() == Result.SUCCESS) {
-                                CheckUpdateBean d=rt.getData();
-                                if(d!=null) {
-                                    if(d.getVersionName()!=null&&d.getApkDownloadUrl()!=null) {
-                                        int c=compareVersion(d.getVersionName(),BuildConfig.VERSION_NAME);
-                                        if(c==1) {
-                                            downloadManagerApk(d.getApkDownloadUrl());
-                                        }
-                                    }
+                    if (rt.getResult() == Result.SUCCESS) {
+                        CheckUpdateBean d = rt.getData();
+                        if (d != null) {
+                            if (d.getVersionName() != null && d.getApkDownloadUrl() != null) {
+                                int c = compareVersion(d.getVersionName(), BuildConfig.VERSION_NAME);
+                                if (c == 1) {
+                                    downloadManagerApk(d.getApkDownloadUrl());
+                                }
+                                else {
+                                    Message m = new Message();
+                                    m.what = 3;
+                                    handler_msg.sendMessage(m);
                                 }
                             }
                         }
+                    }
+                }
 
-                        @Override
-                        public void onFailure(String msg, Exception e) {
+                @Override
+                public void onFailure(String msg, Exception e) {
 
-                        }
-                    });
+                }
+            });
 
 
-                //判断App是否为最新版本，若不是进行下载
-                //downloadManagerApk();
+            //判断App是否为最新版本，若不是进行下载
+            //downloadManagerApk();
 
 //                LogUtil.i(TAG,"判断App是否能进行安装，只能在当前页面是MainActivity情况下更新app");
 //                Activity act=AppManager.getAppManager().currentActivity();
@@ -262,8 +265,8 @@ public class UpdateAppService extends Service {
 //                    handler_msg.sendMessage(m);
 //
 //                }
-            }
         }
+    }
 
     private class CommandReceiver extends BroadcastReceiver {
         @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
+import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
@@ -51,17 +53,17 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private CustomNumKeyDialog dialog_NumKey;
 
     public LocationUtil locationUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        locationUtil= LocationUtil.getInstance(getAppContext());
+        locationUtil = LocationUtil.getInstance(getAppContext());
 
         initView();
         initEvent();
         initData();
 
-//
     }
 
     @Override
@@ -128,25 +130,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         banner_indicator.setViewPager(banner_pager);
     }
 
-    public static void writeLog(String fileName,String content) {
-
-        FileWriter writer = null;
-        try {
-            String path = Environment.getExternalStorageDirectory().getCanonicalPath() + "/CrashLog/";
-            File file = new File(path);
-            if (!file.exists()) {  //没有创建文件夹则创建
-                file.mkdirs();
-            }
-            // 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
-            writer = new FileWriter(path + fileName, true);
-            writer.write(content);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     @Override
     public void onClick(View v) {
         
@@ -163,12 +146,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 //                    intent3.putExtra("cameraId", 0);
 //                    intent3.putExtra("uniqueId", "dasdad");
 //                    sendBroadcast(intent3);
-
-
-//                    Intent intent3 = new Intent();
-//                    intent3.setAction("android.intent.action.updateAppService");
-//                    sendBroadcast(intent3);
-
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;

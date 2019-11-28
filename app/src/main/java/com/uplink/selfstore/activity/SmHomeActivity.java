@@ -116,6 +116,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_machine));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
@@ -144,6 +145,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                 case "fun.machinestock":
                                     intent = new Intent(getAppContext(), SmMachineStockActivity.class);
                                     startActivity(intent);
+                                    break;
+                                case "fun.checkupdateapp":
+                                    intent = new Intent();
+                                    intent.setAction("android.intent.action.updateAppService");
+                                    sendBroadcast(intent);
                                     break;
                                 case "fun.closeapp":
                                     confirmDialog.getTipsImage().setVisibility(View.GONE);

@@ -13,14 +13,22 @@ import java.io.Serializable;
 
 public class MachineCtrl {
 
+    public static int S_Motor_Idle = 0;
+    public static int S_Motor_Busy = 1;
+    public static int S_Motor_Done = 2;
+    public static int S_RC_SUCCESS = 0;
+    public static int S_RC_INVALID_PARAM = 1;
+    public static int S_RC_ERROR = 2;
+    public static int S_ACTION_GOZERO=1;
+
     private boolean isConnect = false;
     private int current_Cmd = 0;//当前命令 0：代表空闲
-
     private int cmd_ScanSlot = 1;//扫描货道命令
     private int cmd_Pickup = 2;//取货命令
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
     private PickupListenerThread pickupListenerThread;
+    private ScanSlotListenerThread scanListenerThread;
     private symvdio sym = null;
 
     public static final int MESSAGE_WHAT_SCANSLOTS=1;
@@ -72,7 +80,6 @@ public class MachineCtrl {
             sym.disconnect();
         }
         isConnect=false;
-
         cmd_ScanSlotIsStopListener = true;
         cmd_PickupIsStopListener = true;
     }
@@ -90,13 +97,6 @@ public class MachineCtrl {
     }
 
     public void scanSlot() {
-
-        //this.current_Cmd = this.cmd_ScanSlot;
-        //this.cmd_ScanSlotIsStopListener = false;
-
-//        ScanListenerThread scanListenerThread = new ScanListenerThread();
-//        scanListenerThread.start();
-
         if (!isConnect) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
@@ -109,7 +109,7 @@ public class MachineCtrl {
             if (rc_status == 0) {
                 this.current_Cmd = this.cmd_ScanSlot;
                 this.cmd_ScanSlotIsStopListener = false;
-                ScanSlotListenerThread scanListenerThread = new ScanSlotListenerThread();
+                scanListenerThread = new ScanSlotListenerThread();
                 scanListenerThread.start();
             } else {
                 sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
@@ -118,26 +118,19 @@ public class MachineCtrl {
     }
 
     public void pickUp(int row,int col) {
-
-
         if (!isConnect) {
-           sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
+            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
             sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
         } else if (!this.isIdle()) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
-        }
-        else {
-            int rc_status = sym.SN_MV_AutoStart(0,row,col);
+        } else {
+            int rc_status = sym.SN_MV_AutoStart(0, row, col);
             if (rc_status == 0) {
                 this.current_Cmd = this.cmd_Pickup;
                 this.cmd_PickupIsStopListener = false;
-
-                if(pickupListenerThread==null) {
-                    pickupListenerThread = new PickupListenerThread();
-                    pickupListenerThread.start();
-                }
-
+                pickupListenerThread = new PickupListenerThread();
+                pickupListenerThread.start();
             } else {
                 sendPickupHandlerMessage(1, "取货启动失败", null);
             }
@@ -150,16 +143,16 @@ public class MachineCtrl {
         if (sym != null) {
             boolean flag1 = false;
             int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
-            if (rc_status1[0] == 0) {
-                if (rc_status1[2] == 0) {
+            if (rc_status1[0] == S_RC_SUCCESS) {
+                if (rc_status1[2] == S_Motor_Idle||rc_status1[2] == S_Motor_Done) {
                     flag1 = true;
                 }
             }
 
             boolean flag2 = false;
             int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
-            if (rc_status2[0] == 0) {
-                if (rc_status2[3] == 0||rc_status2[3]==2) {
+            if (rc_status2[0] == S_RC_SUCCESS) {
+                if (rc_status2[3] == S_Motor_Idle||rc_status2[3]==S_Motor_Done) {
                     flag2 = true;
                 }
             }
@@ -321,23 +314,20 @@ public class MachineCtrl {
 
                 if (sym != null) {
                     int[] rc_status = sym.SN_MV_Get_FlowStatus();
-                    if (rc_status[0] == 0) {
-                        PickupResult result=new PickupResult();
+                    if (rc_status[0] == S_RC_SUCCESS) {
+                        PickupResult result = new PickupResult();
                         result.setActionCount(rc_status[1]);//动作总数
                         result.setCurrentActionId(rc_status[2]);//当前动作号
                         result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
 
-                        if(result.getCurrentActionId()==1){
-                            if(result.getCurrentActionStatusCode()==2){
-                               cmd_PickupIsStopListener=true;
+                        if (rc_status[2] == S_ACTION_GOZERO) {
+                            if (rc_status[3] == S_Motor_Done) {
+                                cmd_PickupIsStopListener = true;
+                                result.setPickupComplete(true);//设置取货完成
                             }
                         }
-
                         sendPickupHandlerMessage(2, "", result);
-
-                    }
-                    else
-                    {
+                    } else {
                         LogUtil.i("动作状态查询失败");
                         //sendPickupHandlerMessage(1, "动作状态查询失败", null);
                     }
@@ -353,6 +343,7 @@ public class MachineCtrl {
         private int currentActionStatusCode;
         private String currentActionStatusName;
         private String currentActionStatusName2;
+        private boolean isPickupComplete;
 
         public int getActionCount() {
             return actionCount;
@@ -442,6 +433,14 @@ public class MachineCtrl {
 
         public String getCurrentActionStatusName2() {
             return currentActionStatusName2;
+        }
+
+        public boolean isPickupComplete() {
+            return isPickupComplete;
+        }
+
+        public void setPickupComplete(boolean pickupComplete) {
+            isPickupComplete = pickupComplete;
         }
     }
 

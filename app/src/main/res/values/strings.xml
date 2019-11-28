@@ -55,6 +55,7 @@
     <string name="activity_smhome_navtitle">设置中心</string>
     <string name="activity_smhome_ninegriditem_title_stockset">库存设置</string>
     <string name="activity_smhome_ninegriditem_title_machineset">机器信息</string>
+    <string name="activity_smhome_ninegriditem_title_checkupdateapp">检查更新</string>
     <string name="activity_smhome_ninegriditem_title_closeapp">关闭应用</string>
     <string name="activity_smhome_ninegriditem_title_rootsys">重启系统</string>
     <string name="activity_smhome_ninegriditem_title_exitmanager">退出管理</string>
