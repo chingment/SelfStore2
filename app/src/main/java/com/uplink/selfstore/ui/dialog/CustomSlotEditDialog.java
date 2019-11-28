@@ -98,7 +98,8 @@ public class CustomSlotEditDialog extends Dialog {
                         break;
                     case 2://当前动作状态
                         if (pickupResult != null) {
-                            customDialogRunning.setProgressText(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
+                            LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
+                            customDialogRunning.setProgressText("正在取货中..请稍等");
 
                             if (!customDialogRunning.isShowing()) {
                                 customDialogRunning.showDialog();
