@@ -26,6 +26,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.CameraSnapService;
+import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
@@ -53,6 +54,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private LoadingView loading_ani;
     private TextView loading_msg;
     private TextView txt_machineId;
+    private TextView txt_version;
     private MyListView list_log;
     private View btn_appexit;
     private List<LogBean> logs=new ArrayList<>();
@@ -78,16 +80,18 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        setHideStatusBar(true);
+        setHideStatusBar(false);
         initView();
         initEvent();
         initData();
 
         initHandler.postDelayed(initRunable, 1000);
 
-        Intent intent = new Intent(InitDataActivity.this, CameraSnapService.class);
-        startService(intent);
+        Intent cameraSnapService = new Intent(InitDataActivity.this, CameraSnapService.class);
+        startService(cameraSnapService);
 
+        Intent updateAppService = new Intent(InitDataActivity.this, UpdateAppService.class);
+        startService(updateAppService);
 
 //        Intent intent3 = new Intent();
 //        intent3.setAction("android.intent.action.CameraSnapService");
@@ -103,6 +107,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         loading_bar = (ProgressBar) findViewById(R.id.loading_bar);
         loading_msg = (TextView) findViewById(R.id.loading_msg);
         txt_machineId=(TextView) findViewById(R.id.txt_machineId);
+        txt_version=(TextView) findViewById(R.id.txt_version);
         list_log=(MyListView)findViewById(R.id.list_log);
         btn_appexit=(View)findViewById(R.id.btn_appexit);
     }
@@ -172,6 +177,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private void initData() {
 
         txt_machineId.setText(getAppContext().getDeviceId());
+        txt_version.setText(BuildConfig.VERSION_NAME);
     }
 
     @Override

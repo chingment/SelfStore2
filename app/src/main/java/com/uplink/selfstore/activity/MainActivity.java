@@ -21,6 +21,7 @@ import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
@@ -55,6 +56,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         locationUtil= LocationUtil.getInstance(getAppContext());
+
         initView();
         initEvent();
         initData();
@@ -156,11 +158,17 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-                    Intent intent3 = new Intent();
-                    intent3.setAction("android.intent.action.cameraSnapService");
-                    intent3.putExtra("cameraId", 0);
-                    intent3.putExtra("uniqueId", "dasdad");
-                    sendBroadcast(intent3);
+//                    Intent intent3 = new Intent();
+//                    intent3.setAction("android.intent.action.cameraSnapService");
+//                    intent3.putExtra("cameraId", 0);
+//                    intent3.putExtra("uniqueId", "dasdad");
+//                    sendBroadcast(intent3);
+
+
+//                    Intent intent3 = new Intent();
+//                    intent3.setAction("android.intent.action.updateAppService");
+//                    sendBroadcast(intent3);
+
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;

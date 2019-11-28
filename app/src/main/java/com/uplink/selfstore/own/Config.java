@@ -26,6 +26,7 @@ public class Config {
 
     public class URL {
         public static final String machine_InitData= BuildConfig.ENVIRONMENT + "/api/machine/InitData";
+        public static final String machine_CheckUpdate= BuildConfig.ENVIRONMENT + "/api/machine/CheckUpdate";
         public static final String order_Reserve = BuildConfig.ENVIRONMENT + "/api/Order/Reserve";
         public static final String order_BuildPayParams = BuildConfig.ENVIRONMENT + "/api/Order/BuildPayParams";
         public static final String order_Cancle = BuildConfig.ENVIRONMENT + "/api/Order/Cancle";

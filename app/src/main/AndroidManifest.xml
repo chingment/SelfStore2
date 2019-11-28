@@ -192,6 +192,7 @@
         <activity android:name=".activity.SmMachineStockActivity"></activity>
         <service android:name=".service.CameraSnapService"></service>
         <service android:name=".service.MachineCtrlService"></service>
+        <service android:name=".service.UpdateAppService"></service>
     </application>
 
 </manifest>

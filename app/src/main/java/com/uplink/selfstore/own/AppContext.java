@@ -9,20 +9,14 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 
 import com.tamic.statinterface.stats.core.TcCrashHandler;
 import com.tamic.statinterface.stats.db.DbManager;
-import com.tamic.statinterface.stats.sp.SharedPreferencesHelper;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.uplink.selfstore.ui.CameraWindow;
+import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.utils.LogUtil;
-
-import net.sqlcipher.database.SQLiteDatabase;
-
-import java.util.UUID;
 
 /**
  * Created by chingment on 2017/8/23.

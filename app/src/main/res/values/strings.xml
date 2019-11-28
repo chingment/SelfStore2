@@ -51,6 +51,7 @@
     <string name="activity_initdata_tips_settingmachinesuccess">配置商户机器信息成功</string>
     <string name="activity_initdata_tips_settingmachinefailure">配置商户机器信息失败</string>
     <string name="activity_initdata_textview_machineid_text">机器编码</string>
+    <string name="activity_initdata_textview_version_text">应用版本</string>
     <string name="activity_smhome_navtitle">设置中心</string>
     <string name="activity_smhome_ninegriditem_title_stockset">库存设置</string>
     <string name="activity_smhome_ninegriditem_title_machineset">机器信息</string>
