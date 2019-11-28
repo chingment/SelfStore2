@@ -253,6 +253,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(machineCtrl!=null) {
+            machineCtrl.disConnect();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         super.onClick(v);
 

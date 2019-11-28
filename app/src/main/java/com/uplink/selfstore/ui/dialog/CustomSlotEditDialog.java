@@ -98,16 +98,28 @@ public class CustomSlotEditDialog extends Dialog {
                         break;
                     case 2://当前动作状态
                         if (pickupResult != null) {
-                            LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
+                            LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName()+"," + pickupResult.getCurrentActionStatusName());
                             customDialogRunning.setProgressText("正在取货中..请稍等");
 
                             if (!customDialogRunning.isShowing()) {
                                 customDialogRunning.showDialog();
+
+//                                new Handler().postDelayed(new Runnable() {
+//                                    public void run() {
+//
+//                                        LogUtil.i("正在执行关闭窗口");
+//                                        if (customDialogRunning != null && customDialogRunning.isShowing()) {
+//                                            customDialogRunning.cancelDialog();
+//                                        }
+//                                    }
+//
+//                                }, 6 * 1000);
                             }
 
-                            if(pickupResult.getCurrentActionId()==7){
+                            if(pickupResult.getCurrentActionId()==1){
                                 if(pickupResult.getCurrentActionStatusCode()==2){
                                     customDialogRunning.cancelDialog();
+                                    ((SmMachineStockActivity) context).showToast("取货完成");
                                 }
                             }
                         }
@@ -476,6 +488,7 @@ public class CustomSlotEditDialog extends Dialog {
     @Override
     public void show() {
         super.show();
+
 
         scanMidCtrl.connect();
 

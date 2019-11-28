@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -70,6 +71,7 @@ public class MachineCtrl {
         if (sym != null) {
             sym.disconnect();
         }
+        isConnect=false;
 
         cmd_ScanSlotIsStopListener = true;
         cmd_PickupIsStopListener = true;
@@ -117,6 +119,7 @@ public class MachineCtrl {
 
     public void pickUp(int row,int col) {
 
+
         if (!isConnect) {
            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
@@ -156,7 +159,7 @@ public class MachineCtrl {
             boolean flag2 = false;
             int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
             if (rc_status2[0] == 0) {
-                if (rc_status2[3] == 0) {
+                if (rc_status2[3] == 0||rc_status2[3]==2) {
                     flag2 = true;
                 }
             }
@@ -232,11 +235,22 @@ public class MachineCtrl {
 
                 if (sym != null) {
                     int[] rc_status = sym.SN_MV_Get_ScanStatus();
-                    if (rc_status[0] == 0) {
+                    if (rc_status[0] == 0||rc_status[0] == 2) {
+                        LogUtil.d("扫描结果rc_status0:"+rc_status[0]);
                         int isflag = rc_status[1];//表示扫描是否结束
+
+                        LogUtil.d("扫描结果rc_status1-isflag:"+isflag);
                         if (isflag == 0) {
                             int[] rc_scanresult = sym.SN_MV_Get_ScanData();
-                            if (rc_scanresult[0] == 0) {
+                            LogUtil.i("rc_scanresult:"+rc_scanresult[0]);
+                            if (rc_scanresult[0] == 0||rc_scanresult[0] == 2) {
+
+                                LogUtil.d("扫描结果2-大小："+rc_scanresult.length);
+                                for (int i=0;i<rc_scanresult.length;i++)
+                                {
+                                  LogUtil.d("扫描结果2-"+i+"："+rc_scanresult[i]);
+                                }
+
                                 ScanSlotResult scanSlotResult = new ScanSlotResult();
 
                                 int rows = rc_scanresult[1];
@@ -251,10 +265,13 @@ public class MachineCtrl {
                                     }
 
                                     scanSlotResult.setRowColLayout(rowColLayout);
+
+                                    LogUtil.i("结果，行："+rows+",列："+rowColLayout);
                                 }
 
-                                sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
-                                cmd_ScanSlotIsStopListener = true;
+
+                                //sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
+                                //cmd_ScanSlotIsStopListener = true;
                             }
                         } else {
                             sendScanSlotHandlerMessage(2, "正在扫描", null);
@@ -296,7 +313,7 @@ public class MachineCtrl {
             while (!cmd_PickupIsStopListener) {
 
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -309,11 +326,20 @@ public class MachineCtrl {
                         result.setActionCount(rc_status[1]);//动作总数
                         result.setCurrentActionId(rc_status[2]);//当前动作号
                         result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
+
+                        if(result.getCurrentActionId()==1){
+                            if(result.getCurrentActionStatusCode()==2){
+                               cmd_PickupIsStopListener=true;
+                            }
+                        }
+
                         sendPickupHandlerMessage(2, "", result);
+
                     }
                     else
                     {
-                        sendPickupHandlerMessage(1, "动作状态查询失败", null);
+                        LogUtil.i("动作状态查询失败");
+                        //sendPickupHandlerMessage(1, "动作状态查询失败", null);
                     }
                 }
             }
