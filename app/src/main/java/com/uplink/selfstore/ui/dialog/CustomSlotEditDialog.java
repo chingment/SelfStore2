@@ -90,7 +90,7 @@ public class CustomSlotEditDialog extends Dialog {
                     pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
                 }
                 switch (status) {
-                    case 1://异常消息
+                    case 1://消息提示
                         ((SmMachineStockActivity) context).showToast(message);
                         break;
                     case 2://取货中

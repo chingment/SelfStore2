@@ -71,32 +71,49 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         initData();
 
+        currentPickupSku = getCurrentPickupProductSku();
+        if (currentPickupSku != null) {
+            setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+        } else {
+            curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
+            curpickupsku_tip1.setText("出货完成");
+            curpickupsku_tip2.setText("欢迎再次购买......");
+        }
+
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
 
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        MachineCtrl.PickupResult pickupResult = null;
+                        if (bundle.getSerializable("result") != null) {
+                            pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
+                        }
 
                         switch (msg.what) {
-                            case 0x6: //状态机空闲，检查有无未取货商品
-                                currentPickupSku = getCurrentPickupProductSku();
-                                if (currentPickupSku != null && isPicking.equals(false)) {
-                                    LogUtil.d("检查有到有待取货商品");
-                                    isPicking = true;
-                                    setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-                                } else {
-                                    curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
-                                    curpickupsku_tip1.setText("出货完成");
-                                    curpickupsku_tip2.setText("欢迎再次购买......");
-                                }
+                            case 1: //消息提示
+                                showToast(message);
                                 break;
-                            case 0xa://出货完成
-                                LogUtil.d("出货完成");
-                                if (currentPickupSku != null && isPicking.equals(true)) {
-                                    setPickupSuccess(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                            case 2://取货中
+
+
+                                if (pickupResult != null) {
+                                    LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName()+"," + pickupResult.getCurrentActionStatusName());
+
+                                    curpickupsku_tip2.setText("正在取货中..请稍等");
+
+                                    if(pickupResult.isPickupComplete()) {
+                                        curpickupsku_tip2.setText("取货完成");
+                                        setPickupSuccess(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                                    }
                                 }
+
+
+
                             default:
                                 break;
-
                         }
 
                         return false;
@@ -225,11 +242,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     //设置商品卡槽去货中
     private void setPickuping(String productSkuId,String slotId,String uniqueId) {
-        LogUtil.d("setPickuping:productSkuId:"+productSkuId);
-        LogUtil.d("当前取货" + currentPickupSku.getName() + ",slotId:" + currentPickupSku.getSlotId());
+        LogUtil.d("当前取货:" + currentPickupSku.getName() + ",productSkuId:"+productSkuId+",slotId:" + currentPickupSku.getSlotId()+",uniqueId:"+uniqueId);
         CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
         curpickupsku_tip1.setText(currentPickupSku.getName());
         curpickupsku_tip2.setText("准备出货......");
+
+        SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
+        if (slotNRC == null) {
+            showToast("货道编号解释错误");
+            return;
+        }
 
         pickupEventNotify(productSkuId,slotId,uniqueId,3012,"取货中");
 
@@ -341,8 +363,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                       orderDetails.setProductSkus(productSkus);
                                       OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
                                       list_skus.setAdapter(skuAdapter);
-                                      currentPickupSku = null;
-                                      isPicking = false;
+                                      currentPickupSku = getCurrentPickupProductSku();
+                                      if (currentPickupSku != null) {
+                                          setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                                      } else {
+                                          curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
+                                          curpickupsku_tip1.setText("出货完成");
+                                          curpickupsku_tip2.setText("欢迎再次购买......");
+                                      }
+
                                   }
 
                               break;
