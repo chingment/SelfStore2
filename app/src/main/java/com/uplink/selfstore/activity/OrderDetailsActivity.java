@@ -94,7 +94,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 2://取货就绪成功
                                 if (pickupResult != null) {
-                                    curpickupsku_tip2.setText("正在取货中..请稍等");
+                                    curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 }
                                 break;
                             case 3://取货中
@@ -112,6 +112,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 }
                                 break;
                             case 5://取货失败
+                                showToast(message);
                                 break;
                             default:
                                 break;
