@@ -90,25 +90,29 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         }
                         switch (msg.what) {
                             case 1: //消息提示
-
                                 showToast(message);
                                 break;
-                            case 2://取货中
-
-
+                            case 2://取货就绪成功
                                 if (pickupResult != null) {
-                                    LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName()+"," + pickupResult.getCurrentActionStatusName());
-
                                     curpickupsku_tip2.setText("正在取货中..请稍等");
-
-                                    if(pickupResult.isPickupComplete()) {
+                                }
+                                break;
+                            case 3://取货中
+                                if (pickupResult != null) {
+                                    LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
+                                    curpickupsku_tip2.setText("正在取货中..请稍等");
+                                }
+                                break;
+                            case 4://取货成功
+                                if (pickupResult != null) {
+                                    if (pickupResult.isPickupComplete()) {
                                         curpickupsku_tip2.setText("取货完成");
                                         setPickupSuccess(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
                                     }
                                 }
-
-
-
+                                break;
+                            case 5://取货失败
+                                break;
                             default:
                                 break;
                         }

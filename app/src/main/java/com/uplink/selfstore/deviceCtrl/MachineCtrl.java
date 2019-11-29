@@ -117,6 +117,7 @@ public class MachineCtrl {
         else {
             int rc_status = sym.SN_MV_SelfAutoScan(0);
             if (rc_status == 0) {
+                sendScanSlotHandlerMessage(2, "扫描货道启动就绪", null);
                 this.current_Cmd = this.cmd_ScanSlot;
                 this.cmd_ScanSlotIsStopListener = false;
                 scanListenerThread = new ScanSlotListenerThread();
@@ -134,10 +135,11 @@ public class MachineCtrl {
         } else if (!this.isNormarl()) {
             sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
         } else if (!this.isIdle()) {
-            sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
+            sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         } else {
             int rc_status = sym.SN_MV_AutoStart(0, row, col);
             if (rc_status == 0) {
+                sendScanSlotHandlerMessage(2, "取货就绪", null);
                 this.current_Cmd = this.cmd_Pickup;
                 this.cmd_PickupIsStopListener = false;
                 pickupListenerThread = new PickupListenerThread();
@@ -278,10 +280,10 @@ public class MachineCtrl {
                                 }
                                 disConnect();
                                 cmd_ScanSlotIsStopListener = true;
-                                sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
+                                sendScanSlotHandlerMessage(4, "扫描结束", scanSlotResult);
                             }
                         } else {
-                            sendScanSlotHandlerMessage(2, "正在扫描", null);
+                            sendScanSlotHandlerMessage(3, "正在扫描", null);
                         }
                     }
                 }
@@ -315,11 +317,17 @@ public class MachineCtrl {
 
                         if (rc_status[2] == S_ACTION_GOZERO) {
                             if (rc_status[3] == S_Motor_Done) {
-                                cmd_PickupIsStopListener = true;
                                 result.setPickupComplete(true);//设置取货完成
                             }
                         }
-                        sendPickupHandlerMessage(2, "", result);
+
+                        if(result.isPickupComplete()) {
+                            cmd_PickupIsStopListener = true;
+                            sendPickupHandlerMessage(4, "", result);
+                        }
+                        else {
+                            sendPickupHandlerMessage(3, "", result);
+                        }
                     } else {
                         LogUtil.i("动作状态查询失败");
                         //sendPickupHandlerMessage(1, "动作状态查询失败", null);

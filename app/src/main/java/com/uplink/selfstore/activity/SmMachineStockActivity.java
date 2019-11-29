@@ -88,27 +88,33 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 //异常消息
                                 showToast(message);
                                 break;
-                            case 2:
-                                //扫描中
-                                customDialogRunning.setProgressText(message);
-                                if (!customDialogRunning.isShowing()) {
-                                    customDialogRunning.showDialog();
-
-                                    new Handler().postDelayed(new Runnable() {
-                                        public void run() {
-                                            LogUtil.i("正在执行关闭窗口");
-                                            if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                                customDialogRunning.cancelDialog();
+                            case 2://启动就绪
+                                if(customDialogRunning!=null) {
+                                    customDialogRunning.setProgressText(message);
+                                    if (!customDialogRunning.isShowing()) {
+                                        customDialogRunning.showDialog();
+                                        new Handler().postDelayed(new Runnable() {
+                                            public void run() {
+                                                LogUtil.i("正在执行关闭窗口");
+                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                                    customDialogRunning.cancelDialog();
+                                                }
                                             }
-                                        }
-                                    }, 240 * 1000);
+                                        }, 240 * 1000);
+                                    }
                                 }
                                 break;
-                            case 3:
-                                //扫描结果
+                            case 3://扫描中
+                                if(customDialogRunning!=null) {
+                                    customDialogRunning.setProgressText(message);
+                                }
+                                break;
+                            case 4://扫描成功
                                 if (result != null) {
                                     saveCabinetRowColLayout(cabinetId, result.rowColLayout);
                                 }
+                                break;
+                            case 5://扫描失败
                                 break;
                         }
                         return false;
@@ -299,25 +305,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         return;
                     }
 
-//                   int[] rc_scanresult=machineCtrl.getScanSlotResult();
-//
-//                    ScanSlotResult scanSlotResult = new ScanSlotResult();
-//
-//                    int rows = rc_scanresult[1];
-//                    scanSlotResult.setRows(rows);
-//
-//                    if (rows > 0) {
-//
-//                        int[] rowColLayout = new int[rows];
-//
-//                        for (int i = 0; i < rows; i++) {
-//                            rowColLayout[i] = rc_scanresult[2+i];
-//                        }
-//
-//                        scanSlotResult.setRowColLayout(rowColLayout);
-//
-//                        LogUtil.i("结果，行："+rows+",列："+rowColLayout);
-//                    }
                     machineCtrl.scanSlot();
                     break;
                 default:

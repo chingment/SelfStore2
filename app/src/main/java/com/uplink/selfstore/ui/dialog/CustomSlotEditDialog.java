@@ -69,6 +69,7 @@ public class CustomSlotEditDialog extends Dialog {
     private ScanMidCtrl scanMidCtrl;
     private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
+    private  HashMap<String, String> action_map = new HashMap<>();
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -93,30 +94,47 @@ public class CustomSlotEditDialog extends Dialog {
                     case 1://消息提示
                         ((SmMachineStockActivity) context).showToast(message);
                         break;
-                    case 2://取货中
-                        if (pickupResult != null) {
-                            LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName()+"," + pickupResult.getCurrentActionStatusName());
-
-                            customDialogRunning.setProgressText("正在取货中..请稍等");
-
-                            if (!customDialogRunning.isShowing()) {
-                                customDialogRunning.showDialog();
-
-                                new Handler().postDelayed(new Runnable() {
-                                    public void run() {
-                                        LogUtil.i("正在执行关闭窗口");
-                                        if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                            customDialogRunning.cancelDialog();
-                                        }
+                    case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
+                        if (!customDialogRunning.isShowing()) {
+                            customDialogRunning.showDialog();
+                            customDialogRunning.setProgressText("取货就绪成功");
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    LogUtil.i("正在执行关闭窗口");
+                                    if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                        customDialogRunning.cancelDialog();
                                     }
-                                }, 120 * 1000);
+                                }
+                            }, 120 * 1000);
+                        }
+                        break;
+                    case 3://取货中
+                        if (pickupResult != null) {
+                            String action_key=pickupResult.getCurrentActionId()+"-"+pickupResult.getCurrentActionStatusCode();
+                            String action_value=pickupResult.getCurrentActionName()+"-"+pickupResult.getCurrentActionStatusName();
+                            if(!action_map.containsKey(action_key))
+                            {
+                                LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
+                                action_map.put(action_key,action_value);
                             }
 
-                            if(pickupResult.isPickupComplete()) {
-                                customDialogRunning.cancelDialog();
+                            if(customDialogRunning!=null) {
+                                customDialogRunning.setProgressText("正在取货中..请稍等");
+                            }
+                        }
+                        break;
+                    case 4://取货成功
+                        if (pickupResult != null) {
+                            if (pickupResult.isPickupComplete()) {
+                                if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
+                                    customDialogRunning.cancelDialog();
+                                }
                                 ((SmMachineStockActivity) context).showToast("取货完成");
                             }
                         }
+                        break;
+                    case 5://取货失败
+
                         break;
                 }
                 return false;
@@ -235,7 +253,7 @@ public class CustomSlotEditDialog extends Dialog {
                     context.showToast("货道编号解释错误");
                     return;
                 }
-
+                action_map=new HashMap<>();
                 machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
             }
         });
