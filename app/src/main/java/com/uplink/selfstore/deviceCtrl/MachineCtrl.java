@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.uplink.selfstore.activity.SmMachineStockActivity;
+import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -88,14 +89,18 @@ public class MachineCtrl {
         if (sym == null) {
             return false;
         }
-        return  sym.SY_MV_DIO_Slave_ConnectSts();
+        boolean isflag=sym.SY_MV_DIO_Slave_ConnectSts();
+        LogUtil.i("isNormarl:"+isflag);
+        return  isflag;
     }
 
     public boolean isConnect()
     {
         return  isConnect;
     }
-
+    public int[] getScanSlotResult(){
+        return  sym.SN_MV_Get_ScanData();
+    }
     public void scanSlot() {
         if (!isConnect) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
@@ -156,6 +161,7 @@ public class MachineCtrl {
                     flag2 = true;
                 }
             }
+
 
             if (flag1 && flag2) {
                 return true;
@@ -228,21 +234,24 @@ public class MachineCtrl {
 
                 if (sym != null) {
                     int[] rc_status = sym.SN_MV_Get_ScanStatus();
-                    if (rc_status[0] == 0||rc_status[0] == 2) {
+                    if (rc_status[0] == S_RC_SUCCESS) {
                         LogUtil.d("扫描结果rc_status0:"+rc_status[0]);
                         int isflag = rc_status[1];//表示扫描是否结束
 
                         LogUtil.d("扫描结果rc_status1-isflag:"+isflag);
                         if (isflag == 0) {
                             int[] rc_scanresult = sym.SN_MV_Get_ScanData();
-                            LogUtil.i("rc_scanresult:"+rc_scanresult[0]);
-                            if (rc_scanresult[0] == 0||rc_scanresult[0] == 2) {
 
-                                LogUtil.d("扫描结果2-大小："+rc_scanresult.length);
-                                for (int i=0;i<rc_scanresult.length;i++)
-                                {
-                                  LogUtil.d("扫描结果2-"+i+"："+rc_scanresult[i]);
-                                }
+                            LogUtil.i("rc_scanresult:"+rc_scanresult[0]);
+                            LogUtil.d("扫描结果2-大小："+rc_scanresult.length);
+                            for (int i=0;i<rc_scanresult.length;i++)
+                            {
+                                LogUtil.d("扫描结果2-"+i+"："+rc_scanresult[i]);
+                            }
+
+                            if (rc_scanresult[0] == S_RC_SUCCESS) {
+
+                                LogUtil.i("扫描结果成功");
 
                                 ScanSlotResult scanSlotResult = new ScanSlotResult();
 
@@ -253,8 +262,8 @@ public class MachineCtrl {
 
                                     int[] rowColLayout = new int[rows];
 
-                                    for (int i = 2; i < rows; i++) {
-                                        rowColLayout[i - 2] = rc_scanresult[i];
+                                    for (int i = 0; i < rows; i++) {
+                                        rowColLayout[i] = rc_scanresult[2+i];
                                     }
 
                                     scanSlotResult.setRowColLayout(rowColLayout);
@@ -262,9 +271,8 @@ public class MachineCtrl {
                                     LogUtil.i("结果，行："+rows+",列："+rowColLayout);
                                 }
 
-
-                                //sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
-                                //cmd_ScanSlotIsStopListener = true;
+                                cmd_ScanSlotIsStopListener = true;
+                                sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
                             }
                         } else {
                             sendScanSlotHandlerMessage(2, "正在扫描", null);
@@ -275,27 +283,6 @@ public class MachineCtrl {
         }
     }
 
-    public class ScanSlotResult implements Serializable {
-
-        public int rows;
-        public int[] rowColLayout;
-
-        public int getRows() {
-            return rows;
-        }
-
-        public void setRows(int rows) {
-            this.rows = rows;
-        }
-
-        public int[] getRowColLayout() {
-            return rowColLayout;
-        }
-
-        public void setRowColLayout(int[] rowColLayout) {
-            this.rowColLayout = rowColLayout;
-        }
-    }
 
     private class PickupListenerThread extends Thread {
 

@@ -18,6 +18,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.MachineSlotsResultBean;
@@ -31,6 +32,7 @@ import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import org.json.JSONArray;
@@ -77,23 +79,29 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        MachineCtrl.ScanSlotResult result = null;
+                        ScanSlotResult result = null;
                         if (bundle.getSerializable("result") != null) {
-                            result = (MachineCtrl.ScanSlotResult) bundle.getSerializable("result");
+                            result = (ScanSlotResult) bundle.getSerializable("result");
                         }
                         switch (status) {
                             case 1:
                                 //异常消息
                                 showToast(message);
-                                if (customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancelDialog();
-                                }
                                 break;
                             case 2:
                                 //扫描中
                                 customDialogRunning.setProgressText(message);
                                 if (!customDialogRunning.isShowing()) {
                                     customDialogRunning.showDialog();
+
+                                    new Handler().postDelayed(new Runnable() {
+                                        public void run() {
+                                            LogUtil.i("正在执行关闭窗口");
+                                            if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                                customDialogRunning.cancelDialog();
+                                            }
+                                        }
+                                    }, 240 * 1000);
                                 }
                                 break;
                             case 3:
@@ -165,6 +173,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
 
         this.cabinetRowColLayout = rowColLayout;
+
+        if(slots==null) {
+            slots=new HashMap<String, SlotBean>();
+        }
+
         this.cabinetSlots = slots;
 
         int rowLength = rowColLayout.length;
@@ -286,6 +299,25 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         return;
                     }
 
+//                   int[] rc_scanresult=machineCtrl.getScanSlotResult();
+//
+//                    ScanSlotResult scanSlotResult = new ScanSlotResult();
+//
+//                    int rows = rc_scanresult[1];
+//                    scanSlotResult.setRows(rows);
+//
+//                    if (rows > 0) {
+//
+//                        int[] rowColLayout = new int[rows];
+//
+//                        for (int i = 0; i < rows; i++) {
+//                            rowColLayout[i] = rc_scanresult[2+i];
+//                        }
+//
+//                        scanSlotResult.setRowColLayout(rowColLayout);
+//
+//                        LogUtil.i("结果，行："+rows+",列："+rowColLayout);
+//                    }
                     machineCtrl.scanSlot();
                     break;
                 default:
@@ -355,8 +387,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     drawsCabinetSlots(cabinetRowColLayout,cabinetSlots);
                 }
 
-                if (customDialogRunning.isShowing()) {
-                    customDialogRunning.cancelDialog();
+                if(customDialogRunning!=null) {
+                    if (customDialogRunning.isShowing()) {
+                        customDialogRunning.cancelDialog();
+                    }
                 }
             }
 

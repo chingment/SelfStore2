@@ -33,6 +33,7 @@ import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,15 +72,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         initData();
 
-        currentPickupSku = getCurrentPickupProductSku();
-        if (currentPickupSku != null) {
-            setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-        } else {
-            curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
-            curpickupsku_tip1.setText("出货完成");
-            curpickupsku_tip2.setText("欢迎再次购买......");
-        }
-
+        machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -92,8 +85,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
                         }
 
+                        if(!StringUtil.isEmptyNotNull(message)) {
+                            LogUtil.i("取货消息：" + message);
+                        }
                         switch (msg.what) {
                             case 1: //消息提示
+
                                 showToast(message);
                                 break;
                             case 2://取货中
@@ -121,18 +118,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 })
         );
 
+
         currentPickupSku = getCurrentPickupProductSku();
         if (currentPickupSku != null) {
-            LogUtil.d("currentPickupSku不为空");
-            CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
-            curpickupsku_tip1.setText(currentPickupSku.getName());
-            curpickupsku_tip2.setText("准备出货......");
+            setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
         } else {
-            LogUtil.d("currentPickupSku为空");
             curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
             curpickupsku_tip1.setText("出货完成");
             curpickupsku_tip2.setText("欢迎再次购买......");
         }
+
 
         // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
         // pickupQueryStatus("ba0ebe970a2840adaf0b5e59c9522317");
