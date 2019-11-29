@@ -134,7 +134,10 @@ public class CustomSlotEditDialog extends Dialog {
                         }
                         break;
                     case 5://取货失败
-
+                        if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
+                            customDialogRunning.cancelDialog();
+                        }
+                        ((SmMachineStockActivity) context).showToast(message);
                         break;
                 }
                 return false;

@@ -1,6 +1,7 @@
 package com.uplink.selfstore.deviceCtrl;
 
 import android.VendingMachine.symvdio;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 
 public class MachineCtrl {
 
+    private static final String TAG = "MachineCtrl";
     public static int S_Motor_Idle = 0;
     public static int S_Motor_Busy = 1;
     public static int S_Motor_Done = 2;
@@ -117,7 +119,7 @@ public class MachineCtrl {
         else {
             int rc_status = sym.SN_MV_SelfAutoScan(0);
             if (rc_status == 0) {
-                sendScanSlotHandlerMessage(2, "扫描货道启动就绪", null);
+                sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
                 this.current_Cmd = this.cmd_ScanSlot;
                 this.cmd_ScanSlotIsStopListener = false;
                 scanListenerThread = new ScanSlotListenerThread();
@@ -139,7 +141,7 @@ public class MachineCtrl {
         } else {
             int rc_status = sym.SN_MV_AutoStart(0, row, col);
             if (rc_status == 0) {
-                sendScanSlotHandlerMessage(2, "取货就绪", null);
+                sendPickupHandlerMessage(2, "取货就绪", null);
                 this.current_Cmd = this.cmd_Pickup;
                 this.cmd_PickupIsStopListener = false;
                 pickupListenerThread = new PickupListenerThread();
@@ -233,59 +235,62 @@ public class MachineCtrl {
                     e.printStackTrace();
                 }
 
-//                ScanResult scanResult = new ScanResult();
-//                scanResult.setRows(5);
-//                int[] s=new int[]{8,7,6,5,16};
-//                scanResult.setRowColLayout(s);
-//                scanListener.receive(3, "扫描结束", scanResult);
-//                cmd_ScanSlotIsStopListener = true;
+                try {
+                    if (sym != null) {
+                        int[] rc_status = sym.SN_MV_Get_ScanStatus();
+                        if (rc_status[0] == S_RC_SUCCESS) {
+                            LogUtil.d("扫描结果rc_status0:" + rc_status[0]);
+                            int isflag = rc_status[1];//表示扫描是否结束
 
-                if (sym != null) {
-                    int[] rc_status = sym.SN_MV_Get_ScanStatus();
-                    if (rc_status[0] == S_RC_SUCCESS) {
-                        LogUtil.d("扫描结果rc_status0:"+rc_status[0]);
-                        int isflag = rc_status[1];//表示扫描是否结束
+                            LogUtil.d("扫描结果rc_status1-isflag:" + isflag);
+                            if (isflag == 0) {
+                                int[] rc_scanresult = sym.SN_MV_Get_ScanData();
 
-                        LogUtil.d("扫描结果rc_status1-isflag:"+isflag);
-                        if (isflag == 0) {
-                            int[] rc_scanresult = sym.SN_MV_Get_ScanData();
-
-                            LogUtil.i("rc_scanresult:"+rc_scanresult[0]);
-                            LogUtil.d("扫描结果2-大小："+rc_scanresult.length);
-                            for (int i=0;i<rc_scanresult.length;i++)
-                            {
-                                LogUtil.d("扫描结果2-"+i+"："+rc_scanresult[i]);
-                            }
-
-                            if (rc_scanresult[0] == S_RC_SUCCESS) {
-
-                                LogUtil.i("扫描结果成功");
-
-                                ScanSlotResult scanSlotResult = new ScanSlotResult();
-
-                                int rows = rc_scanresult[1];
-                                scanSlotResult.setRows(rows);
-
-                                if (rows > 0) {
-
-                                    int[] rowColLayout = new int[rows];
-
-                                    for (int i = 0; i < rows; i++) {
-                                        rowColLayout[i] = rc_scanresult[2+i];
-                                    }
-
-                                    scanSlotResult.setRowColLayout(rowColLayout);
-
-                                    LogUtil.i("结果，行："+rows+",列："+rowColLayout);
+                                LogUtil.i("rc_scanresult:" + rc_scanresult[0]);
+                                LogUtil.d("扫描结果2-大小：" + rc_scanresult.length);
+                                for (int i = 0; i < rc_scanresult.length; i++) {
+                                    LogUtil.d("扫描结果2-" + i + "：" + rc_scanresult[i]);
                                 }
-                                disConnect();
-                                cmd_ScanSlotIsStopListener = true;
-                                sendScanSlotHandlerMessage(4, "扫描结束", scanSlotResult);
+
+                                if (rc_scanresult[0] == S_RC_SUCCESS) {
+
+                                    LogUtil.i("扫描结果成功");
+
+                                    ScanSlotResult scanSlotResult = new ScanSlotResult();
+
+                                    int rows = rc_scanresult[1];
+                                    scanSlotResult.setRows(rows);
+
+                                    if (rows > 0) {
+
+                                        int[] rowColLayout = new int[rows];
+
+                                        for (int i = 0; i < rows; i++) {
+                                            rowColLayout[i] = rc_scanresult[2 + i];
+                                        }
+
+                                        scanSlotResult.setRowColLayout(rowColLayout);
+
+                                        LogUtil.i("结果，行：" + rows + ",列：" + rowColLayout);
+                                    }
+                                    disConnect();
+                                    cmd_ScanSlotIsStopListener = true;
+                                    sendScanSlotHandlerMessage(4, "扫描结束", scanSlotResult);
+                                }
+                            } else {
+                                sendScanSlotHandlerMessage(3, "正在扫描", null);
                             }
-                        } else {
-                            sendScanSlotHandlerMessage(3, "正在扫描", null);
                         }
                     }
+                }
+                catch (Exception ex) {
+                    //todo 处理异常操作
+                    ex.printStackTrace();
+                    LogUtil.e(TAG,"扫描流程处理失败");
+                    LogUtil.e(TAG,ex);
+                    disConnect();
+                    cmd_ScanSlotIsStopListener = true;
+                    sendScanSlotHandlerMessage(5, "扫描失败", null);
                 }
             }
         }
@@ -306,32 +311,38 @@ public class MachineCtrl {
 //                    e.printStackTrace();
 //                }
 
+                try {
+                    if (sym != null) {
+                        int[] rc_status = sym.SN_MV_Get_FlowStatus();
+                        if (rc_status[0] == S_RC_SUCCESS) {
+                            PickupResult result = new PickupResult();
+                            result.setActionCount(rc_status[1]);//动作总数
+                            result.setCurrentActionId(rc_status[2]);//当前动作号
+                            result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
 
-                if (sym != null) {
-                    int[] rc_status = sym.SN_MV_Get_FlowStatus();
-                    if (rc_status[0] == S_RC_SUCCESS) {
-                        PickupResult result = new PickupResult();
-                        result.setActionCount(rc_status[1]);//动作总数
-                        result.setCurrentActionId(rc_status[2]);//当前动作号
-                        result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
-
-                        if (rc_status[2] == S_ACTION_GOZERO) {
-                            if (rc_status[3] == S_Motor_Done) {
-                                result.setPickupComplete(true);//设置取货完成
+                            if (rc_status[2] == S_ACTION_GOZERO) {
+                                if (rc_status[3] == S_Motor_Done) {
+                                    result.setPickupComplete(true);//设置取货完成
+                                }
                             }
-                        }
 
-                        if(result.isPickupComplete()) {
-                            cmd_PickupIsStopListener = true;
-                            sendPickupHandlerMessage(4, "", result);
+                            if (result.isPickupComplete()) {
+                                cmd_PickupIsStopListener = true;
+                                sendPickupHandlerMessage(4, "取货成功", result);
+                            } else {
+                                sendPickupHandlerMessage(3, "正在取货中", result);
+                            }
+                        } else {
+                            LogUtil.i("动作状态查询失败");
+                            //sendPickupHandlerMessage(1, "动作状态查询失败", null);
                         }
-                        else {
-                            sendPickupHandlerMessage(3, "", result);
-                        }
-                    } else {
-                        LogUtil.i("动作状态查询失败");
-                        //sendPickupHandlerMessage(1, "动作状态查询失败", null);
                     }
+                }
+                catch (Exception ex) {
+                    LogUtil.e(TAG,"取货发生异常");
+                    LogUtil.e(TAG,ex);
+                    cmd_PickupIsStopListener = true;
+                    sendPickupHandlerMessage(5, "取货异常", null);
                 }
             }
         }

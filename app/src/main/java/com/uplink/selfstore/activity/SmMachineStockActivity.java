@@ -115,6 +115,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 break;
                             case 5://扫描失败
+                                if(customDialogRunning!=null) {
+                                    if(customDialogRunning.isShowing()) {
+                                        customDialogRunning.cancelDialog();
+                                    }
+                                }
+                                showToast(message);
                                 break;
                         }
                         return false;
