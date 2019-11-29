@@ -189,9 +189,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_PickupCompelte.dismiss();
 
-                Intent intent = new Intent(getAppContext(), OrderDetailsActivity.class);
+
+                if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
+                    dialog_PickupCompelte.cancel();
+                }
+
+                Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                 startActivity(intent);
                 finish();
             }
