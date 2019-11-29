@@ -220,7 +220,7 @@ public class MachineCtrl {
             while (!cmd_ScanSlotIsStopListener) {
 
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -292,11 +292,11 @@ public class MachineCtrl {
 
             while (!cmd_PickupIsStopListener) {
 
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(50);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
 
                 if (sym != null) {
