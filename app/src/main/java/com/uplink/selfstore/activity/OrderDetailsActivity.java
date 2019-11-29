@@ -320,8 +320,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         params.put("uniqueId", uniqueId);
         params.put("status", status);
         params.put("remark", remark);
-        LogUtil.d("status:"+status);
-        postByMy(Config.URL.order_PickupEventNotify, params, null,false,"", new HttpResponseHandler() {
+        LogUtil.d("status:" + status);
+        postByMy(Config.URL.order_PickupEventNotify, params, null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -332,49 +332,49 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                      switch (status)
-                      {
-                          case 3012:
-                              SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
-                              if (slotNRC != null) {
-                                  machineCtrl.pickUp(slotNRC.getRow(),slotNRC.getCol());
-                              }
-                              break;
-                          case 4000:
+                    switch (status) {
+                        case 3012:
+                            SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
+                            if (slotNRC != null) {
+                                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
+                            }
+                            break;
+                        case 4000:
 
-                              List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
+                            List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
 
-                                  for (int i = 0; i < productSkus.size(); i++) {
-                                      if (productSkus.get(i).getId().equals(productSkuId)) {
-                                          int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
-                                          int quantityByException = productSkus.get(i).getQuantityByException();
-                                          int quantity = productSkus.get(i).getQuantity();
-                                          if ((quantityBySuccess + quantityByException) < quantity) {
-                                              productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
-                                          }
+                            for (int i = 0; i < productSkus.size(); i++) {
+                                if (productSkus.get(i).getId().equals(productSkuId)) {
+                                    int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
+                                    int quantityByException = productSkus.get(i).getQuantityByException();
+                                    int quantity = productSkus.get(i).getQuantity();
+                                    if ((quantityBySuccess + quantityByException) < quantity) {
+                                        productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
+                                    }
 
-                                          for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
-                                              if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
-                                                  productSkus.get(i).getSlots().get(j).setStatus(4000);
-                                              }
-                                          }
-                                      }
-                                      orderDetails.setProductSkus(productSkus);
-                                      OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
-                                      list_skus.setAdapter(skuAdapter);
-                                      currentPickupSku = getCurrentPickupProductSku();
-                                      if (currentPickupSku != null) {
-                                          setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-                                      } else {
-                                          curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
-                                          curpickupsku_tip1.setText("出货完成");
-                                          curpickupsku_tip2.setText("欢迎再次购买......");
-                                      }
+                                    for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
+                                        if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
+                                            productSkus.get(i).getSlots().get(j).setStatus(4000);
+                                        }
+                                    }
+                                }
+                            }
 
-                                  }
+                            orderDetails.setProductSkus(productSkus);
 
-                              break;
-                      }
+                            OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
+                            list_skus.setAdapter(skuAdapter);
+                            currentPickupSku = getCurrentPickupProductSku();
+                            if (currentPickupSku != null) {
+                                setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                            } else {
+                                curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
+                                curpickupsku_tip1.setText("出货完成");
+                                curpickupsku_tip2.setText("欢迎再次购买......");
+                            }
+
+                            break;
+                    }
                 }
             }
         });
