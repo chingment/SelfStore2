@@ -72,7 +72,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         initData();
 
-        machineCtrl.connect();
+        //machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -191,7 +191,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             public void onClick(View v) {
                 dialog_PickupCompelte.dismiss();
 
-                Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
+                Intent intent = new Intent(getAppContext(), OrderDetailsActivity.class);
                 startActivity(intent);
                 finish();
             }

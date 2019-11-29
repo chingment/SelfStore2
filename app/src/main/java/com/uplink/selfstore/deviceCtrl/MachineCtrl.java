@@ -90,6 +90,11 @@ public class MachineCtrl {
             return false;
         }
         boolean isflag=sym.SY_MV_DIO_Slave_ConnectSts();
+        if(!isflag) {
+            connect();
+        }
+        isflag=sym.SY_MV_DIO_Slave_ConnectSts();
+
         LogUtil.i("isNormarl:"+isflag);
         return  isflag;
     }
@@ -123,6 +128,7 @@ public class MachineCtrl {
     }
 
     public void pickUp(int row,int col) {
+        isConnect=connect();
         if (!isConnect) {
             sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
@@ -270,7 +276,7 @@ public class MachineCtrl {
 
                                     LogUtil.i("结果，行："+rows+",列："+rowColLayout);
                                 }
-
+                                disConnect();
                                 cmd_ScanSlotIsStopListener = true;
                                 sendScanSlotHandlerMessage(3, "扫描结束", scanSlotResult);
                             }
