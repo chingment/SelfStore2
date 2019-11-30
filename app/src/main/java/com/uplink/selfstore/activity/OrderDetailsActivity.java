@@ -88,7 +88,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         if(!StringUtil.isEmptyNotNull(message)) {
                             LogUtil.i("取货消息：" + message);
                         }
-                        switch (msg.what) {
+                        switch (status) {
                             case 1: //消息提示
                                 showToast(message);
                                 break;

@@ -155,33 +155,44 @@ public class MachineCtrl {
     public boolean isIdle() {
         boolean flag = false;
 
+        long nStart = System.currentTimeMillis();
+        long nEnd = System.currentTimeMillis();
+        boolean bTryAgain = false;
+
         if (sym != null) {
-            boolean flag1 = false;
-            int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
-            if (rc_status1[0] == S_RC_SUCCESS) {
-                if (rc_status1[2] == S_Motor_Idle||rc_status1[2] == S_Motor_Done) {
-                    flag1 = true;
+
+            for(;(nEnd - nStart <= (long)1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+                boolean flag1 = false;
+                int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
+                if (rc_status1[0] == S_RC_SUCCESS) {
+                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+                        flag1 = true;
+                    }
                 }
-            }
 
-            boolean flag2 = false;
-            int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
-            if (rc_status2[0] == S_RC_SUCCESS) {
-                if (rc_status2[3] == S_Motor_Idle||rc_status2[3]==S_Motor_Done) {
-                    flag2 = true;
+                boolean flag2 = false;
+                int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
+                if (rc_status2[0] == S_RC_SUCCESS) {
+                    if (rc_status2[3] == S_Motor_Idle || rc_status2[3] == S_Motor_Done) {
+                        flag2 = true;
+                    }
                 }
+
+                flag=flag1 && flag2;
+
+                if(!flag) {
+                    bTryAgain=true;
+                }
+                else {
+                    break;
+                }
+
             }
 
-            int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
-            int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
+          //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
+          //  int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
 
-
-          //  int s=sym.SN_MV_MotorAction(1,0,0);
-            if (flag1 && flag2) {
-                return true;
-            }
-
-            return false;
+            return flag;
         }
         return false;
     }
