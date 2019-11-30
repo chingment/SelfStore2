@@ -172,7 +172,11 @@ public class MachineCtrl {
                 }
             }
 
+            int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
+            int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
 
+
+          //  int s=sym.SN_MV_MotorAction(1,0,0);
             if (flag1 && flag2) {
                 return true;
             }
