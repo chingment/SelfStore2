@@ -19,6 +19,12 @@ public class ClosePageCountTimer extends CountDownTimer {
         super(millisInFuture*1000, 1000);
         this.context=context;
     }
+
+    public ClosePageCountTimer(Context context,long millisInFuture,OnPageCountLinster onPageCountLinster) {
+        super(millisInFuture*1000, 1000);
+        this.context=context;
+        this.onPageCountLinster=onPageCountLinster;
+    }
     // 计时完毕时触发
     @Override
     public void onFinish() {
@@ -30,6 +36,16 @@ public class ClosePageCountTimer extends CountDownTimer {
     @Override
     public void onTick(long millisUntilFinished) {
         long seconds = (millisUntilFinished / 1000);
-       // LogUtil.i("主页倒计时:" + seconds);
+        if(onPageCountLinster!=null) {
+            onPageCountLinster.onTick(seconds);
+        }
+        LogUtil.i("主页倒计时:" + seconds);
     }
+
+
+    public OnPageCountLinster onPageCountLinster = null;
+    public interface OnPageCountLinster {
+        public void onTick(long seconds);
+    }
+
 }

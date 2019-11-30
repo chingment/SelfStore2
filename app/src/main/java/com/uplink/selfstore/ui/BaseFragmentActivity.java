@@ -133,6 +133,13 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
+    public void  useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster)
+    {
+        if(closePageCountTimer==null) {
+            closePageCountTimer = new ClosePageCountTimer(this, 120, onPageCountLinster);
+        }
+    }
+
     public void  closePageCountTimerStart() {
 
 

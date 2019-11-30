@@ -26,6 +26,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -128,9 +129,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (currentPickupSku != null) {
             setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
         } else {
-            curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
-            curpickupsku_tip1.setText("出货完成");
-            curpickupsku_tip2.setText("欢迎再次购买......");
+            setPickupCompleteDrawTips();
         }
 
 
@@ -176,6 +175,18 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
 
         return pickSku;
+    }
+
+    public void  setPickupCompleteDrawTips() {
+        curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
+        curpickupsku_tip1.setText("出货完成");
+        curpickupsku_tip2.setText("欢迎再次购买......");
+        useClosePageCountTimer(new ClosePageCountTimer.OnPageCountLinster(){
+            @Override
+            public void onTick(long seconds) {
+
+            }
+        });
     }
 
     private void initView() {
@@ -373,9 +384,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             if (currentPickupSku != null) {
                                 setPickuping(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
                             } else {
-                                curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
-                                curpickupsku_tip1.setText("出货完成");
-                                curpickupsku_tip2.setText("欢迎再次购买......");
+                                setPickupCompleteDrawTips();
+
                             }
 
                             break;
