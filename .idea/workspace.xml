@@ -98,10 +98,7 @@
     <last-search-timestamp>1570016920406</last-search-timestamp>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" afterDir="false" />
-    </list>
+    <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="" />
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -150,11 +147,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="355" column="204" selection-start-line="355" selection-start-column="204" selection-end-line="355" selection-end-column="204" />
+            <state relative-caret-position="409">
+              <caret line="361" column="50" lean-forward="true" selection-start-line="361" selection-start-column="50" selection-end-line="361" selection-end-column="50" />
               <folding>
                 <element signature="e#6066#6067#0" expanded="true" />
                 <element signature="e#6114#6115#0" expanded="true" />
@@ -177,15 +174,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-291">
-              <caret line="328" column="16" selection-start-line="328" selection-start-column="16" selection-end-line="328" selection-end-column="16" />
+            <state relative-caret-position="-112">
+              <caret line="238" column="28" lean-forward="true" selection-start-line="238" selection-start-column="28" selection-end-line="238" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#initEvent#0;class#OrderDetailsActivity#0" />
-                <element signature="method#initData#0;class#OrderDetailsActivity#0" />
+                <element signature="method#setPickuping#0;class#OrderDetailsActivity#0" />
                 <element signature="method#setPickupSuccess#0;class#OrderDetailsActivity#0" />
                 <element signature="method#setPickupException#0;class#OrderDetailsActivity#0" />
                 <element signature="method#pickupQueryStatus#0;class#OrderDetailsActivity#0" />
@@ -1308,18 +1305,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-291">
-          <caret line="328" column="16" selection-start-line="328" selection-start-column="16" selection-end-line="328" selection-end-column="16" />
+        <state relative-caret-position="409">
+          <caret line="361" column="50" lean-forward="true" selection-start-line="361" selection-start-column="50" selection-end-line="361" selection-end-column="50" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#initEvent#0;class#OrderDetailsActivity#0" />
-            <element signature="method#initData#0;class#OrderDetailsActivity#0" />
-            <element signature="method#setPickupSuccess#0;class#OrderDetailsActivity#0" />
-            <element signature="method#setPickupException#0;class#OrderDetailsActivity#0" />
-            <element signature="method#pickupQueryStatus#0;class#OrderDetailsActivity#0" />
-            <element signature="method#onClick#0;class#OrderDetailsActivity#0" />
+            <element signature="e#6066#6067#0" expanded="true" />
+            <element signature="e#6114#6115#0" expanded="true" />
+            <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
+            <element signature="method#setCurrentActionStatusCode#0;class#PickupResult#0;class#MachineCtrl#0" />
           </folding>
         </state>
       </provider>
@@ -1334,15 +1328,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="355" column="204" selection-start-line="355" selection-start-column="204" selection-end-line="355" selection-end-column="204" />
+        <state relative-caret-position="-112">
+          <caret line="238" column="28" lean-forward="true" selection-start-line="238" selection-start-column="28" selection-end-line="238" selection-end-column="28" />
           <folding>
-            <element signature="e#6066#6067#0" expanded="true" />
-            <element signature="e#6114#6115#0" expanded="true" />
-            <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
-            <element signature="method#setCurrentActionStatusCode#0;class#PickupResult#0;class#MachineCtrl#0" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#initEvent#0;class#OrderDetailsActivity#0" />
+            <element signature="method#setPickuping#0;class#OrderDetailsActivity#0" />
+            <element signature="method#setPickupSuccess#0;class#OrderDetailsActivity#0" />
+            <element signature="method#setPickupException#0;class#OrderDetailsActivity#0" />
+            <element signature="method#pickupQueryStatus#0;class#OrderDetailsActivity#0" />
+            <element signature="method#onClick#0;class#OrderDetailsActivity#0" />
           </folding>
         </state>
       </provider>
