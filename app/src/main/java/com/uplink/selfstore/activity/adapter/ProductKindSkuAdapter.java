@@ -26,6 +26,7 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -131,6 +132,9 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             txt_isOffSellTip.setVisibility(View.GONE);
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             convertView.setAlpha(1f);
+
+            HashMap<String, String> params=new HashMap<String, String>();
+            params.put("skuId",item.getId());
 
             //点击图片
             img_main.setOnClickListener(new View.OnClickListener() {
