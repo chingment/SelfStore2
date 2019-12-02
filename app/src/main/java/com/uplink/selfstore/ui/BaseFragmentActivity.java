@@ -30,6 +30,7 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
@@ -476,6 +477,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", machine.getId() + "");
         params.put("status", status);
+        params.put("lat", LocationUtil.LAT);
+        params.put("lng", LocationUtil.LNG);
 
 
         postByMy(Config.URL.machine_SendRunStatus, params, null, false, "", new HttpResponseHandler() {

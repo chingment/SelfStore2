@@ -133,14 +133,14 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             convertView.setAlpha(1f);
 
-            HashMap<String, String> params=new HashMap<String, String>();
+            final HashMap<String, String> params=new HashMap<String, String>();
             params.put("skuId",item.getId());
 
             //点击图片
             img_main.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TcStatInterface.onEvent("btn_img", null);
+                    TcStatInterface.onEvent("btn_img", params);
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     Bundle b = new Bundle();
                     b.putSerializable("dataBean", item);
@@ -153,7 +153,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             btn_decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TcStatInterface.onEvent("btn_decrease", null);
+                    TcStatInterface.onEvent("btn_decrease", params);
 
                     CartActivity.operate(CartOperateType.DECREASE,item.getId(), new CarOperateHandler() {
                         @Override
@@ -175,7 +175,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             btn_increase.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TcStatInterface.onEvent("btn_increase", null);
+                    TcStatInterface.onEvent("btn_increase", params);
 
                     if(item.isOffSell())
                     {

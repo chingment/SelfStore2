@@ -21,6 +21,8 @@ public class LocationUtil {
     private Location location;
     private Context mContext;
 
+    public  static double LAT=0;
+    public  static double LNG=0;
     private LocationUtil(Context context) {
         mContext = context;
         getLocation();
@@ -75,6 +77,8 @@ public class LocationUtil {
 
     private void setLocation(Location location) {
         this.location = location;
+        LocationUtil.LAT=location.getLatitude();
+        LocationUtil.LNG=location.getLongitude();
         String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
         LogUtil.d(TAG, address );
     }
