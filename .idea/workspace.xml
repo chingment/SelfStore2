@@ -101,7 +101,6 @@
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -151,11 +150,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="358" column="33" lean-forward="true" selection-start-line="358" selection-start-column="33" selection-end-line="358" selection-end-column="33" />
+            <state relative-caret-position="105">
+              <caret line="355" column="204" selection-start-line="355" selection-start-column="204" selection-end-line="355" selection-end-column="204" />
               <folding>
                 <element signature="e#6066#6067#0" expanded="true" />
                 <element signature="e#6114#6115#0" expanded="true" />
@@ -178,7 +177,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-291">
@@ -315,7 +314,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="27" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
@@ -661,10 +660,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="27" y="23" width="1280" height="711" extended-state="1" />
+    <frame x="27" y="23" width="1280" height="711" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.18174475" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.024232633" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
       <window_info id="Captures" order="2" sideWeight="0.13360325" side_tool="true" weight="0.22617124" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
@@ -683,10 +682,10 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.64458805" side_tool="true" weight="0.29194632" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.23657718" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.2885906" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" visible="true" weight="0.2885906" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" visible="true" weight="0.3557047" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" weight="0.3557047" />
       <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" sideWeight="0.49757674" weight="0.32718122" />
       <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.54119545" weight="0.41275167" />
       <window_info anchor="bottom" id="Thumbnails" order="16" weight="0.32885906" />
@@ -1309,15 +1308,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="358" column="33" lean-forward="true" selection-start-line="358" selection-start-column="33" selection-end-line="358" selection-end-column="33" />
+        <state relative-caret-position="-291">
+          <caret line="328" column="16" selection-start-line="328" selection-start-column="16" selection-end-line="328" selection-end-column="16" />
           <folding>
-            <element signature="e#6066#6067#0" expanded="true" />
-            <element signature="e#6114#6115#0" expanded="true" />
-            <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
-            <element signature="method#setCurrentActionStatusCode#0;class#PickupResult#0;class#MachineCtrl#0" />
+            <element signature="imports" expanded="true" />
+            <element signature="method#initEvent#0;class#OrderDetailsActivity#0" />
+            <element signature="method#initData#0;class#OrderDetailsActivity#0" />
+            <element signature="method#setPickupSuccess#0;class#OrderDetailsActivity#0" />
+            <element signature="method#setPickupException#0;class#OrderDetailsActivity#0" />
+            <element signature="method#pickupQueryStatus#0;class#OrderDetailsActivity#0" />
+            <element signature="method#onClick#0;class#OrderDetailsActivity#0" />
           </folding>
         </state>
       </provider>
@@ -1332,18 +1334,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-291">
-          <caret line="328" column="16" selection-start-line="328" selection-start-column="16" selection-end-line="328" selection-end-column="16" />
+        <state relative-caret-position="105">
+          <caret line="355" column="204" selection-start-line="355" selection-start-column="204" selection-end-line="355" selection-end-column="204" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#initEvent#0;class#OrderDetailsActivity#0" />
-            <element signature="method#initData#0;class#OrderDetailsActivity#0" />
-            <element signature="method#setPickupSuccess#0;class#OrderDetailsActivity#0" />
-            <element signature="method#setPickupException#0;class#OrderDetailsActivity#0" />
-            <element signature="method#pickupQueryStatus#0;class#OrderDetailsActivity#0" />
-            <element signature="method#onClick#0;class#OrderDetailsActivity#0" />
+            <element signature="e#6066#6067#0" expanded="true" />
+            <element signature="e#6114#6115#0" expanded="true" />
+            <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
+            <element signature="method#setCurrentActionStatusCode#0;class#PickupResult#0;class#MachineCtrl#0" />
           </folding>
         </state>
       </provider>

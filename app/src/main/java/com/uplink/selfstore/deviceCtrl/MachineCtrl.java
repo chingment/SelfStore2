@@ -353,7 +353,7 @@ public class MachineCtrl {
                                 String action_key=result.getCurrentActionId()+"-"+result.getCurrentActionStatusCode();
                                 String action_value=result.getCurrentActionName()+"-"+result.getCurrentActionStatusName();
                                 if(!action_map.containsKey(action_key)) {
-                                    LogUtil.i(result.getCurrentActionName() + "," + result.getCurrentActionStatusName());
+                                    LogUtil.i("取货动作："+result.getCurrentActionName()+"（"+result.getCurrentActionId()+"）" + "," + result.getCurrentActionStatusName()+"（"+result.getCurrentActionStatusCode()+"）");
                                     action_map.put(action_key,action_value);
                                     sendPickupHandlerMessage(3, "正在取货中", result);
                                 }
