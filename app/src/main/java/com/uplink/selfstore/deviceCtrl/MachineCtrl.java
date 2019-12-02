@@ -12,6 +12,7 @@ import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class MachineCtrl {
 
@@ -36,7 +37,7 @@ public class MachineCtrl {
 
     public static final int MESSAGE_WHAT_SCANSLOTS=1;
     public static final int MESSAGE_WHAT_PICKUP=2;
-
+    private HashMap<String, String> action_map = new HashMap<>();
     public MachineCtrl() {
         try {
             sym = new symvdio();
@@ -141,6 +142,7 @@ public class MachineCtrl {
         } else {
             int rc_status = sym.SN_MV_AutoStart(0, row, col);
             if (rc_status == 0) {
+                action_map=new HashMap<>();
                 sendPickupHandlerMessage(2, "取货就绪", null);
                 this.current_Cmd = this.cmd_Pickup;
                 this.cmd_PickupIsStopListener = false;
@@ -335,6 +337,8 @@ public class MachineCtrl {
                             result.setCurrentActionId(rc_status[2]);//当前动作号
                             result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
 
+
+
                             if (rc_status[2] == S_ACTION_GOZERO) {
                                 if (rc_status[3] == S_Motor_Done) {
                                     result.setPickupComplete(true);//设置取货完成
@@ -345,7 +349,14 @@ public class MachineCtrl {
                                 cmd_PickupIsStopListener = true;
                                 sendPickupHandlerMessage(4, "取货成功", result);
                             } else {
-                                sendPickupHandlerMessage(3, "正在取货中", result);
+
+                                String action_key=result.getCurrentActionId()+"-"+result.getCurrentActionStatusCode();
+                                String action_value=result.getCurrentActionName()+"-"+result.getCurrentActionStatusName();
+                                if(!action_map.containsKey(action_key)) {
+                                    LogUtil.i(result.getCurrentActionName() + "," + result.getCurrentActionStatusName());
+                                    action_map.put(action_key,action_value);
+                                    sendPickupHandlerMessage(3, "正在取货中", result);
+                                }
                             }
                         } else {
                             LogUtil.i("动作状态查询失败");

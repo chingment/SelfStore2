@@ -69,7 +69,6 @@ public class CustomSlotEditDialog extends Dialog {
     private ScanMidCtrl scanMidCtrl;
     private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
-    private  HashMap<String, String> action_map = new HashMap<>();
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -110,14 +109,6 @@ public class CustomSlotEditDialog extends Dialog {
                         break;
                     case 3://取货中
                         if (pickupResult != null) {
-                            String action_key=pickupResult.getCurrentActionId()+"-"+pickupResult.getCurrentActionStatusCode();
-                            String action_value=pickupResult.getCurrentActionName()+"-"+pickupResult.getCurrentActionStatusName();
-                            if(!action_map.containsKey(action_key))
-                            {
-                                LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
-                                action_map.put(action_key,action_value);
-                            }
-
                             if(customDialogRunning!=null) {
                                 customDialogRunning.setProgressText("正在取货中..请稍等");
                             }
@@ -256,7 +247,7 @@ public class CustomSlotEditDialog extends Dialog {
                     context.showToast("货道编号解释错误");
                     return;
                 }
-                action_map=new HashMap<>();
+
                 machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
             }
         });
