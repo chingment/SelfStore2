@@ -62,7 +62,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CustomScanPayDialog dialog_ScanPay;
     private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
     private CountDownTimer taskByCheckPayTimeout;
-    private String lastOrderId;
+    public static String LAST_ORDERID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,8 +107,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 taskByCheckPayTimeout.cancel();
                 dialog_ScanPay_ConfirmClose.dismiss();
                 dialog_ScanPay.dismiss();
-                orderCancle(lastOrderId, "取消订单");
-                lastOrderId = "";
+                orderCancle(LAST_ORDERID, "取消订单");
+                LAST_ORDERID = "";
             }
         });
 
@@ -267,7 +267,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     OrderBuildPayParamsResultBean d = rt.getData();
 
                     taskByCheckPayTimeout.start();
-                    lastOrderId=orderId;
+                    LAST_ORDERID=orderId;
                     dialog_ScanPay.getPayAmountText().setText(d.getChargeAmount());
 
                     switch (payWay) {
@@ -361,13 +361,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public void payStatusQuery() {
 
-        if(StringUtil.isEmptyNotNull(lastOrderId))
+        if(StringUtil.isEmptyNotNull(LAST_ORDERID))
             return;
 
         Map<String, String> params = new HashMap<>();
         MachineBean machine = AppCacheManager.getMachine();
         params.put("machineId", machine.getId());
-        params.put("orderId", lastOrderId);
+        params.put("orderId", LAST_ORDERID);
 
         getByMy(Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
             @Override
@@ -379,18 +379,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    OrderPayStatusQueryResultBean d = rt.getData();
-                    //4 为 已完成支付
-                    if (d.getStatus() == 3000) {
-                        taskByCheckPayTimeout.cancel();
-                        AppCacheManager.setCartSkus(null);
-                        Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
-                        Bundle bundle=new Bundle();
-                        bundle.putSerializable("dataBean", d.getOrderDetails());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
-                    }
+                    doPaySuccess(rt.getData());
                 }
             }
             @Override
@@ -398,6 +387,20 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 showToast(msg);
             }
         });
+    }
+
+    public  void  doPaySuccess(OrderPayStatusQueryResultBean bean) {
+        //4 为 已完成支付
+        if (bean.getStatus() == 3000) {
+            taskByCheckPayTimeout.cancel();
+            AppCacheManager.setCartSkus(null);
+            Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("dataBean", bean.getOrderDetails());
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public static CartStatisticsBean getStatistics() {

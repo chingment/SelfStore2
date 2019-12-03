@@ -5,10 +5,12 @@ import android.content.Intent;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.ProductKindActivity;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
+import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.model.api.UpdateHomeLogoBean;
 import com.uplink.selfstore.model.api.UpdateProductSkuStockBean;
@@ -47,6 +49,10 @@ public class PushUpdateUtil {
             case "update:ProductSkuStock":
                 LogUtil.d("进入update:ProductSkuStock");
                 updateProductSkuStock(content);//更新机器种类
+                break;
+            case "paySuccess":
+                LogUtil.d("进入paySuccess");
+                paySuccess(content);//支付成功
                 break;
         }
     }
@@ -192,6 +198,30 @@ public class PushUpdateUtil {
             LogUtil.e(TAG, ex);
         }
 
+
+    }
+
+    private  static void paySuccess(String content){
+
+        OrderPayStatusQueryResultBean payResult = JSON.parseObject(content, new TypeReference<OrderPayStatusQueryResultBean>() {
+        });
+
+        if(payResult!=null) {
+            List<Activity> acts = AppManager.getAppManager().getActivityStack();
+            if (acts != null) {
+                if (acts.size() > 0) {
+                    for (Activity act : acts) {
+                        if (act instanceof CartActivity) {
+                            if( CartActivity.LAST_ORDERID.equals(payResult.getOrderId())) {
+                                CartActivity act_CartActivity = (CartActivity) act;
+                                act_CartActivity.doPaySuccess(payResult);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }
