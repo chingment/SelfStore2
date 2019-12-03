@@ -143,20 +143,29 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         @Override
         public void onReceive(Context context, final Intent intent) {
             LogUtil.i(TAG, "onReceive");
-            //if ( intent.getAction().equals("android.intent.action.cmdservice") ){
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
 
-                    int cameraId = intent.getIntExtra("cameraId", -1);
-                    String uniqueId = intent.getStringExtra("uniqueId");
-                    if (cameraId >= 0 && uniqueId != null) {
-                        SurfaceView preview = CameraWindow.getDummyCameraView();
-                        autoTakePic(preview, cameraId, uniqueId);
-                    }
-                }
-            }, 1000);//3秒后执行Runnable中的run方法
+
+            int cameraId = intent.getIntExtra("cameraId", -1);
+            String uniqueId = intent.getStringExtra("uniqueId");
+            if (cameraId >= 0 && uniqueId != null) {
+                SurfaceView preview = CameraWindow.getDummyCameraView();
+                autoTakePic(preview, cameraId, uniqueId);
+            }
+
+//            //if ( intent.getAction().equals("android.intent.action.cmdservice") ){
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                    int cameraId = intent.getIntExtra("cameraId", -1);
+//                    String uniqueId = intent.getStringExtra("uniqueId");
+//                    if (cameraId >= 0 && uniqueId != null) {
+//                        SurfaceView preview = CameraWindow.getDummyCameraView();
+//                        autoTakePic(preview, cameraId, uniqueId);
+//                    }
+//                }
+//            }, 1000);//3秒后执行Runnable中的run方法
         }
     }
 }

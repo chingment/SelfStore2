@@ -16,6 +16,7 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.service.UpdateAppService;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 
 /**
@@ -46,9 +47,9 @@ public class AppContext extends Application {
 
         //DbManager.getInstance().init(this);
 
-        //CameraWindow.show(this);
+        CameraWindow.show(this);
 
-        AppCrashHandler.getInstance().init(this);
+        //AppCrashHandler.getInstance().init(this);
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override
             public void Handler() {

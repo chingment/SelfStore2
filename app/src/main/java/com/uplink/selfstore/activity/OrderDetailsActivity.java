@@ -103,6 +103,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
                                     curpickupsku_tip2.setText("正在取货中..请稍等");
                                     pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
+
+                                    //拍照
+                                    if(pickupResult.getCurrentActionId()>7){
+                                        Intent cameraSnapService = new Intent();
+                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
+                                        cameraSnapService.putExtra("cameraId", 0);
+                                        cameraSnapService.putExtra("uniqueId", currentPickupSku.getUniqueId());
+                                        sendBroadcast(cameraSnapService);
+                                    }
                                 }
                                 break;
                             case 4://取货成功

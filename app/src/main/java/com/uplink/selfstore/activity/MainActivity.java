@@ -132,7 +132,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        
+
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
@@ -195,5 +195,35 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         });
     }
+
+
+
+//    public static void removeFileByTime(String dirPath) {
+//        //获取目录下所有文件
+//        List<File> allFile = getDirAllFile(new File(dirPath));
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        //获取当前时间
+//        Date end = new Date(System.currentTimeMillis());
+//        try {
+//            end = dateFormat.parse(dateFormat.format(new Date(System.currentTimeMillis())));
+//        } catch (Exception e){
+//            Log.d(TAG, "dataformat exeption e " + e.toString());
+//        }
+//        Log.d(TAG, "getNeedRemoveFile  dirPath = "  +dirPath);
+//        for (File file : allFile) {//ComDef
+//            try {
+//                //文件时间减去当前时间
+//                Date start = dateFormat.parse(dateFormat.format(new Date(file.lastModified())));
+//                long diff = end.getTime() - start.getTime();//这样得到的差值是微秒级别
+//                long days = diff / (1000 * 60 * 60 * 24);
+//                if(ComDef.LOGMAXKEEPTIME <= days){
+//                    deleteFile(file);
+//                }
+//
+//            } catch (Exception e){
+//                Log.d(TAG, "dataformat exeption e " + e.toString());
+//            }
+//        }
+//    }
 
 }
