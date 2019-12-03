@@ -82,6 +82,9 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public boolean handleMessage(Message msg) {
 
+                String slotId = String.valueOf(txt_SlotName.getText());
+                String productSkuId=String.valueOf(txt_SkuId.getText());
+
                 Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
                 String message = bundle.getString("message");
@@ -111,6 +114,7 @@ public class CustomSlotEditDialog extends Dialog {
                         if (pickupResult != null) {
                             if(customDialogRunning!=null) {
                                 customDialogRunning.setProgressText("正在取货中..请稍等");
+                                pickupEventNotify(productSkuId,slotId,3012,"发起取货",pickupResult);
                             }
                         }
                         break;
@@ -120,7 +124,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                                     customDialogRunning.cancelDialog();
                                 }
-                                ((SmMachineStockActivity) context).showToast("取货完成");
+                                pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
                             }
                         }
                         break;
@@ -247,8 +251,10 @@ public class CustomSlotEditDialog extends Dialog {
                     context.showToast("货道编号解释错误");
                     return;
                 }
+                String productSkuId=String.valueOf(txt_SkuId.getText());
 
-                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
+                pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
+               // machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
             }
         });
 
@@ -489,6 +495,52 @@ public class CustomSlotEditDialog extends Dialog {
         txt_searchKey.setText("");
         SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(context, new ArrayList<SearchProductSkuBean>());
         list_search_skus.setAdapter(slotSkuSearchAdapter);
+    }
+
+
+    public void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,MachineCtrl.PickupResult pickupResult) {
+
+        Map<String, Object> params = new HashMap<>();
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        params.put("machineId", machine.getId());
+        params.put("productSkuId", productSkuId);
+        params.put("slotId", slotId);
+        params.put("status", status);
+        if(pickupResult!=null) {
+            params.put("actionId", pickupResult.getCurrentActionId());
+            params.put("actionName", pickupResult.getCurrentActionName());
+            params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
+            params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
+        }
+        params.put("remark", remark);
+        LogUtil.d("status:" + status);
+        context.postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    switch (status) {
+                        case 3011:
+                            SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
+                            if (slotNRC != null) {
+                                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
+                            }
+                            break;
+                        case 4000:
+                            ((SmMachineStockActivity) context).showToast("取货完成");
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     @Override

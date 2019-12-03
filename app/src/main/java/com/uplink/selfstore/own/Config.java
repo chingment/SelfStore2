@@ -42,6 +42,7 @@ public class Config {
         public static final String stockSetting_GetCabinetSlots= BuildConfig.ENVIRONMENT + "/api/StockSetting/GetCabinetSlots";
         public static final String stockSetting_SaveCabinetSlot= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetSlot";
         public static final String stockSetting_SaveCabinetRowColLayout= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetRowColLayout";
+        public static final String stockSetting_TestPickupEventNotify= BuildConfig.ENVIRONMENT + "/api/StockSetting/TestPickupEventNotify";
         public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
     }
