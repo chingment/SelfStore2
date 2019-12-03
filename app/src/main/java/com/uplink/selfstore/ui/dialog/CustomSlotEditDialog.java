@@ -44,7 +44,7 @@ import java.util.Map;
 public class CustomSlotEditDialog extends Dialog {
 
     private View layoutRes;// 布局文件
-    private SmMachineStockActivity context;
+    private SmMachineStockActivity mContext;
     private View btn_close;
     private TextView txt_searchKey;
     private ImageView img_SkuImg;
@@ -72,7 +72,7 @@ public class CustomSlotEditDialog extends Dialog {
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.context = (SmMachineStockActivity) context;
+        this.mContext = (SmMachineStockActivity) context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
 
@@ -124,6 +124,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                                     customDialogRunning.cancelDialog();
                                 }
+                                mContext.showToast("取货完成");
                                 pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
                             }
                         }
@@ -132,7 +133,7 @@ public class CustomSlotEditDialog extends Dialog {
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }
-                        ((SmMachineStockActivity) context).showToast(message);
+                        mContext.showToast(message);
                         break;
                 }
                 return false;
@@ -191,7 +192,7 @@ public class CustomSlotEditDialog extends Dialog {
         btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
         btn_save = ViewHolder.get(this.layoutRes, R.id.btn_save);
 
-        customDialogRunning = new CustomDialogLoading(this.context);
+        customDialogRunning = new CustomDialogLoading(this.mContext);
 
     }
 
@@ -231,30 +232,30 @@ public class CustomSlotEditDialog extends Dialog {
                 }
 
                 if (!machineCtrl.isConnect()) {
-                    context.showToast("机器连接失败");
+                    mContext.showToast("机器连接失败");
                     return;
                 }
 
                 if (!machineCtrl.isNormarl()) {
-                    context.showToast("机器状态异常");
+                    mContext.showToast("机器状态异常");
                     return;
                 }
 
                 if(!machineCtrl.isIdle()) {
-                    context.showToast("机器不在空闲状态");
+                    mContext.showToast("机器不在空闲状态");
                     return;
                 }
 
                 String slotId = String.valueOf(txt_SlotName.getText());
                 SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
                 if (slotNRC == null) {
-                    context.showToast("货道编号解释错误");
+                    mContext.showToast("货道编号解释错误");
                     return;
                 }
                 String productSkuId=String.valueOf(txt_SkuId.getText());
 
                 pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
-               // machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
+                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
             }
         });
 
@@ -264,7 +265,7 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
-                    ((SmMachineStockActivity) context).showToast("没有可删除的商品");
+                    mContext.showToast("没有可删除的商品");
                     return;
                 }
 
@@ -283,7 +284,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
-                    ((SmMachineStockActivity) context).showToast("请先设置商品");
+                    mContext.showToast("请先设置商品");
                     return;
                 }
                 int sumQty = Integer.valueOf(txt_MaxQty.getText() + "");
@@ -314,18 +315,18 @@ public class CustomSlotEditDialog extends Dialog {
                 params.put("sumQuantity", sumQuantity);
                 params.put("version", version);
 
-                context.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, context.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                mContext.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
                         ApiResultBean<SlotBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SlotBean>>() {
                         });
 
-                        context.showToast(rt.getMessage());
+                        mContext.showToast(rt.getMessage());
 
                         if (rt.getResult() == Result.SUCCESS) {
                             _this.dismiss();
-                            context.setSlot(rt.getData());
+                            mContext.setSlot(rt.getData());
                         }
                     }
 
@@ -343,7 +344,7 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
-                    ((BaseFragmentActivity) context).showToast("请先设置商品");
+                    mContext.showToast("请先设置商品");
                     return;
                 }
 
@@ -367,7 +368,7 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
-                    ((SmMachineStockActivity) context).showToast("请先设置商品");
+                    mContext.showToast("请先设置商品");
                     return;
                 }
 
@@ -430,7 +431,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
             txt_MaxQty.setText(String.valueOf(slot.getMaxLimitSumQuantity()));
-            CommonUtil.loadImageFromUrl(context, img_SkuImg, slot.getProductSkuMainImgUrl());
+            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
     }
 
@@ -448,7 +449,7 @@ public class CustomSlotEditDialog extends Dialog {
         params.put("machineId", machine.getId());
         params.put("key", key);
 
-        context.getByMy(Config.URL.productSku_Search, params, false, "正在寻找", new HttpResponseHandler() {
+        mContext.getByMy(Config.URL.productSku_Search, params, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -461,7 +462,7 @@ public class CustomSlotEditDialog extends Dialog {
                 if (rt.getResult() == Result.SUCCESS) {
                     ProductSkuSearchResultBean d = rt.getData();
 
-                    SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(context, d.getProductSkus());
+                    SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, d.getProductSkus());
                     slotSkuSearchAdapter.setCallBackListener(new SlotSkuSearchAdapter.CallBackListener() {
                         @Override
                         public void setSlot(SearchProductSkuBean skuBean) {
@@ -472,7 +473,7 @@ public class CustomSlotEditDialog extends Dialog {
                             txt_LockQty.setText("0");
                             txt_SumQty.setText("0");
 
-                            CommonUtil.loadImageFromUrl(context, img_SkuImg, skuBean.getMainImgUrl());
+                            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, skuBean.getMainImgUrl());
 
                         }
                     });
@@ -483,7 +484,7 @@ public class CustomSlotEditDialog extends Dialog {
                             SearchProductSkuBean skuBean = d.getProductSkus().get(0);
                             txt_SkuId.setText(skuBean.getId());
                             txt_SkuName.setText(skuBean.getName());
-                            CommonUtil.loadImageFromUrl(context, img_SkuImg, skuBean.getMainImgUrl());
+                            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, skuBean.getMainImgUrl());
                         }
                     }
                 }
@@ -493,7 +494,7 @@ public class CustomSlotEditDialog extends Dialog {
 
     public void clearSearch() {
         txt_searchKey.setText("");
-        SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(context, new ArrayList<SearchProductSkuBean>());
+        SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, new ArrayList<SearchProductSkuBean>());
         list_search_skus.setAdapter(slotSkuSearchAdapter);
     }
 
@@ -508,15 +509,14 @@ public class CustomSlotEditDialog extends Dialog {
         params.put("productSkuId", productSkuId);
         params.put("slotId", slotId);
         params.put("status", status);
+        params.put("remark", remark);
         if(pickupResult!=null) {
             params.put("actionId", pickupResult.getCurrentActionId());
             params.put("actionName", pickupResult.getCurrentActionName());
             params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
             params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
         }
-        params.put("remark", remark);
-        LogUtil.d("status:" + status);
-        context.postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
+        mContext.postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -527,17 +527,6 @@ public class CustomSlotEditDialog extends Dialog {
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    switch (status) {
-                        case 3011:
-                            SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
-                            if (slotNRC != null) {
-                                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
-                            }
-                            break;
-                        case 4000:
-                            ((SmMachineStockActivity) context).showToast("取货完成");
-                            break;
-                    }
                 }
             }
         });
@@ -551,7 +540,7 @@ public class CustomSlotEditDialog extends Dialog {
         scanMidCtrl.connect();
 
         if(!scanMidCtrl.isConnect()){
-            ((SmMachineStockActivity) context).showToast("扫描器连接失败");
+            mContext.showToast("扫描器连接失败");
         }
     }
 }
