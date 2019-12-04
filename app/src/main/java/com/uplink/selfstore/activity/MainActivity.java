@@ -150,7 +150,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-
+        Intent intent3 = new Intent();
+        intent3.setAction("android.intent.action.cameraSnapService");
+        intent3.putExtra("cameraId", 0);
+        intent3.putExtra("uniqueId", "value2");
+        sendBroadcast(intent3);
 //                    Map<String, String> params = new HashMap<>();
 //                    params.put("machineId", "A");
 //                    HttpClient.postFile("http://upload.17fanju.com/api/upload",params,null,null);

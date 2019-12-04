@@ -64,7 +64,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
             if (!mCameraIsRunning) {
                 mCameraIsRunning = true;
                 mUniqueId = uniqueId;
-                mCamera = Camera.open(cameraId);
+                mCamera = Camera.open();
                 if (mCamera == null) {
                     LogUtil.w(TAG, "getFacingFrontCamera return null");
                     releaseCamera();
@@ -89,7 +89,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         LogUtil.d(TAG, "onPictureTaken...");
         try {
             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            String filePath = getSaveSdCardPath()+mUniqueId + ".jpg";
+            String filePath = getSaveSdCardPath()+"/"+mUniqueId + ".jpg";
             File file = new File(filePath);
             FileOutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
