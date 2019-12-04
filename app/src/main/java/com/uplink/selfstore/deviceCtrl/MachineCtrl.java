@@ -101,7 +101,7 @@ public class MachineCtrl {
         }
         isflag=sym.SY_MV_DIO_Slave_ConnectSts();
 
-        LogUtil.i("isNormarl:"+isflag);
+        LogUtil.i(TAG,"isNormarl:"+isflag);
         return  isflag;
     }
 
@@ -325,22 +325,22 @@ public class MachineCtrl {
 
                         int[] rc_status = sym.SN_MV_Get_ScanStatus();
                         if (rc_status[0] == S_RC_SUCCESS) {
-                            LogUtil.d("扫描结果rc_status0:" + rc_status[0]);
+                            LogUtil.i(TAG,"扫描结果rc_status0:" + rc_status[0]);
                             int isflag = rc_status[1];//表示扫描是否结束
 
-                            LogUtil.d("扫描结果rc_status1-isflag:" + isflag);
+                            LogUtil.i(TAG,"扫描结果rc_status1-isflag:" + isflag);
                             if (isflag == 0) {
                                 int[] rc_scanresult = sym.SN_MV_Get_ScanData();
 
-                                LogUtil.i("rc_scanresult:" + rc_scanresult[0]);
-                                LogUtil.d("扫描结果2-大小：" + rc_scanresult.length);
+                                LogUtil.i(TAG,"rc_scanresult:" + rc_scanresult[0]);
+                                LogUtil.i(TAG,"扫描结果2-大小：" + rc_scanresult.length);
                                 for (int i = 0; i < rc_scanresult.length; i++) {
                                     LogUtil.d("扫描结果2-" + i + "：" + rc_scanresult[i]);
                                 }
 
                                 if (rc_scanresult[0] == S_RC_SUCCESS) {
 
-                                    LogUtil.i("扫描结果成功");
+                                    LogUtil.i(TAG,"扫描结果成功");
 
                                     ScanSlotResult scanSlotResult = new ScanSlotResult();
 
@@ -357,7 +357,7 @@ public class MachineCtrl {
 
                                         scanSlotResult.setRowColLayout(rowColLayout);
 
-                                        LogUtil.i("结果，行：" + rows + ",列：" + rowColLayout);
+                                        LogUtil.i(TAG,"结果，行：" + rows + ",列：" + rowColLayout);
                                     }
                                     disConnect();
                                     cmd_ScanSlotIsStopListener = true;
@@ -406,39 +406,36 @@ public class MachineCtrl {
                             result.setCurrentActionId(rc_status[2]);//当前动作号
                             result.setCurrentActionStatusCode(rc_status[3]);//当前动作状态
 
-
-
                             if (rc_status[2] == S_ACTION_GOZERO) {
                                 if (rc_status[3] == S_Motor_Done) {
                                     result.setPickupComplete(true);//设置取货完成
                                     long nPickupEndTime = System.currentTimeMillis();
                                     long sTime=nPickupEndTime-nPickupStartTime;
-                                    LogUtil.i("取货完成：用时"+sTime);
-                                    result.setPickupUseTime(sTime);
+                                    result.setPickupUseTime(sTime);//设置取货消耗时间
                                 }
                             }
 
                             if (result.isPickupComplete()) {
+                                LogUtil.i(TAG,"取货流程监听：当前动作"+result.getCurrentActionName()+"（"+result.getCurrentActionId()+"）" + "," + result.getCurrentActionStatusName()+"（"+result.getCurrentActionStatusCode()+"）");
+                                LogUtil.i(TAG,"取货流程监听：取货完成，用时"+result.getPickupUseTime());
                                 cmd_PickupIsStopListener = true;
                                 sendPickupHandlerMessage(4, "取货成功", result);
                             } else {
-
                                 String action_key=result.getCurrentActionId()+"-"+result.getCurrentActionStatusCode();
                                 String action_value=result.getCurrentActionName()+"-"+result.getCurrentActionStatusName();
                                 if(!action_map.containsKey(action_key)) {
-                                    LogUtil.i("取货动作："+result.getCurrentActionName()+"（"+result.getCurrentActionId()+"）" + "," + result.getCurrentActionStatusName()+"（"+result.getCurrentActionStatusCode()+"）");
+                                    LogUtil.i(TAG,"取货流程监听：当前动作"+result.getCurrentActionName()+"（"+result.getCurrentActionId()+"）" + "," + result.getCurrentActionStatusName()+"（"+result.getCurrentActionStatusCode()+"）");
                                     action_map.put(action_key,action_value);
                                     sendPickupHandlerMessage(3, "正在取货中", result);
                                 }
                             }
                         } else {
-                            LogUtil.i("动作状态查询失败");
-                            //sendPickupHandlerMessage(1, "动作状态查询失败", null);
+                            LogUtil.e(TAG,"取货流程监听：流程状态查询失败");
                         }
                     }
                 }
                 catch (Exception ex) {
-                    LogUtil.e(TAG,"取货发生异常");
+                    LogUtil.e(TAG,"取货流程监听：发生异常");
                     LogUtil.e(TAG,ex);
                     cmd_PickupIsStopListener = true;
                     sendPickupHandlerMessage(5, "取货异常", null);

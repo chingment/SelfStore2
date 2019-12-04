@@ -47,7 +47,6 @@ public class AppContext extends Application {
 
         //DbManager.getInstance().init(this);
 
-        CameraWindow.show(this);
 
         //AppCrashHandler.getInstance().init(this);
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {

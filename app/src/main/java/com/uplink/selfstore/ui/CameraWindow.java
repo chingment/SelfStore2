@@ -1,6 +1,8 @@
 package com.uplink.selfstore.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -42,6 +44,7 @@ public class CameraWindow {
             params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | LayoutParams.FLAG_NOT_FOCUSABLE
                     | LayoutParams.FLAG_NOT_TOUCHABLE;
+
             windowManager.addView(dummyCameraView, params);
             LogUtil.d(TAG, TAG + " showing");
         }

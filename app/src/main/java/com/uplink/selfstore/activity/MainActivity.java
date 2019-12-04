@@ -1,10 +1,12 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Bundle;
 import android.os.Message;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
@@ -73,6 +76,16 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initEvent();
         initData();
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, 1);
+            } else {
+                //TODO 做你需要的事情
+                CameraWindow.show(this);
+            }
+        }
     }
 
     @Override
