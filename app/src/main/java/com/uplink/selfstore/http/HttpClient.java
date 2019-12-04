@@ -9,12 +9,14 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +30,10 @@ import com.uplink.selfstore.utils.ToastUtil;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -208,7 +212,9 @@ public class HttpClient {
                 return;
             }
 
-            handler.sendBeforeSendMessage();
+            if(handler!=null) {
+                handler.sendBeforeSendMessage();
+            }
 
             JSONObject json = new JSONObject();
             try {
@@ -217,11 +223,14 @@ public class HttpClient {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                handler.sendFailureMessage("提交数据转换发生异常",null);
+                if(handler!=null) {
+                    handler.sendFailureMessage("提交数据转换发生异常", null);
+                }
                 return;
             }
 
             Request.Builder requestBuilder = new Request.Builder().url(url);
+
             requestBuilder.addHeader("key", "" + key);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
@@ -252,7 +261,9 @@ public class HttpClient {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                handler.handleFailureMessage("提交数据转换发生异常",e);
+                if(handler!=null) {
+                    handler.handleFailureMessage("提交数据转换发生异常", e);
+                }
                 return;
             }
 
@@ -274,11 +285,15 @@ public class HttpClient {
                     try {
                         String body = response.body().string();
                         LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
-                        handler.sendSuccessMessage(body);
+                        if(handler!=null) {
+                            handler.sendSuccessMessage(body);
+                        }
 
                     } catch (Exception e) {
                         LogUtil.i(TAG, "Request.onFailure====>>>" + response);
-                        handler.sendFailureMessage("读取数据发生异常", e);
+                        if(handler!=null) {
+                            handler.sendFailureMessage("读取数据发生异常", e);
+                        }
                     }
 
                 }
@@ -296,11 +311,94 @@ public class HttpClient {
                         msg = "读取数据服务网络异常或连接不存在";
                     }
 
-                    handler.sendFailureMessage(msg, e);
+                    if(handler!=null) {
+                        handler.sendFailureMessage(msg, e);
+                    }
                 }
             });
         } catch (Exception ex) {
-            handler.sendFailureMessage("数据提交发生异常",ex);
+            if(handler!=null) {
+                handler.sendFailureMessage("数据提交发生异常", ex);
+            }
+        }
+    }
+
+
+    public static void postFile(String url, Map<String, String> fields, List<String> filePaths, final HttpResponseHandler handler) {
+
+        try
+        {
+            if (!isNetworkAvailable()) {
+                handler.sendFailureMessage("网络连接不可用,请检查设置",null);
+                return;
+            }
+
+            if(handler!=null) {
+                handler.sendBeforeSendMessage();
+            }
+
+            MultipartBody.Builder builder=new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+
+            for (Map.Entry<String, String> entry : fields.entrySet()) {
+                builder.addFormDataPart(entry.getKey(), entry.getValue());
+            }
+
+            for (String filePath : filePaths) {
+                File file = new File(filePath);
+                String fileName=file.getName();
+                RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
+                builder.addFormDataPart("file", fileName, fileBody);
+            }
+
+            RequestBody requestBody=builder.build();
+
+                        Request request=new Request.Builder()
+                                .url(url)
+                                .post(requestBody)
+                                .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+
+                    try {
+                        String body = response.body().string();
+                        LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
+                        if(handler!=null) {
+                            handler.sendSuccessMessage(body);
+                        }
+
+                    } catch (Exception e) {
+                        LogUtil.i(TAG, "Request.onFailure====>>>" + response);
+                        if(handler!=null) {
+                            handler.sendFailureMessage("读取数据发生异常", e);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    String msg = "读取数据服务发生异常";
+
+                    if (e instanceof SocketTimeoutException) {
+                        msg = "读取数据服务连接超时";
+                    } else if (e instanceof ConnectException) {
+                        msg = "读取数据服务连接失败";
+
+                    } else if (e instanceof UnknownHostException) {
+                        msg = "读取数据服务网络异常或连接不存在";
+                    }
+
+                    if(handler!=null) {
+                        handler.sendFailureMessage(msg, e);
+                    }
+                }
+            });
+        } catch (Exception ex) {
+            if(handler!=null) {
+                handler.sendFailureMessage("数据提交发生异常", ex);
+            }
         }
     }
 

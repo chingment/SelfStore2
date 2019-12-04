@@ -99,6 +99,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 //        intent3.putExtra("value", "value2");
 //        sendBroadcast(intent3);
 
+        machineCtrl.goGoZero();
+
     }
 
     protected void initView() {

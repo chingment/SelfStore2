@@ -125,6 +125,7 @@ public class CustomSlotEditDialog extends Dialog {
                                     customDialogRunning.cancelDialog();
                                 }
                                 mContext.showToast("取货完成");
+                                LogUtil.i("取货动作：取货完成");
                                 pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
                             }
                         }

@@ -15,6 +15,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
+import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -39,6 +40,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
@@ -141,6 +150,38 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
+
+//                    Map<String, String> params = new HashMap<>();
+//                    params.put("machineId", "A");
+//                    HttpClient.postFile("http://upload.17fanju.com/api/upload",params,null,null);
+//                    try {
+//                        OkHttpClient client=new OkHttpClient();
+//
+//                        /**
+//                         * 上传文件格式
+//                         */
+////            File file=new File("");
+////            RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);//将file转换成RequestBody文件
+////            RequestBody requestBody=new MultipartBody.Builder()
+////                    .addFormDataPart("name","filename",fileBody)
+////                    .addFormDataPart("name","value")
+////                    .build();
+//
+//                        RequestBody requestBody=new FormBody.Builder()
+//                                .add("a1","value")
+//                                .add("a2","value")
+//                                .build();
+//                        Request request=new Request.Builder()
+//                                .url("http://upload.17fanju.com/api/upload")
+//                                .post(requestBody)
+//                                .build();
+//                        Response response=client.newCall(request).execute();
+//                        String responseBody=response.body().string();
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;

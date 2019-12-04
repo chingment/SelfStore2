@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -24,7 +25,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CameraSnapService extends Service implements Camera.PictureCallback {
     private static final String TAG = "CameraSnapService";
@@ -84,13 +89,20 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         LogUtil.d(TAG, "onPictureTaken...");
         try {
             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            String path = getSaveSdCardPath();
-            File file = new File(path, mUniqueId + ".jpg");
+            String filePath = getSaveSdCardPath()+mUniqueId + ".jpg";
+            File file = new File(filePath);
             FileOutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
             outputStream.close();
             camera.stopPreview();
             camera.startPreview();
+
+            List<String> filePaths=new ArrayList<>();
+            filePaths.add(filePath);
+            Map<String, String> params = new HashMap<>();
+            params.put("uniqueId",mUniqueId);
+            HttpClient.postFile("http://upload.17fanju.com/api/upload",params,filePaths,null);
+
             Log.e(TAG, "拍照结束");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
