@@ -38,6 +38,9 @@ public class MachineCtrl {
     public static final int MESSAGE_WHAT_SCANSLOTS=1;
     public static final int MESSAGE_WHAT_PICKUP=2;
     private HashMap<String, String> action_map = new HashMap<>();
+
+    public long nPickupStartTime=0;
+
     public MachineCtrl() {
         try {
             sym = new symvdio();
@@ -176,16 +179,44 @@ public class MachineCtrl {
         } else if (!this.isIdle()) {
             sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         } else {
-            int rc_status = sym.SN_MV_AutoStart(0, row, col);
-            if (rc_status == 0) {
-                action_map=new HashMap<>();
-                sendPickupHandlerMessage(2, "取货就绪", null);
-                this.current_Cmd = this.cmd_Pickup;
-                this.cmd_PickupIsStopListener = false;
-                pickupListenerThread = new PickupListenerThread();
-                pickupListenerThread.start();
-            } else {
-                sendPickupHandlerMessage(1, "取货启动失败", null);
+
+
+
+            sym.SN_MV_MotorAction(1,0,0);
+
+            long nStart = System.currentTimeMillis();
+            long nEnd = System.currentTimeMillis();
+            boolean bTryAgain = false;
+            boolean bCanAutoStart=false;
+            for(;(nEnd - nStart <= (long)60*1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+                int[] result = sym.SN_MV_Get_MotionStatus();
+                boolean isInZero = false;
+                if (result[0] == S_RC_SUCCESS) {
+                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
+                        isInZero = true;
+                    }
+                }
+
+                if (isInZero) {
+                    bCanAutoStart=true;
+                    break;
+                } else {
+                    bTryAgain = true;
+                }
+            }
+
+            if(bCanAutoStart) {
+                int rc_status = sym.SN_MV_AutoStart(0, row, col);
+                if (rc_status == 0) {
+                    action_map = new HashMap<>();
+                    sendPickupHandlerMessage(2, "取货就绪", null);
+                    this.current_Cmd = this.cmd_Pickup;
+                    this.cmd_PickupIsStopListener = false;
+                    pickupListenerThread = new PickupListenerThread();
+                    pickupListenerThread.start();
+                } else {
+                    sendPickupHandlerMessage(1, "取货启动失败", null);
+                }
             }
         }
     }
@@ -357,7 +388,7 @@ public class MachineCtrl {
         @Override
         public void run() {
             super.run();
-
+            long  nPickupStartTime=System.currentTimeMillis();
             while (!cmd_PickupIsStopListener) {
 
 //                try {
@@ -380,6 +411,10 @@ public class MachineCtrl {
                             if (rc_status[2] == S_ACTION_GOZERO) {
                                 if (rc_status[3] == S_Motor_Done) {
                                     result.setPickupComplete(true);//设置取货完成
+                                    long nPickupEndTime = System.currentTimeMillis();
+                                    long sTime=nPickupEndTime-nPickupStartTime;
+                                    LogUtil.i("取货完成：用时"+sTime);
+                                    result.setPickupUseTime(sTime);
                                 }
                             }
 
@@ -420,6 +455,7 @@ public class MachineCtrl {
         private String currentActionStatusName;
         private String currentActionStatusName2;
         private boolean isPickupComplete;
+        private long pickupUseTime;
 
         public int getActionCount() {
             return actionCount;
@@ -517,6 +553,14 @@ public class MachineCtrl {
 
         public void setPickupComplete(boolean pickupComplete) {
             isPickupComplete = pickupComplete;
+        }
+
+        public long getPickupUseTime() {
+            return pickupUseTime;
+        }
+
+        public void setPickupUseTime(long pickupUseTime) {
+            this.pickupUseTime = pickupUseTime;
         }
     }
 

@@ -125,7 +125,7 @@ public class CustomSlotEditDialog extends Dialog {
                                     customDialogRunning.cancelDialog();
                                 }
                                 mContext.showToast("取货完成");
-                                LogUtil.i("取货动作：取货完成");
+                                LogUtil.i("取货动作：取货完成，用时："+pickupResult.getPickupUseTime());
                                 pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
                             }
                         }
@@ -516,6 +516,7 @@ public class CustomSlotEditDialog extends Dialog {
             params.put("actionName", pickupResult.getCurrentActionName());
             params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
             params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
+            params.put("pickupUseTime", pickupResult.getPickupUseTime());
         }
         mContext.postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
             @Override
