@@ -86,6 +86,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 CameraWindow.show(this);
             }
         }
+        else {
+            CameraWindow.show(this);
+        }
     }
 
     @Override

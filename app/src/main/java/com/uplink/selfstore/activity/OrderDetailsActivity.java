@@ -100,7 +100,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 3://取货中
                                 if (pickupResult != null) {
-                                    LogUtil.i(pickupResult.getCurrentActionName() + "," + pickupResult.getCurrentActionStatusName());
                                     curpickupsku_tip2.setText("正在取货中..请稍等");
                                     pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
 
@@ -119,7 +118,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     if (pickupResult.isPickupComplete()) {
                                         curpickupsku_tip2.setText("取货完成");
                                         pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),4000,"取货完成",pickupResult);
-                                        //setPickupSuccess(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(),pickupResult);
                                     }
                                 }
                                 break;
@@ -142,13 +140,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         } else {
             setPickupCompleteDrawTips();
         }
-
-
-        // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
-        // pickupQueryStatus("ba0ebe970a2840adaf0b5e59c9522317");
-        // pickupEventNotify("ba0ebe970a2840adaf0b5e59c9522317",3011,"已发送取货命令");
-        //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
-        //setProductSkuPickupSuccess("a9565c8c71aa42b49bc263c143b9574c","n1r8c5");
     }
 
 
@@ -283,12 +274,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         pickupEventNotify(productSkuId,slotId,uniqueId,3011,"发起取货",null);
 
     }
-
-    //设置商品卡槽取货成功
-//    private void setPickupSuccess(String productSkuId,String slotId,String uniqueId,MachineCtrl.PickupResult pickupResult) {
-//        LogUtil.d("setPickupSuccess:productSkuId:"+productSkuId);
-//        pickupEventNotify(productSkuId,slotId,uniqueId,4000,"取货完成",pickupResult);
-//    }
 
     //设置商品卡槽取货失败
 //    private void setPickupException(String productSkuId,String slotId,String uniqueId) {
