@@ -23,6 +23,7 @@ import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
+import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -89,9 +90,9 @@ public class CustomSlotEditDialog extends Dialog {
                 Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
                 String message = bundle.getString("message");
-                MachineCtrl.PickupResult pickupResult = null;
+                PickupResult pickupResult = null;
                 if (bundle.getSerializable("result") != null) {
-                    pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
+                    pickupResult = (PickupResult) bundle.getSerializable("result");
                 }
                 switch (status) {
                     case 1://消息提示
@@ -511,7 +512,7 @@ public class CustomSlotEditDialog extends Dialog {
     }
 
 
-    public void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,MachineCtrl.PickupResult pickupResult) {
+    public void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,PickupResult pickupResult) {
 
         Map<String, Object> params = new HashMap<>();
 

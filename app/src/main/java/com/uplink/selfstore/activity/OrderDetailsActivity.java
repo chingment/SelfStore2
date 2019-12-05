@@ -15,6 +15,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -81,9 +82,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        MachineCtrl.PickupResult pickupResult = null;
+                        PickupResult pickupResult = null;
                         if (bundle.getSerializable("result") != null) {
-                            pickupResult = (MachineCtrl.PickupResult) bundle.getSerializable("result");
+                            pickupResult = (PickupResult) bundle.getSerializable("result");
                         }
 
                         if(!StringUtil.isEmptyNotNull(message)) {
@@ -323,7 +324,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //        });
 //    }
 
-    public void pickupEventNotify(final String productSkuId,final String slotId,final String uniqueId,final int status, String remark,MachineCtrl.PickupResult pickupResult) {
+    public void pickupEventNotify(final String productSkuId, final String slotId, final String uniqueId, final int status, String remark, PickupResult pickupResult) {
 
         Map<String, Object> params = new HashMap<>();
 
