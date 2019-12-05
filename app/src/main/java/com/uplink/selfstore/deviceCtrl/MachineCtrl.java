@@ -18,13 +18,13 @@ import java.util.HashMap;
 public class MachineCtrl {
 
     private static final String TAG = "MachineCtrl";
-    public static int S_Motor_Idle = 0;
-    public static int S_Motor_Busy = 1;
-    public static int S_Motor_Done = 2;
-    public static int S_RC_SUCCESS = 0;
-    public static int S_RC_INVALID_PARAM = 1;
-    public static int S_RC_ERROR = 2;
-    public static int S_ACTION_GOZERO=1;
+    public static final int S_Motor_Idle = 0;
+    public static final int S_Motor_Busy = 1;
+    public static final int S_Motor_Done = 2;
+    public static final int S_RC_SUCCESS = 0;
+    public static final int S_RC_INVALID_PARAM = 1;
+    public static final int S_RC_ERROR = 2;
+    public static final int S_ACTION_GOZERO=1;
     private boolean isConnect = false;
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
