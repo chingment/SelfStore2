@@ -450,7 +450,6 @@ public class MachineCtrl {
         private String currentActionName;
         private int currentActionStatusCode;
         private String currentActionStatusName;
-        private String currentActionStatusName2;
         private boolean isPickupComplete;
         private long pickupUseTime;
 
@@ -519,29 +518,21 @@ public class MachineCtrl {
             {
                 case 0:
                     this.currentActionStatusName="空闲状态，没有执行动作";
-                    this.currentActionStatusName2="空闲状态";
                     break;
                 case 1:
                     this.currentActionStatusName="动作执行中";
-                    this.currentActionStatusName2="设备运行中";
                     break;
                 case 2:
                     this.currentActionStatusName="动作执行完成";
-                    this.currentActionStatusName2="执行完成";
                     break;
                  default:
                      this.currentActionStatusName="未知状态";
-                     this.currentActionStatusName2="未知状态";
                      break;
             }
         }
 
         public String getCurrentActionStatusName() {
             return currentActionStatusName;
-        }
-
-        public String getCurrentActionStatusName2() {
-            return currentActionStatusName2;
         }
 
         public boolean isPickupComplete() {

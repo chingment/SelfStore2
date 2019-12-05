@@ -338,6 +338,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
             params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
             params.put("pickupUseTime", pickupResult.getPickupUseTime());
+            params.put("isPickupComplete", pickupResult.isPickupComplete());
         }
         params.put("remark", remark);
         LogUtil.d("status:" + status);

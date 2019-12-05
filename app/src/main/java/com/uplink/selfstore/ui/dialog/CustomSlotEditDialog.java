@@ -527,6 +527,7 @@ public class CustomSlotEditDialog extends Dialog {
             params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
             params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
             params.put("pickupUseTime", pickupResult.getPickupUseTime());
+            params.put("isPickupComplete", pickupResult.isPickupComplete());
         }
         mContext.postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
             @Override
