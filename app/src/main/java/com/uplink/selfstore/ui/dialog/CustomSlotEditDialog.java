@@ -117,15 +117,6 @@ public class CustomSlotEditDialog extends Dialog {
                                 customDialogRunning.setProgressText("正在取货中..请稍等");
                                 pickupEventNotify(productSkuId,slotId,3012,"发起取货",pickupResult);
                             }
-
-                            if(pickupResult.getCurrentActionId()>=7)
-                            {
-                                Intent intent3 = new Intent();
-                                intent3.setAction("android.intent.action.cameraSnapService");
-                                intent3.putExtra("cameraId", 0);
-                                intent3.putExtra("uniqueId", productSkuId+"-"+pickupResult.getPickupUseTime());
-                                context.sendBroadcast(intent3);
-                            }
                         }
                         break;
                     case 4://取货成功

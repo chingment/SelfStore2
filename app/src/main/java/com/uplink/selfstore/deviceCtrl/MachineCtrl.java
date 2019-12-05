@@ -119,16 +119,21 @@ public class MachineCtrl {
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
         } else if (!this.isIdle()) {
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
-        }
-        else {
+        } else {
 
-            sym.SN_MV_MotorAction(1,0,0);
+            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+            if (rt_goZero != S_RC_SUCCESS) {
+                sendScanSlotHandlerMessage(1, "启动回原点失败", null);
+                return;
+            }
+
+            sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
 
             long nStart = System.currentTimeMillis();
             long nEnd = System.currentTimeMillis();
             boolean bTryAgain = false;
-            boolean bCanSelfAutoScan=false;
-            for(;(nEnd - nStart <= (long)60*1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+            boolean bCanSelfAutoScan = false;
+            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
                 int[] result = sym.SN_MV_Get_MotionStatus();
                 boolean isInZero = false;
                 if (result[0] == S_RC_SUCCESS) {
@@ -138,25 +143,28 @@ public class MachineCtrl {
                 }
 
                 if (isInZero) {
-                    bCanSelfAutoScan=true;
+                    bCanSelfAutoScan = true;
                     break;
                 } else {
                     bTryAgain = true;
                 }
             }
 
-            if(bCanSelfAutoScan) {
-                int rc_status = sym.SN_MV_SelfAutoScan(0);
-                if (rc_status == 0) {
-                    sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
-                    this.current_Cmd = this.cmd_ScanSlot;
-                    this.cmd_ScanSlotIsStopListener = false;
-                    scanListenerThread = new ScanSlotListenerThread();
-                    scanListenerThread.start();
-                } else {
-                    sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
-                }
+            if (!bCanSelfAutoScan) {
+                sendScanSlotHandlerMessage(5, "回原点失败", null);
+                return;
             }
+
+            int rc_status = sym.SN_MV_SelfAutoScan(0);
+            if (rc_status == S_RC_SUCCESS) {
+                this.current_Cmd = this.cmd_ScanSlot;
+                this.cmd_ScanSlotIsStopListener = false;
+                scanListenerThread = new ScanSlotListenerThread();
+                scanListenerThread.start();
+            } else {
+                sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
+            }
+
         }
     }
 
