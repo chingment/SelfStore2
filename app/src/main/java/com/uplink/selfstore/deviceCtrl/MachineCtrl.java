@@ -330,10 +330,10 @@ public class MachineCtrl {
         @Override
         public void run() {
             super.run();
-
+            long  nScanSlotStartTime=System.currentTimeMillis();
             while (!cmd_ScanSlotIsStopListener) {
 
-                long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
+                long maxPickTime = System.currentTimeMillis() - nScanSlotStartTime;
                 if (maxPickTime < 3 * 60 * 1000) {
                     try {
                         Thread.sleep(50);

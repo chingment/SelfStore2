@@ -100,7 +100,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -153,8 +152,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="398" column="47" selection-start-line="398" selection-start-column="47" selection-end-line="398" selection-end-column="47" />
+            <state relative-caret-position="273">
+              <caret line="340" column="44" lean-forward="true" selection-start-line="340" selection-start-column="44" selection-end-line="340" selection-end-column="44" />
               <folding>
                 <element signature="method#setScanSlotHandler#0;class#MachineCtrl#0" />
                 <element signature="e#8754#8755#0" expanded="true" />
@@ -643,7 +642,7 @@
     <frame x="0" y="23" width="1280" height="711" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.2003231" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.2003231" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
       <window_info id="Captures" order="2" sideWeight="0.13360325" side_tool="true" weight="0.22617124" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
@@ -662,7 +661,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.64458805" side_tool="true" weight="0.29194632" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.23657718" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" visible="true" weight="0.1375839" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" visible="true" weight="0.1375839" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
       <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" weight="0.24328859" />
@@ -1311,8 +1310,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="398" column="47" selection-start-line="398" selection-start-column="47" selection-end-line="398" selection-end-column="47" />
+        <state relative-caret-position="273">
+          <caret line="340" column="44" lean-forward="true" selection-start-line="340" selection-start-column="44" selection-end-line="340" selection-end-column="44" />
           <folding>
             <element signature="method#setScanSlotHandler#0;class#MachineCtrl#0" />
             <element signature="e#8754#8755#0" expanded="true" />
