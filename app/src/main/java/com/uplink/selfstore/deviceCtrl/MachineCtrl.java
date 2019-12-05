@@ -25,11 +25,7 @@ public class MachineCtrl {
     public static int S_RC_INVALID_PARAM = 1;
     public static int S_RC_ERROR = 2;
     public static int S_ACTION_GOZERO=1;
-
     private boolean isConnect = false;
-    private int current_Cmd = 0;//当前命令 0：代表空闲
-    private int cmd_ScanSlot = 1;//扫描货道命令
-    private int cmd_Pickup = 2;//取货命令
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
     private PickupListenerThread pickupListenerThread;
@@ -39,8 +35,6 @@ public class MachineCtrl {
     public static final int MESSAGE_WHAT_SCANSLOTS=1;
     public static final int MESSAGE_WHAT_PICKUP=2;
     private HashMap<String, String> action_map = new HashMap<>();
-
-    public long nPickupStartTime=0;
 
     public MachineCtrl() {
         try {
@@ -164,7 +158,6 @@ public class MachineCtrl {
                 return;
             }
 
-            this.current_Cmd = this.cmd_ScanSlot;
             this.cmd_ScanSlotIsStopListener = false;
             scanListenerThread = new ScanSlotListenerThread();
             scanListenerThread.start();
@@ -234,7 +227,6 @@ public class MachineCtrl {
             }
 
             action_map = new HashMap<>();
-            this.current_Cmd = this.cmd_Pickup;
             this.cmd_PickupIsStopListener = false;
             pickupListenerThread = new PickupListenerThread();
             pickupListenerThread.start();
