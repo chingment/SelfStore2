@@ -95,7 +95,10 @@ public class CustomSlotEditDialog extends Dialog {
                 }
                 switch (status) {
                     case 1://消息提示
-                        ((SmMachineStockActivity) context).showToast(message);
+                        if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
+                            customDialogRunning.cancelDialog();
+                        }
+                        mContext.showToast(message);
                         break;
                     case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
                         if (!customDialogRunning.isShowing()) {

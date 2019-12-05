@@ -87,6 +87,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 1:
                                 //异常消息
                                 showToast(message);
+                                if(customDialogRunning!=null) {
+                                    if(customDialogRunning.isShowing()) {
+                                        customDialogRunning.cancelDialog();
+                                    }
+                                }
                                 break;
                             case 2://启动就绪
                                 if(customDialogRunning!=null) {

@@ -151,19 +151,22 @@ public class MachineCtrl {
             }
 
             if (!bCanSelfAutoScan) {
-                sendScanSlotHandlerMessage(5, "回原点失败", null);
+                sendScanSlotHandlerMessage(1, "回原点失败", null);
                 return;
             }
 
-            int rc_status = sym.SN_MV_SelfAutoScan(0);
-            if (rc_status == S_RC_SUCCESS) {
-                this.current_Cmd = this.cmd_ScanSlot;
-                this.cmd_ScanSlotIsStopListener = false;
-                scanListenerThread = new ScanSlotListenerThread();
-                scanListenerThread.start();
-            } else {
+            int rc_selfAutoScan = sym.SN_MV_SelfAutoScan(0);
+
+
+            if (rc_selfAutoScan != S_RC_SUCCESS) {
                 sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
+                return;
             }
+
+            this.current_Cmd = this.cmd_ScanSlot;
+            this.cmd_ScanSlotIsStopListener = false;
+            scanListenerThread = new ScanSlotListenerThread();
+            scanListenerThread.start();
 
         }
     }
@@ -179,7 +182,7 @@ public class MachineCtrl {
     }
 
     public void pickUp(int row,int col) {
-        isConnect=connect();
+        isConnect = connect();
         if (!isConnect) {
             sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
@@ -188,15 +191,19 @@ public class MachineCtrl {
             sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         } else {
 
+            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+            if (rt_goZero != S_RC_SUCCESS) {
+                sendScanSlotHandlerMessage(1, "启动回原点失败", null);
+                return;
+            }
 
-
-            sym.SN_MV_MotorAction(1,0,0);
+            sendPickupHandlerMessage(2, "取货就绪", null);
 
             long nStart = System.currentTimeMillis();
             long nEnd = System.currentTimeMillis();
             boolean bTryAgain = false;
-            boolean bCanAutoStart=false;
-            for(;(nEnd - nStart <= (long)60*1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+            boolean bCanAutoStart = false;
+            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
                 int[] result = sym.SN_MV_Get_MotionStatus();
                 boolean isInZero = false;
                 if (result[0] == S_RC_SUCCESS) {
@@ -206,26 +213,31 @@ public class MachineCtrl {
                 }
 
                 if (isInZero) {
-                    bCanAutoStart=true;
+                    bCanAutoStart = true;
                     break;
                 } else {
                     bTryAgain = true;
                 }
             }
 
-            if(bCanAutoStart) {
-                int rc_status = sym.SN_MV_AutoStart(0, row, col);
-                if (rc_status == 0) {
-                    action_map = new HashMap<>();
-                    sendPickupHandlerMessage(2, "取货就绪", null);
-                    this.current_Cmd = this.cmd_Pickup;
-                    this.cmd_PickupIsStopListener = false;
-                    pickupListenerThread = new PickupListenerThread();
-                    pickupListenerThread.start();
-                } else {
-                    sendPickupHandlerMessage(1, "取货启动失败", null);
-                }
+            if (!bCanAutoStart) {
+                sendPickupHandlerMessage(1, "取货回原点失败", null);
+                return;
             }
+
+
+            int rc_autoStart = sym.SN_MV_AutoStart(0, row, col);
+            if (rc_autoStart != S_RC_SUCCESS) {
+                sendPickupHandlerMessage(1, "取货启动失败", null);
+                return;
+            }
+
+            action_map = new HashMap<>();
+            this.current_Cmd = this.cmd_Pickup;
+            this.cmd_PickupIsStopListener = false;
+            pickupListenerThread = new PickupListenerThread();
+            pickupListenerThread.start();
+
         }
     }
 
