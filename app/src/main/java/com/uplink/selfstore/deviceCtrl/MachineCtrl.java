@@ -193,7 +193,7 @@ public class MachineCtrl {
 
             int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
             if (rt_goZero != S_RC_SUCCESS) {
-                sendScanSlotHandlerMessage(1, "启动回原点失败", null);
+                sendPickupHandlerMessage(1, "启动回原点失败", null);
                 return;
             }
 
