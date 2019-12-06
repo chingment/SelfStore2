@@ -125,6 +125,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 5://取货失败
                                 showToast(message);
                                 break;
+                            case 6://取货超时
+                                showToast(message);
+                                break;
                             default:
                                 break;
                         }
