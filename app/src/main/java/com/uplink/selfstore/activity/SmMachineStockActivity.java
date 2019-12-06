@@ -119,7 +119,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                     saveCabinetRowColLayout(cabinetId, result.rowColLayout);
                                 }
                                 break;
-                            case 5://扫描失败
+                            case 5://扫描超时
                                 if(customDialogRunning!=null) {
                                     if(customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
@@ -127,6 +127,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 showToast(message);
                                 break;
+                            case 6://扫描失败
+                                if(customDialogRunning!=null) {
+                                    if(customDialogRunning.isShowing()) {
+                                        customDialogRunning.cancelDialog();
+                                    }
+                                }
+                                showToast(message);
+                                break;
+
                         }
                         return false;
                     }
@@ -161,11 +170,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 //                .onStart();
     }
 
-
     protected void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
     }
-
 
     protected void initData() {
         getCabinetSlots();
@@ -322,6 +329,33 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     break;
             }
         }
+    }
+
+
+    public void scanSlotsEventNotify(int status, String remark,ScanSlotResult scanSlotResult) {
+
+        Map<String, Object> params = new HashMap<>();
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        params.put("machineId", machine.getId());
+        params.put("cabinetId", cabinetId);
+        params.put("status", status);
+        params.put("remark", remark);
+        postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                }
+            }
+        });
     }
 
     private void getCabinetSlots() {

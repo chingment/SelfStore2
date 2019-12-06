@@ -134,14 +134,14 @@ public class CustomSlotEditDialog extends Dialog {
                             }
                         }
                         break;
-                    case 5://取货失败
+                    case 5://取货超时
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }
                         mContext.showToast(message);
                         LogUtil.e("取货失败");
                         break;
-                    case 6://取货超时
+                    case 6://取货失败
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }
