@@ -105,14 +105,14 @@ public class CustomSlotEditDialog extends Dialog {
                         if (!customDialogRunning.isShowing()) {
                             customDialogRunning.showDialog();
                             customDialogRunning.setProgressText("取货就绪成功");
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    LogUtil.i("正在执行关闭窗口");
-                                    if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                        customDialogRunning.cancelDialog();
-                                    }
-                                }
-                            }, 120 * 1000);
+//                            new Handler().postDelayed(new Runnable() {
+//                                public void run() {
+//                                    LogUtil.i("正在执行关闭窗口");
+//                                    if (customDialogRunning != null && customDialogRunning.isShowing()) {
+//                                        customDialogRunning.cancelDialog();
+//                                    }
+//                                }
+//                            }, 120 * 1000);
                         }
                         break;
                     case 3://取货中

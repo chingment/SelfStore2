@@ -97,7 +97,9 @@ public class AppContext extends Application {
 
         LogUtil.i("设备id：" + DEVICE_ID);
 
-        return "000000000000000";
+       // return "000000000000000";
+
+        return DEVICE_ID;
 
  //       String DEVICE_ID = "DEVICE_ID";
  //       String device_id="000000000000000";

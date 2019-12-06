@@ -424,8 +424,7 @@ public class MachineCtrl {
             while (!cmd_PickupIsStopListener) {
                 try {
                     long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
-                    if (maxPickTime < 5 * 60 * 1000) {
-
+                    if (maxPickTime < 10 * 60 * 1000) {
 
                         int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
                         if (rc_flowStatus[0] == S_RC_SUCCESS) {

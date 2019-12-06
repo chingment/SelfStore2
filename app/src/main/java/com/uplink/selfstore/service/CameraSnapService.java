@@ -92,7 +92,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
             String filePath = getSaveSdCardPath()+"/"+mUniqueId + ".jpg";
             File file = new File(filePath);
             FileOutputStream outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             outputStream.close();
             camera.stopPreview();
             camera.startPreview();
