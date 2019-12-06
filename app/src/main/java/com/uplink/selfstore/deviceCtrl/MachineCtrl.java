@@ -398,6 +398,7 @@ public class MachineCtrl {
 
                     } else {
                         LogUtil.e(TAG, "扫描流程监听：扫描超时");
+                        sym.SN_MV_EmgStop();
                         disConnect();
                         cmd_ScanSlotIsStopListener = true;
                         sendScanSlotHandlerMessage(5, "扫描超时", null);
@@ -407,6 +408,7 @@ public class MachineCtrl {
                     ex.printStackTrace();
                     LogUtil.e(TAG, "扫描流程监听：扫描处理失败");
                     LogUtil.e(TAG, ex);
+                    sym.SN_MV_EmgStop();
                     disConnect();
                     cmd_ScanSlotIsStopListener = true;
                     sendScanSlotHandlerMessage(6, "扫描失败", null);
@@ -424,7 +426,7 @@ public class MachineCtrl {
             while (!cmd_PickupIsStopListener) {
                 try {
                     long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
-                    if (maxPickTime < 10 * 60 * 1000) {
+                    if (maxPickTime < 3 * 60 * 1000) {
 
                         int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
                         if (rc_flowStatus[0] == S_RC_SUCCESS) {
@@ -462,11 +464,13 @@ public class MachineCtrl {
 
 
                     } else {
+                        sym.SN_MV_EmgStop();
                         LogUtil.e(TAG, "取货流程监听：取货超时");
                         cmd_PickupIsStopListener = true;
                         sendPickupHandlerMessage(5, "取货超时", null);
                     }
                 } catch (Exception ex) {
+                    sym.SN_MV_EmgStop();
                     LogUtil.e(TAG, "取货流程监听：发生异常");
                     LogUtil.e(TAG, ex);
                     cmd_PickupIsStopListener = true;
