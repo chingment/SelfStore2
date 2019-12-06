@@ -98,14 +98,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                     customDialogRunning.setProgressText(message);
                                     if (!customDialogRunning.isShowing()) {
                                         customDialogRunning.showDialog();
-                                        new Handler().postDelayed(new Runnable() {
-                                            public void run() {
-                                                LogUtil.i("正在执行关闭窗口");
-                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                                    customDialogRunning.cancelDialog();
-                                                }
-                                            }
-                                        }, 240 * 1000);
+//                                        new Handler().postDelayed(new Runnable() {
+//                                            public void run() {
+//                                                LogUtil.i("正在执行关闭窗口");
+//                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+//                                                    customDialogRunning.cancelDialog();
+//                                                }
+//                                            }
+//                                        }, 600 * 1000);
                                     }
                                 }
                                 break;

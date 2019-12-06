@@ -341,7 +341,7 @@ public class MachineCtrl {
             while (!cmd_ScanSlotIsStopListener) {
                 try {
                     long maxPickTime = System.currentTimeMillis() - nScanSlotStartTime;
-                    if (maxPickTime < 5 * 60 * 1000) {
+                    if (maxPickTime < 5* 60 * 1000) {
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
@@ -424,7 +424,7 @@ public class MachineCtrl {
             while (!cmd_PickupIsStopListener) {
                 try {
                     long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
-                    if (maxPickTime < 3 * 60 * 1000) {
+                    if (maxPickTime < 5 * 60 * 1000) {
 
 
                         int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
