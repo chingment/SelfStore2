@@ -100,7 +100,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -153,13 +154,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="474" column="33" selection-start-line="474" selection-start-column="33" selection-end-line="474" selection-end-column="33" />
+            <state relative-caret-position="-351">
+              <caret line="414" column="17" lean-forward="true" selection-start-line="413" selection-start-column="34" selection-end-line="414" selection-end-column="17" />
               <folding>
                 <element signature="method#goGoZero#0;class#MachineCtrl#0" />
                 <element signature="method#isIdle#0;class#MachineCtrl#0" />
                 <element signature="method#setScanSlotHandler#0;class#MachineCtrl#0" />
-                <element signature="method#run#0;class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
               </folding>
             </state>
           </provider>
@@ -1325,13 +1325,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="474" column="33" selection-start-line="474" selection-start-column="33" selection-end-line="474" selection-end-column="33" />
+        <state relative-caret-position="-351">
+          <caret line="414" column="17" lean-forward="true" selection-start-line="413" selection-start-column="34" selection-end-line="414" selection-end-column="17" />
           <folding>
             <element signature="method#goGoZero#0;class#MachineCtrl#0" />
             <element signature="method#isIdle#0;class#MachineCtrl#0" />
             <element signature="method#setScanSlotHandler#0;class#MachineCtrl#0" />
-            <element signature="method#run#0;class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
           </folding>
         </state>
       </provider>
