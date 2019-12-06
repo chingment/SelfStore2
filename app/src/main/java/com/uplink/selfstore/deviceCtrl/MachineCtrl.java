@@ -109,19 +109,24 @@ public class MachineCtrl {
     }
     public void scanSlot() {
         if (!isConnect) {
+            LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
             sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
+            LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在线");
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
         } else if (!this.isIdle()) {
+            LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
             sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         } else {
 
             int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
             if (rt_goZero != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "扫描流程监听：启动回原点失败");
                 sendScanSlotHandlerMessage(1, "启动回原点失败", null);
                 return;
             }
 
+            LogUtil.i(TAG, "扫描流程监听：扫描货道启动成功");
             sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
 
             long nStart = System.currentTimeMillis();
@@ -146,6 +151,7 @@ public class MachineCtrl {
             }
 
             if (!bCanSelfAutoScan) {
+                LogUtil.i(TAG, "扫描流程监听：回原点失败");
                 sendScanSlotHandlerMessage(1, "回原点失败", null);
                 return;
             }
@@ -154,6 +160,7 @@ public class MachineCtrl {
 
 
             if (rc_selfAutoScan != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "扫描流程监听：扫描货道启动失败");
                 sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
                 return;
             }
@@ -178,19 +185,24 @@ public class MachineCtrl {
     public void pickUp(int row,int col) {
         isConnect = connect();
         if (!isConnect) {
+            LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
             sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
         } else if (!this.isNormarl()) {
+            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
             sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
         } else if (!this.isIdle()) {
+            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
             sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
         } else {
 
             int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
             if (rt_goZero != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "取货流程监听：启动回原点失败");
                 sendPickupHandlerMessage(1, "启动回原点失败", null);
                 return;
             }
 
+            LogUtil.i(TAG, "取货流程监听：取货就绪");
             sendPickupHandlerMessage(2, "取货就绪", null);
 
             long nStart = System.currentTimeMillis();
@@ -215,6 +227,7 @@ public class MachineCtrl {
             }
 
             if (!bCanAutoStart) {
+                LogUtil.i(TAG, "取货流程监听：取货回原点失败");
                 sendPickupHandlerMessage(1, "取货回原点失败", null);
                 return;
             }
@@ -222,6 +235,7 @@ public class MachineCtrl {
 
             int rc_autoStart = sym.SN_MV_AutoStart(0, row, col);
             if (rc_autoStart != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "取货流程监听：取货启动失败");
                 sendPickupHandlerMessage(1, "取货启动失败", null);
                 return;
             }
@@ -349,9 +363,17 @@ public class MachineCtrl {
 
                                 if (rc_scanData[0] == S_RC_SUCCESS) {
 
-                                    LogUtil.i(TAG, "扫描流程监听：扫描成功");
+
+
 
                                     ScanSlotResult scanSlotResult = new ScanSlotResult();
+
+                                    long nScanSlotEndTime = System.currentTimeMillis();
+                                    long sTime = nScanSlotEndTime - nScanSlotStartTime;
+                                    scanSlotResult.setUseTime(sTime);//设置取货消耗时间
+
+
+                                    LogUtil.i(TAG, "扫描流程监听：扫描成功，使用时长："+sTime);
 
                                     int rows = rc_scanData[1];
                                     scanSlotResult.setRows(rows);
@@ -400,14 +422,6 @@ public class MachineCtrl {
             super.run();
             long nPickupStartTime = System.currentTimeMillis();
             while (!cmd_PickupIsStopListener) {
-
-                if (sym == null) {
-                    disConnect();
-                    cmd_PickupIsStopListener = true;
-                    sendPickupHandlerMessage(1, "错误对象", null);
-                    break;
-                }
-
                 try {
                     long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
                     if (maxPickTime < 3 * 60 * 1000) {
