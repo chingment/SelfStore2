@@ -325,17 +325,9 @@ public class MachineCtrl {
             super.run();
             long nScanSlotStartTime = System.currentTimeMillis();
             while (!cmd_ScanSlotIsStopListener) {
-
-                if (sym == null) {
-                    disConnect();
-                    cmd_ScanSlotIsStopListener = true;
-                    sendScanSlotHandlerMessage(1, "错误对象", null);
-                    break;
-                }
-
                 try {
                     long maxPickTime = System.currentTimeMillis() - nScanSlotStartTime;
-                    if (maxPickTime < 3 * 60 * 1000) {
+                    if (maxPickTime < 5 * 60 * 1000) {
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
@@ -343,10 +335,10 @@ public class MachineCtrl {
                         }
                         int[] rc_scanStatus = sym.SN_MV_Get_ScanStatus();
                         if (rc_scanStatus[0] == S_RC_SUCCESS) {
-                            LogUtil.i(TAG, "扫描流程监听：扫描状态" + rc_scanStatus[0]);
+                            //LogUtil.i(TAG, "扫描流程监听：扫描状态" + rc_scanStatus[0]);
                             int isflag = rc_scanStatus[1];//表示扫描是否结束
 
-                            LogUtil.i(TAG, "扫描流程监听：扫描流程是否结束，" + isflag);
+                            //LogUtil.i(TAG, "扫描流程监听：扫描流程是否结束，" + isflag);
                             if (isflag == 0) {
                                 int[] rc_scanData = sym.SN_MV_Get_ScanData();
 
