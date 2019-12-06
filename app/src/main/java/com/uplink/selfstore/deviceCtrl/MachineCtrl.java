@@ -465,12 +465,14 @@ public class MachineCtrl {
 
                     } else {
                         sym.SN_MV_EmgStop();
+                        disConnect();
                         LogUtil.e(TAG, "取货流程监听：取货超时");
                         cmd_PickupIsStopListener = true;
                         sendPickupHandlerMessage(5, "取货超时", null);
                     }
                 } catch (Exception ex) {
                     sym.SN_MV_EmgStop();
+                    disConnect();
                     LogUtil.e(TAG, "取货流程监听：发生异常");
                     LogUtil.e(TAG, ex);
                     cmd_PickupIsStopListener = true;
