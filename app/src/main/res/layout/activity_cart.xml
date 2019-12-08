@@ -126,7 +126,8 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/btn_payway_wechat"
+                    android:visibility="gone"
+                    android:id="@+id/btn_paypartner_z_wechat"
                     android:layout_width="@dimen/size_100"
                     android:layout_height="@dimen/size_56"
                     android:layout_marginRight="@dimen/size_8"
@@ -136,7 +137,8 @@
                     android:src="@drawable/icon_payway_wechat1" />
 
                 <ImageButton
-                    android:id="@+id/btn_payway_zhifubao"
+                    android:visibility="gone"
+                    android:id="@+id/btn_paypartner_z_zhifubao"
                     android:layout_width="@dimen/size_100"
                     android:layout_height="@dimen/size_56"
                     android:layout_marginRight="@dimen/size_8"
@@ -145,6 +147,17 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/icon_payway_zhifubao1" />
 
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btn_paypartner_z_tongguan"
+                    android:layout_width="@dimen/size_80"
+                    android:layout_height="@dimen/size_32"
+                    android:layout_marginRight="@dimen/size_8"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_round_primary"
+                    android:text="@string/activity_productkind_button_gotongguanpayparner_text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12" />
             </LinearLayout>
 
         </LinearLayout>

@@ -19,7 +19,9 @@ public class MachineBean implements Serializable {
     private int cabinetId_1;
     private String cabinetName_1;
     private int[] cabinetRowColLayout_1;
-
+    private boolean isHiddenKind;
+    private int kindRowCellSize;
+    private int[] supportPayPartner;
 
     public String getCsrQrCode() {
         return csrQrCode;
@@ -109,5 +111,29 @@ public class MachineBean implements Serializable {
 
     public void setCabinetRowColLayout_1(int[] cabinetRowColLayout_1) {
         this.cabinetRowColLayout_1 = cabinetRowColLayout_1;
+    }
+
+    public boolean isHiddenKind() {
+        return isHiddenKind;
+    }
+
+    public void setHiddenKind(boolean hiddenKind) {
+        isHiddenKind = hiddenKind;
+    }
+
+    public int getKindRowCellSize() {
+        return kindRowCellSize;
+    }
+
+    public void setKindRowCellSize(int kindRowCellSize) {
+        this.kindRowCellSize = kindRowCellSize;
+    }
+
+    public int[] getSupportPayPartner() {
+        return supportPayPartner;
+    }
+
+    public void setSupportPayPartner(int[] supportPayPartner) {
+        this.supportPayPartner = supportPayPartner;
     }
 }

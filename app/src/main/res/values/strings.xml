@@ -23,6 +23,7 @@
     <string name="activity_productdetails_button_buy_text">立即购买</string>
     <string name="activity_productkind_navtitle">全部商品</string>
     <string name="activity_productkind_button_gosettlement_text">去结算</string>
+    <string name="activity_productkind_button_gotongguanpayparner_text">去支付</string>
     <string name="activity_productkind_textview_amountsum_text">合计：</string>
     <string name="activity_smmachineinfo_navtitle">机器信息</string>
     <string name="activity_smmachineinfo_textview_merchantname_text">商户名称</string>

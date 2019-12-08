@@ -131,6 +131,9 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         ProductKindNameAdapter list_kind_name_adapter = new ProductKindNameAdapter(getAppContext(), productKinds, cur_Kind_Position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
+        if(globalDataSet.getMachine().isHiddenKind()) {
+            list_kind_name.setVisibility(View.GONE);
+        }
 
         List<ProductSkuBean> productSkusByKind = new ArrayList<>();
 

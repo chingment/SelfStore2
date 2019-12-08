@@ -55,8 +55,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private View btn_back;
     private View btn_goshopping;
     private View btn_gopay;
-    private View btn_payway_wechat;
-    private View btn_payway_zhifubao;
+    private View btn_paypartner_z_wechat;//微信官方支付 手机扫二维码
+    private View btn_paypartner_z_zhifubao;//支付宝官方支付 手机扫二维码
+    private View btn_paypartner_z_tongguan;//第三聚合支付 通莞 手机扫二维码
     private MyListView list_skus;
     private View list_empty_tip;
     private CustomScanPayDialog dialog_ScanPay;
@@ -76,11 +77,35 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     protected void initView() {
+        MachineBean machine=AppCacheManager.getMachine();
+
         btn_back = findViewById(R.id.btn_back);
         btn_goshopping = findViewById(R.id.btn_goshopping);
-        // btn_gopay = findViewById(R.id.btn_gopay);
-        btn_payway_wechat = findViewById(R.id.btn_payway_wechat);
-        btn_payway_zhifubao = findViewById(R.id.btn_payway_zhifubao);
+        btn_paypartner_z_wechat = findViewById(R.id.btn_paypartner_z_wechat);
+        btn_paypartner_z_zhifubao = findViewById(R.id.btn_paypartner_z_zhifubao);
+        btn_paypartner_z_tongguan= findViewById(R.id.btn_paypartner_z_tongguan);
+
+        if(machine!=null)
+        {
+            int[] supportPayPartner=machine.getSupportPayPartner();
+            if(supportPayPartner!=null)
+            {
+               for (int i=0;i<supportPayPartner.length;i++)
+               {
+                   if(supportPayPartner[i]==1) {
+                       btn_paypartner_z_wechat.setVisibility(View.VISIBLE);
+                   }
+
+                   if(supportPayPartner[i]==2) {
+                       btn_paypartner_z_zhifubao.setVisibility(View.VISIBLE);
+                   }
+
+                   if(supportPayPartner[i]==3) {
+                       btn_paypartner_z_tongguan.setVisibility(View.VISIBLE);
+                   }
+               }
+            }
+        }
         list_skus = (MyListView) findViewById(R.id.list_skus);
         list_skus.setFocusable(false);
         list_skus.setClickable(false);
@@ -146,8 +171,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private void initEvent() {
         btn_back.setOnClickListener(this);
         btn_goshopping.setOnClickListener(this);
-        btn_payway_wechat.setOnClickListener(this);
-        btn_payway_zhifubao.setOnClickListener(this);
+        btn_paypartner_z_wechat.setOnClickListener(this);
+        btn_paypartner_z_zhifubao.setOnClickListener(this);
+        btn_paypartner_z_tongguan.setOnClickListener(this);
+
         //btn_gopay.setOnClickListener(this);
     }
 
@@ -218,13 +245,17 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;
-                case R.id.btn_payway_wechat:
-                    TcStatInterface.onEvent("btn_payway_wechat", null);
-                    paySend(1,10);
+                case R.id.btn_paypartner_z_wechat:
+                    TcStatInterface.onEvent("btn_paypartner_z_wechat", null);
+                    paySend(10);
                     break;
-                case R.id.btn_payway_zhifubao:
-                    TcStatInterface.onEvent("btn_payway_zhifubao", null);
-                    paySend(2,20);
+                case R.id.btn_paypartner_z_zhifubao:
+                    TcStatInterface.onEvent("btn_paypartner_z_zhifubao", null);
+                    paySend(20);
+                    break;
+                case R.id.btn_paypartner_z_tongguan:
+                    TcStatInterface.onEvent("btn_paypartner_z_tongguan", null);
+                    paySend(30);
                     break;
             }
         }
@@ -247,12 +278,11 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
     }
 
-    private  void  buildBayParams(final String orderId,final int payWay,final int payCaller)
+    private  void  buildBayParams(final String orderId,final int payCaller)
     {
 
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", orderId);
-        params.put("payWay", payWay + "");
         params.put("payCaller", payCaller + "");
 
         postByMy(Config.URL.order_BuildPayParams, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
@@ -270,14 +300,18 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     LAST_ORDERID=orderId;
                     dialog_ScanPay.getPayAmountText().setText(d.getChargeAmount());
 
-                    switch (payWay) {
-                        case 1:
+                    switch (payCaller) {
+                        case 10:
                             dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_wechat3)));
                             dialog_ScanPay.getPayTipsText().setText("请使用微信扫码支付");
                             break;
-                        case 2:
+                        case 20:
                             dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_zhifubao3)));
                             dialog_ScanPay.getPayTipsText().setText("请使用支付宝扫码支付");
+                            break;
+                        case 30:
+                            dialog_ScanPay.getPayQrCodeImage().setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(d.getPayUrl(), BitmapFactory.decodeResource(getResources(), R.drawable.icon_payway_zhifubao3)));
+                            dialog_ScanPay.getPayTipsText().setText("请使用微信,支付宝扫码支付");
                             break;
                     }
                     closePageCountTimerStop();
@@ -297,7 +331,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     }
 
-    private  void  paySend(final int payWay,final int payCaller) {
+    private  void  paySend(final int payCaller) {
         MachineBean machine = AppCacheManager.getMachine();
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
@@ -308,7 +342,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", machine.getId() + "");
-        params.put("payWay", payWay + "");
         params.put("payCaller", payCaller + "");
 
         HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
@@ -344,7 +377,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 if (rt.getResult() == Result.SUCCESS) {
 
                     OrderReserveResultBean d = rt.getData();
-                    buildBayParams(d.getOrderId(),payWay,payCaller);
+                    buildBayParams(d.getOrderId(),payCaller);
 
                 } else {
                     showToast(rt.getMessage());
