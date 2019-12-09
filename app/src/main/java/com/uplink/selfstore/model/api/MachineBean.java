@@ -1,6 +1,7 @@
 package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by chingment on 2018/6/1.
@@ -21,7 +22,7 @@ public class MachineBean implements Serializable {
     private int[] cabinetRowColLayout_1;
     private boolean isHiddenKind;
     private int kindRowCellSize;
-    private int[] supportPayPartner;
+    private List<TerminalPayOptionBean> payOptions;
 
     public String getCsrQrCode() {
         return csrQrCode;
@@ -129,11 +130,11 @@ public class MachineBean implements Serializable {
         this.kindRowCellSize = kindRowCellSize;
     }
 
-    public int[] getSupportPayPartner() {
-        return supportPayPartner;
+    public List<TerminalPayOptionBean> getPayOptions() {
+        return payOptions;
     }
 
-    public void setSupportPayPartner(int[] supportPayPartner) {
-        this.supportPayPartner = supportPayPartner;
+    public void setPayOptions(List<TerminalPayOptionBean> payOptions) {
+        this.payOptions = payOptions;
     }
 }

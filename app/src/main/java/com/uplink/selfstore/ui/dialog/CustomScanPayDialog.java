@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.model.api.TerminalPayOptionBean;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -58,32 +59,32 @@ public class CustomScanPayDialog extends Dialog {
     }
 
 
-    public void setPayWayQrcode(int payCaller,String payUrl,String chargeAmount) {
+    public void setPayWayQrcode(TerminalPayOptionBean payOption, String payUrl, String chargeAmount) {
 
+
+        this.icon_payway_z_wechat.setVisibility(View.GONE);
+        this.icon_payway_z_zhifubao.setVisibility(View.GONE);
 
         this.txt_payamount.setText(chargeAmount);
         this.img_payqrcode.setImageBitmap(BitmapUtil.createQrCodeBitmap(payUrl));
 
-        switch (payCaller) {
-            case 10:
-                //this.img_payqrcode.setImageBitmap(BitmapUtil.createQrCodeBitmapAndLogo(payUrl, BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_payway_wechat3)));
-                this.icon_payway_z_wechat.setVisibility(View.VISIBLE);
-                this.icon_payway_z_zhifubao.setVisibility(View.GONE);
-                break;
-            case 20:
-                this.icon_payway_z_wechat.setVisibility(View.GONE);
-                this.icon_payway_z_zhifubao.setVisibility(View.VISIBLE);
-                break;
-            case 30:
-                this.icon_payway_z_wechat.setVisibility(View.VISIBLE);
-                this.icon_payway_z_zhifubao.setVisibility(View.VISIBLE);
-                break;
-            default:
-                this.icon_payway_z_wechat.setVisibility(View.GONE);
-                this.icon_payway_z_zhifubao.setVisibility(View.GONE);
-                break;
-        }
+        int[] supportWays=payOption.getSupportWays();
 
+        if(supportWays!=null)
+        {
+
+            for (int i=0;i<supportWays.length;i++)
+            {
+                if(supportWays[i]==1)
+                {
+                    this.icon_payway_z_wechat.setVisibility(View.VISIBLE);
+                }
+                else if(supportWays[i]==2)
+                {
+                    this.icon_payway_z_zhifubao.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
     public CustomScanPayDialog(Context context) {

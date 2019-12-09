@@ -105,7 +105,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/size_8"
-                android:text="支持以下方式支付"
+                android:text="支持以下支付方式"
                 android:textColor="@color/text_888"
                 android:textSize="@dimen/size_10" />
 
