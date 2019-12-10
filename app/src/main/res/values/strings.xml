@@ -73,6 +73,7 @@
     <string name="dialog_confirm_btn_sure_text">是</string>
     <string name="activity_smmachinestock_textview_productskuslotname_text">货道编号</string>
     <string name="activity_smmachinestock_textview_productskuname_text">商品名称</string>
+    <string name="activity_smmachinestock_textview_productskuspecdes_text">商品规格</string>
     <string name="activity_smmachinestock_textview_productskusaleprice_text">商品价格</string>
     <string name="activity_smmachinestock_textview_productskusellqty_text">可售数量</string>
     <string name="activity_smmachinestock_textview_productskulockqty_text">锁定数量</string>

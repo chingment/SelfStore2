@@ -54,6 +54,7 @@ public class CustomSlotEditDialog extends Dialog {
     private TextView txt_Version;
     private TextView txt_SkuId;
     private TextView txt_SkuName;
+    private TextView txt_SkuSpecDes;
     private TextView txt_SellQty;
     private TextView txt_LockQty;
     private TextView txt_SumQty;
@@ -191,6 +192,7 @@ public class CustomSlotEditDialog extends Dialog {
         txt_SlotName = ViewHolder.get(this.layoutRes, R.id.txt_SlotName);
         txt_SkuId = ViewHolder.get(this.layoutRes, R.id.txt_SkuId);
         txt_SkuName = ViewHolder.get(this.layoutRes, R.id.txt_SkuName);
+        txt_SkuSpecDes= ViewHolder.get(this.layoutRes, R.id.txt_SkuSpecDes);
         txt_SellQty = ViewHolder.get(this.layoutRes, R.id.txt_SellQty);
         txt_LockQty = ViewHolder.get(this.layoutRes, R.id.txt_LockQty);
         txt_SumQty = ViewHolder.get(this.layoutRes, R.id.txt_SumQty);
@@ -284,6 +286,7 @@ public class CustomSlotEditDialog extends Dialog {
 
                 txt_SkuId.setText("");
                 txt_SkuName.setText("暂无设置");
+                txt_SkuSpecDes.setText("");
                 txt_SellQty.setText("0");
                 txt_LockQty.setText("0");
                 txt_SumQty.setText("0");
@@ -431,6 +434,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_SkuId.setText("");
             txt_SkuName.setText("暂无设置");
+            txt_SkuSpecDes.setText("");
             txt_SellQty.setText("0");
             txt_LockQty.setText("0");
             txt_SumQty.setText("0");
@@ -440,6 +444,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_SkuId.setText(slot.getProductSkuId());
             txt_SkuName.setText(slot.getProductSkuName());
+            txt_SkuSpecDes.setText(slot.getProductSkuSpecDes());
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
@@ -478,15 +483,16 @@ public class CustomSlotEditDialog extends Dialog {
                     SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, d.getProductSkus());
                     slotSkuSearchAdapter.setCallBackListener(new SlotSkuSearchAdapter.CallBackListener() {
                         @Override
-                        public void setSlot(SearchProductSkuBean skuBean) {
+                        public void setSlot(SearchProductSkuBean sku) {
 
-                            txt_SkuId.setText(skuBean.getId());
-                            txt_SkuName.setText(skuBean.getName());
+                            txt_SkuId.setText(sku.getId());
+                            txt_SkuName.setText(sku.getName());
+                            txt_SkuSpecDes.setText(sku.getSpecDes());
                             txt_SellQty.setText("0");
                             txt_LockQty.setText("0");
                             txt_SumQty.setText("0");
 
-                            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, skuBean.getMainImgUrl());
+                            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, sku.getMainImgUrl());
 
                         }
                     });
@@ -494,10 +500,11 @@ public class CustomSlotEditDialog extends Dialog {
 
                     if (d.getProductSkus() != null) {
                         if (d.getProductSkus().size() == 1) {
-                            SearchProductSkuBean skuBean = d.getProductSkus().get(0);
-                            txt_SkuId.setText(skuBean.getId());
-                            txt_SkuName.setText(skuBean.getName());
-                            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, skuBean.getMainImgUrl());
+                            SearchProductSkuBean sku = d.getProductSkus().get(0);
+                            txt_SkuId.setText(sku.getId());
+                            txt_SkuName.setText(sku.getName());
+                            txt_SkuSpecDes.setText(sku.getSpecDes());
+                            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, sku.getMainImgUrl());
                         }
                     }
                 }

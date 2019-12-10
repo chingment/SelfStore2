@@ -7,6 +7,7 @@ public class SlotBean implements Serializable {
     private  String productSkuId;
     private  String productSkuName;
     private  String productSkuMainImgUrl;
+    private  String productSkuSpecDes;
     private  int sumQuantity;
     private  int lockQuantity;
     private  int sellQuantity;
@@ -92,5 +93,13 @@ public class SlotBean implements Serializable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getProductSkuSpecDes() {
+        return productSkuSpecDes;
+    }
+
+    public void setProductSkuSpecDes(String productSkuSpecDes) {
+        this.productSkuSpecDes = productSkuSpecDes;
     }
 }
