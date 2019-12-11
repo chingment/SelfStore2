@@ -95,9 +95,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 break;
                             case 2://启动就绪
                                 scanSlotsEventNotify(2000,"启动就绪");
+                                LogUtil.e("xxxx:0");
                                 if(customDialogRunning!=null) {
+                                    LogUtil.e("xxxx:1");
                                     customDialogRunning.setProgressText(message);
                                     if (!customDialogRunning.isShowing()) {
+                                        LogUtil.e("xxxx:2");
                                         customDialogRunning.showDialog();
 //                                        new Handler().postDelayed(new Runnable() {
 //                                            public void run() {
@@ -107,6 +110,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 //                                                }
 //                                            }
 //                                        }, 600 * 1000);
+                                    }
+                                    else
+                                    {
+                                        LogUtil.e("xxxx:3");
                                     }
                                 }
                                 break;
