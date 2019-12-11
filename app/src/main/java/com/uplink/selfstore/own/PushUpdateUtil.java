@@ -8,6 +8,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.ProductKindActivity;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
@@ -53,6 +54,10 @@ public class PushUpdateUtil {
             case "paySuccess":
                 LogUtil.d("进入paySuccess");
                 paySuccess(content);//支付成功
+                break;
+            case "openPickupDoor":
+                LogUtil.d("进入openPickupDoor");
+                openPickupDoor();//支付成功
                 break;
         }
     }
@@ -223,5 +228,15 @@ public class PushUpdateUtil {
             }
         }
 
+    }
+
+
+    private  static void openPickupDoor() {
+
+        MachineCtrl machineCtrl = new MachineCtrl();
+
+        machineCtrl.connect();
+
+        machineCtrl.openPickupDoor();
     }
 }

@@ -172,7 +172,6 @@ public class MachineCtrl {
         }
     }
 
-
     public  void  goGoZero() {
         isConnect=connect();
         if (isConnect) {
@@ -183,6 +182,15 @@ public class MachineCtrl {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                sym.SN_MV_MotorAction(1, 0, 0);
+            }
+        }
+    }
+
+    public  void  openPickupDoor() {
+        isConnect=connect();
+        if (isConnect) {
+            if(sym!=null) {
                 sym.SN_MV_MotorAction(1, 0, 0);
             }
         }

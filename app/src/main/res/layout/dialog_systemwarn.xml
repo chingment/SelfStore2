@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_bg"
+    >
+
+    <LinearLayout
+
+        android:layout_width="@dimen/size_300"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/dialog"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_20"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="@dimen/size_30"
+                android:id="@+id/btn_close"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal|center_vertical"
+                >
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_10"
+                    android:layout_height="@dimen/size_10"
+                    android:contentDescription="@string/image_content_description"
+                    android:src="@drawable/dialog_ic_delete" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="@dimen/size_100"
+                android:layout_height="@dimen/size_100"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+
+                    android:id="@+id/img_SkuImg"
+
+                    android:layout_width="@dimen/size_78"
+                    android:layout_height="@dimen/size_78"
+                    android:src="@drawable/default_image"
+                    android:contentDescription="@string/image_content_description"
+                    />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/txt_WarnTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="系统维护中"
+                    android:gravity="right"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/sp_20" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/txt_WarnContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请联系客服人员，进行处理"
+                    android:gravity="right"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/sp_16" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+</RelativeLayout>
