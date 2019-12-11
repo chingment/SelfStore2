@@ -234,6 +234,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 String m = "0";
                 if (i == rowLength) {
                     m = "1";
+
+                    if(j==0){
+                        convertView.setVisibility(View.GONE);
+                    }
                 }
 
                 final String slotId = "n" + cabinetId + "r" + (i - 1) + "c" + j + "m" + m;
