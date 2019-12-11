@@ -126,11 +126,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 5://取货失败
                                 showToast(message);
-                                dialog_SystemWarn.show();
+                                if(!dialog_SystemWarn.isShowing()) {
+                                    dialog_SystemWarn.show();
+                                }
                                 break;
                             case 6://取货超时
                                 showToast(message);
-                                dialog_SystemWarn.show();
+                                if(!dialog_SystemWarn.isShowing()) {
+                                    dialog_SystemWarn.show();
+                                }
                                 break;
                             default:
                                 break;

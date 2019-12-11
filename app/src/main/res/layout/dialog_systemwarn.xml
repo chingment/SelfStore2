@@ -59,11 +59,11 @@
 
                 <ImageView
 
-                    android:id="@+id/img_SkuImg"
+                    android:id="@+id/img_warn"
 
                     android:layout_width="@dimen/size_78"
                     android:layout_height="@dimen/size_78"
-                    android:src="@drawable/default_image"
+                    android:src="@drawable/dialog_icon_warn"
                     android:contentDescription="@string/image_content_description"
                     />
 
@@ -77,6 +77,7 @@
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="vertical"
+                android:layout_marginBottom="@dimen/size_10"
                 >
 
                 <TextView
@@ -103,7 +104,7 @@
                     android:id="@+id/txt_WarnContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请联系客服人员，进行处理"
+                    android:text="请联系客服人员，进行处理！"
                     android:gravity="right"
                     android:textColor="@color/field_value"
                     android:textSize="@dimen/sp_16" />
