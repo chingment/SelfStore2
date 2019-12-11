@@ -292,9 +292,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             table_slotstock.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
 
         }
-
-
-        // customDialogRunning.hide();
     }
 
     @Override
