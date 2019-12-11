@@ -182,7 +182,7 @@ public class MachineCtrl {
         }
     }
 
-    public void pickUp(int row,int col) {
+    public void pickUp(int row,int col,int mode) {
         isConnect = connect();
         if (!isConnect) {
             LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
@@ -233,7 +233,7 @@ public class MachineCtrl {
             }
 
 
-            int rc_autoStart = sym.SN_MV_AutoStart(0, row, col);
+            int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
             if (rc_autoStart != S_RC_SUCCESS) {
                 LogUtil.i(TAG, "取货流程监听：取货启动失败");
                 sendPickupHandlerMessage(1, "取货启动失败", null);

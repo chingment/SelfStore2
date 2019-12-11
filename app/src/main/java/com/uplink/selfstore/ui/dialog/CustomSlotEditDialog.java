@@ -270,7 +270,7 @@ public class CustomSlotEditDialog extends Dialog {
                 String productSkuId=String.valueOf(txt_SkuId.getText());
 
                 pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
-                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
+                machineCtrl.pickUp(slotNRC.getMode(),slotNRC.getRow(), slotNRC.getCol());
             }
         });
 
@@ -519,7 +519,7 @@ public class CustomSlotEditDialog extends Dialog {
     }
 
 
-    public void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,PickupResult pickupResult) {
+    private void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,PickupResult pickupResult) {
 
         Map<String, Object> params = new HashMap<>();
 
@@ -542,14 +542,6 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-                });
-
-
-                if (rt.getResult() == Result.SUCCESS) {
-
-                }
             }
         });
     }

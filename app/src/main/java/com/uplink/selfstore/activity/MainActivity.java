@@ -19,6 +19,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -71,6 +72,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         locationUtil = LocationUtil.getInstance(getAppContext());
+
+//        String slot="n10r99c100m44";
+//        SlotNRC nrc=SlotNRC.GetSlotNRC(slot);
 
         initView();
         initEvent();

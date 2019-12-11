@@ -361,7 +361,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         case 3011:
                             SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
                             if (slotNRC != null) {
-                                machineCtrl.pickUp(slotNRC.getRow(), slotNRC.getCol());
+                                machineCtrl.pickUp(slotNRC.getMode(),slotNRC.getRow(), slotNRC.getCol());
                             }
                             break;
                         case 4000:

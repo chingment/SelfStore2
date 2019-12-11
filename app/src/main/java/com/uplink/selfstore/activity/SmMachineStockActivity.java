@@ -94,6 +94,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 break;
                             case 2://启动就绪
+                                scanSlotsEventNotify(2000,"启动就绪");
                                 if(customDialogRunning!=null) {
                                     customDialogRunning.setProgressText(message);
                                     if (!customDialogRunning.isShowing()) {
@@ -115,11 +116,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 break;
                             case 4://扫描成功
+                                scanSlotsEventNotify(4000,"扫描成功");
                                 if (result != null) {
                                     saveCabinetRowColLayout(cabinetId, result.rowColLayout);
                                 }
                                 break;
                             case 5://扫描超时
+                                scanSlotsEventNotify(5000,"扫描超时");
                                 if(customDialogRunning!=null) {
                                     if(customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
@@ -128,6 +131,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 showToast(message);
                                 break;
                             case 6://扫描失败
+                                scanSlotsEventNotify(5000,"扫描失败");
                                 if(customDialogRunning!=null) {
                                     if(customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
@@ -198,8 +202,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         this.cabinetRowColLayout = rowColLayout;
 
-        if(slots==null) {
-            slots=new HashMap<String, SlotBean>();
+        if (slots == null) {
+            slots = new HashMap<String, SlotBean>();
         }
 
         this.cabinetSlots = slots;
@@ -227,16 +231,21 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
-                final String slotId = "n"+cabinetId + "r" + (i - 1) + "c" + j;
+                String m = "0";
+                if (i == rowLength) {
+                    m = "1";
+                }
+
+                final String slotId = "n" + cabinetId + "r" + (i - 1) + "c" + j + "m" + m;
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);
                 SlotBean slot = null;
-                if (slots != null) {
-                    if (slots.size() > 0) {
-                        slot = slots.get(slotId);
-                    }
+
+                if (slots.size() > 0) {
+                    slot = slots.get(slotId);
                 }
+
 
                 if (slot == null) {
                     slot = new SlotBean();
@@ -258,11 +267,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                     CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getProductSkuMainImgUrl());
 
-                    if(slot.getLockQuantity()>0)
-                    {
+                    if (slot.getLockQuantity() > 0) {
                         GradientDrawable drawable = new GradientDrawable();
                         drawable.setCornerRadius(0);
-                        drawable.setStroke(1,getResources().getColor(R.color.lockQuantity));
+                        drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
                         convertView.setBackgroundDrawable(drawable);
                     }
                 }
@@ -332,28 +340,19 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
 
-    public void scanSlotsEventNotify(int status, String remark,ScanSlotResult scanSlotResult) {
+    private void scanSlotsEventNotify(int status, String remark) {
 
         Map<String, Object> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
-
         params.put("machineId", machine.getId());
         params.put("cabinetId", cabinetId);
         params.put("status", status);
         params.put("remark", remark);
-        postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
+        postByMy(Config.URL.machine_ScanSlotsEventNotify, params, null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
-
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-                });
-
-
-                if (rt.getResult() == Result.SUCCESS) {
-
-                }
             }
         });
     }
