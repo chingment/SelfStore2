@@ -29,6 +29,7 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
@@ -52,6 +53,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private CustomConfirmDialog dialog_PickupCompelte;
     private CustomConfirmDialog dialog_ContactKefu;
+    private CustomSystemWarnDialog dialog_SystemWarn;
     private  ImageView curpickupsku_img_main;
     private TextView curpickupsku_tip1;
     private TextView curpickupsku_tip2;
@@ -124,9 +126,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 5://取货失败
                                 showToast(message);
+                                dialog_SystemWarn.show();
                                 break;
                             case 6://取货超时
                                 showToast(message);
+                                dialog_SystemWarn.show();
                                 break;
                             default:
                                 break;
@@ -232,6 +236,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         dialog_ContactKefu = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_contactkefu_tips), false);
         dialog_ContactKefu.getBtnArea().setVisibility(View.GONE);
 
+        dialog_SystemWarn = new CustomSystemWarnDialog(OrderDetailsActivity.this);
         curpickupsku_img_main = (ImageView) findViewById(R.id.curpickupsku_img_main);
         curpickupsku_tip1 = (TextView) findViewById(R.id.curpickupsku_tip1);
         curpickupsku_tip2 = (TextView) findViewById(R.id.curpickupsku_tip2);

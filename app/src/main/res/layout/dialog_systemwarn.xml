@@ -14,7 +14,8 @@
         android:layout_centerVertical="true"
         android:background="@drawable/dialog"
         android:orientation="vertical"
-        android:padding="0dp">
+        android:paddingBottom="@dimen/size_20"
+        >
 
 
         <LinearLayout
