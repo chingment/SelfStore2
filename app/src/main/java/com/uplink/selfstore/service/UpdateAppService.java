@@ -133,8 +133,10 @@ public class UpdateAppService extends Service {
                         }
                         break;
                     case 3:
-                        BaseFragmentActivity act=(BaseFragmentActivity)AppManager.getAppManager().currentActivity();
-                        act.showToast("已经是最新版本");
+                        if(from==2) {
+                            BaseFragmentActivity act = (BaseFragmentActivity) AppManager.getAppManager().currentActivity();
+                            act.showToast("已经是最新版本");
+                        }
                         break;
                 }
                 return  false;
@@ -268,10 +270,13 @@ public class UpdateAppService extends Service {
         }
     }
 
+    public  static int from=-1;
     private class CommandReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context,Intent intent) {
             LogUtil.i(TAG, "CommandReceiver.onReceive");
+
+            from = intent.getIntExtra("from",-1);
 
             CheckUpdateThread checkUpdateThread=new CheckUpdateThread();
 

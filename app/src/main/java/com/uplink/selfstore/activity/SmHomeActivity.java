@@ -43,6 +43,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         initView();
         initEvent();
 
+        Intent updateAppService = new Intent();
+        updateAppService.putExtra("from",1);
+        updateAppService.setAction("android.intent.action.updateAppService");
+        sendBroadcast(updateAppService);
+
         confirmDialog = new CustomConfirmDialog(SmHomeActivity.this, "", true);
         confirmDialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,6 +153,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     break;
                                 case "fun.checkupdateapp":
                                     intent = new Intent();
+                                    intent.putExtra("from",2);
                                     intent.setAction("android.intent.action.updateAppService");
                                     sendBroadcast(intent);
                                     break;

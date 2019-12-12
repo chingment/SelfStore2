@@ -49,6 +49,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private int cabinetId = 0;//默认第一个机柜，以后扩展机柜需要
     private String cabinetName = "第一个机柜";
     private int[] cabinetRowColLayout = null;
+    private int[] cabinetRowIndexByPendant=null;
     private HashMap<String, SlotBean> cabinetSlots = null;
     private Button btn_ScanSlots;
     private MachineCtrl machineCtrl;

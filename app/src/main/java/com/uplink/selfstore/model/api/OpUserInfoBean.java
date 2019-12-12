@@ -3,9 +3,9 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class OpUserInfoBean implements Serializable {
-   private  String token;
-   private  String userName;
-   private  String fullName;
+    private String token;
+    private String userName;
+    private String fullName;
 
     public String getToken() {
         return token;

@@ -40,3 +40,4 @@
 -keep class com.tamic.statinterface.**{*;}
 -keep class net.sqlcipher.**{*;}
 -keep class net.sqlcipher.database.**{*;}
+-keep class android_serialport_api.**{*;}
