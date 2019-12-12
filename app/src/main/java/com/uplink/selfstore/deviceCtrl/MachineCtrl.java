@@ -30,11 +30,12 @@ public class MachineCtrl {
     private boolean cmd_PickupIsStopListener = true;
     private PickupListenerThread pickupListenerThread;
     private ScanSlotListenerThread scanListenerThread;
+    private Handler scanSlotHandler = null;
+    private Handler pickupHandler = null;
     private symvdio sym = null;
+    private static final int MESSAGE_WHAT_SCANSLOTS = 1;
+    private static final int MESSAGE_WHAT_PICKUP = 2;
 
-    public static final int MESSAGE_WHAT_SCANSLOTS = 1;
-    public static final int MESSAGE_WHAT_PICKUP = 2;
-    private HashMap<String, String> action_map = new HashMap<>();
 
     public MachineCtrl() {
         try {
@@ -274,41 +275,38 @@ public class MachineCtrl {
         long nEnd = System.currentTimeMillis();
         boolean bTryAgain = false;
 
-        if (sym != null) {
-
-            for (; (nEnd - nStart <= (long) 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
-                boolean flag1 = false;
-                int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
-                if (rc_status1[0] == S_RC_SUCCESS) {
-                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
-                        flag1 = true;
-                    }
+        for (; (nEnd - nStart <= (long) 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+            boolean flag1 = false;
+            int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
+            if (rc_status1[0] == S_RC_SUCCESS) {
+                if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+                    flag1 = true;
                 }
-
-                boolean flag2 = false;
-                int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
-                if (rc_status2[0] == S_RC_SUCCESS) {
-                    if (rc_status2[3] == S_Motor_Idle || rc_status2[3] == S_Motor_Done) {
-                        flag2 = true;
-                    }
-                }
-
-                flag = flag1 && flag2;
-
-                if (!flag) {
-                    bTryAgain = true;
-                } else {
-                    break;
-                }
-
             }
 
-            //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
-            //  int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
+            boolean flag2 = false;
+            int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
+            if (rc_status2[0] == S_RC_SUCCESS) {
+                if (rc_status2[3] == S_Motor_Idle || rc_status2[3] == S_Motor_Done) {
+                    flag2 = true;
+                }
+            }
 
-            return flag;
+            flag = flag1 && flag2;
+
+            if (!flag) {
+                bTryAgain = true;
+            } else {
+                break;
+            }
+
         }
-        return false;
+
+        //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
+        //  int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
+
+        return flag;
+
     }
 
     public void setScanSlotHandler(Handler scanSlotHandler) {
@@ -318,10 +316,6 @@ public class MachineCtrl {
     public void setPickupHandler(Handler pickupHandler) {
         this.pickupHandler = pickupHandler;
     }
-
-
-    private Handler scanSlotHandler = null;
-    private Handler pickupHandler = null;
 
     private void sendScanSlotHandlerMessage(int status, String message, ScanSlotResult result) {
         if (scanSlotHandler != null) {
@@ -349,13 +343,11 @@ public class MachineCtrl {
         }
     }
 
-
     private class ScanSlotListenerThread extends Thread {
 
         @Override
         public void run() {
             super.run();
-
 
             if (!isConnect) {
                 LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
@@ -421,7 +413,6 @@ public class MachineCtrl {
                 return;
             }
             cmd_ScanSlotIsStopListener = false;
-
             long nScanSlotStartTime = System.currentTimeMillis();
             while (!cmd_ScanSlotIsStopListener) {
                 try {
@@ -542,6 +533,7 @@ public class MachineCtrl {
             }
 
             LogUtil.i(TAG, "取货流程监听：取货就绪");
+
             sendPickupHandlerMessage(2, "取货就绪", null);
 
             long nStart = System.currentTimeMillis();
@@ -580,10 +572,12 @@ public class MachineCtrl {
                 return;
             }
 
-            action_map = new HashMap<>();
             cmd_PickupIsStopListener = false;
 
+            HashMap<String, String> nPickupActionMap = new HashMap<>();
+
             long nPickupStartTime = System.currentTimeMillis();
+
             while (!cmd_PickupIsStopListener) {
                 try {
                     Thread.sleep(1000);
@@ -618,9 +612,9 @@ public class MachineCtrl {
                             } else {
                                 String action_key = result.getCurrentActionId() + "-" + result.getCurrentActionStatusCode();
                                 String action_value = result.getCurrentActionName() + "-" + result.getCurrentActionStatusName();
-                                if (!action_map.containsKey(action_key)) {
+                                if (!nPickupActionMap.containsKey(action_key)) {
                                     LogUtil.i(TAG, "取货流程监听：当前动作" + result.getCurrentActionName() + "（" + result.getCurrentActionId() + "）" + "," + result.getCurrentActionStatusName() + "（" + result.getCurrentActionStatusCode() + "）");
-                                    action_map.put(action_key, action_value);
+                                    nPickupActionMap.put(action_key, action_value);
                                     sendPickupHandlerMessage(3, "正在取货中", result);
                                 }
                             }
@@ -644,7 +638,6 @@ public class MachineCtrl {
                     cmd_PickupIsStopListener = true;
                     sendPickupHandlerMessage(6, "取货异常", null);
                 }
-
             }
         }
     }

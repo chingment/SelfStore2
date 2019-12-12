@@ -32,6 +32,7 @@ import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.InterUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
@@ -125,8 +126,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 break;
                             case 4://扫描成功
-                                scanSlotsEventNotify(4000,"扫描成功");
                                 if (result != null) {
+                                    scanSlotsEventNotify(4000,"扫描成功,结果:"+ InterUtil.arrayTransformString(result.rowColLayout,",")+",用时:"+result.getUseTime());
                                     saveCabinetRowColLayout(cabinetId, result.rowColLayout,cabinetPendantRows);
                                 }
                                 break;

@@ -30,6 +30,7 @@ import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
+import com.uplink.selfstore.utils.InterUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
@@ -79,6 +80,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
+
+        String s= InterUtil.arrayTransformString(new int[]{1,2,3},",");
 
         setHideStatusBar(true);
         initView();
