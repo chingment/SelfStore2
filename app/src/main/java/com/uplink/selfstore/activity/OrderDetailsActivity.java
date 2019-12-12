@@ -52,7 +52,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private View btn_ContactKefu;
 
     private CustomConfirmDialog dialog_PickupCompelte;
-    private CustomConfirmDialog dialog_ContactKefu;
     private CustomSystemWarnDialog dialog_SystemWarn;
     private  ImageView curpickupsku_img_main;
     private TextView curpickupsku_tip1;
@@ -127,12 +126,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 5://取货失败
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
+                                    dialog_SystemWarn.setWarnTile("系统维护中，请联系客服");
+                                    dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
                                     dialog_SystemWarn.show();
                                 }
                                 break;
                             case 6://取货超时
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
+                                    dialog_SystemWarn.setWarnTile("系统维护中，请联系客服");
+                                    dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
                                     dialog_SystemWarn.show();
                                 }
                                 break;
@@ -237,9 +240,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
         });
 
-        dialog_ContactKefu = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_contactkefu_tips), false);
-        dialog_ContactKefu.getBtnArea().setVisibility(View.GONE);
-
         dialog_SystemWarn = new CustomSystemWarnDialog(OrderDetailsActivity.this);
         curpickupsku_img_main = (ImageView) findViewById(R.id.curpickupsku_img_main);
         curpickupsku_tip1 = (TextView) findViewById(R.id.curpickupsku_tip1);
@@ -262,9 +262,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         txt_OrderSn.setText(orderDetails.getOrderSn()+"");
 
-        if(machine.getCsrQrCode()!=null) {
-            dialog_ContactKefu.getTipsImage().setImageBitmap(BitmapUtil.createQrCodeBitmap(machine.getCsrQrCode()));
-        }
+
+        dialog_SystemWarn.setCsrPhoneNumber(machine.getCsrPhoneNumber());
+        dialog_SystemWarn.setCsrQrcode(machine.getCsrQrCode());
+
 
         OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
         list_skus.setAdapter(cartSkuAdapter);
@@ -421,7 +422,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_PickupCompelte.show();
                     break;
                 case R.id.btn_ContactKefu:
-                    dialog_ContactKefu.show();
+                    dialog_SystemWarn.setWarnTile("您好，如有疑问请联系客服");
+                    dialog_SystemWarn.setBtnCloseVisibility(View.VISIBLE);
+                    dialog_SystemWarn.show();
                     break;
             }
         }
@@ -434,8 +437,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             dialog_PickupCompelte.cancel();
         }
 
-        if (dialog_ContactKefu != null && dialog_ContactKefu.isShowing()) {
-            dialog_ContactKefu.cancel();
+        if (dialog_SystemWarn != null && dialog_SystemWarn.isShowing()) {
+            dialog_SystemWarn.cancel();
         }
     }
 

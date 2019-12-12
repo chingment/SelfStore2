@@ -17,6 +17,7 @@ public class MachineBean implements Serializable {
     private String currency;
     private String currencySymbol;
     private String csrQrCode;
+    private String csrPhoneNumber;
     private int cabinetId_1;
     private String cabinetName_1;
     private int[] cabinetRowColLayout_1;
@@ -136,5 +137,13 @@ public class MachineBean implements Serializable {
 
     public void setPayOptions(List<TerminalPayOptionBean> payOptions) {
         this.payOptions = payOptions;
+    }
+
+    public String getCsrPhoneNumber() {
+        return csrPhoneNumber;
+    }
+
+    public void setCsrPhoneNumber(String csrPhoneNumber) {
+        this.csrPhoneNumber = csrPhoneNumber;
     }
 }

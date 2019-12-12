@@ -26,7 +26,6 @@
             >
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="@dimen/size_30"
                 android:id="@+id/btn_close"
                 android:layout_height="match_parent"
@@ -58,12 +57,10 @@
                 >
 
                 <ImageView
-
                     android:id="@+id/img_warn"
-
                     android:layout_width="@dimen/size_78"
                     android:layout_height="@dimen/size_78"
-                    android:src="@drawable/dialog_icon_warn"
+                    android:src="@drawable/icon_contact_csr"
                     android:contentDescription="@string/image_content_description"
                     />
 
@@ -91,8 +88,8 @@
 
             </LinearLayout>
 
-
             <LinearLayout
+                android:id="@+id/layout_csrQrcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -101,10 +98,44 @@
                 >
 
                 <TextView
-                    android:id="@+id/txt_WarnContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请联系客服人员，进行处理！"
+                    android:text="打开微信扫一扫联系客服"
+                    android:gravity="right"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/sp_14" />
+
+
+                <ImageView
+                    android:id="@+id/img_crsQrcode"
+                    android:layout_width="@dimen/size_78"
+                    android:layout_height="@dimen/size_78"
+                    android:src="@drawable/default_image"
+                    android:contentDescription="@string/image_content_description"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_csrPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系电话："
+                    android:gravity="right"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/sp_14" />
+                <TextView
+                    android:id="@+id/txt_csrPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
                     android:gravity="right"
                     android:textColor="@color/field_value"
                     android:textSize="@dimen/sp_16" />
@@ -112,7 +143,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
 
 
 
