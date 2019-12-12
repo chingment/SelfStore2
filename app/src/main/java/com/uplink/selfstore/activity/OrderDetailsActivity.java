@@ -106,7 +106,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
 
                                     //拍照
-                                    if(pickupResult.getCurrentActionId()>7){
+                                    if(pickupResult.getCurrentActionId()>6){
                                         Intent cameraSnapService = new Intent();
                                         cameraSnapService.setAction("android.intent.action.cameraSnapService");
                                         cameraSnapService.putExtra("cameraId", 0);

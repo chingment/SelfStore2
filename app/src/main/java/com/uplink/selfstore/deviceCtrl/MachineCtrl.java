@@ -24,7 +24,7 @@ public class MachineCtrl {
     public static final int S_RC_SUCCESS = 0;
     public static final int S_RC_INVALID_PARAM = 1;
     public static final int S_RC_ERROR = 2;
-    public static final int S_ACTION_GOZERO=1;
+    public static final int S_ACTION_GOZERO = 1;
     private boolean isConnect = false;
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
@@ -32,17 +32,15 @@ public class MachineCtrl {
     private ScanSlotListenerThread scanListenerThread;
     private symvdio sym = null;
 
-    public static final int MESSAGE_WHAT_SCANSLOTS=1;
-    public static final int MESSAGE_WHAT_PICKUP=2;
+    public static final int MESSAGE_WHAT_SCANSLOTS = 1;
+    public static final int MESSAGE_WHAT_PICKUP = 2;
     private HashMap<String, String> action_map = new HashMap<>();
 
     public MachineCtrl() {
         try {
             sym = new symvdio();
-        }
-        catch (Exception ex)
-        {
-            sym=null;
+        } catch (Exception ex) {
+            sym = null;
         }
     }
 
@@ -56,8 +54,8 @@ public class MachineCtrl {
 
     public boolean connect() {
 
-        if(sym==null) {
-            isConnect=false;
+        if (sym == null) {
+            isConnect = false;
             return isConnect;
         }
 
@@ -68,10 +66,9 @@ public class MachineCtrl {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            isConnect=false;
+            isConnect = false;
             return isConnect;
-        }
-        finally {
+        } finally {
             return isConnect;
         }
 
@@ -81,7 +78,7 @@ public class MachineCtrl {
         if (sym != null) {
             sym.disconnect();
         }
-        isConnect=false;
+        isConnect = false;
         cmd_ScanSlotIsStopListener = true;
         cmd_PickupIsStopListener = true;
     }
@@ -90,23 +87,24 @@ public class MachineCtrl {
         if (sym == null) {
             return false;
         }
-        boolean isflag=sym.SY_MV_DIO_Slave_ConnectSts();
-        if(!isflag) {
+        boolean isflag = sym.SY_MV_DIO_Slave_ConnectSts();
+        if (!isflag) {
             connect();
         }
-        isflag=sym.SY_MV_DIO_Slave_ConnectSts();
+        isflag = sym.SY_MV_DIO_Slave_ConnectSts();
 
-        LogUtil.i(TAG,"isNormarl:"+isflag);
-        return  isflag;
+        LogUtil.i(TAG, "isNormarl:" + isflag);
+        return isflag;
     }
 
-    public boolean isConnect()
-    {
-        return  isConnect;
+    public boolean isConnect() {
+        return isConnect;
     }
-    public int[] getScanSlotResult(){
-        return  sym.SN_MV_Get_ScanData();
+
+    public int[] getScanSlotResult() {
+        return sym.SN_MV_Get_ScanData();
     }
+
     public void scanSlot() {
         if (!isConnect) {
             LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
@@ -172,10 +170,10 @@ public class MachineCtrl {
         }
     }
 
-    public  void  goGoZero() {
-        isConnect=connect();
+    public void goGoZero() {
+        isConnect = connect();
         if (isConnect) {
-            if(sym!=null) {
+            if (sym != null) {
                 sym.SN_MV_EmgStop();
                 try {
                     Thread.sleep(2000);
@@ -187,80 +185,82 @@ public class MachineCtrl {
         }
     }
 
-    public  void  openPickupDoor() {
-        isConnect=connect();
+    public void openPickupDoor() {
+        isConnect = connect();
         if (isConnect) {
-            if(sym!=null) {
+            if (sym != null) {
                 sym.SN_MV_MotorAction(1, 0, 0);
             }
         }
     }
 
-    public void pickUp(int mode,int row,int col) {
-        isConnect = connect();
-        if (!isConnect) {
-            LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
-            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
-        } else if (!this.isNormarl()) {
-            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
-            sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
-        } else if (!this.isIdle()) {
-            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-            sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
-        } else {
-
-            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
-            if (rt_goZero != S_RC_SUCCESS) {
-                LogUtil.i(TAG, "取货流程监听：启动回原点失败");
-                sendPickupHandlerMessage(1, "启动回原点失败", null);
-                return;
-            }
-
-            LogUtil.i(TAG, "取货流程监听：取货就绪");
-            sendPickupHandlerMessage(2, "取货就绪", null);
-
-            long nStart = System.currentTimeMillis();
-            long nEnd = System.currentTimeMillis();
-            boolean bTryAgain = false;
-            boolean bCanAutoStart = false;
-            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
-                int[] result = sym.SN_MV_Get_MotionStatus();
-                boolean isInZero = false;
-                if (result[0] == S_RC_SUCCESS) {
-                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
-                        isInZero = true;
-                    }
-                }
-
-                if (isInZero) {
-                    bCanAutoStart = true;
-                    break;
-                } else {
-                    bTryAgain = true;
-                }
-            }
-
-            if (!bCanAutoStart) {
-                LogUtil.i(TAG, "取货流程监听：取货回原点失败");
-                sendPickupHandlerMessage(1, "取货回原点失败", null);
-                return;
-            }
-
-            LogUtil.i(TAG, "取货流程监听：mode:"+mode+",row:"+row+",col:"+col);
-
-            int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
-            if (rc_autoStart != S_RC_SUCCESS) {
-                LogUtil.i(TAG, "取货流程监听：取货启动失败");
-                sendPickupHandlerMessage(1, "取货启动失败", null);
-                return;
-            }
-
-            action_map = new HashMap<>();
-            this.cmd_PickupIsStopListener = false;
-            pickupListenerThread = new PickupListenerThread();
-            pickupListenerThread.start();
-
-        }
+    public void pickUp(int mode, int row, int col) {
+        pickupListenerThread = new PickupListenerThread(mode, row, col);
+        pickupListenerThread.start();
+//        isConnect = connect();
+//        if (!isConnect) {
+//            LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
+//            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
+//        } else if (!this.isNormarl()) {
+//            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
+//            sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
+//        } else if (!this.isIdle()) {
+//            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
+//            sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
+//        } else {
+//
+//            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+//            if (rt_goZero != S_RC_SUCCESS) {
+//                LogUtil.i(TAG, "取货流程监听：启动回原点失败");
+//                sendPickupHandlerMessage(1, "启动回原点失败", null);
+//                return;
+//            }
+//
+//            LogUtil.i(TAG, "取货流程监听：取货就绪");
+//            sendPickupHandlerMessage(2, "取货就绪", null);
+//
+//            long nStart = System.currentTimeMillis();
+//            long nEnd = System.currentTimeMillis();
+//            boolean bTryAgain = false;
+//            boolean bCanAutoStart = false;
+//            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+//                int[] result = sym.SN_MV_Get_MotionStatus();
+//                boolean isInZero = false;
+//                if (result[0] == S_RC_SUCCESS) {
+//                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
+//                        isInZero = true;
+//                    }
+//                }
+//
+//                if (isInZero) {
+//                    bCanAutoStart = true;
+//                    break;
+//                } else {
+//                    bTryAgain = true;
+//                }
+//            }
+//
+//            if (!bCanAutoStart) {
+//                LogUtil.i(TAG, "取货流程监听：取货回原点失败");
+//                sendPickupHandlerMessage(1, "取货回原点失败", null);
+//                return;
+//            }
+//
+//            LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
+//
+//            int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
+//            if (rc_autoStart != S_RC_SUCCESS) {
+//                LogUtil.i(TAG, "取货流程监听：取货启动失败");
+//                sendPickupHandlerMessage(1, "取货启动失败", null);
+//                return;
+//            }
+//
+//            action_map = new HashMap<>();
+//            this.cmd_PickupIsStopListener = false;
+//            pickupListenerThread = new PickupListenerThread();
+//            pickupListenerThread.start();
+//
+//        }
     }
 
     public boolean isIdle() {
@@ -272,7 +272,7 @@ public class MachineCtrl {
 
         if (sym != null) {
 
-            for(;(nEnd - nStart <= (long)1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+            for (; (nEnd - nStart <= (long) 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
                 boolean flag1 = false;
                 int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
                 if (rc_status1[0] == S_RC_SUCCESS) {
@@ -289,19 +289,18 @@ public class MachineCtrl {
                     }
                 }
 
-                flag=flag1 && flag2;
+                flag = flag1 && flag2;
 
-                if(!flag) {
-                    bTryAgain=true;
-                }
-                else {
+                if (!flag) {
+                    bTryAgain = true;
+                } else {
                     break;
                 }
 
             }
 
-          //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
-          //  int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
+            //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
+            //  int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
 
             return flag;
         }
@@ -309,38 +308,38 @@ public class MachineCtrl {
     }
 
     public void setScanSlotHandler(Handler scanSlotHandler) {
-        this.scanSlotHandler=scanSlotHandler;
+        this.scanSlotHandler = scanSlotHandler;
     }
 
-    public void  setPickupHandler(Handler pickupHandler) {
-        this.pickupHandler=pickupHandler;
+    public void setPickupHandler(Handler pickupHandler) {
+        this.pickupHandler = pickupHandler;
     }
 
 
     private Handler scanSlotHandler = null;
-    private Handler pickupHandler=null;
+    private Handler pickupHandler = null;
 
     private void sendScanSlotHandlerMessage(int status, String message, ScanSlotResult result) {
-        if(scanSlotHandler!=null) {
+        if (scanSlotHandler != null) {
             Message m = new Message();
             m.what = MESSAGE_WHAT_SCANSLOTS;
-            Bundle data=new Bundle();
-            data.putInt("status",status);
-            data.putString("message",message);
-            data.putSerializable("result",result);
+            Bundle data = new Bundle();
+            data.putInt("status", status);
+            data.putString("message", message);
+            data.putSerializable("result", result);
             m.setData(data);
             scanSlotHandler.sendMessage(m);
         }
     }
 
     private void sendPickupHandlerMessage(int status, String message, PickupResult result) {
-        if(pickupHandler!=null) {
+        if (pickupHandler != null) {
             Message m = new Message();
             m.what = MESSAGE_WHAT_PICKUP;
-            Bundle data=new Bundle();
-            data.putInt("status",status);
-            data.putString("message",message);
-            data.putSerializable("result",result);
+            Bundle data = new Bundle();
+            data.putInt("status", status);
+            data.putString("message", message);
+            data.putSerializable("result", result);
             m.setData(data);
             pickupHandler.sendMessage(m);
         }
@@ -361,7 +360,7 @@ public class MachineCtrl {
                 }
                 try {
                     long maxPickTime = System.currentTimeMillis() - nScanSlotStartTime;
-                    if (maxPickTime < 5* 60 * 1000) {
+                    if (maxPickTime < 5 * 60 * 1000) {
                         int[] rc_scanStatus = sym.SN_MV_Get_ScanStatus();
                         if (rc_scanStatus[0] == S_RC_SUCCESS) {
                             //LogUtil.i(TAG, "扫描流程监听：扫描状态" + rc_scanStatus[0]);
@@ -379,8 +378,6 @@ public class MachineCtrl {
                                 if (rc_scanData[0] == S_RC_SUCCESS) {
 
 
-
-
                                     ScanSlotResult scanSlotResult = new ScanSlotResult();
 
                                     long nScanSlotEndTime = System.currentTimeMillis();
@@ -388,7 +385,7 @@ public class MachineCtrl {
                                     scanSlotResult.setUseTime(sTime);//设置取货消耗时间
 
 
-                                    LogUtil.i(TAG, "扫描流程监听：扫描成功，使用时长："+sTime);
+                                    LogUtil.i(TAG, "扫描流程监听：扫描成功，使用时长：" + sTime);
 
                                     int rows = rc_scanData[1];
                                     scanSlotResult.setRows(rows);
@@ -434,9 +431,80 @@ public class MachineCtrl {
 
     private class PickupListenerThread extends Thread {
 
+        private int mode = -1;
+        private int row = -1;
+        private int col = -1;
+
+        private PickupListenerThread(int mode, int row, int col) {
+            this.mode = mode;
+            this.row = row;
+            this.col = col;
+        }
+
         @Override
         public void run() {
             super.run();
+            isConnect = connect();
+            if (!isConnect) {
+                LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
+                sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
+            } else if (!isNormarl()) {
+                LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
+                sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
+            } else if (!isIdle()) {
+                LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
+                sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
+            }
+
+            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+            if (rt_goZero != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "取货流程监听：启动回原点失败");
+                sendPickupHandlerMessage(1, "启动回原点失败", null);
+                return;
+            }
+
+            LogUtil.i(TAG, "取货流程监听：取货就绪");
+            sendPickupHandlerMessage(2, "取货就绪", null);
+
+            long nStart = System.currentTimeMillis();
+            long nEnd = System.currentTimeMillis();
+            boolean bTryAgain = false;
+            boolean bCanAutoStart = false;
+            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+                int[] result = sym.SN_MV_Get_MotionStatus();
+                boolean isInZero = false;
+                if (result[0] == S_RC_SUCCESS) {
+                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
+                        isInZero = true;
+                    }
+                }
+
+                if (isInZero) {
+                    bCanAutoStart = true;
+                    break;
+                } else {
+                    bTryAgain = true;
+                }
+            }
+
+            if (!bCanAutoStart) {
+                LogUtil.i(TAG, "取货流程监听：取货回原点失败");
+                sendPickupHandlerMessage(1, "取货回原点失败", null);
+                return;
+            }
+
+            LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
+
+            int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
+            if (rc_autoStart != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "取货流程监听：取货启动失败");
+                sendPickupHandlerMessage(1, "取货启动失败", null);
+                return;
+            }
+
+            action_map = new HashMap<>();
+            cmd_PickupIsStopListener = false;
+
             long nPickupStartTime = System.currentTimeMillis();
             while (!cmd_PickupIsStopListener) {
                 try {
@@ -498,9 +566,8 @@ public class MachineCtrl {
                     cmd_PickupIsStopListener = true;
                     sendPickupHandlerMessage(6, "取货异常", null);
                 }
+
             }
         }
     }
-
-
 }

@@ -73,7 +73,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
                 mCamera.setPreviewDisplay(preview.getHolder());
                 mCamera.startPreview();// 开始预览
                 // 防止某些手机拍摄的照片亮度不够
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 mCamera.takePicture(null, null, this);
             } else {
                 LogUtil.w(TAG, "Camera running");
@@ -158,6 +158,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
 
 
             int cameraId = intent.getIntExtra("cameraId", -1);
+            String cmd = intent.getStringExtra("cmd");
             String uniqueId = intent.getStringExtra("uniqueId");
             if (cameraId >= 0 && uniqueId != null) {
                 SurfaceView preview = CameraWindow.getDummyCameraView();
