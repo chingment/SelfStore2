@@ -81,9 +81,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        String s= InterUtil.arrayTransformString(new int[]{1,2,3},",");
-
         setHideStatusBar(true);
+
         initView();
         initEvent();
         initData();
