@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 public class MachineSlotsResultBean implements Serializable {
     private int[] rowColLayout;
+    private int[] pendantRows;
+
     private HashMap<String, SlotBean> slots;
 
     public int[] getRowColLayout() {
@@ -21,5 +23,13 @@ public class MachineSlotsResultBean implements Serializable {
 
     public void setSlots(HashMap<String, SlotBean> slots) {
         this.slots = slots;
+    }
+
+    public int[] getPendantRows() {
+        return pendantRows;
+    }
+
+    public void setPendantRows(int[] pendantRows) {
+        this.pendantRows = pendantRows;
     }
 }

@@ -21,6 +21,7 @@ public class MachineBean implements Serializable {
     private int cabinetId_1;
     private String cabinetName_1;
     private int[] cabinetRowColLayout_1;
+    private int[] cabinetPendantRows_1;
     private boolean isHiddenKind;
     private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
@@ -145,5 +146,13 @@ public class MachineBean implements Serializable {
 
     public void setCsrPhoneNumber(String csrPhoneNumber) {
         this.csrPhoneNumber = csrPhoneNumber;
+    }
+
+    public int[] getCabinetPendantRows_1() {
+        return cabinetPendantRows_1;
+    }
+
+    public void setCabinetPendantRows_1(int[] cabinetPendantRows_1) {
+        this.cabinetPendantRows_1 = cabinetPendantRows_1;
     }
 }
