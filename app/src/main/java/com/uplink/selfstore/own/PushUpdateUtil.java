@@ -180,24 +180,7 @@ public class PushUpdateUtil {
                 productSkus.get(updateProductSkuStock.getId()).setOffSell(updateProductSkuStock.isOffSell());
             }
 
-
             globalDataSet.setProductSkus(productSkus);
-
-            List<Activity> acts = AppManager.getAppManager().getActivityStack();
-            if (acts != null) {
-                if (acts.size() > 0) {
-                    for (Activity act : acts) {
-
-                        if (act instanceof ProductKindActivity) {
-
-                            ProductKindActivity act_ProductKind = (ProductKindActivity) act;
-
-                            act_ProductKind.loadKindData();
-                            break;
-                        }
-                    }
-                }
-            }
 
         } catch (Exception ex) {
             LogUtil.e(TAG, ex);

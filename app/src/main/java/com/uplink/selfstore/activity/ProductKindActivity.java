@@ -200,6 +200,12 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadKindData();
+    }
+
     private void addGoodsToCart(ImageView goodsImg) {
         // 创造出执行动画的主题goodsImg（这个图片就是执行动画的图片,从开始位置出发,经过一个抛物线（贝塞尔曲线）,移动到购物车里）
         final ImageView goods = new ImageView(this);
