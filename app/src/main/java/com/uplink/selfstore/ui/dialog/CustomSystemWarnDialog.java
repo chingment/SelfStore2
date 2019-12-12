@@ -100,6 +100,13 @@ public class CustomSystemWarnDialog extends Dialog {
                 return true;
             }
         });
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
     }
 
     protected void initData() {

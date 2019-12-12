@@ -126,7 +126,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 5://取货失败
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
-                                    dialog_SystemWarn.setWarnTile("系统维护中，请联系客服");
+                                    dialog_SystemWarn.setWarnTile("系统维护中");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
                                     dialog_SystemWarn.show();
                                 }
@@ -134,7 +134,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 6://取货超时
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
-                                    dialog_SystemWarn.setWarnTile("系统维护中，请联系客服");
+                                    dialog_SystemWarn.setWarnTile("系统维护中");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
                                     dialog_SystemWarn.show();
                                 }
@@ -422,7 +422,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_PickupCompelte.show();
                     break;
                 case R.id.btn_ContactKefu:
-                    dialog_SystemWarn.setWarnTile("您好，如有疑问请联系客服");
+                    dialog_SystemWarn.setWarnTile("您好，需要提供帮助吗？");
                     dialog_SystemWarn.setBtnCloseVisibility(View.VISIBLE);
                     dialog_SystemWarn.show();
                     break;

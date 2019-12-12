@@ -73,7 +73,6 @@ public class CustomConfirmDialog extends Dialog {
             btnCancle.setVisibility(View.GONE);
         }
 
-        this.dismiss();
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
