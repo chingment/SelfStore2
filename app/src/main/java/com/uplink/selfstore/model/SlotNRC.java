@@ -44,7 +44,7 @@ public class SlotNRC {
 
     public static SlotNRC  GetSlotNRC(String slotId) {
 
-        String slot="n0r1c1m0";
+        //String slot="n0r1c1m0";
 
         int n_index=slotId.indexOf('n');
 
@@ -66,24 +66,17 @@ public class SlotNRC {
             return null;
         }
 
-        int m_index=slotId.indexOf('m');
-
-        if(m_index<0)
-        {
-            return null;
-        }
-
         try {
             SlotNRC slotNRC=new SlotNRC();
 
             String str_n = slotId.substring(n_index + 1, r_index - n_index);
             String str_r = slotId.substring(r_index + 1, c_index);
-            String str_c = slotId.substring(c_index + 1, m_index);
-            String str_m = slotId.substring(m_index + 1, slotId.length());
+            String str_c = slotId.substring(c_index + 1, slotId.length());
+
             slotNRC.setCabinetId(str_n);
             slotNRC.setRow(Integer.valueOf(str_r));
             slotNRC.setCol(Integer.valueOf(str_c));
-            slotNRC.setMode(Integer.valueOf(str_m));
+
             return  slotNRC;
         }
         catch (NullPointerException ex)

@@ -232,7 +232,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             boolean isPndantRow = false;
             if (cabinetPendantRows != null) {
                 for (int z = 0; z < cabinetPendantRows.length; z++) {
-                    if (cabinetPendantRows[z] == i) {
+                    if (cabinetPendantRows[z] == (i-1)) {
                         isPndantRow = true;
                         break;
                     }

@@ -42,6 +42,7 @@ import com.uplink.selfstore.utils.StringUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class CustomSlotEditDialog extends Dialog {
 
@@ -124,6 +125,16 @@ public class CustomSlotEditDialog extends Dialog {
                             if(customDialogRunning!=null) {
                                 customDialogRunning.setProgressText("正在取货中..请稍等");
                                 pickupEventNotify(productSkuId,slotId,3012,"发起取货",pickupResult);
+                            }
+
+                            //拍照
+                            if(pickupResult.getCurrentActionId()>6){
+                                Intent cameraSnapService = new Intent();
+                                cameraSnapService.setAction("android.intent.action.cameraSnapService");
+                                cameraSnapService.putExtra("cameraId", 0);
+                                UUID uuid = UUID.randomUUID();
+                                cameraSnapService.putExtra("uniqueId", uuid.toString());
+                                context.sendBroadcast(cameraSnapService);
                             }
                         }
                         break;
