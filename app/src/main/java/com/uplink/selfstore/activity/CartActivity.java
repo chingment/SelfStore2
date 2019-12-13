@@ -133,10 +133,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 closePageCountTimerStart();
-                taskByCheckPayTimeout.cancel();
                 dialog_ScanPay_ConfirmClose.dismiss();
                 dialog_ScanPay.dismiss();
                 orderCancle(LAST_ORDERID, "取消订单");
+                taskByCheckPayTimeout.cancel();
                 LAST_ORDERID = "";
             }
         });
@@ -178,8 +178,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         btn_pay_z_wechat.setOnClickListener(this);
         btn_pay_z_zhifubao.setOnClickListener(this);
         btn_pay_z_aggregate.setOnClickListener(this);
-
-        //btn_gopay.setOnClickListener(this);
     }
 
     private void initData() {

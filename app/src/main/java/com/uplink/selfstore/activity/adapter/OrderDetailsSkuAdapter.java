@@ -67,7 +67,7 @@ public class OrderDetailsSkuAdapter extends BaseAdapter {
         txt_quantity.setText(String.valueOf(item.getQuantity()));
         txt_quantitybysuccess.setText(String.valueOf(item.getQuantityBySuccess()));
         txt_quantitybyexception.setText(String.valueOf(item.getQuantityByException()));
-
+        txt_quantitybyexception.setVisibility(View.GONE);
         return convertView;
     }
 
