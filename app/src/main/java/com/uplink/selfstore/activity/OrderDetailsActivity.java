@@ -185,16 +185,18 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             for (int j = 0; j < slots.size(); j++) {
                 PickupSlotBean slot = slots.get(j);
-                if(slot.isCanPickup()) {
-                    pickSku = new PickupSkuBean();
-                    pickSku.setId(sku.getId());
-                    pickSku.setName(sku.getName());
-                    pickSku.setMainImgUrl(sku.getMainImgUrl());
-                    pickSku.setSlotId(slot.getSlotId());
-                    pickSku.setUniqueId(slot.getUniqueId());
-                    pickSku.setStatus(slot.getStatus());
-                    isHas=true;
-                    break;
+                if(slot.isAllowPickup()) {
+                    if(slot.getStatus()==3010) {
+                        pickSku = new PickupSkuBean();
+                        pickSku.setId(sku.getId());
+                        pickSku.setName(sku.getName());
+                        pickSku.setMainImgUrl(sku.getMainImgUrl());
+                        pickSku.setSlotId(slot.getSlotId());
+                        pickSku.setUniqueId(slot.getUniqueId());
+                        pickSku.setStatus(slot.getStatus());
+                        isHas = true;
+                        break;
+                    }
                 }
             }
         }
@@ -414,7 +416,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                                     for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
                                         if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
-                                            productSkus.get(i).getSlots().get(j).setCanPickup(false);
                                             productSkus.get(i).getSlots().get(j).setStatus(4000);
                                         }
                                     }
