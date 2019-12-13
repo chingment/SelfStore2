@@ -73,7 +73,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
                 mCamera.setPreviewDisplay(preview.getHolder());
                 mCamera.startPreview();// 开始预览
                 // 防止某些手机拍摄的照片亮度不够
-                Thread.sleep(1000);
+                Thread.sleep(5000);
                 mCamera.takePicture(null, null, this);
             } else {
                 LogUtil.w(TAG, "Camera running");
@@ -95,7 +95,6 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             outputStream.close();
             camera.stopPreview();
-            camera.startPreview();
 
             List<String> filePaths=new ArrayList<>();
             filePaths.add(filePath);
