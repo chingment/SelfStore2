@@ -72,12 +72,15 @@ public class CustomSlotEditDialog extends Dialog {
     private ScanMidCtrl scanMidCtrl;
     private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
+    private int[] cabinetPendantRows=null;
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.mContext = (SmMachineStockActivity) context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
+        MachineBean machine = AppCacheManager.getMachine();
+        cabinetPendantRows=machine.getCabinetPendantRows_1();
 
         machineCtrl = new MachineCtrl();
         //machineCtrl.connect();
@@ -270,7 +273,19 @@ public class CustomSlotEditDialog extends Dialog {
                 String productSkuId=String.valueOf(txt_SkuId.getText());
 
                 pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
-                machineCtrl.pickUp(slotNRC.getMode(),slotNRC.getRow(), slotNRC.getCol());
+
+
+                int mode=0;
+                if (cabinetPendantRows != null) {
+                    for (int z = 0; z < cabinetPendantRows.length; z++) {
+                        if (cabinetPendantRows[z] == slotNRC.getRow()) {
+                            mode =1;
+                            break;
+                        }
+                    }
+                }
+
+                machineCtrl.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
             }
         });
 

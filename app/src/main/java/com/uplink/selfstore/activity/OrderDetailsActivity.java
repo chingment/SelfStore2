@@ -60,9 +60,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private Handler handler_UpdateUI;
     private PickupSkuBean currentPickupSku=null;
     private Boolean isPicking=false;
-
+    private int[] cabinetPendantRows=null;
     private MachineCtrl machineCtrl=new MachineCtrl();
     private final int MESSAGE_WHAT_PICKUP=2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +71,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.activity_orderdetails_navtitle));
 
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
+
+        MachineBean machine = AppCacheManager.getMachine();
+        cabinetPendantRows=machine.getCabinetPendantRows_1();
 
         initView();
         initEvent();
@@ -371,7 +375,17 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         case 3011:
                             SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
                             if (slotNRC != null) {
-                                machineCtrl.pickUp(slotNRC.getMode(),slotNRC.getRow(), slotNRC.getCol());
+
+                                int mode=0;
+                                if (cabinetPendantRows != null) {
+                                    for (int z = 0; z < cabinetPendantRows.length; z++) {
+                                        if (cabinetPendantRows[z] == slotNRC.getRow()) {
+                                            mode =1;
+                                            break;
+                                        }
+                                    }
+                                }
+                                machineCtrl.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
                             }
                             break;
                         case 4000:

@@ -73,6 +73,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         MachineBean machine = AppCacheManager.getMachine();
         cabinetId = machine.getCabinetId_1();
         cabinetRowColLayout = machine.getCabinetRowColLayout_1();
+        cabinetPendantRows=machine.getCabinetPendantRows_1();
 
         machineCtrl = new MachineCtrl();
         machineCtrl.setScanSlotHandler(new Handler(  new Handler.Callback() {
@@ -128,7 +129,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 4://扫描成功
                                 if (result != null) {
                                     scanSlotsEventNotify(4000,"扫描成功,结果:"+ InterUtil.arrayTransformString(result.rowColLayout,",")+",用时:"+result.getUseTime());
-                                    saveCabinetRowColLayout(cabinetId, result.rowColLayout,cabinetPendantRows);
+                                    saveCabinetRowColLayout(cabinetId, result.rowColLayout);
                                 }
                                 break;
                             case 5://扫描超时
@@ -203,15 +204,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
             cabinetSlots.get(slot.getId()).setMaxLimitSumQuantity(slot.getMaxLimitSumQuantity());
             cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
-            drawsCabinetSlots(cabinetRowColLayout,cabinetPendantRows, cabinetSlots);
+            drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
         }
     }
 
-    public void drawsCabinetSlots(int[] rowColLayout,int[] pendantRows, HashMap<String, SlotBean> slots) {
-
+    public void drawsCabinetSlots(int[] rowColLayout, HashMap<String, SlotBean> slots) {
 
         this.cabinetRowColLayout = rowColLayout;
-        this.cabinetPendantRows = pendantRows;
 
         if (slots == null) {
             slots = new HashMap<String, SlotBean>();
@@ -231,9 +230,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             int colLength = rowColLayout[i - 1];
 
             boolean isPndantRow = false;
-            if (pendantRows != null) {
-                for (int z = 0; z < pendantRows.length; z++) {
-                    if (pendantRows[z] == i) {
+            if (cabinetPendantRows != null) {
+                for (int z = 0; z < cabinetPendantRows.length; z++) {
+                    if (cabinetPendantRows[z] == i) {
                         isPndantRow = true;
                         break;
                     }
@@ -261,7 +260,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
 
 
-                final String slotId = "n" + cabinetId + "r" + (i - 1) + "c" + j + "m" + m;
+                final String slotId = "n" + cabinetId + "r" + (i - 1) + "c" + j;
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);
@@ -399,7 +398,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 if (rt.getResult() == Result.SUCCESS) {
                     MachineSlotsResultBean d = rt.getData();
-                    drawsCabinetSlots(d.getRowColLayout(),d.getPendantRows(), d.getSlots());
+                    drawsCabinetSlots(d.getRowColLayout(), d.getSlots());
                 } else {
                     showToast(rt.getMessage());
                 }
@@ -412,7 +411,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         });
     }
 
-    private void saveCabinetRowColLayout(final int cabinetId, final int[]cabinetRowColLayout,final int[]  cabinetPendantRows) {
+    private void saveCabinetRowColLayout(final int cabinetId, final int[]cabinetRowColLayout) {
         MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
@@ -437,7 +436,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 showToast(rt.getMessage());
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    drawsCabinetSlots(cabinetRowColLayout,cabinetPendantRows, cabinetSlots);
+                    drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
                 }
 
                 if(customDialogRunning!=null) {
