@@ -15,13 +15,13 @@ public class ClosePageCountTimer extends CountDownTimer {
      * 参数 millisInFuture       倒计时总时间（如60S，120s等）
      * 参数 countDownInterval    渐变时间（每次倒计1s）
      */
-    public ClosePageCountTimer(Context context,long millisInFuture) {
-        super(millisInFuture*1000, 1000);
+    public ClosePageCountTimer(Context context,long seconds) {
+        super(seconds*1000, 1000);
         this.context=context;
     }
 
-    public ClosePageCountTimer(Context context,long millisInFuture,OnPageCountLinster onPageCountLinster) {
-        super(millisInFuture*1000, 1000);
+    public ClosePageCountTimer(Context context,long seconds,OnPageCountLinster onPageCountLinster) {
+        super(seconds*1000, 1000);
         this.context=context;
         this.onPageCountLinster=onPageCountLinster;
     }

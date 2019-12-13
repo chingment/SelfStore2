@@ -207,7 +207,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             public void onTick(long seconds) {
 
             }
-        });
+        },30);
     }
 
     private void initView() {
@@ -231,6 +231,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
                     dialog_PickupCompelte.cancel();
                 }
+
+                Thread t = new Thread(new Runnable(){
+                    public void run(){
+                        machineCtrl.goGoZero();
+                    }
+                });
+                t.start();
 
                 Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                 startActivity(intent);
