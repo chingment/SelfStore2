@@ -128,6 +128,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 }
                                 break;
                             case 5://取货失败
+                                LogUtil.e("取货失败");
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,"取货失败",pickupResult);
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中");
@@ -136,6 +138,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 }
                                 break;
                             case 6://取货超时
+                                LogUtil.e("取货超时");
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,"取货超时",pickupResult);
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中");
@@ -181,7 +185,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             for (int j = 0; j < slots.size(); j++) {
                 PickupSlotBean slot = slots.get(j);
-                if(slot.getStatus()!=4000&&slot.getStatus()!=6000) {
+                if(slot.isCanPickup()) {
                     pickSku = new PickupSkuBean();
                     pickSku.setId(sku.getId());
                     pickSku.setName(sku.getName());
@@ -410,6 +414,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                                     for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
                                         if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
+                                            productSkus.get(i).getSlots().get(j).setCanPickup(false);
                                             productSkus.get(i).getSlots().get(j).setStatus(4000);
                                         }
                                     }

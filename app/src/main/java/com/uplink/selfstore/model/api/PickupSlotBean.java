@@ -10,6 +10,7 @@ public class PickupSlotBean implements Serializable {
     private String uniqueId;
     private String slotId;
     private int status;
+    private boolean isCanPickup;
 
     public String getUniqueId() {
         return uniqueId;
@@ -33,5 +34,13 @@ public class PickupSlotBean implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public boolean isCanPickup() {
+        return isCanPickup;
+    }
+
+    public void setCanPickup(boolean canPickup) {
+        isCanPickup = canPickup;
     }
 }
