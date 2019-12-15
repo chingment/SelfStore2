@@ -79,12 +79,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_initdata_textview_machineid_text"
+                android:text="@string/activity_initdata_textview_deviceid_text"
                 android:textColor="@color/field_name"
                 android:textSize="@dimen/sp_10" />
 
             <TextView
-                android:id="@+id/txt_machineId"
+                android:id="@+id/txt_deviceId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"

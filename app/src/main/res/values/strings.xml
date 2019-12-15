@@ -30,6 +30,7 @@
     <string name="activity_smmachineinfo_textview_machinestatus_text">机器状态</string>
     <string name="activity_smmachineinfo_textview_scanganstatus_text">扫描器状态</string>
     <string name="activity_smmachineinfo_textview_storename_text">店铺名称</string>
+    <string name="activity_smmachineinfo_textview_deviceid_text">设备编码</string>
     <string name="activity_smmachineinfo_textview_machineid_text">机器编码</string>
     <string name="activity_smmachineinfo_textview_localtion_text">地理位置</string>
     <string name="activity_smmachineinfo_textview_paytimeout_text">支付超时（秒）</string>
@@ -51,7 +52,7 @@
     <string name="activity_initdata_tips_settingmachine">正在配置商户机器信息</string>
     <string name="activity_initdata_tips_settingmachinesuccess">配置商户机器信息成功</string>
     <string name="activity_initdata_tips_settingmachinefailure">配置商户机器信息失败</string>
-    <string name="activity_initdata_textview_machineid_text">机器编码</string>
+    <string name="activity_initdata_textview_deviceid_text">设备编码</string>
     <string name="activity_initdata_textview_version_text">应用版本</string>
     <string name="activity_smhome_navtitle">设置中心</string>
     <string name="activity_smhome_ninegriditem_title_stockset">库存设置</string>

@@ -12,9 +12,11 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
+import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
@@ -48,6 +50,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         updateAppService.setAction("android.intent.action.updateAppService");
         sendBroadcast(updateAppService);
 
+        final MachineBean machine = AppCacheManager.getMachine();
+
         confirmDialog = new CustomConfirmDialog(SmHomeActivity.this, "", true);
         confirmDialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +74,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                         //todo 改为重新获取数据方法
                         Map<String, Object> params = new HashMap<>();
-                        params.put("machineId", getAppContext().getDeviceId());
+                        params.put("machineId", machine.getId());
                         params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
                         params.put("appVersionCode", BuildConfig.VERSION_CODE);
                         params.put("appVersionName", BuildConfig.VERSION_NAME);

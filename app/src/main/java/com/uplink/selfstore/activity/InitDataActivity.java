@@ -56,7 +56,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private ProgressBar loading_bar;
     private LoadingView loading_ani;
     private TextView loading_msg;
-    private TextView txt_machineId;
+    private TextView txt_deviceId;
     private TextView txt_version;
     private MyListView list_log;
     private View btn_appexit;
@@ -105,7 +105,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         loading_ani = (LoadingView) findViewById(R.id.loading_ani);
         loading_bar = (ProgressBar) findViewById(R.id.loading_bar);
         loading_msg = (TextView) findViewById(R.id.loading_msg);
-        txt_machineId=(TextView) findViewById(R.id.txt_machineId);
+        txt_deviceId=(TextView) findViewById(R.id.txt_deviceId);
         txt_version=(TextView) findViewById(R.id.txt_version);
         list_log=(MyListView)findViewById(R.id.list_log);
         btn_appexit=(View)findViewById(R.id.btn_appexit);
@@ -177,7 +177,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
     private void initData() {
 
-        txt_machineId.setText(getAppContext().getDeviceId());
+        txt_deviceId.setText(getAppContext().getDeviceId());
         txt_version.setText(BuildConfig.VERSION_NAME);
     }
 
@@ -218,11 +218,12 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setTips(0x0001, getAppContext().getString(R.string.activity_initdata_tips_settingmachine));
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", getAppContext().getDeviceId());
+        params.put("deviceId", getAppContext().getDeviceId());
         params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
         params.put("ctrlSdkVersionCode", machineCtrl.vesion());
+        params.put("macAddress", getAppContext().getMacAddress());
         params.put("macAddress", getAppContext().getMacAddress());
 
         postByMy(Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {
