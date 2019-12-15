@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 
@@ -18,6 +19,7 @@ import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -85,21 +87,43 @@ public class AppContext extends Application {
 
     public String getDeviceId() {
         //todo 获取方式必须跟statinterface里获取的设备号一致
-        String DEVICE_ID = "000000000000000";
-        try {
-            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            if(tm!=null) {
-                DEVICE_ID = tm.getDeviceId();
-            }
-        } catch (Exception ex) {
 
+        String DEVICE_ID = "";
+
+        try {
+            WifiManager wifi = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = wifi.getConnectionInfo();
+            String deviceId=info != null ? info.getMacAddress() : "";
+            if(!StringUtil.isEmptyNotNull(deviceId))
+            {
+                DEVICE_ID=deviceId.replace(":","");
+            }
+        }
+        catch (Exception ex)
+        {
+            DEVICE_ID="ERROR";
         }
 
-        LogUtil.i("设备id：" + DEVICE_ID);
-
-       // return "000000000000000";
 
         return DEVICE_ID;
+
+//        String DEVICE_ID = "000000000000000";
+//        try {
+//            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//            if(tm!=null) {
+//                DEVICE_ID = tm.getDeviceId();
+//            }
+//        } catch (Exception ex) {
+//
+//        }
+//
+//        if(StringUtil.isEmptyNotNull(DEVICE_ID)) {
+//            DEVICE_ID="ERROR";
+//        }
+//
+//        LogUtil.i("设备id：" + DEVICE_ID);
+//
+//        return DEVICE_ID;
 
  //       String DEVICE_ID = "DEVICE_ID";
  //       String device_id="000000000000000";
