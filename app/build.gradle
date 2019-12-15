@@ -28,8 +28,8 @@ android {
         applicationId "com.uplink.selfstore"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 22
-        versionName "1.0.2.2"
+        versionCode 25
+        versionName "1.0.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
     }
@@ -103,5 +103,6 @@ dependencies {
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
     testImplementation 'junit:junit:4.12'
     implementation files('libs/SYMVDIO.jar')
-    compile project(':StatInterface')
+    implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
+    implementation project(':StatInterface')
 }

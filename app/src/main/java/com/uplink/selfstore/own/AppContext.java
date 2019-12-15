@@ -9,6 +9,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
 import com.tamic.statinterface.stats.core.TcCrashHandler;
@@ -20,6 +21,8 @@ import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
+
+import java.util.UUID;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -84,6 +87,10 @@ public class AppContext extends Application {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
+//    public static String getDeviceId() {
+//        String androidId = Settings.Secure.getString(app.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+//        return androidId;
+//    }
 
     public String getDeviceId() {
         //todo 获取方式必须跟statinterface里获取的设备号一致
