@@ -105,7 +105,7 @@ public class AppContext extends Application {
         }
 
 
-        return DEVICE_ID;
+        return DEVICE_ID+"1";
 
 //        String DEVICE_ID = "000000000000000";
 //        try {

@@ -35,6 +35,8 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
+import org.apache.commons.logging.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +69,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         @Override
         public void run() {
 
-            LogUtil.i(TAG,"初始化数据检查");
             if(!initIsRun) {
                 initIsRun=true;
                 setMachineInitData();
@@ -94,12 +95,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         Intent updateAppService = new Intent(InitDataActivity.this, UpdateAppService.class);
         startService(updateAppService);
-
-//        Intent intent3 = new Intent();
-//        intent3.setAction("android.intent.action.CameraSnapService");
-//        intent3.putExtra("cmd", "cmd2");
-//        intent3.putExtra("value", "value2");
-//        sendBroadcast(intent3);
 
         machineCtrl.goGoZero();
 
@@ -140,19 +135,21 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 String dateTime = sdf.format(new Date());
                 loading_msg.setText(msg.obj.toString());
 
+
                 LogBean log=new LogBean();
                 log.setDateTime(dateTime);
                 log.setContent(content);
                 logs.add(log);
-                Collections.reverse(logs);
 
-                int size=10;
-                if(logs.size()>=size)
-                {
-                    logs.remove(size-1);
+                List<LogBean> reverseLogs=new ArrayList<>();
+                for (int i=logs.size();i>0;i--) {
+                    if(reverseLogs.size()>10) {
+                        break;
+                    }
+                    reverseLogs.add(logs.get(i-1));
                 }
 
-                LogAdapter logAdapter = new LogAdapter(InitDataActivity.this,logs);
+                LogAdapter logAdapter = new LogAdapter(InitDataActivity.this,reverseLogs);
                 list_log.setAdapter(logAdapter);
 
                 switch (msg.what) {
@@ -219,6 +216,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     public void setMachineInitData() {
 
         setTips(0x0001, getAppContext().getString(R.string.activity_initdata_tips_settingmachine));
+
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", getAppContext().getDeviceId());
         params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
