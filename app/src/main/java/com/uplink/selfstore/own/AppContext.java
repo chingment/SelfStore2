@@ -95,62 +95,38 @@ public class AppContext extends Application {
     public String getDeviceId() {
         //todo 获取方式必须跟statinterface里获取的设备号一致
 
-        String DEVICE_ID = "";
+        String deviceId= "";
 
         try {
-            WifiManager wifi = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
-            WifiInfo info = wifi.getConnectionInfo();
-            String deviceId=info != null ? info.getMacAddress() : "";
-            if(!StringUtil.isEmptyNotNull(deviceId))
+
+            deviceId=getImeiId();
+
+            if(StringUtil.isEmptyNotNull(deviceId))
             {
-                DEVICE_ID=deviceId.replace(":","");
+                deviceId=getMacAddress();
             }
         }
         catch (Exception ex)
         {
-            DEVICE_ID="ERROR";
+            deviceId="";
         }
 
 
-        return DEVICE_ID;
+        return deviceId;
+    }
 
-//        String DEVICE_ID = "000000000000000";
-//        try {
-//            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//            if(tm!=null) {
-//                DEVICE_ID = tm.getDeviceId();
-//            }
-//        } catch (Exception ex) {
-//
-//        }
-//
-//        if(StringUtil.isEmptyNotNull(DEVICE_ID)) {
-//            DEVICE_ID="ERROR";
-//        }
-//
-//        LogUtil.i("设备id：" + DEVICE_ID);
-//
-//        return DEVICE_ID;
+    public String getImeiId() {
+        String imeiId = "";
+        try {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            if(tm!=null) {
+                imeiId = tm.getDeviceId();
+            }
+        } catch (Exception ex) {
+            imeiId="";
+        }
 
- //       String DEVICE_ID = "DEVICE_ID";
- //       String device_id="000000000000000";
-//        try {
-//
-//            SharedPreferencesHelper preferencesHelper = SharedPreferencesHelper.getInstance(app.getApplicationContext());
-//            String s_device_id = preferencesHelper.getString(DEVICE_ID);
-//            if(TextUtils.isEmpty(s_device_id)) {
-//                s_device_id = UUID.randomUUID().toString();
-//                preferencesHelper.putString(DEVICE_ID,s_device_id);
-//            }
-//
-//            device_id=s_device_id;
-//        }
-//        catch (Exception ex) {
-//
-//        }
-
-//        LogUtil.i("设备id：" + device_id);
-//        return  device_id;
+        return imeiId;
     }
 
     public String getMacAddress() {

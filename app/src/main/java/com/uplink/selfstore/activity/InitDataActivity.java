@@ -16,6 +16,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.VeinLockCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
@@ -81,6 +82,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
+
+        //VeinLockCtrl vein=new VeinLockCtrl(InitDataActivity.this);
+        //vein.connect();
 
         setHideStatusBar(true);
 
@@ -219,11 +223,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
+        params.put("imeiId",getAppContext().getImeiId());
         params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
         params.put("ctrlSdkVersionCode", machineCtrl.vesion());
-        params.put("macAddress", getAppContext().getMacAddress());
         params.put("macAddress", getAppContext().getMacAddress());
 
         postByMy(Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {

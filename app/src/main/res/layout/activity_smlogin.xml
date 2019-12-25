@@ -116,7 +116,7 @@
 
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_loginByAccount"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_20"
                 android:layout_below="@+id/login_area"
@@ -130,9 +130,19 @@
                 android:textSize="@dimen/size_10"/>
 
 
+            <TextView
+                android:layout_margin="@dimen/size_15"
+                android:id="@+id/btn_loginByVeinLock"
+                android:layout_below="@+id/btn_loginByAccount"
+                android:textSize="@dimen/sp_10"
+                android:textColor="@color/blue"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="指静脉登录"
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:layout_below="@+id/btn_login"
+                android:layout_below="@+id/btn_loginByVeinLock"
                 android:id="@+id/btn_appexit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_100"

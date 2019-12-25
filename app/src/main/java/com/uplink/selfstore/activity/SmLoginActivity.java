@@ -18,6 +18,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.dialog.CustomVienLockDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
@@ -29,11 +30,13 @@ import java.util.Map;
 
 public class SmLoginActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmLoginActivity";
-    View nav_back;
-    Button btn_login;//登录按钮
-    EditText txt_username;//账户
-    EditText txt_password;//密码
-    View btn_appexit;
+    private View nav_back;
+    private Button btn_loginByAccount;//账号密码登录按钮
+    private EditText txt_username;//账户
+    private EditText txt_password;//密码
+    private View btn_appexit;
+    private View btn_loginByVeinLock;//指静脉登录按钮
+    private CustomVienLockDialog dialog_VienLock;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +54,17 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     protected void initView() {
 
         nav_back=this.findViewById(R.id.nav_back);
-        btn_login = (Button) this.findViewById(R.id.btn_login);
+        btn_loginByAccount = (Button) this.findViewById(R.id.btn_loginByAccount);
         txt_username = (EditText) this.findViewById(R.id.txt_username);
         txt_password = (EditText) this.findViewById(R.id.txt_password);
-        btn_appexit= (View) this.findViewById(R.id.btn_appexit);
+        btn_appexit=this.findViewById(R.id.btn_appexit);
+        btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
+        dialog_VienLock=new CustomVienLockDialog(SmLoginActivity.this);
     }
 
     protected void initEvent() {
-        btn_login.setOnClickListener(this);
+        btn_loginByAccount.setOnClickListener(this);
+        btn_loginByVeinLock.setOnClickListener(this);
         nav_back.setOnClickListener(this);
 
         LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
@@ -99,7 +105,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                 case R.id.nav_back:
                     finish();
                     break;
-                case R.id.btn_login:
+                case R.id.btn_loginByAccount:
 
 
                     String userName = txt_username.getText() + "";
@@ -150,8 +156,21 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                     });
 
                     break;
+                case R.id.btn_loginByVeinLock:
+                    dialog_VienLock.show();
+                    break;
+
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog_VienLock != null && dialog_VienLock.isShowing()) {
+            dialog_VienLock.cancel();
+        }
+    }
+
 
 }
