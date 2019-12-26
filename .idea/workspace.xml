@@ -99,33 +99,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle____local_aars____Users_chingment_Documents_github_SelfStore2_app_libs_BioVein_jar_unspecified_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/VeinLockCtrl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomVienLockDialog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_vienlock.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StatInterface/build/.transforms/8345ac0b1fe9c6f5614b6c1c7a875314/full/classes.dex" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/build/.transforms/8345ac0b1fe9c6f5614b6c1c7a875314/full/classes.dex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StatInterface/build/outputs/aar/StatInterface-release.aar" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/build/outputs/aar/StatInterface-release.aar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/StatInterface/src/main/java/com/tamic/statinterface/stats/util/DeviceUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/src/main/java/com/tamic/statinterface/stats/util/DeviceUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -141,7 +116,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="ZB2019125103" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="fac7ed7aa01c51f5" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -175,30 +150,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/VeinLockCtrl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="58">
-              <caret line="82" selection-start-line="82" selection-end-line="82" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#connect#0;class#VeinLockCtrl#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
+            <state relative-caret-position="58">
               <caret line="77" column="26" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="26" />
               <folding>
+                <element signature="method#connect#0;class#MachineCtrl#0" />
                 <element signature="method#disConnect#0;class#MachineCtrl#0" />
                 <element signature="method#isNormarl#0;class#MachineCtrl#0" />
                 <element signature="method#scanSlot#0;class#MachineCtrl#0" />
                 <element signature="method#goGoZero#0;class#MachineCtrl#0" />
                 <element signature="method#openPickupDoor#0;class#MachineCtrl#0" />
+                <element signature="method#pickUp#0;class#MachineCtrl#0" />
                 <element signature="method#isIdle#0;class#MachineCtrl#0" />
                 <element signature="method#sendPickupHandlerMessage#0;class#MachineCtrl#0" />
                 <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
@@ -208,47 +172,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomVienLockDialog.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-191">
-              <caret line="74" column="11" lean-forward="true" selection-start-line="74" selection-start-column="11" selection-end-line="74" selection-end-column="11" />
+            <state relative-caret-position="122">
+              <caret line="148" column="13" selection-start-line="148" selection-start-column="5" selection-end-line="148" selection-end-column="13" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2181#2182#0" expanded="true" />
-                <element signature="e#2254#2255#0" expanded="true" />
-                <element signature="e#2327#2512#0" expanded="true" />
-                <element signature="e#2511#2512#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="170" column="37" selection-start-line="170" selection-start-column="37" selection-end-line="170" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-25/android/app/Dialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="1211" column="1" selection-start-line="1211" selection-start-column="1" selection-end-line="1211" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="459" selection-start-line="459" selection-end-line="470" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#autoTakePic#0;class#CameraSnapService#0" />
+                <element signature="method#getSaveSdCardPath#0;class#CameraSnapService#0" />
+                <element signature="method#onDestroy#0;class#MyPictureCallback#0;class#CameraSnapService#0" />
+                <element signature="e#4772#4773#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -271,7 +204,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>sendPickupHandlerMessage</find>
       <find>writeLog</find>
       <find>curpickupsku_tip2</find>
       <find>cancel</find>
@@ -294,13 +226,14 @@
       <find>dialog_SlotEdit</find>
       <find>dialog_ContactKefu</find>
       <find>Product</find>
-      <find>autoTakePic</find>
       <find>pickupEventNotify</find>
       <find>setSendPickup</find>
       <find>0x0002</find>
       <find>getMacAddress</find>
       <find>FV_LoadingDevice</find>
       <find>cmd_ScanSlotIsStopListener</find>
+      <find>autoTakePic</find>
+      <find>cmdReceiver</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -347,7 +280,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmMachineStockActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/SlotNRC.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/ClosePageCountTimer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
@@ -371,10 +303,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomVienLockDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/VeinLockCtrl.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1283" />
     <option name="height" value="711" />
@@ -387,6 +320,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="SelfStore2" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -402,28 +346,6 @@
             <path>
               <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SelfStore2" type="58d84e3e:PackageViewProjectNode" />
-              <item name="app" type="616d4139:PackageViewModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="SelfStore2" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
@@ -452,52 +374,22 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="deviceCtrl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="dialog" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="loopviewpager" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="StatInterface" type="feadf853:AndroidModuleNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SelfStore2" type="58d84e3e:PackageViewProjectNode" />
+              <item name="app" type="616d4139:PackageViewModuleNode" />
             </path>
           </expand>
           <select />
@@ -738,7 +630,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1283" height="711" extended-state="1" />
+    <frame x="0" y="23" width="1283" height="711" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.3134569" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
@@ -759,14 +652,13 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.64458805" side_tool="true" weight="0.29194632" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.40604028" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.31711408" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.22315437" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" weight="0.33724833" />
-      <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.49757674" weight="0.32718122" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="15" sideWeight="0.54119545" visible="true" weight="0.30369127" />
+      <window_info active="true" anchor="bottom" id="Build" order="13" sideWeight="0.6292407" visible="true" weight="0.065436244" />
+      <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" sideWeight="0.49757674" weight="0.32718122" />
+      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.54119545" weight="0.75503355" />
       <window_info anchor="bottom" id="Thumbnails" order="16" weight="0.32885906" />
-      <window_info anchor="right" id="make" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -779,6 +671,7 @@
       <window_info anchor="right" id="Palette&#9;" order="9" />
       <window_info anchor="right" id="Device File Explorer" order="10" sideWeight="0.5273632" side_tool="true" weight="0.026655897" />
       <window_info anchor="right" id="Coverage" order="11" sideWeight="0.5167785" side_tool="true" visible="true" weight="0.026655897" />
+      <window_info anchor="right" id="make" order="12" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.26655897" />
@@ -915,12 +808,6 @@
           <option name="timeStamp" value="133" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java</url>
-          <line>155</line>
-          <properties />
-          <option name="timeStamp" value="168" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java</url>
           <line>201</line>
           <properties />
@@ -959,20 +846,6 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-25/java/lang/Thread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="452" column="11" selection-start-line="452" selection-start-column="11" selection-end-line="452" selection-end-column="11" />
-          <folding>
-            <element signature="e#15841#15842#0" expanded="true" />
-            <element signature="e#15907#15908#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/ClosePageCountTimer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -1312,16 +1185,76 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/VeinLockCtrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="137" selection-start-line="137" selection-end-line="137" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#connect#0;class#VeinLockCtrl#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomVienLockDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="74" column="11" selection-start-line="74" selection-start-column="11" selection-end-line="74" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2181#2182#0" expanded="true" />
+            <element signature="e#2254#2255#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2130">
+          <caret line="170" column="37" selection-start-line="170" selection-start-column="37" selection-end-line="170" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-25/android/app/Dialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16470">
+          <caret line="1211" column="1" selection-start-line="1211" selection-start-column="1" selection-end-line="1211" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6225">
+          <caret line="459" selection-start-line="459" selection-end-line="470" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/CameraWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="36" column="27" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="27" />
+          <folding>
+            <element signature="e#1593#1594#0" expanded="true" />
+            <element signature="e#1631#1632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
+        <state relative-caret-position="58">
           <caret line="77" column="26" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="26" />
           <folding>
+            <element signature="method#connect#0;class#MachineCtrl#0" />
             <element signature="method#disConnect#0;class#MachineCtrl#0" />
             <element signature="method#isNormarl#0;class#MachineCtrl#0" />
             <element signature="method#scanSlot#0;class#MachineCtrl#0" />
             <element signature="method#goGoZero#0;class#MachineCtrl#0" />
             <element signature="method#openPickupDoor#0;class#MachineCtrl#0" />
+            <element signature="method#pickUp#0;class#MachineCtrl#0" />
             <element signature="method#isIdle#0;class#MachineCtrl#0" />
             <element signature="method#sendPickupHandlerMessage#0;class#MachineCtrl#0" />
             <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
@@ -1330,51 +1263,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="459" selection-start-line="459" selection-end-line="470" />
+        <state relative-caret-position="122">
+          <caret line="148" column="13" selection-start-line="148" selection-start-column="5" selection-end-line="148" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-25/android/app/Dialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="1211" column="1" selection-start-line="1211" selection-start-column="1" selection-end-line="1211" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="170" column="37" selection-start-line="170" selection-start-column="37" selection-end-line="170" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomVienLockDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-191">
-          <caret line="74" column="11" lean-forward="true" selection-start-line="74" selection-start-column="11" selection-end-line="74" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2181#2182#0" expanded="true" />
-            <element signature="e#2254#2255#0" expanded="true" />
-            <element signature="e#2327#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/VeinLockCtrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="82" selection-start-line="82" selection-end-line="82" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#connect#0;class#VeinLockCtrl#0" />
+            <element signature="method#autoTakePic#0;class#CameraSnapService#0" />
+            <element signature="method#getSaveSdCardPath#0;class#CameraSnapService#0" />
+            <element signature="method#onDestroy#0;class#MyPictureCallback#0;class#CameraSnapService#0" />
+            <element signature="e#4772#4773#0" expanded="true" />
           </folding>
         </state>
       </provider>
