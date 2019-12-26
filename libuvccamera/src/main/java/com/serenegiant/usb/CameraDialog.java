@@ -172,7 +172,7 @@ public class CameraDialog extends DialogFragment {
 			case DialogInterface.BUTTON_POSITIVE:
 				final Object item = mSpinner.getSelectedItem();
 				if (item instanceof UsbDevice) {
-					mUSBMonitor.requestPermission((UsbDevice)item);
+					mUSBMonitor.requestPermission((UsbDevice)item);//获取设备信息，并检查打开此设备的权限
 					((CameraDialogParent)getActivity()).onDialogResult(false);
 				}
 				break;

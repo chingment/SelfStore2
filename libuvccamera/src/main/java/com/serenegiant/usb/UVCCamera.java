@@ -44,8 +44,8 @@ public class UVCCamera {
 	private static final String TAG = UVCCamera.class.getSimpleName();
 	private static final String DEFAULT_USBFS = "/dev/bus/usb";
 
-	public static final int DEFAULT_PREVIEW_WIDTH = 1280;
-	public static final int DEFAULT_PREVIEW_HEIGHT = 960;
+	public static final int DEFAULT_PREVIEW_WIDTH = 640;
+	public static final int DEFAULT_PREVIEW_HEIGHT = 480;
 	public static final int DEFAULT_PREVIEW_MODE = 0;
 	public static final int DEFAULT_PREVIEW_MIN_FPS = 1;
 	public static final int DEFAULT_PREVIEW_MAX_FPS = 30;
@@ -200,7 +200,6 @@ public class UVCCamera {
 			Log.w(TAG, e);
 			result = -1;
 		}
-		Log.d(TAG, "open:222 " + result);
 		if (result != 0) {
 			throw new UnsupportedOperationException("open failed:result=" + result);
 		}

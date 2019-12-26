@@ -420,14 +420,14 @@ public final class USBMonitor {
 		if (isRegistered()) {
 			if (device != null) {
 				if (mUsbManager.hasPermission(device)) {
-					// call onConnect if app already has permission
+					// 如果应用已经拥有权限，请调用onConnect
 					processConnect(device);
 				} else {
 					try {
-						// パーミッションがなければ要求する
+						//未经许可请求
 						mUsbManager.requestPermission(device, mPermissionIntent);
 					} catch (final Exception e) {
-						// Android5.1.xのGALAXY系でandroid.permission.sec.MDM_APP_MGMTという意味不明の例外生成するみたい
+						// 它似乎在Android 5.1.x的GALAXY系统中生成一个名为android.permission.sec.MDM_APP_MGMT的未知异常
 						Log.w(TAG, e);
 						processCancel(device);
 						result = true;
@@ -503,6 +503,7 @@ public final class USBMonitor {
 					processDettach(device);
 				}
 			}
+			context.unregisterReceiver(mUsbReceiver);
 		}
 	};
 

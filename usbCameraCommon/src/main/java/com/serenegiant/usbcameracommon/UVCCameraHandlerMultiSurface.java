@@ -102,7 +102,7 @@ public class UVCCameraHandlerMultiSurface extends AbstractUVCCameraHandler {
 	 * @param encoderType 0: use MediaSurfaceEncoder, 1: use MediaVideoEncoder, 2: use MediaVideoBufferEncoder
 	 * @param width
 	 * @param height
-	 * @param format either UVCCamera.FRAME_FORMAT_MJPEG(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
+	 * @param format either UVCCamera.FRAME_FORMAT_YUYV(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
 	 * @param bandwidthFactor
 	 * @return
 	 */

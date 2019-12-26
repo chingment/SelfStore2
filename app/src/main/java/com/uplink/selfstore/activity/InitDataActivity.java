@@ -86,7 +86,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         //VeinLockCtrl vein=new VeinLockCtrl(InitDataActivity.this);
         //vein.connect();
 
-        setHideStatusBar(true);
+        setHideStatusBar(false);
 
         initView();
         initEvent();
@@ -122,8 +122,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             @Override
             public boolean onLongClick(View v) {
                 LogUtil.e("长按触发");
-                setHideStatusBar(false);
-                AppManager.getAppManager().AppExit(InitDataActivity.this);
+                //setHideStatusBar(false);
+                //AppManager.getAppManager().AppExit(InitDataActivity.this);
+
+                Intent intent = new Intent(getAppContext(), TestCameraActivity.class);
+                startActivity(intent);
                 return true;
             }
         });

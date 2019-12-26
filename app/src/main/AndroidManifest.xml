@@ -32,6 +32,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+
     <permission android:name="android.permission.WRITE_APN_SETTINGS" />
 
     <application
@@ -41,6 +42,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.TestCameraActivity"></activity>
         <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,14 +52,11 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask" />
-        <!-- Rich push 核心功能 since 2.0.6 -->
+            android:launchMode="singleTask" /> <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle" />
-
-        <!-- Required SDK核心功能 -->
+            android:theme="@style/MyDialogStyle" /> <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -69,9 +68,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.uplink.selfstore" />
             </intent-filter>
-        </activity>
-
-        <!-- Required SDK 核心功能 -->
+        </activity> <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -83,14 +80,11 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-        <!-- since 3.0.9 Required SDK 核心功能 -->
+        </service> <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.uplink.selfstore.DataProvider"
-            android:exported="false" />
-
-        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
+            android:exported="false" /> <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
         <service
             android:name="cn.jpush.android.service.DaemonService"
@@ -101,13 +95,11 @@
 
                 <category android:name="com.uplink.selfstore" />
             </intent-filter>
-        </service>
-        <!-- since 3.1.0 Required SDK 核心功能 -->
+        </service> <!-- since 3.1.0 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DownloadProvider"
             android:authorities="com.uplink.selfstore.DownloadProvider"
-            android:exported="true" />
-        <!-- Required SDK核心功能 -->
+            android:exported="true" /> <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
@@ -127,14 +119,10 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-
-        <!-- Required SDK核心功能 -->
+        </receiver> <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
-
-        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+            android:exported="false" /> <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"
             android:enabled="true"
@@ -147,24 +135,20 @@
                 <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.uplink.selfstore" />
             </intent-filter>
-        </receiver>
-
-        <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调 -->
+        </receiver> <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调 -->
         <receiver android:name=".jpush.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
 
                 <category android:name="com.uplink.selfstore" />
             </intent-filter>
-        </receiver>
-        <!-- Required  . Enable it you can get statistics data with channel -->
+        </receiver> <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="47571aa2482f3b9e2af243a9" /> <!-- </>值来自开发者平台取得的AppKey -->
-
         <activity
             android:name=".activity.ProductKindActivity"
             android:launchMode="singleTask" />
@@ -181,18 +165,19 @@
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
 
-
         <activity android:name=".activity.SmLoginActivity" />
         <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.PayWayActivity" />
-        <activity android:name=".activity.SmMachineStockActivity"></activity>
-        <service android:name=".service.CameraSnapService"></service>
-        <service android:name=".service.MachineCtrlService"></service>
-        <service android:name=".service.UpdateAppService"></service>
+        <activity android:name=".activity.SmMachineStockActivity" />
+
+        <service android:name=".service.CameraSnapService" />
+        <service android:name=".service.MachineCtrlService" />
+        <service android:name=".service.UpdateAppService" />
     </application>
 
 </manifest>

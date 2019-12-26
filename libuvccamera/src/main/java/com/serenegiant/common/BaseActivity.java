@@ -23,6 +23,7 @@
 
 package com.serenegiant.common;
 
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
@@ -39,7 +40,6 @@ import com.serenegiant.dialog.MessageDialogFragmentV4;
 import com.serenegiant.utils.BuildCheck;
 import com.serenegiant.utils.HandlerThreadHandler;
 import com.serenegiant.utils.PermissionCheck;
-
 /**
  * Created by saki on 2016/11/18.
  *

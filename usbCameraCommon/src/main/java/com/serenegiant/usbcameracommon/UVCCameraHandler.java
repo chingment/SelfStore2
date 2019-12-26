@@ -108,7 +108,7 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
      * @param encoderType 0: use MediaSurfaceEncoder, 1: use MediaVideoEncoder, 2: use MediaVideoBufferEncoder
      * @param width
      * @param height
-     * @param format      either UVCCamera.FRAME_FORMAT_MJPEG(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
+     * @param format      either UVCCamera.FRAME_FORMAT_YUYV(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
      * @return
      */
     public static final UVCCameraHandler createHandler(
@@ -126,7 +126,7 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
      * @param encoderType     0: use MediaSurfaceEncoder, 1: use MediaVideoEncoder, 2: use MediaVideoBufferEncoder
      * @param width
      * @param height
-     * @param format          either UVCCamera.FRAME_FORMAT_MJPEG(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
+     * @param format          either UVCCamera.FRAME_FORMAT_YUYV(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
      * @param bandwidthFactor
      * @return
      */
@@ -147,7 +147,7 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
      * @param encoderType     0: use MediaSurfaceEncoder, 1: use MediaVideoEncoder, 2: use MediaVideoBufferEncoder
      * @param width
      * @param height
-     * @param format          either UVCCamera.FRAME_FORMAT_MJPEG(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
+     * @param format          either UVCCamera.FRAME_FORMAT_YUYV(0) or UVCCamera.FRAME_FORMAT_MJPEG(1)
      * @param bandwidthFactor
      *  @param uvcCameraDataCallBack 预览数据回调
      * @return

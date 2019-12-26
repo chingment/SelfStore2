@@ -2,6 +2,7 @@ package com.uplink.selfstore.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -130,6 +131,10 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
 
+        if(isApkInDebug()){
+            gridviewitems.add(new NineGridItemBean("相机测试", NineGridItemType.Function, "fun.testcarema", R.drawable.ic_sm_exit));
+        }
+
         NineGridItemAdapter nineGridItemdapter = new NineGridItemAdapter(getAppContext(), gridviewitems);
 
         gridview.setAdapter(nineGridItemdapter);
@@ -178,6 +183,10 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     confirmDialog.getBtnSure().setTag("fun.exitmanager");
                                     confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_exitmanager));
                                     confirmDialog.show();
+                                    break;
+                                case "fun.testcarema":
+                                    intent = new Intent(getAppContext(), TestCameraActivity.class);
+                                    startActivity(intent);
                                     break;
 
                             }

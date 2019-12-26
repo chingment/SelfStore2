@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -487,6 +488,15 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             }
         });
+    }
+
+    public boolean isApkInDebug() {
+        try {
+            ApplicationInfo info =getAppContext().getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

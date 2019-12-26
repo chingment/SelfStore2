@@ -1,13 +1,8 @@
 package com.uplink.selfstore.activity;
-
-
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
 import android.view.View;
-
-
 import com.uplink.selfstore.R;
 
 public class TestActivity extends FragmentActivity {
