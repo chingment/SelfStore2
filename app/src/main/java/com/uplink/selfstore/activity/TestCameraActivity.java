@@ -156,18 +156,19 @@ public class TestCameraActivity extends BaseActivity implements CameraDialog.Cam
         public void onConnect(final UsbDevice device, final USBMonitor.UsbControlBlock ctrlBlock, final boolean createNew) {
             //设备连接成功
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+//
             if (!mHandlerFirst.isOpened()) {
                 mHandlerFirst.open(ctrlBlock);
-                final SurfaceTexture st = mUVCCameraViewFirst.getSurfaceTexture();
+                SurfaceTexture st = mUVCCameraViewFirst.getSurfaceTexture();
                 mHandlerFirst.startPreview(new Surface(st));
             }else if (!mHandlerSecond.isOpened()) {
 
                 mHandlerSecond.open(ctrlBlock);
-                final SurfaceTexture st = mUVCCameraViewSecond.getSurfaceTexture();
+                SurfaceTexture st = mUVCCameraViewSecond.getSurfaceTexture();
                 mHandlerSecond.startPreview(new Surface(st));
             }
         }
