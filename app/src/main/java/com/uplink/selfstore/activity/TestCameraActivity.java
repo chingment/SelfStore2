@@ -21,7 +21,7 @@ import com.uplink.selfstore.R;
 
 import java.util.List;
 
-public class TestCameraActivity extends BaseActivity implements CameraDialog.CameraDialogParent {
+public class TestCameraActivity extends BaseActivity{
 
     private static final float[] BANDWIDTH_FACTORS = {0.5f, 0.5f};
 
@@ -212,17 +212,6 @@ public class TestCameraActivity extends BaseActivity implements CameraDialog.Cam
 
         }
     };
-
-
-    @Override
-    public USBMonitor getUSBMonitor() {
-        return mUSBMonitor;
-    }
-
-    @Override
-    public void onDialogResult(boolean canceled) {
-
-    }
 
     @Override
     protected void onStart() {
