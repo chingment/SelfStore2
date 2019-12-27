@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -18,20 +19,27 @@ import com.serenegiant.usbcameracommon.UvcCameraDataCallBack;
 import com.serenegiant.widget.CameraViewInterface;
 import com.serenegiant.widget.UVCCameraTextureView;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.List;
 
 public class TestCameraActivity extends BaseActivity{
 
+    private static final String TAG = "TestCameraActivity";
+
     private static final float[] BANDWIDTH_FACTORS = {0.5f, 0.5f};
 
     private USBMonitor mUSBMonitor;
 
+    private Button mOpenFirst;
+    private Button mCloseFirst;
     private UVCCameraHandler mHandlerFirst;
     private CameraViewInterface mUVCCameraViewFirst;
     private ImageButton mCaptureButtonFirst;
     private Surface mFirstPreviewSurface;
 
+    private Button mOpenSecond;
+    private Button mCloseSecond;
     private UVCCameraHandler mHandlerSecond;
     private CameraViewInterface mUVCCameraViewSecond;
     private ImageButton mCaptureButtonSecond;
@@ -47,14 +55,15 @@ public class TestCameraActivity extends BaseActivity{
 
         mUSBMonitor = new USBMonitor(this, mOnDeviceConnectListener);
 
-        UsbDevice usbDevice= getUsbDevice(37424,1443);
-
-        mUSBMonitor.register();
-        mUSBMonitor.requestPermission(usbDevice);
-
-
-        UsbDevice usbDevice2= getUsbDevice(42694,1137);
-        mUSBMonitor.requestPermission(usbDevice2);
+        LogUtil.e(TAG,"Create");
+//        UsbDevice usbDevice= getUsbDevice(37424,1443);
+//
+//        mUSBMonitor.register();
+//        mUSBMonitor.requestPermission(usbDevice);
+//
+//
+//        UsbDevice usbDevice2= getUsbDevice(42694,1137);
+//        mUSBMonitor.requestPermission(usbDevice2);
 
     }
 
@@ -85,6 +94,10 @@ public class TestCameraActivity extends BaseActivity{
 
     private void resultFirstCamera() {
         mUVCCameraViewFirst = (CameraViewInterface) findViewById(R.id.camera_view_first);
+        mOpenFirst = (Button) findViewById(R.id.camera_open_first);
+        mOpenFirst.setOnClickListener(mOnClickListener);
+        mCloseFirst = (Button) findViewById(R.id.camera_close_first);
+        mCloseFirst.setOnClickListener(mOnClickListener);
         //设置显示宽高
         mUVCCameraViewFirst.setAspectRatio(UVCCamera.DEFAULT_PREVIEW_WIDTH / (float) UVCCamera.DEFAULT_PREVIEW_HEIGHT);
         ((UVCCameraTextureView) mUVCCameraViewFirst).setOnClickListener(mOnClickListener);
@@ -99,6 +112,10 @@ public class TestCameraActivity extends BaseActivity{
 
     private void resultSecondCamera() {
         mUVCCameraViewSecond = (CameraViewInterface) findViewById(R.id.camera_view_second);
+        mOpenSecond = (Button) findViewById(R.id.camera_open_second);
+        mOpenSecond.setOnClickListener(mOnClickListener);
+        mCloseSecond = (Button) findViewById(R.id.camera_close_second);
+        mCloseSecond.setOnClickListener(mOnClickListener);
         mUVCCameraViewSecond.setAspectRatio(UVCCamera.DEFAULT_PREVIEW_WIDTH / (float) UVCCamera.DEFAULT_PREVIEW_HEIGHT);
         ((UVCCameraTextureView) mUVCCameraViewSecond).setOnClickListener(mOnClickListener);
         mCaptureButtonSecond = (ImageButton) findViewById(R.id.capture_button_second);
@@ -140,6 +157,22 @@ public class TestCameraActivity extends BaseActivity{
                         }
                     }
                     break;
+                case R.id.camera_open_first:
+                    UsbDevice usbDevice= getUsbDevice(37424,1443);
+                    mUSBMonitor.requestPermission(usbDevice);
+
+                    break;
+                case R.id.camera_close_first:
+                    mHandlerFirst.close();
+                    break;
+                case R.id.camera_open_second:
+                    UsbDevice usbDevice2= getUsbDevice(42694,1137);
+                    mUSBMonitor.requestPermission(usbDevice2);
+                    break;
+                case R.id.camera_close_second:
+                    mHandlerSecond.close();
+                    break;
+
             }
         }
     };
@@ -148,12 +181,15 @@ public class TestCameraActivity extends BaseActivity{
     private final USBMonitor.OnDeviceConnectListener mOnDeviceConnectListener = new USBMonitor.OnDeviceConnectListener() {
         @Override
         public void onAttach(final UsbDevice device) {
-
-            Toast.makeText(TestCameraActivity.this, "USB_DEVICE_ATTACHED", Toast.LENGTH_SHORT).show();
+            LogUtil.i(TAG, "USB_DEVICE_ATTACHED->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
         }
 
         @Override
         public void onConnect(final UsbDevice device, final USBMonitor.UsbControlBlock ctrlBlock, final boolean createNew) {
+
+            LogUtil.i(TAG, "USB_DEVICE_CONNECT->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
+
+
             //设备连接成功
             try {
                 Thread.sleep(1300);
@@ -161,20 +197,27 @@ public class TestCameraActivity extends BaseActivity{
                 e.printStackTrace();
             }
 //
-            if (!mHandlerFirst.isOpened()) {
-                mHandlerFirst.open(ctrlBlock);
-                SurfaceTexture st = mUVCCameraViewFirst.getSurfaceTexture();
-                mHandlerFirst.startPreview(new Surface(st));
-            }else if (!mHandlerSecond.isOpened()) {
+            if(device.getVendorId()==1443) {
+                if (!mHandlerFirst.isOpened()) {
+                    mHandlerFirst.open(ctrlBlock);
+                    SurfaceTexture st = mUVCCameraViewFirst.getSurfaceTexture();
+                    mHandlerFirst.startPreview(new Surface(st));
+                }
+            }
+            else if(device.getVendorId()==1137) {
+                if (!mHandlerSecond.isOpened()) {
 
-                mHandlerSecond.open(ctrlBlock);
-                SurfaceTexture st = mUVCCameraViewSecond.getSurfaceTexture();
-                mHandlerSecond.startPreview(new Surface(st));
+                    mHandlerSecond.open(ctrlBlock);
+                    SurfaceTexture st = mUVCCameraViewSecond.getSurfaceTexture();
+                    mHandlerSecond.startPreview(new Surface(st));
+                }
             }
         }
 
         @Override
         public void onDisconnect(final UsbDevice device, final USBMonitor.UsbControlBlock ctrlBlock) {
+
+            LogUtil.i(TAG, "USB_DEVICE_DISCONNECT->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
 
             if ((mHandlerFirst != null) && !mHandlerFirst.isEqual(device)) {
                 queueEvent(new Runnable() {
@@ -203,13 +246,12 @@ public class TestCameraActivity extends BaseActivity{
 
         @Override
         public void onDettach(final UsbDevice device) {
-
-            Toast.makeText(TestCameraActivity.this, "USB_DEVICE_DETACHED", Toast.LENGTH_SHORT).show();
+            LogUtil.i(TAG, "USB_DEVICE_DETACHED->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
         }
 
         @Override
         public void onCancel(final UsbDevice device) {
-
+            LogUtil.i(TAG, "USB_DEVICE_CANCEL->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
         }
     };
 

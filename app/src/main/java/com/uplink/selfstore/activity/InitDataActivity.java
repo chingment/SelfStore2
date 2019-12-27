@@ -83,9 +83,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        //VeinLockCtrl vein=new VeinLockCtrl(InitDataActivity.this);
-        //vein.connect();
-
         setHideStatusBar(false);
 
         initView();

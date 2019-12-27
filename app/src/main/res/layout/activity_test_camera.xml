@@ -11,6 +11,35 @@
     android:paddingRight="10dp"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <Button
+            android:id="@+id/camera_open_first"
+            android:text="打开摄像头1"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:id="@+id/camera_close_first"
+            android:text="关闭摄像头1"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:id="@+id/camera_open_second"
+            android:text="打开摄像头2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:id="@+id/camera_close_second"
+            android:text="关闭摄像头2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/camera_layout_first"
