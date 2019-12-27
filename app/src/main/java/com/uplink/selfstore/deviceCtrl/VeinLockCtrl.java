@@ -16,12 +16,20 @@ import android.util.Log;
 import com.uplink.selfstore.utils.LogUtil;
 import com.wedone.BioVein;
 
+import static java.lang.Thread.sleep;
+
 public class VeinLockCtrl {
     private static String TAG = "VeinLockCtrl";
+    private Context mContext;
+
     private byte[]  mByteDevName;
     private Handler checkLoginHandler = null;
-    private boolean cmd_CheckLoginIsStopListener = true;
-    private Context mContext;
+    private boolean checkLoginIsStopListener = true;
+
+    private Handler collectHandler = null;
+    private boolean collectIsStopListener = true;
+
+    private  int connect_status=0;
     public  VeinLockCtrl(Context context)
     {
         mContext=context;
@@ -48,8 +56,10 @@ public class VeinLockCtrl {
 
         }
 
-        if (s_devName == "")
-            return 1;
+        if (s_devName == "") {
+            connect_status=1;
+            return connect_status;
+        }
 
         byte[] b_DevName = s_devName.getBytes();
 
@@ -57,38 +67,51 @@ public class VeinLockCtrl {
         int ret_Init = BioVein.FV_InitDevice(b_DevName);
 
         if (ret_Init != 0) {
-            return 2;
+            connect_status=2;
+            return connect_status;
         }
 
         int fd = __tryGetUsbPermission__(s_devName);
 
         if(fd==-1){
-            return 3;
+            connect_status=3;
+            return connect_status;
         }
 
         //打开设备
         int ret_Open = BioVein.FV_OpenDevice(b_DevName, fd);
         if (ret_Open != 0) {
-            return 4;
+            connect_status=4;
+            return connect_status;
         }
 
         mByteDevName=b_DevName;
 
-        return 0;
+        connect_status=0;
+        return connect_status;
+    }
+
+    public int getConnectStatus(){
+        return connect_status;
     }
 
     public void disConnect() {
 
-        cmd_CheckLoginIsStopListener=true;
+        checkLoginIsStopListener=true;
 
         if(mByteDevName!=null) {
             BioVein.FV_CloseDevice(mByteDevName);
             BioVein.FV_RemoveDevice(mByteDevName);
         }
     }
+
     public void startCheckLogin() {
         CheckLoginListenerThread checkLoginListenerThread = new CheckLoginListenerThread();
         checkLoginListenerThread.start();
+    }
+
+    public void stopCheckLogin() {
+       checkLoginIsStopListener=true;
     }
 
     private void sendCheckLoginHandlerMessage(int status, String message) {
@@ -136,9 +159,9 @@ public class VeinLockCtrl {
 
             LogUtil.i(TAG, "指静脉登录流程监听：检查设备正常");
 
-            cmd_CheckLoginIsStopListener = false;
+            checkLoginIsStopListener = false;
 
-            while (!cmd_CheckLoginIsStopListener)
+            while (!checkLoginIsStopListener)
             {
                 try {
                     Thread.sleep(1000);
@@ -158,6 +181,168 @@ public class VeinLockCtrl {
             }
         }
     }
+
+
+    public void startCollect() {
+        CollectListenerThread collectListenerThread = new CollectListenerThread();
+        collectListenerThread.start();
+    }
+
+    public void  stopCollect(){
+        collectIsStopListener=true;
+    }
+
+    public void setCollectHandler(Handler collectHandler) {
+        this.collectHandler = collectHandler;
+    }
+
+    private void sendCollectHandlerMessage(int status, String message) {
+        if (collectHandler != null) {
+            Message m = new Message();
+            m.what = 1;
+            Bundle data = new Bundle();
+            data.putInt("status", status);
+            data.putString("message", message);
+            m.setData(data);
+            collectHandler.sendMessage(m);
+        }
+    }
+
+    private class CollectListenerThread extends Thread {
+
+        @Override
+        public void run() {
+
+            int status = getConnectStatus();
+            if (status != 0) {
+                sendCollectHandlerMessage(1, "静指脉设备连接异常");
+                return;
+            }
+
+            collectIsStopListener=false;
+            checkLoginIsStopListener=false;
+
+            byte[] featureData = new byte[512];
+            int flag = 0x00, ret = -1;
+            boolean isWaitSuccess = true;
+
+            int reg_n = 3;
+            byte[] reg_feature = new byte[512 * reg_n];
+            boolean is_reg = false;
+
+            for (int i = 0; i < reg_n; i++) {
+
+                if(collectIsStopListener){
+                    break;
+                }
+
+                //检测到手指放好为止
+                try {
+                    isWaitSuccess = WaitFingerStatus((byte) 0x03, 100, 500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!isWaitSuccess) {
+                    LogUtil.i(TAG, "指静脉采集流程监听：检测不到手指");
+                    return;
+                }
+
+                //获得单枚特征
+                ret = BioVein.FV_GrabFeature(mByteDevName, featureData, flag);
+                if (ret != 0) {
+                    LogUtil.i(TAG, "指静脉采集流程监听：采集单枚特征失败");
+                    return;
+                }
+
+                //循环获取单指静脉时，要对是否同一手指进行校验
+                if (i > 0) {
+                    byte[] featureTmp = new byte[512 * i];
+                    System.arraycopy(reg_feature, 0, featureTmp, 0, 512 * i);
+                    //public static native int FV_IsSameFinger(byte[] featureDataMatch, byte[] featureDataReg, int RegCnt, int flag);
+                    ret = BioVein.FV_IsSameFinger(featureData, featureTmp, i, 0x03);
+                    if (ret != 0) {
+                        LogUtil.i(TAG, "指静脉采集流程监听：不同一手指");
+                        //NoticeMsgPrint("FV_IsSameFinger:" + ret);
+                        //MainActivity.toast(MainActivity.this, "Inconsistent fingers!");
+                        BioVein.FV_SetLedBeep(mByteDevName, (short) 3, 500, 500);
+                        return;
+                    }
+                }
+
+                //累计特征
+                System.arraycopy(featureData, 0, reg_feature, 512 * i, 512);
+
+                //检测至手指移开为止
+                try {
+                    isWaitSuccess = WaitFingerStatus((byte) 0x00, 100, 500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (!isWaitSuccess) {
+                    LogUtil.i(TAG, "指静脉采集流程监听：手指未移开");
+                    return;
+                }
+            }
+
+
+            is_reg = true;
+
+
+            String textMsg = "采集结果:" + ret + ", 次数:" + reg_feature.length / 512 + ", 数据大小:" + reg_feature.length;
+            LogUtil.i(TAG, "指静脉采集流程监听->"+textMsg);
+
+            //String textMsg = "FV_GrabFeature:" + ret + ", Total number:" + reg_feature.length/512 + ", Total size:" + reg_feature.length;
+            //MainActivity.toast(MainActivity.this, "Successful registration.");
+            //NoticeMsgPrint(textMsg);
+        }
+    }
+
+    /**
+     * Wedone: 等待手指传感器变为某种指定的状态，等待的时间为nInterval*nTimes
+     *
+     * @参数(IN)  byte bFingerStatus: 等待的状态；0：手指已经移开，3：手指已经放置好。
+     * @参数(IN)  int nTimes: 检测的次数，必须大于0。
+     * @参数(IN)  int nInterval: 每次检测的间隔，单位为毫秒，建议在500 - 1000毫秒之间。
+     * @调用 public
+     * @返回 boolean: true=成功的等到了指定的状态：
+     *             false=没有等到指定的状态就超时了
+     */
+    public boolean WaitFingerStatus(byte bFingerStatus, int nTimes, int nInterval) throws InterruptedException {
+        if((0 >= nTimes) || (200 >= nInterval)){
+            return false;
+        }
+
+        byte bFingerSt[] = new byte[1];
+
+        long lRetVal;
+        for(int nCnt = 0; nCnt < nTimes; nCnt++){
+
+            if(collectIsStopListener||checkLoginIsStopListener){
+                break;
+            }
+
+            if(0 == bFingerStatus){
+                System.out.println("Move your fingers, please...\n" + nCnt);
+            }
+            else if(0x03 == bFingerStatus){
+                System.out.println("Put your finger down, please...\n" + nCnt);
+            }
+            else{
+                break;
+            }
+            lRetVal = BioVein.FV_FingerDetect(mByteDevName, bFingerSt);
+            if (0 != lRetVal) {
+                return false;
+            }
+            if(bFingerSt[0] == bFingerStatus){
+                return true;
+            }
+
+            sleep(nInterval, 0);
+        }
+        return false;
+    }
+
 
     private static final String ACTION_USB_PERMISSION = "com.template.USB_PERMISSION";//可自定义
     private BroadcastReceiver mUsbPermissionActionReceiver;

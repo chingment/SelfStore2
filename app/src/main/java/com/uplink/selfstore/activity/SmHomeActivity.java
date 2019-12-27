@@ -126,6 +126,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
@@ -155,6 +156,10 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     break;
                                 case "fun.machinestock":
                                     intent = new Intent(getAppContext(), SmMachineStockActivity.class);
+                                    startActivity(intent);
+                                    break;
+                                case "fun.userinfo":
+                                    intent = new Intent(getAppContext(), SmUserInfoActivity.class);
                                     startActivity(intent);
                                     break;
                                 case "fun.checkupdateapp":

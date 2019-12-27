@@ -18,7 +18,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.ui.dialog.CustomVienLockDialog;
+import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
@@ -36,7 +36,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     private EditText txt_password;//密码
     private View btn_appexit;
     private View btn_loginByVeinLock;//指静脉登录按钮
-    private CustomVienLockDialog dialog_VienLock;
+    private CustomFingerVeinDialog dialog_FingerVein;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +59,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         txt_password = (EditText) this.findViewById(R.id.txt_password);
         btn_appexit=this.findViewById(R.id.btn_appexit);
         btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
-        dialog_VienLock=new CustomVienLockDialog(SmLoginActivity.this);
+        dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
     }
 
     protected void initEvent() {
@@ -157,7 +157,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
                     break;
                 case R.id.btn_loginByVeinLock:
-                    dialog_VienLock.show();
+                    dialog_FingerVein.show();
                     break;
 
             }
@@ -167,8 +167,8 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_VienLock != null && dialog_VienLock.isShowing()) {
-            dialog_VienLock.cancel();
+        if (dialog_FingerVein != null && dialog_FingerVein.isShowing()) {
+            dialog_FingerVein.cancel();
         }
     }
 

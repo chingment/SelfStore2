@@ -46,5 +46,6 @@ public class Config {
         public static final String stockSetting_TestPickupEventNotify= BuildConfig.ENVIRONMENT + "/api/StockSetting/TestPickupEventNotify";
         public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
+        public static final String own_GetInfo= BuildConfig.ENVIRONMENT + "/api/Own/GetInfo";
     }
 }
