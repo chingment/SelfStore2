@@ -2,24 +2,15 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.SmLoginActivity;
 import com.uplink.selfstore.deviceCtrl.VeinLockCtrl;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.utils.BitmapUtil;
-import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.LongClickUtil;
-import com.uplink.selfstore.utils.StringUtil;
 
 public class CustomFingerVeinDialog extends Dialog {
 
@@ -30,7 +21,7 @@ public class CustomFingerVeinDialog extends Dialog {
     public CustomFingerVeinDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.mContext =(BaseFragmentActivity) context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_vienlock, null);
+        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_fingervein, null);
 
         initView();
         initEvent();

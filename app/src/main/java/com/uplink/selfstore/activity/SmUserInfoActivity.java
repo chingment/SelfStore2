@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         initView();
         initEvent();
         initData();
+
     }
 
     protected void initView() {
@@ -59,9 +61,17 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
+                        byte[] result;
                         switch (status) {
                             case 1://消息提示
                                 showToast(message);
+                                break;
+                            case 2://采集成功
+                                result = bundle.getByteArray("result");
+                                upoadFingerVeinData(result);
+                                break;
+                            case 3://采集成功
+                                showToast("采集失败");
                                 break;
                         }
                         return false;
@@ -125,5 +135,32 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     break;
             }
         }
+    }
+
+    private void  upoadFingerVeinData(byte[] data){
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("machineId", machine.getId() + "");
+        params.put("veinData", Base64.encodeToString(data, Base64.NO_WRAP));
+
+        postByMy(Config.URL.own_UpoadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+                showToast(rt.getMessage());
+
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
+            }
+        });
+
     }
 }

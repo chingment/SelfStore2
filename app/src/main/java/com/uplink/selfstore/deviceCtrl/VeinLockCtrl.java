@@ -196,13 +196,14 @@ public class VeinLockCtrl {
         this.collectHandler = collectHandler;
     }
 
-    private void sendCollectHandlerMessage(int status, String message) {
+    private void sendCollectHandlerMessage(int status, String message,byte[] result) {
         if (collectHandler != null) {
             Message m = new Message();
             m.what = 1;
             Bundle data = new Bundle();
             data.putInt("status", status);
             data.putString("message", message);
+            data.putByteArray("result",result);
             m.setData(data);
             collectHandler.sendMessage(m);
         }
@@ -215,12 +216,11 @@ public class VeinLockCtrl {
 
             int status = getConnectStatus();
             if (status != 0) {
-                sendCollectHandlerMessage(1, "静指脉设备连接异常");
+                sendCollectHandlerMessage(1, "静指脉设备连接异常",null);
                 return;
             }
 
             collectIsStopListener=false;
-            checkLoginIsStopListener=false;
 
             byte[] featureData = new byte[512];
             int flag = 0x00, ret = -1;
@@ -238,7 +238,7 @@ public class VeinLockCtrl {
 
                 //检测到手指放好为止
                 try {
-                    isWaitSuccess = WaitFingerStatus((byte) 0x03, 100, 500);
+                    isWaitSuccess = WaitFingerStatus((byte) 0x03, 100, 500,collectIsStopListener);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -258,23 +258,22 @@ public class VeinLockCtrl {
                 if (i > 0) {
                     byte[] featureTmp = new byte[512 * i];
                     System.arraycopy(reg_feature, 0, featureTmp, 0, 512 * i);
-                    //public static native int FV_IsSameFinger(byte[] featureDataMatch, byte[] featureDataReg, int RegCnt, int flag);
                     ret = BioVein.FV_IsSameFinger(featureData, featureTmp, i, 0x03);
                     if (ret != 0) {
                         LogUtil.i(TAG, "指静脉采集流程监听：不同一手指");
-                        //NoticeMsgPrint("FV_IsSameFinger:" + ret);
-                        //MainActivity.toast(MainActivity.this, "Inconsistent fingers!");
                         BioVein.FV_SetLedBeep(mByteDevName, (short) 3, 500, 500);
-                        return;
+                        continue;
                     }
                 }
 
                 //累计特征
                 System.arraycopy(featureData, 0, reg_feature, 512 * i, 512);
 
+                LogUtil.i(TAG, "指静脉采集流程监听：采集到"+(i+1)+"次");
+
                 //检测至手指移开为止
                 try {
-                    isWaitSuccess = WaitFingerStatus((byte) 0x00, 100, 500);
+                    isWaitSuccess = WaitFingerStatus((byte) 0x00, 100, 500,collectIsStopListener);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -285,15 +284,17 @@ public class VeinLockCtrl {
             }
 
 
-            is_reg = true;
-
-
             String textMsg = "采集结果:" + ret + ", 次数:" + reg_feature.length / 512 + ", 数据大小:" + reg_feature.length;
             LogUtil.i(TAG, "指静脉采集流程监听->"+textMsg);
 
-            //String textMsg = "FV_GrabFeature:" + ret + ", Total number:" + reg_feature.length/512 + ", Total size:" + reg_feature.length;
-            //MainActivity.toast(MainActivity.this, "Successful registration.");
-            //NoticeMsgPrint(textMsg);
+            if(ret==0) {
+                sendCollectHandlerMessage(2, "采集成功", reg_feature);
+            }
+            else
+            {
+                sendCollectHandlerMessage(3, "采集失败", null);
+            }
+
         }
     }
 
@@ -307,7 +308,7 @@ public class VeinLockCtrl {
      * @返回 boolean: true=成功的等到了指定的状态：
      *             false=没有等到指定的状态就超时了
      */
-    public boolean WaitFingerStatus(byte bFingerStatus, int nTimes, int nInterval) throws InterruptedException {
+    public boolean WaitFingerStatus(byte bFingerStatus, int nTimes, int nInterval,Boolean isBreak) throws InterruptedException {
         if((0 >= nTimes) || (200 >= nInterval)){
             return false;
         }
@@ -317,15 +318,17 @@ public class VeinLockCtrl {
         long lRetVal;
         for(int nCnt = 0; nCnt < nTimes; nCnt++){
 
-            if(collectIsStopListener||checkLoginIsStopListener){
+            if(isBreak){
                 break;
             }
 
             if(0 == bFingerStatus){
-                System.out.println("Move your fingers, please...\n" + nCnt);
+                LogUtil.i(TAG, "指静脉流程监听->请移开手指");
+                //System.out.println("Move your fingers, please...\n" + nCnt);
             }
             else if(0x03 == bFingerStatus){
-                System.out.println("Put your finger down, please...\n" + nCnt);
+                LogUtil.i(TAG, "指静脉流程监听->请放下手指");
+                //System.out.println("Put your finger down, please...\n" + nCnt);
             }
             else{
                 break;

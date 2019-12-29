@@ -82,10 +82,20 @@
                     android:id="@+id/txt_WarnTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="请将指筋脉放入设备"
+                    android:text="放置静脉指"
                     android:gravity="right"
                     android:textColor="@color/field_value"
                     android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:layout_margin="@dimen/size_5"
+                    android:id="@+id/txt_WarnTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="将手指放在设备再移开"
+                    android:gravity="right"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/sp_12" />
 
             </LinearLayout>
 
