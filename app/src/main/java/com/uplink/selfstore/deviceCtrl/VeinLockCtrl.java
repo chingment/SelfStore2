@@ -71,7 +71,7 @@ public class VeinLockCtrl {
             return connect_status;
         }
 
-        int fd = __tryGetUsbPermission__(s_devName);
+       // int fd = __tryGetUsbPermission__(s_devName);
 
         if(fd==-1){
             connect_status=3;

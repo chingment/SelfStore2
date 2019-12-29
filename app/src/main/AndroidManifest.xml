@@ -166,16 +166,30 @@
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".broadcast.USBBroadcastReceiver">
+            <intent-filter android:priority="200">
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
+            </intent-filter>
+            <intent-filter android:priority="200">
+                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED"/>
+            </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+                <data android:scheme="file"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_EJECT"/>
+                <data android:scheme="file"/>
+            </intent-filter>
+        </receiver>
         <activity android:name=".activity.SmLoginActivity" />
         <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.PayWayActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
-
         <service android:name=".service.CameraSnapService" />
         <service android:name=".service.MachineCtrlService" />
         <service android:name=".service.UpdateAppService" />
