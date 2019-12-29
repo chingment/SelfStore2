@@ -72,6 +72,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                                 break;
                             case 3://采集成功
                                 showToast("采集失败");
+                                dialog_FingerVein.BtnReCollect().setVisibility(View.VISIBLE);
                                 break;
                         }
                         return false;

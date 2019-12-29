@@ -99,6 +99,7 @@ public class VeinLockCtrl {
 
         checkLoginIsStopListener=true;
 
+        mContext.unregisterReceiver(mUsbPermissionActionReceiver);
         if(mByteDevName!=null) {
             BioVein.FV_CloseDevice(mByteDevName);
             BioVein.FV_RemoveDevice(mByteDevName);
@@ -152,6 +153,8 @@ public class VeinLockCtrl {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                LogUtil.i(TAG, "指静脉采检查登录监听");
 
                 if(mByteDevName!=null) {
                     //先获取一枚特征

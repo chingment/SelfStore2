@@ -53,6 +53,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         initEvent();
         initData();
 
+
         useClosePageCountTimer();
     }
 
@@ -85,6 +86,8 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                     }
                 })
         );
+
+        dialog_FingerVein.startCheckLogin();
     }
 
     protected void initEvent() {
@@ -149,6 +152,31 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
             dialog_FingerVein.cancel();
         }
     }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        dialog_FingerVein.startCheckLogin();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dialog_FingerVein.startCheckLogin();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        dialog_FingerVein.stopCheckLogin();
+    }
+
 
     public void  loginByAccount(){
 

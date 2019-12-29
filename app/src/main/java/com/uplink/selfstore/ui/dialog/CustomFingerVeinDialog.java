@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.VeinLockCtrl;
@@ -18,6 +19,7 @@ public class CustomFingerVeinDialog extends Dialog {
     private BaseFragmentActivity mContext;
     private View btn_close;
     private VeinLockCtrl veinLockCtrl;
+    private Button btn_ReCollect;
     public CustomFingerVeinDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.mContext =(BaseFragmentActivity) context;
@@ -48,6 +50,14 @@ public class CustomFingerVeinDialog extends Dialog {
         veinLockCtrl.startCheckLogin();
     }
 
+    public Button BtnReCollect()
+    {
+        return  this.btn_ReCollect;
+    }
+    public void stopCheckLogin(){
+        veinLockCtrl.stopCheckLogin();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +65,9 @@ public class CustomFingerVeinDialog extends Dialog {
     }
 
     protected void initView() {
+
         btn_close= ViewHolder.get(this.layoutRes, R.id.btn_close);
+        btn_ReCollect=ViewHolder.get(this.layoutRes, R.id.btn_ReCollect);
     }
 
     protected void initEvent() {
@@ -65,6 +77,14 @@ public class CustomFingerVeinDialog extends Dialog {
                 veinLockCtrl.stopCheckLogin();
                 veinLockCtrl.stopCollect();
                 dismiss();
+            }
+        });
+
+        btn_ReCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_ReCollect.setVisibility(View.GONE);
+                veinLockCtrl.startCheckLogin();
             }
         });
     }

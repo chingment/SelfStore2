@@ -4,6 +4,9 @@
 	<dimen name="size_301">494.9778dp</dimen>
 	<dimen name="size_300">493.3333dp</dimen>
 	<dimen name="size_250">411.1111dp</dimen>
+	<dimen name="size_230">378.2222dp</dimen>
+	<dimen name="size_220">361.7778dp</dimen>
+	<dimen name="size_210">345.3333dp</dimen>
 	<dimen name="size_200">328.8889dp</dimen>
 	<dimen name="size_180">296.0000dp</dimen>
 	<dimen name="size_170">279.5556dp</dimen>
