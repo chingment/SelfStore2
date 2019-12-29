@@ -76,12 +76,9 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         //todo 改为重新获取数据方法
                         Map<String, Object> params = new HashMap<>();
                         params.put("machineId", machine.getId());
-                        params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
-                        params.put("appVersionCode", BuildConfig.VERSION_CODE);
-                        params.put("appVersionName", BuildConfig.VERSION_NAME);
-                        params.put("macAddress", "");
+                        params.put("loginWay", 5);
 
-                        postByMy(Config.URL.machine_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
+                        postByMy(Config.URL.own_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {

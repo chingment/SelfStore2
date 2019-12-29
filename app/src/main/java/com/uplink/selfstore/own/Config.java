@@ -37,8 +37,6 @@ public class Config {
         public static final String order_Search = BuildConfig.ENVIRONMENT + "/api/Order/Search";
         public static final String order_Details = BuildConfig.ENVIRONMENT + "/api/Order/Details";
         public static final String order_PayUrlBuild = BuildConfig.ENVIRONMENT + "/api/Order/PayUrlBuild";
-        public static final String machine_Login= BuildConfig.ENVIRONMENT + "/api/Machine/Login";
-        public static final String machine_Logout= BuildConfig.ENVIRONMENT + "/api/Machine/Logout";
         public static final String machine_UpLoadTraceLog= BuildConfig.ENVIRONMENT + "/api/Machine/UpLoadTraceLog";
         public static final String stockSetting_GetCabinetSlots= BuildConfig.ENVIRONMENT + "/api/StockSetting/GetCabinetSlots";
         public static final String stockSetting_SaveCabinetSlot= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetSlot";
@@ -46,6 +44,9 @@ public class Config {
         public static final String stockSetting_TestPickupEventNotify= BuildConfig.ENVIRONMENT + "/api/StockSetting/TestPickupEventNotify";
         public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
+        public static final String own_LoginByAccount= BuildConfig.ENVIRONMENT + "/api/Own/LoginByAccount";
+        public static final String own_LoginByFingerVein= BuildConfig.ENVIRONMENT + "/api/Own/LoginByFingerVein";
+        public static final String own_Logout= BuildConfig.ENVIRONMENT + "/api/Own/Logout";
         public static final String own_GetInfo= BuildConfig.ENVIRONMENT + "/api/Own/GetInfo";
         public static final String own_UpoadFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/UploadFingerVeinData";
 

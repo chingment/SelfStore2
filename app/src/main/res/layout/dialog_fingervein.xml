@@ -60,7 +60,7 @@
                     android:id="@+id/img_warn"
                     android:layout_width="@dimen/size_78"
                     android:layout_height="@dimen/size_78"
-                    android:src="@drawable/icon_contact_csr"
+                    android:src="@drawable/fingervein2"
                     android:contentDescription="@string/image_content_description"
                     />
 

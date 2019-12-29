@@ -114,13 +114,14 @@ public class VeinLockCtrl {
        checkLoginIsStopListener=true;
     }
 
-    private void sendCheckLoginHandlerMessage(int status, String message) {
+    private void sendCheckLoginHandlerMessage(int status, String message,byte[] result) {
         if (checkLoginHandler != null) {
             Message m = new Message();
             m.what = 1;
             Bundle data = new Bundle();
             data.putInt("status", status);
             data.putString("message", message);
+            data.putByteArray("result",result);
             m.setData(data);
             checkLoginHandler.sendMessage(m);
         }
@@ -134,30 +135,13 @@ public class VeinLockCtrl {
 
         @Override
         public void run() {
-            int ret_connect = connect();
-            if (ret_connect != 0) {
-                String message = "指静脉设备异常";
-                switch (ret_connect) {
-                    case 1:
-                        message = "找不到指静脉设备";
-                        break;
-                    case 2:
-                        message = "初始化设备失败";
-                        break;
-                    case 3:
-                        message = "读取设备权限失败";
-                        break;
-                    case 4:
-                        message = "打开设备失败";
-                        break;
-                }
 
-                LogUtil.i(TAG, "指静脉登录流程监听：" + message);
-                sendCheckLoginHandlerMessage(1, message);
+            int status = getConnectStatus();
+            if (status != 0) {
+                sendCheckLoginHandlerMessage(1, "静指脉设备连接异常",null);
                 return;
             }
 
-            LogUtil.i(TAG, "指静脉登录流程监听：检查设备正常");
 
             checkLoginIsStopListener = false;
 
@@ -176,7 +160,10 @@ public class VeinLockCtrl {
                     //public static native int FV_GrabFeature(byte[] devId, byte[] featureData, int flag);
                     int ret = BioVein.FV_GrabFeature(mByteDevName, featureData, flag);
 
-                    LogUtil.i(TAG, "指静脉登录流程监听：获取到静脉结果：" + ret);
+                    if(ret==0) {
+                        sendCheckLoginHandlerMessage(2,"检测到有信息",featureData);
+                    }
+
                 }
             }
         }

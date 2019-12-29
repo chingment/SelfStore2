@@ -3,6 +3,8 @@ package com.uplink.selfstore.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,9 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +65,26 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         btn_appexit=this.findViewById(R.id.btn_appexit);
         btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
         dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
+        dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        byte[] result;
+                        switch (status) {
+                            case 1://消息提示
+                                showToast(message);
+                                break;
+                            case 2://检查到手指
+                                result = bundle.getByteArray("result");
+                                loginByFingerVein(result);
+                                break;
+                        }
+                        return false;
+                    }
+                })
+        );
     }
 
     protected void initEvent() {
@@ -106,57 +131,10 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                     finish();
                     break;
                 case R.id.btn_loginByAccount:
-
-
-                    String userName = txt_username.getText() + "";
-                    if (StringUtil.isEmpty(userName)) {
-                        showToast("用户名为空");
-                        return;
-                    }
-                    String password = txt_password.getText() + "";
-                    if (StringUtil.isEmpty(password)) {
-                        showToast("密码为空");
-                        return;
-                    }
-
-                    MachineBean machine = AppCacheManager.getMachine();
-
-
-                    Map<String, Object> params = new HashMap<>();
-                    params.put("machineId", machine.getId() + "");
-                    params.put("userName", userName);
-                    params.put("password", password);
-
-
-                    postByMy(Config.URL.machine_Login, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
-                        @Override
-                        public void onSuccess(String response) {
-
-                            ApiResultBean<OpUserInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OpUserInfoBean>>() {
-                            });
-
-                            if (rt.getResult() == Result.SUCCESS) {
-
-                                AppCacheManager.setLastUserName(rt.getData().getUserName());
-                                AppCacheManager.setOpUserInfo(rt.getData());
-
-                                Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
-                                startActivity(intent);
-
-
-                            } else {
-                                showToast(rt.getMessage());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(String msg, Exception e) {
-                            showToast(msg);
-                        }
-                    });
-
+                    loginByAccount();
                     break;
                 case R.id.btn_loginByVeinLock:
+                    dialog_FingerVein.startCheckLogin();
                     dialog_FingerVein.show();
                     break;
 
@@ -170,6 +148,114 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         if (dialog_FingerVein != null && dialog_FingerVein.isShowing()) {
             dialog_FingerVein.cancel();
         }
+    }
+
+    public void  loginByAccount(){
+
+        String userName = txt_username.getText() + "";
+        if (StringUtil.isEmpty(userName)) {
+            showToast("用户名为空");
+            return;
+        }
+        String password = txt_password.getText() + "";
+        if (StringUtil.isEmpty(password)) {
+            showToast("密码为空");
+            return;
+        }
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("userName", userName);
+        params.put("password", password);
+        params.put("loginWay", 5);
+
+
+        try {
+            JSONObject loginPms = new JSONObject();
+            loginPms.put("machineId", machine.getId() + "");
+            params.put("loginPms", loginPms);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        postByMy(Config.URL.own_LoginByAccount, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<OpUserInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OpUserInfoBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    AppCacheManager.setLastUserName(rt.getData().getUserName());
+                    AppCacheManager.setOpUserInfo(rt.getData());
+
+                    Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
+                    startActivity(intent);
+
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
+            }
+        });
+
+    }
+
+    public void  loginByFingerVein(byte[] veinData){
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("veinData",  Base64.encodeToString(veinData, Base64.NO_WRAP));
+        params.put("loginWay", 5);
+
+
+        try {
+            JSONObject loginPms = new JSONObject();
+            loginPms.put("machineId", machine.getId() + "");
+            params.put("loginPms", loginPms);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        postByMy(Config.URL.own_LoginByFingerVein, params, null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                ApiResultBean<OpUserInfoBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OpUserInfoBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+
+                    AppCacheManager.setLastUserName(rt.getData().getUserName());
+                    AppCacheManager.setOpUserInfo(rt.getData());
+
+                    Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
+                    startActivity(intent);
+
+
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
+            }
+        });
+
     }
 
 

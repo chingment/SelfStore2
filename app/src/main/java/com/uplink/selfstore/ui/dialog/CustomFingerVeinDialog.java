@@ -29,22 +29,6 @@ public class CustomFingerVeinDialog extends Dialog {
 
         veinLockCtrl = new VeinLockCtrl(context);
         veinLockCtrl.connect();
-
-//        veinLockCtrl.setCheckLoginHandler(new Handler(new Handler.Callback() {
-//                    @Override
-//                    public boolean handleMessage(Message msg) {
-//                        Bundle bundle = msg.getData();
-//                        int status = bundle.getInt("status");
-//                        String message = bundle.getString("message");
-//                        switch (status) {
-//                            case 1://消息提示
-//                                mContext.showToast(message);
-//                                break;
-//                        }
-//                        return false;
-//                    }
-//                })
-//        );
     }
 
 
@@ -52,8 +36,16 @@ public class CustomFingerVeinDialog extends Dialog {
         veinLockCtrl.setCollectHandler(collectHandler);
     }
 
+    public void setCheckLoginHandler(Handler checkLoginHandler){
+        veinLockCtrl.setCheckLoginHandler(checkLoginHandler);
+    }
+
     public void startCollect(){
         veinLockCtrl.startCollect();
+    }
+
+    public void startCheckLogin(){
+        veinLockCtrl.startCheckLogin();
     }
 
     @Override
