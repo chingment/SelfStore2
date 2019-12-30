@@ -16,7 +16,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
-import com.uplink.selfstore.deviceCtrl.VeinLockCtrl;
+import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;

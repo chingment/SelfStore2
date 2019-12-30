@@ -17,9 +17,9 @@ import com.wedone.BioVein;
 
 import static java.lang.Thread.sleep;
 
-public class VeinLockCtrl {
-    private static String TAG = "VeinLockCtrl";
-    private static VeinLockCtrl mVeinLockCtrl= null;
+public class FingerVeinCtrl {
+    private static String TAG = "FingerVeinCtrl";
+    private static FingerVeinCtrl mFingerVeinCtrl= null;
 
    // private Context mContext;
     private byte[]  mByteDevName;
@@ -32,15 +32,15 @@ public class VeinLockCtrl {
 
     private CheckLoginListenerThread checkLoginListenerThread;
 
-    public static VeinLockCtrl getInstance() {
-        if (mVeinLockCtrl == null) {
-            synchronized (VeinLockCtrl.class) {
-                if (mVeinLockCtrl == null) {
-                    mVeinLockCtrl = new VeinLockCtrl();
+    public static FingerVeinCtrl getInstance() {
+        if (mFingerVeinCtrl == null) {
+            synchronized (FingerVeinCtrl.class) {
+                if (mFingerVeinCtrl == null) {
+                    mFingerVeinCtrl = new FingerVeinCtrl();
                 }
             }
         }
-        return mVeinLockCtrl;
+        return mFingerVeinCtrl;
 
     }
 

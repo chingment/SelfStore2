@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.deviceCtrl.VeinLockCtrl;
+import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 
@@ -19,7 +19,7 @@ public class CustomFingerVeinDialog extends Dialog {
     private View layoutRes;// 布局文件
     private BaseFragmentActivity mContext;
     private View btn_close;
-    private VeinLockCtrl veinLockCtrl;
+    private FingerVeinCtrl mFingerVeinCtrl;
     private Button btn_ReCollect;
     private TextView txt_Title;
     private TextView txt_Message;
@@ -32,25 +32,25 @@ public class CustomFingerVeinDialog extends Dialog {
         initEvent();
         initData();
 
-        veinLockCtrl = VeinLockCtrl.getInstance();
-        veinLockCtrl.connect(mContext);
+        mFingerVeinCtrl = FingerVeinCtrl.getInstance();
+        mFingerVeinCtrl.connect(mContext);
     }
 
 
     public void setCollectHandler(Handler collectHandler){
-        veinLockCtrl.setCollectHandler(collectHandler);
+        mFingerVeinCtrl.setCollectHandler(collectHandler);
     }
 
     public void setCheckLoginHandler(Handler checkLoginHandler){
-        veinLockCtrl.setCheckLoginHandler(checkLoginHandler);
+        mFingerVeinCtrl.setCheckLoginHandler(checkLoginHandler);
     }
 
     public void startCollect(){
-        veinLockCtrl.startCollect();
+        mFingerVeinCtrl.startCollect();
     }
 
     public void startCheckLogin(){
-        veinLockCtrl.startCheckLogin();
+        mFingerVeinCtrl.startCheckLogin();
     }
 
     public Button getBtnReCollect()
@@ -64,7 +64,7 @@ public class CustomFingerVeinDialog extends Dialog {
     }
 
     public void stopCheckLogin(){
-        veinLockCtrl.stopCheckLogin();
+        mFingerVeinCtrl.stopCheckLogin();
     }
 
     @Override
@@ -85,8 +85,8 @@ public class CustomFingerVeinDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                veinLockCtrl.stopCheckLogin();
-                veinLockCtrl.stopCollect();
+                mFingerVeinCtrl.stopCheckLogin();
+                mFingerVeinCtrl.stopCollect();
                 dismiss();
             }
         });
@@ -95,7 +95,7 @@ public class CustomFingerVeinDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 btn_ReCollect.setVisibility(View.VISIBLE);
-                veinLockCtrl.startCollect();
+                mFingerVeinCtrl.startCollect();
             }
         });
     }
@@ -108,7 +108,7 @@ public class CustomFingerVeinDialog extends Dialog {
     @Override
     public  void  cancel(){
         super.cancel();
-        veinLockCtrl.disConnect(mContext);
+        mFingerVeinCtrl.disConnect(mContext);
     }
     @Override
     public void show() {
