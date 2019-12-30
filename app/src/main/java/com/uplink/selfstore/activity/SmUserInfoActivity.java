@@ -63,16 +63,17 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                         String message = bundle.getString("message");
                         byte[] result;
                         switch (status) {
-                            case 1://消息提示
-                                showToast(message);
+                            case 1://采集提示
+                                dialog_FingerVein.getTxtMessage().setText(message);
                                 break;
                             case 2://采集成功
+                                dialog_FingerVein.getTxtMessage().setText(message);
                                 result = bundle.getByteArray("result");
                                 upoadFingerVeinData(result);
                                 break;
-                            case 3://采集成功
-                                showToast("采集失败");
-                                dialog_FingerVein.BtnReCollect().setVisibility(View.VISIBLE);
+                            case 3://采集失败
+                                dialog_FingerVein.getTxtMessage().setText(message);
+                                dialog_FingerVein.getBtnReCollect().setVisibility(View.VISIBLE);
                                 break;
                         }
                         return false;
@@ -131,6 +132,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     finish();
                     break;
                 case R.id.txt_FingerVein:
+                    dialog_FingerVein.getTxtMessage().setText("请将手指放入设备,再移开");
                     dialog_FingerVein.startCollect();
                     dialog_FingerVein.show();
                     break;

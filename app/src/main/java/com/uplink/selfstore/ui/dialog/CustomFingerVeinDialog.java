@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.VeinLockCtrl;
@@ -20,6 +21,8 @@ public class CustomFingerVeinDialog extends Dialog {
     private View btn_close;
     private VeinLockCtrl veinLockCtrl;
     private Button btn_ReCollect;
+    private TextView txt_Title;
+    private TextView txt_Message;
     public CustomFingerVeinDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.mContext =(BaseFragmentActivity) context;
@@ -29,8 +32,8 @@ public class CustomFingerVeinDialog extends Dialog {
         initEvent();
         initData();
 
-        veinLockCtrl = new VeinLockCtrl(context);
-        veinLockCtrl.connect();
+        veinLockCtrl = VeinLockCtrl.getInstance();
+        veinLockCtrl.connect(mContext);
     }
 
 
@@ -50,10 +53,16 @@ public class CustomFingerVeinDialog extends Dialog {
         veinLockCtrl.startCheckLogin();
     }
 
-    public Button BtnReCollect()
+    public Button getBtnReCollect()
     {
         return  this.btn_ReCollect;
     }
+
+    public TextView getTxtMessage()
+    {
+        return  this.txt_Message;
+    }
+
     public void stopCheckLogin(){
         veinLockCtrl.stopCheckLogin();
     }
@@ -68,6 +77,8 @@ public class CustomFingerVeinDialog extends Dialog {
 
         btn_close= ViewHolder.get(this.layoutRes, R.id.btn_close);
         btn_ReCollect=ViewHolder.get(this.layoutRes, R.id.btn_ReCollect);
+        txt_Title=ViewHolder.get(this.layoutRes, R.id.txt_Title);
+        txt_Message=ViewHolder.get(this.layoutRes, R.id.txt_Message);
     }
 
     protected void initEvent() {
@@ -83,8 +94,8 @@ public class CustomFingerVeinDialog extends Dialog {
         btn_ReCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_ReCollect.setVisibility(View.GONE);
-                veinLockCtrl.startCheckLogin();
+                btn_ReCollect.setVisibility(View.VISIBLE);
+                veinLockCtrl.startCollect();
             }
         });
     }
@@ -97,7 +108,7 @@ public class CustomFingerVeinDialog extends Dialog {
     @Override
     public  void  cancel(){
         super.cancel();
-        veinLockCtrl.disConnect();
+        veinLockCtrl.disConnect(mContext);
     }
     @Override
     public void show() {

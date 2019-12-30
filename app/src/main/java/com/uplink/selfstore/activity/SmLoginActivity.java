@@ -88,6 +88,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         );
 
         dialog_FingerVein.startCheckLogin();
+        dialog_FingerVein.startCheckLogin();
     }
 
     protected void initEvent() {
@@ -148,7 +149,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_FingerVein != null && dialog_FingerVein.isShowing()) {
+        if (dialog_FingerVein != null) {
             dialog_FingerVein.cancel();
         }
     }
@@ -157,13 +158,11 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     @Override
     protected void onRestart() {
         super.onRestart();
-        dialog_FingerVein.startCheckLogin();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        dialog_FingerVein.startCheckLogin();
     }
 
     @Override
@@ -174,7 +173,6 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     @Override
     protected void onPause() {
         super.onPause();
-        dialog_FingerVein.stopCheckLogin();
     }
 
 
@@ -223,7 +221,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
                     Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
                     startActivity(intent);
-
+                    finish();
 
                 } else {
                     showToast(rt.getMessage());
@@ -271,7 +269,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
                     Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
                     startActivity(intent);
-
+                    finish();
 
                 } else {
                     showToast(rt.getMessage());
