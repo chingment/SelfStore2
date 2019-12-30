@@ -2,7 +2,6 @@ package com.uplink.selfstore.activity;
 
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -10,12 +9,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
-import com.uplink.selfstore.model.api.MachineSlotsResultBean;
 import com.uplink.selfstore.model.api.OwnInfoResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -26,8 +23,6 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.jpush.android.api.JPushInterface;
 
 public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmUserInfoActivity";
@@ -40,13 +35,13 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smuserinfo);
 
-        setNavTtile(this.getResources().getString(R.string.activity_smmachineinfo_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_smuserinfo_navtitle));
         setNavBackVisible(true);
         setNavBtnVisible(true);
 
-        initView();
-        initEvent();
-        initData();
+         initView();
+         initEvent();
+         initData();
 
     }
 
@@ -94,7 +89,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, String> params = new HashMap<>();
 
-        getByMy(Config.URL.own_GetInfo, params, true, "正在加载中", new HttpResponseHandler() {
+        getByMy(Config.URL.own_GetInfo, params, false, "正在加载中", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -108,7 +103,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     txt_UserName.setText(d.getUserName());
                     txt_FullName.setText(d.getFullName());
 
-                    if(d.getFingerVinCount()==0){
+                    if(d.getFingerVeinCount()==0){
                         txt_FingerVein.setText("点击录入");
                     }
                     else {
@@ -157,6 +152,9 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
                 showToast(rt.getMessage());
 
+                if (rt.getResult() == Result.SUCCESS) {
+                    getInfo();
+                }
             }
 
             @Override

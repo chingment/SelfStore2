@@ -9,7 +9,7 @@ public class OwnInfoResultBean implements Serializable {
     private String userName;
     private String email;
     private String phoneNumber;
-    private int fingerVinCount;
+    private int fingerVeinCount;
 
     public String getIntroduction() {
         return introduction;
@@ -59,11 +59,11 @@ public class OwnInfoResultBean implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getFingerVinCount() {
-        return fingerVinCount;
+    public int getFingerVeinCount() {
+        return fingerVeinCount;
     }
 
-    public void setFingerVinCount(int fingerVinCount) {
-        this.fingerVinCount = fingerVinCount;
+    public void setFingerVeinCount(int fingerVeinCount) {
+        this.fingerVeinCount = fingerVeinCount;
     }
 }

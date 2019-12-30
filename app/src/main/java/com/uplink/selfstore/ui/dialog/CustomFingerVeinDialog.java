@@ -94,6 +94,7 @@ public class CustomFingerVeinDialog extends Dialog {
         btn_ReCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                txt_Message.setText("请将手指放入设备,再移开");
                 btn_ReCollect.setVisibility(View.VISIBLE);
                 mFingerVeinCtrl.startCollect();
             }
