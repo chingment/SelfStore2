@@ -99,18 +99,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/OwnInfoResultBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/OwnInfoResultBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomFingerVeinDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomFingerVeinDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fingervein.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_fingervein.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -160,65 +149,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="155" column="30" selection-start-line="155" selection-start-column="30" selection-end-line="155" selection-end-column="30" />
+            <state relative-caret-position="149">
+              <caret line="145" column="150" selection-start-line="145" selection-start-column="150" selection-end-line="145" selection-end-column="150" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getInfo#0;class#SmUserInfoActivity#0" />
+                <element signature="class#5387:5916" />
                 <element signature="e#5915#5916#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="237" column="14" lean-forward="true" selection-start-line="237" selection-start-column="14" selection-end-line="237" selection-end-column="55" />
+            <state relative-caret-position="270">
+              <caret line="338" column="13" selection-start-line="338" selection-start-column="13" selection-end-line="338" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/OwnInfoResultBean.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
-              <folding>
-                <element signature="e#373#374#0" expanded="true" />
-                <element signature="e#408#409#0" expanded="true" />
-                <element signature="e#464#465#0" expanded="true" />
-                <element signature="e#512#513#0" expanded="true" />
-                <element signature="e#545#546#0" expanded="true" />
-                <element signature="e#574#575#0" expanded="true" />
-                <element signature="e#618#619#0" expanded="true" />
-                <element signature="e#654#655#0" expanded="true" />
-                <element signature="e#689#690#0" expanded="true" />
-                <element signature="e#720#721#0" expanded="true" />
-                <element signature="e#768#769#0" expanded="true" />
-                <element signature="e#808#809#0" expanded="true" />
-                <element signature="e#843#844#0" expanded="true" />
-                <element signature="e#874#875#0" expanded="true" />
-                <element signature="e#922#923#0" expanded="true" />
-                <element signature="e#962#963#0" expanded="true" />
-                <element signature="e#994#995#0" expanded="true" />
-                <element signature="e#1022#1023#0" expanded="true" />
-                <element signature="e#1064#1065#0" expanded="true" />
-                <element signature="e#1098#1099#0" expanded="true" />
-                <element signature="e#1136#1137#0" expanded="true" />
-                <element signature="e#1170#1171#0" expanded="true" />
-                <element signature="e#1224#1225#0" expanded="true" />
-                <element signature="e#1270#1271#0" expanded="true" />
-                <element signature="e#1348#1349#0" expanded="true" />
-                <element signature="e#1407#1408#0" expanded="true" />
-                <element signature="e#1461#1462#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -336,15 +288,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/VeinLockCtrl.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomFingerVeinDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_fingervein.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/OwnInfoResultBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="37" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
@@ -423,7 +375,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
+              <item name="deviceCtrl" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -664,10 +616,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="37" y="23" width="1280" height="711" extended-state="0" />
+    <frame x="37" y="23" width="1280" height="711" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.21890146" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.22374798" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
       <window_info id="Captures" order="2" sideWeight="0.13360325" side_tool="true" weight="0.22617124" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
@@ -686,12 +638,12 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5463336" side_tool="true" weight="0.37751678" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.40604028" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.4194631" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" visible="true" weight="0.05033557" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
       <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" weight="0.15268457" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.49757674" weight="0.32718122" />
-      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.4536664" visible="true" weight="0.3489933" />
+      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.4536664" weight="0.41778523" />
       <window_info anchor="bottom" id="Thumbnails" order="16" weight="0.32885906" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -874,7 +826,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java</url>
-          <line>428</line>
+          <line>353</line>
           <properties />
           <option name="timeStamp" value="238" />
         </line-breakpoint>
@@ -1183,16 +1135,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1711">
-          <caret line="128" selection-start-line="128" selection-end-line="128" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
@@ -1362,7 +1304,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
-          <caret line="237" column="14" lean-forward="true" selection-start-line="237" selection-start-column="14" selection-end-line="237" selection-end-column="55" />
+          <caret line="237" column="14" selection-start-line="237" selection-start-column="14" selection-end-line="237" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1371,12 +1313,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="155" column="30" selection-start-line="155" selection-start-column="30" selection-end-line="155" selection-end-column="30" />
+        <state relative-caret-position="149">
+          <caret line="145" column="150" selection-start-line="145" selection-start-column="150" selection-end-line="145" selection-end-column="150" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getInfo#0;class#SmUserInfoActivity#0" />
+            <element signature="class#5387:5916" />
             <element signature="e#5915#5916#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="338" column="13" selection-start-line="338" selection-start-column="13" selection-end-line="338" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

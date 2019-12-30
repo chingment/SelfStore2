@@ -208,7 +208,6 @@ public class FingerVeinCtrl {
         }
     }
 
-
     public void startCollect() {
         CollectListenerThread collectListenerThread = new CollectListenerThread();
         collectListenerThread.start();
@@ -337,138 +336,8 @@ public class FingerVeinCtrl {
                 }
                 LogUtil.i(TAG, "指静脉采集流程监听->结束");
             }
-
-
-//            byte[] featureData = new byte[512];
-//            int flag = 0x00, ret = -1;
-//            boolean isWaitSuccess = true;
-//
-//            int reg_n = 3;
-//            byte[] reg_feature = new byte[512 * reg_n];
-//            boolean is_reg = false;
-//
-//            for (int i = 0; i < reg_n; i++) {
-//
-//                if(collectIsStopListener){
-//                    break;
-//                }
-//
-//                //检测到手指放好为止
-//                try {
-//                    isWaitSuccess = WaitFingerStatus(2,i,(byte) 0x03, 100, 500,collectIsStopListener);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                if (!isWaitSuccess) {
-//                    LogUtil.i(TAG, "指静脉采集流程监听：检测不到手指");
-//                    return;
-//                }
-//
-//                //获得单枚特征
-//                ret = BioVein.FV_GrabFeature(mByteDevName, featureData, flag);
-//                if (ret != 0) {
-//                    LogUtil.i(TAG, "指静脉采集流程监听：采集单枚特征失败");
-//                    return;
-//                }
-//
-//                //循环获取单指静脉时，要对是否同一手指进行校验
-//                if (i > 0) {
-//                    byte[] featureTmp = new byte[512 * i];
-//                    System.arraycopy(reg_feature, 0, featureTmp, 0, 512 * i);
-//                    ret = BioVein.FV_IsSameFinger(featureData, featureTmp, i, 0x03);
-//                    if (ret != 0) {
-//                        LogUtil.i(TAG, "指静脉采集流程监听：不同一手指");
-//                        BioVein.FV_SetLedBeep(mByteDevName, (short) 3, 500, 500);
-//                        continue;
-//                    }
-//                }
-//
-//                //累计特征
-//                System.arraycopy(featureData, 0, reg_feature, 512 * i, 512);
-//
-//                LogUtil.i(TAG, "指静脉采集流程监听：采集到"+(i+1)+"次");
-//
-//                //检测至手指移开为止
-//                try {
-//                    isWaitSuccess = WaitFingerStatus(2,i,(byte) 0x00, 100, 500,collectIsStopListener);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                if (!isWaitSuccess) {
-//                    LogUtil.i(TAG, "指静脉采集流程监听：手指未移开");
-//                    return;
-//                }
-//            }
-//
-//
-//            String textMsg = "采集结果:" + ret + ", 次数:" + reg_feature.length / 512 + ", 数据大小:" + reg_feature.length;
-//            LogUtil.i(TAG, "指静脉采集流程监听->"+textMsg);
-//
-//            if(ret==0) {
-//                sendCollectHandlerMessage(2, "采集成功", reg_feature);
-//            }
-//            else
-//            {
-//                sendCollectHandlerMessage(3, "采集失败", null);
-//            }
-
         }
     }
-
-    /**
-     * Wedone: 等待手指传感器变为某种指定的状态，等待的时间为nInterval*nTimes
-     *
-     * @参数(IN)  byte bFingerStatus: 等待的状态；0：手指已经移开，3：手指已经放置好。
-     * @参数(IN)  int nTimes: 检测的次数，必须大于0。
-     * @参数(IN)  int nInterval: 每次检测的间隔，单位为毫秒，建议在500 - 1000毫秒之间。
-     * @调用 public
-     * @返回 boolean: true=成功的等到了指定的状态：
-     *             false=没有等到指定的状态就超时了
-     */
-    public boolean WaitFingerStatus(int flow,int collet_n, byte bFingerStatus, int nTimes, int nInterval,Boolean isBreak) throws InterruptedException {
-        if((0 >= nTimes) || (200 >= nInterval)){
-            return false;
-        }
-
-        byte bFingerSt[] = new byte[1];
-
-        long lRetVal;
-        for(int nCnt = 0; nCnt < nTimes; nCnt++){
-
-            if(isBreak){
-                break;
-            }
-
-            if(0 == bFingerStatus){
-                LogUtil.i(TAG, "指静脉流程监听->请移开手指");
-                //System.out.println("Move your fingers, please...\n" + nCnt);
-            }
-            else if(0x03 == bFingerStatus){
-                LogUtil.i(TAG, "指静脉流程监听->请放下手指");
-
-                if(flow==2){
-                    if(collet_n==0){
-                        sendCollectHandlerMessage(1,"请将手指放在设备再移开",null);
-                    }
-                }
-                //System.out.println("Put your finger down, please...\n" + nCnt);
-            }
-            else{
-                break;
-            }
-            lRetVal = BioVein.FV_FingerDetect(mByteDevName, bFingerSt);
-            if (0 != lRetVal) {
-                return false;
-            }
-            if(bFingerSt[0] == bFingerStatus){
-                return true;
-            }
-
-            sleep(nInterval, 0);
-        }
-        return false;
-    }
-
 
     private static final String ACTION_USB_PERMISSION = "com.template.USB_PERMISSION";//可自定义
     private BroadcastReceiver mUsbPermissionActionReceiver;
