@@ -48,6 +48,13 @@ public class FingerVeinCtrl {
 
     public int connect(Context mContext) {
 
+
+        int fd = registerReceiver(mContext);
+        if(fd==0){
+            connect_status=1;
+            return connect_status;
+        }
+
         byte m_DevList[][] = new byte[10][64];
         BioVein.FV_EnumDevice(m_DevList);
 
@@ -58,17 +65,15 @@ public class FingerVeinCtrl {
             if (i_name.length() > 0) {
                 //data_list.add(s);
                 LogUtil.i("设备名称：" + i_name);
-
-                if (i_name.contains("B02")) {
+                if (i_name.contains("B")) {
                     s_devName = i_name;
                     break;
                 }
             }
-
         }
 
         if (s_devName == "") {
-            connect_status=1;
+            connect_status=2;
             return connect_status;
         }
 
@@ -78,13 +83,6 @@ public class FingerVeinCtrl {
         int ret_Init = BioVein.FV_InitDevice(b_DevName);
 
         if (ret_Init != 0) {
-            connect_status=2;
-            return connect_status;
-        }
-
-        int fd = registerReceiver(mContext,s_devName);
-
-        if(fd==-1){
             connect_status=3;
             return connect_status;
         }
@@ -111,7 +109,7 @@ public class FingerVeinCtrl {
         checkLoginIsStopListener = true;
 
         try {
-            mContext.unregisterReceiver(mUsbPermissionActionReceiver);
+           mContext.unregisterReceiver(mUsbPermissionActionReceiver);
         } catch (Exception e) {
             LogUtil.e(TAG, "取消注册广播失败");
         }
@@ -241,6 +239,7 @@ public class FingerVeinCtrl {
         }
     }
 
+
     private class CollectListenerThread extends Thread {
 
         @Override
@@ -348,11 +347,14 @@ public class FingerVeinCtrl {
 
     private static final String ACTION_USB_PERMISSION = "com.template.USB_PERMISSION";//可自定义
     private BroadcastReceiver mUsbPermissionActionReceiver;
-    private static UsbManager mUsbManager;
-    private int fd = -1;
-    private int registerReceiver(Context mContext, final String devname){
+     private static UsbManager mUsbManager;
 
-        final String TAG = "TryGetUsbPermission";
+    private int registerReceiver(Context mContext){
+
+        int fileDescriptor=0;
+        boolean isHasPremission = false;
+
+
 
         mUsbPermissionActionReceiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
@@ -363,13 +365,11 @@ public class FingerVeinCtrl {
                         UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                         if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                             if(null != usbDevice){
-                                TcStatInterface.onEvent("设备通过,点击对话框已获取USB权限", null);
                                 Log.e(TAG,usbDevice.getDeviceName()+"已获取USB权限.");
                             }
                         }
                         else {
-                            //user choose NO for your previously popup window asking for grant perssion for this usb device
-                            Log.e(TAG,String.valueOf("USB权限已被拒绝，Permission denied for device" + usbDevice));
+                            Log.e(TAG,"USB权限已被拒绝，Permission denied for device");
                         }
                     }
                 }
@@ -377,53 +377,52 @@ public class FingerVeinCtrl {
         };
 
 
-        mUsbManager = (UsbManager) mContext.getSystemService(Context.USB_SERVICE);
+        UsbManager mUsbManager = (UsbManager) mContext.getSystemService(Context.USB_SERVICE);
 
-        IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+          IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 
         if(mUsbPermissionActionReceiver != null) {
-            mContext.registerReceiver(mUsbPermissionActionReceiver, filter);
-        }
-
+          mContext.registerReceiver(mUsbPermissionActionReceiver, filter);
+          }
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
 
-        boolean has_idcard_usb = false;
         for (final UsbDevice usbDevice : mUsbManager.getDeviceList().values()) {
-            String devnamestr = usbDevice.getDeviceName();
-            if(((usbDevice.getVendorId() == 0x0481 && usbDevice.getProductId() == 0x5641)
-                    || (usbDevice.getVendorId() == 0x064B && usbDevice.getProductId() == 0x7823)))
-            // && Integer.parseInt(devnamestr.substring(13,16)) == Integer.valueOf(devname.substring(5, 7), 16)
-            // && Integer.parseInt(devnamestr.substring(17,20)) == Integer.valueOf(devname.substring(9, 11), 16))//身份证设备USB
-            {
-                // 获取权限
-                has_idcard_usb = true;
 
-                LogUtil.e(TAG,usbDevice.getDeviceName()+"已找到USB");
+            //静脉指设备
+            if(((usbDevice.getVendorId() == 0x0481 && usbDevice.getProductId() == 0x5641) || (usbDevice.getVendorId() == 0x064B && usbDevice.getProductId() == 0x7823))) {
+
+                isHasPremission = true;
+
+                LogUtil.e(TAG,"静脉指设备->已找到");
 
                 if(mUsbManager.hasPermission(usbDevice)){
-                    TcStatInterface.onEvent("设备已获取USB权限", null);
-                    LogUtil.e(TAG,usbDevice.getDeviceName()+"已获取过USB权限");
+                    LogUtil.e(TAG,"静脉指设备->已获取过USB权限");
+
                 }else{
-                    TcStatInterface.onEvent("设备请求获取USB权限", null);
-                    LogUtil.e(TAG,usbDevice.getDeviceName()+"请求获取USB权限");
+                    LogUtil.e(TAG,"静脉指设备->请求获取USB权限");
                     mUsbManager.requestPermission(usbDevice, mPermissionIntent);
                 }
 
                 // 打开USB，获取FileDescriptor
                 UsbDeviceConnection connection = mUsbManager.openDevice(usbDevice);
                 if(connection != null){
-                    fd = connection.getFileDescriptor();
-                    LogUtil.e(TAG, "UsbManager openDevice Success, fd:" + fd +", devname:"+ devname.substring(0, 11));
+                    fileDescriptor=connection.getFileDescriptor();
+                    LogUtil.e(TAG, "静脉指设备->USB打开成功");
                 } else {
-                    LogUtil.e(TAG, "UsbManager openDevice failed");
+                    LogUtil.e(TAG, "静脉指设备->USB打开失败");
                 }
+
+                break;
             }
         }
 
-        if(!has_idcard_usb)
-        {
-            LogUtil.e(TAG,"未找到身份证USB");
+        if(isHasPremission&&fileDescriptor>0) {
+            LogUtil.e(TAG,"静脉指设备->授权成功");
         }
-        return fd;
+        else {
+            LogUtil.e(TAG,"静脉指设备->授权失败");
+        }
+
+        return fileDescriptor;
     }
 }

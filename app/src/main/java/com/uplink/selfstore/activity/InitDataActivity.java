@@ -30,6 +30,7 @@ import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
+import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.InterUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -99,6 +100,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         machineCtrl.goGoZero();
 
+        FingerVeinCtrl  mFingerVeinCtrl = FingerVeinCtrl.getInstance();
+        mFingerVeinCtrl.connect(InitDataActivity.this);
+
     }
 
     protected void initView() {
@@ -114,6 +118,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
 
     private void initEvent() {
+
+        btn_retry.setOnClickListener(this);
 
         LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
             @Override
@@ -197,6 +203,31 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                         setMachineInitData();
                     }
                 }, 2000);
+
+                CustomFingerVeinDialog  dialog_FingerVein=new CustomFingerVeinDialog(InitDataActivity.this);
+                dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
+                            @Override
+                            public boolean handleMessage(Message msg) {
+                                Bundle bundle = msg.getData();
+                                int status = bundle.getInt("status");
+                                String message = bundle.getString("message");
+                                byte[] result;
+                                switch (status) {
+                                    case 1://消息提示
+                                        showToast(message);
+                                        break;
+                                    case 2://检查到手指
+                                        result = bundle.getByteArray("result");
+                                        //loginByFingerVein(result);
+                                        break;
+                                }
+                                return false;
+                            }
+                        })
+                );
+
+                dialog_FingerVein.startCheckLogin();
+
                 break;
         }
     }
