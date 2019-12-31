@@ -87,8 +87,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                 })
         );
 
-        dialog_FingerVein.startCheckLogin();
-        dialog_FingerVein.startCheckLogin();
+         dialog_FingerVein.startCheckLogin();
     }
 
     protected void initEvent() {
@@ -272,7 +271,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                     finish();
 
                 } else {
-                    showToast(rt.getMessage());
+                    //showToast(rt.getMessage());
                 }
             }
 

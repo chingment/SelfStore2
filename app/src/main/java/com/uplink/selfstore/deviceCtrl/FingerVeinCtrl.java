@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.utils.LogUtil;
 import com.wedone.BioVein;
 
@@ -106,10 +108,15 @@ public class FingerVeinCtrl {
 
     public void disConnect(Context mContext) {
 
-        checkLoginIsStopListener=true;
+        checkLoginIsStopListener = true;
 
-        mContext.unregisterReceiver(mUsbPermissionActionReceiver);
-        if(mByteDevName!=null) {
+        try {
+            mContext.unregisterReceiver(mUsbPermissionActionReceiver);
+        } catch (Exception e) {
+            LogUtil.e(TAG, "取消注册广播失败");
+        }
+
+        if (mByteDevName != null) {
             BioVein.FV_CloseDevice(mByteDevName);
             BioVein.FV_RemoveDevice(mByteDevName);
         }
@@ -356,6 +363,7 @@ public class FingerVeinCtrl {
                         UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                         if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                             if(null != usbDevice){
+                                TcStatInterface.onEvent("设备通过,点击对话框已获取USB权限", null);
                                 Log.e(TAG,usbDevice.getDeviceName()+"已获取USB权限.");
                             }
                         }
@@ -393,8 +401,10 @@ public class FingerVeinCtrl {
                 LogUtil.e(TAG,usbDevice.getDeviceName()+"已找到USB");
 
                 if(mUsbManager.hasPermission(usbDevice)){
+                    TcStatInterface.onEvent("设备已获取USB权限", null);
                     LogUtil.e(TAG,usbDevice.getDeviceName()+"已获取过USB权限");
                 }else{
+                    TcStatInterface.onEvent("设备请求获取USB权限", null);
                     LogUtil.e(TAG,usbDevice.getDeviceName()+"请求获取USB权限");
                     mUsbManager.requestPermission(usbDevice, mPermissionIntent);
                 }
