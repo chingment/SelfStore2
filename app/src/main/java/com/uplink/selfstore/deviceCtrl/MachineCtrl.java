@@ -107,72 +107,8 @@ public class MachineCtrl {
     }
 
     public void scanSlot() {
-
         scanListenerThread = new ScanSlotListenerThread();
         scanListenerThread.start();
-
-//        if (!isConnect) {
-//            LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
-//            sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
-//        } else if (!this.isNormarl()) {
-//            LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在线");
-//            sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
-//        } else if (!this.isIdle()) {
-//            LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
-//            sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
-//        } else {
-//
-//            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
-//            if (rt_goZero != S_RC_SUCCESS) {
-//                LogUtil.i(TAG, "扫描流程监听：启动回原点失败");
-//                sendScanSlotHandlerMessage(1, "启动回原点失败", null);
-//                return;
-//            }
-//
-//            LogUtil.i(TAG, "扫描流程监听：扫描货道启动成功");
-//            sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
-//
-//            long nStart = System.currentTimeMillis();
-//            long nEnd = System.currentTimeMillis();
-//            boolean bTryAgain = false;
-//            boolean bCanSelfAutoScan = false;
-//            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
-//                int[] result = sym.SN_MV_Get_MotionStatus();
-//                boolean isInZero = false;
-//                if (result[0] == S_RC_SUCCESS) {
-//                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
-//                        isInZero = true;
-//                    }
-//                }
-//
-//                if (isInZero) {
-//                    bCanSelfAutoScan = true;
-//                    break;
-//                } else {
-//                    bTryAgain = true;
-//                }
-//            }
-//
-//            if (!bCanSelfAutoScan) {
-//                LogUtil.i(TAG, "扫描流程监听：回原点失败");
-//                sendScanSlotHandlerMessage(1, "回原点失败", null);
-//                return;
-//            }
-//
-//            int rc_selfAutoScan = sym.SN_MV_SelfAutoScan(0);
-//
-//
-//            if (rc_selfAutoScan != S_RC_SUCCESS) {
-//                LogUtil.i(TAG, "扫描流程监听：扫描货道启动失败");
-//                sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
-//                return;
-//            }
-//
-//            this.cmd_ScanSlotIsStopListener = false;
-//            scanListenerThread = new ScanSlotListenerThread();
-//            scanListenerThread.start();
-//
-//        }
     }
 
     public void goGoZero() {
@@ -202,70 +138,6 @@ public class MachineCtrl {
     public void pickUp(int mode, int row, int col) {
         pickupListenerThread = new PickupListenerThread(mode, row, col);
         pickupListenerThread.start();
-//        isConnect = connect();
-//        if (!isConnect) {
-//            LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
-//            sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
-//        } else if (!this.isNormarl()) {
-//            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
-//            sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
-//        } else if (!this.isIdle()) {
-//            LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-//            sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
-//        } else {
-//
-//            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
-//            if (rt_goZero != S_RC_SUCCESS) {
-//                LogUtil.i(TAG, "取货流程监听：启动回原点失败");
-//                sendPickupHandlerMessage(1, "启动回原点失败", null);
-//                return;
-//            }
-//
-//            LogUtil.i(TAG, "取货流程监听：取货就绪");
-//            sendPickupHandlerMessage(2, "取货就绪", null);
-//
-//            long nStart = System.currentTimeMillis();
-//            long nEnd = System.currentTimeMillis();
-//            boolean bTryAgain = false;
-//            boolean bCanAutoStart = false;
-//            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
-//                int[] result = sym.SN_MV_Get_MotionStatus();
-//                boolean isInZero = false;
-//                if (result[0] == S_RC_SUCCESS) {
-//                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
-//                        isInZero = true;
-//                    }
-//                }
-//
-//                if (isInZero) {
-//                    bCanAutoStart = true;
-//                    break;
-//                } else {
-//                    bTryAgain = true;
-//                }
-//            }
-//
-//            if (!bCanAutoStart) {
-//                LogUtil.i(TAG, "取货流程监听：取货回原点失败");
-//                sendPickupHandlerMessage(1, "取货回原点失败", null);
-//                return;
-//            }
-//
-//            LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
-//
-//            int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
-//            if (rc_autoStart != S_RC_SUCCESS) {
-//                LogUtil.i(TAG, "取货流程监听：取货启动失败");
-//                sendPickupHandlerMessage(1, "取货启动失败", null);
-//                return;
-//            }
-//
-//            action_map = new HashMap<>();
-//            this.cmd_PickupIsStopListener = false;
-//            pickupListenerThread = new PickupListenerThread();
-//            pickupListenerThread.start();
-//
-//        }
     }
 
     public boolean isIdle() {
