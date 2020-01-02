@@ -122,7 +122,7 @@ public class BaseActivity extends AppCompatActivity
 	 * @param task
 	 * @param delayMillis
 	 */
-	protected final synchronized void queueEvent(final Runnable task, final long delayMillis) {
+	public final synchronized void queueEvent(final Runnable task, final long delayMillis) {
 		if ((task == null) || (mWorkerHandler == null)) return;
 		try {
 			mWorkerHandler.removeCallbacks(task);

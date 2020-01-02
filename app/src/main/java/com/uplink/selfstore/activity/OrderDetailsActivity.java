@@ -46,23 +46,17 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private static final String TAG = "OrderDetailsActivity";
     private TextView txt_OrderSn;
     private MyListView list_skus;
-
-
     private View btn_PickupCompeled;
     private View btn_ContactKefu;
-
     private CustomConfirmDialog dialog_PickupCompelte;
     private CustomSystemWarnDialog dialog_SystemWarn;
-    private  ImageView curpickupsku_img_main;
+    private ImageView curpickupsku_img_main;
     private TextView curpickupsku_tip1;
     private TextView curpickupsku_tip2;
     private OrderDetailsBean orderDetails;
-    private Handler handler_UpdateUI;
     private PickupSkuBean currentPickupSku=null;
-    private Boolean isPicking=false;
     private int[] cabinetPendantRows=null;
     private MachineCtrl machineCtrl=new MachineCtrl();
-    private final int MESSAGE_WHAT_PICKUP=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
