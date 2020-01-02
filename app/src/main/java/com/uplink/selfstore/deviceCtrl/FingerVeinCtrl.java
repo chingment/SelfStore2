@@ -29,6 +29,7 @@ public class FingerVeinCtrl {
     private byte[]  mByteDevName;
     private Handler checkLoginHandler = null;
     private boolean checkLoginIsStopListener = true;
+    private boolean checkLoginIsPauseListener = false;
     private Handler collectHandler = null;
     private boolean collectIsStopListener = true;
     private  int connect_status=0;
@@ -51,7 +52,7 @@ public class FingerVeinCtrl {
     public int connect(Context mContext) {
 
 
-        int fd = registerReceiver(mContext);
+        int fd = tryGetPermission(mContext);
         if(fd==0){
             connect_status=1;
             return connect_status;
@@ -140,6 +141,15 @@ public class FingerVeinCtrl {
        checkLoginIsStopListener=true;
     }
 
+    public void  pauseCheckLogin(){
+        checkLoginIsPauseListener=true;
+    }
+
+    public void  resumeCheckLogin(){
+        checkLoginIsPauseListener=false;
+    }
+
+
     private void sendCheckLoginHandlerMessage(int status, String message,byte[] result) {
         if (checkLoginHandler != null) {
             Message m = new Message();
@@ -169,8 +179,8 @@ public class FingerVeinCtrl {
             }
 
 
-            checkLoginIsStopListener = false;
-
+            checkLoginIsStopListener= false;
+            checkLoginIsPauseListener=false;
 
             while (!checkLoginIsStopListener) {
                 LogUtil.i(TAG, "指静脉采检查登录监听->开始");
@@ -179,6 +189,13 @@ public class FingerVeinCtrl {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                if(checkLoginIsPauseListener){
+
+                    LogUtil.i(TAG, "指静脉采检查登录监听->暂停监听");
+                    continue;
+                }
+
                 byte bFingerSt[] = new byte[1];//手指状态
                 int ret_FingerDetect = BioVein.FV_FingerDetect(mByteDevName, bFingerSt);
                 if(ret_FingerDetect==0){
@@ -198,6 +215,7 @@ public class FingerVeinCtrl {
                         int flag=0;
                         int ret_GrabFeature = BioVein.FV_GrabFeature(mByteDevName, featureData, flag);
                         if (ret_GrabFeature == 0) {
+                            pauseCheckLogin();//暂停监听，若恢复 使用 resumeCheckLogin 函数
                             LogUtil.i(TAG, "指静脉采检查登录监听->获取手指信息成功");
                             sendCheckLoginHandlerMessage(2, "检测到有信息", featureData);
                         }
@@ -351,7 +369,7 @@ public class FingerVeinCtrl {
     private BroadcastReceiver mUsbPermissionActionReceiver;
      private static UsbManager mUsbManager;
 
-    private int registerReceiver(Context mContext) {
+    private int tryGetPermission(Context mContext) {
 
         int fileDescriptor = 0;
         boolean isHasPremission = false;
@@ -368,10 +386,10 @@ public class FingerVeinCtrl {
                         UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                         if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                             if (null != usbDevice) {
-                                Log.e(TAG, usbDevice.getDeviceName() + "已获取USB权限.");
+                                Log.e(TAG, "USB静脉指设备->广播已获取权限");
                             }
                         } else {
-                            Log.e(TAG, "USB权限已被拒绝，Permission denied for device");
+                            Log.e(TAG, "USB静脉指设备->广播已拒绝访问");
                         }
                     }
                 }

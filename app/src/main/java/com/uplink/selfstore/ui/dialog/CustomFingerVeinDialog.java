@@ -53,6 +53,14 @@ public class CustomFingerVeinDialog extends Dialog {
         mFingerVeinCtrl.startCheckLogin();
     }
 
+    public void pauseCheckLogin(){
+        mFingerVeinCtrl.pauseCheckLogin();
+    }
+
+    public void resumeCheckLogin(){
+        mFingerVeinCtrl.resumeCheckLogin();
+    }
+
     public Button getBtnReCollect()
     {
         return  this.btn_ReCollect;
