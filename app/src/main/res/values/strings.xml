@@ -58,7 +58,7 @@
     <string name="activity_smhome_ninegriditem_title_stockset">库存设置</string>
     <string name="activity_smhome_ninegriditem_title_machineset">机器信息</string>
     <string name="activity_smhome_ninegriditem_title_userinfo">用户信息</string>
-    <string name="activity_smhome_ninegriditem_title_cameratest">摄像头测试</string>
+    <string name="activity_smhome_ninegriditem_title_hardware">硬件诊断</string>
     <string name="activity_smhome_ninegriditem_title_checkupdateapp">检查更新</string>
     <string name="activity_smhome_ninegriditem_title_closeapp">关闭应用</string>
     <string name="activity_smhome_ninegriditem_title_rootsys">重启系统</string>
@@ -93,4 +93,5 @@
     <string name="aty_smuserinfo_tvtx_username">用户账号</string>
     <string name="aty_smuserinfo_tvtx_fullname">用户姓名</string>
     <string name="aty_smuserinfo_tvtx_fingervein">指静脉況</string>
+    <string name="aty_smhardware_navtitle">硬件诊断</string>
 </resources>

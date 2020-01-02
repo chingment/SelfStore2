@@ -120,9 +120,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 LogUtil.e("长按触发");
                 setHideStatusBar(false);
                 AppManager.getAppManager().AppExit(InitDataActivity.this);
-
-                Intent intent = new Intent(getAppContext(), TestCameraActivity.class);
-                startActivity(intent);
                 return true;
             }
         });

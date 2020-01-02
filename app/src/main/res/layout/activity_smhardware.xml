@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_nav_header" />
+
+    <LinearLayout
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_200">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/size_5"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_height="@dimen/size_12">
+                <TextView
+                    android:textSize="@dimen/sp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="货柜摄像头"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_140">
+            <com.serenegiant.widget.UVCCameraTextureView
+                android:background="@null"
+                android:id="@+id/cameraViewByJiGui"
+                android:layout_width="@dimen/size_140"
+                android:layout_height="@dimen/size_140"
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_30">
+                <Button
+                    android:id="@+id/cameraOpenByJiGui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="打开"/>
+                <Button
+                    android:id="@+id/cameraCloseByJiGui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="关闭"/>
+                <Button
+                    android:id="@+id/cameraCaptureStillByJiGui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="拍照"/>
+                <Button
+                    android:id="@+id/cameraRecordByJiGui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="录像"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="@dimen/size_5"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_height="@dimen/size_12">
+                <TextView
+                    android:textSize="@dimen/sp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="出货头摄像头"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_140">
+                <com.serenegiant.widget.UVCCameraTextureView
+                    android:background="@null"
+                    android:id="@+id/cameraViewByChuHuoKou"
+                    android:layout_width="@dimen/size_140"
+                    android:layout_height="@dimen/size_140"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_30">
+                <Button
+                    android:id="@+id/cameraOpenByChuHuoKou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="打开"/>
+                <Button
+                    android:id="@+id/cameraCloseByChuHuoKou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="关闭"/>
+                <Button
+                    android:id="@+id/cameraCaptureStillByChuHuoKou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="拍照"/>
+                <Button
+                    android:id="@+id/cameraRecordByChuHuoKou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:text="录像"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>

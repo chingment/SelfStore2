@@ -11,6 +11,11 @@
 	<dimen name="size_180">384.0000dp</dimen>
 	<dimen name="size_170">362.6667dp</dimen>
 	<dimen name="size_160">341.3333dp</dimen>
+	<dimen name="size_150">320.0000dp</dimen>
+	<dimen name="size_140">298.6667dp</dimen>
+	<dimen name="size_130">277.3333dp</dimen>
+	<dimen name="size_120">256.0000dp</dimen>
+	<dimen name="size_110">234.6667dp</dimen>
 	<dimen name="size_100">213.3333dp</dimen>
 	<dimen name="size_96">204.8000dp</dimen>
 	<dimen name="size_90">192.0000dp</dimen>

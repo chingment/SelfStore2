@@ -11,6 +11,7 @@ import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usbcameracommon.UVCCameraHandler;
 import com.serenegiant.widget.CameraViewInterface;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.List;
@@ -18,9 +19,8 @@ import java.util.List;
 public class CameraCtrl {
     private static final String TAG = "CameraCtrl";
     private USBMonitor mUSBMonitor;
-    public BaseActivity mContext;
+    private BaseFragmentActivity mContext;
     private static final float[] BANDWIDTH_FACTORS = {0.5f, 0.5f};
-
     private UsbDevice mCameraByChuHuoKou;//出货口相机
     private CameraViewInterface mCameraViewInterfaceByChuHuoKou;
     private UVCCameraHandler mCameraHandlerByChuHuoKou;
@@ -31,7 +31,7 @@ public class CameraCtrl {
     private UVCCameraHandler mCameraHandlerByJiGui;
     private Surface mCameraPreviewSurfaceByJiGui;
 
-    public CameraCtrl(BaseActivity context) {
+    public CameraCtrl(BaseFragmentActivity context) {
         mContext=context;
         mUSBMonitor = new USBMonitor(context, mOnDeviceConnectListener);
         mUSBMonitor.register();
@@ -82,15 +82,112 @@ public class CameraCtrl {
     public void openCameraByChuHuoKou(CameraViewInterface cameraViewInterface) {
         mCameraViewInterfaceByChuHuoKou=cameraViewInterface;
         mCameraHandlerByChuHuoKou = UVCCameraHandler.createHandler(mContext, cameraViewInterface, UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT,BANDWIDTH_FACTORS[1]);
-        mUSBMonitor.requestPermission(getCameraByChuHuoKou());
+        if(mCameraByChuHuoKou!=null) {
+            mUSBMonitor.requestPermission(mCameraByChuHuoKou);
+        }
+    }
+
+    public void closeCameraByChuHuoKou() {
+        if(mCameraByChuHuoKou!=null) {
+            mCameraHandlerByChuHuoKou.close();
+        }
+    }
+
+    public void captureStillByChuHuoKou() {
+        if(mCameraByChuHuoKou!=null) {
+           if(mCameraHandlerByChuHuoKou.isOpened())
+           {
+               mCameraHandlerByChuHuoKou.captureStill();
+           }
+        }
+    }
+
+    public void startRecordByChuHuoKou() {
+        if(mCameraByChuHuoKou!=null) {
+            if(mCameraHandlerByChuHuoKou.isOpened())
+            {
+                if (!mCameraHandlerByChuHuoKou.isRecording()) {
+                    mCameraHandlerByChuHuoKou.startRecording();
+                }
+            }
+        }
+    }
+
+    public void stopRecordByChuHuoKou() {
+        if(mCameraByChuHuoKou!=null) {
+            if(mCameraHandlerByChuHuoKou.isOpened())
+            {
+                if (mCameraHandlerByChuHuoKou.isRecording()) {
+                    mCameraHandlerByChuHuoKou.stopRecording();
+                }
+            }
+        }
+    }
+
+    public boolean isOpenCameraByChuHuoKou(){
+        if(mCameraByChuHuoKou==null)
+            return false;
+
+        if(mCameraHandlerByChuHuoKou==null)
+            return false;
+
+        return  mCameraHandlerByChuHuoKou.isOpened();
     }
 
     public void  openCameraByJiGui(CameraViewInterface cameraViewInterface) {
         mCameraViewInterfaceByJiGui=cameraViewInterface;
         mCameraViewInterfaceByJiGui.setAspectRatio(UVCCamera.DEFAULT_PREVIEW_WIDTH / (float) UVCCamera.DEFAULT_PREVIEW_HEIGHT);
         mCameraHandlerByJiGui=UVCCameraHandler.createHandler(mContext, mCameraViewInterfaceByJiGui, UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, BANDWIDTH_FACTORS[1]);
+        if(mCameraByJiGui!=null) {
+            mUSBMonitor.requestPermission(mCameraByJiGui);
+        }
+    }
 
-        mUSBMonitor.requestPermission(getCameraByJiGui());
+    public void closeCameraByJiGui() {
+        if(mCameraByJiGui!=null) {
+            mCameraHandlerByJiGui.close();
+        }
+    }
+
+    public boolean isOpenCameraByJiGui(){
+        if(mCameraByJiGui==null)
+            return false;
+
+        if(mCameraHandlerByJiGui==null)
+            return false;
+
+        return  mCameraHandlerByJiGui.isOpened();
+    }
+
+    public void captureStillByJiGui() {
+        if(mCameraByJiGui!=null) {
+            if(mCameraHandlerByJiGui.isOpened())
+            {
+                mCameraHandlerByJiGui.captureStill();
+            }
+        }
+    }
+
+    public void startRecordByJiGui() {
+        if(mCameraByJiGui!=null) {
+            if(mCameraHandlerByJiGui.isOpened())
+            {
+                if (!mCameraHandlerByJiGui.isRecording()) {
+                    mCameraHandlerByJiGui.startRecording();
+                }
+            }
+        }
+    }
+
+    public void stopRecordByJiGui() {
+        if(mCameraByJiGui!=null) {
+            if(mCameraHandlerByJiGui.isOpened())
+            {
+                if (mCameraHandlerByJiGui.isRecording()) {
+                    mCameraHandlerByJiGui.stopRecording();
+                }
+            }
+        }
     }
 
     private final USBMonitor.OnDeviceConnectListener mOnDeviceConnectListener = new USBMonitor.OnDeviceConnectListener() {
