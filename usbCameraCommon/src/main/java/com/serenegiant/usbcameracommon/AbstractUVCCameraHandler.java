@@ -627,7 +627,7 @@ abstract class AbstractUVCCameraHandler extends Handler {
 					final byte[] yuv = new byte[len];
 					frame.get(yuv);
 					uvcCameraDataCallBack.getData(yuv);
-					Log.i(TAG, "-摄像头返回数据------" + yuv.length);
+					//Log.i(TAG, "-摄像头返回数据------" + yuv.length);
 				}
 			}
 		};

@@ -503,7 +503,7 @@ public final class USBMonitor {
 					processDettach(device);
 				}
 			}
-			context.unregisterReceiver(mUsbReceiver);
+			//context.unregisterReceiver(mUsbReceiver);
 		}
 	};
 

@@ -1,7 +1,6 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -32,16 +31,11 @@ import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.my.MyListView;
-import com.uplink.selfstore.utils.InterUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
-import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
-
-import org.apache.commons.logging.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -100,8 +94,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         machineCtrl.goGoZero();
 
-        FingerVeinCtrl  mFingerVeinCtrl = FingerVeinCtrl.getInstance();
-        mFingerVeinCtrl.connect(InitDataActivity.this);
+        FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
     }
 
@@ -125,8 +118,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             @Override
             public boolean onLongClick(View v) {
                 LogUtil.e("长按触发");
-                //setHideStatusBar(false);
-                //AppManager.getAppManager().AppExit(InitDataActivity.this);
+                setHideStatusBar(false);
+                AppManager.getAppManager().AppExit(InitDataActivity.this);
 
                 Intent intent = new Intent(getAppContext(), TestCameraActivity.class);
                 startActivity(intent);
@@ -163,19 +156,19 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 list_log.setAdapter(logAdapter);
 
                 switch (msg.what) {
-                    case 0x0001:
+                    case 1:
                         break;
-                    case 0x0002:
+                    case 2:
                         initIsRun=false;
                         btn_retry.setVisibility(View.VISIBLE);
                         break;
-                    case 0x0003:
+                    case 3:
                         loading_ani.stop();
                         Intent intent = new Intent(getAppContext(), MainActivity.class);
                         SystemClock.sleep(2000);
                         startActivity(intent);
                         finish();
-                    case 0x0004:
+                    case 4:
                         btn_retry.setVisibility(View.INVISIBLE);
                         break;
                 }

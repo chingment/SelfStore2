@@ -44,7 +44,6 @@ public class TestCameraActivity extends BaseActivity{
     private CameraViewInterface mUVCCameraViewSecond;
     private ImageButton mCaptureButtonSecond;
     private Surface mSecondPreviewSurface;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +54,35 @@ public class TestCameraActivity extends BaseActivity{
 
         mUSBMonitor = new USBMonitor(this, mOnDeviceConnectListener);
 
-        LogUtil.e(TAG,"Create");
-//        UsbDevice usbDevice= getUsbDevice(37424,1443);
-//
-//        mUSBMonitor.register();
-//        mUSBMonitor.requestPermission(usbDevice);
-//
-//
-//        UsbDevice usbDevice2= getUsbDevice(42694,1137);
-//        mUSBMonitor.requestPermission(usbDevice2);
+        mUSBMonitor.register();
 
+        MyThread myThread=new MyThread();
+        myThread.start();
+    }
+
+    private class MyThread extends Thread {
+
+        @Override
+        public void run() {
+
+
+            LogUtil.e(TAG,"Create");
+            UsbDevice usbDevice= getUsbDevice(37424,1443);
+
+            mUSBMonitor.requestPermission(usbDevice);
+
+            try {
+                Thread.sleep(1300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // mUSBMonitor = new USBMonitor(this, mOnDeviceConnectListener);
+            //  mUSBMonitor2.register();
+            UsbDevice usbDevice2= getUsbDevice(42694,1137);
+            mUSBMonitor.requestPermission(usbDevice2);
+
+        }
     }
 
     public  UsbDevice getUsbDevice(int productId,int vendorId){
@@ -108,7 +126,6 @@ public class TestCameraActivity extends BaseActivity{
                 , UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT
                 , BANDWIDTH_FACTORS[0], firstDataCallBack);
     }
-
 
     private void resultSecondCamera() {
         mUVCCameraViewSecond = (CameraViewInterface) findViewById(R.id.camera_view_second);
@@ -177,7 +194,6 @@ public class TestCameraActivity extends BaseActivity{
         }
     };
 
-
     private final USBMonitor.OnDeviceConnectListener mOnDeviceConnectListener = new USBMonitor.OnDeviceConnectListener() {
         @Override
         public void onAttach(final UsbDevice device) {
@@ -191,12 +207,12 @@ public class TestCameraActivity extends BaseActivity{
 
 
             //设备连接成功
-            try {
-                Thread.sleep(1300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-//
+//            try {
+//                Thread.sleep(1300);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+////
             if(device.getVendorId()==1443) {
                 if (!mHandlerFirst.isOpened()) {
                     mHandlerFirst.open(ctrlBlock);
@@ -219,10 +235,13 @@ public class TestCameraActivity extends BaseActivity{
 
             LogUtil.i(TAG, "USB_DEVICE_DISCONNECT->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
 
-            if ((mHandlerFirst != null) && !mHandlerFirst.isEqual(device)) {
+         //   boolean s=mHandlerFirst.isEqual(device);
+           // boolean s2=mHandlerSecond.isEqual(device);
+            if(device.getVendorId()==1443&&mHandlerFirst!=null) {
                 queueEvent(new Runnable() {
                     @Override
                     public void run() {
+
                         mHandlerFirst.close();
                         if (mFirstPreviewSurface != null) {
                             mFirstPreviewSurface.release();
@@ -230,7 +249,7 @@ public class TestCameraActivity extends BaseActivity{
                         }
                     }
                 }, 0);
-            } else if ((mHandlerSecond != null) && !mHandlerSecond.isEqual(device)) {
+            }  else if(device.getVendorId()==1137&&mHandlerSecond!=null) {
                 queueEvent(new Runnable() {
                     @Override
                     public void run() {
@@ -258,7 +277,7 @@ public class TestCameraActivity extends BaseActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        mUSBMonitor.register();
+      //  mUSBMonitor.register();
 
         if (mUVCCameraViewFirst != null)
             mUVCCameraViewFirst.onResume();

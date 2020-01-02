@@ -58,6 +58,7 @@
     <string name="activity_smhome_ninegriditem_title_stockset">库存设置</string>
     <string name="activity_smhome_ninegriditem_title_machineset">机器信息</string>
     <string name="activity_smhome_ninegriditem_title_userinfo">用户信息</string>
+    <string name="activity_smhome_ninegriditem_title_cameratest">摄像头测试</string>
     <string name="activity_smhome_ninegriditem_title_checkupdateapp">检查更新</string>
     <string name="activity_smhome_ninegriditem_title_closeapp">关闭应用</string>
     <string name="activity_smhome_ninegriditem_title_rootsys">重启系统</string>
