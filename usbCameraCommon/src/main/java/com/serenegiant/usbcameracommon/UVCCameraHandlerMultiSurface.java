@@ -156,25 +156,25 @@ public class UVCCameraHandlerMultiSurface extends AbstractUVCCameraHandler {
 		}
 	}
 
-	@Override
-	public void captureStill() {
-		checkReleased();
-		super.captureStill();
-	}
+//	@Override
+//	public void captureStill() {
+//		checkReleased();
+//		super.captureStill();
+//	}
 
-	@Override
-	public void captureStill(final String path) {
-		checkReleased();
-		post(new Runnable() {
-			@Override
-			public void run() {
-				synchronized (UVCCameraHandlerMultiSurface.this) {
-					if (mRendererHolder != null) {
-						mRendererHolder.captureStill(path);
-						updateMedia(path);
-					}
-				}
-			}
-		});
-	}
+//	@Override
+//	public void captureStill(final String path) {
+//		checkReleased();
+//		post(new Runnable() {
+//			@Override
+//			public void run() {
+//				synchronized (UVCCameraHandlerMultiSurface.this) {
+//					if (mRendererHolder != null) {
+//						mRendererHolder.captureStill(path);
+//						updateMedia(path);
+//					}
+//				}
+//			}
+//		});
+//	}
 }

@@ -62,7 +62,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	private Callback mCallback;
 	/** for calculation of frame rate */
 	private final FpsCounter mFpsCounter = new FpsCounter();
-
+	private int m_TexId=-1;
 	public UVCCameraTextureView(final Context context) {
 		this(context, null, 0);
 	}
@@ -212,7 +212,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	public void resetFps() {
 		mFpsCounter.reset();
 	}
-	
+
 	/** update frame rate of image processing */
 	public void updateFps() {
 		mFpsCounter.update();
@@ -254,7 +254,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 
 		public static final RenderHandler createHandler(final FpsCounter counter,
 			final SurfaceTexture surface, final int width, final int height) {
-			
+
 			final RenderThread thread = new RenderThread(counter, surface, width, height);
 			thread.start();
 			return thread.getHandler();
@@ -368,7 +368,8 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	    		mSurface = surface;
 				mViewWidth = width;
 				mViewHeight = height;
-	    		setName("RenderThread");
+
+				setName("RenderThread");
 			}
 
 			public final RenderHandler getHandler() {
@@ -407,11 +408,12 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	            	}
 					mEglSurface.makeCurrent();
 		            if (mTexId >= 0) {
-						mDrawer.deleteTex(mTexId);
+						//mDrawer.deleteTex(mTexId);
 		            }
 		    		// create texture and SurfaceTexture for input from camera
 		            mTexId = mDrawer.initTex();
 		            if (DEBUG) Log.v(TAG, "updatePreviewSurface:tex_id=" + mTexId);
+
 		            mPreviewSurface = new SurfaceTexture(mTexId);
 					mPreviewSurface.setDefaultBufferSize(mViewWidth, mViewHeight);
 		            mPreviewSurface.setOnFrameAvailableListener(mHandler);
@@ -447,22 +449,26 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 			 * draw a frame (and request to draw for video capturing if it is necessary)
 			 */
 			public final void onDrawFrame() {
-				mEglSurface.makeCurrent();
-				// update texture(came from camera)
-				mPreviewSurface.updateTexImage();
-				// get texture matrix
-				mPreviewSurface.getTransformMatrix(mStMatrix);
-				// notify video encoder if it exist
-				if (mEncoder != null) {
-					// notify to capturing thread that the camera frame is available.
-					if (mEncoder instanceof MediaVideoEncoder)
-						((MediaVideoEncoder)mEncoder).frameAvailableSoon(mStMatrix);
-					else
-						mEncoder.frameAvailableSoon();
+				synchronized (mSync) {
+					mEglSurface.makeCurrent();
+					// update texture(came from camera)
+					mPreviewSurface.updateTexImage();
+					// get texture matrix
+					mPreviewSurface.getTransformMatrix(mStMatrix);
+					// notify video encoder if it exist
+					if (mEncoder != null) {
+						// notify to capturing thread that the camera frame is available.
+						if (mEncoder instanceof MediaVideoEncoder)
+							((MediaVideoEncoder) mEncoder).frameAvailableSoon(mStMatrix);
+						else
+							mEncoder.frameAvailableSoon();
+					}
+
+					// draw to preview screen
+					mDrawer.draw(mTexId, mStMatrix, 0);
+					mEglSurface.swap();
 				}
-				// draw to preview screen
-				mDrawer.draw(mTexId, mStMatrix, 0);
-				mEglSurface.swap();
+
 /*				// sample code to read pixels into Buffer and save as a Bitmap (part1)
 				buffer.position(offset);
 				GLES20.glReadPixels(0, 0, 640, 480, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, buffer);

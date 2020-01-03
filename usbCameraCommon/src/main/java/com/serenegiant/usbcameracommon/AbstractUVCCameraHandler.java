@@ -64,7 +64,7 @@ import java.nio.ByteOrder;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-abstract class AbstractUVCCameraHandler extends Handler {
+public abstract class AbstractUVCCameraHandler extends Handler {
 	private static final boolean DEBUG = true;	// TODO set false on release
 	private static final String TAG = "AbsUVCCameraHandler";
 
@@ -76,6 +76,13 @@ abstract class AbstractUVCCameraHandler extends Handler {
 		public void onStartRecording();
 		public void onStopRecording();
 		public void onError(final Exception e);
+	}
+
+	protected static boolean isCaptureStill;
+	public static OnCaptureStillListener mCaptureStillListener;
+
+	public interface OnCaptureStillListener {
+		void onResult(byte[] data);
 	}
 
 	private static final int MSG_OPEN = 0;
@@ -191,14 +198,21 @@ abstract class AbstractUVCCameraHandler extends Handler {
 		if (DEBUG) Log.v(TAG, "stopPreview:finished");
 	}
 
-	protected void captureStill() {
-		checkReleased();
-		sendEmptyMessage(MSG_CAPTURE_STILL);
-	}
+//	protected void captureStill() {
+//		checkReleased();
+//		sendEmptyMessage(MSG_CAPTURE_STILL);
+//	}
+//
+//	protected void captureStill(final String path) {
+//		checkReleased();
+//		sendMessage(obtainMessage(MSG_CAPTURE_STILL, path));
+//	}
 
-	protected void captureStill(final String path) {
+	public void captureStill(AbstractUVCCameraHandler.OnCaptureStillListener listener) {
+		AbstractUVCCameraHandler.mCaptureStillListener = listener;
 		checkReleased();
-		sendMessage(obtainMessage(MSG_CAPTURE_STILL, path));
+		sendMessage(obtainMessage(MSG_CAPTURE_STILL));
+		isCaptureStill = true;
 	}
 
 	public void startRecording() {
@@ -309,7 +323,7 @@ abstract class AbstractUVCCameraHandler extends Handler {
 			thread.handleStopPreview();
 			break;
 		case MSG_CAPTURE_STILL:
-			thread.handleCaptureStill((String)msg.obj);
+			thread.handleCaptureStill();
 			break;
 		case MSG_CAPTURE_START:
 			thread.handleStartRecording();
@@ -515,33 +529,36 @@ abstract class AbstractUVCCameraHandler extends Handler {
 			if (DEBUG) Log.v(TAG_THREAD, "handleStopPreview:finished");
 		}
 
-		public void handleCaptureStill(final String path) {
-			if (DEBUG) Log.v(TAG_THREAD, "handleCaptureStill:");
-			final Activity parent = mWeakParent.get();
-			if (parent == null) return;
-			mSoundPool.play(mSoundId, 0.2f, 0.2f, 0, 0, 1.0f);	// play shutter sound
-			try {
-				final Bitmap bitmap = mWeakCameraView.get().captureStillImage();
-				// get buffered output stream for saving a captured still image as a file on external storage.
-				// the file name is came from current time.
-				// You should use extension name as same as CompressFormat when calling Bitmap#compress.
-				final File outputFile = TextUtils.isEmpty(path)
-					? MediaMuxerWrapper.getCaptureFile(Environment.DIRECTORY_DCIM, ".png")
-					: new File(path);
-				final BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));
-				try {
-					try {
-						bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-						os.flush();
-						mHandler.sendMessage(mHandler.obtainMessage(MSG_MEDIA_UPDATE, outputFile.getPath()));
-					} catch (final IOException e) {
-					}
-				} finally {
-					os.close();
-				}
-			} catch (final Exception e) {
-				callOnError(e);
-			}
+		//private String mCaptureStillSavePath = null;
+		//拍照
+		public void handleCaptureStill() {
+			//this.mCaptureStillSavePath = path;
+//			if (DEBUG) Log.v(TAG_THREAD, "handleCaptureStill:");
+//			final Activity parent = mWeakParent.get();
+//			if (parent == null) return;
+//			mSoundPool.play(mSoundId, 0.2f, 0.2f, 0, 0, 1.0f);	// play shutter sound
+//			try {
+//				final Bitmap bitmap = mWeakCameraView.get().captureStillImage();
+//				// get buffered output stream for saving a captured still image as a file on external storage.
+//				// the file name is came from current time.
+//				// You should use extension name as same as CompressFormat when calling Bitmap#compress.
+//				final File outputFile = TextUtils.isEmpty(path)
+//					? MediaMuxerWrapper.getCaptureFile(Environment.DIRECTORY_DCIM, ".png")
+//					: new File(path);
+//				final BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));
+//				try {
+//					try {
+//						bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+//						os.flush();
+//						mHandler.sendMessage(mHandler.obtainMessage(MSG_MEDIA_UPDATE, outputFile.getPath()));
+//					} catch (final IOException e) {
+//					}
+//				} finally {
+//					os.close();
+//				}
+//			} catch (final Exception e) {
+//				callOnError(e);
+//			}
 		}
 
 		public void setCameraDataCallBack(UvcCameraDataCallBack uvcCameraDataCallBack){
@@ -622,12 +639,21 @@ abstract class AbstractUVCCameraHandler extends Handler {
 					videoEncoder.frameAvailableSoon();
 					videoEncoder.encode(frame);
 				}
-				if (uvcCameraDataCallBack!= null){
+
 					int len = frame.capacity();
 					final byte[] yuv = new byte[len];
 					frame.get(yuv);
+
+				if (uvcCameraDataCallBack!= null){
 					uvcCameraDataCallBack.getData(yuv);
-					//Log.i(TAG, "-摄像头返回数据------" + yuv.length);
+					Log.i(TAG, "-摄像头返回数据------" + yuv.length);
+				}
+
+				// 捕获图片
+				if (isCaptureStill) {
+					isCaptureStill = false;
+					mCaptureStillListener.onResult(yuv);
+					isCaptureStill = false;
 				}
 			}
 		};

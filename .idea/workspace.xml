@@ -24,6 +24,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="updatePreviewSurface" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="com.uplink.selfstore" />
   </component>
@@ -100,45 +101,55 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCaActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_test_ca.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StatInterface/build/.transforms/b59ea117bf27bb1d4913eff72e21a3c5.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StatInterface/build/.transforms/b59ea117bf27bb1d4913eff72e21a3c5/classes/classes.dex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/StatInterface/build/cache/greendao-candidates.list" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/build/cache/greendao-candidates.list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StatInterface/build/intermediates/incremental/mergeReleaseResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/build/intermediates/incremental/mergeReleaseResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StatInterface/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/build/intermediates/incremental/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/StatInterface/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/StatInterface/build/intermediates/incremental/packageReleaseResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCameraActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_test_camera.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw1024dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw1024dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw1280dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw1280dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw1365dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw1365dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw384dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw384dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw392dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw392dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw400dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw400dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw410dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw410dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw411dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw411dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw432dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw432dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw480dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw480dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw533dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw533dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw592dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw592dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw600dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw640dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw640dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw662dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw662dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw720dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw720dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw768dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw768dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw800dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw800dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw811dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw811dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw820dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw820dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw960dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw960dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-sw961dp/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-sw961dp/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libUVCCamera.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libUVCCamera.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libjpeg-turbo1500.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libjpeg-turbo1500.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libusb100.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libusb100.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libuvc.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi-v7a/libuvc.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libUVCCamera.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libUVCCamera.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libjpeg-turbo1500.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libjpeg-turbo1500.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libusb100.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libusb100.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libuvc.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/armeabi/libuvc.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libUVCCamera.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libUVCCamera.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libjpeg-turbo1500.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libjpeg-turbo1500.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libusb100.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libusb100.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libuvc.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/mips/libuvc.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libUVCCamera.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libUVCCamera.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libjpeg-turbo1500.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libjpeg-turbo1500.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libusb100.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libusb100.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libuvc.so" beforeDir="false" afterPath="$PROJECT_DIR$/libuvccamera/src/main/libs/x86/libuvc.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandlerMultiSurface.java" beforeDir="false" afterPath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandlerMultiSurface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/UVCCameraTextureView.java" beforeDir="false" afterPath="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/UVCCameraTextureView.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -154,7 +165,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Test1_API_25" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="ZB2020012826" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -191,26 +202,57 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
+            <state relative-caret-position="318">
+              <caret line="132" column="63" lean-forward="true" selection-start-line="132" selection-start-column="63" selection-end-line="132" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#onStop#0;class#SmHardwareActivity#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml">
+          <provider editor-type-id="android-designer2" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="177">
+              <caret line="57" column="12" selection-start-line="57" selection-start-column="12" selection-end-line="62" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_ca.xml">
+          <provider editor-type-id="android-designer2" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+              <folding>
+                <element signature="e#475#489#0" expanded="true" />
+                <element signature="e#689#703#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="52" selection-start-line="52" selection-end-line="71" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#isUsbCamera#0;class#CameraCtrl#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="192" column="59" lean-forward="true" selection-start-line="192" selection-start-column="59" selection-end-line="192" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getUsbDevice#0;class#CameraCtrl#0" />
-                <element signature="method#isUsbCamera#0;class#CameraCtrl#0" />
-              </folding>
+            <state relative-caret-position="227">
+              <caret line="142" column="43" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -232,39 +274,40 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getMacAddress</find>
-      <find>FV_LoadingDevice</find>
-      <find>cmd_ScanSlotIsStopListener</find>
-      <find>autoTakePic</find>
-      <find>cmdReceiver</find>
-      <find>commonLibVersion</find>
-      <find>MODIFY_PHONE_STATE</find>
-      <find>CHANGE_CONFIGURATION</find>
-      <find>__tryGetUsbPermission__</find>
-      <find>FV_FingerDetect</find>
-      <find>startCheckLogin</find>
-      <find>ret</find>
-      <find>sendCollectHandlerMessage</find>
-      <find>mUsbPermissionActionReceiver</find>
+      <find>UvcCameraDataCallBack</find>
+      <find>mIFrameCallback</find>
+      <find>close</find>
+      <find>encoder=null</find>
+      <find>CameraThread</find>
+      <find>MSG_PREVIEW_STOP</find>
+      <find>handleStopPreview</find>
+      <find>canvas</find>
+      <find>mOnDeviceConnectListener</find>
+      <find>mCameraViewInterfaceByJiGui</find>
+      <find>mCameraHandlerByChuHuoKou</find>
+      <find>mCameraHandlerByJiGui</find>
+      <find>startPreview</find>
+      <find>mCameraViewByJiGui</find>
+      <find>tex_id</find>
+      <find>-摄像头返回数据</find>
       <find>摄像头返回数据</find>
-      <find>onDisconnect</find>
-      <find>mWeakMonitor</find>
-      <find>getBroadcast</find>
-      <find>destroyed</find>
-      <find>unregister</find>
-      <find>mPermissionIntent</find>
-      <find>context</find>
-      <find>mHandlerFirst</find>
-      <find>mUsbReceiver</find>
-      <find>mFirstPreviewSurface</find>
-      <find>mCameraViewInterfaceByChuHuoKou</find>
-      <find>handler_UpdateUI</find>
-      <find>isPicking</find>
-      <find>cabinetPendantRows</find>
-      <find>mWorkerHandler</find>
+      <find>uvcCameraDataCallBack</find>
+      <find>setCameraDataCallBack</find>
+      <find>MSG_PREVIEW_START</find>
+      <find>RenderThread</find>
+      <find>surface</find>
+      <find>mPreviewSurface</find>
+      <find>RenderHandler</find>
+      <find>mTexId</find>
+      <find>onDrawFrame</find>
+      <find>MSG_REQUEST_RENDER</find>
+      <find>updatePreviewSurface</find>
+      <find>mDrawer</find>
+      <find>init</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/StatInterface</dir>
+      <dir>$PROJECT_DIR$/usbCameraCommon</dir>
       <dir>$PROJECT_DIR$/app</dir>
       <dir>$PROJECT_DIR$</dir>
     </dirStrings>
@@ -281,15 +324,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/PickupSlotBean.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/OrderDetailsSkuAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_smmachineinfo.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_initdata.xml" />
-        <option value="$PROJECT_DIR$/StatInterface/src/main/java/com/tamic/statinterface/stats/util/DeviceUtil.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_vienlock.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomVienLockDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java" />
         <option value="$PROJECT_DIR$/settings.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UvcCameraService.java" />
@@ -313,31 +347,39 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomFingerVeinDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_fingervein.xml" />
-        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java" />
         <option value="$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/usb/USBMonitor.java" />
         <option value="$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/common/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_test_camera.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCameraActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_test_camera.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCameraActivity.java" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/encoder/MediaMuxerWrapper.java" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UvcCameraCaptureStillCallBack.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandler.java" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandlerMultiSurface.java" />
+        <option value="$PROJECT_DIR$/app/proguard-rules.pro" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/CameraViewInterface.java" />
+        <option value="$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/UVCCameraTextureView.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_test_ca.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCaActivity.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-54" />
-    <option name="y" value="112" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="711" />
   </component>
@@ -355,6 +397,31 @@
             <path>
               <item name="SelfStore2" type="58d84e3e:PackageViewProjectNode" />
               <item name="app" type="616d4139:PackageViewModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SelfStore2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SelfStore2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SelfStore2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="StatInterface" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -395,7 +462,21 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="broadcast" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="deviceCtrl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="own" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -410,27 +491,45 @@
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="libuvccamera" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="usbCameraCommon" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="usbCameraCommon" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="usbCameraCommon" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="serenegiant" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="usbCameraCommon" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="serenegiant" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="usbcameracommon" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="usbCameraCommon" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="serenegiant" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="widget" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="usbCameraCommon" type="feadf853:AndroidModuleNode" />
+              <item name="java (generated)" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SelfStore2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SelfStore2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="StatInterface" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -682,10 +781,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-54" y="112" width="1280" height="711" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="711" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.27786753" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.25121164" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
       <window_info id="Captures" order="2" sideWeight="0.13360325" side_tool="true" weight="0.22617124" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
@@ -695,38 +794,38 @@
       <window_info id="Designer" order="7" />
       <window_info id="Resources Explorer" order="8" sideWeight="0.49311927" weight="0.32956383" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" sideWeight="0.49676898" visible="true" weight="0.22483222" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5088853" weight="0.25167784" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49596122" weight="0.4295302" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49676898" weight="0.3338926" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5088853" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4951535" visible="true" weight="0.30704698" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49676898" weight="0.32718122" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5463336" side_tool="true" weight="0.37751678" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.19709209" side_tool="true" weight="0.16610739" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.40604028" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.42449665" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.2533557" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" visible="true" weight="0.23825504" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6284329" weight="0.38758388" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.49757674" weight="0.32718122" />
-      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.4536664" weight="0.1876047" />
+      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.80290794" weight="0.20973155" />
       <window_info anchor="bottom" id="Thumbnails" order="16" weight="0.32885906" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Android Model" order="3" side_tool="true" />
-      <window_info anchor="right" id="Gradle" order="4" sideWeight="0.48322147" visible="true" weight="0.026655897" />
+      <window_info anchor="right" id="Gradle" order="4" sideWeight="0.48322147" weight="0.026655897" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Preview" order="7" />
       <window_info anchor="right" id="Assistant" order="8" weight="0.16882068" />
       <window_info anchor="right" id="Palette&#9;" order="9" />
-      <window_info anchor="right" id="Device File Explorer" order="10" sideWeight="0.5273632" side_tool="true" weight="0.026655897" />
+      <window_info anchor="right" id="Device File Explorer" order="10" sideWeight="0.5273632" side_tool="true" visible="true" weight="0.026655897" />
       <window_info anchor="right" id="Coverage" order="11" sideWeight="0.5167785" side_tool="true" visible="true" weight="0.026655897" />
       <window_info anchor="right" id="make" order="12" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.20274636" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8663968" visible="true" weight="0.17770597" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
       <window_info id="Captures" order="2" sideWeight="0.13360325" side_tool="true" weight="0.22617124" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
@@ -736,21 +835,21 @@
       <window_info id="Designer" order="7" />
       <window_info id="Resources Explorer" order="8" sideWeight="0.49311927" weight="0.32956383" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49676898" weight="0.29865772" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5088853" weight="0.39765102" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49596122" weight="0.27013424" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49676898" weight="0.22483222" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5088853" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4951535" weight="0.43120804" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49676898" weight="0.32718122" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5463336" side_tool="true" weight="0.37751678" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.19709209" side_tool="true" weight="0.16610739" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.40604028" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.37751678" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.35541195" weight="0.2533557" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6292407" visible="true" weight="0.30536914" />
-      <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" sideWeight="0.49757674" weight="0.32718122" />
-      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.4536664" weight="0.37751678" />
+      <window_info active="true" anchor="bottom" id="Build" order="13" sideWeight="0.6284329" visible="true" weight="0.24664429" />
+      <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.49757674" weight="0.32718122" />
+      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.80290794" weight="0.16610739" />
       <window_info anchor="bottom" id="Thumbnails" order="16" weight="0.32885906" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -879,24 +978,6 @@
           <option name="timeStamp" value="197" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java</url>
-          <line>48</line>
-          <properties />
-          <option name="timeStamp" value="243" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java</url>
-          <line>159</line>
-          <properties />
-          <option name="timeStamp" value="247" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java</url>
-          <line>96</line>
-          <properties />
-          <option name="timeStamp" value="248" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java</url>
           <line>196</line>
           <properties />
@@ -921,40 +1002,46 @@
           <option name="timeStamp" value="310" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java</url>
-          <line>443</line>
+          <url>file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java</url>
+          <line>535</line>
           <properties />
-          <option name="timeStamp" value="313" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/usb/USBMonitor.java</url>
-          <line>1294</line>
-          <properties />
-          <option name="timeStamp" value="330" />
+          <option name="timeStamp" value="377" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java</url>
-          <line>123</line>
+          <line>547</line>
           <properties />
-          <option name="timeStamp" value="332" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java</url>
-          <line>83</line>
-          <properties />
-          <option name="timeStamp" value="355" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java</url>
-          <line>203</line>
-          <properties />
-          <option name="timeStamp" value="356" />
+          <option name="timeStamp" value="378" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java</url>
-          <line>70</line>
+          <line>254</line>
           <properties />
-          <option name="timeStamp" value="361" />
+          <option name="timeStamp" value="384" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java</url>
+          <line>648</line>
+          <properties />
+          <option name="timeStamp" value="386" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandler.java</url>
+          <line>161</line>
+          <properties />
+          <option name="timeStamp" value="387" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/UVCCameraTextureView.java</url>
+          <line>352</line>
+          <properties />
+          <option name="timeStamp" value="412" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCaActivity.java</url>
+          <line>120</line>
+          <properties />
+          <option name="timeStamp" value="419" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -965,414 +1052,149 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/broadcast/USBBroadcastReceiver.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/crop_image_view.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libuvccamera/src/main/jni/libuvc/src/stream.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="12" column="39" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="376">
+          <caret line="1496" column="61" selection-start-line="1496" selection-start-column="55" selection-end-line="1496" selection-end-column="61" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_fingervein.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="121" column="49" selection-start-line="121" selection-start-column="49" selection-end-line="121" selection-end-column="49" />
-          <folding>
-            <element signature="e#391#408#0" expanded="true" />
-            <element signature="e#2110#2126#0" expanded="true" />
-            <element signature="e#2169#2185#0" expanded="true" />
-            <element signature="e#2496#2512#0" expanded="true" />
-            <element signature="e#2854#2869#0" expanded="true" />
-            <element signature="e#3212#3226#0" expanded="true" />
-            <element signature="e#3315#3331#0" expanded="true" />
-            <element signature="e#3626#3641#0" expanded="true" />
-            <element signature="e#3733#3748#0" expanded="true" />
-            <element signature="e#3841#3858#0" expanded="true" />
-            <element signature="e#4051#4066#0" expanded="true" />
-            <element signature="e#4176#4190#0" expanded="true" />
-            <element signature="e#4589#4605#0" expanded="true" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_camera.xml" />
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/appcompat-v7/27.1.1/21d073509c5f8d25a1bf274067fa729a1fba8d75/appcompat-v7-27.1.1-sources.jar!/android/support/v7/app/AppCompatDelegateImplBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCameraActivity.java" />
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/os/Environment.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4446">
-          <caret line="250" column="20" selection-start-line="250" selection-start-column="20" selection-end-line="250" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        <state relative-caret-position="159">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/CameraSnapService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="160" column="45" lean-forward="true" selection-start-line="160" selection-start-column="45" selection-end-line="160" selection-end-column="45" />
+        <state relative-caret-position="71">
+          <caret line="83" column="5" lean-forward="true" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/CameraWindow.java">
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/encoder/MediaMuxerWrapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-457">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        <state relative-caret-position="2295">
+          <caret line="190" column="46" lean-forward="true" selection-start-line="190" selection-start-column="46" selection-end-line="190" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/os/Message.class">
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UvcCameraCaptureStillCallBack.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/ProductKindActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        <state relative-caret-position="-2170">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="56" column="13" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libuvccamera/build.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomFingerVeinDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1566#1567#0" expanded="true" />
-            <element signature="e#1615#1616#0" expanded="true" />
-            <element signature="e#1651#1652#0" expanded="true" />
-            <element signature="e#1700#1701#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
-          <folding>
-            <element signature="method#initEvent#0;class#SmLoginActivity#0" />
-            <element signature="method#initData#0;class#SmLoginActivity#0" />
-            <element signature="method#onWindowFocusChanged#0;class#SmLoginActivity#0" />
-            <element signature="method#onClick#0;class#SmLoginActivity#0" />
-            <element signature="method#onDestroy#0;class#SmLoginActivity#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smuserinfo.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initdata.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="6" selection-end-column="35" />
+        <state relative-caret-position="-527" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="44" column="51" lean-forward="true" selection-start-line="44" selection-start-column="51" selection-end-line="44" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/os/Handler.class">
+    <entry file="file://$PROJECT_DIR$/local.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradlew.bat">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="102" column="25" selection-start-line="102" selection-start-column="25" selection-end-line="102" selection-end-column="25" />
+        <state relative-caret-position="-408">
+          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/hardware/usb/UsbManager.class">
+    <entry file="file://$PROJECT_DIR$/bootLog.log">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NetworkLocation.apk">
+      <provider selected="true" editor-type-id="apk-viewer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screenMatch.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+        <state relative-caret-position="-584" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screenMatch_example_dimens.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SelfStore2.iml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/proguard-rules.pro">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="43" selection-start-line="43" selection-end-line="43" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/usb/UVCCamera.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="46" column="28" selection-start-line="46" selection-start-column="28" selection-end-line="46" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/content/Context.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+        <state relative-caret-position="89">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/usb/USBMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="114" column="11" selection-start-line="114" selection-start-column="11" selection-end-line="114" selection-end-column="11" />
+        <state relative-caret-position="66">
+          <caret line="443" selection-start-line="443" selection-end-line="443" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandler.java">
+    <entry file="file://$PROJECT_DIR$/StatInterface/src/main/java/com/tamic/statinterface/stats/core/TcCrashHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="41" column="40" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="40" />
-          <folding>
-            <element signature="e#6280#6281#0" expanded="true" />
-            <element signature="e#6309#6310#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/MachineCtrlService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-139">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UvcCameraService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/CameraViewInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="40" column="25" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="52" column="12" lean-forward="true" selection-start-line="52" selection-start-column="12" selection-end-line="52" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/ScanMidCtrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="87" column="44" selection-start-line="87" selection-start-column="44" selection-end-line="87" selection-end-column="44" />
-          <folding>
-            <element signature="method#connect#0;class#ScanMidCtrl#0" />
-            <element signature="method#disconnect#0;class#ScanMidCtrl#0" />
-            <element signature="method#sendHandlerMessage#0;class#ScanMidCtrl#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-          <folding>
-            <element signature="method#isIdle#0;class#MachineCtrl#0" />
-            <element signature="method#setScanSlotHandler#0;class#MachineCtrl#0" />
-            <element signature="method#sendScanSlotHandlerMessage#0;class#MachineCtrl#0" />
-            <element signature="method#sendPickupHandlerMessage#0;class#MachineCtrl#0" />
-            <element signature="class#ScanSlotListenerThread#0;class#MachineCtrl#0" />
-            <element signature="class#PickupListenerThread#0;class#MachineCtrl#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/app/Instrumentation.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="44" column="14" lean-forward="true" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="14" />
-          <folding>
-            <element signature="e#1077#1078#0" expanded="true" />
-            <element signature="e#1128#1129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-fragment/27.1.1/94732bda44fba11302c58e459b7c1f47e7521bf9/support-fragment-27.1.1-sources.jar!/android/support/v4/app/FragmentActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f790b6ecdeb89c1460883c601dc98d5c/common-2.12.4/jars/classes.jar!/com/serenegiant/utils/HandlerThreadHandler.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="53">
-          <caret line="26" column="31" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getInfo#0;class#SmUserInfoActivity#0" />
-            <element signature="e#5869#5870#0" expanded="true" />
-            <element signature="e#5915#5916#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="167">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/swipebacklayout/SwipeBackActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="12" column="48" selection-start-line="12" selection-start-column="48" selection-end-line="12" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="420" selection-start-line="420" selection-end-line="420" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#startCheckLogin#0;class#FingerVeinCtrl#0" />
-            <element signature="method#sendCheckLoginHandlerMessage#0;class#FingerVeinCtrl#0" />
-            <element signature="method#setCheckLoginHandler#0;class#FingerVeinCtrl#0" />
-            <element signature="method#startCollect#0;class#FingerVeinCtrl#0" />
-            <element signature="class#CollectListenerThread#0;class#FingerVeinCtrl#0" />
-            <element signature="e#12787#14255#0" expanded="true" />
-            <element signature="e#14254#14255#0" expanded="true" />
-          </folding>
+          <caret line="12" column="44" selection-start-line="12" selection-start-column="44" selection-end-line="12" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="27" selection-start-column="27" selection-end-column="27" />
-          <folding>
-            <element signature="e#3882#4502#1" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/common/BaseActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4091">
-          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-146">
-          <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1299">
-          <caret line="114" selection-start-line="114" selection-end-line="114" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/AspectRatioTextureView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding>
-            <element signature="e#1769#1770#0" expanded="true" />
-            <element signature="e#1798#1799#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/UVCCameraTextureView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7341">
-          <caret line="74" selection-start-line="74" selection-end-line="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="49" column="1" selection-start-line="49" selection-start-column="1" selection-end-line="65" selection-end-column="41" />
-          <folding>
-            <element signature="e#1649#1650#0" expanded="true" />
-            <element signature="e#1693#1694#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="52" column="60" selection-start-line="52" selection-start-column="60" selection-end-line="52" selection-end-column="60" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="95" column="41" selection-start-line="95" selection-start-column="18" selection-end-line="95" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smmachinestock.xml">
-      <provider selected="true" editor-type-id="android-designer2" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="114" column="2" selection-start-line="114" selection-start-column="2" selection-end-line="114" selection-end-column="19" />
-          <folding>
-            <element signature="e#697#1125#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smmachineinfo.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="8" selection-end-column="50" />
-          <folding>
-            <element signature="e#361#12184#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmMachineInfoActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="87" selection-start-line="87" selection-end-line="112" selection-end-column="5" />
-          <folding>
-            <element signature="e#1426#1497#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="163" column="91" selection-start-line="163" selection-start-column="91" selection-end-line="163" selection-end-column="91" />
+        <state relative-caret-position="40">
+          <caret line="110" selection-start-line="110" selection-start-column="2" selection-end-line="129" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
+        <state relative-caret-position="201">
           <caret line="128" selection-start-line="128" selection-end-line="128" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1380,52 +1202,208 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        <state relative-caret-position="-557">
+          <caret line="49" selection-start-line="49" selection-start-column="2" selection-end-line="65" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UvcCameraDataCallBack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandlerMultiSurface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="161" selection-start-line="161" selection-end-line="161" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libuvccamera/src/main/java/com/serenegiant/usb/UVCCamera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="407" column="16" selection-start-line="407" selection-start-column="16" selection-end-line="407" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f790b6ecdeb89c1460883c601dc98d5c/common-2.12.4/jars/classes.jar!/com/serenegiant/glutils/EGLBase.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="55" column="13" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/os/Handler.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="90" column="25" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
+          <folding>
+            <element signature="e#2390#2391#0" expanded="true" />
+            <element signature="e#2441#2442#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinCtrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#startCheckLogin#0;class#FingerVeinCtrl#0" />
+            <element signature="method#sendCheckLoginHandlerMessage#0;class#FingerVeinCtrl#0" />
+            <element signature="method#setCheckLoginHandler#0;class#FingerVeinCtrl#0" />
+            <element signature="method#startCollect#0;class#FingerVeinCtrl#0" />
+            <element signature="class#CollectListenerThread#0;class#FingerVeinCtrl#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/view/Surface.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+          <folding>
+            <element signature="e#660#661#0" expanded="true" />
+            <element signature="e#711#712#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/graphics/SurfaceTexture.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f790b6ecdeb89c1460883c601dc98d5c/common-2.12.4/jars/classes.jar!/com/serenegiant/glutils/GLDrawer2D.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="104" column="47" selection-start-line="104" selection-start-column="37" selection-end-line="104" selection-end-column="47" />
+          <folding>
+            <element signature="e#4472#4473#0" expanded="true" />
+            <element signature="e#4534#4535#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/view/View.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#83688#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/UVCCameraHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="58" column="41" selection-start-line="58" selection-start-column="41" selection-end-line="58" selection-end-column="41" />
+          <folding>
+            <element signature="e#6280#6281#0" expanded="true" />
+            <element signature="e#6309#6310#0" expanded="true" />
+            <element signature="e#6377#6378#0" expanded="true" />
+            <element signature="e#6420#6421#0" expanded="true" />
+            <element signature="e#6706#6707#0" expanded="true" />
+            <element signature="e#6750#6751#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/view/TextureView.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1139">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="75" column="56" selection-start-line="75" selection-start-column="37" selection-end-line="75" selection-end-column="56" />
+        <state relative-caret-position="177">
+          <caret line="57" column="12" selection-start-line="57" selection-start-column="12" selection-end-line="62" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java">
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/UVCCameraTextureView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
+        <state relative-caret-position="1536">
+          <caret line="469" column="17" selection-start-line="469" selection-start-column="17" selection-end-line="469" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#onStop#0;class#SmHardwareActivity#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/widget/CameraViewInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="44" column="38" selection-start-line="44" selection-start-column="38" selection-end-line="44" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/usbCameraCommon/src/main/java/com/serenegiant/usbcameracommon/AbstractUVCCameraHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="203" column="16" selection-start-line="203" selection-start-column="16" selection-end-line="203" selection-end-column="16" />
+        <state relative-caret-position="587">
+          <caret line="513" column="30" selection-start-line="513" selection-start-column="12" selection-end-line="513" selection-end-column="30" />
           <folding>
-            <element signature="e#6576#6577#0" expanded="true" />
-            <element signature="e#6617#6618#0" expanded="true" />
+            <element signature="e#7026#7027#0" expanded="true" />
+            <element signature="e#7067#7068#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test_ca.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+          <folding>
+            <element signature="e#475#489#0" expanded="true" />
+            <element signature="e#689#703#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="44" column="60" selection-start-line="44" selection-start-column="60" selection-end-line="44" selection-end-column="60" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CameraCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="192" column="59" lean-forward="true" selection-start-line="192" selection-start-column="59" selection-end-line="192" selection-end-column="59" />
+        <state relative-caret-position="75">
+          <caret line="52" selection-start-line="52" selection-end-line="71" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#getUsbDevice#0;class#CameraCtrl#0" />
             <element signature="method#isUsbCamera#0;class#CameraCtrl#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="132" column="63" lean-forward="true" selection-start-line="132" selection-start-column="63" selection-end-line="132" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/TestCaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="142" column="43" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
         </state>
       </provider>
     </entry>

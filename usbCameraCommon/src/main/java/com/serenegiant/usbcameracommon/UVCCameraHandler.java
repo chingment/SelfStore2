@@ -172,13 +172,18 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
         super.startPreview(surface);
     }
 
-    @Override
-    public void captureStill() {
-        super.captureStill();
-    }
+//    @Override
+//    public void captureStill() {
+//        super.captureStill();
+//    }
+//
+//    @Override
+//    public void captureStill(final String path) {
+//        super.captureStill(path);
+//    }
 
     @Override
-    public void captureStill(final String path) {
-        super.captureStill(path);
+    public void captureStill(OnCaptureStillListener listener) {
+        super.captureStill(listener);
     }
 }

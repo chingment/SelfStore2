@@ -47,23 +47,23 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 
-        JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);  // 初始化 JPus
-
-        //DbManager.getInstance().init(this);
-
-
-        //AppCrashHandler.getInstance().init(this);
-        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
-            @Override
-            public void Handler() {
-                restartApp();
-            }
-        });
-        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
-        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
-        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
-        TcStatInterface.recordAppStart();
+//        JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
+//        JPushInterface.init(this);  // 初始化 JPus
+//
+//        //DbManager.getInstance().init(this);
+//
+//
+//        //AppCrashHandler.getInstance().init(this);
+//        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
+//            @Override
+//            public void Handler() {
+//                restartApp();
+//            }
+//        });
+//        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
+//        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
+//        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
+//        TcStatInterface.recordAppStart();
 
     }
 

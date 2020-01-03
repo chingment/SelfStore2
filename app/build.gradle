@@ -52,6 +52,7 @@ android {
 
     buildTypes {
         debug {
+            signingConfig signingConfigs.release
             buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
