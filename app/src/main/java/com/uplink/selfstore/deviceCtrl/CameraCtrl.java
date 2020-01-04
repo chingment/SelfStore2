@@ -20,16 +20,16 @@ import java.util.List;
 public class CameraCtrl {
     private static final String TAG = "CameraCtrl";
     private USBMonitor mUSBMonitor;
+    private UVCCameraHandler mCameraHandler;
+
     private BaseFragmentActivity mContext;
 
     private UsbDevice mCameraByChuHuoKou;//出货口相机
-    private UVCCameraHandler mCameraHandlerByChuHuoKou;
-
     private UsbDevice mCameraByJiGui;//机柜相机
-    private UVCCameraHandler mCameraHandlerByJiGui;
 
-    public CameraCtrl(BaseFragmentActivity context) {
+    public CameraCtrl(BaseFragmentActivity context,UVCCameraHandler cameraHandler) {
         mContext=context;
+        mCameraHandler=cameraHandler;
         mUSBMonitor = new USBMonitor(context, mOnDeviceConnectListener);
         mUSBMonitor.register();
     }
@@ -76,11 +76,10 @@ public class CameraCtrl {
     }
 
 
-    public void openCameraByChuHuoKou(UVCCameraHandler cameraHandlerByChuHuoKou) {
+    public void openCameraByChuHuoKou() {
 
         try {
             if (mCameraByChuHuoKou != null) {
-                mCameraHandlerByChuHuoKou=cameraHandlerByChuHuoKou;
                 mUSBMonitor.requestPermission(mCameraByChuHuoKou);
             }
         }
@@ -92,132 +91,57 @@ public class CameraCtrl {
 
     }
 
-    public void closeCameraByChuHuoKou() {
-
-        try {
-            if (mCameraByChuHuoKou != null) {
-                if (mCameraHandlerByChuHuoKou != null) {
-                    if (mCameraHandlerByChuHuoKou.isOpened()) {
-                        mCameraHandlerByChuHuoKou.close();
-                    }
-                }
+    public void close() {
+        if(mCameraHandler!=null) {
+            if (mCameraHandler.isOpened()) {
+                mCameraHandler.close();
             }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
         }
     }
 
-    public void captureStillByChuHuoKou(AbstractUVCCameraHandler.OnCaptureStillListener listener) {
-        if(mCameraByChuHuoKou!=null) {
-           if(mCameraHandlerByChuHuoKou.isOpened())
+    public void captureStill(AbstractUVCCameraHandler.OnCaptureStillListener listener) {
+        if(mCameraHandler!=null) {
+           if(mCameraHandler.isOpened())
            {
-               mCameraHandlerByChuHuoKou.captureStill(listener);
+               mCameraHandler.captureStill(listener);
            }
         }
     }
 
-    public void startRecordByChuHuoKou() {
-        if(mCameraByChuHuoKou!=null) {
-            if(mCameraHandlerByChuHuoKou.isOpened())
+    public void startRecord() {
+        if(mCameraHandler!=null) {
+            if(mCameraHandler.isOpened())
             {
-                if (!mCameraHandlerByChuHuoKou.isRecording()) {
-                    mCameraHandlerByChuHuoKou.startRecording();
+                if (!mCameraHandler.isRecording()) {
+                    mCameraHandler.startRecording();
                 }
             }
         }
     }
 
-    public void stopRecordByChuHuoKou() {
-        if(mCameraByChuHuoKou!=null) {
-            if(mCameraHandlerByChuHuoKou.isOpened())
+    public void stopRecord() {
+        if(mCameraHandler!=null) {
+            if(mCameraHandler.isOpened())
             {
-                if (mCameraHandlerByChuHuoKou.isRecording()) {
-                    mCameraHandlerByChuHuoKou.stopRecording();
+                if (mCameraHandler.isRecording()) {
+                    mCameraHandler.stopRecording();
                 }
             }
         }
     }
 
 
-    public boolean isOpenCameraByChuHuoKou(){
-        if(mCameraByChuHuoKou==null)
+    public boolean isOpen(){
+        if(mCameraHandler==null)
             return false;
 
-        if(mCameraHandlerByChuHuoKou==null)
-            return false;
-
-        return  mCameraHandlerByChuHuoKou.isOpened();
+        return  mCameraHandler.isOpened();
     }
 
-    public void  openCameraByJiGui(UVCCameraHandler cmeraHandlerByJiGui) {
-        try {
-            if (mCameraByJiGui != null) {
-                mCameraHandlerByJiGui=cmeraHandlerByJiGui;
-                mUSBMonitor.requestPermission(mCameraByJiGui);
-            }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
+    public void  openCameraByJiGui() {
 
-    public void closeCameraByJiGui() {
-        try {
-            if (mCameraByJiGui != null) {
-                if (mCameraHandlerByJiGui != null) {
-                    if (mCameraHandlerByJiGui.isOpened()) {
-                        mCameraHandlerByJiGui.close();
-                    }
-                }
-            }
-        }catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    public boolean isOpenCameraByJiGui(){
-
-
-        if(mCameraByJiGui==null)
-            return false;
-
-        if(mCameraHandlerByJiGui==null)
-            return false;
-
-        return  mCameraHandlerByJiGui.isOpened();
-    }
-
-    public void captureStillByJiGui(AbstractUVCCameraHandler.OnCaptureStillListener listener) {
-        if(mCameraByJiGui!=null) {
-            if(mCameraHandlerByJiGui.isOpened())
-            {
-                mCameraHandlerByJiGui.captureStill(listener);
-            }
-        }
-    }
-
-    public void startRecordByJiGui() {
-        if(mCameraByJiGui!=null) {
-            if(mCameraHandlerByJiGui.isOpened())
-            {
-                if (!mCameraHandlerByJiGui.isRecording()) {
-                    mCameraHandlerByJiGui.startRecording();
-                }
-            }
-        }
-    }
-
-    public void stopRecordByJiGui() {
-        if(mCameraByJiGui!=null) {
-            if(mCameraHandlerByJiGui.isOpened())
-            {
-                if (mCameraHandlerByJiGui.isRecording()) {
-                    mCameraHandlerByJiGui.stopRecording();
-                }
-            }
+        if (mCameraByJiGui != null) {
+            mUSBMonitor.requestPermission(mCameraByJiGui);
         }
     }
 
@@ -227,12 +151,16 @@ public class CameraCtrl {
             mUSBMonitor = null;
         }
 
-        if(mCameraHandlerByJiGui!=null) {
-            mCameraHandlerByJiGui=null;
+        if(mCameraHandler!=null) {
+            mCameraHandler=null;
         }
 
         if(mCameraByChuHuoKou!=null) {
             mCameraByChuHuoKou=null;
+        }
+
+        if(mCameraByJiGui!=null) {
+            mCameraByJiGui=null;
         }
     }
 
@@ -249,18 +177,18 @@ public class CameraCtrl {
 
             if(getCameraByChuHuoKou()!=null) {
                 if (device.getVendorId() == getCameraByChuHuoKou().getVendorId()) {
-                    if (!mCameraHandlerByChuHuoKou.isOpened()) {
-                        mCameraHandlerByChuHuoKou.open(ctrlBlock);
-                        mOnConnectLister.onConnectByChuHuoKou(mCameraHandlerByChuHuoKou);
+                    if (!mCameraHandler.isOpened()) {
+                        mCameraHandler.open(ctrlBlock);
+                        mOnConnectLister.onConnect(mCameraHandler);
                     }
                 }
             }
 
             if(getCameraByJiGui()!=null) {
                 if (device.getVendorId() == getCameraByJiGui().getVendorId()) {
-                    if (!mCameraHandlerByJiGui.isOpened()) {
-                        mCameraHandlerByJiGui.open(ctrlBlock);
-                        mOnConnectLister.onConnectByJiGui(mCameraHandlerByJiGui);
+                    if (!mCameraHandler.isOpened()) {
+                        mCameraHandler.open(ctrlBlock);
+                        mOnConnectLister.onConnect(mCameraHandler);
                     }
                 }
             }
@@ -275,7 +203,7 @@ public class CameraCtrl {
                     mContext.queueEvent(new Runnable() {
                         @Override
                         public void run() {
-                            mCameraHandlerByChuHuoKou.close();
+                            mCameraHandler.close();
                         }
                     }, 0);
                 }
@@ -286,7 +214,7 @@ public class CameraCtrl {
                     mContext.queueEvent(new Runnable() {
                         @Override
                         public void run() {
-                            mCameraHandlerByJiGui.close();
+                            mCameraHandler.close();
                         }
                     }, 0);
                 }
@@ -311,8 +239,7 @@ public class CameraCtrl {
     }
 
     public  interface OnConnectLister{
-        void onConnectByChuHuoKou(UVCCameraHandler mCameraHandlerByChuHuoKou);
-        void onConnectByJiGui(UVCCameraHandler mCameraHandlerByJiGui);
+        void onConnect(UVCCameraHandler mCameraHandler);
     }
 
     private void setCameraParameter(UVCCamera camera) {

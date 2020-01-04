@@ -1493,6 +1493,8 @@ uvc_error_t uvc_stream_start_bandwidth(uvc_stream_handle_t *strmh,
 					//				01 = 1 additional (2 per microframe)
 					//				10 = 2 additional (3 per microframe)
 					//				11 = Reserved
+
+
 					endpoint_bytes_per_packet
 						= (endpoint_bytes_per_packet & 0x07ff)
 							* (((endpoint_bytes_per_packet >> 11) & 3) + 1);

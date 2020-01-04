@@ -28,19 +28,15 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private static final String TAG = "SmHardwareActivity";
     private static final float[] BANDWIDTH_FACTORS = {0.5f, 0.5f};
-    private UVCCameraHandler mCameraHandlerByChuHuoKou;
-    private CameraViewInterface mCameraViewByChuHuoKou;
-    private Button mCameraOpenByChuHuoKou;
-    private Button mCameraCloseByChuHuoKou;
-    private Button mCameraCaptureStillByChuHuoKou;
-    private Button mCameraRecordByChuHuoKou;
 
-    private UVCCameraHandler mCameraHandlerByJiGui;
-    private CameraViewInterface mCameraViewByJiGui;
+    private CameraViewInterface mCameraView;
+
+    private UVCCameraHandler mCameraHandler;
+    private Button mCameraOpenByChuHuoKou;
     private Button mCameraOpenByJiGui;
-    private Button mCameraCloseByJiGui;
-    private Button mCameraCaptureStillByJiGui;
-    private Button mCameraRecordByJiGui;
+    private Button mCameraClose;
+    private Button mCameraCaptureStill;
+    private Button mCameraRecord;
 
 
     private CameraCtrl cameraCtrl;
@@ -85,66 +81,38 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setNavBackVisible(true);
         setNavBtnVisible(true);
 
-        mCameraViewByChuHuoKou = (CameraViewInterface) findViewById(R.id.cameraViewByChuHuoKou);
-        mCameraViewByChuHuoKou.setAspectRatio(320 / 240);
-        mCameraHandlerByChuHuoKou = UVCCameraHandler.createHandler(this, mCameraViewByChuHuoKou, 320, 240, BANDWIDTH_FACTORS[0]);
-        mCameraViewByChuHuoKou.setCameraHandler(mCameraHandlerByChuHuoKou);
+        mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
+        mCameraView.setAspectRatio(320 / 240);
+        mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, 320, 240, BANDWIDTH_FACTORS[0]);
+
 
         mCameraOpenByChuHuoKou= (Button) findViewById(R.id.cameraOpenByChuHuoKou);
         mCameraOpenByChuHuoKou.setOnClickListener(this);
-        mCameraCloseByChuHuoKou= (Button) findViewById(R.id.cameraCloseByChuHuoKou);
-        mCameraCloseByChuHuoKou.setOnClickListener(this);
-        mCameraCaptureStillByChuHuoKou= (Button) findViewById(R.id.cameraCaptureStillByChuHuoKou);
-        mCameraCaptureStillByChuHuoKou.setOnClickListener(this);
-        mCameraRecordByChuHuoKou= (Button) findViewById(R.id.cameraRecordByChuHuoKou);
-        mCameraRecordByChuHuoKou.setOnClickListener(this);
-
-        mCameraViewByJiGui = (CameraViewInterface) findViewById(R.id.cameraViewByJiGui);
-
-        mCameraViewByJiGui.setAspectRatio(320 / 240);
-        mCameraHandlerByJiGui = UVCCameraHandler.createHandler(this, mCameraViewByJiGui, 320, 240, BANDWIDTH_FACTORS[1]);
-        mCameraViewByJiGui.setCameraHandler(mCameraHandlerByJiGui);
-
         mCameraOpenByJiGui= (Button) findViewById(R.id.cameraOpenByJiGui);
         mCameraOpenByJiGui.setOnClickListener(this);
-        mCameraCloseByJiGui= (Button) findViewById(R.id.cameraCloseByJiGui);
-        mCameraCloseByJiGui.setOnClickListener(this);
-        mCameraCaptureStillByJiGui= (Button) findViewById(R.id.cameraCaptureStillByJiGui);
-        mCameraCaptureStillByJiGui.setOnClickListener(this);
-        mCameraRecordByJiGui= (Button) findViewById(R.id.cameraRecordByJiGui);
-        mCameraRecordByJiGui.setOnClickListener(this);
+        mCameraClose= (Button) findViewById(R.id.cameraClose);
+        mCameraClose.setOnClickListener(this);
+        mCameraCaptureStill= (Button) findViewById(R.id.cameraCaptureStill);
+        mCameraCaptureStill.setOnClickListener(this);
+        mCameraRecord= (Button) findViewById(R.id.cameraRecord);
 
-        cameraCtrl=new CameraCtrl(SmHardwareActivity.this);
+
+
+
+        cameraCtrl=new CameraCtrl(SmHardwareActivity.this,mCameraHandler);
 
         cameraCtrl.setOnConnectLister(new CameraCtrl.OnConnectLister(){
 
             @Override
-            public void onConnectByChuHuoKou(UVCCameraHandler mCameraHandlerByChuHuoKou) {
-
-                if (mCameraHandlerByChuHuoKou == null) {
-                    showToast("mCameraViewInterfaceByJiGui 为空");
+            public void onConnect(UVCCameraHandler mCameraHandler) {
+                if (mCameraHandler == null) {
+                    showToast("mCameraHandler 为空");
                 } else {
-                    final SurfaceTexture st = mCameraViewByChuHuoKou.getSurfaceTexture();
+                    final SurfaceTexture st = mCameraView.getSurfaceTexture();
                     if (st == null) {
                         showToast("st 为空");
                     } else {
-
-                        mCameraHandlerByChuHuoKou.startPreview(new Surface(st));
-                    }
-                }
-            }
-
-            @Override
-            public void onConnectByJiGui(UVCCameraHandler mCameraHandlerByJiGui) {
-                if (mCameraHandlerByJiGui == null) {
-                    showToast("mCameraViewInterfaceByJiGui 为空");
-                } else {
-                    final SurfaceTexture st2 = mCameraViewByJiGui.getSurfaceTexture();
-                    if (st2 == null) {
-                        showToast("st 为空");
-                    } else {
-                        new SurfaceTexture(0);
-                        mCameraHandlerByJiGui.startPreview(new Surface(st2));
+                        mCameraHandler.startPreview(new Surface(st));
                     }
                 }
             }
@@ -163,35 +131,35 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             while (true) {
 
 
-                cameraCtrl.openCameraByChuHuoKou(mCameraHandlerByChuHuoKou);
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-              //  mCameraViewByJiGui.onResume();
-                cameraCtrl.openCameraByJiGui(mCameraHandlerByJiGui);
-
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-                    //Log.i(TAG, "stopPreview: ");
-                    cameraCtrl.closeCameraByChuHuoKou();
-
-
+//                cameraCtrl.openCameraByChuHuoKou(mCameraHandlerByChuHuoKou);
 //                try {
-//                    Thread.sleep(1000);
+//                    Thread.sleep(200);
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-
-              //      mCameraViewByJiGui.onPause();
-                    cameraCtrl.closeCameraByJiGui();
+//
+//              //  mCameraViewByJiGui.onResume();
+//                cameraCtrl.openCameraByJiGui(mCameraHandlerByJiGui);
+//
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                    //Log.i(TAG, "stopPreview: ");
+//                    cameraCtrl.closeCameraByChuHuoKou();
+//
+//
+////                try {
+////                    Thread.sleep(1000);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+//
+//              //      mCameraViewByJiGui.onPause();
+//                    cameraCtrl.closeCameraByJiGui();
 
             }
 
@@ -213,14 +181,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     @Override
     protected void onDestroy() {
         cameraCtrl.destroy();
-
-
-        mCameraViewByChuHuoKou=null;
-        mCameraViewByJiGui=null;
-
+        mCameraView=null;
         super.onDestroy();
-
-
     }
 
     @Override
@@ -236,95 +198,45 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     if(cameraCtrl.getCameraByChuHuoKou()==null) {
                         showToast("找不到出口货摄像头设备");
                     }
-                    mCameraOpenByChuHuoKou.setVisibility(View.INVISIBLE);
-                    mCameraCloseByChuHuoKou.setVisibility(View.VISIBLE);
-                    cameraCtrl.openCameraByChuHuoKou(mCameraHandlerByChuHuoKou);
-                    break;
-                case R.id.cameraCloseByChuHuoKou:
-                    if(cameraCtrl.getCameraByChuHuoKou()==null) {
-                        showToast("找不到出口货摄像头设备");
+                    cameraCtrl.close();
+                    try {
+                        Thread.sleep(500);
                     }
-                    mCameraOpenByChuHuoKou.setVisibility(View.VISIBLE);
-                    mCameraCloseByChuHuoKou.setVisibility(View.INVISIBLE);
-                    cameraCtrl.closeCameraByChuHuoKou();
-                    break;
-                case R.id.cameraCaptureStillByChuHuoKou:
-                    if(cameraCtrl.getCameraByChuHuoKou()==null) {
-                        showToast("找不到出口货摄像头设备");
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
                     }
-                    cameraCtrl.captureStillByChuHuoKou(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-                        @Override
-                        public void onResult(final byte[] data) {
-                            if(data!=null)
-                                showToast("拍照成功");
-                        }
-                    });
-                    break;
-                case R.id.cameraRecordByChuHuoKou:
+                    cameraCtrl.openCameraByChuHuoKou();
                     break;
                 case R.id.cameraOpenByJiGui:
                     if(cameraCtrl.getCameraByJiGui()==null) {
                         showToast("找不到机柜摄像头设备");
                     }
-                    mCameraOpenByJiGui.setVisibility(View.INVISIBLE);
-                    mCameraCloseByJiGui.setVisibility(View.VISIBLE);
-                    cameraCtrl.openCameraByJiGui(mCameraHandlerByJiGui);
-                    break;
-                case R.id.cameraCloseByJiGui:
-                    if(cameraCtrl.getCameraByJiGui()==null) {
-                        showToast("找不到机柜摄像头设备");
+                    cameraCtrl.close();
+                    try {
+                        Thread.sleep(500);
                     }
-                    mCameraOpenByJiGui.setVisibility(View.VISIBLE);
-                    mCameraCloseByJiGui.setVisibility(View.INVISIBLE);
-                    cameraCtrl.closeCameraByJiGui();
-                    break;
-                case R.id.cameraCaptureStillByJiGui:
-                    if(cameraCtrl.getCameraByJiGui()==null) {
-                        showToast("找不到机柜摄像头设备");
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
                     }
-
-                    cameraCtrl.captureStillByJiGui(new AbstractUVCCameraHandler.OnCaptureStillListener() {
+                    cameraCtrl.openCameraByJiGui();
+                    break;
+                case R.id.cameraCaptureStill:
+                    cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
                         @Override
                         public void onResult(final byte[] data) {
                             if(data!=null)
                                 showToast("拍照成功");
                         }
                     });
-
                     break;
-                case R.id.cameraRecordByJiGui:
+                case R.id.cameraRecord:
                     break;
-
+                case R.id.cameraClose:
+                    cameraCtrl.close();
+                    break;
             }
         }
-
-//        class myRunnable implements Runnable {
-//            USBMonitor.UsbControlBlock usbControlBlock;
-//
-//            public myRunnable(USBMonitor.UsbControlBlock usbControlBlock) {
-//                this.usbControlBlock = usbControlBlock;
-//            }
-//
-//            @Override
-//            public void run() {
-//                final UVCCamera camera = new UVCCamera();
-//                try {
-//                    camera.open(usbControlBlock);
-//                } catch (Exception e) {
-//                    LogUtil.d(TAG, "开启相机错误！！！！" + camera.getDeviceName());
-//                    return;
-//                }
-//
-//                //根据不同相机接入name  或者根据pid vid 指定相机在那个view显示
-//                if (usbControlBlock.getDeviceName().contains("usb/001/004")) {
-//                    camera.setPreviewTexture(mCameraViewByJiGui.getSurfaceTexture());
-//                } else if (usbControlBlock.getDeviceName().contains("usb/001/003")) {
-//                    camera.setPreviewTexture(mTexture2.getSurfaceTexture());
-//                } else if (usbControlBlock.getDeviceName().contains("usb/003/004")) {
-//                    camera.setPreviewTexture(mTexture3.getSurfaceTexture());
-//                }
-//                camera.startPreview();
-//            }
-//        }
     }
 }
