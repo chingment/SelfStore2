@@ -1751,7 +1751,10 @@ uvc_error_t uvc_stream_get_frame(uvc_stream_handle_t *strmh,
 				ts.tv_sec += add_secs;
 				ts.tv_nsec += add_nsecs;
 
-				pthread_cond_timedwait(&strmh->cb_cond, &strmh->cb_mutex, &ts);
+				int err = pthread_cond_timedwait(&strmh->cb_cond, &strmh->cb_mutex, &ts);
+				if (err) {
+                    pthread_mutex_unlock(&strmh->cb_mutex);
+                }
 			}
 
 			if (LIKELY(strmh->last_polled_seq < strmh->hold_seq)) {

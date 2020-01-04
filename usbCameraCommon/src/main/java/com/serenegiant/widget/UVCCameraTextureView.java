@@ -40,6 +40,7 @@ import com.serenegiant.encoder.MediaVideoEncoder;
 import com.serenegiant.glutils.EGLBase;
 import com.serenegiant.glutils.GLDrawer2D;
 import com.serenegiant.glutils.es1.GLHelper;
+import com.serenegiant.usbcameracommon.UVCCameraHandler;
 import com.serenegiant.utils.FpsCounter;
 
 /**
@@ -63,6 +64,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	/** for calculation of frame rate */
 	private final FpsCounter mFpsCounter = new FpsCounter();
 	private int m_TexId=-1;
+	private UVCCameraHandler mCameraHandler;
 	public UVCCameraTextureView(final Context context) {
 		this(context, null, 0);
 	}
@@ -87,6 +89,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 	@Override
 	public void onPause() {
 		if (DEBUG) Log.v(TAG, "onPause:");
+
 		if (mRenderHandler != null) {
 			mRenderHandler.release();
 			mRenderHandler = null;
@@ -137,7 +140,15 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 			mPreviewSurface.release();
 			mPreviewSurface = null;
 		}
+
+
+
 		return true;
+	}
+
+	@Override
+	public void setCameraHandler(UVCCameraHandler cameraHandler){
+		this.mCameraHandler=cameraHandler;
 	}
 
 	@Override
@@ -449,7 +460,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 			 * draw a frame (and request to draw for video capturing if it is necessary)
 			 */
 			public final void onDrawFrame() {
-				synchronized (mSync) {
+				//if(mEglSurface.isValid()) {
 					mEglSurface.makeCurrent();
 					// update texture(came from camera)
 					mPreviewSurface.updateTexImage();
@@ -464,10 +475,16 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 							mEncoder.frameAvailableSoon();
 					}
 
+					//if(!mEglSurface.isValid()) {
 					// draw to preview screen
+					//mEglSurface.release();
+					//}
+
 					mDrawer.draw(mTexId, mStMatrix, 0);
 					mEglSurface.swap();
-				}
+				//}
+
+
 
 /*				// sample code to read pixels into Buffer and save as a Bitmap (part1)
 				buffer.position(offset);

@@ -27,7 +27,7 @@ import java.io.IOException;
 public class SmHardwareActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private static final String TAG = "SmHardwareActivity";
-    private static final float[] BANDWIDTH_FACTORS = {0.1f, 0.2f};
+    private static final float[] BANDWIDTH_FACTORS = {0.5f, 0.5f};
     private UVCCameraHandler mCameraHandlerByChuHuoKou;
     private CameraViewInterface mCameraViewByChuHuoKou;
     private Button mCameraOpenByChuHuoKou;
@@ -86,10 +86,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setNavBtnVisible(true);
 
         mCameraViewByChuHuoKou = (CameraViewInterface) findViewById(R.id.cameraViewByChuHuoKou);
-        mCameraViewByChuHuoKou.setAspectRatio(UVCCamera.DEFAULT_PREVIEW_WIDTH / (float) UVCCamera.DEFAULT_PREVIEW_HEIGHT);
-
-        mCameraHandlerByChuHuoKou = UVCCameraHandler.createHandler(this, mCameraViewByChuHuoKou, UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, BANDWIDTH_FACTORS[0]);
-
+        mCameraViewByChuHuoKou.setAspectRatio(320 / 240);
+        mCameraHandlerByChuHuoKou = UVCCameraHandler.createHandler(this, mCameraViewByChuHuoKou, 320, 240, BANDWIDTH_FACTORS[0]);
+        mCameraViewByChuHuoKou.setCameraHandler(mCameraHandlerByChuHuoKou);
 
         mCameraOpenByChuHuoKou= (Button) findViewById(R.id.cameraOpenByChuHuoKou);
         mCameraOpenByChuHuoKou.setOnClickListener(this);
@@ -102,9 +101,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
         mCameraViewByJiGui = (CameraViewInterface) findViewById(R.id.cameraViewByJiGui);
 
-        mCameraViewByJiGui.setAspectRatio(UVCCamera.DEFAULT_PREVIEW_WIDTH / (float) UVCCamera.DEFAULT_PREVIEW_HEIGHT);
-        mCameraHandlerByJiGui = UVCCameraHandler.createHandler(this, mCameraViewByJiGui, UVCCamera.DEFAULT_PREVIEW_WIDTH, UVCCamera.DEFAULT_PREVIEW_HEIGHT, BANDWIDTH_FACTORS[1]);
-
+        mCameraViewByJiGui.setAspectRatio(320 / 240);
+        mCameraHandlerByJiGui = UVCCameraHandler.createHandler(this, mCameraViewByJiGui, 320, 240, BANDWIDTH_FACTORS[1]);
+        mCameraViewByJiGui.setCameraHandler(mCameraHandlerByJiGui);
 
         mCameraOpenByJiGui= (Button) findViewById(R.id.cameraOpenByJiGui);
         mCameraOpenByJiGui.setOnClickListener(this);
@@ -150,8 +149,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 }
             }
         } );
-        cameraCtrl.setCameraByChuHuoKou(37424,1443);
-        cameraCtrl.setCameraByJiGui(42694,1137);
+        cameraCtrl.setCameraByJiGui(37424,1443);
+        cameraCtrl.setCameraByChuHuoKou(42694,1137);
 //        MyThread myThread=new MyThread();
 //        myThread.start();
     }
@@ -161,15 +160,40 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         @Override
         public void run() {
 
-            //cameraCtrl.openCameraByChuHuoKou();
+            while (true) {
 
-           try {
-                Thread.sleep(1300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+                cameraCtrl.openCameraByChuHuoKou(mCameraHandlerByChuHuoKou);
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+              //  mCameraViewByJiGui.onResume();
+                cameraCtrl.openCameraByJiGui(mCameraHandlerByJiGui);
+
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                    //Log.i(TAG, "stopPreview: ");
+                    cameraCtrl.closeCameraByChuHuoKou();
+
+
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+              //      mCameraViewByJiGui.onPause();
+                    cameraCtrl.closeCameraByJiGui();
+
             }
-
-          //  cameraCtrl.openCameraByJiGui();
 
         }
     }

@@ -699,16 +699,20 @@ int UVCPreview::setCaptureDisplay(ANativeWindow *capture_window) {
 }
 
 void UVCPreview::addCaptureFrame(uvc_frame_t *frame) {
-	pthread_mutex_lock(&capture_mutex);
-	if (LIKELY(isRunning())) {
-		// keep only latest one
-		if (captureQueu) {
-			recycle_frame(captureQueu);
-		}
-		captureQueu = frame;
-		pthread_cond_broadcast(&capture_sync);
-	}
-	pthread_mutex_unlock(&capture_mutex);
+pthread_mutex_lock(&capture_mutex);
+if (LIKELY(isRunning())) {
+// keep only latest one
+if (captureQueu) {
+recycle_frame(captureQueu);
+}
+captureQueu = frame;
+pthread_cond_broadcast(&capture_sync);
+}
+else
+{
+recycle_frame(frame);
+}
+pthread_mutex_unlock(&capture_mutex);
 }
 
 /**

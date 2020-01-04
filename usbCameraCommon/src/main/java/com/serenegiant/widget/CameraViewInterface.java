@@ -28,6 +28,8 @@ import android.graphics.SurfaceTexture;
 import android.view.Surface;
 
 import com.serenegiant.encoder.IVideoEncoder;
+import com.serenegiant.usb.UVCCamera;
+import com.serenegiant.usbcameracommon.UVCCameraHandler;
 
 public interface CameraViewInterface extends IAspectRatioView {
 	public interface Callback {
@@ -43,4 +45,5 @@ public interface CameraViewInterface extends IAspectRatioView {
 	public boolean hasSurface();
 	public void setVideoEncoder(final IVideoEncoder encoder);
 	public Bitmap captureStillImage();
+	public void setCameraHandler(UVCCameraHandler cameraHandler);
 }

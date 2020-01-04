@@ -426,7 +426,7 @@ public class UVCCamera {
     public synchronized void stopPreview() {
     	setFrameCallback(null, 0);
     	if (mCtrlBlock != null) {
-    		nativeStopPreview(mNativePtr);
+				nativeStopPreview(mNativePtr);
     	}
     }
 

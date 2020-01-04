@@ -156,6 +156,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 	public void close() {
 		if (DEBUG) Log.v(TAG, "close:");
 		if (isOpened()) {
+
 			stopPreview();
 			sendEmptyMessage(MSG_CLOSE);
 		}
@@ -178,21 +179,26 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 	public void stopPreview() {
 		if (DEBUG) Log.v(TAG, "stopPreview:");
 		removeMessages(MSG_PREVIEW_START);
-		stopRecording();
+		//stopRecording();
 		if (isPreviewing()) {
 			final CameraThread thread = mWeakThread.get();
 			if (thread == null) return;
-			synchronized (thread.mSync) {
-				sendEmptyMessage(MSG_PREVIEW_STOP);
-				if (!isCameraThread()) {
-					// wait for actually preview stopped to avoid releasing Surface/SurfaceTexture
-					// while preview is still running.
-					// therefore this method will take a time to execute
-					try {
-						thread.mSync.wait();
-					} catch (final InterruptedException e) {
-					}
+			if(thread.isAlive()&&!thread.isInterrupted()) {
+				synchronized (thread.mSync) {
+					sendEmptyMessage(MSG_PREVIEW_STOP);
+//					if (!isCameraThread()) {
+//						// wait for actually preview stopped to avoid releasing Surface/SurfaceTexture
+//						// while preview is still running.
+//						// therefore this method will take a time to execute
+//						try {
+//							thread.mSync.wait();
+//						} catch (final InterruptedException e) {
+//						}
+//					}
 				}
+			}
+			else {
+				Log.e(TAG,"stopPreview failure");
 			}
 		}
 		if (DEBUG) Log.v(TAG, "stopPreview:finished");
@@ -515,18 +521,32 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 		}
 
 		public void handleStopPreview() {
-			if (DEBUG) Log.v(TAG_THREAD, "handleStopPreview:");
-			if (mIsPreviewing) {
-				if (mUVCCamera != null) {
-					mUVCCamera.stopPreview();
+
+				if (DEBUG) Log.v(TAG_THREAD, "handleStopPreview:");
+				if (mIsPreviewing) {
+					if (mUVCCamera != null) {
+						try {
+							Thread.sleep(100);
+						}
+						catch (Exception ex)
+						{
+							ex.printStackTrace();
+						}
+						if(this.isAlive()&&!this.isInterrupted()) {
+							mUVCCamera.stopPreview();
+						}
+						else
+						{
+							Log.e(TAG,"stopPreview failure");
+						}
+					}
+					synchronized (mSync) {
+						mIsPreviewing = false;
+						mSync.notifyAll();
+					}
+					callOnStopPreview();
 				}
-				synchronized (mSync) {
-					mIsPreviewing = false;
-					mSync.notifyAll();
-				}
-				callOnStopPreview();
-			}
-			if (DEBUG) Log.v(TAG_THREAD, "handleStopPreview:finished");
+				if (DEBUG) Log.v(TAG_THREAD, "handleStopPreview:finished");
 		}
 
 		//private String mCaptureStillSavePath = null;
