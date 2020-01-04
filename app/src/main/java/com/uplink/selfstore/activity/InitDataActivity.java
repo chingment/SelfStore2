@@ -57,7 +57,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private MyListView list_log;
     private View btn_appexit;
     private List<LogBean> logs=new ArrayList<>();
-    private MachineCtrl machineCtrl=new MachineCtrl();
+    private MachineCtrl machineCtrl=null;
 
     private boolean initIsRun=false;
     private Handler initHandler = new Handler();
@@ -83,6 +83,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initView();
         initEvent();
         initData();
+
+        machineCtrl=MachineCtrl.getInstance();
 
         initHandler.postDelayed(initRunable, 1000);
 

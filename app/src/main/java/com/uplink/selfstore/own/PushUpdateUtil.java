@@ -216,7 +216,7 @@ public class PushUpdateUtil {
 
     private  static void openPickupDoor() {
 
-        MachineCtrl machineCtrl = new MachineCtrl();
+        MachineCtrl machineCtrl=MachineCtrl.getInstance();
 
         machineCtrl.connect();
 

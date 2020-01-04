@@ -75,7 +75,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         cabinetRowColLayout = machine.getCabinetRowColLayout_1();
         cabinetPendantRows=machine.getCabinetPendantRows_1();
 
-        machineCtrl = new MachineCtrl();
+        machineCtrl=MachineCtrl.getInstance();
         machineCtrl.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {

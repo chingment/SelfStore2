@@ -19,6 +19,7 @@ import android_serialport_api.SerialPort;
 public class ScanMidCtrl {
     private boolean isConnect=false;
     private static String TAG = "ScanMidCtrl";
+    private static ScanMidCtrl mScanMidCtrl= null;
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
@@ -26,7 +27,20 @@ public class ScanMidCtrl {
     public static final int MESSAGE_WHAT_SCANRESULT=1;
 
     private ReadThread readThread=null;
-    public ScanMidCtrl() {
+
+    private ScanMidCtrl() {
+
+    }
+
+    public static ScanMidCtrl getInstance() {
+        if (mScanMidCtrl == null) {
+            synchronized (ScanMidCtrl.class) {
+                if (mScanMidCtrl == null) {
+                    mScanMidCtrl = new ScanMidCtrl();
+                }
+            }
+        }
+        return mScanMidCtrl;
 
     }
 

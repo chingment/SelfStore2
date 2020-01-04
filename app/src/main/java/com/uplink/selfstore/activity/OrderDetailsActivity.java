@@ -56,7 +56,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private OrderDetailsBean orderDetails;
     private PickupSkuBean currentPickupSku=null;
     private int[] cabinetPendantRows=null;
-    private MachineCtrl machineCtrl=new MachineCtrl();
+    private MachineCtrl machineCtrl=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setContentView(R.layout.activity_orderdetails);
         setNavTtile(this.getResources().getString(R.string.activity_orderdetails_navtitle));
 
+        machineCtrl=MachineCtrl.getInstance();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
         MachineBean machine = AppCacheManager.getMachine();

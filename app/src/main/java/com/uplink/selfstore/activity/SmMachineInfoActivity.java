@@ -30,12 +30,14 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private TextView txt_Currency;
     private TextView txt_CurrencySymbol;
 
-    private MachineCtrl machineCtrl=new MachineCtrl();
+    private MachineCtrl machineCtrl=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smmachineinfo);
+
+        machineCtrl=MachineCtrl.getInstance();
 
         setNavTtile(this.getResources().getString(R.string.activity_smmachineinfo_navtitle));
         setNavBackVisible(true);

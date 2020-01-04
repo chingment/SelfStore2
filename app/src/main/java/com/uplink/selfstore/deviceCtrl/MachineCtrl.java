@@ -18,6 +18,7 @@ import java.util.HashMap;
 public class MachineCtrl {
 
     private static final String TAG = "MachineCtrl";
+    private static MachineCtrl mMachineCtrl= null;
     public static final int S_Motor_Idle = 0;
     public static final int S_Motor_Busy = 1;
     public static final int S_Motor_Done = 2;
@@ -37,12 +38,24 @@ public class MachineCtrl {
     private static final int MESSAGE_WHAT_PICKUP = 2;
 
 
-    public MachineCtrl() {
+    private  MachineCtrl() {
         try {
             sym = new symvdio();
         } catch (Exception ex) {
             sym = null;
         }
+    }
+
+    public static MachineCtrl getInstance() {
+        if (mMachineCtrl == null) {
+            synchronized (FingerVeinCtrl.class) {
+                if (mMachineCtrl == null) {
+                    mMachineCtrl = new MachineCtrl();
+                }
+            }
+        }
+        return mMachineCtrl;
+
     }
 
     public String vesion() {

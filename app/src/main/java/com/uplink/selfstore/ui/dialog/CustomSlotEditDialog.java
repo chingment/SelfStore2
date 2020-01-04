@@ -83,7 +83,7 @@ public class CustomSlotEditDialog extends Dialog {
         MachineBean machine = AppCacheManager.getMachine();
         cabinetPendantRows=machine.getCabinetPendantRows_1();
 
-        machineCtrl = new MachineCtrl();
+        machineCtrl=MachineCtrl.getInstance();
         //machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
@@ -169,7 +169,7 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-        scanMidCtrl = new ScanMidCtrl();
+        scanMidCtrl = ScanMidCtrl.getInstance();
 
         scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
                     @Override
