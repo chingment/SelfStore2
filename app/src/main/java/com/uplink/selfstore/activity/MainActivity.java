@@ -71,6 +71,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         locationUtil = LocationUtil.getInstance(getAppContext());
 
 //        String slot="n10r99c100m44";
