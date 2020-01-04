@@ -192,6 +192,12 @@
         <service android:name=".service.CameraSnapService" />
         <service android:name=".service.MachineCtrlService" />
         <service android:name=".service.UpdateAppService" />
+
+        <service
+            android:name=".service.AlarmService"
+            android:enabled="true"
+            android:exported="true"/>
+        <receiver android:name=".broadcast.AlarmReceiver"/>
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -88,11 +89,14 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         initHandler.postDelayed(initRunable, 1000);
 
-        Intent cameraSnapService = new Intent(InitDataActivity.this, CameraSnapService.class);
+        Intent cameraSnapService = new Intent(this, CameraSnapService.class);
         startService(cameraSnapService);
 
-        Intent updateAppService = new Intent(InitDataActivity.this, UpdateAppService.class);
+        Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);
+
+        Intent alarmService=new Intent(this, AlarmService.class);
+        startService(alarmService);
 
         machineCtrl.goGoZero();
 
