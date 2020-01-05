@@ -95,8 +95,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);
 
-        Intent alarmService=new Intent(this, AlarmService.class);
-        startService(alarmService);
+        //Intent alarmService=new Intent(this, AlarmService.class);
+        //startService(alarmService);
 
         machineCtrl.goGoZero();
 

@@ -604,10 +604,12 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 					new MediaSurfaceEncoder(muxer, getWidth(), getHeight(), mMediaEncoderListener);
 					break;
 				}
-				if (true) {
-					// for audio capturing
-					new MediaAudioEncoder(muxer, mMediaEncoderListener);
-				}
+
+
+//				if (true) {
+//					// for audio capturing
+//					new MediaAudioEncoder(muxer, mMediaEncoderListener);
+//				}
 				muxer.prepare();
 				muxer.startRecording();
 				if (videoEncoder != null) {
@@ -660,11 +662,11 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 					videoEncoder.encode(frame);
 				}
 
-					int len = frame.capacity();
-					final byte[] yuv = new byte[len];
-					frame.get(yuv);
+				int len = frame.capacity();
+				final byte[] yuv = new byte[len];
+				frame.get(yuv);
 
-				if (uvcCameraDataCallBack!= null){
+				if (uvcCameraDataCallBack != null) {
 					uvcCameraDataCallBack.getData(yuv);
 					Log.i(TAG, "-摄像头返回数据------" + yuv.length);
 				}

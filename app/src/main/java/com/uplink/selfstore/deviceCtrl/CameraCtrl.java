@@ -1,5 +1,6 @@
 package com.uplink.selfstore.deviceCtrl;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -7,10 +8,12 @@ import android.hardware.usb.UsbDevice;
 import android.view.Surface;
 
 import com.serenegiant.common.BaseActivity;
+import com.serenegiant.dialog.MessageDialogFragmentV4;
 import com.serenegiant.usb.USBMonitor;
 import com.serenegiant.usb.UVCCamera;
 import com.serenegiant.usbcameracommon.AbstractUVCCameraHandler;
 import com.serenegiant.usbcameracommon.UVCCameraHandler;
+import com.serenegiant.utils.PermissionCheck;
 import com.serenegiant.widget.CameraViewInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.LogUtil;
@@ -32,6 +35,14 @@ public class CameraCtrl {
         mCameraHandler=cameraHandler;
         mUSBMonitor = new USBMonitor(context, mOnDeviceConnectListener);
         mUSBMonitor.register();
+    }
+
+    public void registerUSB(){
+        mUSBMonitor.register();
+    }
+
+    public void unRegisterUSB(){
+        mUSBMonitor.unregister();
     }
 
     public void setCameraByChuHuoKou(int productId,int vendorId){
@@ -130,6 +141,17 @@ public class CameraCtrl {
         }
     }
 
+    RecordByJiGuiThread recordByJiGuiThread=null;
+    public void startRecordByJiGui(){
+        recordByJiGuiThread=new RecordByJiGuiThread();
+        recordByJiGuiThread.start();
+    }
+
+    public void stopRecordByJiGui(){
+        if(recordByJiGuiThread!=null) {
+            recordByJiGuiThread.stopRecord();
+        }
+    }
 
     public boolean isOpen(){
         if(mCameraHandler==null)
@@ -254,6 +276,81 @@ public class CameraCtrl {
                     0.4f);
         } catch (final IllegalArgumentException e) {
             return;
+        }
+    }
+
+    private class RecordByJiGuiThread extends Thread {
+        private boolean isStop = true;
+        private boolean isOpen = false;
+        private boolean isStartRecord = false;
+        private boolean isStopRecord = false;
+        private boolean isRecording = false;
+
+        public void stopRecord() {
+            isStopRecord = true;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+
+            if (mCameraByJiGui == null) {
+                LogUtil.i(TAG, "摄像头监控流程->机柜摄像头找不到");
+                return;
+            }
+
+            LogUtil.i(TAG, "摄像头监控流程->机柜摄像头已找到");
+
+            isStop = false;
+
+            while (!isStop) {
+
+                if (!isOpen) {
+
+                    openCameraByChuHuoKou();
+
+                    long nStart = System.currentTimeMillis();
+                    long nEnd = System.currentTimeMillis();
+                    boolean bTryAgain = false;
+                    for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+
+                        if (mCameraHandler.isOpened()) {
+                            isOpen = true;
+                            break;
+                        }
+                    }
+
+                    if (isOpen) {
+
+                        LogUtil.i(TAG, "摄像头监控流程->机柜摄像头已打开");
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        mCameraHandler.startRecording();
+
+                        isStartRecord = true;
+
+                        LogUtil.i(TAG, "摄像头监控流程->机柜摄像头开始录制");
+
+                    } else {
+                        LogUtil.i(TAG, "摄像头监控流程->机柜摄像头未打开");
+                    }
+
+                } else {
+                    if (mCameraHandler.isRecording()) {
+                        //LogUtil.i(TAG, "摄像头监控流程->机柜摄像头正在录制");
+                        if (isStopRecord) {
+                            mCameraHandler.stopRecording();
+                            LogUtil.i(TAG, "摄像头监控流程->机柜摄像头停止录制");
+                            isStop = true;
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

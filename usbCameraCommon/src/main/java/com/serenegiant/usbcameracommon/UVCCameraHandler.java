@@ -60,7 +60,7 @@ public class UVCCameraHandler extends AbstractUVCCameraHandler {
             final Activity parent, final CameraViewInterface cameraView,
             final int width, final int height, final float bandwidthFactor) {
 
-        return createHandler(parent, cameraView, 1, width, height, UVCCamera.FRAME_FORMAT_MJPEG, bandwidthFactor);
+        return createHandler(parent, cameraView, 0, width, height, UVCCamera.FRAME_FORMAT_YUYV, bandwidthFactor);
     }
 
     /**

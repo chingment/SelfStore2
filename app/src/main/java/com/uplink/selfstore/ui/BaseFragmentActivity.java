@@ -1,5 +1,6 @@
 package com.uplink.selfstore.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.serenegiant.dialog.MessageDialogFragmentV4;
 import com.serenegiant.utils.HandlerThreadHandler;
+import com.serenegiant.utils.PermissionCheck;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
@@ -531,6 +534,72 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         } catch (final Exception e) {
             // ignore
         }
+    }
+
+    // 動的パーミッション要求時の要求コード
+    protected static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 0x12345;
+    protected static final int REQUEST_PERMISSION_AUDIO_RECORDING = 0x234567;
+    protected static final int REQUEST_PERMISSION_NETWORK = 0x345678;
+    protected static final int REQUEST_PERMISSION_CAMERA = 0x537642;
+
+    /**
+     * 外部ストレージへの書き込みパーミッションが有るかどうかをチェック
+     * なければ説明ダイアログを表示する
+     * @return true 外部ストレージへの書き込みパーミッションが有る
+     */
+    protected boolean checkPermissionWriteExternalStorage() {
+        if (!PermissionCheck.hasWriteExternalStorage(this)) {
+            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE,
+                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_ext_storage_request,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 録音のパーミッションが有るかどうかをチェック
+     * なければ説明ダイアログを表示する
+     * @return true 録音のパーミッションが有る
+     */
+    protected boolean checkPermissionAudio() {
+        if (!PermissionCheck.hasAudio(this)) {
+            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_AUDIO_RECORDING,
+                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_audio_recording_request,
+                    new String[]{Manifest.permission.RECORD_AUDIO});
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * ネットワークアクセスのパーミッションが有るかどうかをチェック
+     * なければ説明ダイアログを表示する
+     * @return true ネットワークアクセスのパーミッションが有る
+     */
+    protected boolean checkPermissionNetwork() {
+        if (!PermissionCheck.hasNetwork(this)) {
+            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_NETWORK,
+                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_network_request,
+                    new String[]{Manifest.permission.INTERNET});
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * カメラアクセスのパーミッションがあるかどうかをチェック
+     * なければ説明ダイアログを表示する
+     * @return true カメラアクセスのパーミッションが有る
+     */
+    protected boolean checkPermissionCamera() {
+        if (!PermissionCheck.hasCamera(this)) {
+            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_CAMERA,
+                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_camera_request,
+                    new String[]{Manifest.permission.CAMERA});
+            return false;
+        }
+        return true;
     }
 
 }

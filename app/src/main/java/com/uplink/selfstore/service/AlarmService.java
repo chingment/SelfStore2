@@ -61,6 +61,7 @@ public class AlarmService  extends Service {
 
             @Override
             public boolean accept(File file, String filename) {
+                //file.lastModified()
                 String s = FileUtil.getFileNameWithoutExtension(filename);
                 int day = autoClearDay < 0 ? autoClearDay : -1 * autoClearDay;
                 String date = "crash-" + DateUtil.getOtherDay(day);
