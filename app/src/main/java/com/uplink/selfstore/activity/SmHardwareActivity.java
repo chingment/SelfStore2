@@ -214,14 +214,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         super.onStart();
     }
 
-    @Override
-    protected void onStop() {
-        if(cameraCtrl!=null) {
-            cameraCtrl.unRegisterUSB();
-            cameraCtrl.close();
-        }
-        super.onStop();
-    }
 
     @Override
     protected void onDestroy() {
