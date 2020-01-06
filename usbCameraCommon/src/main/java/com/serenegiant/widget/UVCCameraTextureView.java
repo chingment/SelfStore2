@@ -73,6 +73,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 
 	public UVCCameraTextureView(final Context context, final AttributeSet attrs, final int defStyle) {
 		super(context, attrs, defStyle);
+
 		setSurfaceTextureListener(this);
 	}
 

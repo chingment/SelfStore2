@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbDeviceConnection;
 import android.view.Surface;
 
 import com.serenegiant.common.BaseActivity;
@@ -34,6 +35,7 @@ public class CameraCtrl {
         mContext=context;
         mCameraHandler=cameraHandler;
         mUSBMonitor = new USBMonitor(context, mOnDeviceConnectListener);
+        mUSBMonitor.unregister();
         mUSBMonitor.register();
     }
 
@@ -89,20 +91,19 @@ public class CameraCtrl {
 
     public void openCameraByChuHuoKou() {
 
-        try {
-            if (mCameraByChuHuoKou != null) {
-                mUSBMonitor.requestPermission(mCameraByChuHuoKou);
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+        mCameraByChuHuoKou = getUsbDevice(42694, 1137);
+        if (mCameraByChuHuoKou != null) {
 
-
+            mUSBMonitor.requestPermission(mCameraByChuHuoKou);
+        }
     }
 
     public void close() {
+        if(mCameraHandler!=null) {
+            if (mCameraHandler.isOpened()) {
+                mCameraHandler.close();
+            }
+        }
         if(mCameraHandler!=null) {
             if (mCameraHandler.isOpened()) {
                 mCameraHandler.close();
@@ -162,9 +163,12 @@ public class CameraCtrl {
 
     public void  openCameraByJiGui() {
 
+        mCameraByJiGui = getUsbDevice(37424,1443);
         if (mCameraByJiGui != null) {
+
             mUSBMonitor.requestPermission(mCameraByJiGui);
         }
+
     }
 
     public  void destroy(){
@@ -197,17 +201,8 @@ public class CameraCtrl {
             LogUtil.i(TAG, "USB_DEVICE_CONNECT->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
 
 
-            if(getCameraByChuHuoKou()!=null) {
-                if (device.getVendorId() == getCameraByChuHuoKou().getVendorId()) {
-                    if (!mCameraHandler.isOpened()) {
-                        mCameraHandler.open(ctrlBlock);
-                        mOnConnectLister.onConnect(mCameraHandler);
-                    }
-                }
-            }
-
-            if(getCameraByJiGui()!=null) {
-                if (device.getVendorId() == getCameraByJiGui().getVendorId()) {
+            if (getCameraByChuHuoKou() != null || getCameraByJiGui() != null) {
+                if(mCameraHandler!=null&&ctrlBlock!=null) {
                     if (!mCameraHandler.isOpened()) {
                         mCameraHandler.open(ctrlBlock);
                         mOnConnectLister.onConnect(mCameraHandler);
@@ -220,28 +215,20 @@ public class CameraCtrl {
         public void onDisconnect(final UsbDevice device, final USBMonitor.UsbControlBlock ctrlBlock) {
             LogUtil.i(TAG, "USB_DEVICE_DISCONNECT->pid:" + device.getProductId() + ",vid:" + device.getVendorId() + ",class:" + device.getDeviceClass());
 
-            if(getCameraByChuHuoKou()!=null) {
-                if (device.getVendorId() == getCameraByChuHuoKou().getVendorId()) {
-                    mContext.queueEvent(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCameraHandler.close();
-                        }
-                    }, 0);
-                }
-            }
+            ctrlBlock.close();
 
-            if(getCameraByJiGui()!=null) {
-                if (device.getVendorId() == getCameraByJiGui().getVendorId()) {
-                    mContext.queueEvent(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCameraHandler.close();
+            if(getCameraByChuHuoKou()!=null||getCameraByJiGui()!=null) {
+                mContext.queueEvent(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCameraHandler != null) {
+                            if(mCameraHandler.isOpened()) {
+                                mCameraHandler.close();
+                            }
                         }
-                    }, 0);
-                }
+                    }
+                }, 0);
             }
-
         }
 
         @Override

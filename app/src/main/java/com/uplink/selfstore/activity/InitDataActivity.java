@@ -35,6 +35,7 @@ import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -85,8 +86,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
-        machineCtrl=MachineCtrl.getInstance();
-
+        machineCtrl = MachineCtrl.getInstance();
         initHandler.postDelayed(initRunable, 1000);
 
         Intent cameraSnapService = new Intent(this, CameraSnapService.class);
@@ -95,8 +95,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);
 
-        //Intent alarmService=new Intent(this, AlarmService.class);
-        //startService(alarmService);
+        Intent alarmService=new Intent(this, AlarmService.class);
+        startService(alarmService);
 
         machineCtrl.goGoZero();
 

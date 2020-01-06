@@ -179,31 +179,25 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 	public void stopPreview() {
 		if (DEBUG) Log.v(TAG, "stopPreview:");
 		removeMessages(MSG_PREVIEW_START);
-		//stopRecording();
+		stopRecording();
 		if (isPreviewing()) {
 			final CameraThread thread = mWeakThread.get();
 			if (thread == null) return;
-			if(thread.isAlive()&&!thread.isInterrupted()) {
-				synchronized (thread.mSync) {
-					sendEmptyMessage(MSG_PREVIEW_STOP);
-//					if (!isCameraThread()) {
-//						// wait for actually preview stopped to avoid releasing Surface/SurfaceTexture
-//						// while preview is still running.
-//						// therefore this method will take a time to execute
-//						try {
-//							thread.mSync.wait();
-//						} catch (final InterruptedException e) {
-//						}
-//					}
+			synchronized (thread.mSync) {
+				sendEmptyMessage(MSG_PREVIEW_STOP);
+				if (!isCameraThread()) {
+					// wait for actually preview stopped to avoid releasing Surface/SurfaceTexture
+					// while preview is still running.
+					// therefore this method will take a time to execute
+					try {
+						thread.mSync.wait();
+					} catch (final InterruptedException e) {
+					}
 				}
-			}
-			else {
-				Log.e(TAG,"stopPreview failure");
 			}
 		}
 		if (DEBUG) Log.v(TAG, "stopPreview:finished");
 	}
-
 //	protected void captureStill() {
 //		checkReleased();
 //		sendEmptyMessage(MSG_CAPTURE_STILL);

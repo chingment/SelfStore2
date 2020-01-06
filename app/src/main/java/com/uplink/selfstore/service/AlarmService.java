@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
 
@@ -14,13 +15,15 @@ import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AlarmService  extends Service {
     private static final String TAG = "AlarmService";
     /**
      * 每1分钟更新一次数据
      */
-    private static final int ONE_Miniute=3*1000;
+    private static final int ONE_Miniute=60*1000;
     private static final int PENDING_REQUEST=0;
 
     public AlarmService() {
@@ -36,7 +39,8 @@ public class AlarmService  extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                LogUtil.e(TAG,"循环执行了，哈哈."+ System.currentTimeMillis());
+                String picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
+                AlarmService.delete(picDir,7);
             }
         }).start();
 
@@ -56,16 +60,31 @@ public class AlarmService  extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public static void autoClear(final String dirPath, final int autoClearDay) {
+    //删除dirPath文件下 前几天的文件
+    public static void delete(final String dirPath, final int day) {
         FileUtil.delete(dirPath, new FilenameFilter() {
 
             @Override
             public boolean accept(File file, String filename) {
-                //file.lastModified()
-                String s = FileUtil.getFileNameWithoutExtension(filename);
-                int day = autoClearDay < 0 ? autoClearDay : -1 * autoClearDay;
-                String date = "crash-" + DateUtil.getOtherDay(day);
-                return date.compareTo(s) >= 0;
+
+                boolean isFlag=false;
+                try {
+                    long time = file.lastModified();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String result = formatter.format(time);
+                    Date startTime = formatter.parse(result);
+                    Date endTime = DateUtil.getNowDate();
+                    long diff = endTime.getTime() - startTime.getTime();
+                    long days = diff / (1000 * 60 * 60 * 24);
+                    if(days>=day){
+                        isFlag=true;
+                    }
+                }catch (Exception ex)
+                {
+                    isFlag=false;
+                }
+
+                return isFlag;
             }
         });
     }
