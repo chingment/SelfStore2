@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
@@ -22,6 +23,7 @@ import com.serenegiant.usbcameracommon.UVCCameraHandler;
 import com.serenegiant.widget.CameraViewInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CameraCtrl;
+import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.LocationUtil;
@@ -49,6 +51,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private Button mCameraClose;
     private Button mCameraCaptureStill;
     private Button mCameraRecord;
+    private Button mCameraTest;
 
 
     private CameraCtrl cameraCtrl;
@@ -83,19 +86,28 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         mCameraRecord= (Button) findViewById(R.id.cameraRecord);
         mCameraRecord.setOnClickListener(this);
 
+        if(Config.DEBUG) {
+            mCameraTest = (Button) findViewById(R.id.cameraRecord);
+            mCameraTest.setVisibility(View.VISIBLE);
+            mCameraTest.setOnClickListener(this);
+        }
+
         cameraCtrl=new CameraCtrl(SmHardwareActivity.this,mCameraHandler);
         cameraCtrl.setOnConnectLister(new CameraCtrl.OnConnectLister(){
 
             @Override
-            public void onConnect(UVCCameraHandler mCameraHandler) {
+            public void onConnect() {
                 if (mCameraHandler == null) {
                     showToast("mCameraHandler 为空");
                 } else {
-                    final SurfaceTexture st = mCameraView.getSurfaceTexture();
-                    if (st == null) {
-                        showToast("st 为空");
-                    } else {
-                        mCameraHandler.startPreview(new Surface(st));
+                    if(mCameraView!=null) {
+                        final SurfaceTexture st = mCameraView.getSurfaceTexture();
+                        if (st == null) {
+                            showToast("st 为空");
+                        } else {
+                            mCameraHandler.startPreview(new Surface(st));
+
+                        }
                     }
                 }
             }
@@ -115,37 +127,20 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 cameraCtrl.openCameraByJiGui();
 
                 try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                cameraCtrl.close();
-
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                cameraCtrl.openCameraByChuHuoKou();
-
-
-                try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                cameraCtrl.close();
-
-
+                cameraCtrl.startRecordByJiGui();
 
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(20*1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                cameraCtrl.stopRecordByJiGui();
 
 //                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
 //                    @Override
@@ -158,6 +153,62 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //                        }
 //                    }
 //                });
+
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                cameraCtrl.close();
+
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//
+//                cameraCtrl.openCameraByChuHuoKou();
+//
+//
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
+//                    @Override
+//                    public void onResult(final byte[] data) {
+//                        //Bitmap bitmap=  mCameraView.captureStillImage();
+//                        if(data!=null) {
+//                            showToast("拍照成功");
+//                            String  uniqueID = UUID.randomUUID().toString();
+//                            saveCaptureStill(data,"SelfStore",uniqueID);
+//                        }
+//                    }
+//                });
+//
+//
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                cameraCtrl.close();
+//
+//
+//
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
 
 //                try {
 //                    Thread.sleep(2*1000);
@@ -220,7 +271,17 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         if(cameraCtrl!=null) {
             cameraCtrl.destroy();
         }
-        mCameraView=null;
+
+
+        if(mCameraHandler!=null) {
+            //mCameraHandler.close();
+            mCameraHandler=null;
+        }
+
+        if(mCameraView!=null) {
+            //mCameraView.onPause();
+            mCameraView=null;
+        }
         super.onDestroy();
     }
 
@@ -234,34 +295,16 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     finish();
                     break;
                 case R.id.cameraOpenByChuHuoKou:
-                    if(cameraCtrl.getCameraByChuHuoKou()==null) {
-                        showToast("找不到出口货摄像头设备");
-                    }
-                    cameraCtrl.close();
-                    try {
-                        Thread.sleep(500);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.printStackTrace();
-                    }
                     cameraCtrl.openCameraByChuHuoKou();
                     break;
                 case R.id.cameraOpenByJiGui:
-                    if(cameraCtrl.getCameraByJiGui()==null) {
-                        showToast("找不到机柜摄像头设备");
-                    }
-                    cameraCtrl.close();
-                    try {
-                        Thread.sleep(500);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.printStackTrace();
-                    }
                     cameraCtrl.openCameraByJiGui();
                     break;
                 case R.id.cameraCaptureStill:
+                    if(!mCameraHandler.isOpened()) {
+                        showToast("请打开相机");
+                        return;
+                    }
                     cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
                         @Override
                         public void onResult(final byte[] data) {
@@ -275,11 +318,23 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     });
                     break;
                 case R.id.cameraRecord:
-                    cameraCtrl.startRecordByJiGui();
+                    if(!mCameraHandler.isOpened()) {
+                        showToast("请打开相机");
+                        return;
+                    }
+                    if(!mCameraHandler.isRecording()) {
+                        cameraCtrl.startRecord();
+                        mCameraRecord.setText("停止");
+                    }
+                    else {
+                        cameraCtrl.stopRecord();
+                        mCameraRecord.setText("开始");
+                    }
                     break;
                 case R.id.cameraClose:
-                    //cameraCtrl.close();
-
+                    cameraCtrl.close();
+                    break;
+                case R.id.cameraTest:
                     MyThread myThread=new MyThread();
                     myThread.start();
                     break;

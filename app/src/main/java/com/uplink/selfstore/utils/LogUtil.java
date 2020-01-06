@@ -30,26 +30,26 @@ public class LogUtil {
     }
 
     public static void d(String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.d(tag, content);
     }
 
     public static void d(String tag, String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         Log.d(tag, content);
     }
 
     public static void d(String content, Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.d(tag, content, tr);
     }
 
     public static void e(String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.e(tag, content);
@@ -61,102 +61,102 @@ public class LogUtil {
     }
 
     public static void e(String content, Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.e(tag, content, tr);
     }
 
     public static void e(String tag, String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         Log.e(tag, content);
     }
 
     public static void i(String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.i(tag, content);
     }
 
     public static void i(String tag, String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         Log.i(tag, content);
     }
 
     public static void i(String content, Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.i(tag, content, tr);
     }
 
     public static void v(String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.v(tag, content);
     }
 
     public static void v(String content, Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.v(tag, content, tr);
     }
 
     public static void v(String tag, String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         Log.v(tag, content);
     }
 
     public static void w(String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.w(tag, content);
     }
 
     public static void w(String content, Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.w(tag, content, tr);
     }
 
     public static void w(Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.w(tag, tr);
     }
 
     public static void w(String tag, String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         Log.w(tag, content);
     }
 
     public static void wtf(String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.wtf(tag, content);
     }
 
     public static void wtf(String content, Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.wtf(tag, content, tr);
     }
 
     public static void wtf(String tag, String content) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         Log.wtf(tag, content);
     }
 
     public static void wtf(Throwable tr) {
-        if (!Config.showDebug) return;
+        if (!Config.DEBUG) return;
         String tag = generateTag();
 
         Log.wtf(tag, tr);

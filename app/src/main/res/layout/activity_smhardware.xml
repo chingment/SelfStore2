@@ -68,13 +68,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_10"
-                        android:text="打开货柜摄像头"/>
+                        android:text="打开机柜摄像头"/>
                     <Button
                         android:id="@+id/cameraOpenByChuHuoKou"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_10"
-                        android:text="打开货柜摄像头"/>
+                        android:text="打开出货口摄像头"/>
                     <Button
                         android:id="@+id/cameraClose"
                         android:layout_width="wrap_content"
@@ -93,6 +93,13 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_10"
                         android:text="录像"/>
+                    <Button
+                        android:visibility="gone"
+                        android:id="@+id/cameraTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_10"
+                        android:text="测试"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -1391,10 +1391,10 @@ public class AbFileUtil {
 				value = true;
 			}
 		} catch (MalformedURLException e) {
-			if (Config.showDebug)
+			if (Config.DEBUG)
 				e.printStackTrace();
 		} catch (IOException e) {
-			if (Config.showDebug)
+			if (Config.DEBUG)
 				e.printStackTrace();
 		}
 		return value;

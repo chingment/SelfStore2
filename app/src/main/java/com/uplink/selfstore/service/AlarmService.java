@@ -40,7 +40,9 @@ public class AlarmService  extends Service {
             @Override
             public void run() {
                 String picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
-                AlarmService.delete(picDir,7);
+                AlarmService.delete(picDir,0);
+                String moveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/SelfStore";
+                AlarmService.delete(moveDir,0);
             }
         }).start();
 

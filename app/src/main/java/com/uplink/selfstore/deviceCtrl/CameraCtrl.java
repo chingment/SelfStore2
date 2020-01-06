@@ -64,19 +64,14 @@ public class CameraCtrl {
     }
 
     private UsbDevice getUsbDevice(int productId, int vendorId){
-        List<UsbDevice> deviceMap = mUSBMonitor.getDeviceList();
-        if (deviceMap != null) {
-            for (UsbDevice usbDevice : deviceMap) {
-                if (isUsbCamera(usbDevice)) {
-                    if(productId==0) {
-                        return usbDevice;
-                    }
-                    else if(vendorId==0){
-                        return usbDevice;
-                    }
-                    else if(usbDevice.getVendorId()==vendorId&&usbDevice.getProductId()==productId)
-                    {
-                        return usbDevice;
+        if(mUSBMonitor!=null) {
+            List<UsbDevice> deviceMap = mUSBMonitor.getDeviceList();
+            if (deviceMap != null) {
+                for (UsbDevice usbDevice : deviceMap) {
+                    if (isUsbCamera(usbDevice)) {
+                        if (usbDevice.getVendorId() == vendorId && usbDevice.getProductId() == productId) {
+                            return usbDevice;
+                        }
                     }
                 }
             }
@@ -91,7 +86,9 @@ public class CameraCtrl {
 
     public void openCameraByChuHuoKou() {
 
-        mCameraByChuHuoKou = getUsbDevice(42694, 1137);
+       // 293, 11388; 321,6257
+       // 42694, 1137
+        mCameraByChuHuoKou = getUsbDevice(321,6257);
         if (mCameraByChuHuoKou != null) {
 
             mUSBMonitor.requestPermission(mCameraByChuHuoKou);
@@ -205,7 +202,7 @@ public class CameraCtrl {
                 if(mCameraHandler!=null&&ctrlBlock!=null) {
                     if (!mCameraHandler.isOpened()) {
                         mCameraHandler.open(ctrlBlock);
-                        mOnConnectLister.onConnect(mCameraHandler);
+                        mOnConnectLister.onConnect();
                     }
                 }
             }
@@ -248,7 +245,7 @@ public class CameraCtrl {
     }
 
     public  interface OnConnectLister{
-        void onConnect(UVCCameraHandler mCameraHandler);
+        void onConnect();
     }
 
     private void setCameraParameter(UVCCamera camera) {

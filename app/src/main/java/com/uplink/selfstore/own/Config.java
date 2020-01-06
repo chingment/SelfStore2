@@ -8,7 +8,7 @@ import com.uplink.selfstore.utils.StringUtil;
 
 
 public class Config {
-    public static final boolean showDebug = BuildConfig.SHOWDEBUG;
+    public static final boolean DEBUG = BuildConfig.DEBUG;
 
     public static String getSign(String key, String secret, String data, String currenttime) {
         // 待加密
