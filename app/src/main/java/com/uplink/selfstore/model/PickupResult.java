@@ -10,6 +10,7 @@ public class PickupResult implements Serializable {
     private String currentActionStatusName;
     private boolean isPickupComplete;
     private long pickupUseTime;
+    private String imgId;
 
     public int getActionCount() {
         return actionCount;
@@ -107,5 +108,13 @@ public class PickupResult implements Serializable {
 
     public void setPickupUseTime(long pickupUseTime) {
         this.pickupUseTime = pickupUseTime;
+    }
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(String imgId) {
+        this.imgId = imgId;
     }
 }

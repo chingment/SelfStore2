@@ -307,38 +307,43 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 
 	@Override
 	public void handleMessage(final Message msg) {
-		final CameraThread thread = mWeakThread.get();
-		if (thread == null) return;
-		switch (msg.what) {
-		case MSG_OPEN:
-			thread.handleOpen((USBMonitor.UsbControlBlock)msg.obj);
-			break;
-		case MSG_CLOSE:
-			thread.handleClose();
-			break;
-		case MSG_PREVIEW_START:
-			thread.handleStartPreview(msg.obj);
-			break;
-		case MSG_PREVIEW_STOP:
-			thread.handleStopPreview();
-			break;
-		case MSG_CAPTURE_STILL:
-			thread.handleCaptureStill();
-			break;
-		case MSG_CAPTURE_START:
-			thread.handleStartRecording();
-			break;
-		case MSG_CAPTURE_STOP:
-			thread.handleStopRecording();
-			break;
-		case MSG_MEDIA_UPDATE:
-			thread.handleUpdateMedia((String)msg.obj);
-			break;
-		case MSG_RELEASE:
-			thread.handleRelease();
-			break;
-		default:
-			throw new RuntimeException("unsupported message:what=" + msg.what);
+		try {
+			final CameraThread thread = mWeakThread.get();
+			if (thread == null) return;
+			switch (msg.what) {
+				case MSG_OPEN:
+					thread.handleOpen((USBMonitor.UsbControlBlock) msg.obj);
+					break;
+				case MSG_CLOSE:
+					thread.handleClose();
+					break;
+				case MSG_PREVIEW_START:
+					thread.handleStartPreview(msg.obj);
+					break;
+				case MSG_PREVIEW_STOP:
+					thread.handleStopPreview();
+					break;
+				case MSG_CAPTURE_STILL:
+					thread.handleCaptureStill();
+					break;
+				case MSG_CAPTURE_START:
+					thread.handleStartRecording();
+					break;
+				case MSG_CAPTURE_STOP:
+					thread.handleStopRecording();
+					break;
+				case MSG_MEDIA_UPDATE:
+					thread.handleUpdateMedia((String) msg.obj);
+					break;
+				case MSG_RELEASE:
+					thread.handleRelease();
+					break;
+				default:
+					throw new RuntimeException("unsupported message:what=" + msg.what);
+			}
+		}
+		catch (Exception ex){
+			ex.printStackTrace();
 		}
 	}
 
@@ -783,38 +788,43 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 
 		@Override
 		public void run() {
-			Looper.prepare();
-			AbstractUVCCameraHandler handler = null;
 			try {
-				final Constructor<? extends AbstractUVCCameraHandler> constructor = mHandlerClass.getDeclaredConstructor(CameraThread.class);
-				handler = constructor.newInstance(this);
-			} catch (final NoSuchMethodException e) {
-				Log.w(TAG, e);
-			} catch (final IllegalAccessException e) {
-				Log.w(TAG, e);
-			} catch (final InstantiationException e) {
-				Log.w(TAG, e);
-			} catch (final InvocationTargetException e) {
-				Log.w(TAG, e);
-			}
-			if (handler != null) {
+				Looper.prepare();
+				AbstractUVCCameraHandler handler = null;
+				try {
+					final Constructor<? extends AbstractUVCCameraHandler> constructor = mHandlerClass.getDeclaredConstructor(CameraThread.class);
+					handler = constructor.newInstance(this);
+				} catch (final NoSuchMethodException e) {
+					Log.w(TAG, e);
+				} catch (final IllegalAccessException e) {
+					Log.w(TAG, e);
+				} catch (final InstantiationException e) {
+					Log.w(TAG, e);
+				} catch (final InvocationTargetException e) {
+					Log.w(TAG, e);
+				}
+				if (handler != null) {
+					synchronized (mSync) {
+						mHandler = handler;
+						mSync.notifyAll();
+					}
+					Looper.loop();
+					if (mSoundPool != null) {
+						mSoundPool.release();
+						mSoundPool = null;
+					}
+					if (mHandler != null) {
+						mHandler.mReleased = true;
+					}
+				}
+				mCallbacks.clear();
 				synchronized (mSync) {
-					mHandler = handler;
+					mHandler = null;
 					mSync.notifyAll();
 				}
-				Looper.loop();
-				if (mSoundPool != null) {
-					mSoundPool.release();
-					mSoundPool = null;
-				}
-				if (mHandler != null) {
-					mHandler.mReleased = true;
-				}
 			}
-			mCallbacks.clear();
-			synchronized (mSync) {
-				mHandler = null;
-				mSync.notifyAll();
+			catch (Exception e) {
+				Log.w(TAG, e);
 			}
 		}
 

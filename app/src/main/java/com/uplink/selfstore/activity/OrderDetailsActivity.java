@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.serenegiant.usbcameracommon.UVCCameraHandler;
+import com.serenegiant.widget.CameraViewInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
+import com.uplink.selfstore.deviceCtrl.CameraCtrl;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.PickupResult;
@@ -41,6 +44,7 @@ import com.uplink.selfstore.utils.StringUtil;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class OrderDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "OrderDetailsActivity";
@@ -57,7 +61,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private PickupSkuBean currentPickupSku=null;
     private int[] cabinetPendantRows=null;
     private MachineCtrl machineCtrl=null;
-
+    private CameraCtrl cameraCtrl=null;
+    private CameraViewInterface mCameraView;
+    private UVCCameraHandler mCameraHandler;
+    private int mCameraFrameWidth = 640;
+    private int mCameraFrameheight = 480;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +73,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.activity_orderdetails_navtitle));
 
         machineCtrl=MachineCtrl.getInstance();
+        cameraCtrl=new CameraCtrl(OrderDetailsActivity.this,mCameraHandler);
+
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
         MachineBean machine = AppCacheManager.getMachine();
@@ -102,15 +112,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 3://取货中
                                 if (pickupResult != null) {
                                     curpickupsku_tip2.setText("正在取货中..请稍等");
+                                    pickupResult.setImgId(UUID.randomUUID().toString());
                                     pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
 
                                     //拍照
                                     if(pickupResult.getCurrentActionId()==7){
-                                        Intent cameraSnapService = new Intent();
-                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
-                                        cameraSnapService.putExtra("cameraId", 0);
-                                        cameraSnapService.putExtra("uniqueId", currentPickupSku.getUniqueId());
-                                        sendBroadcast(cameraSnapService);
+                                        //Intent cameraSnapService = new Intent();
+                                        //cameraSnapService.setAction("android.intent.action.cameraSnapService");
+                                        //cameraSnapService.putExtra("cameraId", 0);
+                                        //cameraSnapService.putExtra("uniqueId", currentPickupSku.getUniqueId());
+                                        //sendBroadcast(cameraSnapService);
                                     }
                                 }
                                 break;
@@ -124,7 +135,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 5://取货超时
                                 LogUtil.e("取货失败,取货动作超时");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,message,pickupResult);
+                                if(pickupResult!=null) {
+
+                                    pickupResult.setImgId(UUID.randomUUID().toString());
+
+                                    pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
+                                }
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中.");
@@ -256,6 +272,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_img_main = (ImageView) findViewById(R.id.curpickupsku_img_main);
         curpickupsku_tip1 = (TextView) findViewById(R.id.curpickupsku_tip1);
         curpickupsku_tip2 = (TextView) findViewById(R.id.curpickupsku_tip2);
+
+        mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
+        mCameraView.setAspectRatio(mCameraFrameWidth / mCameraFrameheight);
+
+        mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, mCameraFrameWidth , mCameraFrameheight, 0.3f);
+
     }
 
     private void initEvent() {
