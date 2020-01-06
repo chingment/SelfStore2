@@ -122,22 +122,22 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     }
                                 }
                                 break;
-                            case 5://取货失败
-                                LogUtil.e("取货失败");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,"取货失败",pickupResult);
+                            case 5://取货超时
+                                LogUtil.e("取货失败,取货动作超时");
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,message,pickupResult);
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
-                                    dialog_SystemWarn.setWarnTile("系统维护中");
+                                    dialog_SystemWarn.setWarnTile("系统维护中.");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
                                     dialog_SystemWarn.show();
                                 }
                                 break;
-                            case 6://取货超时
-                                LogUtil.e("取货超时");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,"取货超时",pickupResult);
+                            case 6://取货失败
+                                LogUtil.e("取货失败,程序异常");
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,"程序异常",pickupResult);
                                 showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
-                                    dialog_SystemWarn.setWarnTile("系统维护中");
+                                    dialog_SystemWarn.setWarnTile("系统维护中..");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
                                     dialog_SystemWarn.show();
                                 }
