@@ -101,9 +101,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -153,56 +151,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/ProductKindActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="119" selection-start-line="119" selection-end-line="119" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
-              <caret line="509" column="41" selection-start-line="509" selection-start-column="41" selection-end-line="509" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmMachineStockActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1144">
-              <caret line="77" column="46" selection-start-line="77" selection-start-column="46" selection-end-line="77" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1111">
-              <caret line="157" column="39" selection-start-line="157" selection-start-column="39" selection-end-line="157" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="74">
-              <caret line="130" column="87" lean-forward="true" selection-start-line="130" selection-start-column="87" selection-end-line="130" selection-end-column="87" />
+            <state relative-caret-position="160">
+              <caret line="343" lean-forward="true" selection-start-line="343" selection-end-line="343" />
             </state>
           </provider>
         </entry>
@@ -392,13 +345,6 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -669,9 +615,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="32" y="23" width="1280" height="711" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.851735" visible="true" weight="0.22617124" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.851735" visible="true" weight="0.22617124" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24959612" />
       <window_info id="Captures" order="2" sideWeight="0.14826499" side_tool="true" weight="0.25121164" />
       <window_info id="Build Variants" order="3" sideWeight="0.19452055" side_tool="true" weight="0.2552504" />
@@ -690,7 +635,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38045233" side_tool="true" weight="0.4161074" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.48142165" weight="0.40604028" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.34814218" visible="true" weight="0.2533557" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.34814218" visible="true" weight="0.2533557" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
       <window_info anchor="bottom" id="Build" order="13" sideWeight="0.61954767" weight="0.36744967" />
@@ -1388,8 +1333,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/MachineCtrl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="509" column="41" selection-start-line="509" selection-start-column="41" selection-end-line="509" selection-end-column="41" />
+        <state relative-caret-position="160">
+          <caret line="343" lean-forward="true" selection-start-line="343" selection-end-line="343" />
         </state>
       </provider>
     </entry>
