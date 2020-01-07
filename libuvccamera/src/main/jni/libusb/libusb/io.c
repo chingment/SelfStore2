@@ -2191,6 +2191,7 @@ retry:
 		if (completed == NULL || !*completed) {
 			/* we obtained the event lock: do our own event handling */
 			usbi_dbg("doing our own event handling");
+
 			r = handle_events(ctx, &poll_timeout);
 		}
 		libusb_unlock_events(ctx);

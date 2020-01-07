@@ -56,8 +56,14 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private CameraCtrl cameraCtrl;
 
+  //  private int mCameraFrameWidth = 320;
+  //  private int mCameraFrameheight = 240;
+
     private int mCameraFrameWidth = 640;
     private int mCameraFrameheight = 480;
+
+   // private int mCameraFrameWidth=1280;
+   // private int mCameraFrameheight = 720;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +187,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 cameraCtrl.openCameraByChuHuoKou();
 
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -200,7 +206,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -210,39 +216,39 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                cameraCtrl.openCameraByJiGui();
-
-
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-                    @Override
-                    public void onResult(final byte[] data) {
-                        //Bitmap bitmap=  mCameraView.captureStillImage();
-                        if(data!=null) {
-                            showToast("拍照成功");
-                            String  uniqueID = UUID.randomUUID().toString();
-                            saveCaptureStill(data,"SelfStore",uniqueID);
-                        }
-                    }
-                });
-
-                cameraCtrl.close();
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                cameraCtrl.openCameraByJiGui();
+//
+//
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
+//                    @Override
+//                    public void onResult(final byte[] data) {
+//                        //Bitmap bitmap=  mCameraView.captureStillImage();
+//                        if(data!=null) {
+//                            showToast("拍照成功");
+//                            String  uniqueID = UUID.randomUUID().toString();
+//                            saveCaptureStill(data,"SelfStore",uniqueID);
+//                        }
+//                    }
+//                });
+//
+//                cameraCtrl.close();
+//
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
                 i++;
 

@@ -418,6 +418,7 @@ public class FingerVeinCtrl {
         IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 
         if (mUsbPermissionActionReceiver != null) {
+           // mContext.unregisterReceiver(mUsbPermissionActionReceiver);
             mContext.registerReceiver(mUsbPermissionActionReceiver, filter);
         }
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
@@ -436,11 +437,8 @@ public class FingerVeinCtrl {
             LogUtil.e(TAG, "USB静脉指设备->未找到");
         } else {
             LogUtil.e(TAG, "USB静脉指设备->已找到");
-
             if (mUsbManager.hasPermission(devicebyFingerVein)) {
-                //isHasPremission = true;
                 LogUtil.e(TAG, "USB静脉指设备->已获取过权限");
-
                 UsbDeviceConnection connection = mUsbManager.openDevice(devicebyFingerVein);
                 if (connection != null) {
                     fileDescriptor = connection.getFileDescriptor();
@@ -448,26 +446,10 @@ public class FingerVeinCtrl {
                 } else {
                     LogUtil.e(TAG, "USB静脉指设备->打开失败");
                 }
-
             } else {
                 LogUtil.e(TAG, "USB静脉指设备->请求获取权限");
                 mUsbManager.requestPermission(devicebyFingerVein, mPermissionIntent);
             }
-
-//            if (isHasPremission) {
-//                LogUtil.e(TAG, "USB静脉指设备->授权成功");
-//            } else {
-//                LogUtil.e(TAG, "USB静脉指设备->授权失败");
-//            }
-//
-//            // 打开USB，获取FileDescriptor
-//            UsbDeviceConnection connection = mUsbManager.openDevice(devicebyFingerVein);
-//            if (connection != null) {
-//                fileDescriptor = connection.getFileDescriptor();
-//                LogUtil.e(TAG, "USB静脉指设备->打开成功");
-//            } else {
-//                LogUtil.e(TAG, "USB静脉指设备->打开失败");
-//            }
         }
 
         return fileDescriptor;

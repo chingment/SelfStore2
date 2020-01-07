@@ -305,6 +305,21 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 		throw new IllegalStateException();
 	}
 
+	public void setPreviewSize(final int width,final int height,final int min_fps,final int max_fps, final int frameFormat, final float bandwidthFactor) {
+		checkReleased();
+		final CameraThread thread = mWeakThread.get();
+		final UVCCamera camera = thread != null ? thread.mUVCCamera : null;
+		if (camera != null) {
+
+			camera.setPreviewSize(width,
+					height,
+					min_fps,
+					max_fps,
+					frameFormat,
+					bandwidthFactor);
+		}
+	}
+
 	@Override
 	public void handleMessage(final Message msg) {
 		try {
@@ -462,6 +477,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 			try {
 				final UVCCamera camera = new UVCCamera();
 				camera.open(ctrlBlock);
+
 				synchronized (mSync) {
 					mUVCCamera = camera;
 				}

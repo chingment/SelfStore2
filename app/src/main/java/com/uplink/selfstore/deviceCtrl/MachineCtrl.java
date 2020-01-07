@@ -22,10 +22,10 @@ public class MachineCtrl {
     public static final int S_Motor_Idle = 0;
     public static final int S_Motor_Busy = 1;
     public static final int S_Motor_Done = 2;
+    public static final int S_Motor_Timeout = 3;
     public static final int S_RC_SUCCESS = 0;
     public static final int S_RC_INVALID_PARAM = 1;
     public static final int S_RC_ERROR = 2;
-    public static final int S_RC_TIMEOUT = 3;
     public static final int S_ACTION_GOZERO = 1;
     private boolean isConnect = false;
     private boolean cmd_ScanSlotIsStopListener = true;
@@ -502,15 +502,18 @@ public class MachineCtrl {
                                 if (!nPickupActionMap.containsKey(action_key)) {
                                     LogUtil.i(TAG, "取货流程监听：当前动作" + result.getCurrentActionName() + "（" + result.getCurrentActionId() + "）" + "," + result.getCurrentActionStatusName() + "（" + result.getCurrentActionStatusCode() + "）");
                                     nPickupActionMap.put(action_key, action_value);
-                                    sendPickupHandlerMessage(3, "正在取货中", result);
+                                    if(rc_flowStatus[3] == S_Motor_Done){
+                                        sendPickupHandlerMessage(3, "正在取货中", result);
+                                    }
+                                    else if(rc_flowStatus[3] == S_Motor_Timeout) {
+                                        goGoZero();
+                                        disConnect();
+                                        LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
+                                        cmd_PickupIsStopListener = true;
+                                        sendPickupHandlerMessage(5, "单动作运行取货超时", result);
+                                    }
                                 }
                             }
-                        } else  if (rc_flowStatus[0] == S_RC_TIMEOUT) {
-                            goGoZero();
-                            disConnect();
-                            LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
-                            cmd_PickupIsStopListener = true;
-                            sendPickupHandlerMessage(5, "单动作运行取货超时", result);
                         }
 
                     } else {

@@ -88,7 +88,7 @@ public class CameraCtrl {
 
        // 321,6257
        // 42694, 1137
-        mCameraByChuHuoKou = getUsbDevice(42694, 1137);
+        mCameraByChuHuoKou = getUsbDevice(321,6257);
         if (mCameraByChuHuoKou != null) {
 
             mUSBMonitor.requestPermission(mCameraByChuHuoKou);
@@ -201,6 +201,7 @@ public class CameraCtrl {
             if (getCameraByChuHuoKou() != null || getCameraByJiGui() != null) {
                 if(mCameraHandler!=null&&ctrlBlock!=null) {
                     if (!mCameraHandler.isOpened()) {
+
                         mCameraHandler.open(ctrlBlock);
                         mOnConnectLister.onConnect();
                     }

@@ -85,8 +85,10 @@ YUV stream from a UVC device such as a standard webcam.
 void *_uvc_handle_events(void *arg) {
   uvc_context_t *ctx = (uvc_context_t *) arg;
 
-  while (!ctx->kill_handler_thread)
+  while (!ctx->kill_handler_thread){
     libusb_handle_events(ctx->usb_ctx);
+     usleep(1000);
+  }
   return NULL;
 }
 

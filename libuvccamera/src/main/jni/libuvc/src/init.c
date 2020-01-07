@@ -93,6 +93,7 @@ YUV stream from a UVC device such as a standard webcam.
  * @todo We shouldn't run this if we don't own the USB context
  */
 void *_uvc_handle_events(void *arg) {
+
 	uvc_context_t *ctx = (uvc_context_t *) arg;
 
 #if defined(__ANDROID__)
