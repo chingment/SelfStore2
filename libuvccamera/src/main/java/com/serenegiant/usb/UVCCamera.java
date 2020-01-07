@@ -406,6 +406,7 @@ public class UVCCamera {
      * @param pixelFormat
      */
     public void setFrameCallback(final IFrameCallback callback, final int pixelFormat) {
+		if (DEBUG) Log.v(TAG, "my->stopPreviewB:");
     	if (mNativePtr != 0) {
         	nativeSetFrameCallback(mNativePtr, callback, pixelFormat);
     	}
@@ -416,6 +417,7 @@ public class UVCCamera {
      */
     public synchronized void startPreview() {
     	if (mCtrlBlock != null) {
+			if (DEBUG) Log.v(TAG, "my->startPreview.mNativePtr:"+mNativePtr);
     		nativeStartPreview(mNativePtr);
     	}
     }
@@ -424,8 +426,10 @@ public class UVCCamera {
      * stop preview
      */
     public synchronized void stopPreview() {
+		if (DEBUG) Log.v(TAG, "stopPreviewA:");
     	setFrameCallback(null, 0);
     	if (mCtrlBlock != null) {
+			if (DEBUG) Log.v(TAG, "stopPreviewC:"+mNativePtr);
 				nativeStopPreview(mNativePtr);
     	}
     }

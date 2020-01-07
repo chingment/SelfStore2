@@ -53,6 +53,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private Button mCameraRecord;
     private Button mCameraTest;
 
+    private  SurfaceTexture st;
 
     private CameraCtrl cameraCtrl;
 
@@ -107,7 +108,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     showToast("mCameraHandler 为空");
                 } else {
                     if(mCameraView!=null) {
-                        final SurfaceTexture st = mCameraView.getSurfaceTexture();
+                        st = mCameraView.getSurfaceTexture();
                         if (st == null) {
                             showToast("st 为空");
                         } else {
@@ -203,52 +204,52 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         }
                     }
                 });
-
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//
+//
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
 
                 cameraCtrl.close();
 
 
                 try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                cameraCtrl.openCameraByJiGui();
+
+
+                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-//                cameraCtrl.openCameraByJiGui();
-//
-//
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-//                    @Override
-//                    public void onResult(final byte[] data) {
-//                        //Bitmap bitmap=  mCameraView.captureStillImage();
-//                        if(data!=null) {
-//                            showToast("拍照成功");
-//                            String  uniqueID = UUID.randomUUID().toString();
-//                            saveCaptureStill(data,"SelfStore",uniqueID);
-//                        }
-//                    }
-//                });
-//
-//                cameraCtrl.close();
-//
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
+                    @Override
+                    public void onResult(final byte[] data) {
+                        //Bitmap bitmap=  mCameraView.captureStillImage();
+                        if(data!=null) {
+                            showToast("拍照成功");
+                            String  uniqueID = UUID.randomUUID().toString();
+                            saveCaptureStill(data,"SelfStore",uniqueID);
+                        }
+                    }
+                });
+
+                cameraCtrl.close();
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 i++;
 
@@ -277,6 +278,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         if(mCameraView!=null) {
             //mCameraView.onPause();
             mCameraView=null;
+        }
+
+        if(st!=null){
+            st=null;
         }
         super.onDestroy();
     }

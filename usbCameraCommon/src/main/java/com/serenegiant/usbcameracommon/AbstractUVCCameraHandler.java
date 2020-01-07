@@ -527,11 +527,15 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 
 			mUVCCamera.setFrameCallback(mIFrameCallback, UVCCamera.PIXEL_FORMAT_NV21);
 
+			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview1:");
 			mUVCCamera.startPreview();
+			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview2:");
 			mUVCCamera.updateCameraParams();
+			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview3:");
 			synchronized (mSync) {
 				mIsPreviewing = true;
 			}
+			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview4:");
 			callOnStartPreview();
 		}
 
