@@ -77,6 +77,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
 
         mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
+
         mCameraView.setAspectRatio(mCameraFrameWidth / mCameraFrameheight);
 
         mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, mCameraFrameWidth , mCameraFrameheight, 0.3f);
@@ -119,6 +120,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 }
             }
         } );
+
         //cameraCtrl.setCameraByJiGui(37424,1443);
         //cameraCtrl.setCameraByChuHuoKou(42694,1137);
     }

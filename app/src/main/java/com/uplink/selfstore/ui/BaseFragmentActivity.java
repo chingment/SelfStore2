@@ -113,24 +113,24 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         AppManager.getAppManager().addActivity(this);
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())) {
-
-            Activity activity= AppManager.getAppManager().currentActivity();
-
-            if(activity instanceof InitDataActivity){
-                if (AppCacheManager.getGlobalDataSet() != null) {
-                    Intent intent = new Intent(getAppContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-            else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
+//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())) {
+//
+//            Activity activity= AppManager.getAppManager().currentActivity();
+//
+//            if(activity instanceof InitDataActivity){
+//                if (AppCacheManager.getGlobalDataSet() != null) {
+//                    Intent intent = new Intent(getAppContext(), MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//            else {
+//                showToast("检查异常，设备重新运行");
+//                Intent intent = new Intent(appContext, InitDataActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }
 
         if (mWorkerHandler == null) {
             mWorkerHandler = HandlerThreadHandler.createHandler(TAG);

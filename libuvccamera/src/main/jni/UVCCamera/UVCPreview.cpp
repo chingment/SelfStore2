@@ -875,7 +875,9 @@ void UVCPreview::do_capture_callback(JNIEnv *env, uvc_frame_t *frame) {
 				}
 			}
 			jobject buf = env->NewDirectByteBuffer(callback_frame->data, callbackPixelBytes);
+			 if(iframecallback_fields.onFrame != NULL && buf != NULL){
 			env->CallVoidMethod(mFrameCallbackObj, iframecallback_fields.onFrame, buf);
+			}
 			env->ExceptionClear();
 			env->DeleteLocalRef(buf);
 		}

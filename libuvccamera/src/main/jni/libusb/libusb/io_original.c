@@ -2211,6 +2211,7 @@ int API_EXPORTED libusb_handle_events(libusb_context *ctx)
 	tv.tv_sec = 60;
 	tv.tv_usec = 0;
 	return libusb_handle_events_timeout_completed(ctx, &tv, NULL);
+	//return libusb_handle_events_timeout_completed(NULL, &tv, NULL);
 }
 
 /** \ingroup poll

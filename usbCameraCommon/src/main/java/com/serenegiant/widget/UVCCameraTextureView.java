@@ -424,7 +424,9 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 			public final void setEncoder(final MediaEncoder encoder) {
 				if (DEBUG) Log.v(TAG, "RenderThread#setEncoder:encoder=" + encoder);
 				if (encoder != null && (encoder instanceof MediaVideoEncoder)) {
-					((MediaVideoEncoder)encoder).setEglContext(mEglSurface.getContext(), mTexId);
+					if(mEglSurface!=null) {
+						((MediaVideoEncoder) encoder).setEglContext(mEglSurface.getContext(), mTexId);
+					}
 				}
 				mEncoder = encoder;
 			}
@@ -562,6 +564,11 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 				if (DEBUG) Log.v(TAG, "RenderThread#init:");
 				// create EGLContext for this thread
 				mEgl = EGLBase.createFrom(null, false, false);
+
+
+				//mSurface.setDefaultBufferSize(640,320);
+				//mSurface.setDefaultBufferSize(640,320);
+				//mSurface.setDefaultBufferSize(640,320);
 				mEglSurface = mEgl.createFromSurface(mSurface);
 				mEglSurface.makeCurrent();
 				// create drawing object
