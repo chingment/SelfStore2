@@ -407,7 +407,7 @@ public class UVCCamera {
      */
     public void setFrameCallback(final IFrameCallback callback, final int pixelFormat) {
 		if (DEBUG) Log.v(TAG, "my->stopPreviewB:");
-    	if (mNativePtr != 0) {
+    	if (mNativePtr != 0&&callback!=null) {
         	nativeSetFrameCallback(mNativePtr, callback, pixelFormat);
     	}
     }
@@ -417,7 +417,6 @@ public class UVCCamera {
      */
     public synchronized void startPreview() {
     	if (mCtrlBlock != null) {
-			if (DEBUG) Log.v(TAG, "my->startPreview.mNativePtr:"+mNativePtr);
     		nativeStartPreview(mNativePtr);
     	}
     }
@@ -1065,9 +1064,15 @@ public class UVCCamera {
      * stop movie capturing
      */
     public void stopCapture() {
-    	if (mCtrlBlock != null) {
-    		nativeSetCaptureDisplay(mNativePtr, null);
-    	}
+    	try {
+			if (mCtrlBlock != null) {
+				Log.e(TAG,"mNativePtr:"+mNativePtr);
+				nativeSetCaptureDisplay(mNativePtr, null);
+			}
+		}
+    	catch (Exception ex){
+    		ex.printStackTrace();
+		}
     }
     private static final native int nativeSetCaptureDisplay(final long id_camera, final Surface surface);
 

@@ -187,25 +187,32 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //                }
 //
 
-                cameraCtrl.openCameraByChuHuoKou();
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-                    @Override
-                    public void onResult(final byte[] data) {
-                        //Bitmap bitmap=  mCameraView.captureStillImage();
-                        if(data!=null) {
-                            showToast("拍照成功");
-                            String  uniqueID = UUID.randomUUID().toString();
-                            saveCaptureStill(data,"SelfStore",uniqueID);
-                        }
-                    }
-                });
+//                cameraCtrl.openCameraByChuHuoKou();
+//                Log.e(TAG,"出货口->开启摄像头");
+//
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                Log.e(TAG,"出货口->摄像头成功");
+//
+//                Log.e(TAG,"出货口->开启拍照");
+//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
+//                    @Override
+//                    public void onResult(final byte[] data) {
+//                        //Bitmap bitmap=  mCameraView.captureStillImage();
+//                        if(data!=null) {
+//                            showToast("出货口->拍照成功");
+//                            String  uniqueID = UUID.randomUUID().toString();
+//                            saveCaptureStill(data,"SelfStore",i+"-"+uniqueID);
+//                        }
+//                    }
+//                });
+//                Log.e(TAG,"出货口->拍照结束");
+             //   mCameraHandler.isCaptureStill
 //
 //
 //                try {
@@ -214,15 +221,41 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //                    e.printStackTrace();
 //                }
 
+//                Log.e(TAG,"出货口->开始关闭");
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                cameraCtrl.close();
+//
+//                Log.e(TAG,"出货口->关闭结束");
+//
+//                if(mCameraHandler.isPreviewing()){
+//                    Log.e(TAG,"拍照-》正在拍照，延迟关闭");
+//                    try {
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    cameraCtrl.close();
+//                }
+//                else {
+//                    Log.e(TAG,"拍照-》结束关闭");
+//                    cameraCtrl.close();
+//                }
 
-                cameraCtrl.close();
 
-
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                Log.e(TAG,"机柜->开启摄像头");
 
                 cameraCtrl.openCameraByJiGui();
 
@@ -233,22 +266,42 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     e.printStackTrace();
                 }
 
-                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-                    @Override
-                    public void onResult(final byte[] data) {
-                        //Bitmap bitmap=  mCameraView.captureStillImage();
-                        if(data!=null) {
-                            showToast("拍照成功");
-                            String  uniqueID = UUID.randomUUID().toString();
-                            saveCaptureStill(data,"SelfStore",uniqueID);
-                        }
-                    }
-                });
+                cameraCtrl.startRecord();
+
+                Log.e(TAG,"机柜->开始录制");
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                cameraCtrl.stopRecord();
+
+                Log.e(TAG,"机柜->录制结束");
+
+//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
+//                    @Override
+//                    public void onResult(final byte[] data) {
+//                        //Bitmap bitmap=  mCameraView.captureStillImage();
+//                        if(data!=null) {
+//                            showToast("拍照成功");
+//                            String  uniqueID = UUID.randomUUID().toString();
+//                            saveCaptureStill(data,"SelfStore",uniqueID);
+//                        }
+//                    }
+//                });
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 cameraCtrl.close();
 
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

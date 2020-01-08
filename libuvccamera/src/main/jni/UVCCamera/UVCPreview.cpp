@@ -604,6 +604,7 @@ int copyToSurface(uvc_frame_t *frame, ANativeWindow **window) {
 	int result = 0;
 	if (LIKELY(*window)) {
 		ANativeWindow_Buffer buffer;
+
 		if (LIKELY(ANativeWindow_lock(*window, &buffer, NULL) == 0)) {
 			// source = frame data
 			const uint8_t *src = (uint8_t *)frame->data;
@@ -619,6 +620,10 @@ int copyToSurface(uvc_frame_t *frame, ANativeWindow **window) {
 			const int h = frame->height < buffer.height ? frame->height : buffer.height;
 			// transfer from frame data to the Surface
 			copyFrame(src, dest, w, h, src_step, dest_step);
+
+			//LOGE("could not find config descriptor:r=%d", r);
+			//LOGE("dddddd:window=%d,src=%d,dest_w=%d,w=%d,h=%d,src_step=%d,dest_step=%d",window,src,dest_w,w,h,src_step,dest_step);
+
 			ANativeWindow_unlockAndPost(*window);
 		} else {
 			result = -1;
@@ -769,7 +774,9 @@ void *UVCPreview::capture_thread_func(void *vptr_args) {
 		JNIEnv *env;
 		// attach to JavaVM
 		vm->AttachCurrentThread(&env, NULL);
+		if(NULL!=env){
 		preview->do_capture(env);	// never return until finish previewing
+		}
 		// detach from JavaVM
 		vm->DetachCurrentThread();
 		MARK("DetachCurrentThread");
@@ -790,7 +797,9 @@ void UVCPreview::do_capture(JNIEnv *env) {
 	for (; isRunning() ;) {
 		mIsCapturing = true;
 		if (mCaptureWindow) {
+		    if(NULL!=env){
 			do_capture_surface(env);
+			}
 		} else {
 			do_capture_idle_loop(env);
 		}

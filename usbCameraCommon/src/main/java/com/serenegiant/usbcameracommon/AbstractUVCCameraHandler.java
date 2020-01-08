@@ -78,7 +78,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 		public void onError(final Exception e);
 	}
 
-	protected static boolean isCaptureStill;
+	public static boolean mIsCaptureStill;
 	public static OnCaptureStillListener mCaptureStillListener;
 
 	public interface OnCaptureStillListener {
@@ -192,6 +192,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 					try {
 						thread.mSync.wait();
 					} catch (final InterruptedException e) {
+						e.printStackTrace();
 					}
 				}
 			}
@@ -212,7 +213,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 		AbstractUVCCameraHandler.mCaptureStillListener = listener;
 		checkReleased();
 		sendMessage(obtainMessage(MSG_CAPTURE_STILL));
-		isCaptureStill = true;
+		mIsCaptureStill = true;
 	}
 
 	public void startRecording() {
@@ -432,6 +433,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 				try {
 					mSync.wait();
 				} catch (final InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 			return mHandler;
@@ -610,6 +612,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 			try {
 				if ((mUVCCamera == null) || (mMuxer != null)) return;
 				final MediaMuxerWrapper muxer = new MediaMuxerWrapper(".mp4");	// if you record audio only, ".m4a" is also OK.
+
 				MediaVideoBufferEncoder videoEncoder = null;
 				switch (mEncoderType) {
 				case 1:	// for video capturing using MediaVideoEncoder
@@ -623,7 +626,6 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 					new MediaSurfaceEncoder(muxer, getWidth(), getHeight(), mMediaEncoderListener);
 					break;
 				}
-
 
 //				if (true) {
 //					// for audio capturing
@@ -652,26 +654,40 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 				muxer = mMuxer;
 				mMuxer = null;
 				mVideoEncoder = null;
+				//todo 要更改
 				if (mUVCCamera != null) {
+					try {
+						Thread.sleep(200);
+					}
+					catch (Exception e){
+
+					}
 					mUVCCamera.stopCapture();
 				}
 			}
 			try {
 				mWeakCameraView.get().setVideoEncoder(null);
-			} catch (final Exception e) {
+			} catch (final Exception ex) {
+				ex.printStackTrace();
 				// ignore
 			}
-			if (muxer != null) {
-				muxer.stopRecording();
-				mUVCCamera.setFrameCallback(null, 0);
-				// you should not wait here
-				callOnStopRecording();
+			try {
+				if (muxer != null) {
+					muxer.stopRecording();
+					mUVCCamera.setFrameCallback(null, 0);
+					// you should not wait here
+					callOnStopRecording();
+				}
+			}catch (Exception ex){
+				ex.printStackTrace();
 			}
 		}
 
 		private final IFrameCallback mIFrameCallback = new IFrameCallback() {
 			@Override
 			public void onFrame(final ByteBuffer frame) {
+
+
 				final MediaVideoBufferEncoder videoEncoder;
 				synchronized (mSync) {
 					videoEncoder = mVideoEncoder;
@@ -691,10 +707,10 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 				}
 
 				// 捕获图片
-				if (isCaptureStill) {
-					isCaptureStill = false;
+				if (mIsCaptureStill) {
+					mIsCaptureStill = false;
 					mCaptureStillListener.onResult(yuv);
-					isCaptureStill = false;
+					mIsCaptureStill = false;
 				}
 			}
 		};
