@@ -61,11 +61,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private PickupSkuBean currentPickupSku=null;
     private int[] cabinetPendantRows=null;
     private MachineCtrl machineCtrl=null;
-   // private CameraCtrl cameraCtrl=null;
-    private CameraViewInterface mCameraView;
-    private UVCCameraHandler mCameraHandler;
-    private int mCameraFrameWidth = 640;
-    private int mCameraFrameheight = 480;
+    //private CameraCtrl cameraCtrl=null;
+    //private CameraViewInterface mCameraView;
+    //private UVCCameraHandler mCameraHandler;
+    //private int mCameraFrameWidth = 640;
+    //private int mCameraFrameheight = 480;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -273,10 +273,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_tip1 = (TextView) findViewById(R.id.curpickupsku_tip1);
         curpickupsku_tip2 = (TextView) findViewById(R.id.curpickupsku_tip2);
 
-        mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
-        mCameraView.setAspectRatio(mCameraFrameWidth / mCameraFrameheight);
-
-        mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, mCameraFrameWidth , mCameraFrameheight, 0.3f);
+        //mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
+        //mCameraView.setAspectRatio(mCameraFrameWidth / mCameraFrameheight);
+        //mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, mCameraFrameWidth , mCameraFrameheight, 0.3f);
 
     }
 

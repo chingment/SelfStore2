@@ -80,7 +80,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        setHideStatusBar(false);
+        setHideStatusBar(true);
 
         initView();
         initEvent();

@@ -54,6 +54,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     private HashMap<String, SlotBean> cabinetSlots = null;
     private Button btn_ScanSlots;
+    private Button btn_RefreshStock;
     private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
     private Handler handler_UpdateUI;
@@ -166,6 +167,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
+        btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         customDialogRunning = new CustomDialogLoading(this);
 
 //        breathlight_machine=(MyBreathLight) findViewById(R.id.breathlight_machine);
@@ -187,6 +189,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     protected void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
+        btn_RefreshStock.setOnClickListener(this);
     }
 
     protected void initData() {
@@ -353,6 +356,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     }
 
                     machineCtrl.scanSlot();
+                    break;
+                case R.id.btn_RefreshStock:
+                    getCabinetSlots();
                     break;
                 default:
                     break;

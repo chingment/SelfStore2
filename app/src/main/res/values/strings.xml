@@ -89,6 +89,7 @@
     <string name="button_scanslot_text">扫描货道</string>
     <string name="button_onekeypickuptest_text">测试取货</string>
     <string name="button_recollotfingervein">重新采集</string>
+    <string name="btn_tx_refreshstock">刷新库存</string>
     <string name="aty_smuserinfo_navtitle">用户信息</string>
     <string name="aty_smuserinfo_tvtx_username">用户账号</string>
     <string name="aty_smuserinfo_tvtx_fullname">用户姓名</string>
