@@ -33,7 +33,7 @@ public class PayWayActivity extends SwipeBackActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payway);
 
-        setNavTtile(this.getResources().getString(R.string.activity_payway_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_payway_navtitle));
 
         orderReserveResult = (OrderReserveResultBean) getIntent().getSerializableExtra("dataBean");
 

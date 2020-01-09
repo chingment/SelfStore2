@@ -70,7 +70,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        setNavTtile(this.getResources().getString(R.string.activity_cart_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
         initView();
         initEvent();
         initData();
@@ -126,7 +126,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         });
 
 
-        dialog_ScanPay_ConfirmClose = new CustomConfirmDialog(CartActivity.this, getAppContext().getString(R.string.activity_cart_tips_payclose_confirm), true);
+        dialog_ScanPay_ConfirmClose = new CustomConfirmDialog(CartActivity.this, getAppContext().getString(R.string.aty_cart_confirmtips_payclose), true);
         dialog_ScanPay_ConfirmClose.getTipsImage().setVisibility(View.GONE);
 
         dialog_ScanPay_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
@@ -325,7 +325,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         MachineBean machine = AppCacheManager.getMachine();
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
-            showToast(getAppContext().getString(R.string.activity_cart_tips_cartisnull));
+            showToast(getAppContext().getString(R.string.aty_cart_tips_cartisnull));
             return;
         }
 

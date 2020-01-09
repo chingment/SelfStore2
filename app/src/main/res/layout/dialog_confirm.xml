@@ -81,7 +81,7 @@
                     android:layout_height="@dimen/size_20"
                     android:paddingLeft="@dimen/size_5"
                     android:paddingRight="@dimen/size_5"
-                    android:text="@string/dialog_confirm_btn_cancle_text"
+                    android:text="@string/dlg_confirm_btntx_cancle"
                     android:background="@drawable/dialog_btn_cancle"
                     android:textColor="#fff"
                     android:textSize="@dimen/size_8" />
@@ -104,7 +104,7 @@
                     android:layout_marginLeft="0dp"
                     android:paddingLeft="@dimen/size_5"
                     android:paddingRight="@dimen/size_5"
-                    android:text="@string/dialog_confirm_btn_sure_text"
+                    android:text="@string/dlg_confirm_btntx_sure"
                     android:background="@drawable/dialog_btn_sure"
                     android:textColor="@color/dialog_confirm_btn_sure"
                     android:textSize="@dimen/size_8"

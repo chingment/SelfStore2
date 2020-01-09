@@ -57,7 +57,7 @@
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@+id/ic_input_username"
                         android:background="@null"
-                        android:hint="@string/activity_smlogin_edittext_username_placeholder"
+                        android:hint="@string/aty_smlogin_etph_username"
                         android:maxLength="20"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -101,7 +101,7 @@
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@+id/ic_input_password"
                         android:background="@null"
-                        android:hint="@string/activity_smlogin_edittext_password_placeholder"
+                        android:hint="@string/aty_smlogin_etph_password"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
@@ -125,7 +125,7 @@
                 android:layout_marginTop="32dp"
                 android:background="@drawable/widget_common_btn"
                 android:gravity="center"
-                android:text="@string/activity_smlogin_button_login_text"
+                android:text="@string/aty_smlogin_btntx_login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/size_10"/>
 

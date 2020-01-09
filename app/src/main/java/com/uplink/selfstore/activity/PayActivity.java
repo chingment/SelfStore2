@@ -51,7 +51,7 @@ public class PayActivity extends SwipeBackActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
 
-        setNavTtile(this.getResources().getString(R.string.activity_pay_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_pay_navtitle));
         orderPayUrlBuildResult = (OrderPayUrlBuildResultBean) getIntent().getSerializableExtra("dataBean");
         initView();
         initEvent();

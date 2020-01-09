@@ -42,7 +42,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smhome);
 
-        setNavTtile(this.getResources().getString(R.string.activity_smhome_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_smhome_navtitle));
         initView();
         initEvent();
 
@@ -121,14 +121,14 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_hardware), NineGridItemType.Function, "fun.hardware", R.drawable.ic_sm_hardware));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.activity_smhome_ninegriditem_title_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_hardware), NineGridItemType.Function, "fun.hardware", R.drawable.ic_sm_hardware));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_door));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
 
 
         NineGridItemAdapter nineGridItemdapter = new NineGridItemAdapter(getAppContext(), gridviewitems);
@@ -173,19 +173,19 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                 case "fun.closeapp":
                                     confirmDialog.getTipsImage().setVisibility(View.GONE);
                                     confirmDialog.getBtnSure().setTag("fun.closeapp");
-                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_closeapp));
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
                                     confirmDialog.show();
                                     break;
                                 case "fun.rootsys":
                                     confirmDialog.getTipsImage().setVisibility(View.GONE);
                                     confirmDialog.getBtnSure().setTag("fun.rootsys");
-                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_rootsys));
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
                                     confirmDialog.show();
                                     break;
                                 case "fun.exitmanager":
                                     confirmDialog.getTipsImage().setVisibility(View.GONE);
                                     confirmDialog.getBtnSure().setTag("fun.exitmanager");
-                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.activity_smhome_confrimtips_exitmanager));
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
                                     confirmDialog.show();
                                     break;
                             }

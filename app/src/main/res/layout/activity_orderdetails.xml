@@ -40,7 +40,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/activity_orderdetaiks_textview_ordersn_text"
+                    android:text="@string/aty_orderdetaiks_tvtx_ordersn"
                     android:textColor="@color/field_name"
                     android:textSize="@dimen/size_14" />
 
@@ -182,7 +182,7 @@
                     android:layout_height="@dimen/size_36"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_round_primary"
-                    android:text="@string/activity_orderdetails_btn_pickupcompelte"
+                    android:text="@string/aty_orderdetails_btntx_pickupcompelte"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_12" />
             </LinearLayout>
@@ -201,7 +201,7 @@
                     android:layout_height="@dimen/size_36"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_round_primary"
-                    android:text="@string/activity_orderdetails_btn_contactkefu"
+                    android:text="@string/aty_orderdetails_btntx_contactkefu"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_12" />
             </LinearLayout>

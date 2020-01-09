@@ -47,7 +47,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smlogin);
 
-        setNavTtile(this.getResources().getString(R.string.activity_smlogin_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_smlogin_navtitle));
         setNavBackVisible(true);
         initView();
         initEvent();

@@ -138,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|right"
-                    android:text="@string/activity_productkind_textview_amountsum_text"
+                    android:text="@string/aty_productkind_tvtx_amountsum"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_14"
                     android:textStyle="bold" />
@@ -168,7 +168,7 @@
                     android:layout_height="@dimen/size_32"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_round_primary"
-                    android:text="@string/activity_productkind_button_gosettlement_text"
+                    android:text="@string/aty_productkind_btntx_gosettlement"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_12" />
             </LinearLayout>

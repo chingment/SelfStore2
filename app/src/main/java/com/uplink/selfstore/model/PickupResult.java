@@ -84,6 +84,9 @@ public class PickupResult implements Serializable {
             case 2:
                 this.currentActionStatusName="动作执行完成";
                 break;
+            case 3:
+                this.currentActionStatusName="动作超时异常";
+                break;
             default:
                 this.currentActionStatusName="未知状态";
                 break;

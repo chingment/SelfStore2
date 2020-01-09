@@ -70,7 +70,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderdetails);
-        setNavTtile(this.getResources().getString(R.string.activity_orderdetails_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
         machineCtrl=MachineCtrl.getInstance();
         //cameraCtrl=new CameraCtrl(OrderDetailsActivity.this,mCameraHandler);
@@ -112,11 +112,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 3://取货中
                                 if (pickupResult != null) {
                                     curpickupsku_tip2.setText("正在取货中..请稍等");
-                                    pickupResult.setImgId(UUID.randomUUID().toString());
                                     pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
 
                                     //拍照
                                     if(pickupResult.getCurrentActionId()==7){
+                                        pickupResult.setImgId(UUID.randomUUID().toString());
+
                                         Intent cameraSnapService = new Intent();
                                         cameraSnapService.setAction("android.intent.action.cameraSnapService");
                                         cameraSnapService.putExtra("cameraId", 0);
@@ -238,7 +239,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         list_skus.setPressed(false);
         list_skus.setEnabled(false);
 
-        dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.activity_orderdetails_tips_outpickup_confirm), true);
+        dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.aty_orderdetails_confirmtips_pickup), true);
         dialog_PickupCompelte.getTipsImage().setImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this, (R.drawable.dialog_icon_warn)));
         dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override

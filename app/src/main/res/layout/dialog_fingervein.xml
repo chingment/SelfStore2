@@ -127,7 +127,7 @@
                     android:layout_marginRight="12dp"
                     android:background="@drawable/widget_common_btn"
                     android:gravity="center"
-                    android:text="@string/button_recollotfingervein"
+                    android:text="@string/btntx_recollotfingervein"
                     android:textColor="@color/white"
                     android:textSize="@dimen/size_10"/>
 

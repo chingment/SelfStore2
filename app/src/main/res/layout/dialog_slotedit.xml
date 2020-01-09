@@ -86,7 +86,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/activity_smmachinestock_textview_productskuslotname_text"
+                            android:text="@string/dlg_slotedit_tvtx_productskuslotname"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10" />
 
@@ -131,7 +131,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/activity_smmachinestock_textview_productskuname_text"
+                            android:text="@string/dlg_slotedit_tvtx_productskuname"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -153,7 +153,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/activity_smmachinestock_textview_productskuspecdes_text"
+                        android:text="@string/dlg_slotedit_tvtx_productskuspecdes"
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 
@@ -176,7 +176,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/activity_smmachinestock_textview_productskusellqty_text"
+                            android:text="@string/dlg_slotedit_tvtx_productskusellqty"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -199,7 +199,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/activity_smmachinestock_textview_productskulockqty_text"
+                            android:text="@string/dlg_slotedit_tvtx_productskulockqty"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -222,7 +222,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/activity_smmachinestock_textview_productskusumqty_text"
+                            android:text="@string/dlg_slotedit_tvtx_productskusumqty"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -297,7 +297,7 @@
                     android:layout_height="@dimen/size_20"
                     android:background="@drawable/widget_common_btn"
                     android:gravity="center"
-                    android:text="@string/button_pickuptest_text"
+                    android:text="@string/btntx_pickuptest"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_10"/>
             </LinearLayout>
@@ -315,7 +315,7 @@
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_blue"
                 android:gravity="center"
-                android:text="@string/button_delete_text"
+                android:text="@string/btntx_delete"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_10"/>
 
@@ -326,7 +326,7 @@
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_green"
                 android:gravity="center"
-                android:text="@string/button_fill_text"
+                android:text="@string/btntx_fill"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_10"/>
 
@@ -337,7 +337,7 @@
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_orange"
                 android:gravity="center"
-                android:text="@string/button_save_text"
+                android:text="@string/btntx_save"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_10"/>
 

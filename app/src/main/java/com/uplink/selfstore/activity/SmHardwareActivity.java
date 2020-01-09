@@ -293,7 +293,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //                });
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -301,7 +301,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 cameraCtrl.close();
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

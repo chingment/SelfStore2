@@ -60,7 +60,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productkind);
 
-        setNavTtile(this.getResources().getString(R.string.activity_productkind_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_productkind_navtitle));
 
         initView();
         initEvent();
@@ -189,7 +189,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
                     List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
                     if (cartSkus == null || cartSkus.size() <= 0) {
-                        showToast(getAppContext().getString(R.string.activity_cart_tips_cartismust));
+                        showToast(getAppContext().getString(R.string.aty_cart_tips_cartismust));
                         return;
                     }
                     intent = new Intent(getAppContext(), CartActivity.class);

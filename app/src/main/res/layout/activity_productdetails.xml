@@ -279,7 +279,7 @@
                     android:background="@drawable/btn_round_primary"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_12"
-                    android:text="@string/activity_productdetails_button_increase_text"/>
+                    android:text="@string/aty_productdetails_btntx_increase"/>
             </LinearLayout>
 
             <LinearLayout
@@ -299,7 +299,7 @@
                     android:background="@drawable/btn_round_primary"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_12"
-                    android:text="@string/activity_productdetails_button_buy_text"/>
+                    android:text="@string/aty_productdetails_btntx_buy"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -532,7 +532,7 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview1:");
 			mUVCCamera.startPreview();
 			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview2:");
-			mUVCCamera.updateCameraParams();
+			//mUVCCamera.updateCameraParams();
 			if (DEBUG) Log.v(TAG_THREAD, "my->startPreview3:");
 			synchronized (mSync) {
 				mIsPreviewing = true;
@@ -668,9 +668,9 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 			try {
 				if (muxer != null) {
 					muxer.stopRecording();
-					mUVCCamera.setFrameCallback(null, 0);
+					//mUVCCamera.setFrameCallback(null, 0);
 					// you should not wait here
-					callOnStopRecording();
+					//callOnStopRecording();
 				}
 			}catch (Exception ex){
 				ex.printStackTrace();
@@ -768,8 +768,8 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 					|| (encoder instanceof MediaSurfaceEncoder))
 				try {
 					mIsRecording = false;
-					final Activity parent = mWeakParent.get();
-					mWeakCameraView.get().setVideoEncoder(null);
+					Activity parent = mWeakParent.get();
+					//mWeakCameraView.get().setVideoEncoder(null);
 					synchronized (mSync) {
 						if (mUVCCamera != null) {
 							mUVCCamera.stopCapture();

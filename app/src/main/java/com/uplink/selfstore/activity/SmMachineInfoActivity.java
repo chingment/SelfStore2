@@ -39,7 +39,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
 
         machineCtrl=MachineCtrl.getInstance();
 
-        setNavTtile(this.getResources().getString(R.string.activity_smmachineinfo_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_smmachineinfo_navtitle));
         setNavBackVisible(true);
         setNavBtnVisible(true);
 

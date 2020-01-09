@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/activity_initdata_textview_loading_msg_text"
+            android:text="@string/aty_initdata_tvtx_loadingmsg"
             android:textSize="@dimen/size_10" />
 
         <Button
@@ -56,7 +56,7 @@
             android:layout_marginRight="@dimen/size_4"
             android:layout_marginTop="@dimen/size_8"
             android:background="@drawable/widget_common_btn"
-            android:text="@string/activity_initdata_button_retry_text"
+            android:text="@string/aty_initdata_btntx_retry"
             android:textColor="@color/white"
             android:textSize="@dimen/size_10"
             android:visibility="invisible" />
@@ -79,7 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_initdata_textview_deviceid_text"
+                android:text="@string/aty_initdata_tvtx_deviceid"
                 android:textColor="@color/field_name"
                 android:textSize="@dimen/sp_10" />
 
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_initdata_textview_version_text"
+                android:text="@string/aty_initdata_tvtx_version"
                 android:textColor="@color/field_name"
                 android:textSize="@dimen/sp_10" />
 

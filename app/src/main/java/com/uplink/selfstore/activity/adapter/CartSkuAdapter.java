@@ -38,7 +38,7 @@ public class CartSkuAdapter extends BaseAdapter {
         this.items = items;
         this.globalDataSet = globalDataSet;
 
-        delete_Dialog = new CustomConfirmDialog(context, context.getString(R.string.activity_cart_tips_delete_confirm), true);
+        delete_Dialog = new CustomConfirmDialog(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
 
         delete_Dialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override

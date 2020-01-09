@@ -63,7 +63,7 @@
                     android:layout_height="@dimen/size_30"
                     android:layout_marginBottom="@dimen/size_30"
                     android:layout_gravity="center"
-                    android:text="@string/activity_cart_button_goshopping_text"
+                    android:text="@string/aty_cart_btntx_goshopping"
                     android:textColor="@color/black"
                     android:textSize="@dimen/size_16" />
 
@@ -155,7 +155,7 @@
                     android:layout_marginRight="@dimen/size_8"
                     android:layout_gravity="center"
                     android:background="@drawable/btn_round_primary"
-                    android:text="@string/activity_productkind_button_gotongguanpayparner_text"
+                    android:text="@string/aty_productkind_btntx_gotongguanpayparner"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_12" />
             </LinearLayout>

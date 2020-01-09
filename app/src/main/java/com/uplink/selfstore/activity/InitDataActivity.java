@@ -192,7 +192,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         switch (v.getId()) {
             case R.id.btn_retry:
-                setTips(0x0004, getAppContext().getString(R.string.activity_initdata_tips_retry));
+                setTips(0x0004, getAppContext().getString(R.string.aty_initdata_tips_retry));
                 handler_msg.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -246,7 +246,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
     public void setMachineInitData() {
 
-        setTips(0x0001, getAppContext().getString(R.string.activity_initdata_tips_settingmachine));
+        setTips(0x0001, getAppContext().getString(R.string.aty_initdata_tips_settingmachine));
 
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
@@ -264,9 +264,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 });
                 if (rt.getResult() == Result.SUCCESS) {
                     AppCacheManager.setGlobalDataSet(rt.getData());
-                    setTips(0x0003, getAppContext().getString(R.string.activity_initdata_tips_settingmachinesuccess));
+                    setTips(0x0003, getAppContext().getString(R.string.aty_initdata_tips_settingmachinesuccess));
                 } else {
-                    setTips(0x0002, getAppContext().getString(R.string.activity_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());
+                    setTips(0x0002, getAppContext().getString(R.string.aty_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());
                 }
             }
 

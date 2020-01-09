@@ -450,6 +450,7 @@ public class UVCCameraTextureView extends AspectRatioTextureView    // API >= 14
 			 * draw a frame (and request to draw for video capturing if it is necessary)
 			 */
 			public final void onDrawFrame() {
+				Log.e(TAG,"onDrawFrame");
 				mEglSurface.makeCurrent();
 				// update texture(came from camera)
 				mPreviewSurface.updateTexImage();

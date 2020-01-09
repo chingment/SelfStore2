@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_green"
                 android:gravity="center"
-                android:text="@string/button_scanslot_text"
+                android:text="@string/btntx_scanslot"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_10"/>
 
@@ -34,7 +34,7 @@
             android:layout_height="@dimen/size_20"
             android:background="@drawable/widget_common_btn"
             android:gravity="center"
-            android:text="@string/btn_tx_refreshstock"
+            android:text="@string/btntx_refreshstock"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_10"/>
 
@@ -46,7 +46,7 @@
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_orange"
                 android:gravity="center"
-                android:text="@string/button_savedata_text"
+                android:text="@string/btntx_savedata"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_10"/>
 
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_smmachineinfo_textview_machinestatus_text"
+                android:text="@string/aty_smmachineinfo_tvtx_machinestatus"
                 android:textColor="@color/field_name"
                 android:layout_marginRight="@dimen/size_10"
                 android:textSize="@dimen/size_10" />
@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/activity_smmachineinfo_textview_scanganstatus_text"
+                android:text="@string/aty_smmachineinfo_tvtx_scanganstatus"
                 android:textColor="@color/field_name"
                 android:layout_marginRight="@dimen/size_10"
                 android:textSize="@dimen/size_10" />
