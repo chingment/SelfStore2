@@ -96,6 +96,7 @@ public class CameraSnapService extends Service {
         public void onPictureTaken(byte[] data, Camera camera) {
             LogUtil.d(TAG, "onPictureTaken...");
             try {
+                //保存在本地
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 String filePath = getSaveSdCardPath() + "/" + mCamera0ImgId + ".jpg";
                 File file = new File(filePath);
@@ -104,10 +105,12 @@ public class CameraSnapService extends Service {
                 outputStream.close();
                 camera.stopPreview();
 
+                //上传到服务器
                 List<String> filePaths = new ArrayList<>();
                 filePaths.add(filePath);
                 Map<String, String> params = new HashMap<>();
-                params.put("imgId", mCamera0ImgId);
+                params.put("fileName", mCamera0ImgId);
+                params.put("folder", "pickup");
                 HttpClient.postFile("http://upload.17fanju.com/api/upload", params, filePaths, null);
 
                 Log.e(TAG, "拍照结束");
