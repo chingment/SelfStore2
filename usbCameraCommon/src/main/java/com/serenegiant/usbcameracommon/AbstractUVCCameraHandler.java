@@ -656,12 +656,6 @@ public abstract class AbstractUVCCameraHandler extends Handler {
 				mVideoEncoder = null;
 				//todo 要更改
 				if (mUVCCamera != null) {
-					try {
-						Thread.sleep(200);
-					}
-					catch (Exception e){
-
-					}
 					mUVCCamera.stopCapture();
 				}
 			}

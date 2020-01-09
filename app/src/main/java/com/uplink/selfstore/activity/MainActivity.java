@@ -72,8 +72,10 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        locationUtil = LocationUtil.getInstance(getAppContext());
+         String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
 
+        locationUtil = LocationUtil.getInstance(getAppContext());
+///storage/emulated/0/DCIM/SelfStore
 //        String slot="n10r99c100m44";
 //        SlotNRC nrc=SlotNRC.GetSlotNRC(slot);
 
@@ -94,6 +96,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         else {
             CameraWindow.show(this);
         }
+
+//        Intent cameraSnapService2 = new Intent();
+//        cameraSnapService2.setAction("android.intent.action.cameraSnapService");
+//        cameraSnapService2.putExtra("cameraId", 0);
+//        cameraSnapService2.putExtra("imgId", "dasd");
+//        sendBroadcast(cameraSnapService2);
+
     }
 
     @Override
