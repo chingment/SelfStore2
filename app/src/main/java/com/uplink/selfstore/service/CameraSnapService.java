@@ -63,6 +63,14 @@ public class CameraSnapService extends Service {
             if (!mCamera0IsRunning) {
                 mCamera0IsRunning = true;
                 mCamera0ImgId= imgId;
+                int mCameraNumber= Camera.getNumberOfCameras();
+                if(mCameraNumber==0) {
+                    LogUtil.w(TAG, "getNumberOfCameras is 0");
+                    return;
+                }
+
+                LogUtil.w(TAG, "getNumberOfCameras is "+mCameraNumber);
+
                 mCamera0 = Camera.open(0);
                 if (mCamera0 == null) {
                     LogUtil.w(TAG, "getFacingFrontCamera return null");
@@ -112,22 +120,15 @@ public class CameraSnapService extends Service {
     }
 
     public String getSaveSdCardPath() {
-        boolean sdCardExist = Environment.getExternalStorageState()
-                .equals(android.os.Environment.MEDIA_MOUNTED);
 
-
-        if (sdCardExist) {
-            String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
-           // String path = Environment.getExternalStorageDirectory().toString() + "/SelfStoreImages";
-            File dir = new File(mSaveDir);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-
-            return mSaveDir;
+        String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
+        // String path = Environment.getExternalStorageDirectory().toString() + "/SelfStoreImages";
+        File dir = new File(mSaveDir);
+        if (!dir.exists()) {
+            dir.mkdir();
         }
 
-        return null;
+        return mSaveDir;
     }
 
     private void camera0Release() {

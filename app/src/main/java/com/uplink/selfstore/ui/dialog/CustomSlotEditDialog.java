@@ -128,15 +128,15 @@ public class CustomSlotEditDialog extends Dialog {
                             }
 
                             //拍照
-//                            if(pickupResult.getCurrentActionId()==7){
-//                                LogUtil.e("拍照");
-//                                Intent cameraSnapService = new Intent();
-//                                cameraSnapService.setAction("android.intent.action.cameraSnapService");
-//                                cameraSnapService.putExtra("cameraId", 0);
-//                                UUID uuid = UUID.randomUUID();
-//                                cameraSnapService.putExtra("uniqueId", uuid.toString());
-//                                context.sendBroadcast(cameraSnapService);
-//                            }
+                            if(pickupResult.getCurrentActionId()==7){
+                                LogUtil.e("拍照");
+                                Intent cameraSnapService = new Intent();
+                                cameraSnapService.setAction("android.intent.action.cameraSnapService");
+                                cameraSnapService.putExtra("cameraId", 0);
+                                UUID uuid = UUID.randomUUID();
+                                cameraSnapService.putExtra("imgId", uuid.toString());
+                                context.sendBroadcast(cameraSnapService);
+                            }
                         }
                         break;
                     case 4://取货成功
