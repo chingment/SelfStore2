@@ -18,6 +18,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.uplink.selfstore.http.HttpClient;
+import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -111,7 +112,7 @@ public class CameraSnapService extends Service {
                 Map<String, String> params = new HashMap<>();
                 params.put("fileName", mCamera0ImgId);
                 params.put("folder", "pickup");
-                HttpClient.postFile("http://upload.17fanju.com/api/upload", params, filePaths, null);
+                HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
 
                 Log.e(TAG, "拍照结束");
             } catch (Exception e) {
