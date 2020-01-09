@@ -149,6 +149,37 @@ public class MachineCtrl {
         }
     }
 
+    public void openDoor() {
+        isConnect = connect();
+        if (isConnect) {
+            if (sym != null) {
+                sym.SN_MV_SetLock(true);
+            }
+        }
+    }
+
+    public boolean doorIsOpen() {
+        boolean isflag=false;
+        isConnect = connect();
+        if (isConnect) {
+            if (sym != null) {
+               int[] rc=sym.SN_MV_GetLockStatus();
+               if(rc[0]==S_RC_SUCCESS){
+
+                   int status=rc[1];
+                   if(status==0){
+                       isflag=true;
+                   }
+                   else {
+                       isflag=false;
+                   }
+               }
+            }
+        }
+
+        return isflag;
+    }
+
     public void pickUp(int mode, int row, int col) {
         pickupListenerThread = new PickupListenerThread(mode, row, col);
         pickupListenerThread.start();

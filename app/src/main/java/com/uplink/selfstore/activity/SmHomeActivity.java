@@ -11,6 +11,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -36,7 +37,7 @@ import cn.jpush.android.api.JPushInterface;
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmHomeActivity";
     private CustomConfirmDialog confirmDialog;
-
+    private MachineCtrl machineCtrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         setNavTtile(this.getResources().getString(R.string.aty_smhome_navtitle));
         initView();
         initEvent();
+
+        machineCtrl=MachineCtrl.getInstance();
 
         Intent updateAppService = new Intent();
         updateAppService.putExtra("from",1);
@@ -70,6 +73,9 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         it.setAction("com.fourfaith.reboot");
                         it.putExtra("mode", "0");//0 重启 1 关机
                         sendBroadcast(it);
+                        break;
+                    case "fun.door":
+                        machineCtrl.openDoor();
                         break;
                     case "fun.exitmanager":
 
@@ -127,7 +133,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_hardware), NineGridItemType.Function, "fun.hardware", R.drawable.ic_sm_hardware));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_door));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_door), NineGridItemType.Function, "fun.door", R.drawable.ic_sm_door));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
 
 
@@ -181,6 +188,17 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     confirmDialog.getBtnSure().setTag("fun.rootsys");
                                     confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
                                     confirmDialog.show();
+                                    break;
+                                case "fun.door":
+                                    if(machineCtrl.doorIsOpen()){
+                                        showToast("当前柜门打开");
+                                    }
+                                    else {
+                                        confirmDialog.getTipsImage().setVisibility(View.GONE);
+                                        confirmDialog.getBtnSure().setTag("fun.door");
+                                        confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_opendoor));
+                                        confirmDialog.show();
+                                    }
                                     break;
                                 case "fun.exitmanager":
                                     confirmDialog.getTipsImage().setVisibility(View.GONE);

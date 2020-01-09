@@ -54,16 +54,16 @@ public class AppContext extends Application {
 
         //DbManager.getInstance().init(this);
 
-//        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
-//            @Override
-//            public void Handler() {
-//                restartApp();
-//            }
-//        });
-//        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
-//        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
-//        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
-//        TcStatInterface.recordAppStart();
+        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
+            @Override
+            public void Handler() {
+                restartApp();
+            }
+        });
+        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
+        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
+        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
+        TcStatInterface.recordAppStart();
 
     }
 

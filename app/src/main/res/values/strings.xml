@@ -62,10 +62,12 @@
     <string name="aty_smhome_ngtitle_checkupdateapp">检查更新</string>
     <string name="aty_smhome_ngtitle_closeapp">关闭应用</string>
     <string name="aty_smhome_ngtitle_rootsys">重启系统</string>
+    <string name="aty_smhome_ngtitle_door">门锁开启</string>
     <string name="aty_smhome_ngtitle_exitmanager">退出管理</string>
     <string name="aty_smhome_confrimtips_closeapp">确定关闭应用？</string>
     <string name="aty_smhome_confrimtips_rootsys">确定重启系统？</string>
     <string name="aty_smhome_confrimtips_exitmanager">确定退出管理？</string>
+    <string name="aty_smhome_confrimtips_opendoor">确定打开柜门？</string>
     <string name="aty_orderdetails_navtitle">订单详情</string>
     <string name="aty_orderdetaiks_tvtx_ordersn">订单号</string>
     <string name="aty_orderdetails_btntx_pickupcompelte">完成取货</string>
