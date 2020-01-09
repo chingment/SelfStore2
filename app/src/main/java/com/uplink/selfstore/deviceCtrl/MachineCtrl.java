@@ -502,7 +502,7 @@ public class MachineCtrl {
                                 if (!nPickupActionMap.containsKey(action_key)) {
                                     LogUtil.i(TAG, "取货流程监听：当前动作" + result.getCurrentActionName() + "（" + result.getCurrentActionId() + "）" + "," + result.getCurrentActionStatusName() + "（" + result.getCurrentActionStatusCode() + "）");
                                     nPickupActionMap.put(action_key, action_value);
-                                    if(rc_flowStatus[3] == S_Motor_Done){
+                                    if(rc_flowStatus[3] == S_Motor_Busy||rc_flowStatus[3] == S_Motor_Done){
                                         sendPickupHandlerMessage(3, "正在取货中", result);
                                     }
                                     else if(rc_flowStatus[3] == S_Motor_Timeout) {

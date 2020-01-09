@@ -88,7 +88,7 @@ public class CameraCtrl {
 
        // 321,6257
        // 42694, 1137
-        mCameraByChuHuoKou = getUsbDevice(321,6257);
+        mCameraByChuHuoKou = getUsbDevice(37424,1443);
         if (mCameraByChuHuoKou != null) {
 
             mUSBMonitor.requestPermission(mCameraByChuHuoKou);
@@ -160,7 +160,8 @@ public class CameraCtrl {
 
     public void  openCameraByJiGui() {
 
-        mCameraByJiGui = getUsbDevice(37424,1443);
+
+        mCameraByJiGui = getUsbDevice(42694, 1137);
         if (mCameraByJiGui != null) {
 
             mUSBMonitor.requestPermission(mCameraByJiGui);

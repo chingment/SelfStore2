@@ -61,7 +61,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private PickupSkuBean currentPickupSku=null;
     private int[] cabinetPendantRows=null;
     private MachineCtrl machineCtrl=null;
-    private CameraCtrl cameraCtrl=null;
+   // private CameraCtrl cameraCtrl=null;
     private CameraViewInterface mCameraView;
     private UVCCameraHandler mCameraHandler;
     private int mCameraFrameWidth = 640;
@@ -73,7 +73,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.activity_orderdetails_navtitle));
 
         machineCtrl=MachineCtrl.getInstance();
-        cameraCtrl=new CameraCtrl(OrderDetailsActivity.this,mCameraHandler);
+        //cameraCtrl=new CameraCtrl(OrderDetailsActivity.this,mCameraHandler);
 
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
@@ -117,11 +117,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                                     //拍照
                                     if(pickupResult.getCurrentActionId()==7){
-                                        //Intent cameraSnapService = new Intent();
-                                        //cameraSnapService.setAction("android.intent.action.cameraSnapService");
-                                        //cameraSnapService.putExtra("cameraId", 0);
-                                        //cameraSnapService.putExtra("uniqueId", currentPickupSku.getUniqueId());
-                                        //sendBroadcast(cameraSnapService);
+                                        Intent cameraSnapService = new Intent();
+                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
+                                        cameraSnapService.putExtra("cameraId", 0);
+                                        cameraSnapService.putExtra("imgId", pickupResult.getImgId());
+                                        sendBroadcast(cameraSnapService);
                                     }
                                 }
                                 break;

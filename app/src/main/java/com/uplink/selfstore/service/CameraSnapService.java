@@ -35,7 +35,7 @@ public class CameraSnapService extends Service {
     private static final String TAG = "CameraSnapService";
     private Camera mCamera0;
     private boolean mCamera0IsRunning; // 是否已在监控拍照
-    private String mCamera0UniqueId = "";
+    private String mCamera0ImgId = "";
 
     @Override
     public void onCreate() {
@@ -55,14 +55,14 @@ public class CameraSnapService extends Service {
         return START_NOT_STICKY;
     }
 
-    private void autoTakePic0(SurfaceView preview,String uniqueId) {
+    private void autoTakePic0(SurfaceView preview,String imgId) {
         LogUtil.d(TAG, "autoTakePic...");
 
         try {
 
             if (!mCamera0IsRunning) {
                 mCamera0IsRunning = true;
-                mCamera0UniqueId = uniqueId;
+                mCamera0ImgId= imgId;
                 mCamera0 = Camera.open(0);
                 if (mCamera0 == null) {
                     LogUtil.w(TAG, "getFacingFrontCamera return null");
@@ -89,7 +89,7 @@ public class CameraSnapService extends Service {
             LogUtil.d(TAG, "onPictureTaken...");
             try {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                String filePath = getSaveSdCardPath() + "/" + mCamera0UniqueId + ".jpg";
+                String filePath = getSaveSdCardPath() + "/" + mCamera0ImgId + ".jpg";
                 File file = new File(filePath);
                 FileOutputStream outputStream = new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
@@ -99,7 +99,7 @@ public class CameraSnapService extends Service {
                 List<String> filePaths = new ArrayList<>();
                 filePaths.add(filePath);
                 Map<String, String> params = new HashMap<>();
-                params.put("uniqueId", mCamera0UniqueId);
+                params.put("imgId", mCamera0ImgId);
                 HttpClient.postFile("http://upload.17fanju.com/api/upload", params, filePaths, null);
 
                 Log.e(TAG, "拍照结束");
@@ -114,14 +114,17 @@ public class CameraSnapService extends Service {
     public String getSaveSdCardPath() {
         boolean sdCardExist = Environment.getExternalStorageState()
                 .equals(android.os.Environment.MEDIA_MOUNTED);
+
+
         if (sdCardExist) {
-            String path = Environment.getExternalStorageDirectory().toString() + "/SelfStoreImages";
-            File dir = new File(path);
+            String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
+           // String path = Environment.getExternalStorageDirectory().toString() + "/SelfStoreImages";
+            File dir = new File(mSaveDir);
             if (!dir.exists()) {
                 dir.mkdir();
             }
 
-            return path;
+            return mSaveDir;
         }
 
         return null;
@@ -129,7 +132,7 @@ public class CameraSnapService extends Service {
 
     private void camera0Release() {
 
-        mCamera0UniqueId = "";
+        mCamera0ImgId = "";
         mCamera0IsRunning = false;
         if (mCamera0 != null) {
             LogUtil.d(TAG, "releaseCamera...");
@@ -156,10 +159,10 @@ public class CameraSnapService extends Service {
         public void onReceive(Context context, final Intent intent) {
             LogUtil.i(TAG, "onReceive");
             int cameraId = intent.getIntExtra("cameraId", -1);
-            String uniqueId = intent.getStringExtra("uniqueId");
-            if (cameraId == 0 && uniqueId != null) {
+            String imgId = intent.getStringExtra("imgId");
+            if (cameraId == 0 && imgId != null) {
                 SurfaceView preview = CameraWindow.getDummyCameraView();
-                autoTakePic0(preview, uniqueId);
+                autoTakePic0(preview, imgId);
             }
         }
     }
