@@ -1,22 +1,32 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.serenegiant.usbcameracommon.UVCCameraHandler;
-import com.serenegiant.widget.CameraViewInterface;
+import com.lgh.uvccamera.UVCCameraProxy;
+import com.lgh.uvccamera.bean.PicturePath;
+import com.lgh.uvccamera.callback.PictureCallback;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
-import com.uplink.selfstore.deviceCtrl.CameraCtrl;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
@@ -41,6 +51,11 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,11 +76,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private PickupSkuBean currentPickupSku=null;
     private int[] cabinetPendantRows=null;
     private MachineCtrl machineCtrl=null;
-    //private CameraCtrl cameraCtrl=null;
-    //private CameraViewInterface mCameraView;
-    //private UVCCameraHandler mCameraHandler;
-    //private int mCameraFrameWidth = 640;
-    //private int mCameraFrameheight = 480;
+
+
+    private UVCCameraProxy mUVCCamera;
+    private TextureView mCameraTextureView;
+
+    private int mCameraPreviewWidth=640;
+    private int mCameraPreviewHeight=480;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +126,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 if (pickupResult != null) {
                                     curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 }
+
+                                if(!mUVCCamera.isCameraOpen()){
+                                    mUVCCamera.openCamera(37424,1443);
+                                }
+
                                 break;
                             case 3://取货中
                                 if (pickupResult != null) {
@@ -121,12 +144,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                                     //拍照
                                     if(pickupResult.getCurrentActionId()==7){
-
-                                        Intent cameraSnapService = new Intent();
-                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
-                                        cameraSnapService.putExtra("cameraId", 0);
-                                        cameraSnapService.putExtra("imgId", pickupResult.getImgId());
-                                        sendBroadcast(cameraSnapService);
+                                           mUVCCamera.takePicture(pickupResult.getImgId());
+//                                        Intent cameraSnapService = new Intent();
+//                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
+//                                        cameraSnapService.putExtra("cameraId", 0);
+//                                        cameraSnapService.putExtra("imgId", pickupResult.getImgId());
+//                                        sendBroadcast(cameraSnapService);
                                     }
                                 }
                                 break;
@@ -181,6 +204,52 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
+
+    private void initUVCCamera() {
+        //1137 42694  //益力多
+        //1443     37424 // 面包
+
+        mUVCCamera = new UVCCameraProxy(this);
+        // 已有默认配置，不需要可以不设置
+        mUVCCamera.getConfig()
+                .isDebug(true)
+                .setPicturePath(PicturePath.APPCACHE)
+                .setDirName("uvccamera");
+
+        mUVCCamera.setPreviewTexture(mCameraTextureView);
+        mUVCCamera.setMessageHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        Log.e(TAG, message);
+
+                        switch (msg.what) {
+                            case 2://连接成功
+                                //showAllPreviewSizes();
+                                mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
+                                mUVCCamera.startPreview();
+                                // mUVCCamera.startPreview();
+                                break;
+                        }
+                        return false;
+                    }
+                })
+        );
+
+        mUVCCamera.setPictureTakenCallback(new PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data,String fileName) {
+                if(data!=null) {
+                    showToast("拍照成功");
+                    Log.e(TAG, "拍照成功:,data.lenght:" + data.length);
+                    saveCaptureStill(data,"SelfStore",fileName);
+                }
+            }
+        });
+    }
 
     // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
     private PickupSkuBean getCurrentPickupProductSku() {
@@ -278,9 +347,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_tip1 = (TextView) findViewById(R.id.curpickupsku_tip1);
         curpickupsku_tip2 = (TextView) findViewById(R.id.curpickupsku_tip2);
 
-        //mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
-        //mCameraView.setAspectRatio(mCameraFrameWidth / mCameraFrameheight);
-        //mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, mCameraFrameWidth , mCameraFrameheight, 0.3f);
+        mCameraTextureView =(TextureView)findViewById(R.id.cameraView);
 
     }
 
@@ -298,7 +365,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             return;
         }
 
-        txt_OrderSn.setText(orderDetails.getOrderSn()+"");
+        txt_OrderSn.setText(orderDetails.getOrderSn());
 
 
         dialog_SystemWarn.setCsrPhoneNumber(machine.getCsrPhoneNumber());
@@ -489,6 +556,55 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (dialog_SystemWarn != null && dialog_SystemWarn.isShowing()) {
             dialog_SystemWarn.cancel();
         }
+
+        if(mUVCCamera!=null){
+            mUVCCamera.closeCamera();
+            mUVCCamera.unregisterReceiver();
+            mUVCCamera=null;
+        }
     }
 
+
+    public  void  saveCaptureStill(byte[] data,String saveDir,String fileName) {
+        try {
+            if (data == null)
+                return;
+            if (saveDir == null)
+                return;
+            if (fileName == null)
+                return;
+
+            YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21, mCameraPreviewWidth, mCameraPreviewHeight, null);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
+            yuvImage.compressToJpeg(new Rect(0, 0, mCameraPreviewWidth, mCameraPreviewHeight), 100, bos);
+            byte[] buffer = bos.toByteArray();
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
+
+            String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/" + saveDir;
+
+            File pathFile = new File(mSaveDir);
+            if (!pathFile.exists()) {
+                pathFile.mkdirs();
+            }
+
+            String filePath = mSaveDir + "/" + fileName + ".jpg";
+            File outputFile = new File(filePath);
+            final BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+
+            //上传到服务器
+            List<String> filePaths = new ArrayList<>();
+            filePaths.add(filePath);
+            Map<String, String> params = new HashMap<>();
+            params.put("fileName", fileName);
+            params.put("folder", "pickup");
+            HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+    }
 }

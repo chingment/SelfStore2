@@ -57,7 +57,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                 int status = bundle.getInt("status");
                 String message = bundle.getString("message");
                 switch (status) {
-                    case 1: //消息提示
+                    case 1: //消息提示超时
                         showToast(message);
                         break;
                 }

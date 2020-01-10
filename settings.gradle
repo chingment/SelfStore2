@@ -1,1 +1,1 @@
-include ':app',':StatInterface',':libuvccamera', ':usbCameraCommon'
+include ':app',':StatInterface',':uvccamerasdk'

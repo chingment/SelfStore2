@@ -49,13 +49,11 @@
                         android:layout_width="@dimen/size_140"
                         android:background="@color/black"
                         android:layout_height="@dimen/size_140">
-                    <com.serenegiant.widget.UVCCameraTextureView
-                        android:background="@null"
-                        android:id="@+id/cameraView"
-                        android:layout_width="@dimen/size_140"
-                        android:layout_height="@dimen/size_140"
-                        />
 
+                        <TextureView
+                            android:id="@+id/cameraView"
+                            android:layout_width="@dimen/size_140"
+                            android:layout_height="@dimen/size_140" />
                     </LinearLayout>
                 </LinearLayout>
 

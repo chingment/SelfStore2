@@ -10,19 +10,18 @@ import android.graphics.YuvImage;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 
-import com.serenegiant.encoder.MediaMuxerWrapper;
-import com.serenegiant.usb.USBMonitor;
-import com.serenegiant.usb.UVCCamera;
-import com.serenegiant.usbcameracommon.AbstractUVCCameraHandler;
-import com.serenegiant.usbcameracommon.UVCCameraHandler;
-import com.serenegiant.widget.CameraViewInterface;
+import com.lgh.uvccamera.UVCCameraProxy;
+import com.lgh.uvccamera.bean.PicturePath;
+import com.lgh.uvccamera.callback.PictureCallback;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.deviceCtrl.CameraCtrl;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
@@ -43,28 +42,17 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private static final String TAG = "SmHardwareActivity";
 
-    private CameraViewInterface mCameraView;
-
-    private UVCCameraHandler mCameraHandler;
+    private UVCCameraProxy mUVCCamera;
     private Button mCameraOpenByChuHuoKou;
     private Button mCameraOpenByJiGui;
     private Button mCameraClose;
     private Button mCameraCaptureStill;
     private Button mCameraRecord;
     private Button mCameraTest;
+    private TextureView mCameraTextureView;
 
-    private  SurfaceTexture st;
-
-    private CameraCtrl cameraCtrl;
-
-  //  private int mCameraFrameWidth = 320;
-  //  private int mCameraFrameheight = 240;
-
-    private int mCameraFrameWidth = 640;
-    private int mCameraFrameheight = 480;
-
-   // private int mCameraFrameWidth=1280;
-   // private int mCameraFrameheight = 720;
+    private int mCameraPreviewWidth=640;
+    private int mCameraPreviewHeight=480;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +62,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setNavTtile(this.getResources().getString(R.string.aty_smhardware_navtitle));
         setNavBackVisible(true);
         setNavBtnVisible(true);
-
-
-        mCameraView = (CameraViewInterface) findViewById(R.id.cameraView);
-
-        mCameraView.setAspectRatio(mCameraFrameWidth / mCameraFrameheight);
-
-        mCameraHandler = UVCCameraHandler.createHandler(this, mCameraView, mCameraFrameWidth , mCameraFrameheight, 0.3f);
-
 
         mCameraOpenByChuHuoKou= (Button) findViewById(R.id.cameraOpenByChuHuoKou);
         mCameraOpenByChuHuoKou.setOnClickListener(this);
@@ -94,35 +74,64 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         mCameraRecord= (Button) findViewById(R.id.cameraRecord);
         mCameraRecord.setOnClickListener(this);
 
+        mCameraTextureView =(TextureView)findViewById(R.id.cameraView);
+
         if(Config.DEBUG) {
             mCameraTest = (Button) findViewById(R.id.cameraTest);
             mCameraTest.setVisibility(View.VISIBLE);
             mCameraTest.setOnClickListener(this);
         }
 
-        cameraCtrl=new CameraCtrl(SmHardwareActivity.this,mCameraHandler);
-        cameraCtrl.setOnConnectLister(new CameraCtrl.OnConnectLister(){
-
-            @Override
-            public void onConnect() {
-                if (mCameraHandler == null) {
-                    showToast("mCameraHandler 为空");
-                } else {
-                    if(mCameraView!=null) {
-                        st = mCameraView.getSurfaceTexture();
-                        if (st == null) {
-                            showToast("st 为空");
-                        } else {
-                            mCameraHandler.startPreview(new Surface(st));
-
-                        }
-                    }
-                }
-            }
-        } );
+        initUVCCamera();
 
         //cameraCtrl.setCameraByJiGui(37424,1443);
         //cameraCtrl.setCameraByChuHuoKou(42694,1137);
+    }
+
+    private void initUVCCamera() {
+        //1137 42694  //益力多
+        //1443     37424 // 面包
+
+        mUVCCamera = new UVCCameraProxy(this);
+        // 已有默认配置，不需要可以不设置
+        mUVCCamera.getConfig()
+                .isDebug(true)
+                .setPicturePath(PicturePath.APPCACHE)
+                .setDirName("uvccamera");
+
+        mUVCCamera.setPreviewTexture(mCameraTextureView);
+        mUVCCamera.setMessageHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        Log.e(TAG, message);
+
+                        switch (msg.what) {
+                            case 2://连接成功
+                                //showAllPreviewSizes();
+                                mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
+                                mUVCCamera.startPreview();
+                                // mUVCCamera.startPreview();
+                                break;
+                        }
+                        return false;
+                    }
+                })
+        );
+
+        mUVCCamera.setPictureTakenCallback(new PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data,String fileName) {
+                if(data!=null) {
+                    showToast("拍照成功");
+                    Log.e(TAG, "拍照成功:,data.lenght:" + data.length);
+                    saveCaptureStill(data,"SelfStore",fileName);
+                }
+            }
+        });
     }
 
     private class MyThread extends Thread {
@@ -134,179 +143,42 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
             while (i<100) {
 
-//                cameraCtrl.openCameraByJiGui();
-//
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-////
-////                cameraCtrl.startRecord();
-////
-////                try {
-////                    Thread.sleep(20*1000);
-////                } catch (InterruptedException e) {
-////                    e.printStackTrace();
-////                }
-////
-////                cameraCtrl.stopRecord();;
-////
-////                try {
-////                    Thread.sleep(5*1000);
-////                } catch (InterruptedException e) {
-////                    e.printStackTrace();
-////                }
-//
-//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-//                    @Override
-//                    public void onResult(final byte[] data) {
-//                        //Bitmap bitmap=  mCameraView.captureStillImage();
-//                        if(data!=null) {
-//                            showToast("拍照成功");
-//                            String  uniqueID = UUID.randomUUID().toString();
-//                            saveCaptureStill(data,"SelfStore",uniqueID);
-//                        }
-//                    }
-//                });
-//
-//
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                cameraCtrl.close();
-//
-//
-//                try {
-//                    Thread.sleep(2000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
+                i++;
 
 
-//                cameraCtrl.openCameraByChuHuoKou();
-//                Log.e(TAG,"出货口->开启摄像头");
-//
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                Log.e(TAG,"出货口->摄像头成功");
-//
-//                Log.e(TAG,"出货口->开启拍照");
-//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-//                    @Override
-//                    public void onResult(final byte[] data) {
-//                        //Bitmap bitmap=  mCameraView.captureStillImage();
-//                        if(data!=null) {
-//                            showToast("出货口->拍照成功");
-//                            String  uniqueID = UUID.randomUUID().toString();
-//                            saveCaptureStill(data,"SelfStore",i+"-"+uniqueID);
-//                        }
-//                    }
-//                });
-//                Log.e(TAG,"出货口->拍照结束");
-             //   mCameraHandler.isCaptureStill
-//
-//
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-
-//                Log.e(TAG,"出货口->开始关闭");
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                cameraCtrl.close();
-//
-//                Log.e(TAG,"出货口->关闭结束");
-//
-//                if(mCameraHandler.isPreviewing()){
-//                    Log.e(TAG,"拍照-》正在拍照，延迟关闭");
-//                    try {
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    cameraCtrl.close();
-//                }
-//                else {
-//                    Log.e(TAG,"拍照-》结束关闭");
-//                    cameraCtrl.close();
-//                }
-
-
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                Log.e(TAG,"机柜->开启摄像头");
-
-                cameraCtrl.openCameraByJiGui();
-
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if(!mUVCCamera.isCameraOpen()) {
+                    mUVCCamera.openCamera(37424,1443);
                 }
 
-                cameraCtrl.startRecord();
-
-                Log.e(TAG,"机柜->开始录制");
 
                 try {
                     Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                }
+                catch (Exception e){
+
                 }
 
-                cameraCtrl.stopRecord();
+                mUVCCamera.takePicture(UUID.randomUUID().toString());
 
-                Log.e(TAG,"机柜->录制结束");
 
-//                cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-//                    @Override
-//                    public void onResult(final byte[] data) {
-//                        //Bitmap bitmap=  mCameraView.captureStillImage();
-//                        if(data!=null) {
-//                            showToast("拍照成功");
-//                            String  uniqueID = UUID.randomUUID().toString();
-//                            saveCaptureStill(data,"SelfStore",uniqueID);
-//                        }
-//                    }
-//                });
 
                 try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(500);
+                }
+                catch (Exception e){
+
                 }
 
-                cameraCtrl.close();
+                if(mUVCCamera.isCameraOpen()) {
+                    mUVCCamera.closeCamera();
+                }
 
                 try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(500);
                 }
+                catch (Exception e){
 
-                i++;
+                }
 
                 LogUtil.e(TAG,"第"+(i+1)+"次完成");
             }
@@ -320,24 +192,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     @Override
     protected void onDestroy() {
-        if(cameraCtrl!=null) {
-            cameraCtrl.destroy();
-        }
-
-
-        if(mCameraHandler!=null) {
-            //mCameraHandler.close();
-            mCameraHandler=null;
-        }
-
-        if(mCameraView!=null) {
-            //mCameraView.onPause();
-            mCameraView=null;
-        }
-
-        if(st!=null){
-            st=null;
-        }
         super.onDestroy();
     }
 
@@ -351,49 +205,39 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     finish();
                     break;
                 case R.id.cameraOpenByChuHuoKou:
-                    cameraCtrl.openCameraByChuHuoKou();
+                    if(mUVCCamera.isCameraOpen()) {
+                        showToast("请先关闭");
+                        return;
+                    }
+                    mUVCCamera.openCamera(37424,1443);
                     break;
                 case R.id.cameraOpenByJiGui:
-                    cameraCtrl.openCameraByJiGui();
+                    if(mUVCCamera.isCameraOpen()) {
+                        showToast("请先关闭");
+                        return;
+                    }
+                    mUVCCamera.openCamera(321,6257);
                     break;
                 case R.id.cameraCaptureStill:
-                    if(!mCameraHandler.isOpened()) {
-                        showToast("请打开相机");
+                    if(!mUVCCamera.isCameraOpen()) {
+                        showToast("请先打开");
                         return;
                     }
-                    cameraCtrl.captureStill(new AbstractUVCCameraHandler.OnCaptureStillListener() {
-                        @Override
-                        public void onResult(final byte[] data) {
-                            //Bitmap bitmap=  mCameraView.captureStillImage();
-                            if(data!=null) {
-                                showToast("拍照成功");
-                                String  uniqueID = UUID.randomUUID().toString();
-                                saveCaptureStill(data,"SelfStore",uniqueID);
-                            }
-                        }
-                    });
+                    mUVCCamera.takePicture(UUID.randomUUID().toString());
                     break;
                 case R.id.cameraRecord:
-                    if(!mCameraHandler.isOpened()) {
-                        showToast("请打开相机");
-                        return;
-                    }
-                    if(!mCameraHandler.isRecording()) {
-                        cameraCtrl.startRecord();
-                        mCameraRecord.setText("停止录像");
-                    }
-                    else {
-                        cameraCtrl.stopRecord();
-                        mCameraRecord.setText("开始录像");
-                    }
                     break;
                 case R.id.cameraClose:
-                    cameraCtrl.close();
+                    if(!mUVCCamera.isCameraOpen()) {
+                        showToast("已关闭");
+                        return;
+                    }
+
+                    mUVCCamera.closeCamera();
                     break;
                 case R.id.cameraTest:
                     MyThread myThread=new MyThread();
                     myThread.start();
-
                     break;
             }
         }
@@ -408,9 +252,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             if (uniqueId == null)
                 return;
 
-            YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21, mCameraFrameWidth, mCameraFrameheight, null);
+            YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21, mCameraPreviewWidth, mCameraPreviewHeight, null);
             ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
-            yuvImage.compressToJpeg(new Rect(0, 0, mCameraFrameWidth, mCameraFrameheight), 100, bos);
+            yuvImage.compressToJpeg(new Rect(0, 0, mCameraPreviewWidth, mCameraPreviewHeight), 100, bos);
             byte[] buffer = bos.toByteArray();
 
             Bitmap bitmap = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
@@ -432,6 +276,5 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-
     }
 }

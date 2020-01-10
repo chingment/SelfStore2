@@ -113,6 +113,5 @@ dependencies {
     implementation files('libs/BioVein.jar')
     implementation files('libs/utdid4all-1.1.5.3_proguard.jar')
     implementation project(':StatInterface')
-    implementation project(':libuvccamera')
-    implementation project(':usbCameraCommon')
+    implementation project(':uvccamerasdk')
 }
