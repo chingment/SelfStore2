@@ -63,6 +63,8 @@ public class CameraSnapService extends Service {
 
             if (!mCamera0IsRunning) {
                 mCamera0IsRunning = true;
+
+
                 mCamera0ImgId= imgId;
                 int mCameraNumber= Camera.getNumberOfCameras();
                 if(mCameraNumber==0) {
@@ -72,10 +74,11 @@ public class CameraSnapService extends Service {
 
                 LogUtil.w(TAG, "getNumberOfCameras is "+mCameraNumber);
 
+                camera0Release();
+
                 mCamera0 = Camera.open(0);
                 if (mCamera0 == null) {
                     LogUtil.w(TAG, "getFacingFrontCamera return null");
-                    camera0Release();
                     return;
                 }
                 mCamera0.setPreviewDisplay(preview.getHolder());

@@ -97,12 +97,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             CameraWindow.show(this);
         }
 
-//        Intent cameraSnapService2 = new Intent();
-//        cameraSnapService2.setAction("android.intent.action.cameraSnapService");
-//        cameraSnapService2.putExtra("cameraId", 0);
-//        cameraSnapService2.putExtra("imgId", "dasd");
-//        sendBroadcast(cameraSnapService2);
-
     }
 
     @Override
@@ -180,6 +174,13 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
+
+                    Intent cameraSnapService2 = new Intent();
+                    cameraSnapService2.setAction("android.intent.action.cameraSnapService");
+                    cameraSnapService2.putExtra("cameraId", 0);
+                    cameraSnapService2.putExtra("imgId", "dasd");
+                    sendBroadcast(cameraSnapService2);
+
 //                    Intent intent3 = new Intent();
 //                    intent3.setAction("android.intent.action.cameraSnapService");
 //                    intent3.putExtra("cameraId", 0);

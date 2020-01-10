@@ -32,12 +32,14 @@ public class MachineCtrl {
     private boolean cmd_PickupIsStopListener = true;
     private PickupListenerThread pickupListenerThread;
     private ScanSlotListenerThread scanListenerThread;
+    private DoorThread doorThread;
     private Handler scanSlotHandler = null;
     private Handler pickupHandler = null;
+    private Handler doorHandler = null;
     private symvdio sym = null;
     private static final int MESSAGE_WHAT_SCANSLOTS = 1;
     private static final int MESSAGE_WHAT_PICKUP = 2;
-
+    private static final int MESSAGE_WHAT_DOOR = 3;
 
     private  MachineCtrl() {
         try {
@@ -149,36 +151,12 @@ public class MachineCtrl {
         }
     }
 
-    public void openDoor() {
-        isConnect = connect();
-        if (isConnect) {
-            if (sym != null) {
-                sym.SN_MV_SetLock(true);
-            }
-        }
+
+    public void doorControl() {
+        doorThread = new DoorThread();
+        doorThread.start();
     }
 
-    public boolean doorIsOpen() {
-        boolean isflag=false;
-        isConnect = connect();
-        if (isConnect) {
-            if (sym != null) {
-               int[] rc=sym.SN_MV_GetLockStatus();
-               if(rc[0]==S_RC_SUCCESS){
-
-                   int status=rc[1];
-                   if(status==0){
-                       isflag=true;
-                   }
-                   else {
-                       isflag=false;
-                   }
-               }
-            }
-        }
-
-        return isflag;
-    }
 
     public void pickUp(int mode, int row, int col) {
         pickupListenerThread = new PickupListenerThread(mode, row, col);
@@ -234,6 +212,10 @@ public class MachineCtrl {
         this.pickupHandler = pickupHandler;
     }
 
+    public void setDoorHandler(Handler doorHandler) {
+        this.doorHandler = doorHandler;
+    }
+
     private void sendScanSlotHandlerMessage(int status, String message, ScanSlotResult result) {
         if (scanSlotHandler != null) {
             Message m = new Message();
@@ -257,6 +239,18 @@ public class MachineCtrl {
             data.putSerializable("result", result);
             m.setData(data);
             pickupHandler.sendMessage(m);
+        }
+    }
+
+    private void sendDoorHandlerMessage(int status, String message) {
+        if (doorHandler != null) {
+            Message m = new Message();
+            m.what = MESSAGE_WHAT_DOOR;
+            Bundle data = new Bundle();
+            data.putInt("status", status);
+            data.putString("message", message);
+            m.setData(data);
+            doorHandler.sendMessage(m);
         }
     }
 
@@ -565,4 +559,33 @@ public class MachineCtrl {
             }
         }
     }
+
+
+    private class DoorThread extends Thread {
+
+        @Override
+        public void run() {
+            super.run();
+
+            isConnect = connect();
+            if (isConnect) {
+                if (sym != null) {
+                    sym.SN_MV_SetLock(true);
+
+                    sendDoorHandlerMessage(1,"请在10秒内打开/关闭柜门");
+
+                    try {
+                        Thread.sleep(10*1000);
+                    }
+                    catch  (Exception ex){
+
+                    }
+
+                    sym.SN_MV_SetLock(false);
+
+                }
+            }
+        }
+    }
+
 }

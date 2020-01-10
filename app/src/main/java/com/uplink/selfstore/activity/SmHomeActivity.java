@@ -3,6 +3,8 @@ package com.uplink.selfstore.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -48,6 +50,21 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         initEvent();
 
         machineCtrl=MachineCtrl.getInstance();
+        machineCtrl.setDoorHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                Bundle bundle = msg.getData();
+                int status = bundle.getInt("status");
+                String message = bundle.getString("message");
+                switch (status) {
+                    case 1: //消息提示
+                        showToast(message);
+                        break;
+                }
+                return true;
+            }
+          })
+        );
 
         Intent updateAppService = new Intent();
         updateAppService.putExtra("from",1);
@@ -75,7 +92,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         sendBroadcast(it);
                         break;
                     case "fun.door":
-                        machineCtrl.openDoor();
+                        machineCtrl.doorControl();
                         break;
                     case "fun.exitmanager":
 
@@ -173,7 +190,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     break;
                                 case "fun.checkupdateapp":
                                     intent = new Intent();
-                                    intent.putExtra("from",2);
+                                    intent.putExtra("from", 2);
                                     intent.setAction("android.intent.action.updateAppService");
                                     sendBroadcast(intent);
                                     break;
@@ -190,15 +207,10 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     confirmDialog.show();
                                     break;
                                 case "fun.door":
-                                    if(machineCtrl.doorIsOpen()){
-                                        showToast("当前柜门打开");
-                                    }
-                                    else {
-                                        confirmDialog.getTipsImage().setVisibility(View.GONE);
-                                        confirmDialog.getBtnSure().setTag("fun.door");
-                                        confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_opendoor));
-                                        confirmDialog.show();
-                                    }
+                                    confirmDialog.getTipsImage().setVisibility(View.GONE);
+                                    confirmDialog.getBtnSure().setTag("fun.door");
+                                    confirmDialog.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_door));
+                                    confirmDialog.show();
                                     break;
                                 case "fun.exitmanager":
                                     confirmDialog.getTipsImage().setVisibility(View.GONE);

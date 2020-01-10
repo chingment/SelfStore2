@@ -67,7 +67,7 @@
     <string name="aty_smhome_confrimtips_closeapp">确定关闭应用？</string>
     <string name="aty_smhome_confrimtips_rootsys">确定重启系统？</string>
     <string name="aty_smhome_confrimtips_exitmanager">确定退出管理？</string>
-    <string name="aty_smhome_confrimtips_opendoor">确定打开柜门？</string>
+    <string name="aty_smhome_confrimtips_door">确定打开/关闭柜门？</string>
     <string name="aty_orderdetails_navtitle">订单详情</string>
     <string name="aty_orderdetaiks_tvtx_ordersn">订单号</string>
     <string name="aty_orderdetails_btntx_pickupcompelte">完成取货</string>
