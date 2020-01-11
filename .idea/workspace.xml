@@ -112,16 +112,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uvccamerasdk/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/uvccamerasdk/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/utils/RxUtil.java" beforeDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -172,19 +165,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="106" column="69" selection-start-line="106" selection-start-column="69" selection-end-line="106" selection-end-column="69" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="126" column="13" lean-forward="true" selection-start-line="126" selection-start-column="13" selection-end-line="126" selection-end-column="13" />
+            <state relative-caret-position="1819">
+              <caret line="292" column="39" selection-start-line="292" selection-start-column="27" selection-end-line="292" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -195,8 +179,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="94" column="31" selection-start-line="94" selection-start-column="31" selection-end-line="94" selection-end-column="31" />
+            <state relative-caret-position="721">
+              <caret line="114" column="51" lean-forward="true" selection-start-line="114" selection-start-column="51" selection-end-line="114" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#saveCaptureStill#0;class#SmHardwareActivity#0" />
@@ -205,14 +189,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-245">
-              <caret line="100" column="17" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
+            <state relative-caret-position="345">
+              <caret line="101" column="13" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
               <folding>
-                <element signature="e#4955#4956#0" expanded="true" />
-                <element signature="e#4992#4993#0" expanded="true" />
+                <element signature="e#5040#5041#0" expanded="true" />
+                <element signature="e#5077#5078#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -235,8 +219,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>MediaMuxer started</find>
-      <find>MPEG4Writer</find>
       <find>MediaMuxer.finalize</find>
       <find>release</find>
       <find>saveDir</find>
@@ -265,6 +247,8 @@
       <find>mControlBlock</find>
       <find>open</find>
       <find>mUVCCamera</find>
+      <find>mUsbController</find>
+      <find>getUsbController</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -327,7 +311,6 @@
         <option value="$PROJECT_DIR$/uvccamerasdk/jni/Android.mk" />
         <option value="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/IUVCCamera.java" />
         <option value="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/callback/PictureCallback.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java" />
@@ -336,9 +319,10 @@
         <option value="$PROJECT_DIR$/app/proguard-rules.pro" />
         <option value="$PROJECT_DIR$/uvccamerasdk/build.gradle" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" />
         <option value="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/serenegiant/usb/UVCCamera.java" />
-        <option value="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java" />
         <option value="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java" />
+        <option value="$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java" />
       </list>
     </option>
   </component>
@@ -756,7 +740,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49434572" weight="0.24832214" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5072698" weight="0.27348992" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48869145" weight="0.3305369" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.48869145" visible="true" weight="0.11409396" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49434572" weight="0.32718122" />
@@ -766,7 +750,7 @@
       <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.3457189" weight="0.33557048" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6155089" visible="true" weight="0.30201343" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.6155089" weight="0.30201343" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.58966076" weight="0.4748322" />
       <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.6655897" weight="0.5805369" />
       <window_info anchor="bottom" id="Thumbnails" order="16" weight="0.32885906" />
@@ -1017,33 +1001,15 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java</url>
-          <line>267</line>
+          <line>265</line>
           <properties />
           <option name="timeStamp" value="551" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java</url>
-          <line>223</line>
+          <url>file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java</url>
+          <line>292</line>
           <properties />
-          <option name="timeStamp" value="558" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java</url>
-          <line>228</line>
-          <properties />
-          <option name="timeStamp" value="559" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java</url>
-          <line>121</line>
-          <properties />
-          <option name="timeStamp" value="560" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java</url>
-          <line>114</line>
-          <properties />
-          <option name="timeStamp" value="561" />
+          <option name="timeStamp" value="562" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -1054,17 +1020,6 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="56" selection-start-line="56" selection-end-line="65" selection-end-column="41" />
-          <folding>
-            <element signature="e#1649#1650#0" expanded="true" />
-            <element signature="e#1693#1694#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -1364,26 +1319,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/serenegiant/usb/UVCCamera.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="389" column="29" selection-start-line="389" selection-start-column="29" selection-end-line="389" selection-end-column="29" />
+        <state relative-caret-position="68">
+          <caret line="390" column="25" selection-start-line="390" selection-start-column="12" selection-end-line="390" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java">
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/hardware/usb/UsbManager.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-245">
-          <caret line="100" column="17" selection-start-line="100" selection-start-column="17" selection-end-line="100" selection-end-column="17" />
+        <state relative-caret-position="232">
+          <caret line="48" column="16" selection-start-line="48" selection-start-column="16" selection-end-line="48" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1819">
+          <caret line="292" column="39" selection-start-line="292" selection-start-column="27" selection-end-line="292" selection-end-column="39" />
           <folding>
-            <element signature="e#4955#4956#0" expanded="true" />
-            <element signature="e#4992#4993#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="94" column="31" selection-start-line="94" selection-start-column="31" selection-end-line="94" selection-end-column="31" />
+        <state relative-caret-position="721">
+          <caret line="114" column="51" lean-forward="true" selection-start-line="114" selection-start-column="51" selection-end-line="114" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#saveCaptureStill#0;class#SmHardwareActivity#0" />
@@ -1391,12 +1352,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/UVCCameraProxy.java">
+    <entry file="file://$PROJECT_DIR$/uvccamerasdk/src/main/java/com/lgh/uvccamera/usb/UsbMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="126" column="13" lean-forward="true" selection-start-line="126" selection-start-column="13" selection-end-line="126" selection-end-column="13" />
+        <state relative-caret-position="345">
+          <caret line="101" column="13" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#5040#5041#0" expanded="true" />
+            <element signature="e#5077#5078#0" expanded="true" />
           </folding>
         </state>
       </provider>

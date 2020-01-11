@@ -111,10 +111,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
                         switch (msg.what) {
                             case 2://连接成功
-                                //showAllPreviewSizes();
                                 mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
                                 mUVCCamera.startPreview();
-                                // mUVCCamera.startPreview();
                                 break;
                         }
                         return false;

@@ -131,8 +131,6 @@ public class UsbMonitor implements IMonitor {
                 msg.setData(data);
                 mMesssageHandler.sendMessage(msg);
             }
-
-           // mUVCCamera.startPreview();
         }
         catch (Exception e){
             LogUtil.d("摄像头->尝试打开失败");
