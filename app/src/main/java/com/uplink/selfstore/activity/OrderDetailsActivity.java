@@ -138,23 +138,43 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 if (pickupResult != null) {
                                     curpickupsku_tip2.setText("正在取货中..请稍等");
 
-                                    if(pickupResult.getCurrentActionId()==7){
-                                        pickupResult.setImgId(UUID.randomUUID().toString());
-                                    }
-
-                                    pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
-
                                     //拍照
                                     if(pickupResult.getCurrentActionId()==8){
                                         if(mUVCCamera!=null) {
+                                            LogUtil.i(TAG,"进入拍照流程");
+                                            pickupResult.setImgId(UUID.randomUUID().toString());
                                             mUVCCamera.takePicture(pickupResult.getImgId());
-                                        }
-//                                        Intent cameraSnapService = new Intent();
+
+//
+//                                            final String imgId=pickupResult.getImgId();
+//                                            new Handler().postDelayed(new Runnable(){
+//                                                public void run(){
+//                                                    mUVCCamera.takePicture(pickupResult.getImgId());
+//                                                }
+//                                            },5000);
+//
+//
+//                                            new Thread (new Runnable(){
+//                                                public void run(){
+//                                                    try {
+//                                                        Thread.sleep(5000);
+//                                                    }
+//                                                    catch (Exception ex){
+//
+//                                                    }
+//                                                    mUVCCamera.takePicture(imgId);
+//                                                }
+//                                            });
+                                            // Intent cameraSnapService = new Intent();
 //                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
 //                                        cameraSnapService.putExtra("cameraId", 0);
 //                                        cameraSnapService.putExtra("imgId", pickupResult.getImgId());
 //                                        sendBroadcast(cameraSnapService);
+                                        }
                                     }
+
+                                    pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
+
                                 }
                                 break;
                             case 4://取货成功
@@ -232,11 +252,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                         switch (msg.what) {
                             case 2://连接成功
-
-                                //showAllPreviewSizes();
                                 mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
+
                                 mUVCCamera.startPreview();
-                                // mUVCCamera.startPreview();
                                 break;
                         }
                         return false;
@@ -249,7 +267,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             public void onPictureTaken(byte[] data,String fileName) {
                 if(data!=null) {
                     //showToast("拍照成功");
-                    Log.e(TAG, "拍照成功:,data.lenght:" + data.length);
+                    Log.e(TAG, "拍照获取成功");
                     saveCaptureStill(data,"SelfStore",fileName);
                 }
             }
@@ -607,6 +625,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             params.put("fileName", fileName);
             params.put("folder", "pickup");
             HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
+
+            LogUtil.i(TAG,"拍照保存成功");
 
         } catch (Exception e) {
             Log.e(TAG, e.toString());

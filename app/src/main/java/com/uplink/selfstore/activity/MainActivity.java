@@ -174,48 +174,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-
-                    Intent cameraSnapService2 = new Intent();
-                    cameraSnapService2.setAction("android.intent.action.cameraSnapService");
-                    cameraSnapService2.putExtra("cameraId", 0);
-                    cameraSnapService2.putExtra("imgId", "dasd");
-                    sendBroadcast(cameraSnapService2);
-
-//                    Intent intent3 = new Intent();
-//                    intent3.setAction("android.intent.action.cameraSnapService");
-//                    intent3.putExtra("cameraId", 0);
-//                    intent3.putExtra("uniqueId", "value2");
-//                    sendBroadcast(intent3);
-//                    Map<String, String> params = new HashMap<>();
-//                    params.put("machineId", "A");
-//                    HttpClient.postFile("http://upload.17fanju.com/api/upload",params,null,null);
-//                    try {
-//                        OkHttpClient client=new OkHttpClient();
-//
-//                        /**
-//                         * 上传文件格式
-//                         */
-////            File file=new File("");
-////            RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);//将file转换成RequestBody文件
-////            RequestBody requestBody=new MultipartBody.Builder()
-////                    .addFormDataPart("name","filename",fileBody)
-////                    .addFormDataPart("name","value")
-////                    .build();
-//
-//                        RequestBody requestBody=new FormBody.Builder()
-//                                .add("a1","value")
-//                                .add("a2","value")
-//                                .build();
-//                        Request request=new Request.Builder()
-//                                .url("http://upload.17fanju.com/api/upload")
-//                                .post(requestBody)
-//                                .build();
-//                        Response response=client.newCall(request).execute();
-//                        String responseBody=response.body().string();
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+//                    Intent cameraSnapService2 = new Intent();
+//                    cameraSnapService2.setAction("android.intent.action.cameraSnapService");
+//                    cameraSnapService2.putExtra("cameraId", 0);
+//                    cameraSnapService2.putExtra("imgId", "dasd");
+//                    sendBroadcast(cameraSnapService2);
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;
@@ -270,35 +233,4 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         });
     }
-
-
-
-//    public static void removeFileByTime(String dirPath) {
-//        //获取目录下所有文件
-//        List<File> allFile = getDirAllFile(new File(dirPath));
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//        //获取当前时间
-//        Date end = new Date(System.currentTimeMillis());
-//        try {
-//            end = dateFormat.parse(dateFormat.format(new Date(System.currentTimeMillis())));
-//        } catch (Exception e){
-//            Log.d(TAG, "dataformat exeption e " + e.toString());
-//        }
-//        Log.d(TAG, "getNeedRemoveFile  dirPath = "  +dirPath);
-//        for (File file : allFile) {//ComDef
-//            try {
-//                //文件时间减去当前时间
-//                Date start = dateFormat.parse(dateFormat.format(new Date(file.lastModified())));
-//                long diff = end.getTime() - start.getTime();//这样得到的差值是微秒级别
-//                long days = diff / (1000 * 60 * 60 * 24);
-//                if(ComDef.LOGMAXKEEPTIME <= days){
-//                    deleteFile(file);
-//                }
-//
-//            } catch (Exception e){
-//                Log.d(TAG, "dataformat exeption e " + e.toString());
-//            }
-//        }
-//    }
-
 }

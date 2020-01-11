@@ -110,15 +110,15 @@ public class UVCCameraProxy implements IUVCCamera {
     @Override
     public void openCamera(int productId,int vendorId) {
 
-        Log.e(TAG, "请求打开摄像头");
+        Log.e(TAG, "摄像头->请求打开摄像头");
         UsbDevice usbDevice = mUsbMonitor.getUsbDevice(productId, vendorId);
         if (usbDevice == null) {
-            Log.e(TAG, "查找不到该摄像头");
+            Log.e(TAG, "摄像头->查找不到该摄像头");
             sendMessage(5, "设备为空");
             return;
         }
 
-        Log.e(TAG, "已找到摄像头");
+        Log.e(TAG, "摄像头->已找到摄像头");
 
         mUVCCamera = new UVCCamera();
         mUsbMonitor.requestPermission(usbDevice,mUVCCamera);
