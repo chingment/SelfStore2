@@ -41,6 +41,6 @@
 -keep class net.sqlcipher.**{*;}
 -keep class net.sqlcipher.database.**{*;}
 -keep class android_serialport_api.**{*;}
--keep class com.serenegiant.**{*;}
 -keep class com.lgh.uvccamera.**{*;}
+-keep class com.serenegiant.usb.**{*;}
 -keep class org.apache.**{*;}

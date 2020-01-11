@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.lgh.uvccamera.UVCCameraProxy;
 import com.lgh.uvccamera.callback.ConnectCallback;
 import com.lgh.uvccamera.config.CameraConfig;
 import com.lgh.uvccamera.utils.LogUtil;
@@ -36,6 +37,7 @@ public class UsbMonitor implements IMonitor {
     private Handler mMesssageHandler;
     private CameraConfig mConfig;
     private UVCCamera mUVCCamera;
+    private UVCCameraProxy mUVCCameraProxy;
     public UsbMonitor(Context context, CameraConfig config) {
         this.mContext = context;
         this.mConfig = config;
@@ -129,6 +131,8 @@ public class UsbMonitor implements IMonitor {
                 msg.setData(data);
                 mMesssageHandler.sendMessage(msg);
             }
+
+           // mUVCCamera.startPreview();
         }
         catch (Exception e){
             LogUtil.d("摄像头->尝试打开失败");

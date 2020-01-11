@@ -21,7 +21,6 @@ import com.lgh.uvccamera.config.CameraConfig;
 import com.lgh.uvccamera.usb.UsbMonitor;
 import com.lgh.uvccamera.utils.FileUtil;
 import com.lgh.uvccamera.utils.LogUtil;
-import com.lgh.uvccamera.utils.RxUtil;
 import com.serenegiant.usb.IButtonCallback;
 import com.serenegiant.usb.IFrameCallback;
 import com.serenegiant.usb.Size;
@@ -33,17 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
 
-/**
- * 描述：相机代理类
- * 作者：liugh
- * 日期：2018/11/16
- * 版本：v2.0.0
- */
 public class UVCCameraProxy implements IUVCCamera {
     private final String TAG="UVCCameraProxy";
     private static int PICTURE_WIDTH = 640;
@@ -57,7 +46,7 @@ public class UVCCameraProxy implements IUVCCamera {
     private PhotographCallback mPhotographCallback; // 设备上的拍照按钮点击回调
     private PreviewCallback mPreviewCallback; // 预览回调
   //  private ConnectCallback mConnectCallback; // usb连接回调
-    protected CompositeSubscription mSubscriptions;
+
     private CameraConfig mConfig; // 相机相关配置
     protected float mPreviewRotation; // 相机预览旋转角度
     protected boolean isTakePhoto; // 是否拍照
@@ -69,7 +58,6 @@ public class UVCCameraProxy implements IUVCCamera {
         mContext = context;
         mConfig = new CameraConfig();
         mUsbMonitor = new UsbMonitor(context, mConfig);
-        mSubscriptions = new CompositeSubscription();
     }
 
     /**
@@ -140,7 +128,6 @@ public class UVCCameraProxy implements IUVCCamera {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mSubscriptions.clear();
     }
 
     /**
@@ -279,29 +266,6 @@ public class UVCCameraProxy implements IUVCCamera {
             if (mUVCCamera != null) {
                 LogUtil.i("startPreview");
 
-                // 拍照按钮点击监听，使用rxjava方式，防止ui线程堵塞
-                mSubscriptions.add(Observable.create(new Observable.OnSubscribe<Integer>() {
-                    @Override
-                    public void call(final Subscriber<? super Integer> subscriber) {
-                        mUVCCamera.setButtonCallback(new IButtonCallback() {
-                            @Override
-                            public void onButton(int button, int state) {
-                                LogUtil.i("button-->" + button + " state-->" + state);
-                                // button等于1表示拍照按钮，state等于1表示按下，0松开
-                                if (button == 1 && state == 0) {
-                                    subscriber.onNext(state);
-                                }
-                            }
-                        });
-                    }
-                }).compose(RxUtil.<Integer>io_main()).subscribe(new Action1<Integer>() {
-                    @Override
-                    public void call(Integer integer) {
-                        if (mPhotographCallback != null) {
-                            mPhotographCallback.onPhotographClick();
-                        }
-                    }
-                }));
 
                 // 图片预览流回调
                 mUVCCamera.setFrameCallback(new IFrameCallback() {
@@ -324,6 +288,7 @@ public class UVCCameraProxy implements IUVCCamera {
                 if (mSurface != null) {
                     mUVCCamera.setPreviewDisplay(mSurface);
                 }
+
                 mUVCCamera.updateCameraParams();
                 mUVCCamera.startPreview();
             }
