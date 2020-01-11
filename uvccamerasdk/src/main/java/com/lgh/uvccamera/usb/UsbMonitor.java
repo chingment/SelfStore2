@@ -35,7 +35,7 @@ public class UsbMonitor implements IMonitor {
     private UsbController mUsbController;
     private Handler mMesssageHandler;
     private CameraConfig mConfig;
-
+    private UVCCamera mUVCCamera;
     public UsbMonitor(Context context, CameraConfig config) {
         this.mContext = context;
         this.mConfig = config;
@@ -80,34 +80,12 @@ public class UsbMonitor implements IMonitor {
     }
 
     @Override
-    public void requestPermission(UsbDevice usbDevice, UVCCamera mUVCCamera) {
+    public void requestPermission(UsbDevice usbDevice, UVCCamera uVCCamera) {
         LogUtil.i("requestPermission-->" + usbDevice);
         if (mUsbManager.hasPermission(usbDevice)) {
-            if(mMesssageHandler!=null) {
-                Message msg = new Message();
-                msg.what = 1;
-                Bundle data = new Bundle();
-                data.putInt("status", 1);
-                data.putString("message", "已经授权");
-                msg.setData(data);
-                mMesssageHandler.sendMessage(msg);
-            }
 
-            mUsbController = new UsbController(mUsbManager, usbDevice);
-            mUsbController.open();
-
-            mUVCCamera.open(mUsbController);
-
-            UsbDeviceConnection  usbDeviceConnection=mUsbManager.openDevice(usbDevice);
-            if(usbDeviceConnection!=null){
-                Message msg = new Message();
-                msg.what = 2;
-                Bundle data = new Bundle();
-                data.putInt("status", 2);
-                data.putString("message", "连接成功");
-                msg.setData(data);
-                mMesssageHandler.sendMessage(msg);
-            }
+            mUVCCamera=uVCCamera;
+            onOpen(usbDevice);
            // mMesssageHandler
            // if (mConnectCallback != null) {
               //  mConnectCallback.onGranted(usbDevice, true);
@@ -115,6 +93,37 @@ public class UsbMonitor implements IMonitor {
         } else {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_DEVICE_PERMISSION), 0);
             mUsbManager.requestPermission(usbDevice, pendingIntent);
+        }
+    }
+
+    public void  onOpen(UsbDevice usbDevice){
+
+        if(mMesssageHandler!=null) {
+            Message msg = new Message();
+            msg.what = 1;
+            Bundle data = new Bundle();
+            data.putInt("status", 1);
+            data.putString("message", "已经授权");
+            msg.setData(data);
+            mMesssageHandler.sendMessage(msg);
+        }
+
+        mUsbController = new UsbController(mUsbManager, usbDevice);
+        mUsbController.open();
+
+        if(mUVCCamera!=null) {
+            mUVCCamera.open(mUsbController);
+        }
+
+        UsbDeviceConnection  usbDeviceConnection=mUsbManager.openDevice(usbDevice);
+        if(usbDeviceConnection!=null){
+            Message msg = new Message();
+            msg.what = 2;
+            Bundle data = new Bundle();
+            data.putInt("status", 2);
+            data.putString("message", "连接成功");
+            msg.setData(data);
+            mMesssageHandler.sendMessage(msg);
         }
     }
 
@@ -201,9 +210,10 @@ public class UsbMonitor implements IMonitor {
                     break;
 
                 case ACTION_USB_DEVICE_PERMISSION:
-                    boolean granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false);
+                    //boolean granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false);
                    // mConnectCallback.onGranted(usbDevice, granted);
-                    LogUtil.i("onGranted-->" + granted);
+                    LogUtil.i("onGranted-->");
+                    onOpen(usbDevice);
                     break;
 
                 case UsbManager.ACTION_USB_DEVICE_DETACHED:

@@ -29,6 +29,9 @@ import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,9 +101,17 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                         //todo 改为重新获取数据方法
                         Map<String, Object> params = new HashMap<>();
-                        params.put("machineId", machine.getId());
-                        params.put("loginWay", 5);
 
+                        params.put("appId", BuildConfig.APPLICATION_ID);
+
+                        try {
+                            JSONObject loginPms = new JSONObject();
+                            loginPms.put("machineId", machine.getId() + "");
+                            params.put("loginPms", loginPms);
+                        }catch (JSONException e) {
+                            e.printStackTrace();
+                            return;
+                        }
                         postByMy(Config.URL.own_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {

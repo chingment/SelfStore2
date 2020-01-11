@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -193,7 +195,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         Map<String, Object> params = new HashMap<>();
         params.put("userName", userName);
         params.put("password", password);
-        params.put("loginWay", 5);
+        params.put("appId", BuildConfig.APPLICATION_ID);
 
 
         try {
@@ -241,7 +243,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
         Map<String, Object> params = new HashMap<>();
         params.put("veinData",  Base64.encodeToString(veinData, Base64.NO_WRAP));
-        params.put("loginWay", 5);
+        params.put("appId", BuildConfig.APPLICATION_ID);
 
 
         try {

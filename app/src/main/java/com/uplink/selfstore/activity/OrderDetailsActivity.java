@@ -101,7 +101,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initView();
         initEvent();
         initData();
-
+        initUVCCamera();
         //machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
@@ -127,8 +127,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 }
 
-                                if(!mUVCCamera.isCameraOpen()){
-                                    mUVCCamera.openCamera(37424,1443);
+                                if(mUVCCamera!=null) {
+                                    if (!mUVCCamera.isCameraOpen()) {
+                                        mUVCCamera.openCamera(37424, 1443);
+                                    }
                                 }
 
                                 break;
@@ -143,8 +145,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),3012,"取货中",pickupResult);
 
                                     //拍照
-                                    if(pickupResult.getCurrentActionId()==7){
-                                           mUVCCamera.takePicture(pickupResult.getImgId());
+                                    if(pickupResult.getCurrentActionId()==8){
+                                        if(mUVCCamera!=null) {
+                                            mUVCCamera.takePicture(pickupResult.getImgId());
+                                        }
 //                                        Intent cameraSnapService = new Intent();
 //                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
 //                                        cameraSnapService.putExtra("cameraId", 0);
@@ -224,10 +228,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        Log.e(TAG, message);
+                        Log.e(TAG,"摄像头->"+ message);
 
                         switch (msg.what) {
                             case 2://连接成功
+
                                 //showAllPreviewSizes();
                                 mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
                                 mUVCCamera.startPreview();
@@ -243,7 +248,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void onPictureTaken(byte[] data,String fileName) {
                 if(data!=null) {
-                    showToast("拍照成功");
+                    //showToast("拍照成功");
                     Log.e(TAG, "拍照成功:,data.lenght:" + data.length);
                     saveCaptureStill(data,"SelfStore",fileName);
                 }
