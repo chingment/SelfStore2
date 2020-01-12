@@ -12,5 +12,5 @@ public interface PictureCallback {
      *
      * @param data 图片数据
      */
-    void onPictureTaken(byte[] data,String fileName);
+    void onPictureTaken(byte[] data,String fileNam);
 }

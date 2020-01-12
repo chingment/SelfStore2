@@ -36,11 +36,10 @@ public interface IUVCCamera {
     void setPreviewSize(int width, int height);
     void startPreview();
     void stopPreview();
-    void takePicture(String fileName);
+    void takePicture(String pictureName);
     void setPreviewCallback(PreviewCallback callback);
     void setPictureTakenCallback(PictureCallback callback);
     UVCCamera getUVCCamera();
     boolean isCameraOpen();
-    CameraConfig getConfig();
     void setMessageHandler(Handler messageHandler);
 }

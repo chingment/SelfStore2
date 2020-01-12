@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.lgh.uvccamera.UVCCameraProxy;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
@@ -60,7 +61,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private View btn_appexit;
     private List<LogBean> logs=new ArrayList<>();
     private MachineCtrl machineCtrl=null;
-
     private boolean initIsRun=false;
     private Handler initHandler = new Handler();
     private Runnable initRunable = new Runnable() {
@@ -101,6 +101,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         machineCtrl.goGoZero();
 
         FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
+
 
     }
 

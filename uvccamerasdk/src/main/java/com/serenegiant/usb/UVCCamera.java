@@ -38,6 +38,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UVCCamera {
+
+    public static final int CAMERA_NOFINDDEVICE=1;
+    public static final int CAMERA_CONNECTSUCCESS=2;
+    public static final int CAMERA_CONNECTFUAILURE=3;
+
     public static final int DEFAULT_PREVIEW_WIDTH = 640;
     public static final int DEFAULT_PREVIEW_HEIGHT = 480;
     public static final int DEFAULT_PREVIEW_MODE = 0;

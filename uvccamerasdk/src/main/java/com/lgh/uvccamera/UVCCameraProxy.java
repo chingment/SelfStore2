@@ -31,8 +31,12 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-
+/**
+ * 描述：相机代理类
+ * 作者：liugh
+ * 日期：2018/11/16
+ * 版本：v2.0.0
+ */
 public class UVCCameraProxy implements IUVCCamera {
     private final String TAG="UVCCameraProxy";
     private static int PICTURE_WIDTH = 640;
@@ -46,7 +50,6 @@ public class UVCCameraProxy implements IUVCCamera {
     private PhotographCallback mPhotographCallback; // 设备上的拍照按钮点击回调
     private PreviewCallback mPreviewCallback; // 预览回调
   //  private ConnectCallback mConnectCallback; // usb连接回调
-
     private CameraConfig mConfig; // 相机相关配置
     protected float mPreviewRotation; // 相机预览旋转角度
     protected boolean isTakePhoto; // 是否拍照
@@ -93,24 +96,32 @@ public class UVCCameraProxy implements IUVCCamera {
     }
 
     /**
-     * 打开相机
+     * 打开相{}
      */
     @Override
     public void openCamera(int productId,int vendorId) {
-
-        Log.e(TAG, "摄像头->请求打开摄像头");
-        UsbDevice usbDevice = mUsbMonitor.getUsbDevice(productId, vendorId);
-        if (usbDevice == null) {
-            Log.e(TAG, "摄像头->查找不到该摄像头");
-            sendMessage(5, "设备为空");
+        Log.i(TAG, "Camera->请求打开设备");
+        if(mUVCCamera!=null) {
+            Log.i(TAG, "Camera->请求打开设备,已打开");
             return;
         }
 
-        Log.e(TAG, "摄像头->已找到摄像头");
+        UsbDevice usbDevice = mUsbMonitor.getUsbDevice(productId, vendorId);
+        if (usbDevice == null) {
+            Log.e(TAG, "Camera->查找不到设备,productId："+productId+",vendorId:"+vendorId);
+            sendMessage(UVCCamera.CAMERA_NOFINDDEVICE, "设备为空");
+            return;
+        }
+
+        Log.i(TAG, "Camera->已找到设备");
 
         mUVCCamera = new UVCCamera();
-        mUsbMonitor.requestPermission(usbDevice,mUVCCamera);
+        mUsbMonitor.setUVCCamera(mUVCCamera);
+        mUsbMonitor.openDevice(usbDevice);
+
     }
+
+
 
     /**
      * 关闭相机
@@ -119,7 +130,6 @@ public class UVCCameraProxy implements IUVCCamera {
     public void closeCamera() {
         try {
             if (mUVCCamera != null) {
-                mUVCCamera.stopPreview();
                 mUVCCamera.destroy();
                 mUVCCamera = null;
             }
@@ -288,7 +298,6 @@ public class UVCCameraProxy implements IUVCCamera {
                 if (mSurface != null) {
                     mUVCCamera.setPreviewDisplay(mSurface);
                 }
-
                 mUVCCamera.updateCameraParams();
                 mUVCCamera.startPreview();
             }
@@ -327,9 +336,9 @@ public class UVCCameraProxy implements IUVCCamera {
     }
 
     @Override
-    public void takePicture(String fileName) {
+    public void takePicture(String pictureName) {
         isTakePhoto = true;
-        mPictureName = fileName;
+        mPictureName = pictureName;
     }
 
     @Override
@@ -352,23 +361,16 @@ public class UVCCameraProxy implements IUVCCamera {
         return mUVCCamera != null;
     }
 
-    @Override
-    public CameraConfig getConfig() {
-        return mConfig;
-    }
-
-
     public void  setMessageHandler(Handler messageHandler){
         this.mMessageHandler=messageHandler;
         this.mUsbMonitor.setMesssageHandler(messageHandler);
     }
 
-    private void sendMessage(int status, String message) {
+    private void sendMessage(int what, String message) {
         if (this.mMessageHandler != null) {
             Message m = new Message();
-            m.what = 1;
+            m.what = what;
             Bundle data = new Bundle();
-            data.putInt("status", status);
             data.putString("message", message);
             m.setData(data);
             mMessageHandler.sendMessage(m);

@@ -23,24 +23,6 @@ public class CameraConfig {
         return this;
     }
 
-    public PicturePath getPicturePath() {
-        return mPicturePath;
-    }
-
-    public CameraConfig setPicturePath(PicturePath mPicturePath) {
-        this.mPicturePath = mPicturePath;
-        return this;
-    }
-
-    public String getDirName() {
-        return mDirName;
-    }
-
-    public CameraConfig setDirName(String mDirName) {
-        this.mDirName = mDirName;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "CameraConfig{" +

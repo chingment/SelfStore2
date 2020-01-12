@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.lgh.uvccamera.UVCCameraProxy;
 import com.lgh.uvccamera.callback.ConnectCallback;
 import com.lgh.uvccamera.config.CameraConfig;
 import com.lgh.uvccamera.utils.LogUtil;
@@ -37,11 +36,15 @@ public class UsbMonitor implements IMonitor {
     private Handler mMesssageHandler;
     private CameraConfig mConfig;
     private UVCCamera mUVCCamera;
-    private UVCCameraProxy mUVCCameraProxy;
+
     public UsbMonitor(Context context, CameraConfig config) {
         this.mContext = context;
         this.mConfig = config;
         this.mUsbManager = (UsbManager) context.getSystemService(context.USB_SERVICE);
+    }
+
+    public void  setUVCCamera(UVCCamera uvcCamera){
+        mUVCCamera=uvcCamera;
     }
 
     /**
@@ -82,69 +85,50 @@ public class UsbMonitor implements IMonitor {
     }
 
     @Override
-    public void requestPermission(UsbDevice usbDevice, UVCCamera uVCCamera) {
+    public void openDevice(UsbDevice usbDevice) {
+        LogUtil.i("Camera->判断是否有权限访问USB");
         if (mUsbManager.hasPermission(usbDevice)) {
-            LogUtil.i("摄像头->已授权");
-            mUVCCamera=uVCCamera;
-            onOpen(usbDevice);
-           // mMesssageHandler
-           // if (mConnectCallback != null) {
-              //  mConnectCallback.onGranted(usbDevice, true);
-           // }
+            LogUtil.i("Camera->已授权");
+            processConnect(usbDevice);
         } else {
-            LogUtil.i("摄像头->未授权，请求授权");
+            LogUtil.i("Camera->请求授权");
             PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_DEVICE_PERMISSION), 0);
             mUsbManager.requestPermission(usbDevice, pendingIntent);
         }
     }
 
-    public void  onOpen(UsbDevice usbDevice){
 
-        try {
-            LogUtil.d("摄像头->尝试打开");
-            if (mMesssageHandler != null) {
-                Message msg = new Message();
-                msg.what = 1;
-                Bundle data = new Bundle();
-                data.putInt("status", 1);
-                data.putString("message", "已经授权");
-                msg.setData(data);
-                mMesssageHandler.sendMessage(msg);
-            }
+    private void processConnect(UsbDevice usbDevice) {
 
-            mUsbController = new UsbController(mUsbManager, usbDevice);
-            mUsbController.open();
+        Message msg = new Message();
 
-            if (mUVCCamera != null) {
-                mUVCCamera.open(mUsbController);
-            }
-
-            UsbDeviceConnection usbDeviceConnection = mUsbManager.openDevice(usbDevice);
-            if (usbDeviceConnection != null) {
-
-                LogUtil.d("摄像头->打成功");
-                Message msg = new Message();
-                msg.what = 2;
-                Bundle data = new Bundle();
-                data.putInt("status", 2);
-                data.putString("message", "连接成功");
-                msg.setData(data);
-                mMesssageHandler.sendMessage(msg);
-            }
-        }
-        catch (Exception e){
-            LogUtil.d("摄像头->尝试打开失败");
-        }
-    }
-
-    @Override
-    public void connectDevice(UsbDevice usbDevice) {
-        LogUtil.i("connectDevice-->" + usbDevice);
         mUsbController = new UsbController(mUsbManager, usbDevice);
+        mUsbController.open();
 
-//        if (mUsbController.open() != null && mConnectCallback != null) {
-//            mConnectCallback.onConnected(usbDevice);
-//        }
+
+
+        mUVCCamera.open(mUsbController);
+
+        UsbDeviceConnection usbDeviceConnection = mUsbManager.openDevice(usbDevice);
+        if (usbDeviceConnection == null) {
+            LogUtil.i("Camera->设备连接失败");
+            msg.what = UVCCamera.CAMERA_CONNECTFUAILURE;
+            Bundle data = new Bundle();
+            data.putString("message", "连接失败");
+            msg.setData(data);
+        }
+        else
+        {   LogUtil.i("Camera->设备连接成功");
+            msg.what = UVCCamera.CAMERA_CONNECTSUCCESS;
+            Bundle data = new Bundle();
+            data.putString("message", "连接成功");
+            msg.setData(data);
+        }
+
+        if(mMesssageHandler!=null) {
+            mMesssageHandler.sendMessage(msg);
+        }
+
     }
 
     @Override
@@ -156,18 +140,6 @@ public class UsbMonitor implements IMonitor {
         }
     }
 
-    @Override
-    public UsbController getUsbController() {
-        return mUsbController;
-    }
-
-    @Override
-    public UsbDeviceConnection getConnection() {
-        if (mUsbController != null) {
-            return mUsbController.getConnection();
-        }
-        return null;
-    }
 
     public void setMesssageHandler(Handler messsageHandler ) {
         this.mMesssageHandler = messsageHandler;
@@ -208,30 +180,15 @@ public class UsbMonitor implements IMonitor {
         @Override
         public void onReceive(Context context, Intent intent) {
             UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-            LogUtil.i("usbDevice-->" + usbDevice);
+           // LogUtil.i("usbDevice-->" + usbDevice);
             if (mMesssageHandler == null) {
                 return;
             }
-
             switch (intent.getAction()) {
-                case UsbManager.ACTION_USB_DEVICE_ATTACHED:
-                    LogUtil.i("onAttached");
-                   // mConnectCallback.onAttached(usbDevice);
-                    break;
-
                 case ACTION_USB_DEVICE_PERMISSION:
-                    LogUtil.d("摄像头->请求授权，得到授权");
-                    //boolean granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false);
-                   // mConnectCallback.onGranted(usbDevice, granted);
-                    LogUtil.i("onGranted-->");
-                    onOpen(usbDevice);
+                    LogUtil.i("camera-->授权成功");
+                    processConnect(usbDevice);
                     break;
-
-                case UsbManager.ACTION_USB_DEVICE_DETACHED:
-                    LogUtil.i("onDetached");
-                  //  mConnectCallback.onDetached(usbDevice);
-                    break;
-
                 default:
                     break;
             }

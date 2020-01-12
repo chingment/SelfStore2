@@ -18,13 +18,8 @@ public interface IMonitor {
 
     void checkDevice();
 
-    void requestPermission(UsbDevice usbDevice, UVCCamera mUVCCamera);
-
-    void connectDevice(UsbDevice usbDevice);
+    void openDevice(UsbDevice usbDevice);
 
     void closeDevice();
 
-    UsbController getUsbController();
-
-    UsbDeviceConnection getConnection();
 }

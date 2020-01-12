@@ -21,6 +21,7 @@ import android.widget.Button;
 import com.lgh.uvccamera.UVCCameraProxy;
 import com.lgh.uvccamera.bean.PicturePath;
 import com.lgh.uvccamera.callback.PictureCallback;
+import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -93,11 +94,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         //1443     37424 // 面包
 
         mUVCCamera = new UVCCameraProxy(this);
-        // 已有默认配置，不需要可以不设置
-        mUVCCamera.getConfig()
-                .isDebug(true)
-                .setPicturePath(PicturePath.APPCACHE)
-                .setDirName("uvccamera");
 
         mUVCCamera.setPreviewTexture(mCameraTextureView);
         mUVCCamera.setMessageHandler(new Handler(new Handler.Callback() {
@@ -105,14 +101,21 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     public boolean handleMessage(Message msg) {
 
                         Bundle bundle = msg.getData();
-                        int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        Log.e(TAG, message);
+                        Log.e(TAG,message);
 
                         switch (msg.what) {
-                            case 2://连接成功
+                            case UVCCamera.CAMERA_NOFINDDEVICE://找不到设备
+                                LogUtil.d(TAG,"找不到设备");
+                                break;
+                            case UVCCamera.CAMERA_CONNECTSUCCESS://连接成功
+                                LogUtil.d(TAG,"连接成功");
                                 mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
                                 mUVCCamera.startPreview();
+                                break;
+                            case UVCCamera.CAMERA_CONNECTFUAILURE://连接失败
+                                mUVCCamera.closeCamera();
+                                LogUtil.d(TAG,"连接失败");
                                 break;
                         }
                         return false;
@@ -214,7 +217,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("请先关闭");
                         return;
                     }
-                    mUVCCamera.openCamera(321,6257);
+                    //321,6257
+                   // 1137 42694
+                    mUVCCamera.openCamera(42694,1137);
                     break;
                 case R.id.cameraCaptureStill:
                     if(!mUVCCamera.isCameraOpen()) {

@@ -23,6 +23,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.lgh.uvccamera.UVCCameraProxy;
 import com.lgh.uvccamera.bean.PicturePath;
 import com.lgh.uvccamera.callback.PictureCallback;
+import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
@@ -188,12 +189,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 5://取货超时
                                 LogUtil.e("取货失败,取货动作超时");
                                 if(pickupResult!=null) {
-
-                                    pickupResult.setImgId(UUID.randomUUID().toString());
-
+                                    //pickupResult.setImgId(UUID.randomUUID().toString());
                                     pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
                                 }
-                                showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中.");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
@@ -203,7 +201,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 6://取货失败
                                 LogUtil.e("取货失败,程序异常");
                                 pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getSlotId(),currentPickupSku.getUniqueId(),6000,"程序异常",pickupResult);
-                                showToast(message);
                                 if(!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中..");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
@@ -234,27 +231,26 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         //1443     37424 // 面包
 
         mUVCCamera = new UVCCameraProxy(this);
-        // 已有默认配置，不需要可以不设置
-        mUVCCamera.getConfig()
-                .isDebug(true)
-                .setPicturePath(PicturePath.APPCACHE)
-                .setDirName("uvccamera");
-
         mUVCCamera.setPreviewTexture(mCameraTextureView);
         mUVCCamera.setMessageHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
-
                         Bundle bundle = msg.getData();
-                        int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        Log.e(TAG,"摄像头->"+ message);
+                        Log.e(TAG,message);
 
                         switch (msg.what) {
-                            case 2://连接成功
-                                mUVCCamera.setPreviewSize(mCameraPreviewWidth, mCameraPreviewHeight);
-
+                            case UVCCamera.CAMERA_NOFINDDEVICE://找不到设备
+                                LogUtil.d(TAG,"找不到设备");
+                                break;
+                            case UVCCamera.CAMERA_CONNECTSUCCESS://连接成功
+                                LogUtil.d(TAG,"连接成功");
+                                mUVCCamera.setPreviewSize(640, 480);
                                 mUVCCamera.startPreview();
+                                break;
+                            case UVCCamera.CAMERA_CONNECTFUAILURE://连接失败
+                                mUVCCamera.closeCamera();
+                                LogUtil.d(TAG,"连接失败");
                                 break;
                         }
                         return false;
