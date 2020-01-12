@@ -107,22 +107,31 @@ public class UsbMonitor implements IMonitor {
 
 
 
-        mUVCCamera.open(mUsbController);
-
-        UsbDeviceConnection usbDeviceConnection = mUsbManager.openDevice(usbDevice);
-        if (usbDeviceConnection == null) {
-            LogUtil.i("Camera->设备连接失败");
+        if(mUVCCamera==null){
+            LogUtil.i("Camera->设备连接失败,mUVCCamera为空");
             msg.what = UVCCamera.CAMERA_CONNECTFUAILURE;
             Bundle data = new Bundle();
             data.putString("message", "连接失败");
             msg.setData(data);
         }
-        else
-        {   LogUtil.i("Camera->设备连接成功");
-            msg.what = UVCCamera.CAMERA_CONNECTSUCCESS;
-            Bundle data = new Bundle();
-            data.putString("message", "连接成功");
-            msg.setData(data);
+        else {
+
+            mUVCCamera.open(mUsbController);
+
+            UsbDeviceConnection usbDeviceConnection = mUsbManager.openDevice(usbDevice);
+            if (usbDeviceConnection == null) {
+                LogUtil.i("Camera->设备连接失败");
+                msg.what = UVCCamera.CAMERA_CONNECTFUAILURE;
+                Bundle data = new Bundle();
+                data.putString("message", "连接失败");
+                msg.setData(data);
+            } else {
+                LogUtil.i("Camera->设备连接成功");
+                msg.what = UVCCamera.CAMERA_CONNECTSUCCESS;
+                Bundle data = new Bundle();
+                data.putString("message", "连接成功");
+                msg.setData(data);
+            }
         }
 
         if(mMesssageHandler!=null) {
