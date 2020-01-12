@@ -37,12 +37,12 @@ public class TcHeadrHandle {
 
     private static boolean isInit;
 
-    private static int appId;
+    private static String appId;
 
     private static String mChannel;
 
 
-    protected static boolean initHeader(Context context, int appid, String channel) {
+    protected static boolean initHeader(Context context, String appid, String channel) {
 
 
         if (headerInfo == null) {

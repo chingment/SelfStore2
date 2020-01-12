@@ -14,6 +14,7 @@ import android.telephony.TelephonyManager;
 
 import com.tamic.statinterface.stats.core.TcCrashHandler;
 import com.tamic.statinterface.stats.db.DbManager;
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
@@ -62,7 +63,7 @@ public class AppContext extends Application {
         });
         TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
-        TcStatInterface.initialize(this, 1, "com.uplink.selfstore", "stat_id.json");
+        TcStatInterface.initialize(this, BuildConfig.APPLICATION_ID, "android.storeterm", "stat_id.json");
         TcStatInterface.recordAppStart();
 
     }

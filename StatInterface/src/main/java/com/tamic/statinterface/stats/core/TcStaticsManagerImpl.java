@@ -78,7 +78,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
     }
 
     @Override
-    public boolean onInit(int appId, String channel, String fileName) {
+    public boolean onInit(String appId, String channel, String fileName) {
 
         if (mUploadThread == null) {
             mUploadThread = new UploadThread();
@@ -231,7 +231,7 @@ public class TcStaticsManagerImpl implements TcStaticsManager, TcObserverPresent
     /**
      * init header
      */
-    private boolean initHeader(int appId, String channel) {
+    private boolean initHeader(String appId, String channel) {
 
         if (!TcHeadrHandle.isInit()) {
             return TcHeadrHandle.initHeader(mContext, appId, channel);

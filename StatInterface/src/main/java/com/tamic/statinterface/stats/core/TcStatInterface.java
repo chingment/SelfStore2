@@ -78,7 +78,7 @@ public final class TcStatInterface {
      * @param appId
      * @param channel
      */
-    public static void initialize(Context aContext, int appId, String channel, String fileName) {
+    public static void initialize(Context aContext, String appId, String channel, String fileName) {
 
         context = aContext;
 

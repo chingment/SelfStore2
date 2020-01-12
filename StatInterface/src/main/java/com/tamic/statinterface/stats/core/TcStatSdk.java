@@ -66,7 +66,7 @@ public class TcStatSdk {
 
     }
 
-    protected void init(int appId, String channel, String fileName) {
+    protected void init(String appId, String channel, String fileName) {
 
         staticsManager.onInit(appId, channel, fileName);
 
