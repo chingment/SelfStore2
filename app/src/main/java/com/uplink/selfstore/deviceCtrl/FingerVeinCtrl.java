@@ -373,11 +373,7 @@ public class FingerVeinCtrl {
     private static int fileDescriptor = 0;
     public int tryGetPermission(Context mContext) {
 
-        //if(fileDescriptor>0)
-        //    return fileDescriptor;
 
-        //boolean isHasPremission = false;
-        //boolean isHasDeviceByFingerVein = false;
 
         UsbDevice devicebyFingerVein = null;
 
@@ -418,7 +414,6 @@ public class FingerVeinCtrl {
         IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 
         if (mUsbPermissionActionReceiver != null) {
-           // mContext.unregisterReceiver(mUsbPermissionActionReceiver);
             mContext.registerReceiver(mUsbPermissionActionReceiver, filter);
         }
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
