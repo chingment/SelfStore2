@@ -103,6 +103,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         Map<String, Object> params = new HashMap<>();
 
                         params.put("appId", BuildConfig.APPLICATION_ID);
+                        params.put("loginWay", 5);
 
                         try {
                             JSONObject loginPms = new JSONObject();

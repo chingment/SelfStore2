@@ -196,7 +196,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         params.put("userName", userName);
         params.put("password", password);
         params.put("appId", BuildConfig.APPLICATION_ID);
-
+        params.put("loginWay", 5);
 
         try {
             JSONObject loginPms = new JSONObject();
@@ -244,7 +244,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         Map<String, Object> params = new HashMap<>();
         params.put("veinData",  Base64.encodeToString(veinData, Base64.NO_WRAP));
         params.put("appId", BuildConfig.APPLICATION_ID);
-
+        params.put("loginWay", 5);
 
         try {
             JSONObject loginPms = new JSONObject();

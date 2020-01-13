@@ -420,26 +420,26 @@ public class MachineCtrl {
             isConnect = connect();
             if (!isConnect) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
-                sendPickupHandlerMessage(1, "启动前，检查设备连接失败", null);
+                sendPickupHandlerMessage(5, "启动前，检查设备连接失败", null);
                 return;
             }
 
             if (!isNormarl()) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
-                sendPickupHandlerMessage(1, "启动前，检查设备不在线", null);
+                sendPickupHandlerMessage(5, "启动前，检查设备不在线", null);
                 return;
             }
 
             if (!isIdle()) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-                sendPickupHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
+                sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
                 return;
             }
 
             int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
             if (rt_goZero != S_RC_SUCCESS) {
                 LogUtil.i(TAG, "取货流程监听：启动回原点失败");
-                sendPickupHandlerMessage(1, "启动回原点失败", null);
+                sendPickupHandlerMessage(5, "启动回原点失败", null);
                 return;
             }
 
@@ -451,7 +451,7 @@ public class MachineCtrl {
             long nEnd = System.currentTimeMillis();
             boolean bTryAgain = false;
             boolean bCanAutoStart = false;
-            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+            for (; (nEnd - nStart <= (long) 120 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
                 int[] result = sym.SN_MV_Get_MotionStatus();
                 boolean isInZero = false;
                 if (result[0] == S_RC_SUCCESS) {
@@ -470,7 +470,7 @@ public class MachineCtrl {
 
             if (!bCanAutoStart) {
                 LogUtil.i(TAG, "取货流程监听：取货回原点失败");
-                sendPickupHandlerMessage(1, "取货回原点失败", null);
+                sendPickupHandlerMessage(5, "取货回原点失败", null);
                 return;
             }
 
@@ -479,7 +479,7 @@ public class MachineCtrl {
             int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
             if (rc_autoStart != S_RC_SUCCESS) {
                 LogUtil.i(TAG, "取货流程监听：取货启动失败");
-                sendPickupHandlerMessage(1, "取货启动失败", null);
+                sendPickupHandlerMessage(5, "取货启动失败", null);
                 return;
             }
 
