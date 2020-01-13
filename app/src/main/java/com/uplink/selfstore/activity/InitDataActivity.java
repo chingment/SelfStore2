@@ -98,7 +98,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent alarmService=new Intent(this, AlarmService.class);
         startService(alarmService);
 
-        machineCtrl.goGoZero();
+        machineCtrl.firstSet();
 
         FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 

@@ -142,11 +142,37 @@ public class MachineCtrl {
         }
     }
 
+    public void firstSet(){
+        new Thread(new Runnable() {
+            public void run() {
+                goGoZero();//回原点
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //关闭取货口
+                closePickupDoor();
+            }
+
+        }).start();
+
+    }
+
     public void openPickupDoor() {
         isConnect = connect();
         if (isConnect) {
             if (sym != null) {
-                sym.SN_MV_MotorAction(1, 0, 0);
+                sym.SN_MV_ManuProc(1, 0, 0);
+            }
+        }
+    }
+
+    public void closePickupDoor() {
+        isConnect = connect();
+        if (isConnect) {
+            if (sym != null) {
+                sym.SN_MV_ManuProc(2, 0, 0);
             }
         }
     }
