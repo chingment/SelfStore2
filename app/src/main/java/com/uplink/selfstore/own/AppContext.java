@@ -113,8 +113,8 @@ public class AppContext extends Application {
         }
 
 
-        return  "861712043256526";
-        //return deviceId;
+        //return  "861712043256526";
+        return deviceId;
     }
 
     public String getImeiId() {
