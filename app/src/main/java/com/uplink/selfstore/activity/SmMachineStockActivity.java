@@ -205,7 +205,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetSlots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
             cabinetSlots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
             cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
-            cabinetSlots.get(slot.getId()).setMaxLimitSumQuantity(slot.getMaxLimitSumQuantity());
+            cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
             cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
             drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
         }

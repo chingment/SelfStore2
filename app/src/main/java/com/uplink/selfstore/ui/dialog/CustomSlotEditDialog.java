@@ -67,6 +67,8 @@ public class CustomSlotEditDialog extends Dialog {
     private View btn_decrease;
     private View btn_increase;
     private View btn_pick_test;
+    private View btn_decreasebymax;
+    private View btn_increasebymax;
 
     private ListView list_search_skus;
     private SlotBean slot;
@@ -221,6 +223,8 @@ public class CustomSlotEditDialog extends Dialog {
         btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
         btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
         btn_save = ViewHolder.get(this.layoutRes, R.id.btn_save);
+        btn_decreasebymax = ViewHolder.get(this.layoutRes, R.id.btn_decreasebymax);
+        btn_increasebymax = ViewHolder.get(this.layoutRes, R.id.btn_increasebymax);
 
         customDialogRunning = new CustomDialogLoading(this.mContext);
 
@@ -351,11 +355,13 @@ public class CustomSlotEditDialog extends Dialog {
                 int version=Integer.valueOf(txt_Version.getText()+"");
                 int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
+                int maxQuantity = Integer.valueOf(txt_MaxQty.getText() + "");
                 Map<String, Object> params = new HashMap<>();
                 params.put("id", id);
                 params.put("machineId", machine.getId());
                 params.put("productSkuId", productSkuId);
                 params.put("sumQuantity", sumQuantity);
+                params.put("maxQuantity", maxQuantity);
                 params.put("version", version);
 
                 mContext.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
@@ -426,6 +432,42 @@ public class CustomSlotEditDialog extends Dialog {
         });
 
 
+        //点击减去
+        btn_decreasebymax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
+                    mContext.showToast("请先设置商品");
+                    return;
+                }
+
+                int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
+                if (maxQty > 0) {
+                    maxQty = maxQty - 1;
+                }
+
+                txt_SumQty.setText(String.valueOf(maxQty));
+            }
+        });
+
+
+        //点击添加
+        btn_increasebymax.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
+                    mContext.showToast("请先设置商品");
+                    return;
+                }
+
+                int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
+                maxQty = maxQty + 1;
+                txt_MaxQty.setText(String.valueOf(maxQty));
+            }
+        });
+
         LinearLayout all_key = ViewHolder.get(this.layoutRes, R.id.all_key);
         for (int i = 0; i < all_key.getChildCount(); i++) {
             LinearLayout viewchild = (LinearLayout) all_key.getChildAt(i);
@@ -465,7 +507,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_SellQty.setText("0");
             txt_LockQty.setText("0");
             txt_SumQty.setText("0");
-            txt_MaxQty.setText("10");
+            txt_MaxQty.setText("0");
             img_SkuImg.setImageResource(R.drawable.default_image);
         } else {
             txt_Version.setText(String.valueOf(slot.getVersion()));
@@ -475,7 +517,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
-            txt_MaxQty.setText(String.valueOf(slot.getMaxLimitSumQuantity()));
+            txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
             CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
     }

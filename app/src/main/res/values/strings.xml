@@ -83,6 +83,7 @@
     <string name="dlg_slotedit_tvtx_productskusellqty">可售数量</string>
     <string name="dlg_slotedit_tvtx_productskulockqty">锁定数量</string>
     <string name="dlg_slotedit_tvtx_productskusumqty">实际数量</string>
+    <string name="dlg_slotedit_tvtx_productskumaxqty">最大数量</string>
     <string name="btntx_save">保存</string>
     <string name="btntx_savedata">保存数据</string>
     <string name="btntx_fill">置满</string>
