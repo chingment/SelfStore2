@@ -447,7 +447,7 @@ public class CustomSlotEditDialog extends Dialog {
                     maxQty = maxQty - 1;
                 }
 
-                txt_SumQty.setText(String.valueOf(maxQty));
+                txt_MaxQty.setText(String.valueOf(maxQty));
             }
         });
 
