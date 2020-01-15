@@ -218,8 +218,10 @@ public class HttpClient {
 
             JSONObject json = new JSONObject();
             try {
-                for (Map.Entry<String, Object> entry : params.entrySet()) {
-                    json.put(entry.getKey(), entry.getValue());
+                if(params!=null) {
+                    for (Map.Entry<String, Object> entry : params.entrySet()) {
+                        json.put(entry.getKey(), entry.getValue());
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -317,6 +319,7 @@ public class HttpClient {
                 }
             });
         } catch (Exception ex) {
+            LogUtil.e(TAG,ex);
             if(handler!=null) {
                 handler.sendFailureMessage("数据提交发生异常", ex);
             }

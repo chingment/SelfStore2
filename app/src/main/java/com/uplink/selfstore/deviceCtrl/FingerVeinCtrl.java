@@ -341,7 +341,7 @@ public class FingerVeinCtrl {
 
                                     if(reg_cur==3) {
                                         collectIsStopListener=true;
-                                        sendCollectHandlerMessage(2, "已成功录入", reg_feature);
+                                        sendCollectHandlerMessage(2, "已成功采集", reg_feature);
                                         break;
                                     }
                                     else {

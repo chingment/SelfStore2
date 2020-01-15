@@ -82,7 +82,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                                 dialog_FingerVein.getTxtMessage().setText(message);
                                 break;
                             case 2://采集成功
-                                dialog_FingerVein.getTxtMessage().setText(message);
+                                //dialog_FingerVein.getTxtMessage().setText(message);
                                 result = bundle.getByteArray("result");
                                 upoadFingerVeinData(result);
                                 break;
@@ -207,8 +207,8 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
-                showToast(rt.getMessage());
-
+                //showToast(rt.getMessage());
+                dialog_FingerVein.getTxtMessage().setText(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
                     getInfo();
                 }
