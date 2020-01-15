@@ -112,6 +112,9 @@ public class AppContext extends Application {
             deviceId="";
         }
 
+        if(Config.DEBUG) {
+            return "02:00:00:00:00:00";
+        }
 
         //return  "861712043256526";
         return deviceId;
