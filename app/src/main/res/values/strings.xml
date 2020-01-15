@@ -77,6 +77,7 @@
     <string name="dlg_confirm_btntx_cancle">否</string>
     <string name="dlg_confirm_btntx_sure">是</string>
     <string name="dlg_slotedit_tvtx_productskuslotname">货道编号</string>
+    <string name="dlg_slotedit_tvtx_productskucumcode">商品编码</string>
     <string name="dlg_slotedit_tvtx_productskuname">商品名称</string>
     <string name="dlg_slotedit_tvtx_productskuspecdes">商品规格</string>
     <string name="dlg_slotedit_tvtx_productskusaleprice">商品价格</string>

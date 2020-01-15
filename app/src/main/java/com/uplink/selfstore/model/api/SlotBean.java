@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class SlotBean implements Serializable {
     private  String id;
     private  String productSkuId;
+    private  String productSkuCumCode;
     private  String productSkuName;
     private  String productSkuMainImgUrl;
     private  String productSkuSpecDes;
@@ -101,5 +102,13 @@ public class SlotBean implements Serializable {
 
     public void setMaxQuantity(int maxQuantity) {
         this.maxQuantity = maxQuantity;
+    }
+
+    public String getProductSkuCumCode() {
+        return productSkuCumCode;
+    }
+
+    public void setProductSkuCumCode(String productSkuCumCode) {
+        this.productSkuCumCode = productSkuCumCode;
     }
 }

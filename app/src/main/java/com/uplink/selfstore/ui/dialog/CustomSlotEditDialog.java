@@ -54,6 +54,7 @@ public class CustomSlotEditDialog extends Dialog {
     private TextView txt_SlotName;
     private TextView txt_Version;
     private TextView txt_SkuId;
+    private TextView txt_SkuCumCode;
     private TextView txt_SkuName;
     private TextView txt_SkuSpecDes;
     private TextView txt_SellQty;
@@ -207,6 +208,7 @@ public class CustomSlotEditDialog extends Dialog {
         txt_Version=ViewHolder.get(this.layoutRes, R.id.txt_Version);
         img_SkuImg = ViewHolder.get(this.layoutRes, R.id.img_SkuImg);
         txt_SlotName = ViewHolder.get(this.layoutRes, R.id.txt_SlotName);
+        txt_SkuCumCode= ViewHolder.get(this.layoutRes, R.id.txt_SkuCumCode);
         txt_SkuId = ViewHolder.get(this.layoutRes, R.id.txt_SkuId);
         txt_SkuName = ViewHolder.get(this.layoutRes, R.id.txt_SkuName);
         txt_SkuSpecDes= ViewHolder.get(this.layoutRes, R.id.txt_SkuSpecDes);
@@ -353,9 +355,15 @@ public class CustomSlotEditDialog extends Dialog {
                 String id = String.valueOf(txt_SlotName.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
                 int version=Integer.valueOf(txt_Version.getText()+"");
-                int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
+                int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 int maxQuantity = Integer.valueOf(txt_MaxQty.getText() + "");
+
+                if(maxQuantity<sumQuantity){
+
+                    mContext.showToast("保存失败，最大数量不能小于实际数据");
+                    return;
+                }
                 Map<String, Object> params = new HashMap<>();
                 params.put("id", id);
                 params.put("machineId", machine.getId());
@@ -502,6 +510,7 @@ public class CustomSlotEditDialog extends Dialog {
         if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_SkuId.setText("");
+            txt_SkuCumCode.setText("");
             txt_SkuName.setText("暂无设置");
             txt_SkuSpecDes.setText("");
             txt_SellQty.setText("0");
@@ -512,6 +521,7 @@ public class CustomSlotEditDialog extends Dialog {
         } else {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_SkuId.setText(slot.getProductSkuId());
+            txt_SkuCumCode.setText(slot.getProductSkuCumCode());
             txt_SkuName.setText(slot.getProductSkuName());
             txt_SkuSpecDes.setText(slot.getProductSkuSpecDes());
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
@@ -555,6 +565,7 @@ public class CustomSlotEditDialog extends Dialog {
                         public void setSlot(SearchProductSkuBean sku) {
 
                             txt_SkuId.setText(sku.getId());
+                            txt_SkuCumCode.setText(sku.getCumCode());
                             txt_SkuName.setText(sku.getName());
                             txt_SkuSpecDes.setText(sku.getSpecDes());
                             txt_SellQty.setText("0");
@@ -572,6 +583,7 @@ public class CustomSlotEditDialog extends Dialog {
                             SearchProductSkuBean sku = d.getProductSkus().get(0);
                             txt_SkuId.setText(sku.getId());
                             txt_SkuName.setText(sku.getName());
+                            txt_SkuCumCode.setText(sku.getCumCode());
                             txt_SkuSpecDes.setText(sku.getSpecDes());
                             CommonUtil.loadImageFromUrl(mContext, img_SkuImg, sku.getMainImgUrl());
                         }

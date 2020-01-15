@@ -3,7 +3,8 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class SearchProductSkuBean implements Serializable {
-    private  String id;
+    private String id;
+    private String cumCode;
     private String barCode;
     private String name;
     private String mainImgUrl;
@@ -47,5 +48,13 @@ public class SearchProductSkuBean implements Serializable {
 
     public void setSpecDes(String specDes) {
         this.specDes = specDes;
+    }
+
+    public String getCumCode() {
+        return cumCode;
+    }
+
+    public void setCumCode(String cumCode) {
+        this.cumCode = cumCode;
     }
 }
