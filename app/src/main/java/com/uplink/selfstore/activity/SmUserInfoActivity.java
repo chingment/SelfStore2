@@ -5,6 +5,7 @@ import android.os.Message;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -17,6 +18,7 @@ import com.uplink.selfstore.model.api.OwnInfoResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -29,7 +31,9 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
     private TextView txt_UserName;
     private TextView txt_FullName;
     private TextView txt_FingerVein;
+    private ImageView btn_DelFingerVein;
     private CustomFingerVeinDialog dialog_FingerVein;
+    private CustomConfirmDialog confirmDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +43,9 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         setNavBackVisible(true);
         setNavBtnVisible(true);
 
-         initView();
-         initEvent();
-         initData();
+        initView();
+        initEvent();
+        initData();
 
     }
 
@@ -49,7 +53,23 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         txt_UserName = (TextView) findViewById(R.id.txt_UserName);
         txt_FullName = (TextView) findViewById(R.id.txt_FullName);
         txt_FingerVein = (TextView) findViewById(R.id.txt_FingerVein);
-        dialog_FingerVein=new CustomFingerVeinDialog(SmUserInfoActivity.this);
+        btn_DelFingerVein = (ImageView) findViewById(R.id.btn_DelFingerVein);
+        confirmDialog = new CustomConfirmDialog(SmUserInfoActivity.this, "", true);
+        confirmDialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                delingerVein();
+            }
+        });
+        confirmDialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                confirmDialog.dismiss();
+            }
+        });
+        dialog_FingerVein = new CustomFingerVeinDialog(SmUserInfoActivity.this);
         dialog_FingerVein.setCollectHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -79,6 +99,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
     protected void initEvent() {
         txt_FingerVein.setOnClickListener(this);
+        btn_DelFingerVein.setOnClickListener(this);
     }
 
     protected void initData() {
@@ -105,9 +126,11 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
                     if(d.getFingerVeinCount()==0){
                         txt_FingerVein.setText("点击录入");
+                        btn_DelFingerVein.setVisibility(View.GONE);
                     }
                     else {
                         txt_FingerVein.setText("已录入");
+                        btn_DelFingerVein.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -119,12 +142,46 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         });
     }
 
+
+    private void  delingerVein(){
+
+        Map<String, String> params = new HashMap<>();
+
+        postByMy(Config.URL.own_DeleteFingerVeinData, null, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<OwnInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OwnInfoResultBean>>() {
+                });
+
+                showToast(rt.getMessage());
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    getInfo();
+                }
+
+                confirmDialog.dismiss();
+
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
                     finish();
+                    break;
+                case R.id.btn_DelFingerVein:
+                    confirmDialog.getTipsImage().setVisibility(View.GONE);
+                    confirmDialog.getTipsText().setText("确定要删除静脉指？");
+                    confirmDialog.show();
                     break;
                 case R.id.txt_FingerVein:
                     dialog_FingerVein.getTxtMessage().setText("请将手指放入设备,再移开");

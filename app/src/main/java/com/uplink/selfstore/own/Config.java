@@ -49,6 +49,7 @@ public class Config {
         public static final String own_Logout= BuildConfig.ENVIRONMENT + "/api/Own/Logout";
         public static final String own_GetInfo= BuildConfig.ENVIRONMENT + "/api/Own/GetInfo";
         public static final String own_UpoadFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/UploadFingerVeinData";
+        public static final String own_DeleteFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/DeleteFingerVeinData";
         public static final String uploadfile="http://upload.17fanju.com/api/upload";
     }
 }
