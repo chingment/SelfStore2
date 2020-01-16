@@ -28,6 +28,7 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.CameraSnapService;
+import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
@@ -97,6 +98,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         Intent alarmService=new Intent(this, AlarmService.class);
         startService(alarmService);
+
+        Intent heartbeatService=new Intent(this, HeartbeatService.class);
+        startService(heartbeatService);
 
         machineCtrl.firstSet();
 

@@ -43,6 +43,7 @@ public class Config {
         public static final String stockSetting_SaveCabinetRowColLayout= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetRowColLayout";
         public static final String stockSetting_TestPickupEventNotify= BuildConfig.ENVIRONMENT + "/api/StockSetting/TestPickupEventNotify";
         public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
+        public static final String machine_SendHeartbeatBag = BuildConfig.ENVIRONMENT + "/api/Machine/SendHeartbeatBag";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
         public static final String own_LoginByAccount= BuildConfig.ENVIRONMENT + "/api/Own/LoginByAccount";
         public static final String own_LoginByFingerVein= BuildConfig.ENVIRONMENT + "/api/Own/LoginByFingerVein";
