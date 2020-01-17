@@ -294,8 +294,10 @@ public class FingerVeinCtrl {
                     LogUtil.i(TAG, "指静脉采集流程监听->获取手指状态成功");
                     if(bFingerSt[0]==0x0){
                         LogUtil.i(TAG, "指静脉采集流程监听->获取手指状态未放置");
+                        //sendCollectHandlerMessage(1, "请放下手指", null);
                     }
                     else if(bFingerSt[0]==0x3){
+                       // sendCollectHandlerMessage(1, "已放下手指", null);
                         LogUtil.i(TAG, "指静脉采集流程监听->获取手指状态已放置");
                         //一枚手指特征数据
                         byte[] cur_feature = new byte[512];
@@ -335,9 +337,10 @@ public class FingerVeinCtrl {
                             if(ret==0){
                                 if(bFingerSt[0]==0x0) {
                                     LogUtil.i(TAG, "指静脉采集流程监听->获取手指状态未放置");
-                                    LogUtil.i(TAG, "指静脉采集流程监听->采集结果:成功采集" + reg_cur + "次");
 
                                     reg_cur++;
+
+                                    LogUtil.i(TAG, "指静脉采集流程监听->采集结果:成功采集" + reg_cur + "次");
 
                                     if(reg_cur==3) {
                                         collectIsStopListener=true;
@@ -349,6 +352,7 @@ public class FingerVeinCtrl {
                                     }
                                 }
                                 else {
+                                    //sendCollectHandlerMessage(1, "手指已放入", null);
                                     LogUtil.i(TAG, "指静脉采集流程监听->获取手指状态已放置");
                                 }
                             }
