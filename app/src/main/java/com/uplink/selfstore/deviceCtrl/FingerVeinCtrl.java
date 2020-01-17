@@ -186,7 +186,7 @@ public class FingerVeinCtrl {
             while (!checkLoginIsStopListener) {
                 LogUtil.i(TAG, "指静脉采检查登录监听->开始");
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -207,7 +207,7 @@ public class FingerVeinCtrl {
                     else if(bFingerSt[0]==0x03){
                         LogUtil.i(TAG, "指静脉采检查登录监听->获取手指状态成功,手指已放置");
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -283,7 +283,7 @@ public class FingerVeinCtrl {
             while (!collectIsStopListener){
                 LogUtil.i(TAG, "指静脉采集流程监听->开始");
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -305,7 +305,7 @@ public class FingerVeinCtrl {
                             LogUtil.i(TAG, "指静脉采集流程监听->获取手指信息成功");
 
                             try {
-                                Thread.sleep(200);
+                                Thread.sleep(50);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -325,7 +325,7 @@ public class FingerVeinCtrl {
                             System.arraycopy(cur_feature, 0, reg_feature, 512 * reg_cur, 512);
 
                             try {
-                                Thread.sleep(200);
+                                Thread.sleep(50);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
