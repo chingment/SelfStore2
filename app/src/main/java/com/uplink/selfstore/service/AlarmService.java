@@ -40,7 +40,7 @@ public class AlarmService  extends Service {
             @Override
             public void run() {
 
-
+                LogUtil.e(TAG,"定时删除文件："+ System.currentTimeMillis());
 
 
                 String picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";

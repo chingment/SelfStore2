@@ -11,6 +11,7 @@ import android.os.SystemClock;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.broadcast.AlarmReceiver;
+import com.uplink.selfstore.broadcast.HeartbeatRecevier;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -36,8 +37,8 @@ public class HeartbeatService extends Service {
     /**
      * 每20分钟更新一次数据
      */
-    private static final int ONE_Miniute=20*60*1000;
-    private static final int PENDING_REQUEST=0;
+    private static final int ONE_Miniute=10*1000;
+    private static final int PENDING_REQUEST=1;
 
     public HeartbeatService() {
     }
@@ -52,7 +53,7 @@ public class HeartbeatService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                LogUtil.e(TAG,"心跳包发送成功："+ System.currentTimeMillis());
                 HeartbeatService.sendHeartbeatBag();
 
             }
@@ -61,8 +62,8 @@ public class HeartbeatService extends Service {
         //通过AlarmManager定时启动广播
         AlarmManager alarmManager= (AlarmManager) getSystemService(ALARM_SERVICE);
         long triggerAtTime= SystemClock.elapsedRealtime()+ONE_Miniute;//从开机到现在的毫秒书（手机睡眠(sleep)的时间也包括在内
-        Intent i=new Intent(this, AlarmReceiver.class);
-        PendingIntent pIntent=PendingIntent.getBroadcast(this,PENDING_REQUEST,i,PENDING_REQUEST);
+        Intent i=new Intent(this, HeartbeatRecevier.class);
+        PendingIntent pIntent=PendingIntent.getBroadcast(this,PENDING_REQUEST,i,0);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pIntent);
 
         return super.onStartCommand(intent, flags, startId);
@@ -89,6 +90,7 @@ public class HeartbeatService extends Service {
             @Override
             public void onSuccess(String response) {
 
+                LogUtil.e(TAG,"心跳包发送成功");
             }
 
             @Override
