@@ -23,7 +23,9 @@ import com.lgh.uvccamera.bean.PicturePath;
 import com.lgh.uvccamera.callback.PictureCallback;
 import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.LocationUtil;
@@ -55,6 +57,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private int mCameraPreviewWidth=640;
     private int mCameraPreviewHeight=480;
 
+    private MachineCtrl machineCtrl=null;
+    private Button btnMachineGoZero;
+    private MyListView list_machinectrlinfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,21 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setNavTtile(this.getResources().getString(R.string.aty_smhardware_navtitle));
         setNavBackVisible(true);
         setNavBtnVisible(true);
+
+        machineCtrl=MachineCtrl.getInstance();
+
+        machineCtrl.setGoZeroHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                Bundle bundle = msg.getData();
+                int status = bundle.getInt("status");
+                String message = bundle.getString("message");
+
+                showToast(message);
+                return false;
+            }
+        }));
 
         mCameraOpenByChuHuoKou= (Button) findViewById(R.id.cameraOpenByChuHuoKou);
         mCameraOpenByChuHuoKou.setOnClickListener(this);
@@ -76,12 +97,15 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         mCameraRecord.setOnClickListener(this);
 
         mCameraTextureView =(TextureView)findViewById(R.id.cameraView);
-
+        list_machinectrlinfo=(MyListView)findViewById(R.id.list_machinectrlinfo);
         if(Config.DEBUG) {
             mCameraTest = (Button) findViewById(R.id.cameraTest);
             mCameraTest.setVisibility(View.VISIBLE);
             mCameraTest.setOnClickListener(this);
         }
+
+        btnMachineGoZero=(Button) findViewById(R.id.btnMachineGoZero);
+        btnMachineGoZero.setOnClickListener(this);
 
         initUVCCamera();
 
@@ -241,6 +265,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 case R.id.cameraTest:
                     MyThread myThread=new MyThread();
                     myThread.start();
+                    break;
+                case R.id.btnMachineGoZero:
+                    machineCtrl.testGoZero();
                     break;
             }
         }

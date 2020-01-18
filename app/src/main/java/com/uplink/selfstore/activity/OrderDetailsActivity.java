@@ -341,7 +341,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                 Thread t = new Thread(new Runnable(){
                     public void run(){
-                        machineCtrl.goGoZero();
+                        machineCtrl.goZero();
                     }
                 });
                 t.start();

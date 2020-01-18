@@ -36,11 +36,12 @@ public class MachineCtrl {
     private Handler scanSlotHandler = null;
     private Handler pickupHandler = null;
     private Handler doorHandler = null;
+    private Handler goZeroHandler = null;
     private symvdio sym = null;
     private static final int MESSAGE_WHAT_SCANSLOTS = 1;
     private static final int MESSAGE_WHAT_PICKUP = 2;
     private static final int MESSAGE_WHAT_DOOR = 3;
-
+    private static final int MESSAGE_WHAT_GOZERO = 4;
     private  MachineCtrl() {
         try {
             sym = new symvdio();
@@ -127,7 +128,7 @@ public class MachineCtrl {
         scanListenerThread.start();
     }
 
-    public void goGoZero() {
+    public void goZero() {
         isConnect = connect();
         if (isConnect) {
             if (sym != null) {
@@ -145,7 +146,7 @@ public class MachineCtrl {
     public void firstSet(){
         new Thread(new Runnable() {
             public void run() {
-                goGoZero();//回原点
+                goZero();//回原点
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -242,6 +243,10 @@ public class MachineCtrl {
         this.doorHandler = doorHandler;
     }
 
+    public void setGoZeroHandler(Handler goZeroHandler) {
+        this.goZeroHandler = goZeroHandler;
+    }
+
     private void sendScanSlotHandlerMessage(int status, String message, ScanSlotResult result) {
         if (scanSlotHandler != null) {
             Message m = new Message();
@@ -277,6 +282,18 @@ public class MachineCtrl {
             data.putString("message", message);
             m.setData(data);
             doorHandler.sendMessage(m);
+        }
+    }
+
+    private void sendGoZeroHandlerMessage(int status, String message) {
+        if (goZeroHandler != null) {
+            Message m = new Message();
+            m.what = MESSAGE_WHAT_GOZERO;
+            Bundle data = new Bundle();
+            data.putInt("status", status);
+            data.putString("message", message);
+            m.setData(data);
+            goZeroHandler.sendMessage(m);
         }
     }
 
@@ -409,7 +426,7 @@ public class MachineCtrl {
 
                     } else {
                         LogUtil.e(TAG, "扫描流程监听：扫描超时");
-                        goGoZero();
+                        goZero();
                         disConnect();
                         cmd_ScanSlotIsStopListener = true;
                         sendScanSlotHandlerMessage(5, "扫描超时", null);
@@ -419,7 +436,7 @@ public class MachineCtrl {
                     ex.printStackTrace();
                     LogUtil.e(TAG, "扫描流程监听：扫描处理失败");
                     LogUtil.e(TAG, ex);
-                    goGoZero();
+                    goZero();
                     disConnect();
                     cmd_ScanSlotIsStopListener = true;
                     sendScanSlotHandlerMessage(6, "扫描失败", null);
@@ -557,7 +574,7 @@ public class MachineCtrl {
                                         sendPickupHandlerMessage(3, "正在取货中", result);
                                     }
                                     else if(rc_flowStatus[3] == S_Motor_Timeout) {
-                                        goGoZero();
+                                        goZero();
                                         disConnect();
                                         LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
                                         cmd_PickupIsStopListener = true;
@@ -568,14 +585,14 @@ public class MachineCtrl {
                         }
 
                     } else {
-                        goGoZero();
+                        goZero();
                         disConnect();
                         LogUtil.e(TAG, "取货流程监听：整体动作运行取货超时");
                         cmd_PickupIsStopListener = true;
                         sendPickupHandlerMessage(5, "整体动作运行取货超时", null);
                     }
                 } catch (Exception ex) {
-                    goGoZero();
+                    goZero();
                     disConnect();
                     LogUtil.e(TAG, "取货流程监听：发生异常");
                     LogUtil.e(TAG, ex);
@@ -585,7 +602,6 @@ public class MachineCtrl {
             }
         }
     }
-
 
     private class DoorThread extends Thread {
 
@@ -612,6 +628,100 @@ public class MachineCtrl {
                 }
             }
         }
+    }
+
+    private class GoZeroThread extends Thread {
+
+        private boolean mIsCmdClosePickupDoor=false;
+        public GoZeroThread(boolean isCmdClosePickupDoor){
+            mIsCmdClosePickupDoor=isCmdClosePickupDoor;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+
+            isConnect = connect();
+
+            if (!isConnect) {
+                LogUtil.i(TAG, "回原点流程监听：启动前，检查设备连接失败");
+                sendGoZeroHandlerMessage(5, "启动前，检查设备连接失败");
+                return;
+            }
+
+            if (!isNormarl()) {
+                LogUtil.i(TAG, "回原点流程监听：启动前，检查设备不在线");
+                sendGoZeroHandlerMessage(5, "启动前，检查设备不在线");
+                return;
+            }
+
+            if (!isIdle()) {
+                LogUtil.i(TAG, "回原点流程监听：启动前，检查设备不在空闲状态");
+                sendGoZeroHandlerMessage(5, "启动前，检查设备不在空闲状态");
+                return;
+            }
+
+            int st_emgStop=sym.SN_MV_EmgStop();
+            if(st_emgStop!=0){
+                LogUtil.i(TAG, "回原点流程监听：启动急停不成功");
+                sendGoZeroHandlerMessage(5, "回原点流程监听：启动急停不成功，状态："+st_emgStop);
+                return;
+            }
+
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+            if (rt_goZero != S_RC_SUCCESS) {
+                LogUtil.i(TAG, "回原点流程监听：启动回原点失败");
+                sendGoZeroHandlerMessage(5, "启动回原点失败,状态："+rt_goZero);
+                return;
+            }
+
+            sendGoZeroHandlerMessage(2, "启动回原点进行中");
+
+            long nStart = System.currentTimeMillis();
+            long nEnd = System.currentTimeMillis();
+            boolean bTryAgain = false;
+            boolean bCanAutoStart = false;
+            for (; (nEnd - nStart <= (long) 120 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+                int[] result = sym.SN_MV_Get_MotionStatus();
+                boolean isInZero = false;
+                if (result[0] == S_RC_SUCCESS) {
+                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
+                        isInZero = true;
+                    }
+                }
+
+                if (isInZero) {
+                    bCanAutoStart = true;
+                    break;
+                } else {
+                    bTryAgain = true;
+                }
+            }
+
+            if (!bCanAutoStart) {
+                LogUtil.i(TAG, "回原点流程监听：回原点失败");
+                sendGoZeroHandlerMessage(5, "回原点失败");
+                return;
+            }
+
+            sendGoZeroHandlerMessage(3, "回原点成功");
+
+            if(mIsCmdClosePickupDoor){
+                sym.SN_MV_ManuProc(2, 0, 0);
+            }
+
+        }
+    }
+
+    public void testGoZero(){
+        GoZeroThread goZeroThread=new GoZeroThread(true);
+        goZeroThread.start();
     }
 
 }
