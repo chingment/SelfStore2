@@ -74,6 +74,7 @@
             android:orientation="vertical">
             <TextureView
                 android:id="@+id/cameraView"
+                android:background="@null"
                 android:layout_width="2dp"
                 android:layout_height="2dp" />
 

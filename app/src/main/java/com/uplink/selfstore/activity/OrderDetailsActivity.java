@@ -92,7 +92,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
         machineCtrl=MachineCtrl.getInstance();
-        //cameraCtrl=new CameraCtrl(OrderDetailsActivity.this,mCameraHandler);
 
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
@@ -186,7 +185,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 5://取货超时
                                 LogUtil.e("取货失败,取货动作超时");
-                                //pickupResult.setImgId(UUID.randomUUID().toString());
                                 pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
 
                                 if (!dialog_SystemWarn.isShowing()) {
@@ -305,6 +303,34 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         return pickSku;
     }
 
+    private boolean isPickupCompelte(){
+
+        boolean isCompelte=true;
+
+        List<OrderDetailsSkuBean> productSkus =orderDetails.getProductSkus();
+
+        for (int i = 0; i < productSkus.size(); i++) {
+
+            OrderDetailsSkuBean sku = productSkus.get(i);
+            List<PickupSlotBean> slots = sku.getSlots();
+
+            if(!isCompelte) {
+                break;
+            }
+
+            for (int j = 0; j < slots.size(); j++) {
+                PickupSlotBean slot = slots.get(j);
+                if (slot.getStatus() != 4000) {
+                    isCompelte = false;
+                    break;
+                }
+            }
+        }
+
+
+        return  isCompelte;
+    }
+
     public void  setPickupCompleteDrawTips() {
         curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
         curpickupsku_tip1.setText("出货完成");
@@ -333,7 +359,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
                     dialog_PickupCompelte.cancel();
@@ -551,6 +576,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_PickupCompeled:
+                    if(!isPickupCompelte()){
+                        showToast(getAppContext().getString(R.string.tips_notpickupcompelte));
+                        return;
+                    }
                     dialog_PickupCompelte.show();
                     break;
                 case R.id.btn_ContactKefu:
@@ -579,7 +608,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             mUVCCamera=null;
         }
     }
-
 
     public  void  saveCaptureStill(byte[] data,String saveDir,String fileName) {
         try {
