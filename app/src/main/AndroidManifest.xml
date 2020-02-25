@@ -43,6 +43,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.ExOrderHandleActivity"></activity>
         <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -190,18 +191,21 @@
         <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.PayWayActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
+
         <service android:name=".service.CameraSnapService" />
         <service android:name=".service.MachineCtrlService" />
         <service android:name=".service.UpdateAppService" />
-        <service android:name=".service.HeartbeatService"
+        <service
+            android:name=".service.HeartbeatService"
             android:enabled="true"
             android:exported="true" />
         <service
             android:name=".service.AlarmService"
             android:enabled="true"
-            android:exported="true"/>
-        <receiver android:name=".broadcast.AlarmReceiver"/>
-        <receiver android:name=".broadcast.HeartbeatRecevier"/>
+            android:exported="true" />
+
+        <receiver android:name=".broadcast.AlarmReceiver" />
+        <receiver android:name=".broadcast.HeartbeatRecevier" />
     </application>
 
 </manifest>
