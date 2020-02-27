@@ -1,5 +1,6 @@
 package com.uplink.selfstore.own;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;

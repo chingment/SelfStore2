@@ -102,7 +102,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     protected void onStart() {
         super.onStart();
-        sendRunStatus("running");
     }
 
 

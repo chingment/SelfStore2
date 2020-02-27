@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.serenegiant.dialog.MessageDialogFragmentV4;
 import com.serenegiant.utils.HandlerThreadHandler;
 import com.serenegiant.utils.PermissionCheck;
@@ -34,11 +35,15 @@ import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -240,6 +245,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = true;
         super.onResume();
         closePageCountTimerStart();
+        AppManager.getAppManager().setCurrentActivity(this);
+        HeartbeatService.sendHeartbeatBag();
         //TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
@@ -492,18 +499,18 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void sendRunStatus(String status){
+    public void eventNotify(int type, JSONObject content){
 
         MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
+        params.put("appId", BuildConfig.APPLICATION_ID);
+        params.put("deviceId", getAppContext().getDeviceId());
         params.put("machineId", machine.getId() + "");
-        params.put("status", status);
-        params.put("lat", LocationUtil.LAT);
-        params.put("lng", LocationUtil.LNG);
+        params.put("type", type);
+        params.put("content", content);
 
-
-        postByMy(Config.URL.machine_SendRunStatus, params, null, false, "", new HttpResponseHandler() {
+        postByMy(Config.URL.machine_EventNotify, params, null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

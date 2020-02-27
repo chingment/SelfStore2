@@ -39,6 +39,9 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -602,29 +605,26 @@ public class CustomSlotEditDialog extends Dialog {
 
     private void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,PickupResult pickupResult) {
 
-        Map<String, Object> params = new HashMap<>();
+        try {
+            JSONObject content = new JSONObject();
 
-        MachineBean machine = AppCacheManager.getMachine();
-
-        params.put("machineId", machine.getId());
-        params.put("productSkuId", productSkuId);
-        params.put("slotId", slotId);
-        params.put("status", status);
-        params.put("remark", remark);
-        if(pickupResult!=null) {
-            params.put("actionId", pickupResult.getCurrentActionId());
-            params.put("actionName", pickupResult.getCurrentActionName());
-            params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
-            params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
-            params.put("pickupUseTime", pickupResult.getPickupUseTime());
-            params.put("isPickupComplete", pickupResult.isPickupComplete());
-        }
-        mContext.postByMy(Config.URL.stockSetting_TestPickupEventNotify, params, null, false, "", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
+            content.put("productSkuId", productSkuId);
+            content.put("slotId", slotId);
+            content.put("status", status);
+            content.put("remark", remark);
+            content.put("isTest", true);
+            if (pickupResult != null) {
+                content.put("actionId", pickupResult.getCurrentActionId());
+                content.put("actionName", pickupResult.getCurrentActionName());
+                content.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
+                content.put("actionStatusName", pickupResult.getCurrentActionStatusName());
+                content.put("pickupUseTime", pickupResult.getPickupUseTime());
+                content.put("isPickupComplete", pickupResult.isPickupComplete());
             }
-        });
+            mContext.eventNotify(2, content);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

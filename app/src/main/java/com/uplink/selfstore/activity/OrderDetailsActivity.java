@@ -52,6 +52,9 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -406,7 +409,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             return;
         }
 
-        txt_OrderSn.setText(orderDetails.getOrderSn());
+        txt_OrderSn.setText(orderDetails.getSn());
 
 
         dialog_SystemWarn.setCsrPhoneNumber(machine.getCsrPhoneNumber());
@@ -485,90 +488,148 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     public void pickupEventNotify(final String productSkuId, final String slotId, final String uniqueId, final int status, String remark, PickupResult pickupResult) {
 
-        Map<String, Object> params = new HashMap<>();
-
-        MachineBean machine = AppCacheManager.getMachine();
-
-        params.put("machineId", machine.getId());
-        params.put("uniqueId", uniqueId);
-        params.put("status", status);
-        if(pickupResult!=null) {
-            params.put("actionId", pickupResult.getCurrentActionId());
-            params.put("actionName", pickupResult.getCurrentActionName());
-            params.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
-            params.put("actionStatusName", pickupResult.getCurrentActionStatusName());
-            params.put("pickupUseTime", pickupResult.getPickupUseTime());
-            params.put("isPickupComplete", pickupResult.isPickupComplete());
-            params.put("imgId", pickupResult.getImgId());
+        try {
+            JSONObject content = new JSONObject();
+            content.put("uniqueId", uniqueId);
+            content.put("productSkuId", productSkuId);
+            content.put("slotId", slotId);
+            content.put("status", status);
+            content.put("isTest", false);
+            if (pickupResult != null) {
+                content.put("actionId", pickupResult.getCurrentActionId());
+                content.put("actionName", pickupResult.getCurrentActionName());
+                content.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
+                content.put("actionStatusName", pickupResult.getCurrentActionStatusName());
+                content.put("pickupUseTime", pickupResult.getPickupUseTime());
+                content.put("isPickupComplete", pickupResult.isPickupComplete());
+                content.put("imgId", pickupResult.getImgId());
+            }
+            content.put("remark", remark);
+            LogUtil.d("status:" + status);
+            eventNotify(2, content);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        params.put("remark", remark);
-        LogUtil.d("status:" + status);
-        postByMy(Config.URL.order_PickupEventNotify, params, null, false, "", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-                });
 
 
-                if (rt.getResult() == Result.SUCCESS) {
+        switch (status) {
+            case 3011:
+                SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
+                if (slotNRC != null) {
 
-                    switch (status) {
-                        case 3011:
-                            SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
-                            if (slotNRC != null) {
-
-                                int mode=0;
-                                if (cabinetPendantRows != null) {
-                                    for (int z = 0; z < cabinetPendantRows.length; z++) {
-                                        if (cabinetPendantRows[z] == slotNRC.getRow()) {
-                                            mode =1;
-                                            break;
-                                        }
-                                    }
-                                }
-                                machineCtrl.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
+                    int mode = 0;
+                    if (cabinetPendantRows != null) {
+                        for (int z = 0; z < cabinetPendantRows.length; z++) {
+                            if (cabinetPendantRows[z] == slotNRC.getRow()) {
+                                mode = 1;
+                                break;
                             }
-                            break;
-                        case 4000:
+                        }
+                    }
+                    machineCtrl.pickUp(mode, slotNRC.getRow(), slotNRC.getCol());
+                }
+                break;
+            case 4000:
 
-                            List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
+                List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
 
-                            for (int i = 0; i < productSkus.size(); i++) {
-                                if (productSkus.get(i).getId().equals(productSkuId)) {
-                                    int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
-                                    int quantityByException = productSkus.get(i).getQuantityByException();
-                                    int quantity = productSkus.get(i).getQuantity();
-                                    if ((quantityBySuccess + quantityByException) < quantity) {
-                                        productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
-                                    }
+                for (int i = 0; i < productSkus.size(); i++) {
+                    if (productSkus.get(i).getId().equals(productSkuId)) {
+                        int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
+                        int quantityByException = productSkus.get(i).getQuantityByException();
+                        int quantity = productSkus.get(i).getQuantity();
+                        if ((quantityBySuccess + quantityByException) < quantity) {
+                            productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
+                        }
 
-                                    for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
-                                        if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
-                                            productSkus.get(i).getSlots().get(j).setStatus(4000);
-                                        }
-                                    }
-                                }
+                        for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
+                            if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
+                                productSkus.get(i).getSlots().get(j).setStatus(4000);
                             }
-
-                            orderDetails.setProductSkus(productSkus);
-
-                            OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
-                            list_skus.setAdapter(skuAdapter);
-                            currentPickupSku = getCurrentPickupProductSku();
-                            if (currentPickupSku != null) {
-                                setSendPickup(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-                            } else {
-                                setPickupCompleteDrawTips();
-
-                            }
-
-                            break;
+                        }
                     }
                 }
-            }
-        });
+
+                orderDetails.setProductSkus(productSkus);
+
+                OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
+                list_skus.setAdapter(skuAdapter);
+                currentPickupSku = getCurrentPickupProductSku();
+                if (currentPickupSku != null) {
+                    setSendPickup(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                } else {
+                    setPickupCompleteDrawTips();
+
+                }
+        }
+
+
+//        postByMy(Config.URL.order_PickupEventNotify, params, null, false, "", new HttpResponseHandler() {
+//            @Override
+//            public void onSuccess(String response) {
+//                super.onSuccess(response);
+//
+//                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+//                });
+//
+//
+//                if (rt.getResult() == Result.SUCCESS) {
+//
+//                    switch (status) {
+//                        case 3011:
+//                            SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
+//                            if (slotNRC != null) {
+//
+//                                int mode=0;
+//                                if (cabinetPendantRows != null) {
+//                                    for (int z = 0; z < cabinetPendantRows.length; z++) {
+//                                        if (cabinetPendantRows[z] == slotNRC.getRow()) {
+//                                            mode =1;
+//                                            break;
+//                                        }
+//                                    }
+//                                }
+//                                machineCtrl.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
+//                            }
+//                            break;
+//                        case 4000:
+//
+//                            List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
+//
+//                            for (int i = 0; i < productSkus.size(); i++) {
+//                                if (productSkus.get(i).getId().equals(productSkuId)) {
+//                                    int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
+//                                    int quantityByException = productSkus.get(i).getQuantityByException();
+//                                    int quantity = productSkus.get(i).getQuantity();
+//                                    if ((quantityBySuccess + quantityByException) < quantity) {
+//                                        productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
+//                                    }
+//
+//                                    for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
+//                                        if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
+//                                            productSkus.get(i).getSlots().get(j).setStatus(4000);
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                            orderDetails.setProductSkus(productSkus);
+//
+//                            OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
+//                            list_skus.setAdapter(skuAdapter);
+//                            currentPickupSku = getCurrentPickupProductSku();
+//                            if (currentPickupSku != null) {
+//                                setSendPickup(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+//                            } else {
+//                                setPickupCompleteDrawTips();
+//
+//                            }
+//
+//                            break;
+//                    }
+//                }
+//            }
+//        });
     }
 
     @Override

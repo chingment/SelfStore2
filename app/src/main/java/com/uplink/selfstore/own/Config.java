@@ -27,23 +27,19 @@ public class Config {
     public class URL {
         public static final String machine_InitData= BuildConfig.ENVIRONMENT + "/api/machine/InitData";
         public static final String machine_CheckUpdate= BuildConfig.ENVIRONMENT + "/api/machine/CheckUpdate";
-        public static final String machine_ScanSlotsEventNotify= BuildConfig.ENVIRONMENT + "/api/machine/ScanSlotsEventNotify";
+        public static final String machine_EventNotify = BuildConfig.ENVIRONMENT + "/api/Machine/EventNotify";
+        public static final String machine_UpLoadTraceLog= BuildConfig.ENVIRONMENT + "/api/Machine/UpLoadTraceLog";
         public static final String order_Reserve = BuildConfig.ENVIRONMENT + "/api/Order/Reserve";
         public static final String order_BuildPayParams = BuildConfig.ENVIRONMENT + "/api/Order/BuildPayParams";
         public static final String order_Cancle = BuildConfig.ENVIRONMENT + "/api/Order/Cancle";
         public static final String order_PayStatusQuery = BuildConfig.ENVIRONMENT + "/api/Order/PayStatusQuery";
         public static final String order_PickupStatusQuery = BuildConfig.ENVIRONMENT + "/api/Order/PickupStatusQuery";
-        public static final String order_PickupEventNotify = BuildConfig.ENVIRONMENT + "/api/Order/PickupEventNotify";
         public static final String order_Search = BuildConfig.ENVIRONMENT + "/api/Order/Search";
         public static final String order_Details = BuildConfig.ENVIRONMENT + "/api/Order/Details";
         public static final String order_PayUrlBuild = BuildConfig.ENVIRONMENT + "/api/Order/PayUrlBuild";
-        public static final String machine_UpLoadTraceLog= BuildConfig.ENVIRONMENT + "/api/Machine/UpLoadTraceLog";
         public static final String stockSetting_GetCabinetSlots= BuildConfig.ENVIRONMENT + "/api/StockSetting/GetCabinetSlots";
         public static final String stockSetting_SaveCabinetSlot= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetSlot";
         public static final String stockSetting_SaveCabinetRowColLayout= BuildConfig.ENVIRONMENT + "/api/StockSetting/SaveCabinetRowColLayout";
-        public static final String stockSetting_TestPickupEventNotify= BuildConfig.ENVIRONMENT + "/api/StockSetting/TestPickupEventNotify";
-        public static final String machine_SendRunStatus = BuildConfig.ENVIRONMENT + "/api/Machine/SendRunStatus";
-        public static final String machine_SendHeartbeatBag = BuildConfig.ENVIRONMENT + "/api/Machine/SendHeartbeatBag";
         public static final String productSku_Search= BuildConfig.ENVIRONMENT + "/api/ProductSku/Search";
         public static final String own_LoginByAccount= BuildConfig.ENVIRONMENT + "/api/Own/LoginByAccount";
         public static final String own_LoginByFingerVein= BuildConfig.ENVIRONMENT + "/api/Own/LoginByFingerVein";

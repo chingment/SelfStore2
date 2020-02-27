@@ -37,6 +37,8 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -368,20 +370,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
 
     private void scanSlotsEventNotify(int status, String remark) {
-
-        Map<String, Object> params = new HashMap<>();
-
-        MachineBean machine = AppCacheManager.getMachine();
-        params.put("machineId", machine.getId());
-        params.put("cabinetId", cabinetId);
-        params.put("status", status);
-        params.put("remark", remark);
-        postByMy(Config.URL.machine_ScanSlotsEventNotify, params, null, false, "", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-            }
-        });
+        try {
+            JSONObject content = new JSONObject();
+            content.put("cabinetId", cabinetId);
+            content.put("status", status);
+            content.put("remark", remark);
+            eventNotify(3, content);
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getCabinetSlots() {

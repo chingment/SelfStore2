@@ -199,7 +199,7 @@ public class PushUpdateUtil {
                 if (acts.size() > 0) {
                     for (Activity act : acts) {
                         if (act instanceof CartActivity) {
-                            if( CartActivity.LAST_ORDERID.equals(payResult.getOrderId())) {
+                            if( CartActivity.LAST_ORDERID.equals(payResult.getId())) {
                                 CartActivity act_CartActivity = (CartActivity) act;
                                 act_CartActivity.doPaySuccess(payResult);
                                 break;

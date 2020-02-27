@@ -1,8 +1,11 @@
 package com.uplink.selfstore.service;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,8 +27,12 @@ import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +44,7 @@ public class HeartbeatService extends Service {
     /**
      * 每20分钟更新一次数据
      */
-    private static final int ONE_Miniute=10*1000;
+    private static final int ONE_Miniute=5*60*1000;
     private static final int PENDING_REQUEST=1;
 
     public HeartbeatService() {
@@ -53,8 +60,7 @@ public class HeartbeatService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                LogUtil.e(TAG,"心跳包发送成功："+ System.currentTimeMillis());
-                HeartbeatService.sendHeartbeatBag();
+                sendHeartbeatBag();
 
             }
         }).start();
@@ -76,11 +82,40 @@ public class HeartbeatService extends Service {
     }
 
     public static void sendHeartbeatBag(){
+        LogUtil.e(TAG,"心跳包发送："+ System.currentTimeMillis());
+        MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
+        params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("deviceId", AppContext.getInstance().getDeviceId());
+        params.put("machineId", machine.getId());
+        params.put("type", 1);
 
-        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_SendHeartbeatBag, params, null, new HttpResponseHandler() {
+        String status="unknow";
+
+        Activity activity=AppManager.getAppManager().currentActivity();
+        if(activity!=null) {
+            String activityName =activity.getLocalClassName();
+            LogUtil.e(TAG,"当前activity:"+activityName);
+            if(activityName.contains(".Sm")){
+                status="setting";
+                params.put("status", AppContext.getInstance().getDeviceId());
+            }
+            else {
+                status="running";
+            }
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("status", status);
+            params.put("content", jsonObject);
+        }catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_EventNotify, params, null, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
@@ -89,7 +124,6 @@ public class HeartbeatService extends Service {
 
             @Override
             public void onSuccess(String response) {
-
                 LogUtil.e(TAG,"心跳包发送成功");
             }
 

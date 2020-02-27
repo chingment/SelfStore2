@@ -9,25 +9,33 @@ import java.util.List;
 
 public class OrderDetailsBean implements Serializable {
 
-    private String orderSn;
-    private String orderId;
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
+    private String id;
+    private String sn;
+    private int status;
     private List<OrderDetailsSkuBean> productSkus;
 
-    public String getOrderSn() {
-        return orderSn;
+    public String getId() {
+        return id;
     }
 
-    public void setOrderSn(String orderSn) {
-        this.orderSn = orderSn;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public List<OrderDetailsSkuBean> getProductSkus() {

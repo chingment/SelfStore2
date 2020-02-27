@@ -23,6 +23,7 @@ import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
+import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.OrderReserveResultBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
@@ -349,7 +350,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
 
-
         JSONArray json_Skus = new JSONArray();
 
         try {
@@ -432,7 +432,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             AppCacheManager.setCartSkus(null);
             Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
             Bundle bundle=new Bundle();
-            bundle.putSerializable("dataBean", bean.getOrderDetails());
+
+            OrderDetailsBean orderDetails =new OrderDetailsBean();
+            orderDetails.setId(bean.getId());
+            orderDetails.setSn(bean.getSn());
+            orderDetails.setStatus(bean.getStatus());
+            orderDetails.setProductSkus(bean.getProductSkus());
+            bundle.putSerializable("dataBean", orderDetails);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();

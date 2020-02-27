@@ -139,10 +139,13 @@ public class PayActivity extends SwipeBackActivity implements View.OnClickListen
 
                         Intent intent= new Intent(PayActivity.this, OrderDetailsActivity.class);
                         Bundle bundle=new Bundle();
-                        bundle.putSerializable("dataBean", d.getOrderDetails());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
+
+
+
+//                        bundle.putSerializable("dataBean", d.getOrderDetails());
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//                        finish();
                     }
                 }
             }

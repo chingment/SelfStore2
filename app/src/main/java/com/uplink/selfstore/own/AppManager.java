@@ -3,6 +3,7 @@ package com.uplink.selfstore.own;
 import android.app.Activity;
 import android.content.Context;
 
+import java.lang.ref.WeakReference;
 import java.util.LinkedList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.LinkedList;
 public class AppManager {
     private static LinkedList<Activity> activityStack;
     private static AppManager instance;
-
+    private WeakReference sCurrentActivityWeakRef;
     private AppManager() {
     }
 
@@ -40,8 +41,14 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-        Activity activity = activityStack.getLast();
-        return activity;
+        Activity currentActivity = null;
+        if (sCurrentActivityWeakRef != null) {
+            currentActivity =(Activity)sCurrentActivityWeakRef.get();
+        }
+        else {
+            currentActivity=activityStack.getLast();
+        }
+        return currentActivity;
     }
 
     /**
@@ -89,6 +96,12 @@ public class AppManager {
                 }
                 activityStack.clear();
             }
+        }
+    }
+
+    public void setCurrentActivity(Activity activity) {
+        if (sCurrentActivityWeakRef == null || !activity.equals(sCurrentActivityWeakRef.get())) {
+            sCurrentActivityWeakRef = new WeakReference<>(activity);
         }
     }
 
