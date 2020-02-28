@@ -46,7 +46,9 @@ public class AppManager {
             currentActivity =(Activity)sCurrentActivityWeakRef.get();
         }
         else {
-            currentActivity=activityStack.getLast();
+            if(activityStack!=null) {
+                currentActivity = activityStack.getLast();
+            }
         }
         return currentActivity;
     }
