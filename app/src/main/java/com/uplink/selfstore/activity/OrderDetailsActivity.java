@@ -438,58 +438,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     }
 
-    //设置商品卡槽取货失败
-//    private void setPickupException(String productSkuId,String slotId,String uniqueId) {
-//
-//
-//        List<OrderDetailsSkuBean> productSkus =orderDetails.getProductSkus();
-//
-//        for(int i=0;i<productSkus.size();i++) {
-//            if(productSkus.get(i).getId().equals(productSkuId)) {
-//                int quantityBySuccess=productSkus.get(i).getQuantityBySuccess();
-//                int quantityByException=productSkus.get(i).getQuantityByException();
-//                int quantity=productSkus.get(i).getQuantity();
-//                if((quantityBySuccess+quantityByException)<quantity) {
-//                    productSkus.get(i).setQuantityByException(quantityByException + 1);
-//                }
-//            }
-//        }
-//
-//        OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
-//        list_skus.setAdapter(skuAdapter);
-//    }
-
-//    public void pickupQueryStatus(String uniqueId) {
-//
-//        Map<String, String> params = new HashMap<>();
-//
-//        MachineBean machine = AppCacheManager.getMachine();
-//
-//        params.put("machineId", machine.getId());
-//        params.put("uniqueId", uniqueId);
-//
-//
-//        getByMy(Config.URL.order_PickupStatusQuery, params, false,"", new HttpResponseHandler() {
-//            @Override
-//            public void onSuccess(String response) {
-//                super.onSuccess(response);
-//
-//                ApiResultBean<OrderPickupStatusQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderPickupStatusQueryResultBean>>() {
-//                });
-//
-//
-//                if (rt.getResult() == Result.SUCCESS) {
-//
-//
-//                }
-//            }
-//        });
-//    }
 
     public void pickupEventNotify(final String productSkuId, final String slotId, final String uniqueId, final int status, String remark, PickupResult pickupResult) {
 
         try {
             JSONObject content = new JSONObject();
+            content.put("orderId", orderDetails.getId());
             content.put("uniqueId", uniqueId);
             content.put("productSkuId", productSkuId);
             content.put("slotId", slotId);
@@ -530,7 +484,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 }
                 break;
             case 4000:
-
                 List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
 
                 for (int i = 0; i < productSkus.size(); i++) {
@@ -562,74 +515,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                 }
         }
-
-
-//        postByMy(Config.URL.order_PickupEventNotify, params, null, false, "", new HttpResponseHandler() {
-//            @Override
-//            public void onSuccess(String response) {
-//                super.onSuccess(response);
-//
-//                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
-//                });
-//
-//
-//                if (rt.getResult() == Result.SUCCESS) {
-//
-//                    switch (status) {
-//                        case 3011:
-//                            SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
-//                            if (slotNRC != null) {
-//
-//                                int mode=0;
-//                                if (cabinetPendantRows != null) {
-//                                    for (int z = 0; z < cabinetPendantRows.length; z++) {
-//                                        if (cabinetPendantRows[z] == slotNRC.getRow()) {
-//                                            mode =1;
-//                                            break;
-//                                        }
-//                                    }
-//                                }
-//                                machineCtrl.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
-//                            }
-//                            break;
-//                        case 4000:
-//
-//                            List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
-//
-//                            for (int i = 0; i < productSkus.size(); i++) {
-//                                if (productSkus.get(i).getId().equals(productSkuId)) {
-//                                    int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
-//                                    int quantityByException = productSkus.get(i).getQuantityByException();
-//                                    int quantity = productSkus.get(i).getQuantity();
-//                                    if ((quantityBySuccess + quantityByException) < quantity) {
-//                                        productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
-//                                    }
-//
-//                                    for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
-//                                        if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
-//                                            productSkus.get(i).getSlots().get(j).setStatus(4000);
-//                                        }
-//                                    }
-//                                }
-//                            }
-//
-//                            orderDetails.setProductSkus(productSkus);
-//
-//                            OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
-//                            list_skus.setAdapter(skuAdapter);
-//                            currentPickupSku = getCurrentPickupProductSku();
-//                            if (currentPickupSku != null) {
-//                                setSendPickup(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-//                            } else {
-//                                setPickupCompleteDrawTips();
-//
-//                            }
-//
-//                            break;
-//                    }
-//                }
-//            }
-//        });
     }
 
     @Override

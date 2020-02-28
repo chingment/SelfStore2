@@ -102,25 +102,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 break;
                             case 2://启动就绪
                                 scanSlotsEventNotify(2000,"启动就绪");
-                                LogUtil.e("xxxx:0");
                                 if(customDialogRunning!=null) {
-                                    LogUtil.e("xxxx:1");
                                     customDialogRunning.setProgressText(message);
                                     if (!customDialogRunning.isShowing()) {
-                                        LogUtil.e("xxxx:2");
                                         customDialogRunning.showDialog();
-//                                        new Handler().postDelayed(new Runnable() {
-//                                            public void run() {
-//                                                LogUtil.i("正在执行关闭窗口");
-//                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
-//                                                    customDialogRunning.cancelDialog();
-//                                                }
-//                                            }
-//                                        }, 600 * 1000);
-                                    }
-                                    else
-                                    {
-                                        LogUtil.e("xxxx:3");
                                     }
                                 }
                                 break;
@@ -145,7 +130,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 showToast(message);
                                 break;
                             case 6://扫描失败
-                                scanSlotsEventNotify(5000,"扫描失败");
+                                scanSlotsEventNotify(6000,"扫描失败");
                                 if(customDialogRunning!=null) {
                                     if(customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
