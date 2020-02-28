@@ -153,8 +153,7 @@
             android:name="JPUSH_APPKEY"
             android:value="47571aa2482f3b9e2af243a9" /> <!-- </>值来自开发者平台取得的AppKey -->
         <activity
-            android:name=".activity.ProductKindActivity"
-            android:launchMode="singleTask" />
+            android:name=".activity.ProductKindActivity"/>
         <activity
             android:name=".activity.ProductDetailsActivity"
             android:launchMode="singleTask" />

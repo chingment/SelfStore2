@@ -109,14 +109,14 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
     public void loadKindData() {
 
-
         GlobalDataSetBean globalDataSet = this.getGlobalDataSet();
+        if(globalDataSet==null)
+            return;
 
         productKinds = globalDataSet.getProductKinds();
 
         if (productKinds == null)
             return;
-
 
         if (productKinds.size() <= 0)
             return;
@@ -167,8 +167,10 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     private void initData() {
         loadKindData();
         CartStatisticsBean cartStatistics = CartActivity.getStatistics();
-        txt_cart_sumquantity.setText(String.valueOf(cartStatistics.getSumQuantity()));
-        txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(cartStatistics.getSumSalesPrice()));
+        if(cartStatistics!=null) {
+            txt_cart_sumquantity.setText(String.valueOf(cartStatistics.getSumQuantity()));
+            txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(cartStatistics.getSumSalesPrice()));
+        }
     }
 
     public void reSetProductKindBodyAdapter() {
