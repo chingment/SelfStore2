@@ -162,7 +162,6 @@
             android:name=".activity.CartActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.SmHomeActivity" />
-        <activity android:name=".activity.PayActivity" />
         <activity android:name=".activity.SmMachineInfoActivity" />
 
         <receiver android:name=".broadcast.BootBroadcastReceiver">
@@ -189,9 +188,7 @@
         <!-- </receiver> -->
         <activity android:name=".activity.SmLoginActivity" />
         <activity android:name=".activity.OrderDetailsActivity" />
-        <activity android:name=".activity.PayWayActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
-
         <service android:name=".service.CameraSnapService" />
         <service android:name=".service.MachineCtrlService" />
         <service android:name=".service.UpdateAppService" />
