@@ -367,12 +367,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_PickupCompelte.cancel();
                 }
 
-                Thread t = new Thread(new Runnable(){
-                    public void run(){
-                        machineCtrl.goZero();
-                    }
-                });
-                t.start();
+//                Thread t = new Thread(new Runnable(){
+//                    public void run(){
+//                        machineCtrl.goZero();
+//                    }
+//                });
+//                t.start();
 
                 Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                 startActivity(intent);

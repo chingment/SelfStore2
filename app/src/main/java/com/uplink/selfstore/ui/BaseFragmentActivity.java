@@ -58,7 +58,6 @@ import cn.jpush.android.api.JPushInterface;
 public class BaseFragmentActivity extends FragmentActivity implements View.OnClickListener {
     private String TAG = "BaseFragmentActivity";
     private AppContext appContext;
-    private Handler mWorkerHandler;
     private long mWorkerThreadID = -1;
     public static boolean isForeground = false;
     private MessageReceiver mJpush_MessageReceiver;
@@ -120,28 +119,23 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())) {
 
-            Activity activity= AppManager.getAppManager().currentActivity();
-
-            if(activity instanceof InitDataActivity){
-                if (AppCacheManager.getGlobalDataSet() != null) {
-                    Intent intent = new Intent(getAppContext(), MainActivity.class);
+            Activity activity = AppManager.getAppManager().currentActivity();
+            if (activity != null) {
+                if (activity instanceof InitDataActivity) {
+                    if (AppCacheManager.getGlobalDataSet() != null) {
+                        Intent intent = new Intent(appContext, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } else {
+                    showToast("检查异常，设备重新运行");
+                    Intent intent = new Intent(appContext, InitDataActivity.class);
                     startActivity(intent);
                     finish();
                 }
-            }
-            else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
+
             }
         }
-
-        if (mWorkerHandler == null) {
-            mWorkerHandler = HandlerThreadHandler.createHandler(TAG);
-            mWorkerThreadID = mWorkerHandler.getLooper().getThread().getId();
-        }
-
     }
 
     public void  useClosePageCountTimer()
@@ -278,15 +272,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (mWorkerHandler != null) {
-            try {
-                mWorkerHandler.getLooper().quit();
-            } catch (final Exception e) {
-                //
-            }
-            mWorkerHandler = null;
-        }
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mJpush_MessageReceiver);
         AppManager.getAppManager().finishActivity(this);
@@ -524,22 +509,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         } catch (Exception e) {
             return false;
-        }
-    }
-
-    public final synchronized void queueEvent(final Runnable task, final long delayMillis) {
-        if ((task == null) || (mWorkerHandler == null)) return;
-        try {
-            mWorkerHandler.removeCallbacks(task);
-            if (delayMillis > 0) {
-                mWorkerHandler.postDelayed(task, delayMillis);
-            } else if (mWorkerThreadID == Thread.currentThread().getId()) {
-                task.run();
-            } else {
-                mWorkerHandler.post(task);
-            }
-        } catch (final Exception e) {
-            // ignore
         }
     }
 

@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.broadcast.AlarmReceiver;
 import com.uplink.selfstore.broadcast.HeartbeatRecevier;
@@ -44,7 +45,7 @@ public class HeartbeatService extends Service {
     /**
      * 每20分钟更新一次数据
      */
-    private static final int ONE_Miniute=5*60*1000;
+    private static final int ONE_Miniute=20*60*1000;
     private static final int PENDING_REQUEST=1;
 
     public HeartbeatService() {
@@ -82,55 +83,61 @@ public class HeartbeatService extends Service {
     }
 
     public static void sendHeartbeatBag(){
-        LogUtil.e(TAG,"心跳包发送："+ System.currentTimeMillis());
-        MachineBean machine = AppCacheManager.getMachine();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("appId", BuildConfig.APPLICATION_ID);
-        params.put("deviceId", AppContext.getInstance().getDeviceId());
-        params.put("machineId", machine.getId());
-        params.put("type", 1);
-
-        String status="unknow";
-
-        Activity activity=AppManager.getAppManager().currentActivity();
-        if(activity!=null) {
-            String activityName =activity.getLocalClassName();
-            LogUtil.e(TAG,"当前activity:"+activityName);
-            if(activityName.contains(".Sm")){
-                status="setting";
-                params.put("status", AppContext.getInstance().getDeviceId());
-            }
-            else {
-                status="running";
-            }
-        }
-
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("status", status);
-            params.put("content", jsonObject);
-        }catch (JSONException e) {
-            e.printStackTrace();
-            return;
+
+
+            LogUtil.e(TAG, "心跳包发送：" + System.currentTimeMillis());
+            MachineBean machine = AppCacheManager.getMachine();
+
+            Map<String, Object> params = new HashMap<>();
+            params.put("appId", BuildConfig.APPLICATION_ID);
+            params.put("deviceId", AppContext.getInstance().getDeviceId());
+            params.put("machineId", machine.getId());
+            params.put("type", 1);
+
+            String status = "unknow";
+
+            Activity activity = AppManager.getAppManager().currentActivity();
+            if (activity != null) {
+                String activityName = activity.getLocalClassName();
+                LogUtil.e(TAG, "当前activity:" + activityName);
+                if (activityName.contains(".Sm")) {
+                    status = "setting";
+                    params.put("status", AppContext.getInstance().getDeviceId());
+                } else {
+                    status = "running";
+                }
+            }
+
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("status", status);
+                params.put("content", jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_EventNotify, params, null, new HttpResponseHandler() {
+
+                @Override
+                public void onBeforeSend() {
+
+                }
+
+                @Override
+                public void onSuccess(String response) {
+                    LogUtil.e(TAG, "心跳包发送成功");
+                }
+
+                @Override
+                public void onFailure(String msg, Exception e) {
+                }
+            });
         }
-
-        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_EventNotify, params, null, new HttpResponseHandler() {
-
-            @Override
-            public void onBeforeSend() {
-
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                LogUtil.e(TAG,"心跳包发送成功");
-            }
-
-            @Override
-            public void onFailure(String msg, Exception e) {
-            }
-        });
+        catch (Exception ex){
+            TcStatInterface.onEvent("sendHeartbeatBag.error", null);
+        }
 
     }
 }
