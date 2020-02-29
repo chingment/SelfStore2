@@ -479,8 +479,20 @@ public class MachineCtrl {
                 return;
             }
 
-            int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
-            if (rt_goZero != S_RC_SUCCESS) {
+            boolean isgoZero=false;
+            for(int i=0;i<3;i++) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+                if (rt_goZero == S_RC_SUCCESS) {
+                    isgoZero=true;
+                }
+            }
+
+            if (!isgoZero) {
                 LogUtil.i(TAG, "取货流程监听：启动回原点失败");
                 sendPickupHandlerMessage(5, "启动回原点失败", null);
                 return;
