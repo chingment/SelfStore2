@@ -200,7 +200,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         MachineBean machine = AppCacheManager.getMachine();
 
         params.put("machineId", machine.getId());
-        params.put("pickCode", pickCode);
+        params.put("pickupCode", pickCode);
 
         getByMy(Config.URL.order_Search, params, true, "正在寻找订单", new HttpResponseHandler() {
             @Override

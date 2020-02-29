@@ -519,10 +519,24 @@ public class MachineCtrl {
 
             LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
 
-            int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
-            if (rc_autoStart != S_RC_SUCCESS) {
+            //尝试3次发送取货命令
+            boolean isAutoStart=false;
+            for(int i=0;i<3;i++) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
+                if (rc_autoStart == S_RC_SUCCESS) {
+                    isAutoStart=true;
+                    break;
+                }
+            }
+
+            if(!isAutoStart) {
                 LogUtil.i(TAG, "取货流程监听：取货启动失败");
-                sendPickupHandlerMessage(5, "取货启动失败", null);
+                sendPickupHandlerMessage(5, "尝试3次取货启动失败", null);
                 return;
             }
 

@@ -374,7 +374,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //                });
 //                t.start();
 
-                Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
+                Intent intent = new Intent(OrderDetailsActivity.this, ProductKindActivity.class);
                 startActivity(intent);
                 finish();
             }
