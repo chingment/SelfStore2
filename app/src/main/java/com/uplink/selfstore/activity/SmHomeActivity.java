@@ -52,6 +52,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         initView();
         initEvent();
 
+
         machineCtrl=MachineCtrl.getInstance();
         machineCtrl.setDoorHandler(new Handler(new Handler.Callback() {
             @Override

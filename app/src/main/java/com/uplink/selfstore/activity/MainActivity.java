@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.tamic.statinterface.stats.core.TcStatInterface;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.http.HttpClient;
@@ -78,6 +79,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 ///storage/emulated/0/DCIM/SelfStore
 //        String slot="n10r99c100m44";
 //        SlotNRC nrc=SlotNRC.GetSlotNRC(slot);
+
 
         initView();
         initEvent();
@@ -173,6 +175,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
+                      //CrashReport.testJavaCrash();
 //                    Intent cameraSnapService2 = new Intent();
 //                    cameraSnapService2.setAction("android.intent.action.cameraSnapService");
 //                    cameraSnapService2.putExtra("cameraId", 0);

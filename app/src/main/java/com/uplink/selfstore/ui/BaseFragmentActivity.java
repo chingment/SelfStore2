@@ -133,7 +133,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                     startActivity(intent);
                     finish();
                 }
-
             }
         }
     }

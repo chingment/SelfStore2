@@ -44,3 +44,5 @@
 -keep class com.lgh.uvccamera.**{*;}
 -keep class com.serenegiant.usb.**{*;}
 -keep class org.apache.**{*;}
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

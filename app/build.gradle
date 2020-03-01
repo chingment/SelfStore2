@@ -103,6 +103,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.alibaba:fastjson:1.2.46'
     implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
     implementation("com.serenegiant:common:${commonLibVersion}") {

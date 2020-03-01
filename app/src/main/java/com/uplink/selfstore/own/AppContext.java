@@ -13,9 +13,11 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.tamic.statinterface.stats.core.TcCrashHandler;
 import com.tamic.statinterface.stats.db.DbManager;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
@@ -25,6 +27,9 @@ import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -46,16 +51,32 @@ public class AppContext extends Application {
         return app;
     }
 
+    private static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-
-        //AppCrashHandler.getInstance().init(this);
-
-        JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);  // 初始化 JPus
-
-        //DbManager.getInstance().init(this);
 
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override
@@ -63,6 +84,22 @@ public class AppContext extends Application {
                 restartApp();
             }
         });
+
+        //腾讯Bugly 配置
+        Context context = getApplicationContext();
+        String packageName = context.getPackageName();
+        String processName = getProcessName(android.os.Process.myPid());
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+        CrashReport.initCrashReport(context, "b9d0425e4c", true);
+
+
+        JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);  // 初始化 JPus
+
+        //DbManager.getInstance().init(this);
+
+
         TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.initialize(this, BuildConfig.APPLICATION_ID, "android.storeterm", "stat_id.json");

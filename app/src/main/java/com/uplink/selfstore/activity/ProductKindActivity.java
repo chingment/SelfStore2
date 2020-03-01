@@ -27,6 +27,7 @@ import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.ArrayList;
