@@ -553,6 +553,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             mUVCCamera.unregisterReceiver();
             mUVCCamera=null;
         }
+
+        if(machineCtrl!=null){
+            machineCtrl.dispose();
+        }
     }
 
     public  void  saveCaptureStill(byte[] data,String saveDir,String fileName) {

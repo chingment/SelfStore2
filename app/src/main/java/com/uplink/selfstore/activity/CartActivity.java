@@ -568,9 +568,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 ac.reSetProductKindBodyAdapter();
                 TextView txt_cart_sumquantity = (TextView) ac.findViewById(R.id.txt_cart_sumquantity);
                 TextView txt_cart_sumsalesprice = (TextView) ac.findViewById(R.id.txt_cart_sumsalesprice);
-                txt_cart_sumquantity.setText(String.valueOf(sumQuantity));
-                txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(sumSalesPrice));
-
+                if(txt_cart_sumquantity!=null) {
+                    txt_cart_sumquantity.setText(String.valueOf(sumQuantity));
+                }
+                if(txt_cart_sumsalesprice!=null) {
+                    txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(sumSalesPrice));
+                }
 
             } else if (activity instanceof ProductDetailsActivity) {
                 TextView txt_cart_sumquantity = (TextView) activity.findViewById(R.id.txt_cart_sumquantity);

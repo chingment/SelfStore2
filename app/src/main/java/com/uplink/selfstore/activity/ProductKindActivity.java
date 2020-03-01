@@ -122,6 +122,10 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
             return;
 
 
+        if(cur_Kind_Position<=-1){
+            return;
+        }
+
         ProductKindBean kind = productKinds.get(cur_Kind_Position);
 
         if (kind == null)
@@ -174,7 +178,9 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     }
 
     public void reSetProductKindBodyAdapter() {
-        productKindSkuAdapter.notifyDataSetChanged();
+        if(productKindSkuAdapter!=null) {
+            productKindSkuAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

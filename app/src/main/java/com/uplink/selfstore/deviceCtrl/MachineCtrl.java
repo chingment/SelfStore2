@@ -105,11 +105,30 @@ public class MachineCtrl {
         if (sym == null) {
             return false;
         }
-        boolean isflag = sym.SY_MV_DIO_Slave_ConnectSts();
-        if (!isflag) {
-            connect();
+
+
+        boolean isflag=false;
+        long nStart = System.currentTimeMillis();
+        long nEnd = System.currentTimeMillis();
+
+        for (; (nEnd - nStart <= (long) 2 * 1000); nEnd = System.currentTimeMillis()) {
+
+            boolean isConnectSts = sym.SY_MV_DIO_Slave_ConnectSts();
+            if(isConnectSts){
+                isflag=true;
+                break;
+            }
+            else{
+                connect();
+            }
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        isflag = sym.SY_MV_DIO_Slave_ConnectSts();
+
 
         LogUtil.i(TAG, "isNormarl:" + isflag);
         return isflag;
@@ -178,16 +197,18 @@ public class MachineCtrl {
         }
     }
 
-
     public void doorControl() {
         doorThread = new DoorThread();
         doorThread.start();
     }
 
-
     public void pickUp(int mode, int row, int col) {
         pickupListenerThread = new PickupListenerThread(mode, row, col);
         pickupListenerThread.start();
+    }
+
+    public void dispose(){
+        cmd_PickupIsStopListener=true;
     }
 
     public boolean isIdle() {
@@ -479,16 +500,18 @@ public class MachineCtrl {
                 return;
             }
 
+            //尝试3次回原点
             boolean isgoZero=false;
             for(int i=0;i<3;i++) {
+                int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+                if (rt_goZero == S_RC_SUCCESS) {
+                    isgoZero = true;
+                    break;
+                }
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
-                int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
-                if (rt_goZero == S_RC_SUCCESS) {
-                    isgoZero=true;
                 }
             }
 
@@ -534,15 +557,15 @@ public class MachineCtrl {
             //尝试3次发送取货命令
             boolean isAutoStart=false;
             for(int i=0;i<3;i++) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
                 if (rc_autoStart == S_RC_SUCCESS) {
                     isAutoStart=true;
                     break;
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -600,10 +623,10 @@ public class MachineCtrl {
                                         sendPickupHandlerMessage(3, "正在取货中", result);
                                     }
                                     else if(rc_flowStatus[3] == S_Motor_Timeout) {
+                                        cmd_PickupIsStopListener = true;
                                         goZero();
                                         disConnect();
                                         LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
-                                        cmd_PickupIsStopListener = true;
                                         sendPickupHandlerMessage(5, "单动作运行取货超时", result);
                                     }
                                 }
@@ -611,18 +634,18 @@ public class MachineCtrl {
                         }
 
                     } else {
+                        cmd_PickupIsStopListener = true;
                         goZero();
                         disConnect();
                         LogUtil.e(TAG, "取货流程监听：整体动作运行取货超时");
-                        cmd_PickupIsStopListener = true;
                         sendPickupHandlerMessage(5, "整体动作运行取货超时", null);
                     }
                 } catch (Exception ex) {
+                    cmd_PickupIsStopListener = true;
                     goZero();
                     disConnect();
                     LogUtil.e(TAG, "取货流程监听：发生异常");
                     LogUtil.e(TAG, ex);
-                    cmd_PickupIsStopListener = true;
                     sendPickupHandlerMessage(6, "取货异常", null);
                 }
             }
