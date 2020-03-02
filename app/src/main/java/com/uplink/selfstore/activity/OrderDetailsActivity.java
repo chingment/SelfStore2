@@ -28,16 +28,12 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.http.HttpClient;
-import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
-import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
-import com.uplink.selfstore.model.api.OrderPickupStatusQueryResultBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
-import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
@@ -46,7 +42,6 @@ import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -375,15 +370,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_PickupCompelte.cancel();
                 }
 
-                closePageCountTimerStop();
-
-//                Thread t = new Thread(new Runnable(){
-//                    public void run(){
-//                        machineCtrl.goZero();
-//                    }
-//                });
-//                t.start();
-
                 Intent intent = new Intent(OrderDetailsActivity.this, ProductKindActivity.class);
                 startActivity(intent);
                 finish();
@@ -531,10 +517,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_PickupCompeled:
-                    if(!isPickupCompelte()){
-                        showToast(getAppContext().getString(R.string.tips_notpickupcompelte));
-                        return;
-                    }
+//                    if(!isPickupCompelte()){
+//                        showToast(getAppContext().getString(R.string.tips_notpickupcompelte));
+//                        return;
+//                    }
                     dialog_PickupCompelte.show();
                     break;
                 case R.id.btn_ContactKefu:
