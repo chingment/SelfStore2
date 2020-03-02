@@ -1,20 +1,15 @@
 package com.uplink.selfstore.service;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
-import com.uplink.selfstore.broadcast.AlarmReceiver;
 import com.uplink.selfstore.broadcast.HeartbeatRecevier;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -23,19 +18,11 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.utils.DateUtil;
-import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.StringReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +49,6 @@ public class HeartbeatService extends Service {
             @Override
             public void run() {
                 sendHeartbeatBag();
-
             }
         }).start();
 

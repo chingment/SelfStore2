@@ -14,14 +14,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.lgh.uvccamera.UVCCameraProxy;
-import com.lgh.uvccamera.bean.PicturePath;
 import com.lgh.uvccamera.callback.PictureCallback;
 import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
@@ -91,10 +86,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
         machineCtrl=MachineCtrl.getInstance();
-
+        machineInfo = AppCacheManager.getMachine();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
-        machineInfo = AppCacheManager.getMachine();
         cabinetPendantRows=machineInfo.getCabinetPendantRows_1();
 
         initView();
@@ -104,7 +98,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if(machineInfo.isOpenChkCamera()) {
             initUVCCamera();
         }
-        //machineCtrl.connect();
+
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -216,7 +210,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     }
                 })
         );
-
 
         currentPickupSku = getCurrentPickupProductSku();
         if (currentPickupSku != null) {
@@ -341,12 +334,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_img_main.setImageResource(R.drawable.icon_pickupcomplete);
         curpickupsku_tip1.setText("出货完成");
         curpickupsku_tip2.setText("欢迎再次购买......");
-        useClosePageCountTimer(new ClosePageCountTimer.OnPageCountLinster(){
+        useClosePageCountTimer(new ClosePageCountTimer.OnPageCountLinster() {
             @Override
             public void onTick(long seconds) {
 
             }
-        },30);
+        }, 30);
     }
 
     private void initView() {
@@ -398,8 +391,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private void initData() {
 
-        MachineBean machine = AppCacheManager.getMachine();
-
         if(orderDetails==null) {
             LogUtil.i("bean为空");
             return;
@@ -408,8 +399,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         txt_OrderSn.setText(orderDetails.getSn());
 
 
-        dialog_SystemWarn.setCsrPhoneNumber(machine.getCsrPhoneNumber());
-        dialog_SystemWarn.setCsrQrcode(machine.getCsrQrCode());
+        dialog_SystemWarn.setCsrPhoneNumber(machineInfo.getCsrPhoneNumber());
+        dialog_SystemWarn.setCsrQrcode(machineInfo.getCsrQrCode());
 
 
         OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
@@ -517,10 +508,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_PickupCompeled:
-//                    if(!isPickupCompelte()){
-//                        showToast(getAppContext().getString(R.string.tips_notpickupcompelte));
-//                        return;
-//                    }
+                    if(!isPickupCompelte()){
+                        showToast(getAppContext().getString(R.string.tips_notpickupcompelte));
+                        return;
+                    }
                     dialog_PickupCompelte.show();
                     break;
                 case R.id.btn_ContactKefu:
