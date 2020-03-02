@@ -83,6 +83,11 @@ public class AppCacheManager {
             return bean;
         }
 
+        if(globalDataSet.getMachine()==null){
+            bean.setId("");
+            return bean;
+        }
+
         bean = globalDataSet.getMachine();
 
         return bean;

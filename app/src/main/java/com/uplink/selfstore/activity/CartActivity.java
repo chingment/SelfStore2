@@ -221,7 +221,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                         cartSku.setQuantity(bean.getQuantity());
                         cartSku.setName(productSku.getName());
                         cartSku.setSalePrice(productSku.getSalePrice());
-
                         cartSkus.add(cartSku);
 
                     }
@@ -231,14 +230,21 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
 
         if (cartSkus.size() == 0) {
-            list_skus.setVisibility(View.GONE);
-            list_empty_tip.setVisibility(View.VISIBLE);
+            if(list_skus!=null) {
+                list_skus.setVisibility(View.GONE);
+            }
+            if(list_empty_tip!=null){
+                list_empty_tip.setVisibility(View.VISIBLE);
+            }
         } else {
-            CartSkuAdapter cartSkuAdapter = new CartSkuAdapter(CartActivity.this, this.getGlobalDataSet(), cartSkus);
-            list_skus.setAdapter(cartSkuAdapter);
-            list_skus.setVisibility(View.VISIBLE);
-            list_empty_tip.setVisibility(View.GONE);
-
+            if(list_skus!=null) {
+                CartSkuAdapter cartSkuAdapter = new CartSkuAdapter(CartActivity.this, this.getGlobalDataSet(), cartSkus);
+                list_skus.setAdapter(cartSkuAdapter);
+                list_skus.setVisibility(View.VISIBLE);
+            }
+            if(list_empty_tip!=null) {
+                list_empty_tip.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -289,9 +295,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
     }
 
-    private  void  buildBayParams(final String orderId, final TerminalPayOptionBean payOption)
-    {
-
+    private  void  buildBayParams(final String orderId, final TerminalPayOptionBean payOption) {
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", orderId);
         params.put("payPartner", payOption.getPartner() + "");
@@ -428,7 +432,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     public  void  doPaySuccess(OrderPayStatusQueryResultBean bean) {
         //4 为 已完成支付
         if (bean.getStatus() == 3000) {
-            taskByCheckPayTimeout.cancel();
+            if(taskByCheckPayTimeout!=null) {
+                taskByCheckPayTimeout.cancel();
+            }
             AppCacheManager.setCartSkus(null);
             Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
             Bundle bundle=new Bundle();
@@ -547,7 +553,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         AppCacheManager.setCartSkus(cartSkus);
 
 
-        CartStatisticsBean statistics = new CartStatisticsBean();
         int sumQuantity = 0;
         float sumSalesPrice = 0;
         for (CartSkuBean bean : cartSkus) {
@@ -560,27 +565,28 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
 
         LinkedList<Activity> activityStack = AppManager.getAppManager().getActivityStack();
+        if(activityStack!=null) {
+            for (Activity activity : activityStack) {
 
-        for (Activity activity : activityStack) {
+                if (activity instanceof ProductKindActivity) {
+                    ProductKindActivity ac = (ProductKindActivity) activity;
+                    ac.reSetProductKindBodyAdapter();
+                    TextView txt_cart_sumquantity = (TextView) ac.findViewById(R.id.txt_cart_sumquantity);
+                    TextView txt_cart_sumsalesprice = (TextView) ac.findViewById(R.id.txt_cart_sumsalesprice);
+                    if (txt_cart_sumquantity != null) {
+                        txt_cart_sumquantity.setText(String.valueOf(sumQuantity));
+                    }
+                    if (txt_cart_sumsalesprice != null) {
+                        txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(sumSalesPrice));
+                    }
 
-            if (activity instanceof ProductKindActivity) {
-                ProductKindActivity ac = (ProductKindActivity) activity;
-                ac.reSetProductKindBodyAdapter();
-                TextView txt_cart_sumquantity = (TextView) ac.findViewById(R.id.txt_cart_sumquantity);
-                TextView txt_cart_sumsalesprice = (TextView) ac.findViewById(R.id.txt_cart_sumsalesprice);
-                if(txt_cart_sumquantity!=null) {
+                } else if (activity instanceof ProductDetailsActivity) {
+                    TextView txt_cart_sumquantity = (TextView) activity.findViewById(R.id.txt_cart_sumquantity);
                     txt_cart_sumquantity.setText(String.valueOf(sumQuantity));
+                } else if (activity instanceof CartActivity) {
+                    CartActivity ac = (CartActivity) activity;
+                    ac.setList();
                 }
-                if(txt_cart_sumsalesprice!=null) {
-                    txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(sumSalesPrice));
-                }
-
-            } else if (activity instanceof ProductDetailsActivity) {
-                TextView txt_cart_sumquantity = (TextView) activity.findViewById(R.id.txt_cart_sumquantity);
-                txt_cart_sumquantity.setText(String.valueOf(sumQuantity));
-            } else if (activity instanceof CartActivity) {
-                CartActivity ac = (CartActivity) activity;
-                ac.setList();
             }
         }
 

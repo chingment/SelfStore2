@@ -48,11 +48,11 @@ public class PushUpdateUtil {
                 break;
             case "update:ProductSkuStock":
                 LogUtil.d("进入update:ProductSkuStock");
-                updateProductSkuStock(content);//更新机器种类
+                //updateProductSkuStock(content);//更新机器种类
                 break;
             case "paySuccess":
                 LogUtil.d("进入paySuccess");
-                paySuccess(content);//支付成功
+                //paySuccess(content);//支付成功
                 break;
             case "openPickupDoor":
                 LogUtil.d("进入openPickupDoor");

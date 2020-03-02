@@ -298,4 +298,8 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
