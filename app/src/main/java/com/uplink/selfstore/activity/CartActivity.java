@@ -340,7 +340,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
         }
 
-        if(!Config.DEBUG) {
+        if(!Config.IS_BUILD_DEBUG) {
             if (!machineCtrl.isIdle()) {
                 showToast("设备不在空闲状态");
                 return;

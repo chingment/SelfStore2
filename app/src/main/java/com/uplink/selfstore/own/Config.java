@@ -8,8 +8,8 @@ import com.uplink.selfstore.utils.StringUtil;
 
 
 public class Config {
-    public static final boolean DEBUG = BuildConfig.DEBUG;
-
+    public static final boolean IS_BUILD_DEBUG = BuildConfig.DEBUG;//打包模式
+    public static final boolean IS_APP_DEBUG = BuildConfig.ISAPPDEBUG;//调试模式
     public static String getSign(String key, String secret, String data, String currenttime) {
         // 待加密
         String queryStr = key + secret + currenttime + data;

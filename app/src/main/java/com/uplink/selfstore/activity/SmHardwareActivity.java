@@ -98,7 +98,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
         mCameraTextureView =(TextureView)findViewById(R.id.cameraView);
         list_machinectrlinfo=(MyListView)findViewById(R.id.list_machinectrlinfo);
-        if(Config.DEBUG) {
+        if(Config.IS_BUILD_DEBUG) {
             mCameraTest = (Button) findViewById(R.id.cameraTest);
             mCameraTest.setVisibility(View.VISIBLE);
             mCameraTest.setOnClickListener(this);
