@@ -88,6 +88,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private int mCameraPreviewWidth=640;
     private int mCameraPreviewHeight=480;
 
+    private MachineBean machineInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,13 +99,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
-        MachineBean machine = AppCacheManager.getMachine();
-        cabinetPendantRows=machine.getCabinetPendantRows_1();
+        machineInfo = AppCacheManager.getMachine();
+        cabinetPendantRows=machineInfo.getCabinetPendantRows_1();
 
         initView();
         initEvent();
         initData();
-        initUVCCamera();
+
+        if(machineInfo.isOpenChkCamera()) {
+            initUVCCamera();
+        }
         //machineCtrl.connect();
         machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
@@ -130,9 +134,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 }
 
-                                if (mUVCCamera != null) {
-                                    if (!mUVCCamera.isCameraOpen()) {
-                                        mUVCCamera.openCamera(37424, 1443);
+                                if(machineInfo.isOpenChkCamera()) {
+                                    if (mUVCCamera != null) {
+                                        if (!mUVCCamera.isCameraOpen()) {
+                                            mUVCCamera.openCamera(37424, 1443);
+                                        }
                                     }
                                 }
 
@@ -145,10 +151,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                                     //拍照
                                     if (pickupResult.getCurrentActionId() == 8) {
-                                        if (mUVCCamera != null) {
-                                            LogUtil.i(TAG, "进入拍照流程");
-                                            pickupResult.setImgId(UUID.randomUUID().toString());
-                                            mUVCCamera.takePicture(pickupResult.getImgId());
+                                        if (machineInfo.isOpenChkCamera()) {
+                                            if (mUVCCamera != null) {
+                                                LogUtil.i(TAG, "进入拍照流程");
+                                                pickupResult.setImgId(UUID.randomUUID().toString());
+                                                mUVCCamera.takePicture(pickupResult.getImgId());
 
 //
 //                                            final String imgId=pickupResult.getImgId();
@@ -170,11 +177,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //                                                    mUVCCamera.takePicture(imgId);
 //                                                }
 //                                            });
-                                            // Intent cameraSnapService = new Intent();
+                                                // Intent cameraSnapService = new Intent();
 //                                        cameraSnapService.setAction("android.intent.action.cameraSnapService");
 //                                        cameraSnapService.putExtra("cameraId", 0);
 //                                        cameraSnapService.putExtra("imgId", pickupResult.getImgId());
 //                                        sendBroadcast(cameraSnapService);
+                                            }
                                         }
                                     }
                                 }
@@ -367,6 +375,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_PickupCompelte.cancel();
                 }
 
+                closePageCountTimerStop();
+
 //                Thread t = new Thread(new Runnable(){
 //                    public void run(){
 //                        machineCtrl.goZero();
@@ -556,6 +566,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if(machineCtrl!=null){
             machineCtrl.dispose();
         }
+
+        closePageCountTimerStop();
     }
 
     public  void  saveCaptureStill(byte[] data,String saveDir,String fileName) {

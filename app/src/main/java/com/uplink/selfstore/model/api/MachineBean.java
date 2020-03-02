@@ -25,6 +25,15 @@ public class MachineBean implements Serializable {
     private boolean isHiddenKind;
     private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
+    private boolean isOpenChkCamera;
+
+    public boolean isOpenChkCamera() {
+        return isOpenChkCamera;
+    }
+
+    public void setOpenChkCamera(boolean openChkCamera) {
+        isOpenChkCamera = openChkCamera;
+    }
 
     public String getCsrQrCode() {
         return csrQrCode;
