@@ -154,7 +154,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public void  closePageCountTimerStart() {
 
 
-        new Handler(getMainLooper()).post(new Runnable() {
+        new Handler().post(new Runnable() {
             @Override
             public void run() {
                 if(closePageCountTimer!=null) {

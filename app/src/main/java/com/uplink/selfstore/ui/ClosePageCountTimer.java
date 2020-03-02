@@ -39,7 +39,7 @@ public class ClosePageCountTimer extends CountDownTimer {
         if(onPageCountLinster!=null) {
             onPageCountLinster.onTick(seconds);
         }
-         //LogUtil.i("主页倒计时:" + seconds);
+         LogUtil.i("主页倒计时:" + seconds);
     }
 
 
