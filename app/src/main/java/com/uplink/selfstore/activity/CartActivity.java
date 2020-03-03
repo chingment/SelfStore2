@@ -69,6 +69,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
     private MachineCtrl machineCtrl=null;
+    private MachineBean machineInfo=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +77,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
 
         machineCtrl=MachineCtrl.getInstance();
-
+        machineInfo=AppCacheManager.getMachine();
         initView();
         initEvent();
         initData();
@@ -85,17 +86,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     protected void initView() {
-        MachineBean machine=AppCacheManager.getMachine();
-
         btn_back = findViewById(R.id.btn_back);
         btn_goshopping = findViewById(R.id.btn_goshopping);
         btn_pay_z_wechat = findViewById(R.id.btn_pay_z_wechat);
         btn_pay_z_zhifubao = findViewById(R.id.btn_pay_z_zhifubao);
         btn_pay_z_aggregate= findViewById(R.id.btn_pay_z_aggregate);
 
-        if(machine!=null)
+        if(machineInfo!=null)
         {
-            List<TerminalPayOptionBean> payOptions=machine.getPayOptions();
+            List<TerminalPayOptionBean> payOptions=machineInfo.getPayOptions();
             if(payOptions!=null)
             {
                for (int i=0;i<payOptions.size();i++)
@@ -492,6 +491,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         // LogUtil.e("productId:" + productId,",productSkuId:"+productSkuId);
 
+        MachineBean machine=AppCacheManager.getMachine();
+
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
         HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
@@ -520,8 +521,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     mSumQuantity += mBean.getQuantity();
                 }
 
-                if ((mSumQuantity + 1) > 99) {
-                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过99个", Toast.LENGTH_LONG);
+
+                if ((mSumQuantity+1) > machine.getMaxBuyNumber()) {
+                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过"+machine.getMaxBuyNumber()+"个", Toast.LENGTH_LONG);
                     return;
                 }
 

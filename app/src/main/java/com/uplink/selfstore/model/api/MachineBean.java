@@ -26,6 +26,15 @@ public class MachineBean implements Serializable {
     private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
     private boolean isOpenChkCamera;
+    private int maxBuyNumber;
+
+    public int getMaxBuyNumber() {
+        return maxBuyNumber;
+    }
+
+    public void setMaxBuyNumber(int maxBuyNumber) {
+        this.maxBuyNumber = maxBuyNumber;
+    }
 
     public boolean isOpenChkCamera() {
         return isOpenChkCamera;
