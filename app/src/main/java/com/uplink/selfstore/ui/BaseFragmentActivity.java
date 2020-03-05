@@ -68,7 +68,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private CustomDialogLoading customDialogLoading;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
-
+    public LocationUtil locationUtil;
 
     public void setNavTtile(String title) {
         TextView nav_title = (TextView) findViewById(R.id.nav_title);
@@ -97,8 +97,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
 
         appContext = (AppContext) getApplication();
-
         customDialogLoading = new CustomDialogLoading(this);
+        locationUtil = LocationUtil.getInstance(this);
 
         AppManager.getAppManager().addActivity(this);
 
@@ -433,8 +433,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("deviceId", getAppContext().getDeviceId());
         params.put("machineId", machine.getId() + "");
-        params.put("lat", "0");
-        params.put("lng", "0");
+        if(locationUtil.getLocation()!=null) {
+            params.put("lat", locationUtil.getLocation().getLatitude());
+            params.put("lng", locationUtil.getLocation().getLongitude());
+        }
         params.put("type", type);
         params.put("content", content);
 

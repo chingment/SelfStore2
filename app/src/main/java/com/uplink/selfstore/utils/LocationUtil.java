@@ -25,7 +25,7 @@ public class LocationUtil {
     public  static double LNG=0;
     private LocationUtil(Context context) {
         mContext = context;
-        getLocation();
+        laodLocation();
     }
 
     //采用Double CheckLock(DCL)实现单例
@@ -40,39 +40,44 @@ public class LocationUtil {
         return uniqueInstance;
     }
 
-    private void getLocation() {
-        //1.获取位置管理器
-        locationManager = (LocationManager) mContext.getSystemService( Context.LOCATION_SERVICE );
-        //2.获取位置提供器，GPS或是NetWork
-        List<String> providers = locationManager.getProviders( true );
-        if (providers.contains( LocationManager.NETWORK_PROVIDER )) {
-            //如果是网络定位
-            LogUtil.d(TAG, "如果是网络定位" );
-            locationProvider = LocationManager.NETWORK_PROVIDER;
-        } else if (providers.contains( LocationManager.GPS_PROVIDER )) {
-            //如果是GPS定位
-            LogUtil.d( TAG, "如果是GPS定位" );
-            locationProvider = LocationManager.GPS_PROVIDER;
-        } else {
-            LogUtil.d( TAG, "没有可用的位置提供器" );
-            return;
+    private void laodLocation() {
+        try {
+            //1.获取位置管理器
+            locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            //2.获取位置提供器，GPS或是NetWork
+            List<String> providers = locationManager.getProviders(true);
+            if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+                //如果是网络定位
+                LogUtil.d(TAG, "如果是网络定位");
+                locationProvider = LocationManager.NETWORK_PROVIDER;
+            } else if (providers.contains(LocationManager.GPS_PROVIDER)) {
+                //如果是GPS定位
+                LogUtil.d(TAG, "如果是GPS定位");
+                locationProvider = LocationManager.GPS_PROVIDER;
+            } else {
+                LogUtil.d(TAG, "没有可用的位置提供器");
+                return;
+            }
+            // 需要检查权限,否则编译报错,想抽取成方法都不行,还是会报错。只能这样重复 code 了。
+            if (Build.VERSION.SDK_INT >= 23 &&
+                    ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            //3.获取上次的位置，一般第一次运行，此值为null
+            Location location = locationManager.getLastKnownLocation(locationProvider);
+            if (location != null) {
+                setLocation(location);
+            }
+            // 监视地理位置变化，第二个和第三个参数分别为更新的最短时间minTime和最短距离minDistace
+            locationManager.requestLocationUpdates(locationProvider, 0, 0, locationListener);
         }
-        // 需要检查权限,否则编译报错,想抽取成方法都不行,还是会报错。只能这样重复 code 了。
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ActivityCompat.checkSelfPermission( mContext, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission( mContext, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        catch (Exception ex){
+            LogUtil.e(TAG, ex);
         }
-        if (ActivityCompat.checkSelfPermission( mContext, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission( mContext, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        //3.获取上次的位置，一般第一次运行，此值为null
-        Location location = locationManager.getLastKnownLocation( locationProvider );
-        if (location != null) {
-            setLocation( location );
-        }
-        // 监视地理位置变化，第二个和第三个参数分别为更新的最短时间minTime和最短距离minDistace
-        locationManager.requestLocationUpdates( locationProvider, 0, 0, locationListener );
     }
 
     private void setLocation(Location location) {
@@ -84,7 +89,7 @@ public class LocationUtil {
     }
 
     //获取经纬度
-    public Location showLocation() {
+    public Location getLocation() {
         return location;
     }
 

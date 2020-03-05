@@ -66,20 +66,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
-    public LocationUtil locationUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-         String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
-
-        locationUtil = LocationUtil.getInstance(getAppContext());
-///storage/emulated/0/DCIM/SelfStore
-//        String slot="n10r99c100m44";
-//        SlotNRC nrc=SlotNRC.GetSlotNRC(slot);
-
 
         initView();
         initEvent();

@@ -96,17 +96,6 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
                     finish();
                     break;
                 case R.id.nav_btn:
-//                    Intent intent = new Intent();
-//                    intent.setAction("android.intent.action.hidenavigation");
-//                    intent.putExtra("enable", true);
-//                    sendBroadcast(intent);
-                    Location location = LocationUtil.getInstance(SmMachineInfoActivity.this).showLocation();
-                    if (location != null) {
-                        String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
-                        LogUtil.d("FLY.LocationUtils", address);
-                        txt_Location.setText(address);
-                    }
-
 
                     break;
             }

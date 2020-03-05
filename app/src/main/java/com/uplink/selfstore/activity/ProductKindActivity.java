@@ -45,24 +45,19 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     private TextView txt_cart_sumsalesprice;
 
     private ProductKindSkuAdapter productKindSkuAdapter;
-
+    private ProductKindBodyAdapter list_kind_body_adapter;
     private ImageView mCart;
     private RelativeLayout layout_parentroot;
     private PathMeasure mPathMeasure;
-
     private float[] mCurrentPosition = new float[2];
-
     private List<ProductKindBean> productKinds;
-
     private static int cur_Kind_Position = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productkind);
-
         setNavTtile(this.getResources().getString(R.string.aty_productkind_navtitle));
-
         initView();
         initEvent();
         initData();
@@ -166,8 +161,6 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
 
     }
-
-    ProductKindBodyAdapter list_kind_body_adapter;
 
     private void initData() {
         loadKindData();
