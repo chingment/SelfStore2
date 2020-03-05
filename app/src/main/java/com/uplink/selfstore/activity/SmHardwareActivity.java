@@ -67,8 +67,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setContentView(R.layout.activity_smhardware);
 
         setNavTtile(this.getResources().getString(R.string.aty_smhardware_navtitle));
-        setNavBackVisible(true);
-        setNavBtnVisible(true);
+        setNavGoBackBtnVisible(true);
+
 
         machineCtrl=MachineCtrl.getInstance();
 

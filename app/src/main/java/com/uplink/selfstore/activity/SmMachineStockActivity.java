@@ -69,8 +69,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         setContentView(R.layout.activity_smmachinestock);
 
         setNavTtile(this.getResources().getString(R.string.aty_smmachinestock_navtitle));
-        setNavBackVisible(true);
-        setNavBtnVisible(true);
+        setNavGoBackBtnVisible(true);
 
 
         MachineBean machine = AppCacheManager.getMachine();

@@ -40,8 +40,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         setContentView(R.layout.activity_smuserinfo);
 
         setNavTtile(this.getResources().getString(R.string.aty_smuserinfo_navtitle));
-        setNavBackVisible(true);
-        setNavBtnVisible(true);
+        setNavGoBackBtnVisible(true);
 
         initView();
         initEvent();

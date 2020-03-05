@@ -69,9 +69,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
 
-    public CustomDialogLoading getCustomDialogLoading() {
-        return customDialogLoading;
-    }
 
     public void setNavTtile(String title) {
         TextView nav_title = (TextView) findViewById(R.id.nav_title);
@@ -80,7 +77,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-    public void setNavBackVisible(boolean isVisible) {
+    public void setNavGoBackBtnVisible(boolean isVisible) {
         View nav_back = findViewById(R.id.nav_back);
         if (isVisible) {
             nav_back.setVisibility(View.VISIBLE);
@@ -88,18 +85,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         } else {
             nav_back.setVisibility(View.GONE);
         }
-    }
-
-    public void setNavBtnVisible(boolean isVisible) {
-
-        View nav_back = findViewById(R.id.nav_back);
-        if (isVisible) {
-            nav_back.setVisibility(View.VISIBLE);
-            nav_back.setOnClickListener(this);
-        } else {
-            nav_back.setVisibility(View.GONE);
-        }
-
     }
 
     public GlobalDataSetBean getGlobalDataSet() {
@@ -137,22 +122,19 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-    public void  useClosePageCountTimer()
-    {
+    public void  useClosePageCountTimer() {
         if(closePageCountTimer==null) {
             closePageCountTimer = new ClosePageCountTimer(this, 120);
         }
     }
 
-    public void  useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster,long seconds)
-    {
+    public void  useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster,long seconds) {
         if(closePageCountTimer==null) {
             closePageCountTimer = new ClosePageCountTimer(this, seconds, onPageCountLinster);
         }
     }
 
     public void  closePageCountTimerStart() {
-
 
         new Handler().post(new Runnable() {
             @Override
@@ -171,7 +153,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-
     public void setHideStatusBar(boolean isshow) {
 
         Intent intent = new Intent();
@@ -180,10 +161,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         sendBroadcast(intent);
     }
 
-
     @Override
     public void onClick(View v) {
-
 
     }
 
@@ -283,30 +262,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         closePageCountTimerStop();
         super.finish();
     }
-
-    public boolean isAppOnForeground() {
-        // Returns a list of application processes that are running on the
-        // device
-
-        ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-        String packageName = getApplicationContext().getPackageName();
-
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-                .getRunningAppProcesses();
-        if (appProcesses == null)
-            return false;
-
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            // The name of the process that this object is associated with.
-            if (appProcess.processName.equals(packageName)
-                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 
     public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
@@ -435,19 +390,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    private String getVersionName() {
-        String versionName = "1.0";
-        try {
-            PackageManager manager = getPackageManager();
-            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-            versionName = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return versionName;
-    }
-
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override
@@ -491,6 +433,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("deviceId", getAppContext().getDeviceId());
         params.put("machineId", machine.getId() + "");
+        params.put("lat", "0");
+        params.put("lng", "0");
         params.put("type", type);
         params.put("content", content);
 
@@ -501,80 +445,4 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             }
         });
     }
-
-    public boolean isApkInDebug() {
-        try {
-            ApplicationInfo info =getAppContext().getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    // 動的パーミッション要求時の要求コード
-    protected static final int REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE = 0x12345;
-    protected static final int REQUEST_PERMISSION_AUDIO_RECORDING = 0x234567;
-    protected static final int REQUEST_PERMISSION_NETWORK = 0x345678;
-    protected static final int REQUEST_PERMISSION_CAMERA = 0x537642;
-
-    /**
-     * 外部ストレージへの書き込みパーミッションが有るかどうかをチェック
-     * なければ説明ダイアログを表示する
-     * @return true 外部ストレージへの書き込みパーミッションが有る
-     */
-    protected boolean checkPermissionWriteExternalStorage() {
-        if (!PermissionCheck.hasWriteExternalStorage(this)) {
-            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_WRITE_EXTERNAL_STORAGE,
-                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_ext_storage_request,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 録音のパーミッションが有るかどうかをチェック
-     * なければ説明ダイアログを表示する
-     * @return true 録音のパーミッションが有る
-     */
-    protected boolean checkPermissionAudio() {
-        if (!PermissionCheck.hasAudio(this)) {
-            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_AUDIO_RECORDING,
-                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_audio_recording_request,
-                    new String[]{Manifest.permission.RECORD_AUDIO});
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * ネットワークアクセスのパーミッションが有るかどうかをチェック
-     * なければ説明ダイアログを表示する
-     * @return true ネットワークアクセスのパーミッションが有る
-     */
-    protected boolean checkPermissionNetwork() {
-        if (!PermissionCheck.hasNetwork(this)) {
-            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_NETWORK,
-                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_network_request,
-                    new String[]{Manifest.permission.INTERNET});
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * カメラアクセスのパーミッションがあるかどうかをチェック
-     * なければ説明ダイアログを表示する
-     * @return true カメラアクセスのパーミッションが有る
-     */
-    protected boolean checkPermissionCamera() {
-        if (!PermissionCheck.hasCamera(this)) {
-            MessageDialogFragmentV4.showDialog(this, REQUEST_PERMISSION_CAMERA,
-                    com.serenegiant.common.R.string.permission_title, com.serenegiant.common.R.string.permission_camera_request,
-                    new String[]{Manifest.permission.CAMERA});
-            return false;
-        }
-        return true;
-    }
-
 }
