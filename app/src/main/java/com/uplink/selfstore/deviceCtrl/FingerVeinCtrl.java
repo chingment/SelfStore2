@@ -453,4 +453,13 @@ public class FingerVeinCtrl {
 
         return fileDescriptor;
     }
+
+    public void unregisterReceiver(Context mContext){
+        if(mContext==null)
+            return;
+        if(mUsbPermissionActionReceiver==null)
+            return;
+
+        mContext.unregisterReceiver(mUsbPermissionActionReceiver);
+    }
 }

@@ -240,6 +240,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         if(initHandler!=null&&initRunable!=null) {
             initHandler.removeCallbacks(initRunable);
         }
+
+        FingerVeinCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
     }
 
     public void setTips(int what, String msg) {

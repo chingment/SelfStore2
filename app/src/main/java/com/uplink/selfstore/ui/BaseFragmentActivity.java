@@ -96,6 +96,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         appContext = (AppContext) getApplication();
         customDialogLoading = new CustomDialogLoading(this);
         locationUtil = LocationUtil.getInstance(this);
@@ -433,10 +434,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("deviceId", getAppContext().getDeviceId());
         params.put("machineId", machine.getId() + "");
-        if(locationUtil.getLocation()!=null) {
-            params.put("lat", locationUtil.getLocation().getLatitude());
-            params.put("lng", locationUtil.getLocation().getLongitude());
-        }
+        params.put("lat", LocationUtil.LAT);
+        params.put("lng", LocationUtil.LNG);
         params.put("type", type);
         params.put("content", content);
 

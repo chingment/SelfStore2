@@ -18,6 +18,7 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
 import org.json.JSONException;
@@ -79,6 +80,8 @@ public class HeartbeatService extends Service {
             params.put("appId", BuildConfig.APPLICATION_ID);
             params.put("deviceId", AppContext.getInstance().getDeviceId());
             params.put("machineId", machine.getId());
+            params.put("lat", LocationUtil.LAT);
+            params.put("lng", LocationUtil.LNG);
             params.put("type", 1);
 
             String status = "unknow";
