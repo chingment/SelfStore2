@@ -401,7 +401,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         dialog_SystemWarn.setCsrPhoneNumber(machineInfo.getCsrPhoneNumber());
         dialog_SystemWarn.setCsrQrcode(machineInfo.getCsrQrCode());
-
+        dialog_SystemWarn.setCsrHelpTip(machineInfo.getCsrHelpTip());
 
         OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
         list_skus.setAdapter(cartSkuAdapter);

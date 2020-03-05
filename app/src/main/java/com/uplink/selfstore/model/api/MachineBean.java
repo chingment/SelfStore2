@@ -18,6 +18,7 @@ public class MachineBean implements Serializable {
     private String currencySymbol;
     private String csrQrCode;
     private String csrPhoneNumber;
+    private String csrHelpTip;
     private int cabinetId_1;
     private String cabinetName_1;
     private int[] cabinetRowColLayout_1;
@@ -27,6 +28,23 @@ public class MachineBean implements Serializable {
     private List<TerminalPayOptionBean> payOptions;
     private boolean isOpenChkCamera;
     private int maxBuyNumber;
+    private boolean exIsHas;
+
+    public String getCsrHelpTip() {
+        return csrHelpTip;
+    }
+
+    public void setCsrHelpTip(String csrHelpTip) {
+        this.csrHelpTip = csrHelpTip;
+    }
+
+    public boolean isExIsHas() {
+        return exIsHas;
+    }
+
+    public void setExIsHas(boolean exIsHas) {
+        this.exIsHas = exIsHas;
+    }
 
     public int getMaxBuyNumber() {
         return maxBuyNumber;

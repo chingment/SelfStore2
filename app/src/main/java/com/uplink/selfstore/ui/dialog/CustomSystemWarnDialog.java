@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class CustomSystemWarnDialog extends Dialog {
     private ImageView img_crsQrcode;
     private View layout_csrPhoneNumber;
     private TextView txt_csrPhoneNumber;
-
+    private WebView wv_csrHelpTips;
     public CustomSystemWarnDialog(final Context context) {
         super(context, R.style.dialog_style);
         this.mContext = context;
@@ -78,6 +79,23 @@ public class CustomSystemWarnDialog extends Dialog {
         }
     }
 
+    public void setCsrHelpTip(String csrHelpTip) {
+
+        if(StringUtil.isEmptyNotNull(csrHelpTip))
+        {
+            this.txt_csrPhoneNumber.setText("");
+            this.wv_csrHelpTips.setVisibility(View.GONE);
+        }
+        else {
+            String html = "<html><head><title></title></head><body>"
+                    + csrHelpTip
+                    + "</body></html>";
+
+            this.wv_csrHelpTips.loadData(html, "text/html", "uft-8");
+            this.wv_csrHelpTips.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     protected void initView() {
         img_warn= ViewHolder.get(this.layoutRes, R.id.img_warn);
@@ -87,6 +105,7 @@ public class CustomSystemWarnDialog extends Dialog {
         img_crsQrcode= ViewHolder.get(this.layoutRes, R.id.img_crsQrcode);
         layout_csrPhoneNumber= ViewHolder.get(this.layoutRes, R.id.layout_csrPhoneNumber);
         txt_csrPhoneNumber= ViewHolder.get(this.layoutRes, R.id.txt_csrPhoneNumber);
+        wv_csrHelpTips=ViewHolder.get(this.layoutRes, R.id.wv_csrHelpTips);
     }
 
     protected void initEvent() {

@@ -91,6 +91,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_csrQrcode"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
@@ -117,6 +118,14 @@
                     android:contentDescription="@string/image_content_description"
                     />
             </LinearLayout>
+
+
+            <WebView
+                android:id="@+id/wv_csrHelpTips"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="@dimen/size_200"
+                android:layout_height="@dimen/size_200" />
 
             <LinearLayout
                 android:id="@+id/layout_csrPhoneNumber"
