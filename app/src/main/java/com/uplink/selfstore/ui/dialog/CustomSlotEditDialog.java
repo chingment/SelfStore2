@@ -116,14 +116,6 @@ public class CustomSlotEditDialog extends Dialog {
                         if (!customDialogRunning.isShowing()) {
                             customDialogRunning.showDialog();
                             customDialogRunning.setProgressText("取货就绪成功");
-//                            new Handler().postDelayed(new Runnable() {
-//                                public void run() {
-//                                    LogUtil.i("正在执行关闭窗口");
-//                                    if (customDialogRunning != null && customDialogRunning.isShowing()) {
-//                                        customDialogRunning.cancelDialog();
-//                                    }
-//                                }
-//                            }, 120 * 1000);
                         }
                         break;
                     case 3://取货中
@@ -133,16 +125,15 @@ public class CustomSlotEditDialog extends Dialog {
                                 pickupEventNotify(productSkuId,slotId,3012,"发起取货",pickupResult);
                             }
 
-                            //拍照
-                            if(pickupResult.getCurrentActionId()==7){
-                                LogUtil.e("拍照");
-                                Intent cameraSnapService = new Intent();
-                                cameraSnapService.setAction("android.intent.action.cameraSnapService");
-                                cameraSnapService.putExtra("cameraId", 0);
-                                UUID uuid = UUID.randomUUID();
-                                cameraSnapService.putExtra("imgId", uuid.toString());
-                                context.sendBroadcast(cameraSnapService);
-                            }
+//                            if(pickupResult.getCurrentActionId()==7){
+//                                LogUtil.e("拍照");
+//                                Intent cameraSnapService = new Intent();
+//                                cameraSnapService.setAction("android.intent.action.cameraSnapService");
+//                                cameraSnapService.putExtra("cameraId", 0);
+//                                UUID uuid = UUID.randomUUID();
+//                                cameraSnapService.putExtra("imgId", uuid.toString());
+//                                context.sendBroadcast(cameraSnapService);
+//                            }
                         }
                         break;
                     case 4://取货成功
@@ -408,6 +399,7 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
+                int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
                 int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
                 int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
 
@@ -416,7 +408,6 @@ public class CustomSlotEditDialog extends Dialog {
                     int sellQty = sumQty - lockQty;
                     txt_SellQty.setText(String.valueOf(sellQty));
                     txt_SumQty.setText(String.valueOf(sumQty));
-
                 }
             }
         });
@@ -432,6 +423,7 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
+                int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
                 int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
                 int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
                 sumQty += 1;
