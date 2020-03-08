@@ -89,7 +89,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         machineInfo = AppCacheManager.getMachine();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
-        cabinetPendantRows=machineInfo.getCabinetPendantRows_1();
+        //cabinetPendantRows=machineInfo.getCabinetPendantRows_1();
 
         initView();
         initEvent();

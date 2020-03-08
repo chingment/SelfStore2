@@ -1,6 +1,7 @@
 package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,16 +20,26 @@ public class MachineBean implements Serializable {
     private String csrQrCode;
     private String csrPhoneNumber;
     private String csrHelpTip;
-    private int cabinetId_1;
-    private String cabinetName_1;
-    private int[] cabinetRowColLayout_1;
-    private int[] cabinetPendantRows_1;
+
+    private HashMap<String, CabinetBean> cabinets;
+
+
+    public HashMap<String, CabinetBean> getCabinets() {
+        return cabinets;
+    }
+
+    public void setCabinets(HashMap<String, CabinetBean> cabinets) {
+        this.cabinets = cabinets;
+    }
+
     private boolean isHiddenKind;
     private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
     private boolean isOpenChkCamera;
     private int maxBuyNumber;
     private boolean exIsHas;
+
+
 
     public String getCsrHelpTip() {
         return csrHelpTip;
@@ -119,37 +130,12 @@ public class MachineBean implements Serializable {
         this.currency = currency;
     }
 
-
     public String getCurrencySymbol() {
         return currencySymbol;
     }
 
     public void setCurrencySymbol(String currencySymbol) {
         this.currencySymbol = currencySymbol;
-    }
-
-    public int getCabinetId_1() {
-        return cabinetId_1;
-    }
-
-    public void setCabinetId_1(int cabinetId_1) {
-        this.cabinetId_1 = cabinetId_1;
-    }
-
-    public String getCabinetName_1() {
-        return cabinetName_1;
-    }
-
-    public void setCabinetName_1(String cabinetName_1) {
-        this.cabinetName_1 = cabinetName_1;
-    }
-
-    public int[] getCabinetRowColLayout_1() {
-        return cabinetRowColLayout_1;
-    }
-
-    public void setCabinetRowColLayout_1(int[] cabinetRowColLayout_1) {
-        this.cabinetRowColLayout_1 = cabinetRowColLayout_1;
     }
 
     public boolean isHiddenKind() {
@@ -182,13 +168,5 @@ public class MachineBean implements Serializable {
 
     public void setCsrPhoneNumber(String csrPhoneNumber) {
         this.csrPhoneNumber = csrPhoneNumber;
-    }
-
-    public int[] getCabinetPendantRows_1() {
-        return cabinetPendantRows_1;
-    }
-
-    public void setCabinetPendantRows_1(int[] cabinetPendantRows_1) {
-        this.cabinetPendantRows_1 = cabinetPendantRows_1;
     }
 }

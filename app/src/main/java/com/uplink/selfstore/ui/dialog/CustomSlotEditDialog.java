@@ -26,6 +26,7 @@ import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.ProductSkuSearchResultBean;
 import com.uplink.selfstore.model.api.Result;
@@ -76,10 +77,11 @@ public class CustomSlotEditDialog extends Dialog {
 
     private ListView list_search_skus;
     private SlotBean slot;
+    private CabinetBean cabinet;
     private ScanMidCtrl scanMidCtrl;
     private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
-    private int[] cabinetPendantRows=null;
+    //private int[] cabinetPendantRows=null;
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -87,7 +89,7 @@ public class CustomSlotEditDialog extends Dialog {
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
         MachineBean machine = AppCacheManager.getMachine();
-        cabinetPendantRows=machine.getCabinetPendantRows_1();
+        //cabinetPendantRows=machine.getCabinetPendantRows_1();
 
         machineCtrl=MachineCtrl.getInstance();
         //machineCtrl.connect();
@@ -288,6 +290,7 @@ public class CustomSlotEditDialog extends Dialog {
 
 
                 int mode=0;
+                int[] cabinetPendantRows =cabinet.getPendantRows();
                 if (cabinetPendantRows != null) {
                     for (int z = 0; z < cabinetPendantRows.length; z++) {
                         if (cabinetPendantRows[z] == slotNRC.getRow()) {
@@ -525,6 +528,11 @@ public class CustomSlotEditDialog extends Dialog {
             txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
             CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
+    }
+
+    public void setCabinet(CabinetBean cabinet) {
+
+        this.cabinet = cabinet;
     }
 
     private void getKey(String key) {
