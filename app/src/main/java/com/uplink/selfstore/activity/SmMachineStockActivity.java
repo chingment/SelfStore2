@@ -21,11 +21,9 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.MachineSlotsResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
-import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
@@ -149,10 +147,19 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     protected void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
+
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         txt_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         customDialogRunning = new CustomDialogLoading(this);
+
+
+        switch (cabinet.getId())
+        {
+            case "dsx01n01":
+                btn_ScanSlots.setVisibility(View.VISIBLE);
+                break;
+        }
 
 //        breathlight_machine=(MyBreathLight) findViewById(R.id.breathlight_machine);
 //        breathlight_machine.setInterval(2000) //设置闪烁间隔时间
@@ -244,10 +251,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 final String slotId = "r" + (i - 1) + "c" + j;
 
-                if(isPndantRow){
-                    if(j==0){
-                        convertView.setVisibility(View.GONE);
-                    }
+                switch (cabinet.getId()) {
+                    case "dsx01n01":
+                        if (isPndantRow) {
+                            if (j == 0) {
+                                convertView.setVisibility(View.GONE);
+                            }
+                        }
+                        break;
                 }
 
                 txt_SlotId.setText(slotId);
