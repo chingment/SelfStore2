@@ -71,14 +71,12 @@ public class CustomSlotEditDialog extends Dialog {
     private View btn_pick_test;
     private View btn_decreasebymax;
     private View btn_increasebymax;
-
     private ListView list_search_skus;
     private SlotBean slot;
     private CabinetBean cabinet;
     private ScanMidCtrl scanMidCtrl;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CustomDialogLoading customDialogRunning;
-    //private int[] cabinetPendantRows=null;
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -120,16 +118,6 @@ public class CustomSlotEditDialog extends Dialog {
                                 customDialogRunning.setProgressText("正在取货中..请稍等");
                                 pickupEventNotify(productSkuId,slotId,3012,"发起取货",pickupResult);
                             }
-
-//                            if(pickupResult.getCurrentActionId()==7){
-//                                LogUtil.e("拍照");
-//                                Intent cameraSnapService = new Intent();
-//                                cameraSnapService.setAction("android.intent.action.cameraSnapService");
-//                                cameraSnapService.putExtra("cameraId", 0);
-//                                UUID uuid = UUID.randomUUID();
-//                                cameraSnapService.putExtra("imgId", uuid.toString());
-//                                context.sendBroadcast(cameraSnapService);
-//                            }
                         }
                         break;
                     case 4://取货成功
@@ -253,26 +241,6 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if (!cabinetCtrlByDS.isConnect()) {
-                    cabinetCtrlByDS.connect();
-                }
-
-                if (!cabinetCtrlByDS.isConnect()) {
-                    mContext.showToast("机器连接失败");
-                    return;
-                }
-
-                if (!cabinetCtrlByDS.isNormarl()) {
-                    mContext.showToast("机器状态异常");
-                    return;
-                }
-
-                if(!cabinetCtrlByDS.isIdle()) {
-                    mContext.showToast("机器不在空闲状态");
-                    return;
-                }
-
-
                 String slotId = String.valueOf(txt_SlotName.getText());
                 CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
                 if (cabinetSlotNRC == null) {
@@ -287,6 +255,26 @@ public class CustomSlotEditDialog extends Dialog {
 
                 switch (cabinet.getId()){
                     case "dsx01n01":
+
+                        if (!cabinetCtrlByDS.isConnect()) {
+                            cabinetCtrlByDS.connect();
+                        }
+
+                        if (!cabinetCtrlByDS.isConnect()) {
+                            mContext.showToast("机器连接失败");
+                            return;
+                        }
+
+                        if (!cabinetCtrlByDS.isNormarl()) {
+                            mContext.showToast("机器状态异常");
+                            return;
+                        }
+
+                        if(!cabinetCtrlByDS.isIdle()) {
+                            mContext.showToast("机器不在空闲状态");
+                            return;
+                        }
+
                         int mode=0;
                         int[] cabinetPendantRows =cabinet.getPendantRows();
                         if (cabinetPendantRows != null) {
@@ -300,6 +288,8 @@ public class CustomSlotEditDialog extends Dialog {
                         cabinetCtrlByDS.pickUp(mode, cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol());
                         break;
                     case "zsx01n01":
+
+
 
                         break;
                 }
@@ -605,7 +595,7 @@ public class CustomSlotEditDialog extends Dialog {
         list_search_skus.setAdapter(slotSkuSearchAdapter);
     }
 
-    private void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,PickupResult pickupResult) {
+    private void pickupEventNotify(final String productSkuId, final String slotId,final int status, String remark,PickupResult pickupResult) {
 
         try {
             JSONObject content = new JSONObject();
