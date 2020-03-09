@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
@@ -55,7 +55,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private HashMap<String, SlotBean> cabinetSlots = null;//机柜货道信息
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
-    private MachineCtrl machineCtrl;
+    private CabinetCtrlByDS cabinetCtrlByDS;
     private CustomDialogLoading customDialogRunning;
     private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
@@ -76,8 +76,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             showToast("未配置对应机柜，请联系管理员");
             return;
         }
-        machineCtrl=MachineCtrl.getInstance();
-        machineCtrl.setScanSlotHandler(new Handler(  new Handler.Callback() {
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        cabinetCtrlByDS.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
                         Bundle bundle;
@@ -313,8 +313,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     protected void onDestroy() {
         super.onDestroy();
 
-        if(machineCtrl!=null) {
-            machineCtrl.disConnect();
+        if(cabinetCtrlByDS!=null) {
+            cabinetCtrlByDS.disConnect();
         }
     }
 
@@ -329,21 +329,21 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     break;
                 case R.id.btn_ScanSlots:
 
-                    if (!machineCtrl.isConnect()) {
-                        machineCtrl.connect();
+                    if (!cabinetCtrlByDS.isConnect()) {
+                        cabinetCtrlByDS.connect();
                     }
 
-                    if(!machineCtrl.isConnect()){
+                    if(!cabinetCtrlByDS.isConnect()){
                         showToast("机器连接失败");
                         return;
                     }
 
-                    if (!machineCtrl.isNormarl()) {
+                    if (!cabinetCtrlByDS.isNormarl()) {
                         showToast("机器状态异常");
                         return;
                     }
 
-                    machineCtrl.scanSlot();
+                    cabinetCtrlByDS.scanSlot();
                     break;
                 case R.id.btn_RefreshStock:
                     getCabinetSlots();

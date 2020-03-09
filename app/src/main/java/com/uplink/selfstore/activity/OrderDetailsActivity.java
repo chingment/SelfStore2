@@ -21,7 +21,7 @@ import com.lgh.uvccamera.callback.PictureCallback;
 import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
@@ -69,7 +69,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private OrderDetailsBean orderDetails;
     private PickupSkuBean currentPickupSku=null;
     private int[] cabinetPendantRows=null;
-    private MachineCtrl machineCtrl=null;
+    private CabinetCtrlByDS cabinetCtrlByDS=null;
 
 
     private UVCCameraProxy mUVCCamera;
@@ -85,7 +85,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setContentView(R.layout.activity_orderdetails);
         setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
-        machineCtrl=MachineCtrl.getInstance();
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         machineInfo = AppCacheManager.getMachine();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
@@ -99,7 +99,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             initUVCCamera();
         }
 
-        machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
+        cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
 
@@ -468,7 +468,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             }
                         }
                     }
-                    machineCtrl.pickUp(mode, slotNRC.getRow(), slotNRC.getCol());
+                    cabinetCtrlByDS.pickUp(mode, slotNRC.getRow(), slotNRC.getCol());
                 }
                 break;
             case 4000:
@@ -541,8 +541,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             mUVCCamera=null;
         }
 
-        if(machineCtrl!=null){
-            machineCtrl.dispose();
+        if(cabinetCtrlByDS!=null){
+            cabinetCtrlByDS.dispose();
         }
 
         closePageCountTimerStop();

@@ -15,7 +15,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.lgh.uvccamera.UVCCameraProxy;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.SlotNRC;
@@ -62,7 +62,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private MyListView list_log;
     private View btn_appexit;
     private List<LogBean> logs=new ArrayList<>();
-    private MachineCtrl machineCtrl=null;
+    private CabinetCtrlByDS cabinetCtrlByDS=null;
     private boolean initIsRun=false;
     private Handler initHandler = new Handler();
     private Runnable initRunable = new Runnable() {
@@ -90,7 +90,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
-        machineCtrl = MachineCtrl.getInstance();
+        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         initHandler.postDelayed(initRunable, 1000);
 
         Intent cameraSnapService = new Intent(this, CameraSnapService.class);
@@ -105,7 +105,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent heartbeatService=new Intent(this, HeartbeatService.class);
         startService(heartbeatService);
 
-        machineCtrl.firstSet();
+        cabinetCtrlByDS.firstSet();
 
         FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
@@ -264,7 +264,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
-        params.put("ctrlSdkVersionCode", machineCtrl.vesion());
+        params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());
         params.put("macAddress", getAppContext().getMacAddress());
 
         postByMy(Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {

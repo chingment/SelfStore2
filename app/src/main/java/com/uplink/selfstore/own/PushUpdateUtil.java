@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.MainActivity;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
@@ -215,10 +215,10 @@ public class PushUpdateUtil {
 
     private  static void openPickupDoor() {
 
-        MachineCtrl machineCtrl=MachineCtrl.getInstance();
+        CabinetCtrlByDS cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
 
-        machineCtrl.connect();
+        cabinetCtrlByDS.connect();
 
-        machineCtrl.openPickupDoor();
+        cabinetCtrlByDS.openPickupDoor();
     }
 }

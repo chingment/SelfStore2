@@ -15,7 +15,7 @@ import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CartSkuBean;
@@ -68,7 +68,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
     private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
-    private MachineCtrl machineCtrl=null;
+    private CabinetCtrlByDS cabinetCtrlByDS=null;
     private MachineBean machineInfo=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         setContentView(R.layout.activity_cart);
         setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
 
-        machineCtrl=MachineCtrl.getInstance();
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         machineInfo=AppCacheManager.getMachine();
         initView();
         initEvent();
@@ -331,7 +331,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
 
         if(!Config.IS_BUILD_DEBUG) {
-            if (!machineCtrl.isIdle()) {
+            if (!cabinetCtrlByDS.isIdle()) {
                 showToast("设备不在空闲状态");
                 return;
             }

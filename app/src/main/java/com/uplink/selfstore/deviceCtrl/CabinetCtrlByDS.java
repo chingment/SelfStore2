@@ -15,10 +15,10 @@ import com.uplink.selfstore.utils.LogUtil;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class MachineCtrl {
+public class CabinetCtrlByDS {
 
-    private static final String TAG = "MachineCtrl";
-    private static MachineCtrl mMachineCtrl= null;
+    private static final String TAG = "CabinetCtrlByDS";
+    private static CabinetCtrlByDS mCabinetCtrlByDS= null;
     public static final int S_Motor_Idle = 0;
     public static final int S_Motor_Busy = 1;
     public static final int S_Motor_Done = 2;
@@ -42,7 +42,7 @@ public class MachineCtrl {
     private static final int MESSAGE_WHAT_PICKUP = 2;
     private static final int MESSAGE_WHAT_DOOR = 3;
     private static final int MESSAGE_WHAT_GOZERO = 4;
-    private  MachineCtrl() {
+    private  CabinetCtrlByDS() {
         try {
             sym = new symvdio();
         } catch (Exception ex) {
@@ -50,15 +50,15 @@ public class MachineCtrl {
         }
     }
 
-    public static MachineCtrl getInstance() {
-        if (mMachineCtrl == null) {
+    public static CabinetCtrlByDS getInstance() {
+        if (mCabinetCtrlByDS == null) {
             synchronized (FingerVeinCtrl.class) {
-                if (mMachineCtrl == null) {
-                    mMachineCtrl = new MachineCtrl();
+                if (mCabinetCtrlByDS == null) {
+                    mCabinetCtrlByDS = new CabinetCtrlByDS();
                 }
             }
         }
-        return mMachineCtrl;
+        return mCabinetCtrlByDS;
 
     }
 

@@ -13,7 +13,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -42,7 +42,7 @@ import cn.jpush.android.api.JPushInterface;
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmHomeActivity";
     private CustomConfirmDialog confirmDialog;
-    private MachineCtrl machineCtrl;
+    private CabinetCtrlByDS cabinetCtrlByDS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +53,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         initEvent();
 
 
-        machineCtrl=MachineCtrl.getInstance();
-        machineCtrl.setDoorHandler(new Handler(new Handler.Callback() {
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        cabinetCtrlByDS.setDoorHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
@@ -96,7 +96,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         sendBroadcast(it);
                         break;
                     case "fun.door":
-                        machineCtrl.doorControl();
+                        cabinetCtrlByDS.doorControl();
                         break;
                     case "fun.exitmanager":
 

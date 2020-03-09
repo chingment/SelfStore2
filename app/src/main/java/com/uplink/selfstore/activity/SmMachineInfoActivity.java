@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -30,14 +30,14 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private TextView txt_Currency;
     private TextView txt_CurrencySymbol;
 
-    private MachineCtrl machineCtrl=null;
+    private CabinetCtrlByDS cabinetCtrlByDS=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smmachineinfo);
 
-        machineCtrl=MachineCtrl.getInstance();
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
 
         setNavTtile(this.getResources().getString(R.string.aty_smmachineinfo_navtitle));
         setNavGoBackBtnVisible(true);
@@ -75,7 +75,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_DeviceId.setText(getAppContext().getDeviceId());
         txt_JPushRegId.setText(JPushInterface.getRegistrationID(getAppContext()));
         txt_AppVersion.setText(BuildConfig.VERSION_NAME);
-        txt_MachineCtrlSdkVersion.setText(machineCtrl.vesion());
+        txt_MachineCtrlSdkVersion.setText(cabinetCtrlByDS.vesion());
         txt_Currency.setText(machine.getCurrency());
         txt_CurrencySymbol.setText(machine.getCurrencySymbol());
 //        Location location = LocationUtil.getInstance(SmMachineInfoActivity.this).showLocation();

@@ -20,7 +20,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.PickupResult;
@@ -79,7 +79,7 @@ public class CustomSlotEditDialog extends Dialog {
     private SlotBean slot;
     private CabinetBean cabinet;
     private ScanMidCtrl scanMidCtrl;
-    private MachineCtrl machineCtrl;
+    private CabinetCtrlByDS cabinetCtrlByDS;
     private CustomDialogLoading customDialogRunning;
     //private int[] cabinetPendantRows=null;
 
@@ -91,9 +91,9 @@ public class CustomSlotEditDialog extends Dialog {
         MachineBean machine = AppCacheManager.getMachine();
         //cabinetPendantRows=machine.getCabinetPendantRows_1();
 
-        machineCtrl=MachineCtrl.getInstance();
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         //machineCtrl.connect();
-        machineCtrl.setPickupHandler(new Handler(new Handler.Callback() {
+        cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
 
@@ -237,7 +237,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 _this.dismiss();
-                machineCtrl.disConnect();
+                cabinetCtrlByDS.disConnect();
                 scanMidCtrl.disconnect();
             }
         });
@@ -259,21 +259,21 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if (!machineCtrl.isConnect()) {
-                    machineCtrl.connect();
+                if (!cabinetCtrlByDS.isConnect()) {
+                    cabinetCtrlByDS.connect();
                 }
 
-                if (!machineCtrl.isConnect()) {
+                if (!cabinetCtrlByDS.isConnect()) {
                     mContext.showToast("机器连接失败");
                     return;
                 }
 
-                if (!machineCtrl.isNormarl()) {
+                if (!cabinetCtrlByDS.isNormarl()) {
                     mContext.showToast("机器状态异常");
                     return;
                 }
 
-                if(!machineCtrl.isIdle()) {
+                if(!cabinetCtrlByDS.isIdle()) {
                     mContext.showToast("机器不在空闲状态");
                     return;
                 }
@@ -300,7 +300,7 @@ public class CustomSlotEditDialog extends Dialog {
                     }
                 }
 
-                machineCtrl.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
+                cabinetCtrlByDS.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
             }
         });
 

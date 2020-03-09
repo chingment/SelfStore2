@@ -23,7 +23,7 @@ import com.lgh.uvccamera.bean.PicturePath;
 import com.lgh.uvccamera.callback.PictureCallback;
 import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.deviceCtrl.MachineCtrl;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -57,7 +57,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private int mCameraPreviewWidth=640;
     private int mCameraPreviewHeight=480;
 
-    private MachineCtrl machineCtrl=null;
+    private CabinetCtrlByDS cabinetCtrlByDS=null;
     private Button btnMachineGoZero;
     private MyListView list_machinectrlinfo;
 
@@ -70,9 +70,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setNavGoBackBtnVisible(true);
 
 
-        machineCtrl=MachineCtrl.getInstance();
+        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
 
-        machineCtrl.setGoZeroHandler(new Handler(new Handler.Callback() {
+        cabinetCtrlByDS.setGoZeroHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
 
@@ -267,7 +267,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     myThread.start();
                     break;
                 case R.id.btnMachineGoZero:
-                    machineCtrl.testGoZero();
+                    cabinetCtrlByDS.testGoZero();
                     break;
             }
         }
