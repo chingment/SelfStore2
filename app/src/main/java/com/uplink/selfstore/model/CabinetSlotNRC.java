@@ -1,13 +1,13 @@
 package com.uplink.selfstore.model;
 
 //协议解释
-public class SlotNRC {
+public class CabinetSlotNRC {
     private String ctrl="";
     private String cab="";
     private int row=-1;
     private int col=-1;
 
-    public SlotNRC()
+    public CabinetSlotNRC()
     {
 
     }
@@ -45,7 +45,7 @@ public class SlotNRC {
     }
 
 
-    public static SlotNRC  GetSlotNRC(String cabinetId, String slotId) {
+    public static CabinetSlotNRC GetSlotNRC(String cabinetId, String slotId) {
 
         if (cabinetId == null)
             return null;
@@ -68,19 +68,19 @@ public class SlotNRC {
             return null;
         }
 
-        SlotNRC slotNRC = new SlotNRC();
+        CabinetSlotNRC cabinetSlotNRC = new CabinetSlotNRC();
 
-        slotNRC.setCtrl(cabinetId.substring(0, 5));
-        slotNRC.setCab(cabinetId.substring(5, 8));
+        cabinetSlotNRC.setCtrl(cabinetId.substring(0, 5));
+        cabinetSlotNRC.setCab(cabinetId.substring(5, 8));
 
 
         String str_r = slotId.substring(r_index + 1, c_index);
         String str_c = slotId.substring(c_index + 1, slotId.length());
 
-        slotNRC.setRow(Integer.valueOf(str_r));
-        slotNRC.setCol(Integer.valueOf(str_c));
+        cabinetSlotNRC.setRow(Integer.valueOf(str_r));
+        cabinetSlotNRC.setCol(Integer.valueOf(str_c));
 
-        return slotNRC;
+        return cabinetSlotNRC;
 
     }
 }

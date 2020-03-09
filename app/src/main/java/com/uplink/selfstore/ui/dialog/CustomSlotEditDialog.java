@@ -2,7 +2,6 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,7 +23,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.PickupResult;
-import com.uplink.selfstore.model.SlotNRC;
+import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -34,7 +33,6 @@ import com.uplink.selfstore.model.api.SearchProductSkuBean;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -46,7 +44,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class CustomSlotEditDialog extends Dialog {
 
@@ -275,29 +272,37 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
+
                 String slotId = String.valueOf(txt_SlotName.getText());
-                SlotNRC slotNRC = SlotNRC.GetSlotNRC(cabinet.getId(), slotId);
-                if (slotNRC == null) {
+                CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
+                if (cabinetSlotNRC == null) {
                     mContext.showToast("货道编号解释错误");
                     return;
                 }
+
                 String productSkuId=String.valueOf(txt_SkuId.getText());
 
                 pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
 
 
-                int mode=0;
-                int[] cabinetPendantRows =cabinet.getPendantRows();
-                if (cabinetPendantRows != null) {
-                    for (int z = 0; z < cabinetPendantRows.length; z++) {
-                        if (cabinetPendantRows[z] == slotNRC.getRow()) {
-                            mode =1;
-                            break;
+                switch (cabinet.getId()){
+                    case "dsx01n01":
+                        int mode=0;
+                        int[] cabinetPendantRows =cabinet.getPendantRows();
+                        if (cabinetPendantRows != null) {
+                            for (int z = 0; z < cabinetPendantRows.length; z++) {
+                                if (cabinetPendantRows[z] == cabinetSlotNRC.getRow()) {
+                                    mode =1;
+                                    break;
+                                }
+                            }
                         }
-                    }
-                }
+                        cabinetCtrlByDS.pickUp(mode, cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol());
+                        break;
+                    case "zsx01n01":
 
-                cabinetCtrlByDS.pickUp(mode,slotNRC.getRow(), slotNRC.getCol());
+                        break;
+                }
             }
         });
 

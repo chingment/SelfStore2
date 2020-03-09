@@ -1,18 +1,14 @@
 package com.uplink.selfstore.deviceCtrl;
 
 import android.VendingMachine.symvdio;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.ScanSlotResult;
-import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.utils.LogUtil;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 public class CabinetCtrlByDS {

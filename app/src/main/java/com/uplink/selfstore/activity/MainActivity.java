@@ -2,10 +2,8 @@ package com.uplink.selfstore.activity;
 
 import android.content.Intent;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Bundle;
-import android.os.Message;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,44 +13,27 @@ import android.widget.RelativeLayout;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
-import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
-import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {

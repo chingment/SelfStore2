@@ -17,7 +17,7 @@ import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.LogBean;
-import com.uplink.selfstore.model.SlotNRC;
+import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
@@ -37,7 +37,6 @@ import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,7 +82,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         setHideStatusBar(true);
 
-        SlotNRC nrc=SlotNRC.GetSlotNRC("dsx01n01","r31c19");
+        CabinetSlotNRC nrc= CabinetSlotNRC.GetSlotNRC("dsx01n01","r31c19");
 
         initView();
         initEvent();

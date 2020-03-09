@@ -24,7 +24,7 @@ import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.PickupResult;
-import com.uplink.selfstore.model.SlotNRC;
+import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -412,8 +412,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_tip1.setText(currentPickupSku.getName());
         curpickupsku_tip2.setText("准备出货......");
 
-        SlotNRC slotNRC = SlotNRC.GetSlotNRC(cabinetId,slotId);
-        if (slotNRC == null) {
+        CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(cabinetId,slotId);
+        if (cabinetSlotNRC == null) {
             //showToast("货道编号解释错误");
             curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");
             return;
@@ -451,25 +451,27 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             e.printStackTrace();
         }
 
+        CabinetBean cabinet=machineInfo.getCabinets().get(currentPickupSku.getCabinetId());
+        CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
 
         switch (status) {
             case 3011:
-                SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
-                CabinetBean cabinet=machineInfo.getCabinets().get(currentPickupSku.getCabinetId());
                 switch (currentPickupSku.getCabinetId()) {
                     case "dsx01n01":
                         int[] cabinetPendantRows=cabinet.getPendantRows();
                         int mode = 0;
                         if (cabinetPendantRows != null) {
                             for (int z = 0; z < cabinetPendantRows.length; z++) {
-                                if (cabinetPendantRows[z] == slotNRC.getRow()) {
+                                if (cabinetPendantRows[z] == cabinetSlotNRC.getRow()) {
                                     mode = 1;
                                     break;
                                 }
                             }
                         }
-                        cabinetCtrlByDS.pickUp(mode, slotNRC.getRow(), slotNRC.getCol());
+                        cabinetCtrlByDS.pickUp(mode, cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol());
 
+                        break;
+                    case "zsx0101":
                         break;
                 }
 
