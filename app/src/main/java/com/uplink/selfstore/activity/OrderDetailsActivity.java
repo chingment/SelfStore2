@@ -287,6 +287,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         pickSku.setName(sku.getName());
                         pickSku.setMainImgUrl(sku.getMainImgUrl());
                         pickSku.setSlotId(slot.getSlotId());
+                        pickSku.setCabinetId(slot.getCabinetId());
                         pickSku.setUniqueId(slot.getUniqueId());
                         pickSku.setStatus(slot.getStatus());
                         isHas = true;
@@ -411,7 +412,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_tip1.setText(currentPickupSku.getName());
         curpickupsku_tip2.setText("准备出货......");
 
+
         CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(cabinetId,slotId);
+
         if (cabinetSlotNRC == null) {
             //showToast("货道编号解释错误");
             curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");

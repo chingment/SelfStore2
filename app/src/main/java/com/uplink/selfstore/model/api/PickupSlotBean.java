@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class PickupSlotBean implements Serializable {
     private String uniqueId;
+    private String cabinetId;
     private String slotId;
     private int status;
     private boolean isAllowPickup;
@@ -42,5 +43,13 @@ public class PickupSlotBean implements Serializable {
 
     public void setAllowPickup(boolean allowPickup) {
         isAllowPickup = allowPickup;
+    }
+
+    public String getCabinetId() {
+        return cabinetId;
+    }
+
+    public void setCabinetId(String cabinetId) {
+        this.cabinetId = cabinetId;
     }
 }
