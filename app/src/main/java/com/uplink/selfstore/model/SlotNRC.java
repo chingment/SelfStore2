@@ -1,21 +1,31 @@
 package com.uplink.selfstore.model;
 
+//协议解释
 public class SlotNRC {
-    private String cabinetId="";
+    private String ctrl="";
+    private String cab="";
     private int row=-1;
     private int col=-1;
-    private int mode=-1;
 
     public SlotNRC()
     {
 
     }
-    public String getCabinetId() {
-        return cabinetId;
+
+    public String getCtrl() {
+        return ctrl;
     }
 
-    public void setCabinetId(String cabinetId) {
-        this.cabinetId = cabinetId;
+    public void setCtrl(String ctrl) {
+        this.ctrl = ctrl;
+    }
+
+    public String getCab() {
+        return cab;
+    }
+
+    public void setCab(String cab) {
+        this.cab = cab;
     }
 
     public int getRow() {
@@ -34,55 +44,43 @@ public class SlotNRC {
         this.col = col;
     }
 
-    public int getMode() {
-        return mode;
-    }
 
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
+    public static SlotNRC  GetSlotNRC(String cabinetId, String slotId) {
 
-    public static SlotNRC  GetSlotNRC(String slotId) {
+        if (cabinetId == null)
+            return null;
 
-        //String slot="n0r1c1m0";
-
-        int n_index=slotId.indexOf('n');
-
-        if(n_index<0)
-        {
+        if (cabinetId.length() != 8) {
             return null;
         }
 
-        int r_index=slotId.indexOf('r');
-        if(r_index<0)
-        {
-            return  null;
-        }
+        if (slotId == null)
+            return null;
 
-        int c_index=slotId.indexOf('c');
-
-        if(c_index<0)
-        {
+        int r_index = slotId.indexOf('r');
+        if (r_index < 0) {
             return null;
         }
 
-        try {
-            SlotNRC slotNRC=new SlotNRC();
+        int c_index = slotId.indexOf('c');
 
-            String str_n = slotId.substring(n_index + 1, r_index - n_index);
-            String str_r = slotId.substring(r_index + 1, c_index);
-            String str_c = slotId.substring(c_index + 1, slotId.length());
-
-            slotNRC.setCabinetId(str_n);
-            slotNRC.setRow(Integer.valueOf(str_r));
-            slotNRC.setCol(Integer.valueOf(str_c));
-
-            return  slotNRC;
+        if (c_index < 0) {
+            return null;
         }
-        catch (NullPointerException ex)
-        {
-            return  null;
-        }
+
+        SlotNRC slotNRC = new SlotNRC();
+
+        slotNRC.setCtrl(cabinetId.substring(0, 5));
+        slotNRC.setCab(cabinetId.substring(5, 8));
+
+
+        String str_r = slotId.substring(r_index + 1, c_index);
+        String str_c = slotId.substring(c_index + 1, slotId.length());
+
+        slotNRC.setRow(Integer.valueOf(str_r));
+        slotNRC.setCol(Integer.valueOf(str_c));
+
+        return slotNRC;
 
     }
 }

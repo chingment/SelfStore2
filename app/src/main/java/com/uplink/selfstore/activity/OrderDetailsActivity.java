@@ -176,16 +176,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     }
                                 }
 
-                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", pickupResult);
 
                                 break;
                             case 4://取货成功
                                 curpickupsku_tip2.setText("取货完成");
-                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
                                 break;
                             case 5://取货超时
                                 LogUtil.e("取货失败,取货动作超时");
-                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
 
                                 if (!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中.");
@@ -195,7 +195,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 6://取货失败
                                 LogUtil.e("取货失败,程序异常");
-                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", pickupResult);
                                 if (!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中..");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
@@ -213,7 +213,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         currentPickupSku = getCurrentPickupProductSku();
         if (currentPickupSku != null) {
-            setSendPickup(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+            setSendPickup(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
         } else {
             setPickupCompleteDrawTips();
         }
@@ -408,31 +408,32 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     }
 
     //设置商品卡槽去货中
-    private void setSendPickup(String productSkuId,String slotId,String uniqueId) {
+    private void setSendPickup(String productSkuId,String cabinetId, String slotId,String uniqueId) {
         LogUtil.d("当前取货:" + currentPickupSku.getName() + ",productSkuId:"+productSkuId+",slotId:" + currentPickupSku.getSlotId()+",uniqueId:"+uniqueId);
         CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
         curpickupsku_tip1.setText(currentPickupSku.getName());
         curpickupsku_tip2.setText("准备出货......");
 
-        SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
+        SlotNRC slotNRC = SlotNRC.GetSlotNRC(cabinetId,slotId);
         if (slotNRC == null) {
             //showToast("货道编号解释错误");
             curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");
             return;
         }
 
-        pickupEventNotify(productSkuId,slotId,uniqueId,3011,"发起取货",null);
+        pickupEventNotify(productSkuId,cabinetId,slotId,uniqueId,3011,"发起取货",null);
 
     }
 
 
-    public void pickupEventNotify(final String productSkuId, final String slotId, final String uniqueId, final int status, String remark, PickupResult pickupResult) {
+    public void pickupEventNotify(final String productSkuId,final String cabinetId, final String slotId, final String uniqueId, final int status, String remark, PickupResult pickupResult) {
 
         try {
             JSONObject content = new JSONObject();
             content.put("orderId", orderDetails.getId());
             content.put("uniqueId", uniqueId);
             content.put("productSkuId", productSkuId);
+            content.put("cabinetId", cabinetId);
             content.put("slotId", slotId);
             content.put("status", status);
             content.put("isTest", false);
@@ -455,7 +456,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         switch (status) {
             case 3011:
-                SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getSlotId());
+                SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
                 if (slotNRC != null) {
 
                     int mode = 0;
@@ -496,7 +497,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 list_skus.setAdapter(skuAdapter);
                 currentPickupSku = getCurrentPickupProductSku();
                 if (currentPickupSku != null) {
-                    setSendPickup(currentPickupSku.getId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                    setSendPickup(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
                 } else {
                     setPickupCompleteDrawTips();
                 }

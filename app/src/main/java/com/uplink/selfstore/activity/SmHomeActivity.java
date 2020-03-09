@@ -189,7 +189,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     break;
                                 case "fun.machinestock":
                                     intent = new Intent(getAppContext(), SmMachineStockActivity.class);
-                                    intent.putExtra("cabinetId", "DSX01N01");
+                                    intent.putExtra("cabinetId", "dsx01n01");
                                     startActivity(intent);
                                     break;
                                 case "fun.userinfo":

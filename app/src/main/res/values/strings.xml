@@ -39,6 +39,7 @@
     <string name="aty_smmachineinfo_tvtx_currency">货币</string>
     <string name="aty_smmachineinfo_tvtx_currencysymbol">货币符号</string>
     <string name="aty_smmachinestock_navtitle">机器库存</string>
+    <string name="aty_smmachinestock_tvtx_cabinetname">当前机柜</string>
     <string name="aty_cart_navtitle">购物车</string>
     <string name="aty_cart_btntx_goshopping">去逛一逛商品</string>
     <string name="aty_cart_btntx_gopay">去支付</string>

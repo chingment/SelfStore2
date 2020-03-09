@@ -50,18 +50,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;
     private CustomSlotEditDialog dialog_SlotEdit;
-//    private String cabinetName = "";//机柜名称
-//    private int[] cabinetRowColLayout = null;
-//    private int[] cabinetPendantRows=null;
-    private MachineBean machine = null ;
+    private MachineBean machine = null ;//机器信息
     private CabinetBean cabinet =null;//机柜信息
     private HashMap<String, SlotBean> cabinetSlots = null;//机柜货道信息
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
     private MachineCtrl machineCtrl;
     private CustomDialogLoading customDialogRunning;
+    private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
-
     private  MyBreathLight breathlight_machine;
     private  MyBreathLight breathlight_scangan;
     @Override
@@ -75,7 +72,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         machine = AppCacheManager.getMachine();
         String cabinetId = getIntent().getStringExtra("cabinetId");
         cabinet = machine.getCabinets().get(cabinetId);
-
+        if(cabinet==null){
+            showToast("未配置对应机柜，请联系管理员");
+            return;
+        }
         machineCtrl=MachineCtrl.getInstance();
         machineCtrl.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
@@ -153,6 +153,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
+        txt_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         customDialogRunning = new CustomDialogLoading(this);
 
 //        breathlight_machine=(MyBreathLight) findViewById(R.id.breathlight_machine);
@@ -179,6 +180,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     protected void initData() {
         getCabinetSlots();
+
+        txt_CabinetName.setText(cabinet.getName()+"("+cabinet.getId()+")");
     }
 
     public void setSlot(SlotBean slot) {
@@ -240,16 +243,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
-                String m = "0";
-                if (isPndantRow) {
-                    m = "1";
-                    if (j == 0) {
+
+                final String slotId = "r" + (i - 1) + "c" + j;
+
+                if(isPndantRow){
+                    if(j==0){
                         convertView.setVisibility(View.GONE);
                     }
                 }
-
-
-                final String slotId = "r" + (i - 1) + "c" + j;
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);

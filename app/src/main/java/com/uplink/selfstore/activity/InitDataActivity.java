@@ -18,6 +18,7 @@ import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.MachineCtrl;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.LogBean;
+import com.uplink.selfstore.model.SlotNRC;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
@@ -82,6 +83,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
         setHideStatusBar(true);
+
+        SlotNRC nrc=SlotNRC.GetSlotNRC("dsx01n01","r31c19");
 
         initView();
         initEvent();

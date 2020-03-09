@@ -279,7 +279,7 @@ public class CustomSlotEditDialog extends Dialog {
                 }
 
                 String slotId = String.valueOf(txt_SlotName.getText());
-                SlotNRC slotNRC = SlotNRC.GetSlotNRC(slotId);
+                SlotNRC slotNRC = SlotNRC.GetSlotNRC(cabinet.getId(), slotId);
                 if (slotNRC == null) {
                     mContext.showToast("货道编号解释错误");
                     return;
@@ -364,6 +364,7 @@ public class CustomSlotEditDialog extends Dialog {
                 Map<String, Object> params = new HashMap<>();
                 params.put("id", id);
                 params.put("machineId", machine.getId());
+                params.put("cabinetId", cabinet.getId());
                 params.put("productSkuId", productSkuId);
                 params.put("sumQuantity", sumQuantity);
                 params.put("maxQuantity", maxQuantity);
@@ -602,13 +603,13 @@ public class CustomSlotEditDialog extends Dialog {
         list_search_skus.setAdapter(slotSkuSearchAdapter);
     }
 
-
     private void pickupEventNotify(final String productSkuId,final String slotId,final int status, String remark,PickupResult pickupResult) {
 
         try {
             JSONObject content = new JSONObject();
 
             content.put("productSkuId", productSkuId);
+            content.put("cabinetId", cabinet.getId());
             content.put("slotId", slotId);
             content.put("status", status);
             content.put("remark", remark);

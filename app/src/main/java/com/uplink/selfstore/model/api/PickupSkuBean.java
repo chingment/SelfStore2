@@ -12,6 +12,7 @@ public class PickupSkuBean {
     private String name;
     private String mainImgUrl;
     private String slotId;
+    private String cabinetId;
     private int status;
     private Date startTime;
 
@@ -69,5 +70,13 @@ public class PickupSkuBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getCabinetId() {
+        return cabinetId;
+    }
+
+    public void setCabinetId(String cabinetId) {
+        this.cabinetId = cabinetId;
     }
 }
