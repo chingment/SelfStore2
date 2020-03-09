@@ -34,7 +34,6 @@ import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import org.json.JSONArray;
@@ -50,7 +49,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;
     private CustomSlotEditDialog dialog_SlotEdit;
-    private MachineBean machine = null ;//机器信息
     private CabinetBean cabinet =null;//机柜信息
     private HashMap<String, SlotBean> cabinetSlots = null;//机柜货道信息
     private Button btn_ScanSlots;
@@ -59,8 +57,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private CustomDialogLoading customDialogRunning;
     private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
-    private  MyBreathLight breathlight_machine;
-    private  MyBreathLight breathlight_scangan;
+    private MyBreathLight breathlight_machine;
+    private MyBreathLight breathlight_scangan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +67,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         setNavTtile(this.getResources().getString(R.string.aty_smmachinestock_navtitle));
         setNavGoBackBtnVisible(true);
 
-        machine = AppCacheManager.getMachine();
+
         String cabinetId = getIntent().getStringExtra("cabinetId");
-        cabinet = machine.getCabinets().get(cabinetId);
+        cabinet = getMachine().getCabinets().get(cabinetId);
         if(cabinet==null){
             showToast("未配置对应机柜，请联系管理员");
             return;
@@ -371,7 +369,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         Map<String, String> params = new HashMap<>();
 
-        params.put("machineId", machine.getId());
+        params.put("machineId", getMachine().getId());
         params.put("cabinetId",String.valueOf(cabinet.getId()));
 
         getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, "正在获取库存", new HttpResponseHandler() {
@@ -399,10 +397,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     private void saveCabinetRowColLayout(final String cabinetId, final int[]cabinetRowColLayout) {
-        MachineBean machine = AppCacheManager.getMachine();
-
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", machine.getId());
+        params.put("machineId", getMachine().getId());
         params.put("cabinetId", cabinetId);
 
 

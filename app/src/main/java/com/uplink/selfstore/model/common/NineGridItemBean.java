@@ -12,7 +12,7 @@ public class NineGridItemBean {
     private Object icon;
     private int type;
     private String action;
-
+    private Object tag;
 
     public String getTitle() {
         return title;
@@ -47,6 +47,13 @@ public class NineGridItemBean {
         this.action = action;
     }
 
+    public Object getTag() {
+        return tag;
+    }
+
+    public void setTag(Object tag) {
+        this.tag = tag;
+    }
 
     public  NineGridItemBean()
     {
@@ -59,5 +66,14 @@ public class NineGridItemBean {
         this.type=type;
         this.icon=icon;
         this.action=action;
+    }
+
+    public  NineGridItemBean(String title,int type,String action, Object icon,Object tag)
+    {
+        this.title=title;
+        this.type=type;
+        this.icon=icon;
+        this.action=action;
+        this.tag=tag;
     }
 }

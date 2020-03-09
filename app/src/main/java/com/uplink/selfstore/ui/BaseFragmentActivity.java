@@ -58,7 +58,6 @@ import cn.jpush.android.api.JPushInterface;
 public class BaseFragmentActivity extends FragmentActivity implements View.OnClickListener {
     private String TAG = "BaseFragmentActivity";
     private AppContext appContext;
-    private long mWorkerThreadID = -1;
     public static boolean isForeground = false;
     private MessageReceiver mJpush_MessageReceiver;
     public static final String mJpush_MESSAGE_RECEIVED_ACTION = "com.uplink.selfstore.MESSAGE_RECEIVED_ACTION";
@@ -68,6 +67,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private CustomDialogLoading customDialogLoading;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
+    private MachineBean machine;
     public LocationUtil locationUtil;
 
     public void setNavTtile(String title) {
@@ -92,10 +92,16 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         return AppCacheManager.getGlobalDataSet();
     }
 
+    public MachineBean getMachine() {
+        if (machine == null) {
+            machine = AppCacheManager.getMachine();
+        }
+        return machine;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         appContext = (AppContext) getApplication();
         customDialogLoading = new CustomDialogLoading(this);

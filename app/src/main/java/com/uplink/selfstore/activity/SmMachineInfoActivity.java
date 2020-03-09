@@ -1,6 +1,5 @@
 package com.uplink.selfstore.activity;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,8 +10,6 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.selfstore.utils.LocationUtil;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -66,24 +63,15 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
 
     protected void initData() {
 
-        MachineBean machine = AppCacheManager.getMachine();
-
-
-        txt_MerchantName.setText(machine.getMerchName());
-        txt_StoreName.setText(machine.getStoreName());
-        txt_MachineId.setText(machine.getId());
+        txt_MerchantName.setText(getMachine().getMerchName());
+        txt_StoreName.setText(getMachine().getStoreName());
+        txt_MachineId.setText(getMachine().getId());
         txt_DeviceId.setText(getAppContext().getDeviceId());
         txt_JPushRegId.setText(JPushInterface.getRegistrationID(getAppContext()));
         txt_AppVersion.setText(BuildConfig.VERSION_NAME);
         txt_CabinetCtrlSdkVersionByDS.setText(cabinetCtrlByDS.vesion());
-        txt_Currency.setText(machine.getCurrency());
-        txt_CurrencySymbol.setText(machine.getCurrencySymbol());
-//        Location location = LocationUtil.getInstance(SmMachineInfoActivity.this).showLocation();
-//        if (location != null) {
-//            String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
-//            LogUtil.d("FLY.LocationUtils", address);
-//            txt_Location.setText(address);
-//        }
+        txt_Currency.setText(getMachine().getCurrency());
+        txt_CurrencySymbol.setText(getMachine().getCurrencySymbol());
     }
 
     @Override

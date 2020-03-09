@@ -2,7 +2,6 @@ package com.uplink.selfstore.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -36,7 +35,6 @@ import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -57,11 +55,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private static final String TAG = "CartActivity";
     private View btn_back;
     private View btn_goshopping;
-    private View btn_gopay;
     private View btn_pay_z_wechat;//微信官方支付 手机扫二维码
     private View btn_pay_z_zhifubao;//支付宝官方支付 手机扫二维码
     private View btn_pay_z_aggregate;//第三聚合支付 通莞 手机扫二维码
-
     private MyListView list_skus;
     private View list_empty_tip;
     private CustomScanPayDialog dialog_ScanPay;
@@ -69,19 +65,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
     private CabinetCtrlByDS cabinetCtrlByDS=null;
-    private MachineBean machineInfo=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
-
-        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-        machineInfo=AppCacheManager.getMachine();
+        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         initView();
         initEvent();
         initData();
-
         useClosePageCountTimer();
     }
 
@@ -90,30 +82,25 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         btn_goshopping = findViewById(R.id.btn_goshopping);
         btn_pay_z_wechat = findViewById(R.id.btn_pay_z_wechat);
         btn_pay_z_zhifubao = findViewById(R.id.btn_pay_z_zhifubao);
-        btn_pay_z_aggregate= findViewById(R.id.btn_pay_z_aggregate);
+        btn_pay_z_aggregate = findViewById(R.id.btn_pay_z_aggregate);
 
-        if(machineInfo!=null)
-        {
-            List<TerminalPayOptionBean> payOptions=machineInfo.getPayOptions();
-            if(payOptions!=null)
-            {
-               for (int i=0;i<payOptions.size();i++)
-               {
-                   if(payOptions.get(i).getCaller()==10) {
-                       btn_pay_z_wechat.setTag(payOptions.get(i));
-                       btn_pay_z_wechat.setVisibility(View.VISIBLE);
-                   }
-                   else if(payOptions.get(i).getCaller()==20) {
-                       btn_pay_z_zhifubao.setTag(payOptions.get(i));
-                       btn_pay_z_zhifubao.setVisibility(View.VISIBLE);
-                   }
-                   else if(payOptions.get(i).getCaller()==90) {
-                       btn_pay_z_aggregate.setTag(payOptions.get(i));
-                       btn_pay_z_aggregate.setVisibility(View.VISIBLE);
-                   }
-               }
+
+        List<TerminalPayOptionBean> payOptions = this.getMachine().getPayOptions();
+        if (payOptions != null) {
+            for (int i = 0; i < payOptions.size(); i++) {
+                if (payOptions.get(i).getCaller() == 10) {
+                    btn_pay_z_wechat.setTag(payOptions.get(i));
+                    btn_pay_z_wechat.setVisibility(View.VISIBLE);
+                } else if (payOptions.get(i).getCaller() == 20) {
+                    btn_pay_z_zhifubao.setTag(payOptions.get(i));
+                    btn_pay_z_zhifubao.setVisibility(View.VISIBLE);
+                } else if (payOptions.get(i).getCaller() == 90) {
+                    btn_pay_z_aggregate.setTag(payOptions.get(i));
+                    btn_pay_z_aggregate.setVisibility(View.VISIBLE);
+                }
             }
         }
+
 
         list_skus = (MyListView) findViewById(R.id.list_skus);
         list_skus.setFocusable(false);
@@ -160,17 +147,17 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             public void onTick(long millisUntilFinished) {
                 long seconds = (millisUntilFinished / 1000);
                 LogUtil.i("支付倒计时:" + seconds);
-                dialog_ScanPay.getPaySecondsText().setText(seconds+ "'");
+                dialog_ScanPay.getPaySecondsText().setText(seconds + "'");
                 payStatusQuery();
             }
 
             @Override
             public void onFinish() {
                 closePageCountTimerStart();
-                if(dialog_ScanPay!=null&&dialog_ScanPay.isShowing()) {
+                if (dialog_ScanPay != null && dialog_ScanPay.isShowing()) {
                     dialog_ScanPay.dismiss();
                 }
-                if(dialog_ScanPay_ConfirmClose!=null&&dialog_ScanPay_ConfirmClose.isShowing()) {
+                if (dialog_ScanPay_ConfirmClose != null && dialog_ScanPay_ConfirmClose.isShowing()) {
                     dialog_ScanPay_ConfirmClose.dismiss();
                 }
             }
@@ -186,9 +173,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     private void initData() {
-
         setList();
-
     }
 
     public void setList() {
@@ -279,8 +264,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             dialog_ScanPay_ConfirmClose.cancel();
         }
 
-        if(taskByCheckPayTimeout!=null)
-        {
+        if(taskByCheckPayTimeout!=null) {
             taskByCheckPayTimeout.cancel();
         }
     }
@@ -323,7 +307,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     private  void  paySend(final TerminalPayOptionBean payOption) {
 
-        MachineBean machine = AppCacheManager.getMachine();
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
             showToast(getAppContext().getString(R.string.aty_cart_tips_cartisnull));
@@ -338,7 +321,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", machine.getId() + "");
+        params.put("machineId", this.getMachine().getId() + "");
         params.put("payPartner", payOption.getPartner() + "");
         params.put("payCaller", payOption.getCaller() + "");
 
@@ -395,8 +378,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
 
         Map<String, String> params = new HashMap<>();
-        MachineBean machine = AppCacheManager.getMachine();
-        params.put("machineId", machine.getId());
+        params.put("machineId", this.getMachine().getId());
         params.put("orderId", LAST_ORDERID);
 
         getByMy(Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
@@ -479,8 +461,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     public static void operate(int type,String productSkuId, final CarOperateHandler handler) {
-
-        // LogUtil.e("productId:" + productId,",productSkuId:"+productSkuId);
 
         MachineBean machine=AppCacheManager.getMachine();
 

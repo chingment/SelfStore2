@@ -78,7 +78,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private int mCameraPreviewWidth=640;
     private int mCameraPreviewHeight=480;
 
-    private MachineBean machineInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,14 +85,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-        machineInfo = AppCacheManager.getMachine();
+
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
         initView();
         initEvent();
         initData();
 
-        if(machineInfo.isOpenChkCamera()) {
+        if(this.getMachine().isOpenChkCamera()) {
             initUVCCamera();
         }
 
@@ -121,7 +120,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 }
 
-                                if(machineInfo.isOpenChkCamera()) {
+                                if(getMachine().isOpenChkCamera()) {
                                     if (mUVCCamera != null) {
                                         if (!mUVCCamera.isCameraOpen()) {
                                             mUVCCamera.openCamera(37424, 1443);
@@ -138,7 +137,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                                     //拍照
                                     if (pickupResult.getCurrentActionId() == 8) {
-                                        if (machineInfo.isOpenChkCamera()) {
+                                        if (getMachine().isOpenChkCamera()) {
                                             if (mUVCCamera != null) {
                                                 LogUtil.i(TAG, "进入拍照流程");
                                                 pickupResult.setImgId(UUID.randomUUID().toString());
@@ -397,9 +396,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         txt_OrderSn.setText(orderDetails.getSn());
 
 
-        dialog_SystemWarn.setCsrPhoneNumber(machineInfo.getCsrPhoneNumber());
-        dialog_SystemWarn.setCsrQrcode(machineInfo.getCsrQrCode());
-        dialog_SystemWarn.setCsrHelpTip(machineInfo.getCsrHelpTip());
+        dialog_SystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
+        dialog_SystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
+        dialog_SystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
 
         OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
         list_skus.setAdapter(cartSkuAdapter);
@@ -451,7 +450,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             e.printStackTrace();
         }
 
-        CabinetBean cabinet=machineInfo.getCabinets().get(currentPickupSku.getCabinetId());
+        CabinetBean cabinet=getMachine().getCabinets().get(currentPickupSku.getCabinetId());
         CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
 
         switch (status) {

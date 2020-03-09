@@ -47,7 +47,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,9 +171,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
         Map<String, String> params = new HashMap<>();
 
-        MachineBean machine = AppCacheManager.getMachine();
-
-        params.put("machineId", machine.getId());
+        params.put("machineId", this.getMachine().getId());
         params.put("pickupCode", pickCode);
 
         getByMy(Config.URL.order_Search, params, true, "正在寻找订单", new HttpResponseHandler() {

@@ -240,7 +240,6 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
         MachineBean machine = AppCacheManager.getMachine();
 
-
         Map<String, Object> params = new HashMap<>();
         params.put("veinData",  Base64.encodeToString(veinData, Base64.NO_WRAP));
         params.put("appId", BuildConfig.APPLICATION_ID);
