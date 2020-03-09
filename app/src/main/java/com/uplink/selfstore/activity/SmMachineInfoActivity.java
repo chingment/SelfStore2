@@ -26,7 +26,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private TextView txt_Location;
     private TextView txt_JPushRegId;
     private TextView txt_AppVersion;
-    private TextView txt_MachineCtrlSdkVersion;
+    private TextView txt_CabinetCtrlSdkVersionByDS;
     private TextView txt_Currency;
     private TextView txt_CurrencySymbol;
 
@@ -55,7 +55,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_Location = (TextView) findViewById(R.id.txt_Location);
         txt_JPushRegId = (TextView) findViewById(R.id.txt_JPushRegId);
         txt_AppVersion= (TextView) findViewById(R.id.txt_AppVersion);
-        txt_MachineCtrlSdkVersion=(TextView) findViewById(R.id.txt_MachineCtrlSdkVersion);
+        txt_CabinetCtrlSdkVersionByDS=(TextView) findViewById(R.id.txt_CabinetCtrlSdkVersionByDS);
         txt_Currency= (TextView) findViewById(R.id.txt_Currency);
         txt_CurrencySymbol= (TextView) findViewById(R.id.txt_CurrencySymbol);
     }
@@ -75,7 +75,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_DeviceId.setText(getAppContext().getDeviceId());
         txt_JPushRegId.setText(JPushInterface.getRegistrationID(getAppContext()));
         txt_AppVersion.setText(BuildConfig.VERSION_NAME);
-        txt_MachineCtrlSdkVersion.setText(cabinetCtrlByDS.vesion());
+        txt_CabinetCtrlSdkVersionByDS.setText(cabinetCtrlByDS.vesion());
         txt_Currency.setText(machine.getCurrency());
         txt_CurrencySymbol.setText(machine.getCurrencySymbol());
 //        Location location = LocationUtil.getInstance(SmMachineInfoActivity.this).showLocation();

@@ -88,11 +88,8 @@ public class CustomSlotEditDialog extends Dialog {
         this.mContext = (SmMachineStockActivity) context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
-        MachineBean machine = AppCacheManager.getMachine();
-        //cabinetPendantRows=machine.getCabinetPendantRows_1();
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-        //machineCtrl.connect();
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {

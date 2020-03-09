@@ -189,7 +189,6 @@
         <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
         <service android:name=".service.CameraSnapService" />
-        <service android:name=".service.MachineCtrlService" />
         <service android:name=".service.UpdateAppService" />
         <service
             android:name=".service.HeartbeatService"

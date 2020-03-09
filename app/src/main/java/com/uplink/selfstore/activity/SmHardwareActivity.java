@@ -59,7 +59,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private CabinetCtrlByDS cabinetCtrlByDS=null;
     private Button btnMachineGoZero;
-    private MyListView list_machinectrlinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +96,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         mCameraRecord.setOnClickListener(this);
 
         mCameraTextureView =(TextureView)findViewById(R.id.cameraView);
-        list_machinectrlinfo=(MyListView)findViewById(R.id.list_machinectrlinfo);
         if(Config.IS_BUILD_DEBUG) {
             mCameraTest = (Button) findViewById(R.id.cameraTest);
             mCameraTest.setVisibility(View.VISIBLE);

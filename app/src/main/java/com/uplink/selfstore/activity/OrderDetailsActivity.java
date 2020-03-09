@@ -25,6 +25,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.SlotNRC;
+import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
@@ -68,7 +69,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private TextView curpickupsku_tip2;
     private OrderDetailsBean orderDetails;
     private PickupSkuBean currentPickupSku=null;
-    private int[] cabinetPendantRows=null;
     private CabinetCtrlByDS cabinetCtrlByDS=null;
 
 
@@ -88,8 +88,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         machineInfo = AppCacheManager.getMachine();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
-
-        //cabinetPendantRows=machineInfo.getCabinetPendantRows_1();
 
         initView();
         initEvent();
@@ -457,19 +455,24 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         switch (status) {
             case 3011:
                 SlotNRC slotNRC = SlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
-                if (slotNRC != null) {
-
-                    int mode = 0;
-                    if (cabinetPendantRows != null) {
-                        for (int z = 0; z < cabinetPendantRows.length; z++) {
-                            if (cabinetPendantRows[z] == slotNRC.getRow()) {
-                                mode = 1;
-                                break;
+                CabinetBean cabinet=machineInfo.getCabinets().get(currentPickupSku.getCabinetId());
+                switch (currentPickupSku.getCabinetId()) {
+                    case "dsx01n01":
+                        int[] cabinetPendantRows=cabinet.getPendantRows();
+                        int mode = 0;
+                        if (cabinetPendantRows != null) {
+                            for (int z = 0; z < cabinetPendantRows.length; z++) {
+                                if (cabinetPendantRows[z] == slotNRC.getRow()) {
+                                    mode = 1;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    cabinetCtrlByDS.pickUp(mode, slotNRC.getRow(), slotNRC.getCol());
+                        cabinetCtrlByDS.pickUp(mode, slotNRC.getRow(), slotNRC.getCol());
+
+                        break;
                 }
+
                 break;
             case 4000:
                 List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();

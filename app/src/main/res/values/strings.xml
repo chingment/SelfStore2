@@ -35,7 +35,7 @@
     <string name="aty_smmachineinfo_tvtx_localtion">地理位置</string>
     <string name="aty_smmachineinfo_tvtx_paytimeout">支付超时（秒）</string>
     <string name="aty_smmachineinfo_tvtx_versionname">程序版本号</string>
-    <string name="aty_smmachineinfo_tvtx_machinectrlsdkversion">设备控制版本号</string>
+    <string name="aty_smmachineinfo_tvtx_cabinetctrlsdkversionbyds">设备控制版本号</string>
     <string name="aty_smmachineinfo_tvtx_currency">货币</string>
     <string name="aty_smmachineinfo_tvtx_currencysymbol">货币符号</string>
     <string name="aty_smmachinestock_navtitle">机器库存</string>

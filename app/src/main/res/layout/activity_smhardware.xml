@@ -151,15 +151,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_100">
 
-                    <com.uplink.selfstore.ui.my.MyListView
-                        android:id="@+id/list_machinectrlinfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:divider="@color/dividerline"
-                        android:dividerHeight="1px"
-                        android:fadingEdge="none"
-                        android:overScrollMode="never"
-                        android:scrollbars="none" />
                 </LinearLayout>
 
 
