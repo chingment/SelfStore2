@@ -26,12 +26,10 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
-import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
@@ -338,6 +336,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             }
         }, 30);
+        closePageCountTimerStart();
     }
 
     private void initView() {

@@ -15,6 +15,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetMidByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.CabinetSlotNRC;
@@ -83,7 +84,12 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setHideStatusBar(true);
 
         CabinetSlotNRC nrc= CabinetSlotNRC.GetSlotNRC("dsx01n01","r31c19");
-
+        CabinetMidByZS a=new CabinetMidByZS();
+        a.unlock(1,1);
+        int j = 2 / 12;
+        int j1 = 13 / 12;
+        int i = 2 % 12;
+        int i1 = 13 % 12;
         initView();
         initEvent();
         initData();
