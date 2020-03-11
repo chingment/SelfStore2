@@ -18,9 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.serenegiant.dialog.MessageDialogFragmentV4;
-import com.serenegiant.utils.HandlerThreadHandler;
-import com.serenegiant.utils.PermissionCheck;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
@@ -112,20 +109,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())) {
 
             Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity != null) {
-                if (activity instanceof InitDataActivity) {
-                    if (AppCacheManager.getGlobalDataSet() != null) {
-                        Intent intent = new Intent(appContext, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                } else {
-                    showToast("检查异常，设备重新运行");
-                    Intent intent = new Intent(appContext, InitDataActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+
+            if (activity instanceof InitDataActivity) {
+
+
+            } else {
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
             }
+
         }
     }
 

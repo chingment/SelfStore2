@@ -8,11 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import android_serialport_api.SerialPort;
 
 public class CabinetMidByZS {
-    private String TAG = "ScanMidCtrl";
+    private String TAG = "CabinetMidByZS";
+
+
     public static int RC_SUCCESS = 0;
     public static int RC_INVALID_PARAM = 1;
     public static int RC_ERROR = 2;
@@ -44,12 +47,12 @@ public class CabinetMidByZS {
             } catch (IOException var5) {
                 var5.printStackTrace();
                 LogUtil.e(TAG, String.format("connect to %s:%d failed", strPort, nBaudrate));
-                return 0;
+                return RC_ERROR;
             }
         }
     }
 
-    public int unlock(int plate,int num) {
+    public int unLock(int plate,int num) {
 
         byte[] sz = new byte[9];
         sz[0] = 0x06;
@@ -62,50 +65,52 @@ public class CabinetMidByZS {
         sz[7] = (byte) (sz[1] ^ sz[2] ^ sz[3] ^ sz[4] ^ sz[5] ^ sz[6]);
         sz[8] = 0x08;
 
-
-        if (this.write(sz) != sz.length) {
+        if (this.write(sz)!=RC_SUCCESS) {
             return RC_WRITEERROR;
-        } else if (this.read(sz, 7, this.nTimeout) != 7) {
-            return RC_READERROR;
-        } else if (sz[3] != 97) {
-            return RC_ERROR;
         } else {
+            sz = new byte[11];
+            if(this.read(sz, this.nTimeout) != 11) {
+                return RC_READERROR;
+            }
             return RC_SUCCESS;
         }
     }
 
-    private int write(byte[] byData) {
 
-        String strLog = String.format("write[%d]:", byData.length);
+    private void printWD(byte[] data){
+        if(data==null){
+            LogUtil.v(TAG, "数据为空");
+            return;
+        }
 
-        for (int i = 0; i < byData.length; ++i) {
-            strLog = strLog + String.format("%02x ", byData[i]);
+        String strLog = String.format("write[%d]:", data.length);
+
+        for (int i = 0; i < data.length; ++i) {
+            strLog = strLog + String.format("%02x ", data[i]);
         }
 
         LogUtil.v(TAG, strLog);
+    }
 
+    private int write(byte[] data) {
+        printWD(data);
         if (this.out == null) {
-            return 0;
+            return RC_WRITEERROR;
         } else {
             try {
-                this.out.write(byData);
-                return byData.length;
-            } catch (IOException var4) {
-                var4.printStackTrace();
+                this.out.write(data);
+                return RC_SUCCESS;
+            } catch (IOException ex) {
+                ex.printStackTrace();
                 return RC_WRITEERROR;
             }
         }
     }
 
-    private int read(byte[] byRead, int nLen, int nTimeout) {
-        if (byRead.length < nLen) {
-            LogUtil.e(TAG, String.format("the Read buffer is Out of Bound[%d < %d]", byRead.length, nLen));
-            nLen = byRead.length;
-        }
-
+    private int read(byte[] byRead,int nTimeout) {
         int nRead = 0;
         if (this.in != null) {
-            int nMaxLen = nLen;
+            int nMaxLen = byRead.length;
             long nStart = System.currentTimeMillis();
             long nEnd = System.currentTimeMillis();
 
@@ -141,11 +146,11 @@ public class CabinetMidByZS {
                             LogUtil.v(TAG, strLog);
 
 
-                            if (nRead == 0 && byRead[0] != 36) {
+                            if (nRead == 0 && byRead[0] !=6) {
                                 int nFind = 0;
 
                                 for (i = 1; i < nReaded; ++i) {
-                                    if (byRead[i] == 36) {
+                                    if (byRead[i] == 6) {
                                         nFind = i;
                                         break;
                                     }
@@ -172,11 +177,93 @@ public class CabinetMidByZS {
                         bTryAgain = true;
                     }
                 }
-            } catch (IOException var16) {
-                var16.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         }
 
+        return nRead;
+    }
+
+
+    public int read2(byte[] byRead, int nLen, int nTimeout) {
+        if (byRead.length < nLen) {
+            LogUtil.e(TAG, String.format("the Read buffer is Out of Bound[%d < %d]", byRead.length, nLen));
+            nLen = byRead.length;
+        }
+
+        int nRead = 0;
+
+        int nMaxLen = nLen;
+        long nStart = System.currentTimeMillis();
+        long nEnd = System.currentTimeMillis();
+
+        boolean bTryAgain = false;
+
+        for (; nRead < nMaxLen && (nEnd - nStart <= (long) nTimeout || bTryAgain); nEnd = System.currentTimeMillis()) {
+            try {
+                Thread.currentThread();
+                Thread.sleep(20L);
+            } catch (InterruptedException var15) {
+                var15.printStackTrace();
+            }
+
+            int nReadReady = 11;
+            if (nReadReady > nMaxLen - nRead) {
+                nReadReady = nMaxLen - nRead;
+            }
+
+            if (nReadReady <= 0) {
+                bTryAgain = false;
+            } else {
+                int nReaded = 11;
+                if (nReaded > 0) {
+                    int i;
+
+                    String strLog = String.format("Read[%d]:", nReaded);
+
+                    for (i = 0; i < nReaded; ++i) {
+                        strLog = strLog + String.format("%02x ", byRead[i]);
+                    }
+
+                    LogUtil.v(TAG, strLog);
+
+
+                    if (nRead == 0 && byRead[0] != 6) {
+                        int nFind = 0;
+
+                        for (i = 1; i < nReaded; ++i) {
+                            if (byRead[i] == 6) {
+                                nFind = i;
+                                break;
+                            }
+                        }
+
+                        if (nFind > 0) {
+                            nReaded -= nFind;
+
+                            for (i = 0; i < nReaded; ++i) {
+                                byRead[i] = byRead[nFind + i];
+                            }
+                        } else {
+                            nReaded = 0;
+                        }
+
+
+                        LogUtil.v(TAG, String.format("Read change to :%d", nReaded));
+
+                    }
+
+                    nRead += nReaded;
+                }
+
+                bTryAgain = true;
+            }
+
+
+        }
+
+        byRead[2]=0x08;
         return nRead;
     }
 }

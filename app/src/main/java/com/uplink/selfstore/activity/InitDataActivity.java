@@ -37,7 +37,9 @@ import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
+import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +78,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             initHandler.postDelayed(this, 1000);
         }
     };
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +89,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         setHideStatusBar(true);
 
-        CabinetSlotNRC nrc= CabinetSlotNRC.GetSlotNRC("dsx01n01","r31c19");
-        CabinetMidByZS a=new CabinetMidByZS();
-        a.unlock(1,1);
-        int j = 2 / 12;
-        int j1 = 13 / 12;
-        int i = 2 % 12;
-        int i1 = 13 % 12;
         initView();
         initEvent();
         initData();

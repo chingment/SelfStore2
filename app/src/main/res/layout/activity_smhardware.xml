@@ -52,6 +52,7 @@
 
                         <TextureView
                             android:id="@+id/cameraView"
+                            android:background="@null"
                             android:layout_width="@dimen/size_140"
                             android:layout_height="@dimen/size_140" />
                     </LinearLayout>
@@ -109,8 +110,7 @@
             android:layout_width="match_parent"
             android:padding="@dimen/size_5"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,6 +157,94 @@
 
             </LinearLayout>
         </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/zs_hd_layout"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_200">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_height="@dimen/size_14">
+                    <TextView
+                        android:textSize="@dimen/sp_10"
+                        android:lineSpacingExtra="@dimen/size_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/zs_hd_title"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="start|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal|center_vertical"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="@string/zs_hd_tvtx_ck"
+                        />
+
+                    <EditText
+                        android:id="@+id/zs_hd_et_ck"
+                        android:layout_width="@dimen/size_50"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="ttyS1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="@string/zs_hd_tvtx_plateid"
+                        />
+
+                    <EditText
+                        android:id="@+id/zs_hd_et_plateid"
+                        android:layout_width="@dimen/size_30"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="@string/zs_hd_tvtx_numid"
+                        />
+
+                    <EditText
+                        android:id="@+id/zs_hd_et_numid"
+                        android:layout_width="@dimen/size_30"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/zs_hd_btn_testopen"
+                        android:layout_width="@dimen/size_70"
+                        android:layout_height="@dimen/size_30"
+                        android:textSize="@dimen/sp_8"
+                        android:text="@string/zs_hd_btntx_testopen"/>
+                    <Button
+                        android:id="@+id/zs_hd_btn_teststatus"
+                        android:layout_width="@dimen/size_70"
+                        android:layout_height="@dimen/size_30"
+                        android:textSize="@dimen/sp_8"
+                        android:text="@string/zs_hd_btntx_teststatus"/>
+                </LinearLayout>
+
+
+        </LinearLayout>
+
 
 
     </LinearLayout>

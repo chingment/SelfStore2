@@ -1,44 +1,37 @@
 package com.uplink.selfstore.activity;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.Rect;
-import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.lgh.uvccamera.UVCCameraProxy;
-import com.lgh.uvccamera.bean.PicturePath;
 import com.lgh.uvccamera.callback.PictureCallback;
 import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
-import com.uplink.selfstore.utils.BitmapUtil;
-import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.UUID;
 
 public class SmHardwareActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -59,6 +52,16 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private CabinetCtrlByDS cabinetCtrlByDS=null;
     private Button btnMachineGoZero;
+
+
+    //中顺硬件诊断
+    private LinearLayout zs_hd_layout;
+    private EditText zs_hd_et_plateid;
+    private EditText zs_hd_et_numid;
+    private EditText zs_hd_et_ck;
+    private Button zs_hd_btn_testopen;
+    private Button zs_hd_btn_teststatus;
+    private CabinetCtrlByZS zs_CabinetCtrlByZS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 return false;
             }
         }));
+
+        initViewByZS();
 
         mCameraOpenByChuHuoKou= (Button) findViewById(R.id.cameraOpenByChuHuoKou);
         mCameraOpenByChuHuoKou.setOnClickListener(this);
@@ -157,6 +162,22 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         });
     }
 
+
+    private void  initViewByZS(){
+        zs_hd_layout= (LinearLayout) findViewById(R.id.zs_hd_layout);
+        zs_hd_et_plateid= (EditText) findViewById(R.id.zs_hd_et_plateid);
+        zs_hd_et_numid= (EditText) findViewById(R.id.zs_hd_et_numid);
+        zs_hd_et_ck= (EditText) findViewById(R.id.zs_hd_et_ck);
+        zs_hd_btn_testopen= (Button) findViewById(R.id.zs_hd_btn_testopen);
+        zs_hd_btn_teststatus= (Button) findViewById(R.id.zs_hd_btn_teststatus);
+
+        zs_hd_btn_testopen.setOnClickListener(this);
+        zs_hd_btn_teststatus.setOnClickListener(this);
+
+        zs_CabinetCtrlByZS=CabinetCtrlByZS.getInstance();
+
+    }
+
     private class MyThread extends Thread {
 
         int i=0;
@@ -212,7 +233,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         super.onStart();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -221,6 +241,11 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         super.onClick(v);
+
+        String str_zs_hd_et_ck=zs_hd_et_ck.getText()+"";
+        String str_zs_hd_et_plateid=zs_hd_et_plateid.getText()+"";
+        String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
+
 
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
@@ -267,11 +292,43 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 case R.id.btnMachineGoZero:
                     cabinetCtrlByDS.testGoZero();
                     break;
+                case R.id.zs_hd_btn_testopen:
+                    if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
+                        showToast("请输入串口名称");
+                        return;
+                    }
+                    if (StringUtil.isEmpty(str_zs_hd_et_plateid)) {
+                        showToast("请输入锁版ID");
+                        return;
+                    }
+                    if (StringUtil.isEmpty(str_zs_hd_et_numid)) {
+                        showToast("请输入箱子ID");
+                        return;
+                    }
+                    zs_CabinetCtrlByZS.setConfig(str_zs_hd_et_ck,115200);
+                    zs_CabinetCtrlByZS.unLock(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
+                    break;
+                case R.id.zs_hd_btn_teststatus:
+                    if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
+                        showToast("请输入串口名称");
+                        return;
+                    }
+                    if (StringUtil.isEmpty(str_zs_hd_et_plateid)) {
+                        showToast("请输入锁版ID");
+                        return;
+                    }
+                    if (StringUtil.isEmpty(str_zs_hd_et_numid)) {
+                        showToast("请输入箱子ID");
+                        return;
+                    }
+                    zs_CabinetCtrlByZS.setConfig(str_zs_hd_et_ck,115200);
+                    zs_CabinetCtrlByZS.queryStatus(Integer.valueOf(str_zs_hd_et_plateid));
+                    break;
             }
         }
     }
 
-    public  void  saveCaptureStill(byte[] data,String saveDir,String uniqueId) {
+    public  void saveCaptureStill(byte[] data,String saveDir,String uniqueId) {
         try {
             if (data == null)
                 return;
