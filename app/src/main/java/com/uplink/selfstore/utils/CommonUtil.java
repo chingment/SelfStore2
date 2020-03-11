@@ -208,4 +208,11 @@ public class CommonUtil {
         return arr;
 
     }
+
+    public static Boolean Char2Bool(char c) {
+        if(c=='0')
+        return false;
+
+        return true;
+    }
 }

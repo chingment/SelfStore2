@@ -2,13 +2,21 @@ package com.uplink.selfstore.deviceCtrl;
 
 import android.util.Log;
 
+import com.uplink.selfstore.model.CabinetBoxBean;
+import com.uplink.selfstore.model.ResultBean;
+import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import android_serialport_api.SerialPort;
 
@@ -52,7 +60,7 @@ public class CabinetMidByZS {
         }
     }
 
-    public int unLock(int plate,int num) {
+    public ResultBean<HashMap<Integer, CabinetBoxBean>> unLock(int plate, int num) {
 
         byte[] sz = new byte[9];
         sz[0] = 0x06;
@@ -66,13 +74,47 @@ public class CabinetMidByZS {
         sz[8] = 0x08;
 
         if (this.write(sz)!=RC_SUCCESS) {
-            return RC_WRITEERROR;
+            return new ResultBean<>(2,2,"发送数据失败");
         } else {
             sz = new byte[11];
             if(this.read(sz, this.nTimeout) != 11) {
-                return RC_READERROR;
+                return new ResultBean<>(2,2,"读取数据失败");
             }
-            return RC_SUCCESS;
+
+
+            Map<Integer,CabinetBoxBean> data=new HashMap<Integer,CabinetBoxBean>();
+
+            String d1= ChangeToolUtils.byte2Hex(sz[6]);
+            String b1 =ChangeToolUtils.hexString2binaryString(d1);
+            char[] c1 =b1.toCharArray();
+
+
+            CabinetBoxBean box1=new CabinetBoxBean();
+            box1.setId(1);
+            box1.setOpen(CommonUtil.Char2Bool(c1[7]));
+            box1.setNonGoods(CommonUtil.Char2Bool(c1[6]));
+            data.put(1,box1);
+
+            CabinetBoxBean box2=new CabinetBoxBean();
+            box2.setId(2);
+            box2.setOpen(CommonUtil.Char2Bool(c1[5]));
+            box2.setNonGoods(CommonUtil.Char2Bool(c1[4]));
+            data.put(2,box1);
+
+            CabinetBoxBean box3=new CabinetBoxBean();
+            box3.setId(3);
+            box3.setOpen(CommonUtil.Char2Bool(c1[3]));
+            box3.setNonGoods(CommonUtil.Char2Bool(c1[2]));
+            data.put(3,box1);
+
+            CabinetBoxBean box4=new CabinetBoxBean();
+            box4.setId(4);
+            box4.setOpen(CommonUtil.Char2Bool(c1[1]));
+            box4.setNonGoods(CommonUtil.Char2Bool(c1[0]));
+            data.put(4,box1);
+
+
+            return new ResultBean<>(1,1,"发送成功");
         }
     }
 

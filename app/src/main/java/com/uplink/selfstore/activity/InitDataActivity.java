@@ -93,6 +93,48 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
+
+        CabinetSlotNRC nrc= CabinetSlotNRC.GetSlotNRC("dsx01n01","r31c19");
+        CabinetMidByZS a=new CabinetMidByZS();
+        a.unLock(1,1);
+
+
+        byte[] sz=new byte[11];
+        sz[0]=0x06;
+        sz[1]=0x07;
+        sz[2]=0x02;
+        sz[3]=0x11;
+        sz[4]=0x00;
+        sz[5]=0x01;
+        sz[6]=ChangeToolUtils.hexToByte("ff");
+        sz[7]=ChangeToolUtils.hexToByte("ff");
+        sz[8]=ChangeToolUtils.hexToByte("ff");
+        sz[9]=(byte) (sz[1] ^ sz[2] ^ sz[3] ^ sz[4] ^ sz[5] ^ sz[6] ^ sz[7] ^ sz[8]);
+        sz[10]=0x08;
+
+        String strLog = String.format("Read[%d]:", 11);
+
+        for (int i = 0; i < 11; ++i) {
+            strLog = strLog + String.format("%02x ", sz[i]);
+        }
+
+
+
+
+
+       String s2= ChangeToolUtils.byte2Hex(  sz[6]);
+
+        String s3 =ChangeToolUtils.hexString2binaryString(s2);
+        char[] s4 =s3.toCharArray();
+
+        a.read2(sz,11,50);
+
+//        int j = 2 / 12;
+//        int j1 = 13 / 12;
+//        int i = 2 % 12;
+//        int i1 = 13 % 12;
+
+
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         initHandler.postDelayed(initRunable, 1000);
 

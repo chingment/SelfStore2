@@ -48,7 +48,7 @@ public class CabinetCtrlByZS {
             return;
         }
 
-        rc=mCabinetMidByZS.unLock(plate,num);
+        mCabinetMidByZS.unLock(plate,num);
     }
 
     public void queryStatus(int plate) {
