@@ -19,7 +19,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetMidByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.LogBean;
-import com.uplink.selfstore.model.CabinetSlotNRC;
+import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
@@ -40,7 +40,6 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,7 +100,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         sSCabRowColLayoutBean.setRows(a1);
         String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
 
-        CabinetSlotNRC nrc= CabinetSlotNRC.GetSlotNRC("dsx01n01","r31c19");
+        DSCabSlotNRC nrc= DSCabSlotNRC.GetSlotNRC("dsx01n01","r31c19");
         CabinetMidByZS a=new CabinetMidByZS();
         a.unLock(1,1);
 

@@ -28,7 +28,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
-import com.uplink.selfstore.model.CabinetSlotNRC;
+import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
@@ -416,14 +416,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         curpickupsku_tip2.setText("准备出货......");
 
 
-        CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(cabinetId,slotId);
-
-        if (cabinetSlotNRC == null) {
-            //showToast("货道编号解释错误");
-            curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");
-            return;
-        }
-
         pickupEventNotify(productSkuId,cabinetId,slotId,uniqueId,3011,"发起取货",null);
 
     }
@@ -458,16 +450,21 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         CabinetBean cabinet=getMachine().getCabinets().get(currentPickupSku.getCabinetId());
 
-        CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
-
         switch (status) {
             case 3011:
                 switch (currentPickupSku.getCabinetId()) {
                     case "dsx01n01":
+                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
+                        if (dsCabSlotNRC == null) {
+                            curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");
+                            return;
+                        }
+
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
-                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
+                        cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx0101":
+
                         break;
                 }
 

@@ -24,7 +24,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
-import com.uplink.selfstore.model.CabinetSlotNRC;
+import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -243,11 +243,7 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
 
                 String slotId = String.valueOf(txt_SlotName.getText());
-                CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
-                if (cabinetSlotNRC == null) {
-                    mContext.showToast("货道编号解释错误");
-                    return;
-                }
+
 
                 String productSkuId=String.valueOf(txt_SkuId.getText());
 
@@ -256,7 +252,11 @@ public class CustomSlotEditDialog extends Dialog {
 
                 switch (cabinet.getId()){
                     case "dsx01n01":
-
+                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
+                        if (dsCabSlotNRC == null) {
+                            mContext.showToast("货道编号解释错误");
+                            return;
+                        }
                         if (!cabinetCtrlByDS.isConnect()) {
                             cabinetCtrlByDS.connect();
                         }
@@ -277,7 +277,7 @@ public class CustomSlotEditDialog extends Dialog {
                         }
 
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
-                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
+                        cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx01n01":
 

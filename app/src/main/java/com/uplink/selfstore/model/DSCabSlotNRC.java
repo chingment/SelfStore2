@@ -1,13 +1,13 @@
 package com.uplink.selfstore.model;
 
 //协议解释
-public class CabinetSlotNRC {
+public class DSCabSlotNRC {
     private String ctrl="";
     private String cab="";
     private int row=-1;
     private int col=-1;
 
-    public CabinetSlotNRC()
+    public DSCabSlotNRC()
     {
 
     }
@@ -45,7 +45,7 @@ public class CabinetSlotNRC {
     }
 
 
-    public static CabinetSlotNRC GetSlotNRC(String cabinetId, String slotId) {
+    public static DSCabSlotNRC GetSlotNRC(String cabinetId, String slotId) {
 
         if (cabinetId == null)
             return null;
@@ -68,19 +68,19 @@ public class CabinetSlotNRC {
             return null;
         }
 
-        CabinetSlotNRC cabinetSlotNRC = new CabinetSlotNRC();
+        DSCabSlotNRC dsCabSlotNRC = new DSCabSlotNRC();
 
-        cabinetSlotNRC.setCtrl(cabinetId.substring(0, 5));
-        cabinetSlotNRC.setCab(cabinetId.substring(5, 8));
+        dsCabSlotNRC.setCtrl(cabinetId.substring(0, 5));
+        dsCabSlotNRC.setCab(cabinetId.substring(5, 8));
 
 
         String str_r = slotId.substring(r_index + 1, c_index);
         String str_c = slotId.substring(c_index + 1, slotId.length());
 
-        cabinetSlotNRC.setRow(Integer.valueOf(str_r));
-        cabinetSlotNRC.setCol(Integer.valueOf(str_c));
+        dsCabSlotNRC.setRow(Integer.valueOf(str_r));
+        dsCabSlotNRC.setCol(Integer.valueOf(str_c));
 
-        return cabinetSlotNRC;
+        return dsCabSlotNRC;
 
     }
 }
