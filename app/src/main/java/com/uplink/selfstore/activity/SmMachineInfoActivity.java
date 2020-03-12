@@ -10,6 +10,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -72,6 +73,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_CabinetCtrlSdkVersionByDS.setText(cabinetCtrlByDS.vesion());
         txt_Currency.setText(getMachine().getCurrency());
         txt_CurrencySymbol.setText(getMachine().getCurrencySymbol());
+        txt_Location.setText(LocationUtil.LAT+","+ LocationUtil.LNG);
     }
 
     @Override

@@ -274,18 +274,7 @@ public class CustomSlotEditDialog extends Dialog {
                             mContext.showToast("机器不在空闲状态");
                             return;
                         }
-
-                        int mode=0;
-                        int[] cabinetPendantRows =cabinet.getPendantRows();
-                        if (cabinetPendantRows != null) {
-                            for (int z = 0; z < cabinetPendantRows.length; z++) {
-                                if (cabinetPendantRows[z] == cabinetSlotNRC.getRow()) {
-                                    mode =1;
-                                    break;
-                                }
-                            }
-                        }
-                        cabinetCtrlByDS.pickUp(mode, cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol());
+                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),cabinet.getPendantRows());
                         break;
                     case "zsx01n01":
 

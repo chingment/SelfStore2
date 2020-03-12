@@ -459,18 +459,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             case 3011:
                 switch (currentPickupSku.getCabinetId()) {
                     case "dsx01n01":
-                        int[] cabinetPendantRows=cabinet.getPendantRows();
-                        int mode = 0;
-                        if (cabinetPendantRows != null) {
-                            for (int z = 0; z < cabinetPendantRows.length; z++) {
-                                if (cabinetPendantRows[z] == cabinetSlotNRC.getRow()) {
-                                    mode = 1;
-                                    break;
-                                }
-                            }
-                        }
-                        cabinetCtrlByDS.pickUp(mode, cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol());
-
+                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),cabinet.getPendantRows());
                         break;
                     case "zsx0101":
                         break;

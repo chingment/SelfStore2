@@ -198,7 +198,18 @@ public class CabinetCtrlByDS {
         doorThread.start();
     }
 
-    public void pickUp(int mode, int row, int col) {
+    public void pickUp(int row,int col,int[] pendantRows) {
+
+        int mode = 0;
+        if(pendantRows!=null) {
+            for (int z = 0; z < pendantRows.length; z++) {
+                if (pendantRows[z] == row) {
+                    mode = 1;
+                    break;
+                }
+            }
+        }
+
         pickupListenerThread = new PickupListenerThread(mode, row, col);
         pickupListenerThread.start();
     }
