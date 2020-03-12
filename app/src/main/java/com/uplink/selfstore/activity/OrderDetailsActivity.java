@@ -16,6 +16,9 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.lgh.uvccamera.UVCCameraProxy;
 import com.lgh.uvccamera.callback.PictureCallback;
 import com.serenegiant.usb.UVCCamera;
@@ -23,6 +26,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpClient;
+import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.model.api.CabinetBean;
@@ -453,13 +457,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
 
         CabinetBean cabinet=getMachine().getCabinets().get(currentPickupSku.getCabinetId());
+
         CabinetSlotNRC cabinetSlotNRC = CabinetSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
 
         switch (status) {
             case 3011:
                 switch (currentPickupSku.getCabinetId()) {
                     case "dsx01n01":
-                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),cabinet.getPendantRows());
+                        DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
+                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx0101":
                         break;

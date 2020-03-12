@@ -22,6 +22,7 @@ import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
+import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -274,7 +275,9 @@ public class CustomSlotEditDialog extends Dialog {
                             mContext.showToast("机器不在空闲状态");
                             return;
                         }
-                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),cabinet.getPendantRows());
+
+                        DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
+                        cabinetCtrlByDS.pickUp(cabinetSlotNRC.getRow(), cabinetSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx01n01":
 

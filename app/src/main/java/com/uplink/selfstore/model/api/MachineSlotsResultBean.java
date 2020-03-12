@@ -4,18 +4,17 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class MachineSlotsResultBean implements Serializable {
-    private int[] rowColLayout;
-    private int[] pendantRows;
+    private  String rowColLayout;
 
-    private HashMap<String, SlotBean> slots;
-
-    public int[] getRowColLayout() {
+    public String getRowColLayout() {
         return rowColLayout;
     }
 
-    public void setRowColLayout(int[] rowColLayout) {
+    public void setRowColLayout(String rowColLayout) {
         this.rowColLayout = rowColLayout;
     }
+
+    private HashMap<String, SlotBean> slots;
 
     public HashMap<String, SlotBean> getSlots() {
         return slots;
@@ -25,11 +24,4 @@ public class MachineSlotsResultBean implements Serializable {
         this.slots = slots;
     }
 
-    public int[] getPendantRows() {
-        return pendantRows;
-    }
-
-    public void setPendantRows(int[] pendantRows) {
-        this.pendantRows = pendantRows;
-    }
 }

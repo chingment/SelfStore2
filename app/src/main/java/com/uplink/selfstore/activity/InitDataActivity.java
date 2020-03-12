@@ -17,6 +17,7 @@ import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetMidByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
+import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.CabinetSlotNRC;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -93,6 +94,12 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
+        DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
+        int[] a1=new int[2];
+        a1[0]=2;
+        a1[1]=3;
+        sSCabRowColLayoutBean.setRows(a1);
+        String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
 
         CabinetSlotNRC nrc= CabinetSlotNRC.GetSlotNRC("dsx01n01","r31c19");
         CabinetMidByZS a=new CabinetMidByZS();

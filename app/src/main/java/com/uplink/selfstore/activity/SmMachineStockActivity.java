@@ -18,7 +18,11 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.ScanSlotResult;
+import com.uplink.selfstore.model.ZSCabColLayoutBean;
+import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
+import com.uplink.selfstore.model.ZsCabRowLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineSlotsResultBean;
@@ -34,11 +38,11 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SmMachineStockActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -72,6 +76,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             showToast("未配置对应机柜，请联系管理员");
             return;
         }
+
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
@@ -111,7 +116,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 4://扫描成功
                                 if (result != null) {
                                     scanSlotsEventNotify(4000,"扫描成功,结果:"+ InterUtil.arrayTransformString(result.rowColLayout,",")+",用时:"+result.getUseTime());
-                                    saveCabinetRowColLayout(cabinet.getId(), result.rowColLayout);
+
+                                    DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
+                                    sSCabRowColLayoutBean.setRows(result.rowColLayout);
+                                    String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
+                                    saveCabinetRowColLayout(cabinet.getId(), strRowColLayout);
                                 }
                                 break;
                             case 5://扫描超时
@@ -200,19 +209,32 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
             cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
             cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
-            drawsCabinetSlots(cabinet.getRowColLayout(), cabinetSlots);
+            switch (cabinet.getId()){
+                case "dsx01n01":
+                    drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinetSlots);
+                    break;
+                case "zsx01n01":
+                    drawsCabinetSlotsByZS(cabinet.getRowColLayout(), cabinetSlots);
+                    break;
+            }
         }
     }
 
-    public void drawsCabinetSlots(int[] rowColLayout, HashMap<String, SlotBean> slots) {
+    public void drawsCabinetSlotsByDS(String strRowColLayout, HashMap<String, SlotBean> slots) {
 
-        this.cabinet.setRowColLayout(rowColLayout);
+        this.cabinet.setRowColLayout(strRowColLayout);
 
         if (slots == null) {
             slots = new HashMap<String, SlotBean>();
         }
 
         this.cabinetSlots = slots;
+
+
+        DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
+
+
+        int[] rowColLayout=dSCabRowColLayout.getRows();
 
         int rowLength = rowColLayout.length;
 
@@ -226,7 +248,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             int colLength = rowColLayout[i - 1];
 
             boolean isPndantRow = false;
-            int[] cabinetPendantRows=this.cabinet.getRowColLayout();
+            int[] cabinetPendantRows=dSCabRowColLayout.getPendantRows();
             if ( cabinetPendantRows != null) {
                 for (int z = 0; z < cabinetPendantRows.length; z++) {
                     if (cabinetPendantRows[z] == (i-1)) {
@@ -318,6 +340,117 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
     }
 
+
+    public void drawsCabinetSlotsByZS(String strRowColLayout, HashMap<String, SlotBean> slots) {
+
+        this.cabinet.setRowColLayout(strRowColLayout);
+
+        if (slots == null) {
+            slots = new HashMap<String, SlotBean>();
+        }
+
+        this.cabinetSlots = slots;
+
+
+        ZSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<ZSCabRowColLayoutBean>() {});
+
+
+        List<ZsCabRowLayoutBean> rows=dSCabRowColLayout.getRows();
+
+
+        //清除表格所有行
+        table_slotstock.removeAllViews();
+        //全部列自动填充空白处
+        table_slotstock.setStretchAllColumns(true);
+        //生成X行，Y列的表格
+        for (int i = 0; i <rows.size(); i++) {
+
+            TableRow tableRow = new TableRow(SmMachineStockActivity.this);
+
+            List<ZSCabColLayoutBean> cols=rows.get(i).getCols();
+
+            for (int j = 0; j < cols.size(); j++) {
+                //tv用于显示
+                final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+
+                TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
+
+                TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
+                TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
+                TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
+                TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
+                ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
+
+                ZSCabColLayoutBean col=cols.get(j);
+
+                final String slotId =col.getId();
+
+                txt_SlotId.setText(slotId);
+                txt_SlotId.setVisibility(View.GONE);
+                SlotBean slot = null;
+
+                if (slots.size() > 0) {
+                    slot = slots.get(slotId);
+                }
+
+
+                if (slot == null) {
+                    slot = new SlotBean();
+                    slot.setId(slotId);
+                    slots.put(slotId, slot);
+                }
+
+                if (slot.getProductSkuId() == null) {
+                    if(col.isCanUse()) {
+                        txt_name.setText("暂无商品");
+                    }
+                    else {
+                        txt_name.setText("不可使用");
+                    }
+
+                    txt_sellQuantity.setText("0");
+                    txt_lockQuantity.setText("0");
+                    txt_sumQuantity.setText("0");
+
+                } else {
+                    txt_name.setText(slot.getProductSkuName());
+                    txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
+                    txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
+                    txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
+
+                    CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getProductSkuMainImgUrl());
+
+                    if (slot.getLockQuantity() > 0) {
+                        GradientDrawable drawable = new GradientDrawable();
+                        drawable.setCornerRadius(0);
+                        drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
+                        convertView.setBackgroundDrawable(drawable);
+                    }
+                }
+
+                convertView.setTag(slot);
+
+                if(col.isCanUse()) {
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SlotBean l_Slot = (SlotBean) v.getTag();
+                            dialog_SlotEdit.setCabinet(cabinet);
+                            dialog_SlotEdit.setSlot(l_Slot);
+                            dialog_SlotEdit.clearSearch();
+                            dialog_SlotEdit.show();
+                        }
+                    });
+                }
+
+                tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
+            }
+
+            table_slotstock.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -363,7 +496,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
     }
 
-
     private void scanSlotsEventNotify(int status, String remark) {
         try {
             JSONObject content = new JSONObject();
@@ -394,7 +526,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 if (rt.getResult() == Result.SUCCESS) {
                     MachineSlotsResultBean d = rt.getData();
-                    drawsCabinetSlots(d.getRowColLayout(), d.getSlots());
+                    switch (cabinet.getId()){
+                        case "dsx01n01":
+                            drawsCabinetSlotsByDS(d.getRowColLayout(), d.getSlots());
+                            break;
+                        case "zsx01n01":
+                            drawsCabinetSlotsByZS(d.getRowColLayout(), d.getSlots());
+                            break;
+                    }
                 } else {
                     showToast(rt.getMessage());
                 }
@@ -407,18 +546,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         });
     }
 
-    private void saveCabinetRowColLayout(final String cabinetId, final int[]cabinetRowColLayout) {
+    private void saveCabinetRowColLayout(final String cabinetId, final String cabinetRowColLayout) {
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", getMachine().getId());
         params.put("cabinetId", cabinetId);
-
-
-        JSONArray json_cabinetRowColLayout = new JSONArray();
-        for (int item : cabinetRowColLayout) {
-            json_cabinetRowColLayout.put(item);
-        }
-
-        params.put("cabinetRowColLayout", json_cabinetRowColLayout);
+        params.put("cabinetRowColLayout", cabinetRowColLayout);
 
         postByMy(Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
@@ -430,7 +562,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 showToast(rt.getMessage());
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    drawsCabinetSlots(cabinetRowColLayout, cabinetSlots);
+                    getCabinetSlots();
                 }
 
                 if(customDialogRunning!=null) {

@@ -5,8 +5,15 @@ import java.io.Serializable;
 public class CabinetBean implements Serializable {
     private String id;
     private String name;
-    private int[] rowColLayout;
-    private int[] pendantRows;
+    private String rowColLayout;
+
+    public String getRowColLayout() {
+        return rowColLayout;
+    }
+
+    public void setRowColLayout(String rowColLayout) {
+        this.rowColLayout = rowColLayout;
+    }
 
     public String getId() {
         return id;
@@ -24,19 +31,4 @@ public class CabinetBean implements Serializable {
         this.name = name;
     }
 
-    public int[] getRowColLayout() {
-        return rowColLayout;
-    }
-
-    public void setRowColLayout(int[] rowColLayout) {
-        this.rowColLayout = rowColLayout;
-    }
-
-    public int[] getPendantRows() {
-        return pendantRows;
-    }
-
-    public void setPendantRows(int[] pendantRows) {
-        this.pendantRows = pendantRows;
-    }
 }
