@@ -100,17 +100,17 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 //        24/2 12
 //        22/2 11
 //        20/2 10
-        for (int i=0;i<c.length;i=i+2) {
-
-
-            int x=(c.length-i)/2;
-            char a1=c[i];
-            char a2=c[i+1];
-
-            LogUtil.e(x+":"+a1+":"+a2);
-        }
-
-        DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
+//        for (int i=0;i<c.length;i=i+2) {
+//
+//
+//            int x=(c.length-i)/2;
+//            char a1=c[i];
+//            char a2=c[i+1];
+//
+//            LogUtil.e(x+":"+a1+":"+a2);
+//        }
+//
+//        DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
 //        int[] a1=new int[2];
 //        a1[0]=2;
 //        a1[1]=3;
