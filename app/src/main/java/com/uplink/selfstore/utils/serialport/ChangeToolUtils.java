@@ -128,4 +128,11 @@ public  class ChangeToolUtils {
         }
         return bString;
     }
+
+    public static String hexbyte2binaryString(byte bt) {
+        String d1= ChangeToolUtils.byte2Hex(bt);
+        String b1 =ChangeToolUtils.hexString2binaryString(d1);
+
+        return b1;
+    }
 }

@@ -176,6 +176,33 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
         zs_CabinetCtrlByZS=CabinetCtrlByZS.getInstance();
 
+        zs_CabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+
+                switch (msg.what){
+                    case CabinetCtrlByZS.MESSAGE_WHAT_UNLOCK:
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        showToast(message);
+                        switch (status){
+                            case 1:
+                                break;
+                            case  2:
+                                break;
+                        }
+
+
+                        break;
+                    case CabinetCtrlByZS.MESSAGE_WHAT_QUERYSTATUS:
+                        break;
+                }
+                return false;
+            }
+        }));
+
     }
 
     private class MyThread extends Thread {

@@ -16,6 +16,14 @@ public class ResultBean<T>  {
         this.message=message;
     }
 
+    public ResultBean(int result,int code ,String message,T data){
+
+        this.result=result;
+        this.code=code;
+        this.message=message;
+        this.data=data;
+    }
+
     public int getResult() {
         return result;
     }

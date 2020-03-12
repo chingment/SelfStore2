@@ -2,7 +2,7 @@ package com.uplink.selfstore.model;
 
 import java.io.Serializable;
 
-public class CabinetBoxBean implements Serializable {
+public class ZSCabBoxBean implements Serializable {
 
     private int id;
     private boolean isOpen;

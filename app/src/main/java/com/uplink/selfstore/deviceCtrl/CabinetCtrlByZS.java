@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.uplink.selfstore.model.ResultBean;
+import com.uplink.selfstore.model.ZSCabBoxBean;
+
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
@@ -13,8 +17,8 @@ public class CabinetCtrlByZS {
     private String strPort="ttyS1";
     private int nBaudrate=115200;
     private Handler mHandler = null;
-    private static final int MESSAGE_WHAT_UNLOCK = 1;
-    private static final int MESSAGE_WHAT_QUERYSTATUS = 2;
+    public static final int MESSAGE_WHAT_UNLOCK = 1;
+    public static final int MESSAGE_WHAT_QUERYSTATUS = 2;
 
     private CabinetMidByZS mCabinetMidByZS;
 
@@ -43,12 +47,21 @@ public class CabinetCtrlByZS {
 
         int rc = mCabinetMidByZS.connect(strPort, nBaudrate);
 
-        if(rc!=CabinetMidByZS.RC_SUCCESS){
-            sendMessageByUnLock(3,"连接设备失败["+rc+"]",null);
+        if(rc!=CabinetMidByZS.RC_SUCCESS) {
+            sendMessageByUnLock(3, "连接设备失败[" + rc + "]", null);
             return;
         }
 
-        mCabinetMidByZS.unLock(plate,num);
+        ResultBean<HashMap<Integer, ZSCabBoxBean>> rc_unlock=mCabinetMidByZS.unLock(plate,num);
+
+        if(rc_unlock.getResult()==1){
+            UnLockResult data=new UnLockResult();
+            data.setCabBoxs(rc_unlock.getData());
+            sendMessageByUnLock(2, rc_unlock.getMessage(), data);
+        }
+        else if(rc_unlock.getResult()==2) {
+            sendMessageByUnLock(3, rc_unlock.getMessage(), null);
+        }
     }
 
     public void queryStatus(int plate) {
@@ -86,5 +99,14 @@ public class CabinetCtrlByZS {
 
     public  class UnLockResult implements Serializable {
 
+       private HashMap<Integer, ZSCabBoxBean> cabBoxs;
+
+        public HashMap<Integer, ZSCabBoxBean> getCabBoxs() {
+            return cabBoxs;
+        }
+
+        public void setCabBoxs(HashMap<Integer, ZSCabBoxBean> cabBoxs) {
+            this.cabBoxs = cabBoxs;
+        }
     }
 }
