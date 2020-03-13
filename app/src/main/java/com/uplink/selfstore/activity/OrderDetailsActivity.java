@@ -448,20 +448,21 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             e.printStackTrace();
         }
 
-        CabinetBean cabinet=getMachine().getCabinets().get(currentPickupSku.getCabinetId());
+        CabinetBean cabinet = getMachine().getCabinets().get(currentPickupSku.getCabinetId());
 
         switch (status) {
             case 3011:
                 switch (currentPickupSku.getCabinetId()) {
                     case "dsx01n01":
-                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(),currentPickupSku.getSlotId());
+                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(), currentPickupSku.getSlotId());
                         if (dsCabSlotNRC == null) {
                             curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");
                             return;
                         }
 
-                        DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
-                        cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
+                        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
+                        });
+                        cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx0101":
 
@@ -495,10 +496,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 list_skus.setAdapter(skuAdapter);
                 currentPickupSku = getCurrentPickupProductSku();
                 if (currentPickupSku != null) {
-                    setSendPickup(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+                    setSendPickup(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
                 } else {
                     setPickupCompleteDrawTips();
                 }
+                break;
         }
     }
 

@@ -93,72 +93,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
-        String b="101101111011111111011111";
-
-        char[] c =b.toCharArray();
-
-//        24/2 12
-//        22/2 11
-//        20/2 10
-//        for (int i=0;i<c.length;i=i+2) {
-//
-//
-//            int x=(c.length-i)/2;
-//            char a1=c[i];
-//            char a2=c[i+1];
-//
-//            LogUtil.e(x+":"+a1+":"+a2);
-//        }
-//
-//        DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
-//        int[] a1=new int[2];
-//        a1[0]=2;
-//        a1[1]=3;
-//        sSCabRowColLayoutBean.setRows(a1);
-//        String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
-//
-//        DSCabSlotNRC nrc= DSCabSlotNRC.GetSlotNRC("dsx01n01","r31c19");
-//        CabinetMidByZS a=new CabinetMidByZS();
-//        a.unLock(1,1);
-//
-//
-//        byte[] sz=new byte[11];
-//        sz[0]=0x06;
-//        sz[1]=0x07;
-//        sz[2]=0x02;
-//        sz[3]=0x11;
-//        sz[4]=0x00;
-//        sz[5]=0x01;
-//        sz[6]=ChangeToolUtils.hexToByte("ff");
-//        sz[7]=ChangeToolUtils.hexToByte("ff");
-//        sz[8]=ChangeToolUtils.hexToByte("ff");
-//        sz[9]=(byte) (sz[1] ^ sz[2] ^ sz[3] ^ sz[4] ^ sz[5] ^ sz[6] ^ sz[7] ^ sz[8]);
-//        sz[10]=0x08;
-//
-//        String strLog = String.format("Read[%d]:", 11);
-//
-//        for (int i = 0; i < 11; ++i) {
-//            strLog = strLog + String.format("%02x ", sz[i]);
-//        }
-//
-//
-//
-//
-//
-//        String s2= ChangeToolUtils.byte2Hex(  sz[6]);
-//
-//        String s3 =ChangeToolUtils.hexString2binaryString(s2);
-//        char[] s4 =s3.toCharArray();
-//
-//        a.read2(sz,11,50);
-//
-////        int j = 2 / 12;
-////        int j1 = 13 / 12;
-////        int i = 2 % 12;
-////        int i1 = 13 % 12;
-
-
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
+
+        PickupListenerThread d=new PickupListenerThread();
+        d.start();
+
         initHandler.postDelayed(initRunable, 1000);
 
         Intent cameraSnapService = new Intent(this, CameraSnapService.class);
@@ -354,5 +293,31 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             }
         });
 
+    }
+
+    private class PickupListenerThread extends Thread {
+
+        @Override
+        public void run() {
+            boolean isAutoStart = false;
+            for (int i = 0; i < 3; i++) {
+                if (i == 1) {
+                    //isAutoStart = true;
+                    //break;
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (!isAutoStart) {
+                LogUtil.i(TAG, "取货流程监听：取货启动失败");
+                return;
+            }
+
+            LogUtil.i(TAG, "取货流程监听：取货启动失败22");
+        }
     }
 }

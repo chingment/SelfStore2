@@ -404,6 +404,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         txt_name.setText("暂无商品");
                     }
                     else {
+                        convertView.setVisibility(View.INVISIBLE);
                         txt_name.setText("不可使用");
                     }
 
