@@ -95,9 +95,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
 
-        PickupListenerThread d=new PickupListenerThread();
-        d.start();
-
         initHandler.postDelayed(initRunable, 1000);
 
         Intent cameraSnapService = new Intent(this, CameraSnapService.class);
@@ -293,31 +290,5 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             }
         });
 
-    }
-
-    private class PickupListenerThread extends Thread {
-
-        @Override
-        public void run() {
-            boolean isAutoStart = false;
-            for (int i = 0; i < 3; i++) {
-                if (i == 1) {
-                    //isAutoStart = true;
-                    //break;
-                }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (!isAutoStart) {
-                LogUtil.i(TAG, "取货流程监听：取货启动失败");
-                return;
-            }
-
-            LogUtil.i(TAG, "取货流程监听：取货启动失败22");
-        }
     }
 }

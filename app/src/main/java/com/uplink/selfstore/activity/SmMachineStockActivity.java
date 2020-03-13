@@ -163,9 +163,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         customDialogRunning = new CustomDialogLoading(this);
 
 
-        switch (cabinet.getId())
+        switch (cabinet.getModelNo())
         {
-            case "dsx01n01":
+            case "dsx01":
                 btn_ScanSlots.setVisibility(View.VISIBLE);
                 break;
         }
@@ -209,11 +209,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
             cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
             cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
-            switch (cabinet.getId()){
-                case "dsx01n01":
+            switch (cabinet.getModelNo()){
+                case "dsx01":
                     drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinetSlots);
                     break;
-                case "zsx01n01":
+                case "zsx01":
                     drawsCabinetSlotsByZS(cabinet.getRowColLayout(), cabinetSlots);
                     break;
             }
@@ -526,11 +526,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 if (rt.getResult() == Result.SUCCESS) {
                     MachineSlotsResultBean d = rt.getData();
-                    switch (cabinet.getId()){
-                        case "dsx01n01":
+
+                    switch (cabinet.getModelNo()){
+                        case "dsx01":
                             drawsCabinetSlotsByDS(d.getRowColLayout(), d.getSlots());
                             break;
-                        case "zsx01n01":
+                        case "zsx01":
                             drawsCabinetSlotsByZS(d.getRowColLayout(), d.getSlots());
                             break;
                     }

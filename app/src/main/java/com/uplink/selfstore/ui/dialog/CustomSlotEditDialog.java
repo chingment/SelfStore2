@@ -20,6 +20,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
@@ -77,6 +78,7 @@ public class CustomSlotEditDialog extends Dialog {
     private CabinetBean cabinet;
     private ScanMidCtrl scanMidCtrl;
     private CabinetCtrlByDS cabinetCtrlByDS;
+    private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomDialogLoading customDialogRunning;
 
     public CustomSlotEditDialog(final Context context) {
@@ -169,6 +171,37 @@ public class CustomSlotEditDialog extends Dialog {
         );
 
 
+        cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
+        cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+
+                switch (msg.what){
+                    case CabinetCtrlByZS.MESSAGE_WHAT_UNLOCK:
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        mContext.showToast(message);
+                        switch (status){
+                            case 1:
+                                break;
+                            case  2:
+                                break;
+                            case  3:
+                                break;
+                        }
+
+
+                        break;
+                    case CabinetCtrlByZS.MESSAGE_WHAT_QUERYSTATUS:
+                        break;
+                }
+                return false;
+            }
+        }));
+
+
         initView();
         initEvent();
         initData();
@@ -250,8 +283,8 @@ public class CustomSlotEditDialog extends Dialog {
                 pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
 
 
-                switch (cabinet.getId()){
-                    case "dsx01n01":
+                switch (cabinet.getModelNo()){
+                    case "dsx01":
                         DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
                         if (dsCabSlotNRC == null) {
                             mContext.showToast("货道编号解释错误");
@@ -279,10 +312,8 @@ public class CustomSlotEditDialog extends Dialog {
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
                         cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
-                    case "zsx01n01":
-
-
-
+                    case "zsx01":
+                        cabinetCtrlByZS.unLock(cabinet.getCodeNo(),Integer.valueOf(slotId));
                         break;
                 }
             }

@@ -7,6 +7,7 @@ public class CabinetBean implements Serializable {
     private String name;
     private String rowColLayout;
 
+
     public String getRowColLayout() {
         return rowColLayout;
     }
@@ -29,6 +30,37 @@ public class CabinetBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getModelNo() {
+        String modelNo="";
+        if(id==null){
+            return modelNo;
+        }
+
+        if(id.length()!=8){
+            return modelNo;
+        }
+
+        modelNo=id.substring(0,5);
+
+        return modelNo;
+    }
+
+    public int getCodeNo() {
+        int codeNo=-1;
+        if(id==null){
+            return codeNo;
+        }
+
+        if(id.length()!=8){
+            return codeNo;
+        }
+
+
+        codeNo=Integer.valueOf(id.substring(6,8));
+
+        return codeNo;
     }
 
 }

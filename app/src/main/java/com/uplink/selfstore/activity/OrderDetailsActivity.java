@@ -452,8 +452,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         switch (status) {
             case 3011:
-                switch (currentPickupSku.getCabinetId()) {
-                    case "dsx01n01":
+                switch (cabinet.getModelNo()) {
+                    case "dsx01":
                         DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(currentPickupSku.getCabinetId(), currentPickupSku.getSlotId());
                         if (dsCabSlotNRC == null) {
                             curpickupsku_tip2.setText("准备出货异常......货道编号解释错误");
@@ -464,7 +464,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         });
                         cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                         break;
-                    case "zsx0101":
+                    case "zsx01":
 
                         break;
                 }
