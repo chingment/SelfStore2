@@ -231,10 +231,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         this.cabinetSlots = slots;
 
 
-        DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
+        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
+        });
 
 
-        int[] rowColLayout=dSCabRowColLayout.getRows();
+        int[] rowColLayout = dSCabRowColLayout.getRows();
 
         int rowLength = rowColLayout.length;
 
@@ -248,10 +249,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             int colLength = rowColLayout[i - 1];
 
             boolean isPndantRow = false;
-            int[] cabinetPendantRows=dSCabRowColLayout.getPendantRows();
-            if ( cabinetPendantRows != null) {
+            int[] cabinetPendantRows = dSCabRowColLayout.getPendantRows();
+            if (cabinetPendantRows != null) {
                 for (int z = 0; z < cabinetPendantRows.length; z++) {
-                    if (cabinetPendantRows[z] == (i-1)) {
+                    if (cabinetPendantRows[z] == (i - 1)) {
                         isPndantRow = true;
                         break;
                     }
@@ -273,15 +274,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 final String slotId = "r" + (i - 1) + "c" + j;
 
-                switch (cabinet.getId()) {
-                    case "dsx01n01":
-                        if (isPndantRow) {
-                            if (j == 0) {
-                                convertView.setVisibility(View.GONE);
-                            }
-                        }
-                        break;
+
+                if (isPndantRow) {
+                    if (j == 0) {
+                        convertView.setVisibility(View.GONE);
+                    }
                 }
+
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);

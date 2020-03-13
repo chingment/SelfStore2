@@ -192,6 +192,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                                 break;
                             case  2:
                                 break;
+                            case  3:
+                                break;
                         }
 
 

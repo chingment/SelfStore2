@@ -29,7 +29,7 @@ public class CabinetMidByZS {
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
-    private int nTimeout = 50;
+    private int nTimeout = 200;
 
     public int connect(String strPort, int nBaudrate) {
         if (strPort.equals("")) {
@@ -72,8 +72,9 @@ public class CabinetMidByZS {
             return new ResultBean<>(2,2,"发送数据失败");
         } else {
             sz = new byte[11];
-            if(this.read(sz, this.nTimeout) != 11) {
-                return new ResultBean<>(2,2,"读取数据失败");
+            int len=this.read(sz, this.nTimeout);
+            if(len!= 11) {
+                return new ResultBean<>(2,2,"读取数据失败s:"+len);
             }
 
             HashMap<Integer, ZSCabBoxBean> data=new HashMap<Integer, ZSCabBoxBean>();
@@ -136,6 +137,7 @@ public class CabinetMidByZS {
 
     private int read(byte[] byRead,int nTimeout) {
         int nRead = 0;
+        int t1Len=-1;
         if (this.in != null) {
             int nMaxLen = byRead.length;
             long nStart = System.currentTimeMillis();
@@ -153,6 +155,7 @@ public class CabinetMidByZS {
                     }
 
                     int nReadReady = this.in.available();
+                    t1Len=nReadReady;
                     if (nReadReady > nMaxLen - nRead) {
                         nReadReady = nMaxLen - nRead;
                     }
@@ -209,7 +212,7 @@ public class CabinetMidByZS {
             }
         }
 
-        return nRead;
+        return t1Len;
     }
 
 
