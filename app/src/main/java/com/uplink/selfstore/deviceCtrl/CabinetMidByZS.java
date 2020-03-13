@@ -30,7 +30,7 @@ public class CabinetMidByZS {
     private OutputStream out = null;
     private InputStream in = null;
     private int nTimeout = 200;
-
+    private boolean isReadStop = false;
     public int connect(String strPort, int nBaudrate) {
         if (strPort.equals("")) {
             LogUtil.e(TAG, "the serial path is null");
@@ -43,6 +43,10 @@ public class CabinetMidByZS {
                 mSerialPort = new SerialPort(new File("/dev/" + strPort), nBaudrate, 0);
                 this.out = mSerialPort.getOutputStream();
                 this.in = mSerialPort.getInputStream();
+
+                isReadStop=false;
+                new ReadThread().start();
+
                 return RC_SUCCESS;
             } catch (SecurityException var4) {
                 var4.printStackTrace();
@@ -55,7 +59,7 @@ public class CabinetMidByZS {
         }
     }
 
-    public ResultBean<HashMap<Integer, ZSCabBoxBean>> unLock(int plate, int num) {
+    public int unLock(int plate, int num) {
 
         byte[] sz = new byte[9];
         sz[0] = 0x06;
@@ -68,40 +72,7 @@ public class CabinetMidByZS {
         sz[7] = (byte) (sz[1] ^ sz[2] ^ sz[3] ^ sz[4] ^ sz[5] ^ sz[6]);
         sz[8] = 0x08;
 
-        if (this.write(sz)!=RC_SUCCESS) {
-            return new ResultBean<>(2,2,"发送数据失败");
-        } else {
-            sz = new byte[11];
-            int len=this.read(sz, this.nTimeout);
-            if(len!= 11) {
-                return new ResultBean<>(2,2,"读取数据失败s:"+len);
-            }
-
-            HashMap<Integer, ZSCabBoxBean> data=new HashMap<Integer, ZSCabBoxBean>();
-
-            String b1= ChangeToolUtils.hexbyte2binaryString(sz[6]);
-            String b2= ChangeToolUtils.hexbyte2binaryString(sz[7]);
-            String b3= ChangeToolUtils.hexbyte2binaryString(sz[8]);
-
-            String b=b3+b2+b1;
-
-            char[] c =b.toCharArray();
-
-            for (int i=0;i<c.length;i=i+2) {
-
-                ZSCabBoxBean box1 = new ZSCabBoxBean();
-                int id=(c.length-i)/2;
-                box1.setId(id);
-                box1.setOpen(CommonUtil.Char2Bool(c[i]));
-                box1.setNonGoods(CommonUtil.Char2Bool(c[i + 1]));
-                data.put(id, box1);
-
-                LogUtil.e(id+":"+c[i]+":"+c[i + 1]);
-            }
-
-
-            return new ResultBean<>(1,1,"发送成功",data);
-        }
+        return  this.write(sz);
     }
 
 
@@ -296,4 +267,39 @@ public class CabinetMidByZS {
         byRead[2]=0x08;
         return nRead;
     }
+
+
+
+
+    private class ReadThread extends Thread{
+        @Override
+        public void run() {
+            super.run();
+            //判断进程是否在运行，更安全的结束进程
+            while (!isReadStop){
+                LogUtil.d(TAG, "ZS格子柜：进入接受数据线程");
+                byte[] buffer = new byte[1024];
+                int size;
+                try {
+                    size =in.read(buffer);
+                    if (size > 0){
+                        LogUtil.d(TAG, "ZS格子柜： 接收到了数据：" + ChangeToolUtils.byteArrToHex(buffer,0,size));
+                        LogUtil.d(TAG, "ZS格子柜： 接收到了数据大小：" + String.valueOf(size));
+                        onDataReceiveListener.onDataReceive(buffer,size);
+                    }
+                } catch (IOException e) {
+                    LogUtil.e(TAG, "ZS格子柜： 数据读取异常：" +e.toString());
+                }
+            }
+        }
+    }
+
+    public OnDataReceiveListener onDataReceiveListener = null;
+    public static interface OnDataReceiveListener {
+        public void onDataReceive(byte[] buffer, int size);
+    }
+    public void setOnDataReceiveListener(OnDataReceiveListener dataReceiveListener) {
+        onDataReceiveListener = dataReceiveListener;
+    }
+
 }

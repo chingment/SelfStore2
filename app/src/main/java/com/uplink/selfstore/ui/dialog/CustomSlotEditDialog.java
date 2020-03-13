@@ -178,23 +178,19 @@ public class CustomSlotEditDialog extends Dialog {
 
 
                 switch (msg.what){
-                    case CabinetCtrlByZS.MESSAGE_WHAT_UNLOCK:
+                    case CabinetCtrlByZS.MESSAGE_WHAT_ONEUNLOCK:
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
                         mContext.showToast(message);
-                        switch (status){
+                        switch (status) {
                             case 1:
                                 break;
-                            case  2:
+                            case 2:
                                 break;
-                            case  3:
+                            case 3:
                                 break;
                         }
-
-
-                        break;
-                    case CabinetCtrlByZS.MESSAGE_WHAT_QUERYSTATUS:
                         break;
                 }
                 return false;
