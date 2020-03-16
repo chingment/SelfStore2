@@ -265,6 +265,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (zs_CabinetCtrlByZS != null) {
+            zs_CabinetCtrlByZS.disConnect();
+        }
     }
 
     @Override

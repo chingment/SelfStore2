@@ -6,7 +6,15 @@ public class CabinetBean implements Serializable {
     private String id;
     private String name;
     private String rowColLayout;
+    private int priority;
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
 
     public String getRowColLayout() {
         return rowColLayout;

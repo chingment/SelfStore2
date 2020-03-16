@@ -1,5 +1,6 @@
 package com.uplink.selfstore.deviceCtrl;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.model.ResultBean;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -10,7 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android_serialport_api.SerialPort;
@@ -31,6 +34,8 @@ public class CabinetMidByZS {
     private InputStream in = null;
     private int nTimeout = 200;
     private boolean isReadStop = false;
+    private  ReadThread readThread;
+
     public int connect(String strPort, int nBaudrate) {
         if (strPort.equals("")) {
             LogUtil.e(TAG, "the serial path is null");
@@ -44,9 +49,9 @@ public class CabinetMidByZS {
                 this.out = mSerialPort.getOutputStream();
                 this.in = mSerialPort.getInputStream();
 
-                isReadStop=false;
-                new ReadThread().start();
-
+                isReadStop = false;
+                readThread = new ReadThread();
+                readThread.start();
                 return RC_SUCCESS;
             } catch (SecurityException var4) {
                 var4.printStackTrace();
@@ -272,31 +277,89 @@ public class CabinetMidByZS {
 
 
     private class ReadThread extends Thread{
+        Boolean ifReadEnd=true;
+        List<byte[]> buffer_List = new ArrayList<byte[]>();
         @Override
         public void run() {
             super.run();
             //判断进程是否在运行，更安全的结束进程
-            while (!isReadStop){
-                LogUtil.d(TAG, "ZS格子柜：进入接受数据线程");
-                byte[] buffer = new byte[1024];
+//            while (!isReadStop){
+//                LogUtil.d(TAG, "ZS格子柜：进入接受数据线程");
+//                byte[] buffer = new byte[1024];
+//                int size;
+//                try {
+//                    size =in.read(buffer);
+//                    if (size > 0){
+//                        String reclog="ZS格子柜：数据长度："+ String.valueOf(size)+"，值：" + ChangeToolUtils.byteArrToHex(buffer,0,size);
+//                        LogUtil.d(TAG, reclog);
+//                        HashMap<String, String> logMap=new HashMap<String, String>();
+//                        logMap.put("reclog",reclog);
+//                        TcStatInterface.onEvent("reclog", logMap);
+//                        onDataReceiveListener.onDataReceive(buffer,size);
+//                    }
+//                } catch (IOException e) {
+//                    LogUtil.e(TAG, "ZS格子柜： 数据读取异常：" +e.toString());
+//                }
+//            }
+
+
+            while (!isReadStop&&!isInterrupted()) {
                 int size;
                 try {
-                    size =in.read(buffer);
-                    if (size > 0){
-                        LogUtil.d(TAG, "ZS格子柜： 接收到了数据：" + ChangeToolUtils.byteArrToHex(buffer,0,size));
-                        LogUtil.d(TAG, "ZS格子柜： 接收到了数据大小：" + String.valueOf(size));
-                        onDataReceiveListener.onDataReceive(buffer,size);
+                    if (in == null) {
+                        return;
                     }
-                } catch (IOException e) {
-                    LogUtil.e(TAG, "ZS格子柜： 数据读取异常：" +e.toString());
+                    byte[] buffer = new byte[1024];
+                    size = in.read(buffer);
+                    if (size > 0) {
+                        if (null != onDataReceiveListener) {
+                            byte[] tmpbuf = new byte[size];
+                            for (int i = 0; i < size; i++) tmpbuf[i] = buffer[i];
+                            buffer_List.add(tmpbuf);
+                            ifReadEnd = false;
+                        }
+                    } else {
+                        if (!ifReadEnd) {
+                            onDataReceiveListener.onDataReceive(buffer_List);
+                            buffer_List.clear();
+                            ifReadEnd = true;
+                        }
+                    }
+                    Thread.sleep(20);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
                 }
             }
         }
     }
 
+    public void  disconnect(){
+        try {
+            if (this.out != null) {
+                this.out.close();
+            }
+
+            if (this.in != null) {
+                this.in.close();
+            }
+
+            if (mSerialPort != null) {
+                mSerialPort.close();
+            }
+
+            isReadStop=true;
+            if(readThread!=null) {
+                readThread.interrupt();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public OnDataReceiveListener onDataReceiveListener = null;
     public static interface OnDataReceiveListener {
-        public void onDataReceive(byte[] buffer, int size);
+        public void onDataReceive(List<byte[]> buffer_List);
     }
     public void setOnDataReceiveListener(OnDataReceiveListener dataReceiveListener) {
         onDataReceiveListener = dataReceiveListener;

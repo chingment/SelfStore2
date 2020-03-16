@@ -1,5 +1,7 @@
 package com.uplink.selfstore.utils.serialport;
 
+import java.util.List;
+
 public  class ChangeToolUtils {
     //-------------------------------------------------------
     // 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数
@@ -135,4 +137,22 @@ public  class ChangeToolUtils {
 
         return b1;
     }
+
+    public static byte[] ListToByte(List<byte[]> list) {
+        if (list == null || list.size() < 0)
+            return null;
+        int iLen=0;
+        for(int i=0;i<list.size();i++) iLen+=list.get(i).length;
+        byte[] bytes=new byte[iLen];
+        int k=0;
+        for(int i=0;i<list.size();i++){
+            byte[] tbyte=list.get(i);
+            for(int j=0;j<tbyte.length;j++){
+                bytes[k]=tbyte[j];
+                k++;
+            }
+        }
+        return bytes;
+    }
+
 }

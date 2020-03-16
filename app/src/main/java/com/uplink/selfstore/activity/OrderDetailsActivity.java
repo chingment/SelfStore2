@@ -25,6 +25,7 @@ import com.serenegiant.usb.UVCCamera;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.OrderDetailsSkuAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
@@ -72,7 +73,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private OrderDetailsBean orderDetails;
     private PickupSkuBean currentPickupSku=null;
     private CabinetCtrlByDS cabinetCtrlByDS=null;
-
+    private CabinetCtrlByZS cabinetCtrlByZS=null;
 
     private UVCCameraProxy mUVCCamera;
     private TextureView mCameraTextureView;
@@ -87,7 +88,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-
+        cabinetCtrlByZS= CabinetCtrlByZS.getInstance();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
         initView();
@@ -209,6 +210,32 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     }
                 })
         );
+
+
+        cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+
+                switch (msg.what){
+                    case CabinetCtrlByZS.MESSAGE_WHAT_ONEUNLOCK:
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        showToast(message);
+                        switch (status) {
+                            case 1:
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                        }
+                        break;
+                }
+                return false;
+            }
+        }));
 
         currentPickupSku = getCurrentPickupProductSku();
         if (currentPickupSku != null) {
@@ -465,7 +492,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx01":
-
+                        cabinetCtrlByZS.unLock(cabinet.getCodeNo(),Integer.valueOf(slotId));
                         break;
                 }
 

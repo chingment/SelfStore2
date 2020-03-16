@@ -106,12 +106,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         AppManager.getAppManager().addActivity(this);
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())) {
-
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
             Activity activity = AppManager.getAppManager().currentActivity();
-
             if (activity instanceof InitDataActivity) {
-
 
             } else {
                 showToast("检查异常，设备重新运行");

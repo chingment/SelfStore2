@@ -12,6 +12,7 @@ import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
@@ -31,13 +32,15 @@ public class CabinetCtrlByZS {
         //串口数据监听事件
         mCabinetMidByZS.setOnDataReceiveListener(new CabinetMidByZS.OnDataReceiveListener() {
             @Override
-            public void onDataReceive(byte[] buffer, int size) {
+            public void onDataReceive(List<byte[]> buffer) {
                 //dataAnalysis(buffer,size);
-                String log="ZS格子柜： 接收到了数据：" + ChangeToolUtils.byteArrToHex(buffer,0,size);
-
-                switch (curMessageWhat){
+                byte[] buf = ChangeToolUtils.ListToByte(buffer);
+                String log="数据长度:"+buf.length+",值：" + ChangeToolUtils.byteArrToHex(buf,0,buf.length);
+                switch (curMessageWhat) {
                     case MESSAGE_WHAT_ONEUNLOCK:
-                        sendMessageByOneUnLock(3, log,null);
+                        //if(size==11) {
+                            sendMessageByOneUnLock(3, log, null);
+                        //}
                         break;
                 }
             }
@@ -124,6 +127,12 @@ public class CabinetCtrlByZS {
     public void queryStatus(int plate) {
 
 
+    }
+
+    public void disConnect() {
+        if (mCabinetMidByZS != null) {
+            mCabinetMidByZS.disconnect();
+        }
     }
 
     public void setHandler(Handler handler) {

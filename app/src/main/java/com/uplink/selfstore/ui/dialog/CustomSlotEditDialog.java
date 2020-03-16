@@ -250,6 +250,7 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
                 _this.dismiss();
                 cabinetCtrlByDS.disConnect();
+                cabinetCtrlByZS.disConnect();
                 scanMidCtrl.disconnect();
             }
         });

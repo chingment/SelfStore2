@@ -33,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,8 +155,18 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         Map<String, CabinetBean> cabinets = getMachine().getCabinets();
 
-        for (String key : cabinets.keySet()) {
-            CabinetBean cabinet = cabinets.get(key);
+
+        List<HashMap.Entry<String,CabinetBean>> sort_cabinets=new ArrayList<>(cabinets.entrySet());
+
+        Collections.sort(sort_cabinets, new Comparator<HashMap.Entry<String, CabinetBean>>() {
+            @Override
+            public int compare(Map.Entry<String, CabinetBean> t1, Map.Entry<String, CabinetBean> t2) {
+                return t2.getValue().getPriority()-t1.getValue().getPriority();
+            }
+        });
+
+        for (HashMap.Entry<String,CabinetBean> entry : sort_cabinets) {
+            CabinetBean cabinet = entry.getValue();
             gridviewitems.add(new NineGridItemBean(cabinet.getName()+getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock,cabinet));
         }
 
