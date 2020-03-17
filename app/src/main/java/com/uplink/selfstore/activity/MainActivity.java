@@ -118,13 +118,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-
         loadLogo();
         loadBanner();
-
     }
 
     public void loadLogo() {
+
         CommonUtil.loadImageFromUrl(getAppContext(), img_logo, this.getGlobalDataSet().getMachine().getLogoImgUrl());
     }
 

@@ -33,10 +33,12 @@ public class CabinetMidByZS {
     private OutputStream out = null;
     private InputStream in = null;
     private int nTimeout = 200;
-    private boolean isReadStop = false;
-    private  ReadThread readThread;
-
+    private static boolean isReadStop = false;
+    private static boolean isReadRunning=false;
+    private static ReadThread readThread;
+    private ArrayList<Byte> buffer_List = new ArrayList<Byte>();
     public int connect(String strPort, int nBaudrate) {
+
         if (strPort.equals("")) {
             LogUtil.e(TAG, "the serial path is null");
             return RC_INVALID_PARAM;
@@ -49,9 +51,12 @@ public class CabinetMidByZS {
                 this.out = mSerialPort.getOutputStream();
                 this.in = mSerialPort.getInputStream();
 
-                isReadStop = false;
-                readThread = new ReadThread();
-                readThread.start();
+                if(!isReadRunning) {
+                    isReadRunning = true;
+                    isReadStop = false;
+                    readThread = new ReadThread();
+                    readThread.start();
+                }
                 return RC_SUCCESS;
             } catch (SecurityException var4) {
                 var4.printStackTrace();
@@ -76,7 +81,23 @@ public class CabinetMidByZS {
         sz[6] = (byte) num;
         sz[7] = (byte) (sz[1] ^ sz[2] ^ sz[3] ^ sz[4] ^ sz[5] ^ sz[6]);
         sz[8] = 0x08;
+        buffer_List.clear();
+        return  this.write(sz);
+    }
 
+    public int queryLockStatus(int plate,int num) {
+
+        byte[] sz = new byte[9];
+        sz[0] = 0x06;
+        sz[1] = 0x05;
+        sz[2] = 0x01;
+        sz[3] = 0x11;
+        sz[4] = 0x00;
+        sz[5] = (byte) plate;
+        sz[6] = (byte) num;
+        sz[7] = (byte) (sz[1] ^ sz[2] ^ sz[3] ^ sz[4] ^ sz[5] ^ sz[6]);
+        sz[8] = 0x08;
+        buffer_List.clear();
         return  this.write(sz);
     }
 
@@ -111,224 +132,56 @@ public class CabinetMidByZS {
         }
     }
 
-    private int read(byte[] byRead,int nTimeout) {
-        int nRead = 0;
-        int t1Len=-1;
-        if (this.in != null) {
-            int nMaxLen = byRead.length;
-            long nStart = System.currentTimeMillis();
-            long nEnd = System.currentTimeMillis();
-
-            boolean bTryAgain = false;
-
-            try {
-                for (; nRead < nMaxLen && (nEnd - nStart <= (long) nTimeout || bTryAgain); nEnd = System.currentTimeMillis()) {
-                    try {
-                        Thread.currentThread();
-                        Thread.sleep(20L);
-                    } catch (InterruptedException var15) {
-                        var15.printStackTrace();
-                    }
-
-                    int nReadReady = this.in.available();
-                    t1Len=nReadReady;
-                    if (nReadReady > nMaxLen - nRead) {
-                        nReadReady = nMaxLen - nRead;
-                    }
-
-                    if (nReadReady <= 0) {
-                        bTryAgain = false;
-                    } else {
-                        int nReaded = this.in.read(byRead, nRead, nReadReady);
-                        if (nReaded > 0) {
-                            int i;
-
-                            String strLog = String.format("Read[%d]:", nReaded);
-
-                            for (i = 0; i < nReaded; ++i) {
-                                strLog = strLog + String.format("%02x ", byRead[i]);
-                            }
-
-                            LogUtil.v(TAG, strLog);
-
-
-                            if (nRead == 0 && byRead[0] !=6) {
-                                int nFind = 0;
-
-                                for (i = 1; i < nReaded; ++i) {
-                                    if (byRead[i] == 6) {
-                                        nFind = i;
-                                        break;
-                                    }
-                                }
-
-                                if (nFind > 0) {
-                                    nReaded -= nFind;
-
-                                    for (i = 0; i < nReaded; ++i) {
-                                        byRead[i] = byRead[nFind + i];
-                                    }
-                                } else {
-                                    nReaded = 0;
-                                }
-
-
-                                LogUtil.v(TAG, String.format("Read change to :%d", nReaded));
-
-                            }
-
-                            nRead += nReaded;
-                        }
-
-                        bTryAgain = true;
-                    }
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return t1Len;
-    }
-
-
-    public int read2(byte[] byRead, int nLen, int nTimeout) {
-        if (byRead.length < nLen) {
-            LogUtil.e(TAG, String.format("the Read buffer is Out of Bound[%d < %d]", byRead.length, nLen));
-            nLen = byRead.length;
-        }
-
-        int nRead = 0;
-
-        int nMaxLen = nLen;
-        long nStart = System.currentTimeMillis();
-        long nEnd = System.currentTimeMillis();
-
-        boolean bTryAgain = false;
-
-        for (; nRead < nMaxLen && (nEnd - nStart <= (long) nTimeout || bTryAgain); nEnd = System.currentTimeMillis()) {
-            try {
-                Thread.currentThread();
-                Thread.sleep(20L);
-            } catch (InterruptedException var15) {
-                var15.printStackTrace();
-            }
-
-            int nReadReady = 11;
-            if (nReadReady > nMaxLen - nRead) {
-                nReadReady = nMaxLen - nRead;
-            }
-
-            if (nReadReady <= 0) {
-                bTryAgain = false;
-            } else {
-                int nReaded = 11;
-                if (nReaded > 0) {
-                    int i;
-
-                    String strLog = String.format("Read[%d]:", nReaded);
-
-                    for (i = 0; i < nReaded; ++i) {
-                        strLog = strLog + String.format("%02x ", byRead[i]);
-                    }
-
-                    LogUtil.v(TAG, strLog);
-
-
-                    if (nRead == 0 && byRead[0] != 6) {
-                        int nFind = 0;
-
-                        for (i = 1; i < nReaded; ++i) {
-                            if (byRead[i] == 6) {
-                                nFind = i;
-                                break;
-                            }
-                        }
-
-                        if (nFind > 0) {
-                            nReaded -= nFind;
-
-                            for (i = 0; i < nReaded; ++i) {
-                                byRead[i] = byRead[nFind + i];
-                            }
-                        } else {
-                            nReaded = 0;
-                        }
-
-
-                        LogUtil.v(TAG, String.format("Read change to :%d", nReaded));
-
-                    }
-
-                    nRead += nReaded;
-                }
-
-                bTryAgain = true;
-            }
-
-
-        }
-
-        byRead[2]=0x08;
-        return nRead;
-    }
-
-
-
-
     private class ReadThread extends Thread{
-        Boolean ifReadEnd=true;
-        List<byte[]> buffer_List = new ArrayList<byte[]>();
         @Override
         public void run() {
             super.run();
-            //判断进程是否在运行，更安全的结束进程
-//            while (!isReadStop){
-//                LogUtil.d(TAG, "ZS格子柜：进入接受数据线程");
-//                byte[] buffer = new byte[1024];
-//                int size;
-//                try {
-//                    size =in.read(buffer);
-//                    if (size > 0){
-//                        String reclog="ZS格子柜：数据长度："+ String.valueOf(size)+"，值：" + ChangeToolUtils.byteArrToHex(buffer,0,size);
-//                        LogUtil.d(TAG, reclog);
-//                        HashMap<String, String> logMap=new HashMap<String, String>();
-//                        logMap.put("reclog",reclog);
-//                        TcStatInterface.onEvent("reclog", logMap);
-//                        onDataReceiveListener.onDataReceive(buffer,size);
-//                    }
-//                } catch (IOException e) {
-//                    LogUtil.e(TAG, "ZS格子柜： 数据读取异常：" +e.toString());
-//                }
-//            }
+            while (true) {
 
-
-            while (!isReadStop&&!isInterrupted()) {
+                onDataReceiveListener.onSendMessage("进入线程");
                 int size;
                 try {
-                    if (in == null) {
-                        return;
-                    }
-                    byte[] buffer = new byte[1024];
-                    size = in.read(buffer);
-                    if (size > 0) {
-                        if (null != onDataReceiveListener) {
-                            byte[] tmpbuf = new byte[size];
-                            for (int i = 0; i < size; i++) tmpbuf[i] = buffer[i];
-                            buffer_List.add(tmpbuf);
-                            ifReadEnd = false;
-                        }
-                    } else {
-                        if (!ifReadEnd) {
-                            onDataReceiveListener.onDataReceive(buffer_List);
+                    if(in!=null) {
+                        byte[] buffer = new byte[1024];
+                        size = in.read(buffer);
+
+                        onDataReceiveListener.onSendMessage("buffer.size:" + size);
+
+                        if (size > 0 && buffer_List.size() < 11) {
+                            onDataReceiveListener.onSendMessage("size>0,buffer_List.size=" + buffer_List.size());
+                            for (int i = 0; i < size; i++) {
+                                buffer_List.add(buffer[i]);
+                            }
+
+                            byte[] by = new byte[size];
+                            for (int i = 0; i < size; i++) {
+                                by[i] = buffer[i];
+                            }
+
+                            onDataReceiveListener.onDataReceive(by);
+                            onDataReceiveListener.onSendMessage("数据1:" + ChangeToolUtils.byteArrToHex(by));
+
+                        } else if (buffer_List.size() == 11) {
+                            onDataReceiveListener.onSendMessage("buffer_List.size=11");
+                            byte[] by = new byte[11];
+                            for (int i = 0; i < buffer_List.size(); i++) {
+                                by[i] = buffer_List.get(i);
+                            }
+
+                            onDataReceiveListener.onDataReceive(by);
+                            onDataReceiveListener.onSendMessage("数据2:" + ChangeToolUtils.byteArrToHex(by));
                             buffer_List.clear();
-                            ifReadEnd = true;
+                        } else {
+                            onDataReceiveListener.onSendMessage("size>" + size + ",buffer_List.size=" + buffer_List.size());
                         }
                     }
-                    Thread.sleep(20);
+                    else {
+                        onDataReceiveListener.onSendMessage("进入线程,in is null");
+                    }
+
                 } catch (Exception e) {
+                    onDataReceiveListener.onSendMessage("异常:" + e.getMessage());
                     e.printStackTrace();
-                    return;
                 }
             }
         }
@@ -349,6 +202,7 @@ public class CabinetMidByZS {
             }
 
             isReadStop=true;
+            isReadRunning=false;
             if(readThread!=null) {
                 readThread.interrupt();
             }
@@ -358,8 +212,10 @@ public class CabinetMidByZS {
     }
 
     public OnDataReceiveListener onDataReceiveListener = null;
+
     public static interface OnDataReceiveListener {
-        public void onDataReceive(List<byte[]> buffer_List);
+        public void onDataReceive(byte[] buffer_List);
+        public void onSendMessage(String message);
     }
     public void setOnDataReceiveListener(OnDataReceiveListener dataReceiveListener) {
         onDataReceiveListener = dataReceiveListener;

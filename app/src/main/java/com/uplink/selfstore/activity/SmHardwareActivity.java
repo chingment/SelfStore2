@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lgh.uvccamera.UVCCameraProxy;
 import com.lgh.uvccamera.callback.PictureCallback;
@@ -63,6 +64,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private Button zs_hd_btn_teststatus;
     private CabinetCtrlByZS zs_CabinetCtrlByZS;
 
+    private TextView tv_log;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         }));
 
         initViewByZS();
+
+        tv_log=(TextView) findViewById(R.id.tv_log);
 
         mCameraOpenByChuHuoKou= (Button) findViewById(R.id.cameraOpenByChuHuoKou);
         mCameraOpenByChuHuoKou.setOnClickListener(this);
@@ -180,13 +184,16 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             @Override
             public boolean handleMessage(Message msg) {
 
+                Bundle bundle = msg.getData();
+                int status = bundle.getInt("status");
+                String message = bundle.getString("message");
+
+                tv_log.setText(tv_log.getText()+message+";");
+
+                showToast(message);
 
                 switch (msg.what){
                     case CabinetCtrlByZS.MESSAGE_WHAT_ONEUNLOCK:
-                        Bundle bundle = msg.getData();
-                        int status = bundle.getInt("status");
-                        String message = bundle.getString("message");
-                        showToast(message);
                         switch (status) {
                             case 1:
                                 break;
@@ -195,7 +202,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                             case 3:
                                 break;
                         }
-
 
                         break;
                     case CabinetCtrlByZS.MESSAGE_WHAT_QUERYLOCKSTATUS:
@@ -354,7 +360,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         return;
                     }
                     zs_CabinetCtrlByZS.setConfig(str_zs_hd_et_ck,115200);
-                    zs_CabinetCtrlByZS.queryStatus(Integer.valueOf(str_zs_hd_et_plateid));
+                    zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
             }
         }

@@ -86,7 +86,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     public GlobalDataSetBean getGlobalDataSet() {
 
-        return AppCacheManager.getGlobalDataSet();
+        if (globalDataSet == null) {
+            globalDataSet = AppCacheManager.getGlobalDataSet();
+        }
+
+        return globalDataSet;
     }
 
     public MachineBean getMachine() {
@@ -104,20 +108,20 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         customDialogLoading = new CustomDialogLoading(this);
         locationUtil = LocationUtil.getInstance(this);
 
-        AppManager.getAppManager().addActivity(this);
-
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
-            Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity instanceof InitDataActivity) {
-
-            } else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
-            }
-
-        }
+//        AppManager.getAppManager().addActivity(this);
+//
+//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
+//            Activity activity = AppManager.getAppManager().currentActivity();
+//            if (activity instanceof InitDataActivity) {
+//
+//            } else {
+//                showToast("检查异常，设备重新运行");
+//                Intent intent = new Intent(appContext, InitDataActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//
+//        }
     }
 
     public void  useClosePageCountTimer() {
@@ -443,4 +447,5 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             }
         });
     }
+
 }

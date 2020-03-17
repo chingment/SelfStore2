@@ -155,4 +155,12 @@ public  class ChangeToolUtils {
         return bytes;
     }
 
+    public static int byteToInt(byte b){
+        System.out.println("byte 是:"+b);
+        int x = b & 0xff;
+        System.out.println("int 是:"+x);
+        return x;
+    }
+
+
 }

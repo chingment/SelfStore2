@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.model.ResultBean;
 import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -27,22 +28,19 @@ public class CabinetCtrlByZS {
     private static int curMessageWhat=0;
     private CabinetMidByZS mCabinetMidByZS;
 
-    public CabinetCtrlByZS(){
+    private CabinetCtrlByZS(){
         mCabinetMidByZS=new CabinetMidByZS();
         //串口数据监听事件
         mCabinetMidByZS.setOnDataReceiveListener(new CabinetMidByZS.OnDataReceiveListener() {
             @Override
-            public void onDataReceive(List<byte[]> buffer) {
-                //dataAnalysis(buffer,size);
-                byte[] buf = ChangeToolUtils.ListToByte(buffer);
-                String log="数据长度:"+buf.length+",值：" + ChangeToolUtils.byteArrToHex(buf,0,buf.length);
-                switch (curMessageWhat) {
-                    case MESSAGE_WHAT_ONEUNLOCK:
-                        //if(size==11) {
-                            sendMessageByOneUnLock(3, log, null);
-                        //}
-                        break;
-                }
+            public void onDataReceive(byte[] buffer) {
+                String log = "数据长度:" + buffer.length;
+                sendMessage(curMessageWhat, 3, log, null);
+            }
+
+            @Override
+            public void onSendMessage(String message){
+                sendMessage(curMessageWhat, 3, message, null);
             }
         });
     }
@@ -64,8 +62,6 @@ public class CabinetCtrlByZS {
         this.nBaudrate=nBaudrate;
     }
 
-
-
     public void unLock(int plate,int num) {
 
         curMessageWhat=MESSAGE_WHAT_ONEUNLOCK;
@@ -73,17 +69,17 @@ public class CabinetCtrlByZS {
         int rc_connect = mCabinetMidByZS.connect(strPort, nBaudrate);
 
         if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessageByOneUnLock(4, "连接设备失败[" + rc_connect + "]",null);
+            sendMessage(curMessageWhat,4, "连接设备失败[" + rc_connect + "]");
             return;
         }
 
         int rc_unLock=mCabinetMidByZS.unLock(plate,num);
 
         if(rc_unLock!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessageByOneUnLock(4, "发送命令失败[" + rc_unLock + "]",null);
+            sendMessage(curMessageWhat,4, "发送命令失败[" + rc_unLock + "]");
         }
 
-        sendMessageByOneUnLock(2, "发送命令成功",null);
+        sendMessage(curMessageWhat,2, "开锁命令发送成功");
 
 //        sz = new byte[11];
 //        int len=this.read(sz, this.nTimeout);
@@ -124,7 +120,24 @@ public class CabinetCtrlByZS {
 //        }
     }
 
-    public void queryStatus(int plate) {
+    public void queryLockStatus(int plate,int num) {
+
+        curMessageWhat=MESSAGE_WHAT_QUERYLOCKSTATUS;
+
+        int rc_connect = mCabinetMidByZS.connect(strPort, nBaudrate);
+
+        if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
+            sendMessage(curMessageWhat,4, "连接设备失败[" + rc_connect + "]");
+            return;
+        }
+
+        int rc_unLock=mCabinetMidByZS.queryLockStatus(plate,num);
+
+        if(rc_unLock!=CabinetMidByZS.RC_SUCCESS) {
+            sendMessage(curMessageWhat,4, "发送命令失败[" + rc_unLock + "]");
+        }
+
+        sendMessage(curMessageWhat,2, "查询锁状态命令发送成功");
 
 
     }
@@ -139,10 +152,10 @@ public class CabinetCtrlByZS {
         this.mHandler = handler;
     }
 
-    private void sendMessageByOneUnLock(int status, String message,UnLockResult result){
+    private void sendMessage(int what, int status, String message,UnLockResult result){
         if (mHandler != null) {
             Message m = new Message();
-            m.what = MESSAGE_WHAT_ONEUNLOCK;
+            m.what = what;
             Bundle data = new Bundle();
             data.putInt("status", status);
             data.putString("message", message);
@@ -152,6 +165,9 @@ public class CabinetCtrlByZS {
         }
     }
 
+    private void sendMessage(int what, int status, String message){
+        sendMessage(what,status,message,null);
+    }
 
     public  class UnLockResult implements Serializable {
 

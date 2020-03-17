@@ -96,8 +96,8 @@ public class AppCacheManager {
 
     public static void setGlobalDataSet(GlobalDataSetBean bean) {
 
-        _globalDataSet = bean;
-        //AppCacheManager.getCache().put(Cache_Key_GlobalDataSet, bean);
+       // _globalDataSet = bean;
+        AppCacheManager.getCache().put(Cache_Key_GlobalDataSet, bean);
 
 
     }
@@ -107,9 +107,9 @@ public class AppCacheManager {
 
     public static GlobalDataSetBean getGlobalDataSet() {
 
-//        if (_globalDataSet == null) {
-//            _globalDataSet = (GlobalDataSetBean) AppCacheManager.getCache().getAsObject(Cache_Key_GlobalDataSet);
-//        }
+        //if (_globalDataSet == null) {
+            _globalDataSet = (GlobalDataSetBean) AppCacheManager.getCache().getAsObject(Cache_Key_GlobalDataSet);
+        //}
 
         return _globalDataSet;
 
