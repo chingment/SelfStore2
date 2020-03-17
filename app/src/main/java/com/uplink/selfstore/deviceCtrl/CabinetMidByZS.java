@@ -11,9 +11,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android_serialport_api.SerialPort;
@@ -138,7 +141,10 @@ public class CabinetMidByZS {
             super.run();
             while (true) {
 
-                onDataReceiveListener.onSendMessage("进入线程");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+                String dateTime = sdf.format(new Date());
+
+                onDataReceiveListener.onSendMessage("["+dateTime+"]进入线程");
                 int size;
                 try {
                     if(in!=null) {
