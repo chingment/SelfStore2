@@ -30,6 +30,7 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
+import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
@@ -212,23 +213,63 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         );
 
 
+
         cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
 
-
-                switch (msg.what){
+                switch (msg.what) {
                     case CabinetCtrlByZS.MESSAGE_WHAT_ONEUNLOCK:
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        showToast(message);
                         switch (status) {
-                            case 1:
+                            case 1://消息提示
+                                showToast(message);
                                 break;
-                            case 2:
+                            case 2://启动就绪成功
+                                curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 break;
-                            case 3:
+                            case 3://取货中
+                                curpickupsku_tip2.setText("正在取货中..请稍等");
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", null);
+
+                                break;
+                            case 4://反馈成功
+
+                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
+                                if (result != null) {
+                                    if (result.getCabBoxs() != null) {
+                                        ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(currentPickupSku.getSlotId()));
+                                        if (zsCabBoxBean != null) {
+                                            if (zsCabBoxBean.isOpen()) {
+
+                                                PickupResult pickupResult=new PickupResult();
+                                                pickupResult.setPickupComplete(true);
+                                                curpickupsku_tip2.setText("取货完成");
+                                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                break;
+                            case 5://取货超时
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, null);
+
+                                if (!dialog_SystemWarn.isShowing()) {
+                                    dialog_SystemWarn.setWarnTile("系统维护中.");
+                                    dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
+                                    dialog_SystemWarn.show();
+                                }
+                                break;
+                            case 6://取货失败
+                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", null);
+                                if (!dialog_SystemWarn.isShowing()) {
+                                    dialog_SystemWarn.setWarnTile("系统维护中..");
+                                    dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
+                                    dialog_SystemWarn.show();
+                                }
                                 break;
                         }
                         break;
@@ -236,6 +277,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 return false;
             }
         }));
+
 
         currentPickupSku = getCurrentPickupProductSku();
         if (currentPickupSku != null) {

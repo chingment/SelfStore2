@@ -15,7 +15,7 @@ public class ProductSkuBean implements Serializable {
     private String mainImgUrl;
     private List<ImgSetBean> displayImgUrls;
     private String briefDes;
-    private String detailsDes;
+    private List<ImgSetBean>  detailsDes;
     private float salePrice;
     private float salePriceByVip;
     private boolean isShowPrice;
@@ -74,11 +74,11 @@ public class ProductSkuBean implements Serializable {
         this.briefDes = briefDes;
     }
 
-    public String getDetailsDes() {
+    public List<ImgSetBean>  getDetailsDes() {
         return detailsDes;
     }
 
-    public void setDetailsDes(String detailsDes) {
+    public void setDetailsDes(List<ImgSetBean>  detailsDes) {
         this.detailsDes = detailsDes;
     }
 

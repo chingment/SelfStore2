@@ -6,7 +6,17 @@ public class CabinetBean implements Serializable {
     private String id;
     private String name;
     private String rowColLayout;
+    private int fixSlotQuantity;
     private int priority;
+
+
+    public int getFixSlotQuantity() {
+        return fixSlotQuantity;
+    }
+
+    public void setFixSlotQuantity(int fixSlotQuantity) {
+        this.fixSlotQuantity = fixSlotQuantity;
+    }
 
     public int getPriority() {
         return priority;

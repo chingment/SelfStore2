@@ -44,7 +44,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.OrderExHandleActivity"></activity>
-        <activity android:name=".activity.SmHardwareActivity">
+        <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SmUserInfoActivity" />
-        <activity android:name=".activity.InitDataActivity" />
+        <activity android:name=".activity.SmHardwareActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask" /> <!-- Rich push 核心功能 since 2.0.6 -->

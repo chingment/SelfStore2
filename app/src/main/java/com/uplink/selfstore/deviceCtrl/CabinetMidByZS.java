@@ -42,6 +42,7 @@ public class CabinetMidByZS {
     private ArrayList<Byte> buffer_List = new ArrayList<Byte>();
     public int connect(String strPort, int nBaudrate) {
 
+
         if (strPort.equals("")) {
             LogUtil.e(TAG, "the serial path is null");
             return RC_INVALID_PARAM;
@@ -60,6 +61,8 @@ public class CabinetMidByZS {
                     readThread = new ReadThread();
                     readThread.start();
                 }
+
+
                 return RC_SUCCESS;
             } catch (SecurityException var4) {
                 var4.printStackTrace();
@@ -135,65 +138,70 @@ public class CabinetMidByZS {
         }
     }
 
-    private class ReadThread extends Thread{
+    private class ReadThread extends Thread {
         @Override
         public void run() {
             super.run();
-            while (true) {
+            while (!isReadStop) {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
                 String dateTime = sdf.format(new Date());
+//
+//                try
+//                {
+//                    if (in == null) return;
+//                    byte[] buffer=new byte[512];
+//                    int size = in.read(buffer);
+//                    if (size > 0){
+//                        onDataReceiveListener.onSendLog("["+dateTime+"] size:"+size);
+//                    }
+//                    try
+//                    {
+//                        Thread.sleep(50);//延时50ms
+//                    } catch (InterruptedException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                } catch (Throwable e)
+//                {
+//                    e.printStackTrace();
+//                    return;
+//                }
 
-                onDataReceiveListener.onSendMessage("["+dateTime+"]进入线程");
-                int size;
                 try {
-                    if(in!=null) {
-                        byte[] buffer = new byte[1024];
-                        size = in.read(buffer);
+                    if (in == null) return;
 
-                        onDataReceiveListener.onSendMessage("buffer.size:" + size);
+                    int size;
 
-                        if (size > 0 && buffer_List.size() < 11) {
-                            onDataReceiveListener.onSendMessage("size>0,buffer_List.size=" + buffer_List.size());
-                            for (int i = 0; i < size; i++) {
-                                buffer_List.add(buffer[i]);
-                            }
+                    byte[] buffer = new byte[512];
+                    size = in.read(buffer);
 
-                            byte[] by = new byte[size];
-                            for (int i = 0; i < size; i++) {
-                                by[i] = buffer[i];
-                            }
-
-                            onDataReceiveListener.onDataReceive(by);
-                            onDataReceiveListener.onSendMessage("数据1:" + ChangeToolUtils.byteArrToHex(by));
-
-                        } else if (buffer_List.size() == 11) {
-                            onDataReceiveListener.onSendMessage("buffer_List.size=11");
-                            byte[] by = new byte[11];
-                            for (int i = 0; i < buffer_List.size(); i++) {
-                                by[i] = buffer_List.get(i);
-                            }
-
-                            onDataReceiveListener.onDataReceive(by);
-                            onDataReceiveListener.onSendMessage("数据2:" + ChangeToolUtils.byteArrToHex(by));
-                            buffer_List.clear();
-                        } else {
-                            onDataReceiveListener.onSendMessage("size>" + size + ",buffer_List.size=" + buffer_List.size());
+                    if (size > 0 && buffer_List.size() < 11) {
+                        for (int i = 0; i < size; i++) {
+                            buffer_List.add(buffer[i]);
                         }
                     }
-                    else {
-                        onDataReceiveListener.onSendMessage("进入线程,in is null");
+
+
+                    if (buffer_List.size() == 11) {
+                        byte[] by = new byte[11];
+                        for (int i = 0; i < buffer_List.size(); i++) {
+                            by[i] = buffer_List.get(i);
+                        }
+                        onDataReceiveListener.onDataReceive(by);
+                        buffer_List.clear();
                     }
 
+                    Thread.sleep(20L);
+
                 } catch (Exception e) {
-                    onDataReceiveListener.onSendMessage("异常:" + e.getMessage());
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    public void  disconnect(){
+    public void  disconnect() {
         try {
             if (this.out != null) {
                 this.out.close();
@@ -207,9 +215,9 @@ public class CabinetMidByZS {
                 mSerialPort.close();
             }
 
-            isReadStop=true;
-            isReadRunning=false;
-            if(readThread!=null) {
+            isReadStop = true;
+            isReadRunning = false;
+            if (readThread != null) {
                 readThread.interrupt();
             }
         } catch (IOException ex) {
@@ -221,7 +229,7 @@ public class CabinetMidByZS {
 
     public static interface OnDataReceiveListener {
         public void onDataReceive(byte[] buffer_List);
-        public void onSendMessage(String message);
+        public void onSendLog(String message);
     }
     public void setOnDataReceiveListener(OnDataReceiveListener dataReceiveListener) {
         onDataReceiveListener = dataReceiveListener;

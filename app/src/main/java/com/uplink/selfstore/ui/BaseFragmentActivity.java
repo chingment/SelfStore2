@@ -106,22 +106,21 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         appContext = (AppContext) getApplication();
         customDialogLoading = new CustomDialogLoading(this);
-        locationUtil = LocationUtil.getInstance(this);
+        //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
+//
+        AppManager.getAppManager().addActivity(this);
 
-//        AppManager.getAppManager().addActivity(this);
-//
-//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
-//            Activity activity = AppManager.getAppManager().currentActivity();
-//            if (activity instanceof InitDataActivity) {
-//
-//            } else {
-//                showToast("检查异常，设备重新运行");
-//                Intent intent = new Intent(appContext, InitDataActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//
-//        }
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
+            Activity activity = AppManager.getAppManager().currentActivity();
+            if (activity instanceof InitDataActivity) {
+
+            } else {
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     public void  useClosePageCountTimer() {

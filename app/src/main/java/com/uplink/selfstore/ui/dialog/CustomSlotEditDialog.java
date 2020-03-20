@@ -26,6 +26,7 @@ import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
+import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -138,6 +139,8 @@ public class CustomSlotEditDialog extends Dialog {
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }
+
+                        pickupEventNotify(productSkuId,slotId,6000,"取货超时",pickupResult);
                         mContext.showToast(message);
                         LogUtil.e("取货超时");
                         break;
@@ -145,6 +148,7 @@ public class CustomSlotEditDialog extends Dialog {
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }
+                        pickupEventNotify(productSkuId,slotId,6000,"取货失败",pickupResult);
                         mContext.showToast(message);
                         LogUtil.e("取货失败");
                         break;
@@ -176,19 +180,68 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public boolean handleMessage(Message msg) {
 
+                String slotId = String.valueOf(txt_SlotName.getText());
+                String productSkuId = String.valueOf(txt_SkuId.getText());
 
-                switch (msg.what){
+                switch (msg.what) {
                     case CabinetCtrlByZS.MESSAGE_WHAT_ONEUNLOCK:
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        mContext.showToast(message);
                         switch (status) {
-                            case 1:
+                            case 1://消息提示
+                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                    customDialogRunning.cancelDialog();
+                                }
+                                mContext.showToast(message);
                                 break;
-                            case 2:
+                            case 2://启动就绪成功
+                                if (!customDialogRunning.isShowing()) {
+                                    customDialogRunning.showDialog();
+                                    customDialogRunning.setProgressText("取货就绪成功");
+                                }
                                 break;
-                            case 3:
+                            case 3://取货中
+                                if (customDialogRunning != null) {
+                                    customDialogRunning.setProgressText("正在取货中..请稍等");
+                                    pickupEventNotify(productSkuId, slotId, 3012, "发起取货", null);
+                                }
+                                mContext.showToast(message);
+                                break;
+                            case 4://反馈成功
+
+                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
+                                if (result != null) {
+                                    if (result.getCabBoxs() != null) {
+                                        ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(slotId));
+                                        if (zsCabBoxBean != null) {
+                                            if (zsCabBoxBean.isOpen()) {
+                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                                    customDialogRunning.cancelDialog();
+                                                }
+                                                mContext.showToast("取货完成");
+                                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                break;
+                            case 5://取货超时
+                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                    customDialogRunning.cancelDialog();
+                                }
+                                mContext.showToast(message);
+                                pickupEventNotify(productSkuId, slotId, 6000, "取货超时", null);
+                                LogUtil.e("取货超时");
+                                break;
+                            case 6://取货失败
+                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                    customDialogRunning.cancelDialog();
+                                }
+                                mContext.showToast(message);
+                                pickupEventNotify(productSkuId, slotId, 6000, "取货失败[" + message + "]", null);
+                                LogUtil.e("取货失败");
                                 break;
                         }
                         break;
@@ -482,7 +535,16 @@ public class CustomSlotEditDialog extends Dialog {
                 }
 
                 int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
+
                 maxQty = maxQty + 1;
+
+                if(cabinet.getFixSlotQuantity()!=-1) {
+                    if (maxQty > cabinet.getFixSlotQuantity()) {
+                        mContext.showToast("不能大于最大数量：" + cabinet.getFixSlotQuantity());
+                        return;
+                    }
+                }
+
                 txt_MaxQty.setText(String.valueOf(maxQty));
             }
         });

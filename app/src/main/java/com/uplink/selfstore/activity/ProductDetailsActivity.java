@@ -16,6 +16,7 @@ import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
+import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -26,6 +27,7 @@ import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
 
 import java.net.URL;
+import java.util.List;
 
 public class ProductDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "ProductDetailsActivity";
@@ -118,16 +120,24 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
         txt_price_decimal.setText(price[1]);
 
 
-        String detailsDes = "";
-        if (!StringUtil.isEmptyNotNull(productSku.getDetailsDes())) {
-            detailsDes = productSku.getDetailsDes();
+        if(productSku.getDetailsDes()!=null) {
+            String detailsDes = "";
+
+            List<ImgSetBean> arr_DetailsDes=productSku.getDetailsDes();
+
+            if(arr_DetailsDes.size()>0){
+                for (int i=0;i<arr_DetailsDes.size();i++){
+
+                    detailsDes+="<p><image width=\"100%\" src=\""+arr_DetailsDes.get(i).getUrl()+"\" /></p>";
+                }
+            }
+
+            String html = "<html><head><title></title></head><body>"
+                    + detailsDes
+                    + "</body></html>";
+
+            webview.loadData(html, "text/html", "uft-8");
         }
-
-        String html = "<html><head><title></title></head><body>"
-                + detailsDes
-                + "</body></html>";
-
-        webview.loadData(html, "text/html", "uft-8");
 
         CartStatisticsBean cartStatistics = CartActivity.getStatistics();
         txt_cart_sumquantity.setText(cartStatistics.getSumQuantity() + "");

@@ -5,6 +5,15 @@ import java.util.HashMap;
 
 public class MachineSlotsResultBean implements Serializable {
     private  String rowColLayout;
+    private int fixSlotQuantity;
+
+    public int getFixSlotQuantity() {
+        return fixSlotQuantity;
+    }
+
+    public void setFixSlotQuantity(int fixSlotQuantity) {
+        this.fixSlotQuantity = fixSlotQuantity;
+    }
 
     public String getRowColLayout() {
         return rowColLayout;
