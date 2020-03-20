@@ -48,8 +48,8 @@ public class CabinetCtrlByZS {
                             ZSCabBoxBean cabBox = new ZSCabBoxBean();
                             int id = (c.length - i) / 2;
                             cabBox.setId(id);
-                            cabBox.setOpen(CommonUtil.Char2Bool(c[i + 1]));
-                            cabBox.setNonGoods(CommonUtil.Char2Bool(c[i]));
+                            cabBox.setOpen(!CommonUtil.Char2Bool(c[i + 1]));
+                            cabBox.setNonGoods(!CommonUtil.Char2Bool(c[i]));
                             cabBoxs.put(id, cabBox);
 
                         }

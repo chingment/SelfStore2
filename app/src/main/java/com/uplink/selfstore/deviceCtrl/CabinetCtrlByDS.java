@@ -214,10 +214,6 @@ public class CabinetCtrlByDS {
         pickupListenerThread.start();
     }
 
-    public void dispose(){
-        cmd_PickupIsStopListener=true;
-    }
-
     public boolean isIdle() {
         boolean flag = false;
 

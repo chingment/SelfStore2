@@ -89,10 +89,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         if (bundle.getSerializable("result") != null) {
                             result = (ScanSlotResult) bundle.getSerializable("result");
                         }
+                        showToast(message);
                         switch (status) {
                             case 1:
                                 //异常消息
-                                showToast(message);
                                 if(customDialogRunning!=null) {
                                     if(customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();

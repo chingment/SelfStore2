@@ -88,15 +88,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         setContentView(R.layout.activity_orderdetails);
         setNavTtile(this.getResources().getString(R.string.aty_orderdetails_navtitle));
 
-        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-        cabinetCtrlByZS= CabinetCtrlByZS.getInstance();
+        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
+        cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
         initView();
         initEvent();
         initData();
 
-        if(this.getMachine().isOpenChkCamera()) {
+        if (this.getMachine().isOpenChkCamera()) {
             initUVCCamera();
         }
 
@@ -124,7 +124,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 }
 
-                                if(getMachine().isOpenChkCamera()) {
+                                if (getMachine().isOpenChkCamera()) {
                                     if (mUVCCamera != null) {
                                         if (!mUVCCamera.isCameraOpen()) {
                                             mUVCCamera.openCamera(37424, 1443);
@@ -177,16 +177,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     }
                                 }
 
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", pickupResult);
 
                                 break;
                             case 4://取货成功
                                 curpickupsku_tip2.setText("取货完成");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
                                 break;
                             case 5://取货超时
                                 LogUtil.e("取货失败,取货动作超时");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, pickupResult);
 
                                 if (!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中.");
@@ -196,7 +196,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 6://取货失败
                                 LogUtil.e("取货失败,程序异常");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", pickupResult);
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", pickupResult);
                                 if (!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中..");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
@@ -211,7 +211,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     }
                 })
         );
-
 
 
         cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
@@ -232,31 +231,26 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 3://取货中
                                 curpickupsku_tip2.setText("正在取货中..请稍等");
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", null);
-
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", null);
                                 break;
                             case 4://反馈成功
-
                                 CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
                                 if (result != null) {
                                     if (result.getCabBoxs() != null) {
                                         ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(currentPickupSku.getSlotId()));
                                         if (zsCabBoxBean != null) {
                                             if (zsCabBoxBean.isOpen()) {
-
-                                                PickupResult pickupResult=new PickupResult();
+                                                PickupResult pickupResult = new PickupResult();
                                                 pickupResult.setPickupComplete(true);
                                                 curpickupsku_tip2.setText("取货完成");
-                                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
+                                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
                                             }
                                         }
                                     }
                                 }
-
                                 break;
                             case 5://取货超时
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, null);
-
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, null);
                                 if (!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中.");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
@@ -264,7 +258,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 }
                                 break;
                             case 6://取货失败
-                                pickupEventNotify(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", null);
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, "程序异常", null);
                                 if (!dialog_SystemWarn.isShowing()) {
                                     dialog_SystemWarn.setWarnTile("系统维护中..");
                                     dialog_SystemWarn.setBtnCloseVisibility(View.GONE);
@@ -279,12 +273,23 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }));
 
 
-        currentPickupSku = getCurrentPickupProductSku();
-        if (currentPickupSku != null) {
-            setSendPickup(currentPickupSku.getId(),currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-        } else {
-            setPickupCompleteDrawTips();
-        }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                currentPickupSku = getCurrentPickupProductSku();
+                if (currentPickupSku != null) {
+                    setSendPickup(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
+
+
+                } else {
+                    setPickupCompleteDrawTips();
+                }
+            }
+        }, 2000);//2秒后执行Runnable中的run方法
+
+
     }
 
 
@@ -483,10 +488,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curpickupsku_img_main, currentPickupSku.getMainImgUrl());
         curpickupsku_tip1.setText(currentPickupSku.getName());
         curpickupsku_tip2.setText("准备出货......");
-
-
         pickupEventNotify(productSkuId,cabinetId,slotId,uniqueId,3011,"发起取货",null);
-
     }
 
 
@@ -537,7 +539,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         cabinetCtrlByZS.unLock(cabinet.getCodeNo(),Integer.valueOf(slotId));
                         break;
                 }
-
                 break;
             case 4000:
                 List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
@@ -550,7 +551,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         if ((quantityBySuccess + quantityByException) < quantity) {
                             productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
                         }
-
                         for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
                             if (productSkus.get(i).getSlots().get(j).getSlotId().equals(slotId) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(uniqueId)) {
                                 productSkus.get(i).getSlots().get(j).setStatus(4000);
@@ -611,7 +611,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
 
         if(cabinetCtrlByDS!=null){
-            cabinetCtrlByDS.dispose();
+            cabinetCtrlByDS.disConnect();
+        }
+
+        if(cabinetCtrlByZS!=null){
+            cabinetCtrlByZS.disConnect();
         }
 
         closePageCountTimerStop();
