@@ -15,11 +15,13 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.deviceCtrl.CabinetMidByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.DSCabSlotNRC;
+import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
@@ -64,6 +66,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private View btn_appexit;
     private List<LogBean> logs=new ArrayList<>();
     private CabinetCtrlByDS cabinetCtrlByDS=null;
+    private CabinetCtrlByZS cabinetCtrlByZS=null;
     private boolean initIsRun=false;
     private Handler initHandler = new Handler();
     private Runnable initRunable = new Runnable() {
@@ -93,8 +96,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
-        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
-
         initHandler.postDelayed(initRunable, 1000);
 
         Intent cameraSnapService = new Intent(this, CameraSnapService.class);
@@ -103,13 +104,15 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);
 
-        Intent alarmService=new Intent(this, AlarmService.class);
+        Intent alarmService = new Intent(this, AlarmService.class);
         startService(alarmService);
 
-        Intent heartbeatService=new Intent(this, HeartbeatService.class);
+        Intent heartbeatService = new Intent(this, HeartbeatService.class);
         startService(heartbeatService);
 
-        cabinetCtrlByDS.firstSet();
+
+        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
+        cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
         FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
@@ -250,6 +253,30 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 });
                 if (rt.getResult() == Result.SUCCESS) {
                     AppCacheManager.setGlobalDataSet(rt.getData());
+
+                    HashMap<String, CabinetBean>  cabinets= rt.getData().getMachine().getCabinets();
+
+                    HashMap<String, String> modelNos=new HashMap<>();
+
+                    for (HashMap.Entry<String,CabinetBean> entry : cabinets.entrySet()) {
+                        CabinetBean cabinet = entry.getValue();
+                        if(!modelNos.containsKey(cabinet.getModelNo())){
+                            modelNos.put(cabinet.getModelNo(),cabinet.getComId());
+                        }
+                    }
+
+                    for (HashMap.Entry<String,String> modelNo : modelNos.entrySet()) {
+                        switch (modelNo.getKey()) {
+                            case "dsx01":
+                                cabinetCtrlByDS.setComId(modelNo.getValue());
+                                cabinetCtrlByDS.firstSet();
+                                break;
+                            case "zsx01":
+                                cabinetCtrlByZS.setComId(modelNo.getValue());
+                                break;
+                        }
+                    }
+
                     setTips(3, getAppContext().getString(R.string.aty_initdata_tips_settingmachinesuccess));
                 } else {
                     setTips(2, getAppContext().getString(R.string.aty_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());

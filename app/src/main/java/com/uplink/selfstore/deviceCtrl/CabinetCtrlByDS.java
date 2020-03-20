@@ -38,6 +38,9 @@ public class CabinetCtrlByDS {
     private static final int MESSAGE_WHAT_PICKUP = 2;
     private static final int MESSAGE_WHAT_DOOR = 3;
     private static final int MESSAGE_WHAT_GOZERO = 4;
+
+    public static String ComId="ttymxc1";
+
     private  CabinetCtrlByDS() {
         try {
             sym = new symvdio();
@@ -66,6 +69,10 @@ public class CabinetCtrlByDS {
         return version;
     }
 
+    public void setComId(String comId) {
+        CabinetCtrlByDS.ComId = comId;
+    }
+
     public boolean connect() {
 
         if (sym == null) {
@@ -74,7 +81,7 @@ public class CabinetCtrlByDS {
         }
 
         try {
-            int rc_status = sym.Connect("ttymxc1", 9600);
+            int rc_status = sym.Connect(CabinetCtrlByDS.ComId, 9600);
             if (rc_status == 0) {
                 isConnect = true;
             }

@@ -15,7 +15,7 @@ public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
     private static CabinetCtrlByZS mCabinetCtrlByZS= null;
 
-    private String strPort="ttyS1";
+    private static String ComId="ttyS1";
     private int nBaudrate=115200;
     private Handler mHandler = null;
     public static final int MESSAGE_WHAT_ONEUNLOCK = 1;
@@ -80,16 +80,15 @@ public class CabinetCtrlByZS {
 
     }
 
-    public void setConfig(String strPort, int nBaudrate){
-        this.strPort=strPort;
-        this.nBaudrate=nBaudrate;
+    public void setComId(String comId) {
+        CabinetCtrlByZS.ComId = comId;
     }
 
     public void unLock(int plate,int num) {
 
         curMessageWhat=MESSAGE_WHAT_ONEUNLOCK;
 
-        int rc_connect = mCabinetMidByZS.connect(strPort, nBaudrate);
+        int rc_connect = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
 
         if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
             sendMessage(curMessageWhat,6, "连接设备失败[" + rc_connect + "]");
@@ -112,7 +111,7 @@ public class CabinetCtrlByZS {
 
         curMessageWhat=MESSAGE_WHAT_QUERYLOCKSTATUS;
 
-        int rc_connect = mCabinetMidByZS.connect(strPort, nBaudrate);
+        int rc_connect = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
 
         if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
             sendMessage(curMessageWhat,6, "连接设备失败[" + rc_connect + "]");

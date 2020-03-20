@@ -8,7 +8,16 @@ public class CabinetBean implements Serializable {
     private String rowColLayout;
     private int fixSlotQuantity;
     private int priority;
+    private String comId;
 
+
+    public String getComId() {
+        return comId;
+    }
+
+    public void setComId(String comId) {
+        this.comId = comId;
+    }
 
     public int getFixSlotQuantity() {
         return fixSlotQuantity;

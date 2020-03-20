@@ -335,7 +335,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         //showToast("请输入箱子ID");
                         return;
                     }
-                    zs_CabinetCtrlByZS.setConfig(str_zs_hd_et_ck,115200);
                     zs_CabinetCtrlByZS.unLock(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
                 case R.id.zs_hd_btn_teststatus:
@@ -351,7 +350,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         //showToast("请输入箱子ID");
                         return;
                     }
-                    zs_CabinetCtrlByZS.setConfig(str_zs_hd_et_ck,115200);
                     zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
             }
