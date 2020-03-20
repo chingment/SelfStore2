@@ -135,13 +135,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                LogUtil.e("长按触发");
                 setHideStatusBar(false);
                 AppManager.getAppManager().AppExit(InitDataActivity.this);
                 return true;
             }
         });
-
 
         loading_ani.start();
 
@@ -152,7 +150,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
                 String dateTime = sdf.format(new Date());
                 loading_msg.setText(msg.obj.toString());
-
 
                 LogBean log=new LogBean();
                 log.setDateTime(dateTime);
@@ -194,7 +191,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     }
 
     private void initData() {
-
         txt_deviceId.setText(getAppContext().getDeviceId());
         txt_version.setText(BuildConfig.VERSION_NAME);
     }
@@ -204,37 +200,13 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         switch (v.getId()) {
             case R.id.btn_retry:
-                setTips(0x0004, getAppContext().getString(R.string.aty_initdata_tips_retry));
+                setTips(4, getAppContext().getString(R.string.aty_initdata_tips_retry));
                 handler_msg.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         setMachineInitData();
                     }
                 }, 2000);
-
-                CustomFingerVeinDialog  dialog_FingerVein=new CustomFingerVeinDialog(InitDataActivity.this);
-                dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
-                            @Override
-                            public boolean handleMessage(Message msg) {
-                                Bundle bundle = msg.getData();
-                                int status = bundle.getInt("status");
-                                String message = bundle.getString("message");
-                                byte[] result;
-                                switch (status) {
-                                    case 1://消息提示
-                                        showToast(message);
-                                        break;
-                                    case 2://检查到手指
-                                        result = bundle.getByteArray("result");
-                                        //loginByFingerVein(result);
-                                        break;
-                                }
-                                return false;
-                            }
-                        })
-                );
-
-                dialog_FingerVein.startCheckLogin();
 
                 break;
         }
@@ -260,7 +232,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
     public void setMachineInitData() {
 
-        setTips(0x0001, getAppContext().getString(R.string.aty_initdata_tips_settingmachine));
+        setTips(1, getAppContext().getString(R.string.aty_initdata_tips_settingmachine));
 
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
@@ -278,17 +250,16 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 });
                 if (rt.getResult() == Result.SUCCESS) {
                     AppCacheManager.setGlobalDataSet(rt.getData());
-                    setTips(0x0003, getAppContext().getString(R.string.aty_initdata_tips_settingmachinesuccess));
+                    setTips(3, getAppContext().getString(R.string.aty_initdata_tips_settingmachinesuccess));
                 } else {
-                    setTips(0x0002, getAppContext().getString(R.string.aty_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());
+                    setTips(2, getAppContext().getString(R.string.aty_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
-                setTips(0x0002, msg);
+                setTips(2, msg);
             }
         });
-
     }
 }
