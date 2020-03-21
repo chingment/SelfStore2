@@ -313,12 +313,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
         }
 
-//        if(!Config.IS_BUILD_DEBUG) {
-//            if (!cabinetCtrlByDS.isIdle()) {
-//                showToast("设备不在空闲状态");
-//                return;
-//            }
-//        }
+        if(!Config.IS_BUILD_DEBUG) {
+            if (!cabinetCtrlByDS.isIdle()) {
+                showToast("设备不在空闲状态");
+                return;
+            }
+        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", this.getMachine().getId() + "");
@@ -402,16 +402,18 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     public  void  doPaySuccess(OrderPayStatusQueryResultBean bean) {
+        if (bean == null)
+            return;
         //4 为 已完成支付
         if (bean.getStatus() == 3000) {
-            if(taskByCheckPayTimeout!=null) {
+            if (taskByCheckPayTimeout != null) {
                 taskByCheckPayTimeout.cancel();
             }
             AppCacheManager.setCartSkus(null);
-            Intent intent= new Intent(CartActivity.this, OrderDetailsActivity.class);
-            Bundle bundle=new Bundle();
+            Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
+            Bundle bundle = new Bundle();
 
-            OrderDetailsBean orderDetails =new OrderDetailsBean();
+            OrderDetailsBean orderDetails = new OrderDetailsBean();
             orderDetails.setId(bean.getId());
             orderDetails.setSn(bean.getSn());
             orderDetails.setStatus(bean.getStatus());

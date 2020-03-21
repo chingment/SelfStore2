@@ -226,9 +226,8 @@ public class CabinetCtrlByDS {
 
         long nStart = System.currentTimeMillis();
         long nEnd = System.currentTimeMillis();
-        boolean bTryAgain = false;
 
-        for (; (nEnd - nStart <= (long) 2 * 1000|| bTryAgain); nEnd = System.currentTimeMillis()) {
+        for (; (nEnd - nStart <= (long) 2 * 1000); nEnd = System.currentTimeMillis()) {
             boolean flag1 = false;
             int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
             if (rc_status1[0] == S_RC_SUCCESS) {
@@ -247,12 +246,9 @@ public class CabinetCtrlByDS {
 
             flag = flag1 && flag2;
 
-            if (!flag) {
-                bTryAgain = true;
-            } else {
+            if (flag) {
                 break;
             }
-
         }
 
         //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
