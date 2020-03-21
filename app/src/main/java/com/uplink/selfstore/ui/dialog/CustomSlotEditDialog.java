@@ -304,7 +304,7 @@ public class CustomSlotEditDialog extends Dialog {
                 _this.dismiss();
                 cabinetCtrlByDS.disConnect();
                 cabinetCtrlByZS.disConnect();
-                scanMidCtrl.disconnect();
+                scanMidCtrl.disConnect();
             }
         });
 

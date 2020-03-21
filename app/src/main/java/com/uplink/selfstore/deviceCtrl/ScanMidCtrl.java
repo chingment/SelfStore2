@@ -69,7 +69,7 @@ public class ScanMidCtrl {
         }
     }
 
-    public void disconnect() {
+    public void disConnect() {
         try {
             if (this.out != null) {
                 this.out.close();

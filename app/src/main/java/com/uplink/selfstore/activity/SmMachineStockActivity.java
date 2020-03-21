@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -262,7 +263,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             for (int j = 0; j < colLength; j++) {
                 //tv用于显示
                 final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
-
+                LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
                 TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
 
                 TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
@@ -315,7 +316,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         GradientDrawable drawable = new GradientDrawable();
                         drawable.setCornerRadius(0);
                         drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
-                        convertView.setBackgroundDrawable(drawable);
+                        tmp_wapper.setBackgroundDrawable(drawable);
                     }
                 }
 
@@ -372,6 +373,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 //tv用于显示
                 final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
+                LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
+
                 TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
 
                 TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
@@ -424,7 +427,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         GradientDrawable drawable = new GradientDrawable();
                         drawable.setCornerRadius(0);
                         drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
-                        convertView.setBackgroundDrawable(drawable);
+                        tmp_wapper.setBackgroundDrawable(drawable);
                     }
                 }
 
@@ -458,6 +461,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         if(cabinetCtrlByDS!=null) {
             cabinetCtrlByDS.disConnect();
         }
+        
     }
 
     @Override

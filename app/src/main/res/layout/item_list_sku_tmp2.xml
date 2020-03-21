@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:descendantFocusability="blocksDescendants"
+    android:padding="@dimen/size_1"
     >
 
 
     <LinearLayout
+        android:id="@+id/tmp_wapper"
         android:layout_width="@dimen/size_46"
         android:layout_height="wrap_content"
         android:gravity="center"

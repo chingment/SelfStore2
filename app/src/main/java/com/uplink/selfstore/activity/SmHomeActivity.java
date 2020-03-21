@@ -13,6 +13,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
@@ -43,12 +44,14 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
     private static final String TAG = "SmHomeActivity";
     private CustomConfirmDialog confirmDialog;
     private CabinetCtrlByDS cabinetCtrlByDS;
+    private CabinetCtrlByZS cabinetCtrlByZS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smhome);
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
 
         setNavTtile(this.getResources().getString(R.string.aty_smhome_navtitle));
         initView();
@@ -94,7 +97,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         sendBroadcast(it);
                         break;
                     case "fun.door":
+
                         cabinetCtrlByDS.doorControl();
+
+                        //cabinetCtrlByZS.doorControl();
+
                         break;
                     case "fun.exitmanager":
 
@@ -141,7 +148,6 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         confirmDialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 confirmDialog.dismiss();
             }
         });
@@ -274,6 +280,14 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         super.onDestroy();
         if (confirmDialog != null && confirmDialog.isShowing()) {
             confirmDialog.cancel();
+        }
+
+        if(cabinetCtrlByZS!=null){
+            cabinetCtrlByZS.disConnect();
+        }
+
+        if(cabinetCtrlByDS!=null){
+            cabinetCtrlByDS.disConnect();
         }
     }
 }
