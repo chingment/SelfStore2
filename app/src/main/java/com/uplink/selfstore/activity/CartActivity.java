@@ -429,6 +429,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
 
+        List<CartSkuBean> new_cartSkus=new ArrayList<>();
 
         CartStatisticsBean statistics = new CartStatisticsBean();
         int sumQuantity = 0;
@@ -439,9 +440,14 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 if (productSku != null) {
                     sumQuantity += bean.getQuantity();
                     sumSalesPrice += bean.getQuantity() * productSku.getSalePrice();
+
+                    new_cartSkus.add(bean);
                 }
             }
         }
+
+        AppCacheManager.setCartSkus(new_cartSkus);
+
 
         statistics.setSumQuantity(sumQuantity);
         statistics.setSumSalesPrice(sumSalesPrice);
