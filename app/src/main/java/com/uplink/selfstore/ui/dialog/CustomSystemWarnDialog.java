@@ -68,8 +68,7 @@ public class CustomSystemWarnDialog extends Dialog {
 
     public void setCsrPhoneNumber(String csrPhoneNumber) {
 
-        if(StringUtil.isEmptyNotNull(csrPhoneNumber))
-        {
+        if(StringUtil.isEmptyNotNull(csrPhoneNumber)) {
             this.txt_csrPhoneNumber.setText("");
             this.layout_csrPhoneNumber.setVisibility(View.GONE);
         }
@@ -81,17 +80,18 @@ public class CustomSystemWarnDialog extends Dialog {
 
     public void setCsrHelpTip(String csrHelpTip) {
 
+        String html = "<html><head><title></title></head><body>"
+                + csrHelpTip
+                + "</body></html>";
+
+        this.wv_csrHelpTips.loadData(html, "text/html", "uft-8");
+
         if(StringUtil.isEmptyNotNull(csrHelpTip))
         {
-            this.txt_csrPhoneNumber.setText("");
             this.wv_csrHelpTips.setVisibility(View.GONE);
         }
         else {
-            String html = "<html><head><title></title></head><body>"
-                    + csrHelpTip
-                    + "</body></html>";
 
-            this.wv_csrHelpTips.loadData(html, "text/html", "uft-8");
             this.wv_csrHelpTips.setVisibility(View.VISIBLE);
         }
     }
