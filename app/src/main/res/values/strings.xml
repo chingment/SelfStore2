@@ -11,6 +11,8 @@
     <string name="custom_date_picker_hour">时</string>
     <string name="custom_date_picker_minute">分</string>
     <string name="tips_hanlding">处理中...</string>
+    <string name="tips_noproduct">暂无商品</string>
+    <string name="tips_nocanuse">不可使用</string>
     <string name="dlg_title_numkey">请输入取货码</string>
     <string name="aty_smlogin_navtitle">登录</string>
     <string name="aty_smlogin_etph_username">用户名</string>
@@ -69,6 +71,10 @@
     <string name="aty_smhome_confrimtips_rootsys">确定重启系统？</string>
     <string name="aty_smhome_confrimtips_exitmanager">确定退出管理？</string>
     <string name="aty_smhome_confrimtips_door">确定打开/关闭柜门？</string>
+    <string name="aty_smuserinfo_tvtx_fv_clickin">点击录入</string>
+    <string name="aty_smuserinfo_tvtx_fv_hasdata">已录入</string>
+    <string name="aty_smuserinfo_tips_confirmdel">确定要删除静脉指</string>
+    <string name="aty_smuserinfo_tips_puthand">请将手指放入设备,再移开</string>
     <string name="aty_orderdetails_navtitle">订单详情</string>
     <string name="aty_orderdetaiks_tvtx_ordersn">订单号</string>
     <string name="aty_orderdetails_btntx_pickupcompelte">完成取货</string>

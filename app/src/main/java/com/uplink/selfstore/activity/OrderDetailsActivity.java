@@ -281,8 +281,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 currentPickupSku = getCurrentPickupProductSku();
                 if (currentPickupSku != null) {
                     setSendPickup(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId());
-
-
                 } else {
                     setPickupCompleteDrawTips();
                 }

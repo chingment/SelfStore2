@@ -299,7 +299,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
 
                 if (slot.getProductSkuId() == null) {
-                    txt_name.setText("暂无商品");
+                    txt_name.setText(R.string.tips_noproduct);
                     txt_sellQuantity.setText("0");
                     txt_lockQuantity.setText("0");
                     txt_sumQuantity.setText("0");
@@ -404,11 +404,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 if (slot.getProductSkuId() == null) {
                     if(col.isCanUse()) {
-                        txt_name.setText("暂无商品");
+                        txt_name.setText(R.string.tips_noproduct);
                     }
                     else {
                         convertView.setVisibility(View.INVISIBLE);
-                        txt_name.setText("不可使用");
+                        txt_name.setText(R.string.tips_nocanuse);
                     }
 
                     txt_sellQuantity.setText("0");
@@ -519,7 +519,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         params.put("machineId", getMachine().getId());
         params.put("cabinetId",String.valueOf(cabinet.getId()));
 
-        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, "正在获取库存", new HttpResponseHandler() {
+        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

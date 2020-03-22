@@ -277,6 +277,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                         }
                     }
 
+                    AppCacheManager.setCartSkus(null);
+
                     setTips(3, getAppContext().getString(R.string.aty_initdata_tips_settingmachinesuccess));
                 } else {
                     setTips(2, getAppContext().getString(R.string.aty_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());

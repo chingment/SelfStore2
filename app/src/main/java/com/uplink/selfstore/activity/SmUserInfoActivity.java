@@ -109,7 +109,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, String> params = new HashMap<>();
 
-        getByMy(Config.URL.own_GetInfo, params, false, "正在加载中", new HttpResponseHandler() {
+        getByMy(Config.URL.own_GetInfo, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -124,11 +124,11 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     txt_FullName.setText(d.getFullName());
 
                     if(d.getFingerVeinCount()==0){
-                        txt_FingerVein.setText("点击录入");
+                        txt_FingerVein.setText(R.string.aty_smuserinfo_tvtx_fv_clickin);
                         btn_DelFingerVein.setVisibility(View.GONE);
                     }
                     else {
-                        txt_FingerVein.setText("已录入");
+                        txt_FingerVein.setText(R.string.aty_smuserinfo_tvtx_fv_hasdata);
                         btn_DelFingerVein.setVisibility(View.VISIBLE);
                     }
                 }
@@ -179,11 +179,11 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.btn_DelFingerVein:
                     confirmDialog.getTipsImage().setVisibility(View.GONE);
-                    confirmDialog.getTipsText().setText("确定要删除静脉指？");
+                    confirmDialog.getTipsText().setText(R.string.aty_smuserinfo_tvtx_fv_clickin);
                     confirmDialog.show();
                     break;
                 case R.id.txt_FingerVein:
-                    dialog_FingerVein.getTxtMessage().setText("请将手指放入设备,再移开");
+                    dialog_FingerVein.getTxtMessage().setText(R.string.aty_smuserinfo_tips_puthand);
                     dialog_FingerVein.startCollect();
                     dialog_FingerVein.show();
                     break;
@@ -206,7 +206,6 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
-                //showToast(rt.getMessage());
                 dialog_FingerVein.getTxtMessage().setText(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
                     getInfo();
