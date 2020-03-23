@@ -1,13 +1,7 @@
 package com.uplink.selfstore.deviceCtrl;
 
-import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.uplink.selfstore.model.ZSCabBoxBean;
-import com.uplink.selfstore.model.ResultBean;
-import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
