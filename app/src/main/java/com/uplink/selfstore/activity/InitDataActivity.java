@@ -16,11 +16,8 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
-import com.uplink.selfstore.deviceCtrl.CabinetMidByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
-import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.LogBean;
-import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
@@ -36,24 +33,19 @@ import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
-import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.my.MyListView;
-import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
-import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
 public class InitDataActivity extends BaseFragmentActivity implements View.OnClickListener {
-    private final String TAG = "InitDataActivity";
+    private static final String TAG = "InitDataActivity";
 
     private Handler handler_msg;
     private Button btn_retry;
@@ -150,12 +142,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             @Override
             public boolean handleMessage(Message msg) {
                 String content=msg.obj.toString();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-                String dateTime = sdf.format(new Date());
                 loading_msg.setText(msg.obj.toString());
 
                 LogBean log=new LogBean();
-                log.setDateTime(dateTime);
+                log.setDateTime(DateUtil.getStringDate() );
                 log.setContent(content);
                 logs.add(log);
 

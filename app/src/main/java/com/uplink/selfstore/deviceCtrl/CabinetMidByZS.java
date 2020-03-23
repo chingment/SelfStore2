@@ -4,6 +4,7 @@ import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.model.ResultBean;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
@@ -11,13 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import android_serialport_api.SerialPort;
 
@@ -61,7 +56,6 @@ public class CabinetMidByZS {
                     readThread = new ReadThread();
                     readThread.start();
                 }
-
 
                 return RC_SUCCESS;
             } catch (SecurityException var4) {
@@ -143,53 +137,35 @@ public class CabinetMidByZS {
         public void run() {
             super.run();
             while (!isReadStop) {
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-                String dateTime = sdf.format(new Date());
-//
-//                try
-//                {
-//                    if (in == null) return;
-//                    byte[] buffer=new byte[512];
-//                    int size = in.read(buffer);
-//                    if (size > 0){
-//                        onDataReceiveListener.onSendLog("["+dateTime+"] size:"+size);
-//                    }
-//                    try
-//                    {
-//                        Thread.sleep(50);//延时50ms
-//                    } catch (InterruptedException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                } catch (Throwable e)
-//                {
-//                    e.printStackTrace();
-//                    return;
-//                }
-
                 try {
-                    if (in == null) return;
-
-                    int size;
-
-                    byte[] buffer = new byte[512];
-                    size = in.read(buffer);
-
-                    if (size > 0 && buffer_List.size() < 11) {
-                        for (int i = 0; i < size; i++) {
-                            buffer_List.add(buffer[i]);
-                        }
+                    if(in==null) {
+                        LogUtil.i(TAG,"[" + DateUtil.getStringDate() + "] in is null");
                     }
+                    else {
+                        LogUtil.i(TAG,"[" + DateUtil.getStringDate() + "] in is not null");
+                        int size;
 
+                        byte[] buffer = new byte[512];
+                        size = in.read(buffer);
 
-                    if (buffer_List.size() == 11) {
-                        byte[] by = new byte[11];
-                        for (int i = 0; i < buffer_List.size(); i++) {
-                            by[i] = buffer_List.get(i);
+                        LogUtil.i(TAG, "[" + DateUtil.getStringDate()  + "] in data size:" + size);
+
+                        if (size > 0 && buffer_List.size() < 11) {
+                            for (int i = 0; i < size; i++) {
+                                buffer_List.add(buffer[i]);
+                            }
                         }
-                        onDataReceiveListener.onDataReceive(by);
-                        buffer_List.clear();
+
+
+                        if (buffer_List.size() == 11) {
+                            byte[] by = new byte[11];
+                            for (int i = 0; i < buffer_List.size(); i++) {
+                                by[i] = buffer_List.get(i);
+                            }
+                            onDataReceiveListener.onDataReceive(by);
+                            buffer_List.clear();
+                        }
+
                     }
 
                     Thread.sleep(20L);
