@@ -201,30 +201,36 @@ public class CustomSlotEditDialog extends Dialog {
                                     customDialogRunning.setProgressText("取货就绪成功");
                                 }
                                 break;
-                            case 3://取货中
-                                if (customDialogRunning != null) {
-                                    customDialogRunning.setProgressText("正在取货中..请稍等");
-                                    pickupEventNotify(productSkuId, slotId, 3012, "发起取货", null);
+//                            case 3://取货中
+//                                if (customDialogRunning != null) {
+//                                    customDialogRunning.setProgressText("正在取货中..请稍等");
+//                                    pickupEventNotify(productSkuId, slotId, 3012, "发起取货", null);
+//                                }
+//                                mContext.showToast(message);
+//                                break;
+                            case 3:
+                            case 4:
+                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+                                    customDialogRunning.cancelDialog();
                                 }
-                                mContext.showToast(message);
-                                break;
-                            case 4://反馈成功
+                                mContext.showToast("取货完成");
+                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
 
-                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
-                                if (result != null) {
-                                    if (result.getCabBoxs() != null) {
-                                        ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(slotId));
-                                        if (zsCabBoxBean != null) {
-                                            if (zsCabBoxBean.isOpen()) {
-                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                                    customDialogRunning.cancelDialog();
-                                                }
-                                                mContext.showToast("取货完成");
-                                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
-                                            }
-                                        }
-                                    }
-                                }
+//                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
+//                                if (result != null) {
+//                                    if (result.getCabBoxs() != null) {
+//                                        ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(slotId));
+//                                        if (zsCabBoxBean != null) {
+//                                            if (zsCabBoxBean.isOpen()) {
+//                                                if (customDialogRunning != null && customDialogRunning.isShowing()) {
+//                                                    customDialogRunning.cancelDialog();
+//                                                }
+//                                                mContext.showToast("取货完成");
+//                                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
+//                                            }
+//                                        }
+//                                    }
+//                                }
 
                                 break;
                             case 5://取货超时

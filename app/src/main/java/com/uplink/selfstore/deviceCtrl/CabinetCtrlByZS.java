@@ -15,7 +15,7 @@ public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
     private static CabinetCtrlByZS mCabinetCtrlByZS= null;
 
-    private static String ComId="ttyS1";
+    private static String ComId="ttymxc3";
     private int nBaudrate=115200;
     private Handler mHandler = null;
     public static final int MESSAGE_WHAT_ONEUNLOCK = 1;

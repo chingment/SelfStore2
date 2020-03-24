@@ -104,10 +104,13 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
+
         appContext = (AppContext) getApplication();
         customDialogLoading = new CustomDialogLoading(this);
-        //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
-//
+
+
         AppManager.getAppManager().addActivity(this);
 
         if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {

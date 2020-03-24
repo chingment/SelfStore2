@@ -229,25 +229,32 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 2://启动就绪成功
                                 curpickupsku_tip2.setText("取货就绪成功..请稍等");
                                 break;
-                            case 3://取货中
-                                curpickupsku_tip2.setText("正在取货中..请稍等");
-                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", null);
-                                break;
+//                            case 3://取货中
+//                                curpickupsku_tip2.setText("正在取货中..请稍等");
+//                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", null);
+//                                break;
+                            case 3:
                             case 4://反馈成功
-                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
-                                if (result != null) {
-                                    if (result.getCabBoxs() != null) {
-                                        ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(currentPickupSku.getSlotId()));
-                                        if (zsCabBoxBean != null) {
-                                            if (zsCabBoxBean.isOpen()) {
-                                                PickupResult pickupResult = new PickupResult();
-                                                pickupResult.setPickupComplete(true);
-                                                curpickupsku_tip2.setText("取货完成");
-                                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
-                                            }
-                                        }
-                                    }
-                                }
+
+                                PickupResult pickupResult = new PickupResult();
+                                pickupResult.setPickupComplete(true);
+                                curpickupsku_tip2.setText("取货完成");
+                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
+
+//                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
+//                                if (result != null) {
+//                                    if (result.getCabBoxs() != null) {
+//                                        ZSCabBoxBean zsCabBoxBean = result.getCabBoxs().get(Integer.valueOf(currentPickupSku.getSlotId()));
+//                                        if (zsCabBoxBean != null) {
+//                                            if (zsCabBoxBean.isOpen()) {
+//                                                PickupResult pickupResult = new PickupResult();
+//                                                pickupResult.setPickupComplete(true);
+//                                                curpickupsku_tip2.setText("取货完成");
+//                                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 4000, "取货完成", pickupResult);
+//                                            }
+//                                        }
+//                                    }
+//                                }
                                 break;
                             case 5://取货超时
                                 pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 6000, message, null);

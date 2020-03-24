@@ -140,7 +140,13 @@ public class CabinetMidByZS {
                         int size;
 
                         byte[] buffer = new byte[512];
-                        size = in.read(buffer);
+
+                        int av= in.available();
+
+                        LogUtil.i(TAG, "[" + DateUtil.getStringDate()  + "] in data available:" + av);
+
+
+                        size = in.read(buffer,0,buffer.length);
 
                         LogUtil.i(TAG, "[" + DateUtil.getStringDate()  + "] in data size:" + size);
 

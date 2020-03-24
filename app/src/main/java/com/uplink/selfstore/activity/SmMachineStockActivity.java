@@ -90,9 +90,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         if (bundle.getSerializable("result") != null) {
                             result = (ScanSlotResult) bundle.getSerializable("result");
                         }
-                        showToast(message);
                         switch (status) {
                             case 1:
+                                showToast(message);
                                 //异常消息
                                 if(customDialogRunning!=null) {
                                     if(customDialogRunning.isShowing()) {
@@ -117,7 +117,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 4://扫描成功
                                 if (result != null) {
                                     scanSlotsEventNotify(4000,"扫描成功,结果:"+ InterUtil.arrayTransformString(result.rowColLayout,",")+",用时:"+result.getUseTime());
-
                                     DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
                                     sSCabRowColLayoutBean.setRows(result.rowColLayout);
                                     String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
