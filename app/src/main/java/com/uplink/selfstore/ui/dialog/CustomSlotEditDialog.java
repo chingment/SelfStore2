@@ -712,9 +712,8 @@ public class CustomSlotEditDialog extends Dialog {
     public void show() {
         super.show();
 
-
         scanMidCtrl.connect();
-
+        scanMidCtrl.setMessageWhat(ScanMidCtrl.MESSAGE_WHAT_SCANRESULT);
         if(!scanMidCtrl.isConnect()){
             mContext.showToast("扫描器连接失败");
         }

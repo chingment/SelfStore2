@@ -2,6 +2,8 @@ package com.uplink.selfstore.deviceCtrl;
 
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -102,11 +104,7 @@ public class CabinetMidByZS {
             return;
         }
 
-        String strLog = String.format("write[%d]:", data.length);
-
-        for (int i = 0; i < data.length; ++i) {
-            strLog = strLog + String.format("%02x ", data[i]);
-        }
+        String strLog = ChangeToolUtils.byteArrToHex(data);
 
         LogUtil.v(TAG, strLog);
     }

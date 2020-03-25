@@ -26,6 +26,8 @@ public class ScanMidCtrl {
 
     public static final int MESSAGE_WHAT_SCANRESULT=1;
 
+    private int message_what=-1;
+
     private ReadThread readThread=null;
 
     private ScanMidCtrl() {
@@ -152,11 +154,16 @@ public class ScanMidCtrl {
     private void sendHandlerMessage(String result) {
         if(scanHandler!=null) {
             Message m = new Message();
-            m.what = MESSAGE_WHAT_SCANRESULT;
+            m.what = message_what;
             Bundle data=new Bundle();
             data.putString("result",result);
             m.setData(data);
             scanHandler.sendMessage(m);
         }
+    }
+
+    public void  setMessageWhat(int message_what){
+
+        this.message_what=message_what;
     }
 }

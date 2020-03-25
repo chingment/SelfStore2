@@ -114,6 +114,9 @@ public class CabinetCtrlByZS {
 
     public void queryLockStatus(int plate,int num) {
 
+
+        mCabinetMidByZS.queryLockStatus(plate,num);
+
         curMessageWhat=MESSAGE_WHAT_QUERYLOCKSTATUS;
 
         int rc_connect = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
