@@ -313,13 +313,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
         }
 
-        if(!Config.IS_BUILD_DEBUG) {
-            cabinetCtrlByDS.connect();
-            if (!cabinetCtrlByDS.isIdle()) {
-                showToast("设备正在忙,请稍后再点击");
-                return;
-            }
-        }
+//        if(!Config.IS_BUILD_DEBUG) {
+//            cabinetCtrlByDS.connect();
+//            if (!cabinetCtrlByDS.isIdle()) {
+//                showToast("设备正在忙,请稍后再点击");
+//                return;
+//            }
+//        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", this.getMachine().getId() + "");
