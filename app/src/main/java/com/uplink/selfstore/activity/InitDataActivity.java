@@ -102,10 +102,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent heartbeatService = new Intent(this, HeartbeatService.class);
         startService(heartbeatService);
 
-
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
-
 
         FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 

@@ -360,10 +360,6 @@ public class CustomSlotEditDialog extends Dialog {
                             return;
                         }
 
-                        if(!cabinetCtrlByDS.isIdle()) {
-                            mContext.showToast("机器不在空闲状态");
-                            return;
-                        }
 
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
                         cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
