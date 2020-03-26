@@ -227,7 +227,7 @@ public class CabinetCtrlByDS {
         long nStart = System.currentTimeMillis();
         long nEnd = System.currentTimeMillis();
 
-        for (; (nEnd - nStart <= (long) 2 * 1000); nEnd = System.currentTimeMillis()) {
+        for (; (nEnd - nStart <= (long) 10 * 1000); nEnd = System.currentTimeMillis()) {
             boolean flag1 = false;
             int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
             if (rc_status1[0] == S_RC_SUCCESS) {
@@ -324,7 +324,7 @@ public class CabinetCtrlByDS {
         }
     }
 
-    private class ScanSlotListenerThread extends Thread {
+    public class ScanSlotListenerThread extends Thread {
 
         @Override
         public void run() {
@@ -472,7 +472,7 @@ public class CabinetCtrlByDS {
         }
     }
 
-    private class PickupListenerThread extends Thread {
+    public class PickupListenerThread extends Thread {
 
         private int mode = -1;
         private int row = -1;
@@ -491,18 +491,25 @@ public class CabinetCtrlByDS {
             if (!isConnect) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
                 sendPickupHandlerMessage(5, "启动前，检查设备连接失败", null);
+                interrupt();
                 return;
             }
 
             if (!isNormarl()) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
                 sendPickupHandlerMessage(5, "启动前，检查设备不在线", null);
+                interrupt();
                 return;
+            }
+
+            if (!isIdle()) {
+                LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
             }
 
             if (!isIdle()) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
                 sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
+                interrupt();
                 return;
             }
 
@@ -515,7 +522,7 @@ public class CabinetCtrlByDS {
                     break;
                 }
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -524,6 +531,7 @@ public class CabinetCtrlByDS {
             if (!isgoZero) {
                 LogUtil.i(TAG, "取货流程监听：启动回原点失败");
                 sendPickupHandlerMessage(5, "启动回原点失败", null);
+                interrupt();
                 return;
             }
 
@@ -555,6 +563,7 @@ public class CabinetCtrlByDS {
             if (!bCanAutoStart) {
                 LogUtil.i(TAG, "取货流程监听：取货回原点失败");
                 sendPickupHandlerMessage(5, "取货回原点失败", null);
+                interrupt();
                 return;
             }
 
@@ -578,6 +587,7 @@ public class CabinetCtrlByDS {
             if (!isAutoStart) {
                 LogUtil.i(TAG, "取货流程监听：取货启动失败");
                 sendPickupHandlerMessage(5, "尝试3次取货启动失败", null);
+                interrupt();
             } else {
                 cmd_PickupIsStopListener = false;
 

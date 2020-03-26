@@ -105,7 +105,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
-        cabinetCtrlByZS.queryLockStatus(2,1);
+
+
         FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
 
