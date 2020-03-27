@@ -3,6 +3,7 @@ package com.uplink.selfstore.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -23,21 +25,26 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private static final String TAG = "SmHardwareActivity";
 
-//    private UVCCameraProxy mUVCCamera;
-//    private Button mCameraOpenByChuHuoKou;
-//    private Button mCameraOpenByJiGui;
-//    private Button mCameraClose;
-//    private Button mCameraCaptureStill;
-//    private Button mCameraRecord;
-//    private Button mCameraTest;
-//    private TextureView mCameraTextureView;
+    //摄像头
+    private TextureView rennian_camera_textureView;
+    private Button renlian_camera_btn_open;
+    private Button renlian_camera_btn_close;
+    private Button renlian_camera_btn_captureStill;
+    private Button renlian_camera_btn_record;
 
-//    private int mCameraPreviewWidth=640;
-//    private int mCameraPreviewHeight=480;
-//
-//    private CabinetCtrlByDS cabinetCtrlByDS=null;
-//    private Button btnMachineGoZero;
+    private TextureView jigui_camera_textureView;
+    private Button jigui_camera_btn_open;
+    private Button jigui_camera_btn_close;
+    private Button jigui_camera_btn_captureStill;
+    private Button jigui_camera_btn_record;
 
+    private TextureView chuhuokou_camera_textureView;
+    private Button chuhuokou_camera_btn_open;
+    private Button chuhuokou_camera_btn_close;
+    private Button chuhuokou_camera_btn_captureStill;
+    private Button chuhuokou_camera_btn_record;
+
+    private CabinetCtrlByDS cabinetCtrlByDS=null;
 
     //中顺硬件诊断
     private LinearLayout zs_hd_layout;
@@ -73,12 +80,46 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //            }
 //        }));
 
+        initViewByCamera();
         initViewByZS();
 
         tv_log=(TextView) findViewById(R.id.tv_log);
 
     }
 
+
+    private void  initViewByCamera(){
+
+        rennian_camera_textureView= (TextureView) findViewById(R.id.rennian_camera_textureView);
+        renlian_camera_btn_open= (Button) findViewById(R.id.renlian_camera_btn_open);
+        renlian_camera_btn_open.setOnClickListener(this);
+        renlian_camera_btn_close= (Button) findViewById(R.id.renlian_camera_btn_close);
+        renlian_camera_btn_close.setOnClickListener(this);
+        renlian_camera_btn_captureStill= (Button) findViewById(R.id.renlian_camera_btn_captureStill);
+        renlian_camera_btn_captureStill.setOnClickListener(this);
+        renlian_camera_btn_record= (Button) findViewById(R.id.renlian_camera_btn_record);
+        renlian_camera_btn_record.setOnClickListener(this);
+
+        jigui_camera_textureView= (TextureView) findViewById(R.id.jigui_camera_textureView);
+        jigui_camera_btn_open= (Button) findViewById(R.id.jigui_camera_btn_open);
+        jigui_camera_btn_open.setOnClickListener(this);
+        jigui_camera_btn_close= (Button) findViewById(R.id.jigui_camera_btn_close);
+        jigui_camera_btn_close.setOnClickListener(this);
+        jigui_camera_btn_captureStill= (Button) findViewById(R.id.jigui_camera_btn_captureStill);
+        jigui_camera_btn_captureStill.setOnClickListener(this);
+        jigui_camera_btn_record= (Button) findViewById(R.id.jigui_camera_btn_record);
+        jigui_camera_btn_record.setOnClickListener(this);
+
+        chuhuokou_camera_textureView= (TextureView) findViewById(R.id.chuhuokou_camera_textureView);
+        chuhuokou_camera_btn_open= (Button) findViewById(R.id.chuhuokou_camera_btn_open);
+        chuhuokou_camera_btn_open.setOnClickListener(this);
+        chuhuokou_camera_btn_close= (Button) findViewById(R.id.chuhuokou_camera_btn_close);
+        chuhuokou_camera_btn_close.setOnClickListener(this);
+        chuhuokou_camera_btn_captureStill= (Button) findViewById(R.id.chuhuokou_camera_btn_captureStill);
+        chuhuokou_camera_btn_captureStill.setOnClickListener(this);
+        chuhuokou_camera_btn_record= (Button) findViewById(R.id.chuhuokou_camera_btn_record);
+        chuhuokou_camera_btn_record.setOnClickListener(this);
+    }
 
     private void  initViewByZS(){
         zs_hd_layout= (LinearLayout) findViewById(R.id.zs_hd_layout);

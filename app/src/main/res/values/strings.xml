@@ -115,4 +115,11 @@
     <string name="zs_hd_tvtx_numid">箱子ID:</string>
     <string name="zs_hd_btntx_testopen">测试打开</string>
     <string name="zs_hd_btntx_teststatus">查询状态</string>
+    <string name="camera_btn_open">打开</string>
+    <string name="camera_btn_close">关闭</string>
+    <string name="camera_btn_captureStill">拍照</string>
+    <string name="camera_btn_record">录像</string>
+    <string name="camera_title_renlian">人脸摄像头"</string>
+    <string name="camera_title_jigui">机柜"</string>
+    <string name="camera_title_chuhuokou">出货口"</string>
 </resources>
