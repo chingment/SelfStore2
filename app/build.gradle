@@ -26,10 +26,10 @@ android {
 
     defaultConfig {
         applicationId "com.uplink.selfstore"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 27
-        versionCode 68
-        versionName "1.0.6.8"
+        versionCode 69
+        versionName "1.0.6.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
     }
@@ -105,7 +105,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.alibaba:fastjson:1.2.46'
     implementation 'com.google.zxing:core:3.2.1'
-    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:crashreport:3.1.9'
     implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
     testImplementation 'junit:junit:4.12'

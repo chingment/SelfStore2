@@ -92,11 +92,18 @@ public class CabinetCtrlByDS {
         } finally {
             return isConnect;
         }
-
     }
+
+    public void reConnect(){
+        if(sym!=null) {
+            sym.Connect(CabinetCtrlByDS.ComId, 9600);
+        }
+    }
+
 
     public void disConnect() {
         if (sym != null) {
+            sym.SN_MV_EmgStop();
             sym.disconnect();
         }
         isConnect = false;
@@ -502,15 +509,25 @@ public class CabinetCtrlByDS {
                 return;
             }
 
-            if (!isIdle()) {
+            boolean isIdle=!isIdle();
+            if (!isIdle) {
                 LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
+                reConnect();//尝试重新连接
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            if (!isIdle()) {
-                LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-                sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
-                interrupt();
-                return;
+            if(!isIdle) {
+                //再次判断空闲状态
+                if (!isIdle()) {
+                    LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
+                    sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
+                    interrupt();
+                    return;
+                }
             }
 
             //尝试3次回原点

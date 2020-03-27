@@ -42,19 +42,19 @@
                 <LinearLayout
                     android:gravity="center_horizontal|center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_140">
+                    android:layout_height="@dimen/size_120">
 
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
-                        android:layout_width="@dimen/size_140"
+                        android:layout_width="@dimen/size_120"
                         android:background="@color/black"
-                        android:layout_height="@dimen/size_140">
+                        android:layout_height="@dimen/size_120">
 
                         <TextureView
-                            android:id="@+id/rennian_camera_textureView"
+                            android:id="@+id/rennian_camera_surfaceView"
                             android:background="@null"
-                            android:layout_width="@dimen/size_140"
-                            android:layout_height="@dimen/size_140" />
+                            android:layout_width="@dimen/size_120"
+                            android:layout_height="@dimen/size_120" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -64,27 +64,21 @@
                     android:layout_height="@dimen/size_30">
                     <Button
                         android:id="@+id/renlian_camera_btn_open"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_open"/>
                     <Button
-                        android:id="@+id/renlian_camera_btn_close"
-                        android:layout_width="@dimen/size_50"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
-                        android:text="@string/camera_btn_close"/>
-                    <Button
                         android:id="@+id/renlian_camera_btn_captureStill"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_captureStill"/>
                     <Button
                         android:id="@+id/renlian_camera_btn_record"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_record"/>
                 </LinearLayout>
             </LinearLayout>
@@ -111,19 +105,19 @@
                 <LinearLayout
                     android:gravity="center_horizontal|center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_140">
+                    android:layout_height="@dimen/size_120">
 
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
-                        android:layout_width="@dimen/size_140"
+                        android:layout_width="@dimen/size_120"
                         android:background="@color/black"
-                        android:layout_height="@dimen/size_140">
+                        android:layout_height="@dimen/size_120">
 
                         <TextureView
-                            android:id="@+id/jigui_camera_textureView"
+                            android:id="@+id/jigui_camera_surfaceView"
                             android:background="@null"
-                            android:layout_width="@dimen/size_140"
-                            android:layout_height="@dimen/size_140" />
+                            android:layout_width="@dimen/size_120"
+                            android:layout_height="@dimen/size_120" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -133,27 +127,21 @@
                     android:layout_height="@dimen/size_30">
                     <Button
                         android:id="@+id/jigui_camera_btn_open"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_open"/>
                     <Button
-                        android:id="@+id/jigui_camera_btn_close"
-                        android:layout_width="@dimen/size_50"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
-                        android:text="@string/camera_btn_close"/>
-                    <Button
                         android:id="@+id/jigui_camera_btn_captureStill"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_captureStill"/>
                     <Button
                         android:id="@+id/jigui_camera_btn_record"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_record"/>
                 </LinearLayout>
             </LinearLayout>
@@ -180,19 +168,19 @@
                 <LinearLayout
                     android:gravity="center_horizontal|center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_140">
+                    android:layout_height="@dimen/size_120">
 
                     <LinearLayout
                         android:gravity="center_horizontal|center_vertical"
-                        android:layout_width="@dimen/size_140"
+                        android:layout_width="@dimen/size_120"
                         android:background="@color/black"
-                        android:layout_height="@dimen/size_140">
+                        android:layout_height="@dimen/size_120">
 
                         <TextureView
-                            android:id="@+id/chuhuokou_camera_textureView"
+                            android:id="@+id/chuhuokou_camera_surfaceView"
                             android:background="@null"
-                            android:layout_width="@dimen/size_140"
-                            android:layout_height="@dimen/size_140" />
+                            android:layout_width="@dimen/size_120"
+                            android:layout_height="@dimen/size_120" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -202,27 +190,21 @@
                     android:layout_height="@dimen/size_30">
                     <Button
                         android:id="@+id/chuhuokou_camera_btn_open"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_open"/>
                     <Button
-                        android:id="@+id/chuhuokou_camera_btn_close"
-                        android:layout_width="@dimen/size_50"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
-                        android:text="@string/camera_btn_close"/>
-                    <Button
                         android:id="@+id/chuhuokou_camera_btn_captureStill"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_captureStill"/>
                     <Button
                         android:id="@+id/chuhuokou_camera_btn_record"
-                        android:layout_width="@dimen/size_50"
+                        android:layout_width="@dimen/size_38"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/sp_8"
+                        android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_record"/>
                 </LinearLayout>
             </LinearLayout>

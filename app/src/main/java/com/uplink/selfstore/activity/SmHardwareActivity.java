@@ -1,8 +1,12 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +18,14 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.model.ZSCabBoxBean;
+import com.uplink.selfstore.ui.MyCamera;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.HashMap;
+import java.util.concurrent.Semaphore;
 
 
 public class SmHardwareActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -26,23 +33,29 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private static final String TAG = "SmHardwareActivity";
 
     //摄像头
-    private TextureView rennian_camera_textureView;
+    //private Camera  renlian_camera;
+    private CameraSurface renlian_cameraSurface;
+    private TextureView rennian_camera_surfaceView;
     private Button renlian_camera_btn_open;
-    private Button renlian_camera_btn_close;
     private Button renlian_camera_btn_captureStill;
     private Button renlian_camera_btn_record;
+    private SurfaceHolder renlian_camera_surfaceholder;
 
-    private TextureView jigui_camera_textureView;
+    //private Camera jigui_camera;
+    private CameraSurface jigu_cameraSurface;
+    private TextureView jigui_camera_surfaceView;
     private Button jigui_camera_btn_open;
-    private Button jigui_camera_btn_close;
     private Button jigui_camera_btn_captureStill;
     private Button jigui_camera_btn_record;
+    private SurfaceHolder jigui_camera_surfaceholder;
 
-    private TextureView chuhuokou_camera_textureView;
+   // private Camera chuhuokou_camera;
+    private CameraSurface chuhuokou_cameraSurface;
+    private TextureView chuhuokou_camera_surfaceView;
     private Button chuhuokou_camera_btn_open;
-    private Button chuhuokou_camera_btn_close;
     private Button chuhuokou_camera_btn_captureStill;
     private Button chuhuokou_camera_btn_record;
+    private SurfaceHolder chuhuokou_camera_surfaceholder;
 
     private CabinetCtrlByDS cabinetCtrlByDS=null;
 
@@ -56,6 +69,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private CabinetCtrlByZS zs_CabinetCtrlByZS;
 
     private TextView tv_log;
+
+    Semaphore mCameraOpenCloseLock = new Semaphore(1);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,36 +103,43 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     }
 
 
-    private void  initViewByCamera(){
+    private void  initViewByCamera() {
 
-        rennian_camera_textureView= (TextureView) findViewById(R.id.rennian_camera_textureView);
-        renlian_camera_btn_open= (Button) findViewById(R.id.renlian_camera_btn_open);
+        rennian_camera_surfaceView = (TextureView) findViewById(R.id.rennian_camera_surfaceView);
+        //renlian_camera_surfaceholder = rennian_camera_surfaceView.getHolder();
+        //renlian_camera_surfaceholder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        //renlian_camera_surfaceholder.addCallback(new surfaceholderCallbackBack());
+
+
+        renlian_camera_btn_open = (Button) findViewById(R.id.renlian_camera_btn_open);
         renlian_camera_btn_open.setOnClickListener(this);
-        renlian_camera_btn_close= (Button) findViewById(R.id.renlian_camera_btn_close);
-        renlian_camera_btn_close.setOnClickListener(this);
-        renlian_camera_btn_captureStill= (Button) findViewById(R.id.renlian_camera_btn_captureStill);
+        renlian_camera_btn_captureStill = (Button) findViewById(R.id.renlian_camera_btn_captureStill);
         renlian_camera_btn_captureStill.setOnClickListener(this);
-        renlian_camera_btn_record= (Button) findViewById(R.id.renlian_camera_btn_record);
+        renlian_camera_btn_record = (Button) findViewById(R.id.renlian_camera_btn_record);
         renlian_camera_btn_record.setOnClickListener(this);
 
-        jigui_camera_textureView= (TextureView) findViewById(R.id.jigui_camera_textureView);
-        jigui_camera_btn_open= (Button) findViewById(R.id.jigui_camera_btn_open);
+        jigui_camera_surfaceView = (TextureView) findViewById(R.id.jigui_camera_surfaceView);
+        //jigui_camera_surfaceholder = rennian_camera_surfaceView.getHolder();
+        //jigui_camera_surfaceholder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        //jigui_camera_surfaceholder.addCallback(new surfaceholderCallbackBack());
+
+        jigui_camera_btn_open = (Button) findViewById(R.id.jigui_camera_btn_open);
         jigui_camera_btn_open.setOnClickListener(this);
-        jigui_camera_btn_close= (Button) findViewById(R.id.jigui_camera_btn_close);
-        jigui_camera_btn_close.setOnClickListener(this);
-        jigui_camera_btn_captureStill= (Button) findViewById(R.id.jigui_camera_btn_captureStill);
+        jigui_camera_btn_captureStill = (Button) findViewById(R.id.jigui_camera_btn_captureStill);
         jigui_camera_btn_captureStill.setOnClickListener(this);
-        jigui_camera_btn_record= (Button) findViewById(R.id.jigui_camera_btn_record);
+        jigui_camera_btn_record = (Button) findViewById(R.id.jigui_camera_btn_record);
         jigui_camera_btn_record.setOnClickListener(this);
 
-        chuhuokou_camera_textureView= (TextureView) findViewById(R.id.chuhuokou_camera_textureView);
-        chuhuokou_camera_btn_open= (Button) findViewById(R.id.chuhuokou_camera_btn_open);
+        chuhuokou_camera_surfaceView = (TextureView) findViewById(R.id.chuhuokou_camera_surfaceView);
+        //chuhuokou_camera_surfaceholder = rennian_camera_surfaceView.getHolder();
+        //chuhuokou_camera_surfaceholder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        //chuhuokou_camera_surfaceholder.addCallback(new surfaceholderCallbackBack());
+
+        chuhuokou_camera_btn_open = (Button) findViewById(R.id.chuhuokou_camera_btn_open);
         chuhuokou_camera_btn_open.setOnClickListener(this);
-        chuhuokou_camera_btn_close= (Button) findViewById(R.id.chuhuokou_camera_btn_close);
-        chuhuokou_camera_btn_close.setOnClickListener(this);
-        chuhuokou_camera_btn_captureStill= (Button) findViewById(R.id.chuhuokou_camera_btn_captureStill);
+        chuhuokou_camera_btn_captureStill = (Button) findViewById(R.id.chuhuokou_camera_btn_captureStill);
         chuhuokou_camera_btn_captureStill.setOnClickListener(this);
-        chuhuokou_camera_btn_record= (Button) findViewById(R.id.chuhuokou_camera_btn_record);
+        chuhuokou_camera_btn_record = (Button) findViewById(R.id.chuhuokou_camera_btn_record);
         chuhuokou_camera_btn_record.setOnClickListener(this);
     }
 
@@ -187,6 +209,25 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         if (zs_CabinetCtrlByZS != null) {
             zs_CabinetCtrlByZS.disConnect();
         }
+
+
+//        if (renlian_camera != null) {
+//            renlian_camera.stopPreview();
+//            renlian_camera.release();
+//            renlian_camera = null;
+//        }
+//
+//        if (jigui_camera != null) {
+//            jigui_camera.stopPreview();
+//            jigui_camera.release();
+//            jigui_camera = null;
+//        }
+//
+//        if (chuhuokou_camera != null) {
+//            chuhuokou_camera.stopPreview();
+//            chuhuokou_camera.release();
+//            chuhuokou_camera = null;
+//        }
     }
 
     @Override
@@ -197,11 +238,26 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         String str_zs_hd_et_plateid=zs_hd_et_plateid.getText()+"";
         String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
 
-
+        String[] cameraIdList = MyCamera.getCameraIdList(this);
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
                     finish();
+                    break;
+                case R.id.renlian_camera_btn_open:
+
+                    try {
+                        renlian_cameraSurface= new CameraSurface(this, "0");
+                        rennian_camera_surfaceView.setSurfaceTextureListener(renlian_cameraSurface);
+                    }
+                    catch (Exception ex){
+                        showToast("打开人脸摄像头发生异常:"+ex.getMessage());
+                        return;
+                    }
+                    break;
+                case R.id.jigui_camera_btn_open:
+                    break;
+                case R.id.chuhuokou_camera_btn_open:
                     break;
                 case R.id.zs_hd_btn_testopen:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
@@ -272,5 +328,44 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //        } catch (Exception e) {
 //            Log.e(TAG, e.toString());
 //        }
+    }
+
+
+    class CameraSurface implements TextureView.SurfaceTextureListener {
+        MyCamera mMyCamera;
+        String cameraId;
+
+        public CameraSurface(Context context, String cameraId) {
+            mMyCamera = new MyCamera(context, mCameraOpenCloseLock);
+            this.cameraId = cameraId;
+        }
+
+        public void release() {
+            if (mMyCamera != null)
+                mMyCamera.release();
+        }
+
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture texture
+                , int width, int height) {
+            // 当TextureView可用时，打开摄像头
+            if (mMyCamera != null)
+                mMyCamera.openCamera(cameraId, new Surface(texture));
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture texture
+                , int width, int height) {
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture texture) {
+
+            return true;
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture texture) {
+        }
     }
 }
