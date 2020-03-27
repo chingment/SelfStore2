@@ -113,7 +113,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 showToast(message);
                                 break;
                             case 2://取货就绪成功
-                                curPickupSku_Tv_Tip2.setText("取货就绪成功..请稍等");
+                                curPickupSku_Tv_Tip2.setText(message);
                                 break;
                             case 3://取货中
                                 curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
@@ -127,21 +127,18 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 LogUtil.e("取货失败,取货动作超时");
                                 curPickupSku_Tv_Tip2.setText("取货发生异常.");
                                 isHappneException = true;
-                                cabinetCtrlByDS.disConnect();
                                 pickupEventNotify(curPickupSku, 6000, "取货失败，动作超时," + message, pickupResult);
                                 break;
                             case 6://取货失败
                                 LogUtil.e("取货失败,程序异常");
                                 curPickupSku_Tv_Tip2.setText("取货发生异常..");
                                 isHappneException = true;
-                                cabinetCtrlByDS.disConnect();
                                 pickupEventNotify(curPickupSku, 6000, "取货失败，程序发生异常", pickupResult);
                                 break;
                             default:
                                 LogUtil.e("取货失败,程序异常");
                                 curPickupSku_Tv_Tip2.setText("取货发生异常...");
                                 isHappneException = true;
-                                cabinetCtrlByDS.disConnect();
                                 pickupEventNotify(curPickupSku, 6000, "取货失败，未知状态", pickupResult);
                                 break;
                         }
@@ -169,8 +166,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 curPickupSku_Tv_Tip2.setText("取货就绪成功..请稍等");
                                 break;
 //                            case 3://取货中
-//                                curpickupsku_tip2.setText("正在取货中..请稍等");
-//                                pickupEventNotify(currentPickupSku.getId(), currentPickupSku.getCabinetId(), currentPickupSku.getSlotId(), currentPickupSku.getUniqueId(), 3012, "取货中", null);
+//                                curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
+//                                pickupEventNotify(curPickupSku,3012, "取货中", null);
 //                                break;
                             case 3:
                             case 4://反馈成功
@@ -196,10 +193,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //                                }
                                 break;
                             case 5://取货超时
-                                pickupEventNotify(curPickupSku, 6000, "[取货超时]" + message, null);
+                                isHappneException=true;
+                                curPickupSku_Tv_Tip2.setText("取货发生异常..");
+                                pickupEventNotify(curPickupSku, 6000, "取货失败，取货超时," + message, null);
                                 break;
                             case 6://取货失败
-                                pickupEventNotify(curPickupSku, 6000, "[程序异常]取货失败", null);
+                                isHappneException=true;
+                                curPickupSku_Tv_Tip2.setText("取货发生异常...");
+                                pickupEventNotify(curPickupSku, 6000, "取货失败,程序异常", null);
                                 break;
                         }
                         break;
@@ -413,7 +414,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_SystemWarn.show();
                 }
             }
-
             curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");
         }
         else {

@@ -26,8 +26,8 @@ public class CabinetCtrlByDS {
     private boolean isConnect = false;
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
-    private PickupListenerThread pickupListenerThread;
-    private ScanSlotListenerThread scanListenerThread;
+    private PickupThread pickupThread;
+    private ScanSlotThread scanSlotThread;
     private DoorThread doorThread;
     private Handler scanSlotHandler = null;
     private Handler pickupHandler = null;
@@ -103,6 +103,7 @@ public class CabinetCtrlByDS {
 
     public void disConnect() {
         if (sym != null) {
+            reConnect();
             sym.SN_MV_EmgStop();
             sym.disconnect();
         }
@@ -153,8 +154,8 @@ public class CabinetCtrlByDS {
     }
 
     public void scanSlot() {
-        scanListenerThread = new ScanSlotListenerThread();
-        scanListenerThread.start();
+        scanSlotThread = new ScanSlotThread();
+        scanSlotThread.start();
     }
 
     public void goZero() {
@@ -224,8 +225,8 @@ public class CabinetCtrlByDS {
             }
         }
 
-        pickupListenerThread = new PickupListenerThread(mode, row, col);
-        pickupListenerThread.start();
+        pickupThread = new PickupThread(mode, row, col);
+        pickupThread.start();
     }
 
     public boolean isIdle() {
@@ -257,9 +258,6 @@ public class CabinetCtrlByDS {
                 break;
             }
         }
-
-        //  int[] rc_status3 = sym.SN_MV_Get_MotionStatus();
-        //  int[] rc_status4 = sym.SN_MV_Get_ScanStatus();
 
         return flag;
 
@@ -331,7 +329,7 @@ public class CabinetCtrlByDS {
         }
     }
 
-    public class ScanSlotListenerThread extends Thread {
+    public class ScanSlotThread extends Thread {
 
         @Override
         public void run() {
@@ -479,13 +477,13 @@ public class CabinetCtrlByDS {
         }
     }
 
-    public class PickupListenerThread extends Thread {
+    public class PickupThread extends Thread {
 
         private int mode = -1;
         private int row = -1;
         private int col = -1;
 
-        private PickupListenerThread(int mode, int row, int col) {
+        private PickupThread(int mode, int row, int col) {
             this.mode = mode;
             this.row = row;
             this.col = col;
@@ -494,6 +492,9 @@ public class CabinetCtrlByDS {
         @Override
         public void run() {
             super.run();
+
+            sendPickupHandlerMessage(2, "检查设备连接状态中", null);
+
             isConnect = connect();
             if (!isConnect) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
@@ -502,6 +503,8 @@ public class CabinetCtrlByDS {
                 return;
             }
 
+            sendPickupHandlerMessage(2, "设备已连接,检查在线状态中", null);
+
             if (!isNormarl()) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
                 sendPickupHandlerMessage(5, "启动前，检查设备不在线", null);
@@ -509,26 +512,49 @@ public class CabinetCtrlByDS {
                 return;
             }
 
-            boolean isIdle=!isIdle();
-            if (!isIdle) {
-                LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
-                reConnect();//尝试重新连接
+            sendPickupHandlerMessage(2, "设备已在线，检查机器状态中", null);
+
+            boolean isIdle=false;
+
+            for (int i = 0; i < 10; i++) {
+
+                boolean flag1 = false;
+                int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
+                if (rc_status1[0] == S_RC_SUCCESS) {
+                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+                        flag1 = true;
+                    }
+                }
+
+                boolean flag2 = false;
+                int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
+                if (rc_status2[0] == S_RC_SUCCESS) {
+                    if (rc_status2[3] == S_Motor_Idle || rc_status2[3] == S_Motor_Done) {
+                        flag2 = true;
+                    }
+                }
+
+                isIdle = flag1 && flag2;
+
+                if (isIdle) {
+                    break;
+                }
+
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
             if(!isIdle) {
-                //再次判断空闲状态
-                if (!isIdle()) {
-                    LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-                    sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
-                    interrupt();
-                    return;
-                }
+                LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
+                sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
+                interrupt();
+                return;
             }
+
+            sendPickupHandlerMessage(2, "取货准备就绪", null);
 
             //尝试3次回原点
             boolean isgoZero = false;
@@ -554,7 +580,7 @@ public class CabinetCtrlByDS {
 
             LogUtil.i(TAG, "取货流程监听：取货就绪");
 
-            sendPickupHandlerMessage(2, "取货就绪", null);
+            sendPickupHandlerMessage(2, "取货就绪成功..请稍等", null);
 
             long nStart = System.currentTimeMillis();
             long nEnd = System.currentTimeMillis();
@@ -654,8 +680,7 @@ public class CabinetCtrlByDS {
                                             sendPickupHandlerMessage(3, "正在取货中", result);
                                         } else if (rc_flowStatus[3] == S_Motor_Timeout) {
                                             cmd_PickupIsStopListener = true;
-                                            goZero();
-                                            disConnect();
+                                            sym.SN_MV_EmgStop();
                                             LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
                                             sendPickupHandlerMessage(5, "单动作运行取货超时", result);
                                         }
@@ -665,15 +690,13 @@ public class CabinetCtrlByDS {
 
                         } else {
                             cmd_PickupIsStopListener = true;
-                            goZero();
-                            disConnect();
+                            sym.SN_MV_EmgStop();
                             LogUtil.e(TAG, "取货流程监听：整体动作运行取货超时");
                             sendPickupHandlerMessage(5, "整体动作运行取货超时", null);
                         }
                     } catch (Exception ex) {
                         cmd_PickupIsStopListener = true;
-                        goZero();
-                        disConnect();
+                        sym.SN_MV_EmgStop();
                         LogUtil.e(TAG, "取货流程监听：发生异常");
                         LogUtil.e(TAG, ex);
                         sendPickupHandlerMessage(6, "取货异常", null);
@@ -797,11 +820,6 @@ public class CabinetCtrlByDS {
             }
 
         }
-    }
-
-    public void testGoZero(){
-        GoZeroThread goZeroThread=new GoZeroThread(true);
-        goZeroThread.start();
     }
 
 }
