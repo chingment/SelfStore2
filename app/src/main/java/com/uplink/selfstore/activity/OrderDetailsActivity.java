@@ -92,6 +92,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         initData();
 
+
+
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -108,39 +110,53 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             LogUtil.i("取货消息：" + message);
                         }
 
-                        switch (status) {
-                            case 1: //消息提示
-                                showToast(message);
-                                break;
-                            case 2://取货就绪成功
-                                curPickupSku_Tv_Tip2.setText(message);
-                                break;
-                            case 3://取货中
-                                curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
-                                pickupEventNotify(curPickupSku, 3012, "取货中", pickupResult);
-                                break;
-                            case 4://取货成功
-                                curPickupSku_Tv_Tip2.setText("取货完成");
-                                pickupEventNotify(curPickupSku, 4000, "取货完成", pickupResult);
-                                break;
-                            case 5://取货超时
-                                LogUtil.e("取货失败,取货动作超时");
-                                curPickupSku_Tv_Tip2.setText("取货发生异常.");
-                                isHappneException = true;
-                                pickupEventNotify(curPickupSku, 6000, "取货失败，动作超时," + message, pickupResult);
-                                break;
-                            case 6://取货失败
-                                LogUtil.e("取货失败,程序异常");
-                                curPickupSku_Tv_Tip2.setText("取货发生异常..");
-                                isHappneException = true;
-                                pickupEventNotify(curPickupSku, 6000, "取货失败，程序发生异常", pickupResult);
-                                break;
-                            default:
-                                LogUtil.e("取货失败,程序异常");
-                                curPickupSku_Tv_Tip2.setText("取货发生异常...");
-                                isHappneException = true;
-                                pickupEventNotify(curPickupSku, 6000, "取货失败，未知状态", pickupResult);
-                                break;
+                        String componentName =getTopComponentName();
+                        if(componentName==null){
+                          isHappneException=true;
+                        }
+                        else if(!componentName.toLowerCase().contains("orderdetailsactivity")) {
+                            isHappneException = true;
+                        }
+
+                        if (isHappneException) {
+                            cabinetCtrlByDS.emgStop();
+                            pickupEventNotify(curPickupSku, 6000, "取货失败，不在当前取货界面", pickupResult);
+                        }
+                        else {
+                            switch (status) {
+                                case 1: //消息提示
+                                    showToast(message);
+                                    break;
+                                case 2://取货就绪成功
+                                    curPickupSku_Tv_Tip2.setText(message);
+                                    break;
+                                case 3://取货中
+                                    curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
+                                    pickupEventNotify(curPickupSku, 3012, "取货中", pickupResult);
+                                    break;
+                                case 4://取货成功
+                                    curPickupSku_Tv_Tip2.setText("取货完成");
+                                    pickupEventNotify(curPickupSku, 4000, "取货完成", pickupResult);
+                                    break;
+                                case 5://取货失败，机器异常
+                                    LogUtil.e("取货失败,机器异常");
+                                    curPickupSku_Tv_Tip2.setText("取货失败,机器发生异常");
+                                    isHappneException = true;
+                                    pickupEventNotify(curPickupSku, 6000, "取货失败,机器发生异常，" + message, pickupResult);
+                                    break;
+                                case 6://取货失败，程序异常
+                                    LogUtil.e("取货失败,程序异常");
+                                    curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");
+                                    isHappneException = true;
+                                    pickupEventNotify(curPickupSku, 6000, "取货失败，程序发生异常", pickupResult);
+                                    break;
+                                default:
+                                    LogUtil.e("取货失败,未知状态");
+                                    curPickupSku_Tv_Tip2.setText("取货失败，未知状态");
+                                    isHappneException = true;
+                                    pickupEventNotify(curPickupSku, 6000, "取货失败，未知状态", pickupResult);
+                                    break;
+                            }
                         }
 
                         return false;

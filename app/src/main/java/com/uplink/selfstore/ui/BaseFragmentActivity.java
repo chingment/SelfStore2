@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -448,6 +449,27 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             }
         });
+    }
+
+    public String getTopComponentName(){
+        String name=null;
+        try {
+            ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            if(am!=null) {
+                if(am.getRunningTasks(1)!=null) {
+                    if(am.getRunningTasks(1).get(0)!=null) {
+                        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+                        name = cn.getClassName();
+                    }
+                }
+            }
+        }
+        catch (Exception ex){
+
+        }
+
+
+        return  name;
     }
 
 }

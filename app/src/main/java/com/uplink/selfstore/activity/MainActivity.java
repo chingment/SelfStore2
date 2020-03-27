@@ -1,5 +1,7 @@
 package com.uplink.selfstore.activity;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -53,6 +55,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
+
+
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {

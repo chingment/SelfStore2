@@ -1,9 +1,11 @@
 package com.uplink.selfstore.service;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -34,6 +36,7 @@ public class HeartbeatService extends Service {
      * 每20分钟更新一次数据
      */
     private static final int ONE_Miniute=20*60*1000;
+    //private static final int ONE_Miniute=1000;
     private static final int PENDING_REQUEST=1;
 
     public HeartbeatService() {
@@ -49,6 +52,12 @@ public class HeartbeatService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
+
+//                ActivityManager am = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+//                ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+//                LogUtil.d(TAG, "pkg:"+cn.getPackageName());//包名
+//                LogUtil.d(TAG, "cls:"+cn.getClassName());//包名加类名
+
                 sendHeartbeatBag();
             }
         }).start();

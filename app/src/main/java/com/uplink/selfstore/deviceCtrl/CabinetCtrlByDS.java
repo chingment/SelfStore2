@@ -213,6 +213,10 @@ public class CabinetCtrlByDS {
         doorThread.start();
     }
 
+    public void emgStop(){
+        sym.SN_MV_EmgStop();
+    }
+
     public void pickUp(int row,int col,int[] pendantRows) {
 
         int mode = 0;
