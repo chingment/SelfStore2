@@ -212,6 +212,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             initHandler.removeCallbacks(initRunable);
         }
 
+        if(cabinetCtrlByDS!=null) {
+            cabinetCtrlByDS.disConnect();
+        }
+
         FingerVeinCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
     }
 
@@ -258,6 +262,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                         switch (modelNo.getKey()) {
                             case "dsx01":
                                 cabinetCtrlByDS.setComId(modelNo.getValue());
+                                cabinetCtrlByDS.connect();
                                 cabinetCtrlByDS.firstSet();
                                 break;
                             case "zsx01":

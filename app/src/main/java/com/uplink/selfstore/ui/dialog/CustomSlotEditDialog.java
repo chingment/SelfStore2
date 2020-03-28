@@ -87,8 +87,8 @@ public class CustomSlotEditDialog extends Dialog {
         this.mContext = (SmMachineStockActivity) context;
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
-
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -346,9 +346,8 @@ public class CustomSlotEditDialog extends Dialog {
                             mContext.showToast("货道编号解释错误");
                             return;
                         }
-                        if (!cabinetCtrlByDS.isConnect()) {
-                            cabinetCtrlByDS.connect();
-                        }
+
+                        cabinetCtrlByDS.connect();
 
                         if (!cabinetCtrlByDS.isConnect()) {
                             mContext.showToast("机器连接失败");

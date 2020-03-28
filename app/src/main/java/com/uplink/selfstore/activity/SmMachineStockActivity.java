@@ -37,6 +37,7 @@ import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import org.json.JSONException;
@@ -339,7 +340,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
     }
 
-
     public void drawsCabinetSlotsByZS(String strRowColLayout, HashMap<String, SlotBean> slots) {
 
         this.cabinet.setRowColLayout(strRowColLayout);
@@ -457,10 +457,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     protected void onDestroy() {
         super.onDestroy();
 
-        if(cabinetCtrlByDS!=null) {
+        if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();
         }
-        
+
     }
 
     @Override
@@ -474,9 +474,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     break;
                 case R.id.btn_ScanSlots:
 
-                    if (!cabinetCtrlByDS.isConnect()) {
-                        cabinetCtrlByDS.connect();
-                    }
+                    cabinetCtrlByDS.connect();
 
                     if(!cabinetCtrlByDS.isConnect()){
                         showToast("机器连接失败");
@@ -583,5 +581,31 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
             }
         });
+    }
+
+
+
+
+    private class TestThread extends Thread {
+
+        public TestThread() {
+
+        }
+
+        @Override
+        public void run() {
+
+
+            while (true){
+                try
+                {
+                    Thread.sleep(10000);
+                }
+                catch (Exception ex){
+                }
+
+                LogUtil.i(TAG,"SDASDADADS");
+            }
+        }
     }
 }

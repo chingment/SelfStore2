@@ -51,21 +51,22 @@ public class CabinetCtrlByDS {
 
     public static CabinetCtrlByDS getInstance() {
         if (mCabinetCtrlByDS == null) {
-            synchronized (FingerVeinCtrl.class) {
+            synchronized (CabinetCtrlByDS.class) {
                 if (mCabinetCtrlByDS == null) {
                     mCabinetCtrlByDS = new CabinetCtrlByDS();
                 }
             }
         }
         return mCabinetCtrlByDS;
-
     }
 
     public String vesion() {
-        String version = "";
-        if (sym != null) {
-            version = sym.SDK_Version();
-        }
+        String version = "unKnow";
+        if (sym == null)
+            return version;
+
+        version = sym.SDK_Version();
+
         return version;
     }
 
@@ -74,37 +75,19 @@ public class CabinetCtrlByDS {
     }
 
     public boolean connect() {
-
         if (sym == null) {
             isConnect = false;
-            return isConnect;
-        }
-
-        try {
+        } else {
             int rc_status = sym.Connect(CabinetCtrlByDS.ComId, 9600);
             if (rc_status == 0) {
                 isConnect = true;
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            isConnect = false;
-            return isConnect;
-        } finally {
-            return isConnect;
         }
+        return isConnect;
     }
-
-    public void reConnect(){
-        if(sym!=null) {
-            sym.Connect(CabinetCtrlByDS.ComId, 9600);
-        }
-    }
-
 
     public void disConnect() {
         if (sym != null) {
-            reConnect();
-            sym.SN_MV_EmgStop();
             sym.disconnect();
         }
         isConnect = false;
@@ -112,11 +95,14 @@ public class CabinetCtrlByDS {
         cmd_PickupIsStopListener = true;
     }
 
+
     public boolean isNormarl() {
-        if (sym == null) {
+        if (!isConnect) {
             return false;
         }
 
+        if(sym==null)
+            return false;
 
         boolean isflag=false;
         long nStart = System.currentTimeMillis();
@@ -150,6 +136,9 @@ public class CabinetCtrlByDS {
     }
 
     public int[] getScanSlotResult() {
+        if(sym==null)
+            return null;
+
         return sym.SN_MV_Get_ScanData();
     }
 
@@ -159,18 +148,20 @@ public class CabinetCtrlByDS {
     }
 
     public void goZero() {
-        isConnect = connect();
-        if (isConnect) {
-            if (sym != null) {
-                sym.SN_MV_EmgStop();
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                sym.SN_MV_MotorAction(1, 0, 0);
-            }
+        if (!isConnect)
+            return;
+
+        if(sym==null)
+            return;
+
+        sym.SN_MV_EmgStop();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        sym.SN_MV_MotorAction(1, 0, 0);
+
     }
 
     public void firstSet(){
@@ -191,21 +182,23 @@ public class CabinetCtrlByDS {
     }
 
     public void openPickupDoor() {
-        isConnect = connect();
-        if (isConnect) {
-            if (sym != null) {
-                sym.SN_MV_ManuProc(1, 0, 0);
-            }
-        }
+        if (!isConnect)
+            return;
+
+        if (sym == null)
+            return;
+
+        sym.SN_MV_ManuProc(1, 0, 0);
+
     }
 
     public void closePickupDoor() {
-        isConnect = connect();
-        if (isConnect) {
-            if (sym != null) {
-                sym.SN_MV_ManuProc(2, 0, 0);
-            }
-        }
+        if (!isConnect)
+            return;
+
+        if (sym == null)
+            return;
+        sym.SN_MV_ManuProc(2, 0, 0);
     }
 
     public void doorControl() {
@@ -213,7 +206,13 @@ public class CabinetCtrlByDS {
         doorThread.start();
     }
 
-    public void emgStop(){
+    public void emgStop() {
+        if (!isConnect)
+            return;
+
+        if (sym == null)
+            return;
+
         sym.SN_MV_EmgStop();
     }
 
@@ -234,6 +233,13 @@ public class CabinetCtrlByDS {
     }
 
     public boolean isIdle() {
+
+        if (!isConnect)
+            return false;
+
+        if (sym == null)
+            return false;
+
         boolean flag = false;
 
         long nStart = System.currentTimeMillis();
@@ -451,7 +457,6 @@ public class CabinetCtrlByDS {
                                         }
                                         scanSlotResult.setRowColLayout(rowColLayout);
                                     }
-                                    disConnect();
                                     cmd_ScanSlotIsStopListener = true;
                                     sendScanSlotHandlerMessage(4, "扫描结束", scanSlotResult);
                                 }
@@ -463,7 +468,6 @@ public class CabinetCtrlByDS {
                     } else {
                         LogUtil.e(TAG, "扫描流程监听：扫描超时");
                         goZero();
-                        disConnect();
                         cmd_ScanSlotIsStopListener = true;
                         sendScanSlotHandlerMessage(5, "扫描超时", null);
                     }
@@ -473,7 +477,6 @@ public class CabinetCtrlByDS {
                     LogUtil.e(TAG, "扫描流程监听：扫描处理失败");
                     LogUtil.e(TAG, ex);
                     goZero();
-                    disConnect();
                     cmd_ScanSlotIsStopListener = true;
                     sendScanSlotHandlerMessage(6, "扫描失败", null);
                 }
@@ -499,7 +502,6 @@ public class CabinetCtrlByDS {
 
             sendPickupHandlerMessage(2, "检查设备连接状态中", null);
 
-            isConnect = connect();
             if (!isConnect) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
                 sendPickupHandlerMessage(5, "启动前，检查设备连接失败", null);
@@ -716,23 +718,15 @@ public class CabinetCtrlByDS {
         public void run() {
             super.run();
 
-            isConnect = connect();
             if (isConnect) {
-                if (sym != null) {
-                    sym.SN_MV_SetLock(true);
-
-                    sendDoorHandlerMessage(1,"请在10秒内打开/关闭柜门");
-
-                    try {
-                        Thread.sleep(10*1000);
-                    }
-                    catch  (Exception ex){
-
-                    }
-
-                    sym.SN_MV_SetLock(false);
+                sym.SN_MV_SetLock(true);
+                sendDoorHandlerMessage(1, "请在10秒内打开/关闭柜门");
+                try {
+                    Thread.sleep(10 * 1000);
+                } catch (Exception ex) {
 
                 }
+                sym.SN_MV_SetLock(false);
             }
         }
     }
@@ -747,8 +741,6 @@ public class CabinetCtrlByDS {
         @Override
         public void run() {
             super.run();
-
-            isConnect = connect();
 
             if (!isConnect) {
                 LogUtil.i(TAG, "回原点流程监听：启动前，检查设备连接失败");
@@ -822,7 +814,6 @@ public class CabinetCtrlByDS {
             if(mIsCmdClosePickupDoor){
                 sym.SN_MV_ManuProc(2, 0, 0);
             }
-
         }
     }
 

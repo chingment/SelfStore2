@@ -92,7 +92,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
         initData();
 
-
+        cabinetCtrlByDS.connect();
 
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
@@ -140,7 +140,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     break;
                                 case 5://取货失败，机器异常
                                     LogUtil.e("取货失败,机器异常");
-                                    curPickupSku_Tv_Tip2.setText("取货失败,机器发生异常");
+                                    curPickupSku_Tv_Tip2.setText("取货失败,机器发生异常:"+message);
                                     isHappneException = true;
                                     pickupEventNotify(curPickupSku, 6000, "取货失败,机器发生异常，" + message, pickupResult);
                                     break;
@@ -163,7 +163,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     }
                 })
         );
-
 
         cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
             @Override
@@ -518,7 +517,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (dialog_SystemWarn != null && dialog_SystemWarn.isShowing()) {
             dialog_SystemWarn.cancel();
         }
-        if(cabinetCtrlByDS!=null){
+        if(cabinetCtrlByDS!=null) {
             cabinetCtrlByDS.disConnect();
         }
 
