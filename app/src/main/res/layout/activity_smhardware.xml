@@ -50,7 +50,7 @@
                         android:background="@color/black"
                         android:layout_height="@dimen/size_120">
 
-                        <TextureView
+                        <SurfaceView
                             android:id="@+id/rennian_camera_surfaceView"
                             android:background="@null"
                             android:layout_width="@dimen/size_120"
@@ -113,7 +113,7 @@
                         android:background="@color/black"
                         android:layout_height="@dimen/size_120">
 
-                        <TextureView
+                        <SurfaceView
                             android:id="@+id/jigui_camera_surfaceView"
                             android:background="@null"
                             android:layout_width="@dimen/size_120"
@@ -176,7 +176,7 @@
                         android:background="@color/black"
                         android:layout_height="@dimen/size_120">
 
-                        <TextureView
+                        <SurfaceView
                             android:id="@+id/chuhuokou_camera_surfaceView"
                             android:background="@null"
                             android:layout_width="@dimen/size_120"

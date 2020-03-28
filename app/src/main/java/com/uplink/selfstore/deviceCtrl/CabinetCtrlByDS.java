@@ -718,16 +718,22 @@ public class CabinetCtrlByDS {
         public void run() {
             super.run();
 
-            if (isConnect) {
-                sym.SN_MV_SetLock(true);
-                sendDoorHandlerMessage(1, "请在10秒内打开/关闭柜门");
-                try {
-                    Thread.sleep(10 * 1000);
-                } catch (Exception ex) {
-
-                }
-                sym.SN_MV_SetLock(false);
+            if (!isConnect) {
+                sendDoorHandlerMessage(1, "检测设备未连接");
+                return;
             }
+
+            sym.SN_MV_SetLock(true);
+
+            sendDoorHandlerMessage(1, "请在10秒内打开/关闭柜门");
+            try {
+                Thread.sleep(10 * 1000);
+            } catch (Exception ex) {
+
+            }
+
+            sym.SN_MV_SetLock(false);
+
         }
     }
 

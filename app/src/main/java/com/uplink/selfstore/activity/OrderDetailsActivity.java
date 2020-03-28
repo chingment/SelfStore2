@@ -429,6 +429,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     dialog_SystemWarn.show();
                 }
             }
+            cabinetCtrlByDS.emgStop();
             curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");
         }
         else {

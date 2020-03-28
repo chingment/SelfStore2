@@ -7,7 +7,7 @@ def static buildTime() {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion versionBuildTool
 
     sourceSets {
@@ -27,9 +27,9 @@ android {
     defaultConfig {
         applicationId "com.uplink.selfstore"
         minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 71
-        versionName "1.0.7.1"
+        targetSdkVersion 28
+        versionCode 72
+        versionName "1.0.7.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
     }

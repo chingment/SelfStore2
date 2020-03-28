@@ -95,7 +95,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         sendBroadcast(it);
                         break;
                     case "fun.door":
-
+                        cabinetCtrlByDS.connect();
                         cabinetCtrlByDS.doorControl();
 
                         //cabinetCtrlByZS.doorControl();
