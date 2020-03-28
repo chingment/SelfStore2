@@ -74,7 +74,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         String cabinetId = getIntent().getStringExtra("cabinetId");
         cabinet = getMachine().getCabinets().get(cabinetId);
-        if(cabinet==null){
+        if(cabinet==null) {
             showToast("未配置对应机柜，请联系管理员");
             return;
         }
@@ -456,11 +456,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();
         }
-
     }
 
     @Override
@@ -473,19 +471,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     finish();
                     break;
                 case R.id.btn_ScanSlots:
-
                     cabinetCtrlByDS.connect();
-
-                    if(!cabinetCtrlByDS.isConnect()){
-                        showToast("机器连接失败");
-                        return;
-                    }
-
-                    if (!cabinetCtrlByDS.isNormarl()) {
-                        showToast("机器状态异常");
-                        return;
-                    }
-
                     cabinetCtrlByDS.scanSlot();
                     break;
                 case R.id.btn_RefreshStock:
@@ -582,8 +568,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             }
         });
     }
-
-
 
 
     private class TestThread extends Thread {
