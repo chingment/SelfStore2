@@ -77,7 +77,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             isGONE = true;
         }
 
-       final ProductSkuBean item = items.get(position);
+        final ProductSkuBean item = items.get(position);
 
         if (item == null) {
             isGONE = true;
@@ -100,18 +100,20 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         ImageView btn_increase = ViewHolder.get(convertView, R.id.btn_increase);
         TextView txt_isOffSellTip = ViewHolder.get(convertView, R.id.txt_isOffSellTip);
+        TextView txt_isSellout = ViewHolder.get(convertView, R.id.txt_isSellout);
+
+        int sellQuantity = item.getSellQuantity();
 
         txt_name.setText(item.getName());
-        int quantity = CartActivity.getQuantity(item.getId());
-        txt_quantity.setText(String.valueOf(quantity));
+        int cartQuantity = CartActivity.getQuantity(item.getId());
+        txt_quantity.setText(String.valueOf(cartQuantity));
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
 
         String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
 
-        if(item.isOffSell())
-        {
+        if (item.isOffSell()) {
             btn_decrease.setVisibility(View.GONE);
             txt_quantity.setVisibility(View.GONE);
             btn_increase.setVisibility(View.GONE);
@@ -119,22 +121,31 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_color));
             convertView.setAlpha(0.5f);
         }
-        else
-        {
-            if (quantity == 0) {
+//        else if (sellQuantity == 0) {
+//            btn_decrease.setVisibility(View.GONE);
+//            txt_quantity.setVisibility(View.GONE);
+//            btn_increase.setVisibility(View.GONE);
+//            txt_isSellout.setVisibility(View.VISIBLE);
+//            convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_color));
+//            convertView.setAlpha(0.5f);
+//        }
+        else {
+            if (cartQuantity == 0) {
                 btn_decrease.setVisibility(View.INVISIBLE);
                 txt_quantity.setVisibility(View.INVISIBLE);
             } else {
                 btn_decrease.setVisibility(View.VISIBLE);
                 txt_quantity.setVisibility(View.VISIBLE);
             }
+
             btn_increase.setVisibility(View.VISIBLE);
             txt_isOffSellTip.setVisibility(View.GONE);
+            txt_isSellout.setVisibility(View.GONE);
             convertView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
             convertView.setAlpha(1f);
 
-            final HashMap<String, String> params=new HashMap<String, String>();
-            params.put("skuId",item.getId());
+            final HashMap<String, String> params = new HashMap<String, String>();
+            params.put("skuId", item.getId());
 
             //点击图片
             img_main.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +166,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     TcStatInterface.onEvent("btn_decrease", params);
 
-                    CartActivity.operate(CartOperateType.DECREASE,item.getId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.DECREASE, item.getId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
                             notifyDataSetChanged();
@@ -177,13 +188,12 @@ public class ProductKindSkuAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     TcStatInterface.onEvent("btn_increase", params);
 
-                    if(item.isOffSell())
-                    {
+                    if (item.isOffSell()) {
                         ToastUtil.showMessage(context, "商品已下架", Toast.LENGTH_LONG);
                         return;
                     }
 
-                    CartActivity.operate(CartOperateType.INCREASE,item.getId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.INCREASE, item.getId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
                             notifyDataSetChanged();

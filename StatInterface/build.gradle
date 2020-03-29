@@ -29,14 +29,14 @@ greendao {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.alibaba:fastjson:1.2.46'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'org.greenrobot:greendao:3.2.2'
-    compile 'net.zetetic:android-database-sqlcipher:3.5.7'
-    compile 'com.squareup.okio:okio:1.14.0'
-    compile 'com.squareup.okhttp3:okhttp:3.10.0'
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.alibaba:fastjson:1.2.46'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'net.zetetic:android-database-sqlcipher:3.5.7'
+    implementation 'com.squareup.okio:okio:1.14.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    testImplementation 'com.amitshekhar.android:debug-db:1.0.1'
 }
 
 def siteUrl = 'https://github.com/NeglectedByBoss/TcStatInterface'
