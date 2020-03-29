@@ -39,7 +39,6 @@ import java.util.Map;
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private RelativeLayout layout_header;
-    private BannerAdapter banner_adapter;//banner数据配置
     private AutoLoopViewPager banner_pager;//banner 页面
     private CirclePageIndicator banner_indicator;//banner 底部小图标
     private ImageView img_logo;
@@ -131,7 +130,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     public void loadBanner() {
 
-        banner_adapter = new BannerAdapter(getAppContext(), this.getGlobalDataSet().getBanners(), ImageView.ScaleType.FIT_XY);
+        BannerAdapter banner_adapter = new BannerAdapter(getAppContext(), this.getGlobalDataSet().getBanners(), ImageView.ScaleType.FIT_XY);
         banner_pager.setAdapter(banner_adapter);
         banner_indicator.setViewPager(banner_pager);
     }

@@ -57,20 +57,18 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private View btn_goshopping;
     private View btn_pay_z_wechat;//微信官方支付 手机扫二维码
     private View btn_pay_z_zhifubao;//支付宝官方支付 手机扫二维码
-    private View btn_pay_z_aggregate;//第三聚合支付 通莞 手机扫二维码
+    private View btn_pay_z_aggregate;//第三聚合支付  手机扫二维码
     private MyListView list_skus;
     private View list_empty_tip;
     private CustomScanPayDialog dialog_ScanPay;
     private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
     private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
-    private CabinetCtrlByDS cabinetCtrlByDS=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
-        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         initView();
         initEvent();
         initData();
@@ -256,15 +254,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_ScanPay != null&&dialog_ScanPay.isShowing()) {
+        if (dialog_ScanPay != null && dialog_ScanPay.isShowing()) {
             dialog_ScanPay.cancel();
         }
 
-        if (dialog_ScanPay_ConfirmClose != null&&dialog_ScanPay_ConfirmClose.isShowing()) {
+        if (dialog_ScanPay_ConfirmClose != null && dialog_ScanPay_ConfirmClose.isShowing()) {
             dialog_ScanPay_ConfirmClose.cancel();
         }
 
-        if(taskByCheckPayTimeout!=null) {
+        if (taskByCheckPayTimeout != null) {
             taskByCheckPayTimeout.cancel();
         }
     }
@@ -312,14 +310,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             showToast(getAppContext().getString(R.string.aty_cart_tips_cartisnull));
             return;
         }
-
-//        if(!Config.IS_BUILD_DEBUG) {
-//            cabinetCtrlByDS.connect();
-//            if (!cabinetCtrlByDS.isIdle()) {
-//                showToast("设备正在忙,请稍后再点击");
-//                return;
-//            }
-//        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", this.getMachine().getId() + "");
@@ -574,7 +564,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         handler.onSuccess("");
 
-        //getSumQuantity();
     }
 
 }

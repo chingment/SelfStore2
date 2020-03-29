@@ -34,7 +34,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
     private View btn_cart;
     private View btn_increase;
     private View btn_buy;
-    private BannerAdapter banner_adapter;//banner数据配置
+
     private AutoLoopViewPager banner_pager;//banner 页面
     private CirclePageIndicator banner_indicator;//banner 底部小图标
 
@@ -103,7 +103,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
 
         if(productSku.getDisplayImgUrls()!=null) {
 
-            banner_adapter = new BannerAdapter(getAppContext(), productSku.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
+            BannerAdapter  banner_adapter = new BannerAdapter(getAppContext(), productSku.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
             banner_pager.setAdapter(banner_adapter);
             banner_indicator.setViewPager(banner_pager);
         }

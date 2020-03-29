@@ -245,7 +245,7 @@ public class CabinetCtrlByDS {
         long nStart = System.currentTimeMillis();
         long nEnd = System.currentTimeMillis();
 
-        for (; (nEnd - nStart <= (long) 10 * 1000); nEnd = System.currentTimeMillis()) {
+        for (; (nEnd - nStart <= (long) 3 * 1000); nEnd = System.currentTimeMillis()) {
             boolean flag1 = false;
             int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
             if (rc_status1[0] == S_RC_SUCCESS) {
@@ -522,7 +522,7 @@ public class CabinetCtrlByDS {
 
             boolean isIdle=false;
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 60; i++) {
 
                 boolean flag1 = false;
                 int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
@@ -554,10 +554,14 @@ public class CabinetCtrlByDS {
             }
 
             if(!isIdle) {
-                LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-                sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
-                interrupt();
-                return;
+                //尝试重新连接，再判断多一次，如果不成功，则放弃，返回不是空闲状态
+                sym.Connect(CabinetCtrlByDS.ComId, 9600);
+                if (!isIdle()) {
+                    LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
+                    sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
+                    interrupt();
+                    return;
+                }
             }
 
             sendPickupHandlerMessage(2, "取货准备就绪", null);

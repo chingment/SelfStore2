@@ -163,7 +163,6 @@ public class ScanMidCtrl {
     }
 
     public void  setMessageWhat(int message_what){
-
         this.message_what=message_what;
     }
 }
