@@ -167,11 +167,15 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                         btn_retry.setVisibility(View.VISIBLE);
                         break;
                     case 3:
-                        loading_ani.stop();
-                        Intent intent = new Intent(getAppContext(), MainActivity.class);
-                        SystemClock.sleep(2000);
-                        startActivity(intent);
-                        finish();
+                        new Thread(new Runnable() {
+                            public void run() {
+                                loading_msg.setText("信息配置完成，正在启动机器恢复原始状态");
+                                SystemClock.sleep(5000);
+                                Intent intent = new Intent(getAppContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }).start();
                     case 4:
                         btn_retry.setVisibility(View.INVISIBLE);
                         break;
@@ -205,8 +209,30 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+        if(loading_ani!=null) {
+            loading_ani.stop();
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if(loading_ani!=null) {
+            loading_ani.stop();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(loading_ani!=null) {
+            loading_ani.stop();
+        }
 
         if(initHandler!=null&&initRunable!=null) {
             initHandler.removeCallbacks(initRunable);

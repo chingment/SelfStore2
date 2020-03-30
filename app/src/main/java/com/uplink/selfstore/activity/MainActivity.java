@@ -15,6 +15,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -54,19 +55,18 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initData();
 
 
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            if (!Settings.canDrawOverlays(this)) {
-//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivityForResult(intent, 1);
-//            } else {
-//                //TODO 做你需要的事情
-//                CameraWindow.show(this);
-//            }
-//        }
-//        else {
-//            CameraWindow.show(this);
-//        }
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, 1);
+            } else {
+                //TODO 做你需要的事情
+                CameraWindow.show(this);
+            }
+        } else {
+            CameraWindow.show(this);
+        }
 
     }
 

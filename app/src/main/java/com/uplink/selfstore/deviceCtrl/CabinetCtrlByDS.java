@@ -167,14 +167,24 @@ public class CabinetCtrlByDS {
     public void firstSet(){
         new Thread(new Runnable() {
             public void run() {
-                goZero();//回原点
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                if(isConnect) {
+                    sym.SN_MV_EmgStop();//急停
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    sym.SN_MV_MotorAction(1, 0, 0);//回原点
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //关闭取货口
+                    sym.SN_MV_ManuProc(2, 0, 0);//关闭取货们
                 }
-                //关闭取货口
-                closePickupDoor();
             }
 
         }).start();
