@@ -174,7 +174,6 @@ public class CustomSlotEditDialog extends Dialog {
                 })
         );
 
-
         cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
         cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
             @Override
@@ -308,7 +307,6 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 _this.dismiss();
-                cabinetCtrlByDS.disConnect();
                 cabinetCtrlByZS.disConnect();
                 scanMidCtrl.disConnect();
             }
@@ -341,13 +339,12 @@ public class CustomSlotEditDialog extends Dialog {
 
                 switch (cabinet.getModelNo()){
                     case "dsx01":
+                        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
                         DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
                         if (dsCabSlotNRC == null) {
                             mContext.showToast("货道编号解释错误");
                             return;
                         }
-
-                        cabinetCtrlByDS.connect();
 
                         if (!cabinetCtrlByDS.isConnect()) {
                             mContext.showToast("机器连接失败");

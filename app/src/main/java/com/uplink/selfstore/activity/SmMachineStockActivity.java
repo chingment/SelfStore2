@@ -80,6 +80,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        cabinetCtrlByDS.connect();
         cabinetCtrlByDS.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -453,11 +454,44 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
     }
 
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(cabinetCtrlByDS==null){
+            cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        }
+
+        cabinetCtrlByDS.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (cabinetCtrlByDS != null) {
+            cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if(cabinetCtrlByDS!=null){
+            cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
         }
     }
 
@@ -471,7 +505,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     finish();
                     break;
                 case R.id.btn_ScanSlots:
-                    cabinetCtrlByDS.connect();
                     cabinetCtrlByDS.scanSlot();
                     break;
                 case R.id.btn_RefreshStock:

@@ -393,7 +393,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
-
     public void pickupEventNotify(final PickupSkuBean pickupSku, final int status, String remark, PickupResult pickupResult) {
 
         try {
@@ -508,6 +507,27 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (cabinetCtrlByDS != null) {
+            cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if(cabinetCtrlByDS!=null){
+            cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -518,16 +538,19 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if (dialog_SystemWarn != null && dialog_SystemWarn.isShowing()) {
             dialog_SystemWarn.cancel();
         }
-        if(cabinetCtrlByDS!=null) {
+        if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();
         }
 
-        if(cabinetCtrlByZS!=null){
+        if (cabinetCtrlByZS != null) {
             cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
         }
 
         closePageCountTimerStop();
     }
+
+
 
 //    public  void  saveCaptureStill(byte[] data,String saveDir,String fileName) {
 //        try {

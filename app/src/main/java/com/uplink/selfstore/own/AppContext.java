@@ -99,7 +99,6 @@ public class AppContext extends Application {
 
         //DbManager.getInstance().init(this);
 
-
         TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
         TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
         TcStatInterface.initialize(this, BuildConfig.APPLICATION_ID, "android.storeterm", "stat_id.json");

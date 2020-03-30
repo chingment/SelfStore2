@@ -1,7 +1,5 @@
 package com.uplink.selfstore.activity;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -56,20 +54,19 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initData();
 
 
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivityForResult(intent, 1);
-            } else {
-                //TODO 做你需要的事情
-                CameraWindow.show(this);
-            }
-        }
-        else {
-            CameraWindow.show(this);
-        }
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (!Settings.canDrawOverlays(this)) {
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivityForResult(intent, 1);
+//            } else {
+//                //TODO 做你需要的事情
+//                CameraWindow.show(this);
+//            }
+//        }
+//        else {
+//            CameraWindow.show(this);
+//        }
 
     }
 

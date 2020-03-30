@@ -95,7 +95,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         sendBroadcast(it);
                         break;
                     case "fun.door":
-                        cabinetCtrlByDS.connect();
+
                         cabinetCtrlByDS.doorControl();
 
                         //cabinetCtrlByZS.doorControl();
@@ -274,6 +274,37 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+
+        if(cabinetCtrlByDS==null) {
+            cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
+        }
+
+        cabinetCtrlByDS.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (cabinetCtrlByDS != null) {
+            cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if(cabinetCtrlByDS!=null){
+            cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (confirmDialog != null && confirmDialog.isShowing()) {
@@ -286,6 +317,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         if(cabinetCtrlByDS!=null){
             cabinetCtrlByDS.disConnect();
+            cabinetCtrlByDS = null;
         }
     }
 }
