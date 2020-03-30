@@ -93,6 +93,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         initData();
 
         cabinetCtrlByDS.connect();
+        cabinetCtrlByZS.connect();
 
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
                     @Override
@@ -516,6 +517,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
         }
+
+        if (cabinetCtrlByZS != null) {
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
+        }
     }
 
     @Override
@@ -525,6 +531,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if(cabinetCtrlByDS!=null){
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
+        }
+
+        if (cabinetCtrlByZS != null) {
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
         }
     }
 

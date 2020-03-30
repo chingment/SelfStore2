@@ -255,7 +255,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-
         initView();
         initEvent();
         initData();

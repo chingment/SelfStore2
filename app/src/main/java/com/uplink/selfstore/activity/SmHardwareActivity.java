@@ -38,6 +38,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     //摄像头
     private Camera renlian_camera;
+    private boolean renlian_camera_isRunning=false;
     private SurfaceView rennian_camera_surfaceView;
     private Button renlian_camera_btn_open;
     private Button renlian_camera_btn_captureStill;
@@ -45,6 +46,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private SurfaceHolder renlian_camera_surfaceholder;
 
     private Camera jigui_camera;
+    private boolean jigui_camera_isRunning=false;
     private SurfaceView jigui_camera_surfaceView;
     private Button jigui_camera_btn_open;
     private Button jigui_camera_btn_captureStill;
@@ -52,24 +54,31 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private SurfaceHolder jigui_camera_surfaceholder;
 
     private Camera chuhuokou_camera;
+    private boolean chuhuokou_camera_isRunning=false;
     private SurfaceView chuhuokou_camera_surfaceView;
     private Button chuhuokou_camera_btn_open;
     private Button chuhuokou_camera_btn_captureStill;
     private Button chuhuokou_camera_btn_record;
     private SurfaceHolder chuhuokou_camera_surfaceholder;
 
-    private CabinetCtrlByDS cabinetCtrlByDS=null;
 
     //中顺硬件诊断
     private LinearLayout zs_hd_layout;
+    private Button zs_hd_btn_connect;
     private EditText zs_hd_et_plateid;
     private EditText zs_hd_et_numid;
     private EditText zs_hd_et_ck;
     private Button zs_hd_btn_testopen;
     private Button zs_hd_btn_teststatus;
     private CabinetCtrlByZS zs_CabinetCtrlByZS;
+    private TextView zs_tv_log;
 
-    private TextView tv_log;
+    //德尚硬件诊断
+    private CabinetCtrlByDS ds_CabinetCtrlByZS=null;
+    private EditText ds_hd_et_ck;
+    private Button ds_hd_btn_connect;
+    private Button ds_hd_btn_gozero;
+    private TextView ds_tv_log;
 
     Semaphore mCameraOpenCloseLock = new Semaphore(1);
     @Override
@@ -79,27 +88,12 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
         setNavTtile(this.getResources().getString(R.string.aty_smhardware_navtitle));
         setNavGoBackBtnVisible(true);
-        
 
-//        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-//
-//        cabinetCtrlByDS.setGoZeroHandler(new Handler(new Handler.Callback() {
-//            @Override
-//            public boolean handleMessage(Message msg) {
-//
-//                Bundle bundle = msg.getData();
-//                int status = bundle.getInt("status");
-//                String message = bundle.getString("message");
-//
-//                showToast(message);
-//                return false;
-//            }
-//        }));
 
         initViewByCamera();
+        initViewByDS();
         initViewByZS();
 
-        tv_log=(TextView) findViewById(R.id.tv_log);
 
 
 //        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -156,17 +150,22 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     }
 
     private void  initViewByZS(){
+
+        zs_CabinetCtrlByZS=CabinetCtrlByZS.getInstance();
+
         zs_hd_layout= (LinearLayout) findViewById(R.id.zs_hd_layout);
         zs_hd_et_plateid= (EditText) findViewById(R.id.zs_hd_et_plateid);
         zs_hd_et_numid= (EditText) findViewById(R.id.zs_hd_et_numid);
         zs_hd_et_ck= (EditText) findViewById(R.id.zs_hd_et_ck);
+        zs_hd_btn_connect= (Button) findViewById(R.id.zs_hd_btn_connect);
         zs_hd_btn_testopen= (Button) findViewById(R.id.zs_hd_btn_testopen);
         zs_hd_btn_teststatus= (Button) findViewById(R.id.zs_hd_btn_teststatus);
+        zs_tv_log=(TextView) findViewById(R.id.zs_tv_log);
 
+        zs_hd_btn_connect.setOnClickListener(this);
         zs_hd_btn_testopen.setOnClickListener(this);
         zs_hd_btn_teststatus.setOnClickListener(this);
 
-        zs_CabinetCtrlByZS=CabinetCtrlByZS.getInstance();
 
         zs_CabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
             @Override
@@ -193,7 +192,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                                             ZSCabBoxBean cabBox = entry.getValue();
                                             t1 += "第" + cabBox.getId() + "个格子打开状态：" + cabBox.isOpen() + ",是否有货物：" + cabBox.isNonGoods();
                                         }
-                                        tv_log.setText(t1);
+                                        zs_tv_log.setText(t1);
                                     }
                                 }
                                 break;
@@ -206,8 +205,32 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             }
         }));
 
-
         zs_hd_et_ck.setText(zs_CabinetCtrlByZS.getComId());
+    }
+
+    private void  initViewByDS() {
+
+        ds_CabinetCtrlByZS = CabinetCtrlByDS.getInstance();
+
+        ds_CabinetCtrlByZS.setGoZeroHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                Bundle bundle = msg.getData();
+                int status = bundle.getInt("status");
+                String message = bundle.getString("message");
+
+                showToast(message);
+                return false;
+            }
+        }));
+
+        ds_hd_et_ck = (EditText) findViewById(R.id.ds_hd_et_ck);
+        ds_hd_btn_connect = (Button) findViewById(R.id.ds_hd_btn_connect);
+        ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
+
+        ds_hd_btn_connect.setOnClickListener(this);
+        ds_hd_btn_gozero.setOnClickListener(this);
     }
 
     @Override
@@ -216,12 +239,48 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+        if (zs_CabinetCtrlByZS != null) {
+            zs_CabinetCtrlByZS.disConnect();
+            zs_CabinetCtrlByZS=null;
+        }
+
+        if (ds_CabinetCtrlByZS != null) {
+            ds_CabinetCtrlByZS.disConnect();
+            ds_CabinetCtrlByZS=null;
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (zs_CabinetCtrlByZS != null) {
+            zs_CabinetCtrlByZS.disConnect();
+            zs_CabinetCtrlByZS=null;
+        }
+
+        if (ds_CabinetCtrlByZS != null) {
+            ds_CabinetCtrlByZS.disConnect();
+            ds_CabinetCtrlByZS=null;
+        }
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (zs_CabinetCtrlByZS != null) {
             zs_CabinetCtrlByZS.disConnect();
+            zs_CabinetCtrlByZS=null;
         }
 
+        if (ds_CabinetCtrlByZS != null) {
+            ds_CabinetCtrlByZS.disConnect();
+            ds_CabinetCtrlByZS=null;
+        }
 
         if (renlian_camera != null) {
             renlian_camera.stopPreview();
@@ -246,6 +305,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     public void onClick(View v) {
         super.onClick(v);
 
+        String str_ds_hd_et_ck=ds_hd_et_ck.getText()+"";
         String str_zs_hd_et_ck=zs_hd_et_ck.getText()+"";
         String str_zs_hd_et_plateid=zs_hd_et_plateid.getText()+"";
         String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
@@ -258,57 +318,147 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.renlian_camera_btn_open:
                     try {
-                        if(camerasNumber==0){
-                            showToast("摄像头数量为0");
-                            return;
+                        LogUtil.e(TAG,"点击操作人脸摄像头:"+renlian_camera_isRunning);
+                        if(!renlian_camera_isRunning) {
+                            if (camerasNumber == 0) {
+                                showToast("摄像头数量为0");
+                                return;
+                            }
+                            renlian_camera = Camera.open(0);
+                            if (renlian_camera == null) {
+                                showToast("人脸摄像头对象为空");
+                                return;
+                            }
+                            renlian_camera.setPreviewDisplay(renlian_camera_surfaceholder);
+                            renlian_camera.startPreview();// 开始预览
+
+                            renlian_camera_isRunning = true;
+                            renlian_camera_btn_open.setText("关闭");
                         }
-                        renlian_camera = Camera.open(0);
-                        if (renlian_camera == null) {
-                            showToast("人脸摄像头对象为空");
-                            return;
+                        else {
+                            renlian_camera_isRunning = false;
+                            renlian_camera_btn_open.setText("打开");
+                            renlian_camera.stopPreview();
+                            renlian_camera.release();
+                            renlian_camera = null;
                         }
-                        renlian_camera.setPreviewDisplay(renlian_camera_surfaceholder);
-                        renlian_camera.startPreview();// 开始预览
                     }
                     catch (Exception ex){
-                        showToast("打开人脸摄像头发生异常:"+ex.getMessage());
+                        showToast("("+camerasNumber+")人脸摄像头发生异常:"+ex.getMessage());
                     }
+                    break;
+                case R.id.renlian_camera_btn_captureStill:
+
+                    if(!renlian_camera_isRunning){
+                        showToast("人脸摄像头未打开");
+                        return;
+                    }
+
+                    renlian_camera.takePicture(null, null, new CameraRenlianCallback());
+
                     break;
                 case R.id.jigui_camera_btn_open:
                     try {
-                        if(camerasNumber==0){
-                            showToast("摄像头数量为0");
-                            return;
+                        LogUtil.e(TAG,"点击操作机柜摄像头:"+jigui_camera_isRunning);
+                        if(!jigui_camera_isRunning) {
+
+                            if (camerasNumber == 0) {
+                                showToast("摄像头数量为0");
+                                return;
+                            }
+                            jigui_camera = Camera.open(1);
+                            if (jigui_camera == null) {
+                                showToast("机柜摄像头对象为空");
+                                return;
+                            }
+                            jigui_camera.setPreviewDisplay(jigui_camera_surfaceholder);
+                            jigui_camera.startPreview();// 开始预览
+
+                            jigui_camera_isRunning=true;
+                            jigui_camera_btn_open.setText("关闭");
                         }
-                        jigui_camera = Camera.open(1);
-                        if (jigui_camera == null) {
-                            showToast("机柜摄像头对象为空");
-                            return;
+                        else {
+                            jigui_camera_isRunning = false;
+                            jigui_camera_btn_open.setText("打开");
+                            jigui_camera.stopPreview();
+                            jigui_camera.release();
+                            jigui_camera = null;
                         }
-                        jigui_camera.setPreviewDisplay(jigui_camera_surfaceholder);
-                        jigui_camera.startPreview();// 开始预览
                     }
                     catch (Exception ex){
-                        showToast("打开机柜摄像头发生异常:"+ex.getMessage());
+                        showToast("("+camerasNumber+")打开机柜摄像头发生异常:"+ex.getMessage());
                     }
+                    break;
+                case R.id.jigui_camera_btn_captureStill:
+
+                    if(!jigui_camera_isRunning){
+                        showToast("机柜摄像头未打开");
+                        return;
+                    }
+
+                    jigui_camera.takePicture(null, null, new CameraJiguiCallback());
+
                     break;
                 case R.id.chuhuokou_camera_btn_open:
                     try {
-                        if(camerasNumber==0){
-                            showToast("摄像头数量为0");
-                            return;
+                        LogUtil.e(TAG,"点击操作出货口摄像头:"+chuhuokou_camera_isRunning);
+                        if(!chuhuokou_camera_isRunning) {
+                            if (camerasNumber == 0) {
+                                showToast("摄像头数量为0");
+                                return;
+                            }
+                            chuhuokou_camera = Camera.open(2);
+                            if (chuhuokou_camera == null) {
+                                showToast("出货口摄像头对象为空");
+                                return;
+                            }
+                            chuhuokou_camera.setPreviewDisplay(chuhuokou_camera_surfaceholder);
+                            chuhuokou_camera.startPreview();// 开始预览
+
+                            chuhuokou_camera_isRunning=true;
+                            chuhuokou_camera_btn_open.setText("关闭");
                         }
-                        chuhuokou_camera = Camera.open(2);
-                        if (chuhuokou_camera == null) {
-                            showToast("出货口摄像头对象为空");
-                            return;
+                        else {
+                            chuhuokou_camera_isRunning = false;
+                            chuhuokou_camera_btn_open.setText("打开");
+                            chuhuokou_camera.stopPreview();
+                            chuhuokou_camera.release();
+                            chuhuokou_camera = null;
                         }
-                        chuhuokou_camera.setPreviewDisplay(chuhuokou_camera_surfaceholder);
-                        chuhuokou_camera.startPreview();// 开始预览
+
                     }
                     catch (Exception ex){
-                        showToast("打开出货口发生异常:"+ex.getMessage());
+                        showToast("("+camerasNumber+")打开出货口发生异常:"+ex.getMessage());
                     }
+                    break;
+                case R.id.chuhuokou_camera_btn_captureStill:
+
+                    if(!chuhuokou_camera_isRunning){
+                        showToast("出货口摄像头未打开");
+                        return;
+                    }
+
+                    chuhuokou_camera.takePicture(null, null, new CameraChuhuokouCallback());
+
+                    break;
+                case R.id.ds_hd_btn_connect:
+                    if (StringUtil.isEmpty(str_ds_hd_et_ck)) {
+                        showToast("请输入串口名称");
+                        return;
+                    }
+                    ds_CabinetCtrlByZS.setComId(str_ds_hd_et_ck);
+                    zs_CabinetCtrlByZS.connect();
+                    break;
+                case R.id.ds_hd_btn_gozero:
+                    ds_CabinetCtrlByZS.goZero();
+                    break;
+                case R.id.zs_hd_btn_connect:
+                    if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
+                        showToast("请输入串口名称");
+                        return;
+                    }
+                    zs_CabinetCtrlByZS.setComId(str_zs_hd_et_ck);
+                    zs_CabinetCtrlByZS.connect();
                     break;
                 case R.id.zs_hd_btn_testopen:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
@@ -323,7 +473,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("请输入箱子ID");
                         return;
                     }
-                    zs_CabinetCtrlByZS.setComId(str_zs_hd_et_ck);
                     zs_CabinetCtrlByZS.unLock(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
                 case R.id.zs_hd_btn_teststatus:
@@ -339,10 +488,30 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("请输入箱子ID");
                         return;
                     }
-                    zs_CabinetCtrlByZS.setComId(str_zs_hd_et_ck);
                     zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
             }
+        }
+    }
+
+    private final class CameraRenlianCallback implements Camera.PictureCallback {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            showToast("人脸拍照成功");
+        }
+    }
+
+    private final class CameraJiguiCallback implements Camera.PictureCallback {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            showToast("机柜拍照成功");
+        }
+    }
+
+    private final class CameraChuhuokouCallback implements Camera.PictureCallback {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            showToast("出货口拍照成功");
         }
     }
 }

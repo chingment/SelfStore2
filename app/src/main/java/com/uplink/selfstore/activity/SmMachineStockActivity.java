@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
@@ -58,6 +59,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
     private CabinetCtrlByDS cabinetCtrlByDS;
+    private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomDialogLoading customDialogRunning;
     private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
@@ -81,6 +83,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.connect();
+
         cabinetCtrlByDS.setScanSlotHandler(new Handler(  new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -149,6 +152,9 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     }
                 })
         );
+
+        cabinetCtrlByZS= CabinetCtrlByZS.getInstance();
+        cabinetCtrlByZS.connect();
 
         initView();
         initEvent();
@@ -454,7 +460,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
     }
 
-
     @Override
     public void onResume(){
         super.onResume();
@@ -464,6 +469,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         }
 
         cabinetCtrlByDS.connect();
+
+        if(cabinetCtrlByZS==null){
+            cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
+        }
+
+        cabinetCtrlByZS.connect();
+
     }
 
     @Override
@@ -473,6 +485,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
+        }
+
+        if (cabinetCtrlByZS != null) {
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
         }
     }
 
@@ -484,6 +501,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
         }
+
+        if (cabinetCtrlByZS != null) {
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
+        }
     }
 
     @Override
@@ -492,6 +514,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
+        }
+
+        if (cabinetCtrlByZS != null) {
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
         }
     }
 

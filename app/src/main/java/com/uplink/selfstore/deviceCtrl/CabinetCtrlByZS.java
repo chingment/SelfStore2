@@ -22,6 +22,7 @@ public class CabinetCtrlByZS {
     public static final int MESSAGE_WHAT_QUERYLOCKSTATUS = 3;
     public static final int MESSAGE_WHAT_DOORCONTROL = 4;
     private static int curMessageWhat=0;
+    private boolean  isConnect = false;
     private CabinetMidByZS mCabinetMidByZS;
 
     private CabinetCtrlByZS() {
@@ -90,24 +91,22 @@ public class CabinetCtrlByZS {
 
     public void unLock(int plate,int num) {
 
-        curMessageWhat=MESSAGE_WHAT_ONEUNLOCK;
+        curMessageWhat = MESSAGE_WHAT_ONEUNLOCK;
 
-        int rc_connect = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
-
-        if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessage(curMessageWhat,6, "连接设备失败[" + rc_connect + "]");
+        if (!isConnect) {
+            sendMessage(curMessageWhat, 6, "连接设备失败");
             return;
         }
 
-        sendMessage(curMessageWhat,2, "准备就绪");
+        sendMessage(curMessageWhat, 2, "准备就绪");
 
-        int rc_unLock=mCabinetMidByZS.unLock(plate,num);
+        int rc_unLock = mCabinetMidByZS.unLock(plate, num);
 
-        if(rc_unLock!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessage(curMessageWhat,6, "发送命令失败[" + rc_unLock + "]");
+        if (rc_unLock != CabinetMidByZS.RC_SUCCESS) {
+            sendMessage(curMessageWhat, 6, "发送命令失败[" + rc_unLock + "]");
         }
 
-        sendMessage(curMessageWhat,3, "开锁命令发送成功");
+        sendMessage(curMessageWhat, 3, "开锁命令发送成功");
 
     }
 
@@ -115,10 +114,8 @@ public class CabinetCtrlByZS {
 
         curMessageWhat=MESSAGE_WHAT_QUERYLOCKSTATUS;
 
-        int rc_connect = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
-
-        if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessage(curMessageWhat,6, "连接设备失败[" + rc_connect + "]");
+        if(!isConnect) {
+            sendMessage(curMessageWhat,6, "连接设备失败");
             return;
         }
 
@@ -132,33 +129,36 @@ public class CabinetCtrlByZS {
 
         sendMessage(curMessageWhat,3, "查询锁状态命令发送成功");
 
-
     }
 
     public void doorControl() {
 
 
-        curMessageWhat=MESSAGE_WHAT_DOORCONTROL;
+        curMessageWhat = MESSAGE_WHAT_DOORCONTROL;
 
-        int rc_connect = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
-
-        if(rc_connect!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessage(curMessageWhat,6, "连接设备失败[" + rc_connect + "]");
+        if (!isConnect) {
+            sendMessage(curMessageWhat, 6, "连接设备失败");
             return;
         }
 
-        sendMessage(curMessageWhat,2, "准备就绪");
+        sendMessage(curMessageWhat, 2, "准备就绪");
 
-        int rc_unLock=mCabinetMidByZS.queryLockStatus(1,12);
+        int rc_unLock = mCabinetMidByZS.queryLockStatus(1, 12);
 
-        if(rc_unLock!=CabinetMidByZS.RC_SUCCESS) {
-            sendMessage(curMessageWhat,6, "发送命令失败[" + rc_unLock + "]");
+        if (rc_unLock != CabinetMidByZS.RC_SUCCESS) {
+            sendMessage(curMessageWhat, 6, "发送命令失败[" + rc_unLock + "]");
         }
 
-        sendMessage(curMessageWhat,3, "命令发送成功");
+        sendMessage(curMessageWhat, 3, "命令发送成功");
 
-        //doorThread = new DoorThread();
-        //doorThread.start();
+    }
+
+    public boolean connect() {
+        int rc_status = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
+        if (rc_status == 0) {
+            isConnect = true;
+        }
+        return isConnect;
     }
 
     public void disConnect() {

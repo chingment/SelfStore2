@@ -109,10 +109,12 @@
     <string name="aty_smuserinfo_tvtx_fingervein">指静脉況</string>
     <string name="aty_smhardware_navtitle">硬件诊断</string>
     <string name="tips_notpickupcompelte">商品取货未完成不能退出</string>
+    <string name="ds_hd_btntx_connect">连接</string>
     <string name="zs_hd_title">格子柜(zs)</string>
     <string name="zs_hd_tvtx_ck">串口:</string>
     <string name="zs_hd_tvtx_plateid">锁版ID:</string>
     <string name="zs_hd_tvtx_numid">箱子ID:</string>
+    <string name="zs_hd_btntx_connect">连接</string>
     <string name="zs_hd_btntx_testopen">测试打开</string>
     <string name="zs_hd_btntx_teststatus">查询状态</string>
     <string name="camera_btn_open">打开</string>

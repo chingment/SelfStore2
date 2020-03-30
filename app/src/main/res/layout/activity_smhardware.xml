@@ -210,8 +210,8 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <LinearLayout
+            android:id="@+id/ds_hd_layout"
             android:layout_width="match_parent"
             android:padding="@dimen/size_5"
             android:orientation="vertical"
@@ -226,46 +226,82 @@
                     android:lineSpacingExtra="@dimen/size_14"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="下位机"/>
+                    android:text="售卖机"/>
             </LinearLayout>
 
-
             <LinearLayout
+                android:gravity="start|center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal|center_vertical"
 
-            <LinearLayout
-               android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_30">
+                >
 
-
-                <Button
-                    android:id="@+id/btnMachineGoZero"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp_10"
+                    android:textSize="@dimen/sp_12"
+                    android:text="@string/zs_hd_tvtx_ck"
+                    />
+
+                <EditText
+                    android:id="@+id/ds_hd_et_ck"
+                    android:layout_width="@dimen/size_60"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_12"
+                    android:text="ttymxc1" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="start|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal|center_vertical"
+
+                >
+
+                <Button
+                    android:id="@+id/ds_hd_btn_connect"
+                    android:layout_width="@dimen/size_70"
+                    android:layout_height="@dimen/size_30"
+                    android:textSize="@dimen/sp_8"
+                    android:text="连接"/>
+
+                <Button
+                    android:id="@+id/ds_hd_btn_gozero"
+                    android:layout_width="@dimen/size_70"
+                    android:layout_height="@dimen/size_30"
+                    android:textSize="@dimen/sp_8"
                     android:text="回原点"/>
 
 
             </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_weight="1"
+            <LinearLayout
+                    android:baselineAligned="false"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_100">
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/ds_tv_log"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
 
-
-            </LinearLayout>
         </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/zs_hd_layout"
+            android:padding="@dimen/size_5"
             android:baselineAligned="false"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -317,7 +353,7 @@
                         android:layout_width="@dimen/size_30"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_12"
-                        android:text="2" />
+                        android:text="1" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -332,38 +368,53 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_12"
                         android:text="1" />
-
-                    <Button
-                        android:id="@+id/zs_hd_btn_testopen"
-                        android:layout_width="@dimen/size_70"
-                        android:layout_height="@dimen/size_30"
-                        android:textSize="@dimen/sp_8"
-                        android:text="@string/zs_hd_btntx_testopen"/>
-                    <Button
-                        android:id="@+id/zs_hd_btn_teststatus"
-                        android:layout_width="@dimen/size_70"
-                        android:layout_height="@dimen/size_30"
-                        android:textSize="@dimen/sp_8"
-                        android:text="@string/zs_hd_btntx_teststatus"/>
                 </LinearLayout>
 
 
+            <LinearLayout
+                android:gravity="start|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal|center_vertical"
+
+                >
+                <Button
+                    android:id="@+id/zs_hd_btn_connect"
+                    android:layout_width="@dimen/size_70"
+                    android:layout_height="@dimen/size_30"
+                    android:textSize="@dimen/sp_8"
+                    android:text="@string/zs_hd_btntx_connect"/>
+                <Button
+                    android:id="@+id/zs_hd_btn_testopen"
+                    android:layout_width="@dimen/size_70"
+                    android:layout_height="@dimen/size_30"
+                    android:textSize="@dimen/sp_8"
+                    android:text="@string/zs_hd_btntx_testopen"/>
+                <Button
+                    android:id="@+id/zs_hd_btn_teststatus"
+                    android:layout_width="@dimen/size_70"
+                    android:layout_height="@dimen/size_30"
+                    android:textSize="@dimen/sp_8"
+                    android:text="@string/zs_hd_btntx_teststatus"/>
+            </LinearLayout>
+
+               <LinearLayout
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/zs_tv_log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/zs_hd_layout"
-            android:baselineAligned="false"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_log"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
 
 
     </LinearLayout>

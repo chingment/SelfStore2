@@ -15,6 +15,8 @@ import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,20 +113,21 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         appContext = (AppContext) getApplication();
         customDialogLoading = new CustomDialogLoading(this);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         AppManager.getAppManager().addActivity(this);
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
-            Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity instanceof InitDataActivity) {
-
-            } else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
+//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
+//            Activity activity = AppManager.getAppManager().currentActivity();
+//            if (activity instanceof InitDataActivity) {
+//
+//            } else {
+//                showToast("检查异常，设备重新运行");
+//                Intent intent = new Intent(appContext, InitDataActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }
     }
 
     public void  useClosePageCountTimer() {
@@ -266,6 +269,14 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public void finish() {
         closePageCountTimerStop();
         super.finish();
+    }
+
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 
     public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
