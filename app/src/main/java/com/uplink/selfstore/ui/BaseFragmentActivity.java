@@ -117,17 +117,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         AppManager.getAppManager().addActivity(this);
 
-//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
-//            Activity activity = AppManager.getAppManager().currentActivity();
-//            if (activity instanceof InitDataActivity) {
-//
-//            } else {
-//                showToast("检查异常，设备重新运行");
-//                Intent intent = new Intent(appContext, InitDataActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        }
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
+            Activity activity = AppManager.getAppManager().currentActivity();
+            if (activity instanceof InitDataActivity) {
+
+            } else {
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     public void  useClosePageCountTimer() {
@@ -441,7 +441,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void eventNotify(int type, JSONObject content){
+    public void eventNotify(String eventCode, JSONObject content){
 
         MachineBean machine = AppCacheManager.getMachine();
 
@@ -451,7 +451,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         params.put("machineId", machine.getId() + "");
         params.put("lat", LocationUtil.LAT);
         params.put("lng", LocationUtil.LNG);
-        params.put("type", type);
+        params.put("eventCode", eventCode);
         params.put("content", content);
 
         postByMy(Config.URL.machine_EventNotify, params, null, false, "", new HttpResponseHandler() {

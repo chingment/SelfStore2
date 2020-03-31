@@ -693,7 +693,7 @@ public class CustomSlotEditDialog extends Dialog {
                 content.put("pickupUseTime", pickupResult.getPickupUseTime());
                 content.put("isPickupComplete", pickupResult.isPickupComplete());
             }
-            mContext.eventNotify(2, content);
+            mContext.eventNotify("Pickup", content);
         }catch (JSONException e) {
             e.printStackTrace();
         }

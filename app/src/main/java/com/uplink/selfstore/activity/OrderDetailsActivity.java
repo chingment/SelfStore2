@@ -416,7 +416,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
             content.put("remark", remark);
             LogUtil.d("status:" + status);
-            eventNotify(2, content);
+            eventNotify("Pickup", content);
         } catch (JSONException e) {
             e.printStackTrace();
         }

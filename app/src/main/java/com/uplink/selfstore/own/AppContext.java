@@ -78,12 +78,12 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 
-//        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
-//            @Override
-//            public void Handler() {
-//                restartApp();
-//            }
-//        });
+        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
+            @Override
+            public void Handler() {
+                restartApp();
+            }
+        });
 
         //腾讯Bugly 配置
         Context context = getApplicationContext();

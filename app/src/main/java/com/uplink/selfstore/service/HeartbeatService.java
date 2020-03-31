@@ -91,7 +91,7 @@ public class HeartbeatService extends Service {
             params.put("machineId", machine.getId());
             params.put("lat", LocationUtil.LAT);
             params.put("lng", LocationUtil.LNG);
-            params.put("type", 1);
+            params.put("eventCode", "HeartbeatBag");
 
             String status = "unknow";
 
