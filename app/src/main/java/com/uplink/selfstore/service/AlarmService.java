@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.os.SystemClock;
 
 import com.uplink.selfstore.broadcast.AlarmReceiver;
+import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -43,9 +44,9 @@ public class AlarmService  extends Service {
                 LogUtil.e(TAG,"定时删除文件："+ System.currentTimeMillis());
 
 
-                String picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/SelfStore";
+                String picDir = OwnFileUtil.getPicSaveDir();
                 AlarmService.delete(picDir,7);
-                String moveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/SelfStore";
+                String moveDir = OwnFileUtil.getMovieSaveDir();
                 AlarmService.delete(moveDir,7);
             }
         }).start();

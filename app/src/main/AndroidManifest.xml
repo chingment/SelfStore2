@@ -47,11 +47,11 @@
         <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.OrderExHandleActivity"></activity>
+        <activity android:name=".activity.OrderExHandleActivity" />
+        <activity android:name=".activity.OrderDetailsActivity" android:launchMode="singleTask" />
         <activity android:name=".activity.SmUserInfoActivity" />
         <activity android:name=".activity.SmHardwareActivity" />
         <activity
@@ -187,7 +187,6 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".activity.SmLoginActivity" />
-        <activity android:name=".activity.OrderDetailsActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
         <service android:name=".service.CameraSnapService" />
         <service android:name=".service.UpdateAppService" />

@@ -3,11 +3,16 @@ package com.uplink.selfstore.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,14 +26,23 @@ import android.widget.TextView;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
+import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.ZSCabBoxBean;
+import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.ui.MyCamera;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
 
@@ -95,15 +109,23 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         initViewByZS();
 
 
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, 300);
+            } else {
+                //String[] cameraIdList = MyCamera.getCameraIdList(this);
+                //renlian_cameraSurface= new CameraSurface(SmHardwareActivity.this, "0");
+                //rennian_camera_surfaceView.setSurfaceTextureListener(renlian_cameraSurface);
+            }
 
-//        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[]{Manifest.permission.CAMERA}, 300);
-//        }
-//        else {
-//            String[] cameraIdList = MyCamera.getCameraIdList(this);
-//            renlian_cameraSurface= new CameraSurface(SmHardwareActivity.this, "0");
-//            rennian_camera_surfaceView.setSurfaceTextureListener(renlian_cameraSurface);
-//        }
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 300);
+            } else {
+                //String[] cameraIdList = MyCamera.getCameraIdList(this);
+                //renlian_cameraSurface= new CameraSurface(SmHardwareActivity.this, "0");
+                //rennian_camera_surfaceView.setSurfaceTextureListener(renlian_cameraSurface);
+            }
+        }
 
 
     }
@@ -311,6 +333,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
 
         int camerasNumber= Camera.getNumberOfCameras();
+        String imgId="";
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
@@ -354,7 +377,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         return;
                     }
 
-                    renlian_camera.takePicture(null, null, new CameraRenlianCallback());
+
+                    imgId= UUID.randomUUID().toString();
+
+                    renlian_camera.takePicture(null, null, new CameraRenlianCallback(imgId));
 
                     break;
                 case R.id.jigui_camera_btn_open:
@@ -395,8 +421,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("机柜摄像头未打开");
                         return;
                     }
-
-                    jigui_camera.takePicture(null, null, new CameraJiguiCallback());
+                    imgId= UUID.randomUUID().toString();
+                    jigui_camera.takePicture(null, null, new CameraJiguiCallback(imgId));
 
                     break;
                 case R.id.chuhuokou_camera_btn_open:
@@ -438,7 +464,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         return;
                     }
 
-                    chuhuokou_camera.takePicture(null, null, new CameraChuhuokouCallback());
+                    imgId= UUID.randomUUID().toString();
+                    chuhuokou_camera.takePicture(null, null, new CameraChuhuokouCallback(imgId));
 
                     break;
                 case R.id.ds_hd_btn_connect:
@@ -495,23 +522,80 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     }
 
     private final class CameraRenlianCallback implements Camera.PictureCallback {
+
+        private String imgId;
+        public  CameraRenlianCallback(String imgId){
+            this.imgId=imgId;
+        }
+
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            showToast("人脸拍照成功");
+            showToast("人脸拍照成功:"+imgId);
+            savePic(imgId,data);
         }
     }
 
     private final class CameraJiguiCallback implements Camera.PictureCallback {
+
+        private String imgId;
+        public  CameraJiguiCallback(String imgId){
+            this.imgId=imgId;
+        }
+
+
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            showToast("机柜拍照成功");
+            showToast("机柜拍照成功:"+imgId);
+            savePic(imgId,data);
         }
     }
 
     private final class CameraChuhuokouCallback implements Camera.PictureCallback {
+
+        private String imgId;
+        public  CameraChuhuokouCallback(String imgId){
+            this.imgId=imgId;
+        }
+
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            showToast("出货口拍照成功");
+            showToast("出货口拍照成功:"+imgId);
+
+            savePic(imgId,data);
+        }
+    }
+
+    private void  savePic(String imgId, byte[] data) {
+        if (Config.IS_BUILD_DEBUG) {
+            try {
+                //保存在本地
+
+                String mSaveDir = OwnFileUtil.getPicSaveDir();
+
+                File pathFile = new File(mSaveDir);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
+                }
+
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                String filePath = mSaveDir + "/" + imgId + ".jpg";
+                File file = new File(filePath);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+                outputStream.close();
+
+                //上传到服务器
+                List<String> filePaths = new ArrayList<>();
+                filePaths.add(filePath);
+                Map<String, String> params = new HashMap<>();
+                params.put("fileName", imgId);
+                params.put("folder", "pickup");
+                HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
+
+                Log.e(TAG, "拍照结束");
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
         }
     }
 }

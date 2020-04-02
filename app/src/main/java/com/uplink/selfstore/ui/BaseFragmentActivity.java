@@ -115,17 +115,19 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        AppManager.getAppManager().addActivity(this);
+        if(!Config.IS_APP_DEBUG) {
+            AppManager.getAppManager().addActivity(this);
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId())||this.getGlobalDataSet()==null) {
-            Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity instanceof InitDataActivity) {
+            if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
+                Activity activity = AppManager.getAppManager().currentActivity();
+                if (activity instanceof InitDataActivity) {
 
-            } else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
+                } else {
+                    showToast("检查异常，设备重新运行");
+                    Intent intent = new Intent(appContext, InitDataActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }
     }

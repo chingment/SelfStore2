@@ -64,6 +64,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
     private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
+
+    private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -363,6 +366,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     }
 
+
     public void payStatusQuery() {
 
         if(StringUtil.isEmptyNotNull(LAST_ORDERID))
@@ -382,7 +386,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    doPaySuccess(rt.getData());
+
+                    synchronized(CartActivity.class) {
+                        if (!ordersPaySuccess.containsKey(LAST_ORDERID)) {
+                            ordersPaySuccess.put(LAST_ORDERID,true);
+                            doPaySuccess(rt.getData());
+                        }
+                    }
                 }
             }
             @Override

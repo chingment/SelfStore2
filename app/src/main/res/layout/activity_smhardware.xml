@@ -65,19 +65,19 @@
                     <Button
                         android:id="@+id/renlian_camera_btn_open"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_open"/>
                     <Button
                         android:id="@+id/renlian_camera_btn_captureStill"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_captureStill"/>
                     <Button
                         android:id="@+id/renlian_camera_btn_record"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_record"/>
                 </LinearLayout>
@@ -128,19 +128,19 @@
                     <Button
                         android:id="@+id/jigui_camera_btn_open"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_open"/>
                     <Button
                         android:id="@+id/jigui_camera_btn_captureStill"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_captureStill"/>
                     <Button
                         android:id="@+id/jigui_camera_btn_record"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_record"/>
                 </LinearLayout>
@@ -191,19 +191,19 @@
                     <Button
                         android:id="@+id/chuhuokou_camera_btn_open"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_open"/>
                     <Button
                         android:id="@+id/chuhuokou_camera_btn_captureStill"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_captureStill"/>
                     <Button
                         android:id="@+id/chuhuokou_camera_btn_record"
                         android:layout_width="@dimen/size_38"
-                        android:layout_height="@dimen/size_30"
+                        android:layout_height="@dimen/size_20"
                         android:textSize="@dimen/sp_6"
                         android:text="@string/camera_btn_record"/>
                 </LinearLayout>
@@ -267,14 +267,14 @@
                 <Button
                     android:id="@+id/ds_hd_btn_connect"
                     android:layout_width="@dimen/size_38"
-                    android:layout_height="@dimen/size_30"
+                    android:layout_height="@dimen/size_20"
                     android:textSize="@dimen/sp_6"
                     android:text="连接"/>
 
                 <Button
                     android:id="@+id/ds_hd_btn_gozero"
                     android:layout_width="@dimen/size_50"
-                    android:layout_height="@dimen/size_30"
+                    android:layout_height="@dimen/size_20"
                     android:textSize="@dimen/sp_6"
                     android:text="回原点"/>
 
@@ -382,19 +382,19 @@
                 <Button
                     android:id="@+id/zs_hd_btn_connect"
                     android:layout_width="@dimen/size_38"
-                    android:layout_height="@dimen/size_30"
+                    android:layout_height="@dimen/size_20"
                     android:textSize="@dimen/sp_6"
                     android:text="@string/zs_hd_btntx_connect"/>
                 <Button
                     android:id="@+id/zs_hd_btn_testopen"
                     android:layout_width="@dimen/size_50"
-                    android:layout_height="@dimen/size_30"
+                    android:layout_height="@dimen/size_20"
                     android:textSize="@dimen/sp_6"
                     android:text="@string/zs_hd_btntx_testopen"/>
                 <Button
                     android:id="@+id/zs_hd_btn_teststatus"
                     android:layout_width="@dimen/size_50"
-                    android:layout_height="@dimen/size_30"
+                    android:layout_height="@dimen/size_20"
                     android:textSize="@dimen/sp_6"
                     android:text="@string/zs_hd_btntx_teststatus"/>
             </LinearLayout>
@@ -413,9 +413,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 </LinearLayout>
