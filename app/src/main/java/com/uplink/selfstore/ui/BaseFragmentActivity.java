@@ -115,21 +115,21 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        if(!Config.IS_APP_DEBUG) {
-            AppManager.getAppManager().addActivity(this);
+        AppManager.getAppManager().addActivity(this);
 
-            if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
-                Activity activity = AppManager.getAppManager().currentActivity();
-                if (activity instanceof InitDataActivity) {
 
-                } else {
-                    showToast("检查异常，设备重新运行");
-                    Intent intent = new Intent(appContext, InitDataActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
+            Activity activity = AppManager.getAppManager().currentActivity();
+            if (activity instanceof InitDataActivity) {
+
+            } else {
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
+
     }
 
     public void  useClosePageCountTimer() {

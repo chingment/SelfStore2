@@ -81,9 +81,7 @@ public class AppContext extends Application {
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override
             public void Handler() {
-                if(!Config.IS_APP_DEBUG) {
-                    restartApp();
-                }
+                restartApp();
             }
         });
 

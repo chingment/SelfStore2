@@ -386,13 +386,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-
-                    synchronized(CartActivity.class) {
-                        if (!ordersPaySuccess.containsKey(LAST_ORDERID)) {
-                            ordersPaySuccess.put(LAST_ORDERID,true);
-                            doPaySuccess(rt.getData());
-                        }
-                    }
+                    doPaySuccess(rt.getData());
                 }
             }
             @Override
@@ -407,22 +401,28 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
         //4 为 已完成支付
         if (bean.getStatus() == 3000) {
-            if (taskByCheckPayTimeout != null) {
-                taskByCheckPayTimeout.cancel();
-            }
-            AppCacheManager.setCartSkus(null);
-            Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
-            Bundle bundle = new Bundle();
 
-            OrderDetailsBean orderDetails = new OrderDetailsBean();
-            orderDetails.setId(bean.getId());
-            orderDetails.setSn(bean.getSn());
-            orderDetails.setStatus(bean.getStatus());
-            orderDetails.setProductSkus(bean.getProductSkus());
-            bundle.putSerializable("dataBean", orderDetails);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
+            synchronized(CartActivity.class) {
+                if (!ordersPaySuccess.containsKey(LAST_ORDERID)) {
+                    ordersPaySuccess.put(LAST_ORDERID, true);
+                    if (taskByCheckPayTimeout != null) {
+                        taskByCheckPayTimeout.cancel();
+                    }
+                    AppCacheManager.setCartSkus(null);
+                    Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+
+                    OrderDetailsBean orderDetails = new OrderDetailsBean();
+                    orderDetails.setId(bean.getId());
+                    orderDetails.setSn(bean.getSn());
+                    orderDetails.setStatus(bean.getStatus());
+                    orderDetails.setProductSkus(bean.getProductSkus());
+                    bundle.putSerializable("dataBean", orderDetails);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }
+            }
         }
     }
 
