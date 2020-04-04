@@ -59,6 +59,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
         initView();
         initEvent();
         initData();
+        checkIsHasExHappen();
 
         useClosePageCountTimer();
     }

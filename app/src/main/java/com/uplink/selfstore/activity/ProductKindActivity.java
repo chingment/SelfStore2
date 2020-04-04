@@ -60,6 +60,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         initView();
         initEvent();
         initData();
+        checkIsHasExHappen();
         useClosePageCountTimer();
     }
 

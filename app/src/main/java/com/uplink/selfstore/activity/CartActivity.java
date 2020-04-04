@@ -75,6 +75,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initView();
         initEvent();
         initData();
+        checkIsHasExHappen();
         useClosePageCountTimer();
     }
 

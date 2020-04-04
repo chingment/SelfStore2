@@ -37,6 +37,7 @@ import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

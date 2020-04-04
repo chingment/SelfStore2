@@ -9,6 +9,7 @@ import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.utils.LogUtil;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class CabinetCtrlByDS {
@@ -75,15 +76,24 @@ public class CabinetCtrlByDS {
     }
 
     public boolean connect() {
-        if (sym == null) {
-            isConnect = false;
-        } else {
-            int rc_status = sym.Connect(CabinetCtrlByDS.ComId, 9600);
-            if (rc_status == 0) {
-                isConnect = true;
+        try {
+            if (sym == null) {
+                isConnect = false;
+            } else {
+
+                File file = new File("/dev/"+CabinetCtrlByDS.ComId);
+                if (file.exists()) {
+                    int rc_status = sym.Connect(CabinetCtrlByDS.ComId, 9600);
+                    if (rc_status == 0) {
+                        isConnect = true;
+                    }
+                }
             }
+            return isConnect;
         }
-        return isConnect;
+        catch (Exception ex) {
+            return false;
+        }
     }
 
     public void disConnect() {

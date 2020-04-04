@@ -53,7 +53,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
-
+        checkIsHasExHappen();
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {

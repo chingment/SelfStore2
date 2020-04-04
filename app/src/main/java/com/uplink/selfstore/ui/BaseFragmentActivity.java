@@ -26,6 +26,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.MainActivity;
+import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.jpush.LocalBroadcastManager;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -37,6 +38,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
+import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -64,7 +66,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public static final String mJpush_KEY_TITLE = "title";
     public static final String mJpush_KEY_MESSAGE = "message";
     public static final String mJpush_KEY_EXTRAS = "extras";
-    private CustomDialogLoading customDialogLoading;
+    private CustomDialogLoading dialogByLoading;
+    private CustomSystemWarnDialog dialogBySystemWarn;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
     private MachineBean machine;
@@ -111,7 +114,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
 
         appContext = (AppContext) getApplication();
-        customDialogLoading = new CustomDialogLoading(this);
+        dialogByLoading = new CustomDialogLoading(this);
+        dialogBySystemWarn = new CustomSystemWarnDialog(this);
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -129,7 +134,20 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 finish();
             }
         }
+        else {
+            dialogBySystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
+            dialogBySystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
+            dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
+        }
 
+    }
+
+    public CustomSystemWarnDialog getDialogBySystemWarn(){
+        if(dialogBySystemWarn==null){
+            dialogBySystemWarn = new CustomSystemWarnDialog(this);
+        }
+
+        return dialogBySystemWarn;
     }
 
     public void  useClosePageCountTimer() {
@@ -265,6 +283,14 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().finishActivity(this);
         closePageCountTimerStop();
         TcStatInterface.recordAppEnd();
+
+        if (dialogBySystemWarn != null && dialogBySystemWarn.isShowing()) {
+            dialogBySystemWarn.cancel();
+        }
+
+        if (dialogByLoading != null && dialogByLoading.isShowing()) {
+            dialogByLoading.cancel();
+        }
     }
 
     @Override
@@ -281,6 +307,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
+    public void checkIsHasExHappen() {
+        //getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+        //getDialogBySystemWarn().show();
+    }
+
     public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
@@ -290,17 +321,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(!customDialogLoading.isShowing()) {
-                            customDialogLoading.setProgressText(loadingMsg);
-                            customDialogLoading.showDialog();
+                        if(!dialogByLoading.isShowing()) {
+                            dialogByLoading.setProgressText(loadingMsg);
+                            dialogByLoading.showDialog();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    if (customDialogLoading != null && customDialogLoading.isShowing()) {
-                                        customDialogLoading.cancelDialog();
+                                    if (dialogByLoading != null && dialogByLoading.isShowing()) {
+                                        dialogByLoading.cancelDialog();
                                     }
                                 }
                             }, 6000);
@@ -313,8 +344,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                        customDialogLoading.cancelDialog();
+                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
+                        dialogByLoading.cancelDialog();
                     }
                 }
                 final String s = response;
@@ -337,8 +368,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                        customDialogLoading.cancelDialog();
+                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
+                        dialogByLoading.cancelDialog();
                     }
                 }
                 handler.onFailure(msg, e);
@@ -354,17 +385,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onBeforeSend() {
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(!customDialogLoading.isShowing()) {
-                            customDialogLoading.setProgressText(loadingMsg);
-                            customDialogLoading.showDialog();
+                        if(!dialogByLoading.isShowing()) {
+                            dialogByLoading.setProgressText(loadingMsg);
+                            dialogByLoading.showDialog();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    if (customDialogLoading != null && customDialogLoading.isShowing()) {
-                                        customDialogLoading.cancelDialog();
+                                    if (dialogByLoading != null && dialogByLoading.isShowing()) {
+                                        dialogByLoading.cancelDialog();
                                     }
                                 }
                             }, 6000);
@@ -377,8 +408,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                        customDialogLoading.cancelDialog();
+                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
+                        dialogByLoading.cancelDialog();
                     }
                 }
                 final String s = response;
@@ -399,8 +430,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                        customDialogLoading.cancelDialog();
+                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
+                        dialogByLoading.cancelDialog();
                     }
                 }
                 handler.onFailure(msg, e);

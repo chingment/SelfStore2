@@ -8,6 +8,7 @@ import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -154,9 +155,12 @@ public class CabinetCtrlByZS {
     }
 
     public boolean connect() {
-        int rc_status = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
-        if (rc_status == 0) {
-            isConnect = true;
+        File file = new File("/dev/"+CabinetCtrlByZS.ComId);
+        if (file.exists()) {
+            int rc_status = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, nBaudrate);
+            if (rc_status == 0) {
+                isConnect = true;
+            }
         }
         return isConnect;
     }
