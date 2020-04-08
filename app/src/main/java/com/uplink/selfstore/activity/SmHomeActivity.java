@@ -169,13 +169,32 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
             }
         });
 
+
+        int i_cabinet=0;
+
         for (HashMap.Entry<String,CabinetBean> entry : sort_cabinets) {
+
+            int i_cabinet_icon;
+            if(i_cabinet==0){
+                i_cabinet_icon=R.drawable.ic_sm_stock_0;
+            }
+            else if(i_cabinet==1){
+                i_cabinet_icon=R.drawable.ic_sm_stock_1;
+            }
+            else if(i_cabinet==2){
+                i_cabinet_icon=R.drawable.ic_sm_stock_2;
+            }
+            else {
+                i_cabinet_icon = R.drawable.ic_sm_stock_0;
+            }
+
             CabinetBean cabinet = entry.getValue();
-            gridviewitems.add(new NineGridItemBean(cabinet.getName()+getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.machinestock", R.drawable.ic_sm_stock,cabinet));
+            gridviewitems.add(new NineGridItemBean(cabinet.getName()+getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.machinestock", i_cabinet_icon,cabinet));
+            i_cabinet++;
         }
 
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_runexhandle), NineGridItemType.Function, "fun.runexhandle", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_runexhandle), NineGridItemType.Function, "fun.runexhandle", R.drawable.ic_sm_runexhandle));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_hardware), NineGridItemType.Function, "fun.hardware", R.drawable.ic_sm_hardware));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));

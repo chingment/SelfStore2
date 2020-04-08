@@ -50,10 +50,11 @@ public class ExHandleOrderAdapter extends BaseAdapter {
         TextView txt_OrderSn = ViewHolder.get(convertView, R.id.txt_OrderSn);
         MyListView list_OrderDetailItems = ViewHolder.get(convertView, R.id.list_exorder_detailitems);
 
+        if(item.getDetailItems()!=null) {
+            ExHandleOrderDetailItemAdapter exHandleOrderDetailItemAdapter = new ExHandleOrderDetailItemAdapter(context, item.getDetailItems());
 
-        ExHandleOrderDetailItemAdapter exHandleOrderDetailItemAdapter=new ExHandleOrderDetailItemAdapter(context,item.getDetailItems());
-
-        list_OrderDetailItems.setAdapter(exHandleOrderDetailItemAdapter);
+            list_OrderDetailItems.setAdapter(exHandleOrderDetailItemAdapter);
+        }
 
         txt_OrderSn.setText(item.getSn());
 
