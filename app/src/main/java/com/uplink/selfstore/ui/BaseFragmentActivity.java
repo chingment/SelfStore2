@@ -308,8 +308,15 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     public void checkIsHasExHappen() {
-        //getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
-        //getDialogBySystemWarn().show();
+        MachineBean machine=getMachine();
+        if(machine!=null) {
+            if(machine.getId()!="") {
+                if(machine.isExIsHas()) {
+                    getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                    getDialogBySystemWarn().show();
+                }
+            }
+        }
     }
 
     public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {

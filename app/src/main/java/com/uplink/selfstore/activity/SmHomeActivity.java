@@ -175,10 +175,9 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         }
 
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_runexhandle), NineGridItemType.Function, "fun.runexhandle", R.drawable.ic_sm_machine));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
-
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_hardware), NineGridItemType.Function, "fun.hardware", R.drawable.ic_sm_hardware));
-
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));
@@ -211,6 +210,10 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     CabinetBean cabinet = (CabinetBean)gridviewitem.getTag();
                                     intent = new Intent(getAppContext(), SmMachineStockActivity.class);
                                     intent.putExtra("cabinetId", cabinet.getId());
+                                    startActivity(intent);
+                                    break;
+                                case "fun.runexhandle":
+                                    intent = new Intent(getAppContext(), SmRunExHandleActivity.class);
                                     startActivity(intent);
                                     break;
                                 case "fun.userinfo":

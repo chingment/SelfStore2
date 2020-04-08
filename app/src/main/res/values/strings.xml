@@ -60,6 +60,7 @@
     <string name="aty_smhome_navtitle">设置中心</string>
     <string name="aty_smhome_ngtitle_stockset">库存设置</string>
     <string name="aty_smhome_ngtitle_machineset">机器信息</string>
+    <string name="aty_smhome_ngtitle_runexhandle">异常处理</string>
     <string name="aty_smhome_ngtitle_userinfo">用户信息</string>
     <string name="aty_smhome_ngtitle_hardware">硬件诊断</string>
     <string name="aty_smhome_ngtitle_checkupdateapp">检查更新</string>
@@ -81,6 +82,7 @@
     <string name="aty_orderdetails_btntx_contactkefu">联系客服</string>
     <string name="aty_orderdetails_tips_contactkefu">请打开微信扫一扫，联系客服</string>
     <string name="aty_orderdetails_confirmtips_pickup">确认已完成取货?</string>
+    <string name="aty_smrunexhandle_navtitle">异常处理</string>
     <string name="dlg_confirm_btntx_cancle">否</string>
     <string name="dlg_confirm_btntx_sure">是</string>
     <string name="dlg_slotedit_tvtx_productskuslotname">货道编号</string>
