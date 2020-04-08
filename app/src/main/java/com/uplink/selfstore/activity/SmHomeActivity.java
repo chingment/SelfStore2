@@ -17,6 +17,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
+import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
@@ -110,14 +111,18 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         break;
                     case "fun.door":
 
-                        switch (getMachine().getMstCtrl()){
-                            case "DS":
-                                cabinetCtrlByDS.doorControl();
-                                break;
-                            case "ZS":
-                                cabinetCtrlByZS.doorControl();
-                                break;
+                        String mstCtrl=getMachine().getMstCtrl();
+                        if(mstCtrl!=null) {
+                            switch (mstCtrl) {
+                                case "DS":
+                                    cabinetCtrlByDS.doorControl();
+                                    break;
+                                case "ZS":
+                                    cabinetCtrlByZS.doorControl();
+                                    break;
+                            }
                         }
+
                         break;
                     case "fun.exitmanager":
 
