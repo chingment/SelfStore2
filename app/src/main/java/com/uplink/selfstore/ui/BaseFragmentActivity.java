@@ -307,7 +307,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public void checkIsHasExHappen() {
         MachineBean machine=getMachine();
         if(machine!=null) {
-            if(machine.getId()!="") {
+            if(!machine.getId().equals("")) {
                 if(machine.isExIsHas()) {
                     getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                     getDialogBySystemWarn().show();
