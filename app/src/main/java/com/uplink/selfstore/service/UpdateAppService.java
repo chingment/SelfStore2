@@ -28,6 +28,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.utils.LogUtil;
@@ -54,7 +55,6 @@ public class UpdateAppService extends Service {
     private void downloadManagerApk(String downpath) {
 
         try {
-
             Message m = new Message();
             m.what = 1;
             handler_msg.sendMessage(m);
@@ -309,12 +309,8 @@ public class UpdateAppService extends Service {
             m.what = 2;
             handler_msg.sendMessage(m);
             if(apk!=null) {
-                String paht = apk.getPath();
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.installslient");
-                intent.putExtra("uri", paht);
-                intent.putExtra("component", "com.uplink.selfstore/.activity.InitDataActivity");
-                sendBroadcast(intent);
+                String path = apk.getPath();
+                SystemCtrlInterface.getInstance().installApk(UpdateAppService.this,path);
             }
         }
         /**

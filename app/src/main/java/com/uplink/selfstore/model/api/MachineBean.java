@@ -20,9 +20,10 @@ public class MachineBean implements Serializable {
     private String csrQrCode;
     private String csrPhoneNumber;
     private String csrHelpTip;
+    private String systemName;
+
 
     private HashMap<String, CabinetBean> cabinets;
-
 
     public HashMap<String, CabinetBean> getCabinets() {
         return cabinets;
@@ -38,8 +39,6 @@ public class MachineBean implements Serializable {
     private boolean isOpenChkCamera;
     private int maxBuyNumber;
     private boolean exIsHas;
-
-
 
     public String getCsrHelpTip() {
         return csrHelpTip;

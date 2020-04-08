@@ -23,6 +23,7 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.service.UpdateAppService;
+import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -77,6 +78,8 @@ public class AppContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        SystemCtrlInterface.init("");
 
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override

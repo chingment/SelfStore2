@@ -19,6 +19,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
+import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
@@ -31,6 +32,7 @@ import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.service.UpdateAppService;
+import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
@@ -272,9 +274,14 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
                 });
                 if (rt.getResult() == Result.SUCCESS) {
+
                     AppCacheManager.setGlobalDataSet(rt.getData());
 
-                    HashMap<String, CabinetBean>  cabinets= rt.getData().getMachine().getCabinets();
+                    MachineBean machine=rt.getData().getMachine();
+
+                    SystemCtrlInterface.init("");
+
+                    HashMap<String, CabinetBean>  cabinets= machine.getCabinets();
 
                     HashMap<String, String> modelNos=new HashMap<>();
 

@@ -37,6 +37,7 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.HeartbeatService;
+import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.utils.LocationUtil;
@@ -181,12 +182,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-    public void setHideStatusBar(boolean isshow) {
-
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.hidenavigation");
-        intent.putExtra("enable", isshow);
-        sendBroadcast(intent);
+    public void setHideStatusBar(boolean ishidden) {
+        SystemCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
 
     @Override

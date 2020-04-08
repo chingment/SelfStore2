@@ -22,6 +22,7 @@ import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -89,17 +90,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         break;
                     case "fun.rootsys":
                         setHideStatusBar(false);
-                        Intent it = new Intent();
-                        it.setAction("com.fourfaith.reboot");
-                        it.putExtra("mode", "0");//0 重启 1 关机
-                        sendBroadcast(it);
+                        SystemCtrlInterface.getInstance().reboot(SmHomeActivity.this);
                         break;
                     case "fun.door":
-
                         cabinetCtrlByDS.doorControl();
-
                         //cabinetCtrlByZS.doorControl();
-
                         break;
                     case "fun.exitmanager":
 
