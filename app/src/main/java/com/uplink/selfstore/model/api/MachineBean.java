@@ -20,8 +20,8 @@ public class MachineBean implements Serializable {
     private String csrQrCode;
     private String csrPhoneNumber;
     private String csrHelpTip;
-    private String systemName;
-
+    private String ostCtrl;
+    private String mstCtrl;
 
     private HashMap<String, CabinetBean> cabinets;
 
@@ -167,5 +167,21 @@ public class MachineBean implements Serializable {
 
     public void setCsrPhoneNumber(String csrPhoneNumber) {
         this.csrPhoneNumber = csrPhoneNumber;
+    }
+
+    public String getOstCtrl() {
+        return ostCtrl;
+    }
+
+    public void setOstCtrl(String ostCtrl) {
+        this.ostCtrl = ostCtrl;
+    }
+
+    public String getMstCtrl() {
+        return mstCtrl;
+    }
+
+    public void setMstCtrl(String mstCtrl) {
+        this.mstCtrl = mstCtrl;
     }
 }

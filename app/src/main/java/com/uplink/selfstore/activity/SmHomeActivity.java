@@ -72,6 +72,22 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
           })
         );
 
+        cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle bundle = msg.getData();
+                        int status = bundle.getInt("status");
+                        String message = bundle.getString("message");
+                        switch (status) {
+                            case 6: //消息提示超时
+                                showToast(message);
+                                break;
+                        }
+                        return true;
+                    }
+                })
+        );
+
         Intent updateAppService = new Intent();
         updateAppService.putExtra("from",1);
         updateAppService.setAction("android.intent.action.updateAppService");
@@ -93,8 +109,15 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         SystemCtrlInterface.getInstance().reboot(SmHomeActivity.this);
                         break;
                     case "fun.door":
-                        cabinetCtrlByDS.doorControl();
-                        //cabinetCtrlByZS.doorControl();
+
+                        switch (getMachine().getMstCtrl()){
+                            case "DS":
+                                cabinetCtrlByDS.doorControl();
+                                break;
+                            case "ZS":
+                                cabinetCtrlByZS.doorControl();
+                                break;
+                        }
                         break;
                     case "fun.exitmanager":
 
@@ -299,6 +322,12 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         }
 
         cabinetCtrlByDS.connect();
+
+        if(cabinetCtrlByZS==null) {
+            cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
+        }
+
+        cabinetCtrlByZS.connect();
     }
 
     @Override
@@ -309,6 +338,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
         }
+
+        if(cabinetCtrlByZS!=null){
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
+        }
     }
 
     @Override
@@ -318,6 +352,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         if(cabinetCtrlByDS!=null){
             cabinetCtrlByDS.disConnect();
             cabinetCtrlByDS = null;
+        }
+
+        if(cabinetCtrlByZS!=null){
+            cabinetCtrlByZS.disConnect();
+            cabinetCtrlByZS = null;
         }
     }
 

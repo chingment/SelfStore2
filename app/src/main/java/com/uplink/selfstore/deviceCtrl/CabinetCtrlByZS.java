@@ -134,7 +134,6 @@ public class CabinetCtrlByZS {
 
     public void doorControl() {
 
-
         curMessageWhat = MESSAGE_WHAT_DOORCONTROL;
 
         if (!isConnect) {
