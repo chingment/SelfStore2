@@ -63,7 +63,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                         bundle = msg.getData();
                         String scanResult = bundle.getString("result");
                         if(scanResult!=null){
-                            if(scanResult.contains("fanju:pickupcode")){
+                            if(scanResult.contains("pickupcode")){
+                                LogUtil.e("pickupcode:" + scanResult);
                                 orderSearchByPickupCode(scanResult);
                             }
                         }
@@ -76,8 +77,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initEvent();
         initData();
         checkIsHasExHappen();
-
-
 
     }
 
@@ -114,8 +113,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         dialog_NumKey.setOnSureListener(new CustomNumKeyDialog.OnSureListener() {
             @Override
             public void onClick(View v, String number) {
-                LogUtil.e("number:" + number);
-                orderSearchByPickupCode("fanju:pickupcode@v1="+number);
+                LogUtil.e("pickupcode:" + number);
+                orderSearchByPickupCode("pickupcode@v1:"+number);
             }
         });
 
@@ -162,11 +161,48 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
     }
 
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(scanMidCtrl==null) {
+            scanMidCtrl = ScanMidCtrl.getInstance();
+        }
+
+        scanMidCtrl.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if(scanMidCtrl!=null){
+            scanMidCtrl.disConnect();
+            scanMidCtrl = null;
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if(scanMidCtrl!=null){
+            scanMidCtrl.disConnect();
+            scanMidCtrl = null;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (dialog_NumKey != null && dialog_NumKey.isShowing()) {
             dialog_NumKey.cancel();
+        }
+
+        if(scanMidCtrl!=null){
+            scanMidCtrl.disConnect();
+            scanMidCtrl = null;
         }
     }
 }

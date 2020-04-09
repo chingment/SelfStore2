@@ -50,14 +50,9 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -78,6 +73,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private GlobalDataSetBean globalDataSet;
     private MachineBean machine;
     public LocationUtil locationUtil;
+
+    private Map<String,Boolean> orderSearchByPickupCode=new HashMap<String, Boolean>();
 
     public void setNavTtile(String title) {
         TextView nav_title = (TextView) findViewById(R.id.nav_title);
@@ -520,13 +517,18 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    OrderDetailsBean d = rt.getData();
-                    Intent intent = new Intent(getAppContext(), OrderDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("dataBean", d);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
+                    synchronized(BaseFragmentActivity.class) {
+                        if (!orderSearchByPickupCode.containsKey(pickCode)) {
+                            orderSearchByPickupCode.put(pickCode, true);
+                            OrderDetailsBean d = rt.getData();
+                            Intent intent = new Intent(getAppContext(), OrderDetailsActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("dataBean", d);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
                 } else {
                     showToast(rt.getMessage());
                 }
