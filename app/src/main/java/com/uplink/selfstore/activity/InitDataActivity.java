@@ -29,7 +29,6 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
-import com.uplink.selfstore.service.CameraSnapService;
 import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
@@ -39,7 +38,6 @@ import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,9 +90,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initData();
 
         initHandler.postDelayed(initRunable, 1000);
-
-        Intent cameraSnapService = new Intent(this, CameraSnapService.class);
-        startService(cameraSnapService);
 
         Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);

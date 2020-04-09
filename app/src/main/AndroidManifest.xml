@@ -188,7 +188,6 @@
         <!-- </receiver> -->
         <activity android:name=".activity.SmLoginActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
-        <service android:name=".service.CameraSnapService" />
         <service android:name=".service.UpdateAppService" />
         <service
             android:name=".service.HeartbeatService"

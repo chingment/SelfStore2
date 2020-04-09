@@ -55,26 +55,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initData();
         checkIsHasExHappen();
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivityForResult(intent, 1);
-            } else {
-                //TODO 做你需要的事情
-                CameraWindow.show(this);
-            }
-        } else {
-            CameraWindow.show(this);
-        }
-
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
 
     protected void initView() {
         layout_header = (RelativeLayout) findViewById(R.id.layout_header);

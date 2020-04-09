@@ -57,8 +57,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         confirmDialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                delingerVein();
+                delFingerVein();
             }
         });
         confirmDialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
@@ -83,7 +82,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                             case 2://采集成功
                                 //dialog_FingerVein.getTxtMessage().setText(message);
                                 result = bundle.getByteArray("result");
-                                upoadFingerVeinData(result);
+                                uploadFingerVeinData(result);
                                 break;
                             case 3://采集失败
                                 dialog_FingerVein.getTxtMessage().setText(message);
@@ -141,8 +140,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         });
     }
 
-
-    private void  delingerVein(){
+    private void  delFingerVein(){
 
         Map<String, String> params = new HashMap<>();
 
@@ -191,7 +189,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         }
     }
 
-    private void  upoadFingerVeinData(byte[] data){
+    private void  uploadFingerVeinData(byte[] data){
 
         MachineBean machine = AppCacheManager.getMachine();
 
@@ -199,7 +197,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         params.put("machineId", machine.getId() + "");
         params.put("veinData", Base64.encodeToString(data, Base64.NO_WRAP));
 
-        postByMy(Config.URL.own_UpoadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(Config.URL.own_UploadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
