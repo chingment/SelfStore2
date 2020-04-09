@@ -35,6 +35,8 @@ import com.uplink.selfstore.utils.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 
 public class OrderDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "OrderDetailsActivity";
