@@ -11,7 +11,6 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.ExHandleOrderBean;
 import com.uplink.selfstore.model.api.MachineGetRunExHandleItemsResultBean;
-import com.uplink.selfstore.model.api.MachineSlotsResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.my.MyListView;
