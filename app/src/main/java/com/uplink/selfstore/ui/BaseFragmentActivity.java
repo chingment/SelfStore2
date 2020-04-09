@@ -20,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.JsonObject;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
@@ -28,8 +30,11 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.jpush.LocalBroadcastManager;
+import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.OrderDetailsBean;
+import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
@@ -495,6 +500,41 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
 
+            }
+        });
+    }
+
+    public void orderSearchByPickupCode(String pickCode) {
+
+        Map<String, String> params = new HashMap<>();
+
+        params.put("machineId", this.getMachine().getId());
+        params.put("pickupCode", pickCode);
+
+        getByMy(Config.URL.order_SearchByPickupCode, params, true, "正在寻找订单", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                super.onSuccess(response);
+
+                ApiResultBean<OrderDetailsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsBean>>() {
+                });
+
+                if (rt.getResult() == Result.SUCCESS) {
+                    OrderDetailsBean d = rt.getData();
+                    Intent intent = new Intent(getAppContext(), OrderDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("dataBean", d);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    showToast(rt.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(String msg, Exception e) {
+                showToast(msg);
             }
         });
     }

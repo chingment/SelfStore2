@@ -376,8 +376,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         txt_OrderSn.setText(orderDetails.getSn());
 
 
-        OrderDetailsSkuAdapter cartSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
-        list_Skus.setAdapter(cartSkuAdapter);
+        OrderDetailsSkuAdapter orderDetailsSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
+        list_Skus.setAdapter(orderDetailsSkuAdapter);
     }
 
     //设置商品卡槽去货中

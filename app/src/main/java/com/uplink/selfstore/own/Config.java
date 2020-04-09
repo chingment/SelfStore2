@@ -35,7 +35,7 @@ public class Config {
         public static final String order_Cancle = BuildConfig.ENVIRONMENT + "/api/Order/Cancle";
         public static final String order_PayStatusQuery = BuildConfig.ENVIRONMENT + "/api/Order/PayStatusQuery";
         public static final String order_PickupStatusQuery = BuildConfig.ENVIRONMENT + "/api/Order/PickupStatusQuery";
-        public static final String order_Search = BuildConfig.ENVIRONMENT + "/api/Order/Search";
+        public static final String order_SearchByPickupCode = BuildConfig.ENVIRONMENT + "/api/Order/SearchByPickupCode";
         public static final String order_Details = BuildConfig.ENVIRONMENT + "/api/Order/Details";
         public static final String order_PayUrlBuild = BuildConfig.ENVIRONMENT + "/api/Order/PayUrlBuild";
         public static final String stockSetting_GetCabinetSlots= BuildConfig.ENVIRONMENT + "/api/StockSetting/GetCabinetSlots";

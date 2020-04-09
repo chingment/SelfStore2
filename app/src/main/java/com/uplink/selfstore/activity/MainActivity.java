@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
+import android.os.Message;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,6 +17,7 @@ import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -45,15 +47,37 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
+    private ScanMidCtrl scanMidCtrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        scanMidCtrl = ScanMidCtrl.getInstance();
+        scanMidCtrl.connect();
+        scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle bundle;
+                        bundle = msg.getData();
+                        String scanResult = bundle.getString("result");
+                        if(scanResult!=null){
+                            if(scanResult.contains("fanju:pickupcode")){
+                                orderSearchByPickupCode(scanResult);
+                            }
+                        }
+                        return false;
+                    }
+                })
+        );
+
         initView();
         initEvent();
         initData();
         checkIsHasExHappen();
+
+
 
     }
 
@@ -91,9 +115,10 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             @Override
             public void onClick(View v, String number) {
                 LogUtil.e("number:" + number);
-                search(number);
+                orderSearchByPickupCode("fanju:pickupcode@v1="+number);
             }
         });
+
     }
 
     private void initData() {
@@ -143,43 +168,5 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if (dialog_NumKey != null && dialog_NumKey.isShowing()) {
             dialog_NumKey.cancel();
         }
-    }
-
-    private void search(String pickCode) {
-
-        Map<String, String> params = new HashMap<>();
-
-        params.put("machineId", this.getMachine().getId());
-        params.put("pickupCode", pickCode);
-
-        getByMy(Config.URL.order_Search, params, true, "正在寻找订单", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
-                super.onSuccess(response);
-
-                ApiResultBean<OrderDetailsBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderDetailsBean>>() {
-                });
-
-
-                if (rt.getResult() == Result.SUCCESS) {
-                    OrderDetailsBean d = rt.getData();
-
-                    Intent intent = new Intent(MainActivity.this, OrderDetailsActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("dataBean", d);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
-
-                } else {
-                    showToast(rt.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(String msg, Exception e) {
-                showToast(msg);
-            }
-        });
     }
 }
