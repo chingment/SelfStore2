@@ -311,8 +311,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(machine!=null) {
             if(!machine.getId().equals("")) {
                 if(machine.isExIsHas()) {
-                    //getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
-                    //getDialogBySystemWarn().show();
+                    getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                    getDialogBySystemWarn().show();
                 }
             }
         }

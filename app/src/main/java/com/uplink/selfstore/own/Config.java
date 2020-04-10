@@ -30,6 +30,7 @@ public class Config {
         public static final String machine_EventNotify = BuildConfig.ENVIRONMENT + "/api/Machine/EventNotify";
         public static final String machine_UpLoadTraceLog= BuildConfig.ENVIRONMENT + "/api/Machine/UpLoadTraceLog";
         public static final String machine_GetRunExHandleItems= BuildConfig.ENVIRONMENT + "/api/Machine/GetRunExHandleItems";
+        public static final String machine_HandleRunExItems= BuildConfig.ENVIRONMENT + "/api/Machine/HandleRunExItems";
         public static final String order_Reserve = BuildConfig.ENVIRONMENT + "/api/Order/Reserve";
         public static final String order_BuildPayParams = BuildConfig.ENVIRONMENT + "/api/Order/BuildPayParams";
         public static final String order_Cancle = BuildConfig.ENVIRONMENT + "/api/Order/Cancle";

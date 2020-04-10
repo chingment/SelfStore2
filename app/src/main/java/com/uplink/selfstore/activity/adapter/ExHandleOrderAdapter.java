@@ -13,13 +13,13 @@ import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.my.MyListView;
 
 import java.util.List;
+import java.util.Map;
 
 public class ExHandleOrderAdapter extends BaseAdapter {
 
     private static final String TAG = "ExHandleOrderAdapter";
     private Context context;
     private List<ExHandleOrderBean> items;
-
     public ExHandleOrderAdapter(Context context, List<ExHandleOrderBean> items) {
         this.context = context;
         this.items = items;
@@ -51,7 +51,7 @@ public class ExHandleOrderAdapter extends BaseAdapter {
         MyListView list_OrderDetailItems = ViewHolder.get(convertView, R.id.list_exorder_detailitems);
 
         if(item.getDetailItems()!=null) {
-            ExHandleOrderDetailItemAdapter exHandleOrderDetailItemAdapter = new ExHandleOrderDetailItemAdapter(context, item.getDetailItems());
+            ExHandleOrderDetailItemAdapter exHandleOrderDetailItemAdapter = new ExHandleOrderDetailItemAdapter(context,items, item.getDetailItems());
 
             list_OrderDetailItems.setAdapter(exHandleOrderDetailItemAdapter);
         }

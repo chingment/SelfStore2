@@ -3,14 +3,14 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class ExHandleOrderDetailItemBean implements Serializable {
-    private   String productSkuId;
-    private   String mainImgUrl;
-    private   String name;
-    private   String quantity;
-    private   String uniqueId;
-    private   String slotId;
+    private String productSkuId;
+    private String mainImgUrl;
+    private String name;
+    private String quantity;
+    private String uniqueId;
+    private String slotId;
     private boolean canHandle;
-
+    private int signStatus;
 
     public String getProductSkuId() {
         return productSkuId;
@@ -66,5 +66,13 @@ public class ExHandleOrderDetailItemBean implements Serializable {
 
     public void setCanHandle(boolean canHandle) {
         this.canHandle = canHandle;
+    }
+
+    public int getSignStatus() {
+        return signStatus;
+    }
+
+    public void setSignStatus(int signStatus) {
+        this.signStatus = signStatus;
     }
 }
