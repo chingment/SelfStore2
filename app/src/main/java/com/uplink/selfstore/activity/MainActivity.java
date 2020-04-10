@@ -156,6 +156,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
 
         scanMidCtrl.connect();
+
+        checkIsHasExHappen();
     }
 
     @Override
