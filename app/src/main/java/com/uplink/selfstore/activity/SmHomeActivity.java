@@ -147,7 +147,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                 if (rt.getResult() == Result.SUCCESS) {
                                     Intent intent = new Intent(getAppContext(), InitDataActivity.class);
                                     startActivity(intent);
-                                    finish();
+                                    finishAffinity();
                                 } else {
                                   showToast(rt.getMessage());
                                 }

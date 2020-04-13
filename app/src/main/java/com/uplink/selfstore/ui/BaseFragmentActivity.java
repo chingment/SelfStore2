@@ -103,9 +103,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     public MachineBean getMachine() {
-        //if (machine == null) {
-            machine = AppCacheManager.getMachine();
-       // }
+        machine = AppCacheManager.getMachine();
         return machine;
     }
 

@@ -95,11 +95,8 @@ public class AppCacheManager {
     }
 
     public static void setGlobalDataSet(GlobalDataSetBean bean) {
-
-       // _globalDataSet = bean;
+        AppCacheManager.getCache().remove(Cache_Key_GlobalDataSet);
         AppCacheManager.getCache().put(Cache_Key_GlobalDataSet, bean);
-
-
     }
 
 

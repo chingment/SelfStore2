@@ -61,6 +61,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
+
+        LogUtil.e(TAG,"机器的状态是否异常："+getMachine().isExIsHas());
     }
 
     protected void initView() {
