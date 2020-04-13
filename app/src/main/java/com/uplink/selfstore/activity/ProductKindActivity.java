@@ -60,7 +60,6 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         initView();
         initEvent();
         initData();
-        checkIsHasExHappen();
         useClosePageCountTimer();
     }
 
@@ -206,6 +205,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         loadKindData();
+        checkIsHasExHappen();
     }
 
     private void addGoodsToCart(ImageView goodsImg) {

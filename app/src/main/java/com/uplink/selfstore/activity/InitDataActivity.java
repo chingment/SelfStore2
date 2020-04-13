@@ -270,6 +270,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 });
                 if (rt.getResult() == Result.SUCCESS) {
 
+                    AppCacheManager.setGlobalDataSet(null);
                     AppCacheManager.setGlobalDataSet(rt.getData());
 
                     MachineBean machine=rt.getData().getMachine();

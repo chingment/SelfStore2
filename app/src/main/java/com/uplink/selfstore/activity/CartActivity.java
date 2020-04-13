@@ -74,7 +74,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initView();
         initEvent();
         initData();
-        checkIsHasExHappen();
         useClosePageCountTimer();
     }
 
@@ -252,6 +251,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     break;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        checkIsHasExHappen();
     }
 
     @Override

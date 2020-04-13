@@ -61,8 +61,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
-        checkIsHasExHappen();
-
     }
 
     protected void initView() {
