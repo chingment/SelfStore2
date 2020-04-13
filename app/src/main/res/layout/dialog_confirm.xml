@@ -67,12 +67,12 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/dialog_confirm_btn_cancle_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:gravity="center"
-
                 >
 
                 <Button
@@ -90,6 +90,7 @@
 
 
             <LinearLayout
+                android:id="@+id/dialog_confirm_btn_sure_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

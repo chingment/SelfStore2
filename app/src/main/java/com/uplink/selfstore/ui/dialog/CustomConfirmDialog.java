@@ -31,11 +31,14 @@ public class CustomConfirmDialog extends Dialog {
     private View layoutRes;// 布局文件
     private Context context;
     private Button btnSure;
+    private LinearLayout btnSureLayout;
     private Button btnCancle;
+    private LinearLayout btnCancleLayout;
     private LinearLayout btnArea;
     private View btnClose;
     private TextView txtTipsText;
     private ImageView txtTipsImage;
+
     public Button getBtnSure() {
         return this.btnSure;
     }
@@ -64,7 +67,9 @@ public class CustomConfirmDialog extends Dialog {
         txtTipsText = (TextView) this.layoutRes.findViewById(R.id.dialog_confirm_tips_txt);
         txtTipsImage = (ImageView) this.layoutRes.findViewById(R.id.dialog_confirm_tips_img);
         btnSure = (Button) this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure);
+        btnSureLayout= (LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure_layout);
         btnCancle = (Button) this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle);
+        btnCancleLayout= (LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle_layout);
         btnClose = this.layoutRes.findViewById(R.id.dialog_btn_close);
         btnArea=(LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_area);
         txtTipsText.setText(tips);
@@ -86,6 +91,11 @@ public class CustomConfirmDialog extends Dialog {
 
     private void close() {
         this.dismiss();
+    }
+
+    public void setBtnCloseVisibility(int visibility) {
+        btnClose.setVisibility(visibility);
+        btnCancleLayout.setVisibility(visibility);
     }
 
     @Override

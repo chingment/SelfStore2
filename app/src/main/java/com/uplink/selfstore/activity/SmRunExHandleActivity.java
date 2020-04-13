@@ -43,13 +43,13 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     private Button btn_GoBack;
     private Button btn_Handle;
     private CustomConfirmDialog dialog_ConfrmHandle;
-
+    private CustomConfirmDialog dialog_HandleComplete;
     private List<ExHandleOrderBean> exOrders;
     private List<ExHandleReasonBean> exReasons;
 
     private LinearLayout layout_ex;
     private LinearLayout layout_exorders;
-    private LinearLayout layout_handletips;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +76,6 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
         layout_ex=(LinearLayout) findViewById(R.id.layout_ex);
         layout_exorders=(LinearLayout) findViewById(R.id.layout_exorders);
-        layout_handletips=(LinearLayout) findViewById(R.id.layout_handletips);
         dialog_ConfrmHandle = new CustomConfirmDialog(SmRunExHandleActivity.this, "确定要处理异常订单，慎重操作，会影响实际库存？", true);
         dialog_ConfrmHandle.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
         dialog_ConfrmHandle.getBtnSure().setOnClickListener(new View.OnClickListener() {
@@ -141,8 +140,9 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                         });
 
                         if (rt.getResult() == Result.SUCCESS) {
-                            layout_handletips.setVisibility(View.VISIBLE);
-                            layout_ex.setVisibility(View.GONE);
+
+                            dialog_HandleComplete.show();
+
                         } else {
                             showToast(rt.getMessage());
                         }
@@ -162,6 +162,23 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                 dialog_ConfrmHandle.dismiss();
             }
         });
+
+        dialog_HandleComplete = new CustomConfirmDialog(SmRunExHandleActivity.this, "处理完成，返回主界面", false);
+        dialog_HandleComplete.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_success)));
+        dialog_HandleComplete.setBtnCloseVisibility(View.GONE);
+        dialog_HandleComplete.getBtnSure().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (dialog_ConfrmHandle != null && dialog_ConfrmHandle.isShowing()) {
+                    dialog_ConfrmHandle.cancel();
+                }
+
+                finish();
+
+            }
+        });
+
     }
 
     protected void initEvent() {
