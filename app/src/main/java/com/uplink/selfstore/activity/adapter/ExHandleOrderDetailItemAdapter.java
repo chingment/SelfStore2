@@ -62,6 +62,14 @@ public class ExHandleOrderDetailItemAdapter  extends BaseAdapter {
         CheckBox cbx_sign_pickup = ViewHolder.get(convertView, R.id.cbx_sign_pickup);
         CheckBox cbx_sign_unpickup = ViewHolder.get(convertView, R.id.cbx_sign_unpickup);
 
+
+        if(exOrderDetailItem.isCanHandle()){
+            cbx_sign_pickup.setVisibility(View.VISIBLE);
+        }
+        else {
+            cbx_sign_pickup.setVisibility(View.GONE);
+        }
+
         cbx_sign_pickup.setTag(exOrderDetailItem.getUniqueId());
         cbx_sign_pickup.setOnClickListener(new View.OnClickListener() {
             @Override

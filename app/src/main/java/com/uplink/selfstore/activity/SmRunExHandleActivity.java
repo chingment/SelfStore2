@@ -101,12 +101,12 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                         List<ExHandleOrderDetailItemBean> detailItems = exOrders.get(i).getDetailItems();
                         for (int j = 0; j < detailItems.size(); j++) {
                             ExHandleOrderDetailItemBean detailItem = detailItems.get(j);
-
-                            JSONObject json_UniqueItem = new JSONObject();
-                            json_UniqueItem.put("uniqueId", detailItem.getUniqueId());
-                            json_UniqueItem.put("signStatus", detailItem.getSignStatus());
-                            json_UniqueItems.put(json_UniqueItem);
-
+                            if(detailItem.isCanHandle()) {
+                                JSONObject json_UniqueItem = new JSONObject();
+                                json_UniqueItem.put("uniqueId", detailItem.getUniqueId());
+                                json_UniqueItem.put("signStatus", detailItem.getSignStatus());
+                                json_UniqueItems.put(json_UniqueItem);
+                            }
                         }
 
                         json_Order.put("uniqueItems",json_UniqueItems);
@@ -285,9 +285,11 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                 List<ExHandleOrderDetailItemBean> detailItems = exOrders.get(i).getDetailItems();
                 for (int j = 0; j < detailItems.size(); j++) {
                     ExHandleOrderDetailItemBean detailItem = detailItems.get(j);
-                    if (detailItem.getSignStatus() == 0) {
-                        showToast("请标记" + detailItem.getName() + "的取货状态");
-                        return;
+                    if(detailItem.isCanHandle()) {
+                        if (detailItem.getSignStatus() == 0) {
+                            showToast("请标记" + detailItem.getName() + "的取货状态");
+                            return;
+                        }
                     }
                 }
             }

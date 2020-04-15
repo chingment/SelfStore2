@@ -170,7 +170,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //                                break;
                             case 3:
                             case 4://反馈成功
-
+                                //todo 暂时默认发送命令既成功
                                 PickupResult pickupResult = new PickupResult();
                                 pickupResult.setPickupComplete(true);
                                 curPickupSku_Tv_Tip2.setText("取货完成");
