@@ -86,6 +86,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private EditText ds_hd_et_ck;
     private Button ds_hd_btn_connect;
     private Button ds_hd_btn_gozero;
+    private Button ds_hd_btn_stop;
     private TextView ds_tv_log;
 
     Semaphore mCameraOpenCloseLock = new Semaphore(1);
@@ -97,11 +98,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         setNavTtile(this.getResources().getString(R.string.aty_smhardware_navtitle));
         setNavGoBackBtnVisible(true);
 
-
         initViewByCamera();
         initViewByDS();
         initViewByZS();
-
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -244,9 +243,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         ds_hd_et_ck = (EditText) findViewById(R.id.ds_hd_et_ck);
         ds_hd_btn_connect = (Button) findViewById(R.id.ds_hd_btn_connect);
         ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
-
+        ds_hd_btn_stop= (Button) findViewById(R.id.ds_hd_btn_stop);
         ds_hd_btn_connect.setOnClickListener(this);
         ds_hd_btn_gozero.setOnClickListener(this);
+        ds_hd_btn_stop.setOnClickListener(this);
     }
 
     @Override
@@ -283,7 +283,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             ds_CabinetCtrlByZS=null;
         }
     }
-
 
     @Override
     protected void onDestroy() {
@@ -471,7 +470,18 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     zs_CabinetCtrlByZS.connect();
                     break;
                 case R.id.ds_hd_btn_gozero:
+                    if(!ds_CabinetCtrlByZS.isConnect()){
+                        showToast("未打开连接");
+                        return;
+                    }
                     ds_CabinetCtrlByZS.goZero();
+                    break;
+                case R.id.ds_hd_btn_stop:
+                    if(!ds_CabinetCtrlByZS.isConnect()){
+                        showToast("未打开连接");
+                        return;
+                    }
+                    ds_CabinetCtrlByZS.emgStop();
                     break;
                 case R.id.zs_hd_btn_connect:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
@@ -494,6 +504,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("请输入箱子ID");
                         return;
                     }
+                    if(!zs_CabinetCtrlByZS.isConnect()){
+                        showToast("未打开连接");
+                        return;
+                    }
                     zs_CabinetCtrlByZS.unLock(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
                 case R.id.zs_hd_btn_teststatus:
@@ -507,6 +521,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     }
                     if (StringUtil.isEmpty(str_zs_hd_et_numid)) {
                         showToast("请输入箱子ID");
+                        return;
+                    }
+                    if(!zs_CabinetCtrlByZS.isConnect()){
+                        showToast("未打开连接");
                         return;
                     }
                     zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));

@@ -95,7 +95,6 @@ public class ToastUtil {
                 toast.show();
                 Looper.loop();
             }
-
             ;
         }.start();
 //        if (mInstance == null) {

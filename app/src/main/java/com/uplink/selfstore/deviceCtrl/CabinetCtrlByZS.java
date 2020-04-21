@@ -164,6 +164,10 @@ public class CabinetCtrlByZS {
         return isConnect;
     }
 
+    public boolean isConnect() {
+        return isConnect;
+    }
+
     public void disConnect() {
         if (mCabinetMidByZS != null) {
             mCabinetMidByZS.disconnect();
