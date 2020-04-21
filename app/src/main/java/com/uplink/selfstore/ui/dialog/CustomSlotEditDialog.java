@@ -88,7 +88,6 @@ public class CustomSlotEditDialog extends Dialog {
         this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -156,23 +155,6 @@ public class CustomSlotEditDialog extends Dialog {
                 return false;
             }
         }));
-
-        scanMidCtrl = ScanMidCtrl.getInstance();
-
-        scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-
-                        Bundle bundle;
-                        bundle = msg.getData();
-                        String scanResult = bundle.getString("result");
-                        txt_searchKey.setText(scanResult);
-                        searchSkus(scanResult);
-
-                        return false;
-                    }
-                })
-        );
 
         cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
         cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
@@ -255,6 +237,24 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
+        if(mContext.getMachine().getScanCfg().getUse()) {
+            scanMidCtrl = ScanMidCtrl.getInstance();
+            scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message msg) {
+
+                            Bundle bundle;
+                            bundle = msg.getData();
+                            String scanResult = bundle.getString("result");
+                            txt_searchKey.setText(scanResult);
+                            searchSkus(scanResult);
+
+                            return false;
+                        }
+                    })
+            );
+        }
+
         initView();
         initEvent();
         initData();
@@ -306,8 +306,10 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 _this.dismiss();
-                cabinetCtrlByZS.disConnect();
-                scanMidCtrl.disConnect();
+
+                if(scanMidCtrl!=null) {
+                    scanMidCtrl.disConnect();
+                }
             }
         });
 
@@ -702,11 +704,12 @@ public class CustomSlotEditDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-
-        scanMidCtrl.connect();
-        scanMidCtrl.setMessageWhat(ScanMidCtrl.MESSAGE_WHAT_SCANRESULT);
-        if(!scanMidCtrl.isConnect()){
-            mContext.showToast("扫描器连接失败");
+        if (scanMidCtrl != null) {
+            scanMidCtrl.connect();
+            scanMidCtrl.setMessageWhat(ScanMidCtrl.MESSAGE_WHAT_SCANRESULT);
+            if (!scanMidCtrl.isConnect()) {
+                mContext.showToast("扫描器连接失败");
+            }
         }
     }
 }

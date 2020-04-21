@@ -1,15 +1,11 @@
 package com.uplink.selfstore.ui;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -22,12 +18,10 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.google.gson.JsonObject;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
-import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.jpush.LocalBroadcastManager;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -42,7 +36,7 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.HeartbeatService;
-import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.utils.LocationUtil;
@@ -183,7 +177,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     public void setHideStatusBar(boolean ishidden) {
-        SystemCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
+        OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
 
     @Override

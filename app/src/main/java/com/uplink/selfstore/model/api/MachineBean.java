@@ -20,25 +20,17 @@ public class MachineBean implements Serializable {
     private String csrQrCode;
     private String csrPhoneNumber;
     private String csrHelpTip;
-    private String ostCtrl;
-    private String mstCtrl;
-
     private HashMap<String, CabinetBean> cabinets;
-
-    public HashMap<String, CabinetBean> getCabinets() {
-        return cabinets;
-    }
-
-    public void setCabinets(HashMap<String, CabinetBean> cabinets) {
-        this.cabinets = cabinets;
-    }
-
     private boolean isHiddenKind;
     private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
     private boolean isOpenChkCamera;
     private int maxBuyNumber;
     private boolean exIsHas;
+    private String ostVern;
+    private String mstVern;
+    private FingerVeinCfgBean fingerVeinCfg;
+    private ScanCfgBean scanCfg;
 
     public String getCsrHelpTip() {
         return csrHelpTip;
@@ -169,19 +161,44 @@ public class MachineBean implements Serializable {
         this.csrPhoneNumber = csrPhoneNumber;
     }
 
-    public String getOstCtrl() {
-        return ostCtrl;
+    public HashMap<String, CabinetBean> getCabinets() {
+        return cabinets;
     }
 
-    public void setOstCtrl(String ostCtrl) {
-        this.ostCtrl = ostCtrl;
+    public void setCabinets(HashMap<String, CabinetBean> cabinets) {
+        this.cabinets = cabinets;
     }
 
-    public String getMstCtrl() {
-        return mstCtrl;
+
+    public String getOstVern() {
+        return ostVern;
     }
 
-    public void setMstCtrl(String mstCtrl) {
-        this.mstCtrl = mstCtrl;
+    public void setOstVern(String ostVern) {
+        this.ostVern = ostVern;
+    }
+
+    public String getMstVern() {
+        return mstVern;
+    }
+
+    public void setMstVern(String mstVern) {
+        this.mstVern = mstVern;
+    }
+
+    public FingerVeinCfgBean getFingerVeinCfg() {
+        return fingerVeinCfg;
+    }
+
+    public void setFingerVeinCfg(FingerVeinCfgBean fingerVeinCfg) {
+        this.fingerVeinCfg = fingerVeinCfg;
+    }
+
+    public ScanCfgBean getScanCfg() {
+        return scanCfg;
+    }
+
+    public void setScanCfg(ScanCfgBean scanCfg) {
+        this.scanCfg = scanCfg;
     }
 }

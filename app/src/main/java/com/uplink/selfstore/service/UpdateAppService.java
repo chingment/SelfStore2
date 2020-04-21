@@ -1,7 +1,5 @@
 package com.uplink.selfstore.service;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -13,26 +11,21 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.view.WindowManager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
-import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CheckUpdateBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -310,7 +303,7 @@ public class UpdateAppService extends Service {
             handler_msg.sendMessage(m);
             if(apk!=null) {
                 String path = apk.getPath();
-                SystemCtrlInterface.getInstance().installApk(UpdateAppService.this,path);
+                OstCtrlInterface.getInstance().installApk(UpdateAppService.this,path);
             }
         }
         /**

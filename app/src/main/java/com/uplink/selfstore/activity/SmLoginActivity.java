@@ -65,29 +65,31 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         txt_password = (EditText) this.findViewById(R.id.txt_password);
         btn_appexit=this.findViewById(R.id.btn_appexit);
         btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
-        dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
-        dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        Bundle bundle = msg.getData();
-                        int status = bundle.getInt("status");
-                        String message = bundle.getString("message");
-                        byte[] result;
-                        switch (status) {
-                            case 1://消息提示
-                                showToast(message);
-                                break;
-                            case 2://检查到手指
-                                result = bundle.getByteArray("result");
-                                loginByFingerVein(result);
-                                break;
-                        }
-                        return false;
-                    }
-                })
-        );
 
-         dialog_FingerVein.startCheckLogin();
+        if(getMachine().getFingerVeinCfg().getUse()) {
+            dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
+            dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message msg) {
+                            Bundle bundle = msg.getData();
+                            int status = bundle.getInt("status");
+                            String message = bundle.getString("message");
+                            byte[] result;
+                            switch (status) {
+                                case 1://消息提示
+                                    showToast(message);
+                                    break;
+                                case 2://检查到手指
+                                    result = bundle.getByteArray("result");
+                                    loginByFingerVein(result);
+                                    break;
+                            }
+                            return false;
+                        }
+                    })
+            );
+            dialog_FingerVein.startCheckLogin();
+        }
     }
 
     protected void initEvent() {
@@ -137,8 +139,10 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                     loginByAccount();
                     break;
                 case R.id.btn_loginByVeinLock:
-                    dialog_FingerVein.startCheckLogin();
-                    dialog_FingerVein.show();
+                    if(dialog_FingerVein!=null) {
+                        dialog_FingerVein.startCheckLogin();
+                        dialog_FingerVein.show();
+                    }
                     break;
 
             }

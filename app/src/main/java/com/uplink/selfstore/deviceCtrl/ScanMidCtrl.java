@@ -23,6 +23,7 @@ public class ScanMidCtrl {
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
+    private static String ComId="ttymxc3";
 
     public static final int MESSAGE_WHAT_SCANRESULT=1;
 
@@ -46,8 +47,16 @@ public class ScanMidCtrl {
 
     }
 
+    public void setComId(String comId) {
+        ScanMidCtrl.ComId = comId;
+    }
+
+    public String getComId() {
+        return ScanMidCtrl.ComId;
+    }
+
     public boolean connect() {
-        String strPort = "/dev/ttymxc2";
+        String strPort = "/dev/"+ScanMidCtrl.ComId;
         int nBaudrate = 115200;
         try {
             File file = new File(strPort);
@@ -57,7 +66,6 @@ public class ScanMidCtrl {
                 this.in = mSerialPort.getInputStream();
                 readThread = new ReadThread();
                 readThread.start();
-
                 isConnect = true;
             }
         } catch (SecurityException var4) {

@@ -1,6 +1,5 @@
 package com.uplink.selfstore.own;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -8,10 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.SystemClock;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -22,16 +18,11 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.uplink.selfstore.service.UpdateAppService;
-import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
-import com.uplink.selfstore.ui.CameraWindow;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by chingment on 2017/8/23.

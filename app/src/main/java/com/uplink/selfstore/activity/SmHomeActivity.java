@@ -22,7 +22,7 @@ import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.systemCtrl.SystemCtrlInterface;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -106,13 +106,13 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         break;
                     case "fun.rootsys":
                         setHideStatusBar(false);
-                        SystemCtrlInterface.getInstance().reboot(SmHomeActivity.this);
+                        OstCtrlInterface.getInstance().reboot(SmHomeActivity.this);
                         break;
                     case "fun.door":
 
-                        String mstCtrl=getMachine().getMstCtrl();
-                        if(mstCtrl!=null) {
-                            switch (mstCtrl) {
+                        String mstVern=getMachine().getMstVern();
+                        if(mstVern!=null) {
+                            switch (mstVern) {
                                 case "DS":
                                     cabinetCtrlByDS.doorControl();
                                     break;
