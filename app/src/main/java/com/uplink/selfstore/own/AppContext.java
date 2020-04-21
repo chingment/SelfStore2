@@ -79,7 +79,6 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 
-        SystemCtrlInterface.init("");
 
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override

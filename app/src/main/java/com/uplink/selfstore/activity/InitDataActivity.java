@@ -37,6 +37,7 @@ import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
+import com.ys.rkapi.MyManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,8 +83,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
-
-        setHideStatusBar(true);
 
         initView();
         initEvent();
@@ -274,8 +273,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                     MachineBean machine=rt.getData().getMachine();
 
-                    SystemCtrlInterface.init("");
-
+                    SystemCtrlInterface.init(machine.getOstCtrl());
+                    setHideStatusBar(true);
                     HashMap<String, CabinetBean>  cabinets= machine.getCabinets();
 
                     HashMap<String, String> modelNos=new HashMap<>();

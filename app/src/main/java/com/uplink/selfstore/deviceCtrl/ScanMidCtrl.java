@@ -50,13 +50,16 @@ public class ScanMidCtrl {
         String strPort = "/dev/ttymxc2";
         int nBaudrate = 115200;
         try {
-            mSerialPort = new SerialPort(new File(strPort), nBaudrate, 0);
-            this.out = mSerialPort.getOutputStream();
-            this.in = mSerialPort.getInputStream();
-            readThread = new ReadThread();
-            readThread.start();
+            File file = new File(strPort);
+            if (file.exists()) {
+                mSerialPort = new SerialPort(file, nBaudrate, 0);
+                this.out = mSerialPort.getOutputStream();
+                this.in = mSerialPort.getInputStream();
+                readThread = new ReadThread();
+                readThread.start();
 
-            isConnect = true;
+                isConnect = true;
+            }
         } catch (SecurityException var4) {
             var4.printStackTrace();
             isConnect = false;

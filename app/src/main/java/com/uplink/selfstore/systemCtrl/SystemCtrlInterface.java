@@ -6,7 +6,22 @@ public class SystemCtrlInterface {
 
     public static void init(String name) {
 
-        systemCtrl = new SystemCtrlBySx();
+        if(name==null){
+            systemCtrl = new SystemCtrlByYs();
+        }
+        else {
+            switch (name) {
+                case "SX":
+                    systemCtrl = new SystemCtrlBySx();
+                    break;
+                case "YS":
+                    systemCtrl = new SystemCtrlByYs();
+                    break;
+                default:
+                    systemCtrl = new SystemCtrlByYs();
+                    break;
+            }
+        }
     }
 
     public static ISystemCtrl getInstance(){
