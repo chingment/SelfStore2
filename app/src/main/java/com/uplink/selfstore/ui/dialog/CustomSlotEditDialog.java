@@ -22,11 +22,10 @@ import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
+import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
-import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -77,7 +76,7 @@ public class CustomSlotEditDialog extends Dialog {
     private ListView list_search_skus;
     private SlotBean slot;
     private CabinetBean cabinet;
-    private ScanMidCtrl scanMidCtrl;
+    private ScannerCtrl scannerCtrl;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomDialogLoading customDialogRunning;
@@ -237,9 +236,9 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-        if(mContext.getMachine().getScanCfg().getUse()) {
-            scanMidCtrl = ScanMidCtrl.getInstance();
-            scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
+        if(mContext.getMachine().getScanner().getUse()) {
+            scannerCtrl = ScannerCtrl.getInstance();
+            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
                         @Override
                         public boolean handleMessage(Message msg) {
 
@@ -307,8 +306,8 @@ public class CustomSlotEditDialog extends Dialog {
             public void onClick(View v) {
                 _this.dismiss();
 
-                if(scanMidCtrl!=null) {
-                    scanMidCtrl.disConnect();
+                if(scannerCtrl !=null) {
+                    scannerCtrl.disConnect();
                 }
             }
         });
@@ -704,10 +703,10 @@ public class CustomSlotEditDialog extends Dialog {
     @Override
     public void show() {
         super.show();
-        if (scanMidCtrl != null) {
-            scanMidCtrl.connect();
-            scanMidCtrl.setMessageWhat(ScanMidCtrl.MESSAGE_WHAT_SCANRESULT);
-            if (!scanMidCtrl.isConnect()) {
+        if (scannerCtrl != null) {
+            scannerCtrl.connect();
+            scannerCtrl.setMessageWhat(ScannerCtrl.MESSAGE_WHAT_SCANRESULT);
+            if (!scannerCtrl.isConnect()) {
                 mContext.showToast("扫描器连接失败");
             }
         }

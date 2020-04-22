@@ -66,7 +66,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         btn_appexit=this.findViewById(R.id.btn_appexit);
         btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
 
-        if(getMachine().getFingerVeinCfg().getUse()) {
+        if(getMachine().getFingerVeinner().getUse()) {
             dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
             dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
                         @Override

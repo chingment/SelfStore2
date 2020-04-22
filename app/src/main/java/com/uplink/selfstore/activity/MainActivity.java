@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
-import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
+import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
@@ -32,16 +32,16 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
-    private ScanMidCtrl scanMidCtrl;
+    private ScannerCtrl scannerCtrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scanMidCtrl = ScanMidCtrl.getInstance();
-        scanMidCtrl.connect();
-        scanMidCtrl.setScanHandler(new Handler(new Handler.Callback() {
+        scannerCtrl = ScannerCtrl.getInstance();
+        scannerCtrl.connect();
+        scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
                         Bundle bundle;
@@ -151,11 +151,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     public void onResume(){
         super.onResume();
 
-        if(scanMidCtrl==null) {
-            scanMidCtrl = ScanMidCtrl.getInstance();
+        if(scannerCtrl ==null) {
+            scannerCtrl = ScannerCtrl.getInstance();
         }
 
-        scanMidCtrl.connect();
+        scannerCtrl.connect();
 
         checkIsHasExHappen();
     }
@@ -164,9 +164,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     public void onStop() {
         super.onStop();
 
-        if(scanMidCtrl!=null){
-            scanMidCtrl.disConnect();
-            scanMidCtrl = null;
+        if(scannerCtrl !=null){
+            scannerCtrl.disConnect();
+            scannerCtrl = null;
         }
     }
 
@@ -174,9 +174,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     public void onPause(){
         super.onPause();
 
-        if(scanMidCtrl!=null){
-            scanMidCtrl.disConnect();
-            scanMidCtrl = null;
+        if(scannerCtrl !=null){
+            scannerCtrl.disConnect();
+            scannerCtrl = null;
         }
     }
 
@@ -187,9 +187,9 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             dialog_NumKey.cancel();
         }
 
-        if(scanMidCtrl!=null){
-            scanMidCtrl.disConnect();
-            scanMidCtrl = null;
+        if(scannerCtrl !=null){
+            scannerCtrl.disConnect();
+            scannerCtrl = null;
         }
     }
 }

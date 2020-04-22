@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.utils.LogUtil;
 import com.wedone.BioVein;
 
@@ -21,9 +20,9 @@ import java.util.HashMap;
 
 import static java.lang.Thread.sleep;
 
-public class FingerVeinCtrl {
-    private static String TAG = "FingerVeinCtrl";
-    private static FingerVeinCtrl mFingerVeinCtrl= null;
+public class FingerVeinnerCtrl {
+    private static String TAG = "FingerVeinnerCtrl";
+    private static FingerVeinnerCtrl mFingerVeinnerCtrl = null;
 
    // private Context mContext;
     private byte[]  mByteDevName;
@@ -37,15 +36,15 @@ public class FingerVeinCtrl {
 
     private CheckLoginListenerThread checkLoginListenerThread;
 
-    public static FingerVeinCtrl getInstance() {
-        if (mFingerVeinCtrl == null) {
-            synchronized (FingerVeinCtrl.class) {
-                if (mFingerVeinCtrl == null) {
-                    mFingerVeinCtrl = new FingerVeinCtrl();
+    public static FingerVeinnerCtrl getInstance() {
+        if (mFingerVeinnerCtrl == null) {
+            synchronized (FingerVeinnerCtrl.class) {
+                if (mFingerVeinnerCtrl == null) {
+                    mFingerVeinnerCtrl = new FingerVeinnerCtrl();
                 }
             }
         }
-        return mFingerVeinCtrl;
+        return mFingerVeinnerCtrl;
 
     }
 

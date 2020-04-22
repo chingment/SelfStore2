@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
@@ -16,10 +15,10 @@ import java.io.OutputStream;
 
 import android_serialport_api.SerialPort;
 
-public class ScanMidCtrl {
+public class ScannerCtrl {
     private boolean isConnect=false;
-    private static String TAG = "ScanMidCtrl";
-    private static ScanMidCtrl mScanMidCtrl= null;
+    private static String TAG = "ScannerCtrl";
+    private static ScannerCtrl mScannerCtrl = null;
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
@@ -31,32 +30,32 @@ public class ScanMidCtrl {
 
     private ReadThread readThread=null;
 
-    private ScanMidCtrl() {
+    private ScannerCtrl() {
 
     }
 
-    public static ScanMidCtrl getInstance() {
-        if (mScanMidCtrl == null) {
-            synchronized (ScanMidCtrl.class) {
-                if (mScanMidCtrl == null) {
-                    mScanMidCtrl = new ScanMidCtrl();
+    public static ScannerCtrl getInstance() {
+        if (mScannerCtrl == null) {
+            synchronized (ScannerCtrl.class) {
+                if (mScannerCtrl == null) {
+                    mScannerCtrl = new ScannerCtrl();
                 }
             }
         }
-        return mScanMidCtrl;
+        return mScannerCtrl;
 
     }
 
     public void setComId(String comId) {
-        ScanMidCtrl.ComId = comId;
+        ScannerCtrl.ComId = comId;
     }
 
     public String getComId() {
-        return ScanMidCtrl.ComId;
+        return ScannerCtrl.ComId;
     }
 
     public boolean connect() {
-        String strPort = "/dev/"+ScanMidCtrl.ComId;
+        String strPort = "/dev/"+ ScannerCtrl.ComId;
         int nBaudrate = 115200;
         try {
             File file = new File(strPort);

@@ -29,8 +29,8 @@ public class MachineBean implements Serializable {
     private boolean exIsHas;
     private String ostVern;
     private String mstVern;
-    private FingerVeinCfgBean fingerVeinCfg;
-    private ScanCfgBean scanCfg;
+    private FingerVeinnerBean fingerVeinner;
+    private ScannerBean scanner;
 
     public String getCsrHelpTip() {
         return csrHelpTip;
@@ -186,19 +186,19 @@ public class MachineBean implements Serializable {
         this.mstVern = mstVern;
     }
 
-    public FingerVeinCfgBean getFingerVeinCfg() {
-        return fingerVeinCfg;
+    public FingerVeinnerBean getFingerVeinner() {
+        return fingerVeinner;
     }
 
-    public void setFingerVeinCfg(FingerVeinCfgBean fingerVeinCfg) {
-        this.fingerVeinCfg = fingerVeinCfg;
+    public void setFingerVeinner(FingerVeinnerBean fingerVeinner) {
+        this.fingerVeinner = fingerVeinner;
     }
 
-    public ScanCfgBean getScanCfg() {
-        return scanCfg;
+    public ScannerBean getScanner() {
+        return scanner;
     }
 
-    public void setScanCfg(ScanCfgBean scanCfg) {
-        this.scanCfg = scanCfg;
+    public void setScanner(ScannerBean scanner) {
+        this.scanner = scanner;
     }
 }

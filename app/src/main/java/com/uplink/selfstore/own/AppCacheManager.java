@@ -90,6 +90,28 @@ public class AppCacheManager {
 
         bean = globalDataSet.getMachine();
 
+        if(bean.getScanner()==null){
+            ScannerBean scanner=new ScannerBean();
+            scanner.setUse(false);
+            bean.setScanner(scanner);
+        }
+
+        if(bean.getFingerVeinner()==null){
+            FingerVeinnerBean fingerVeinner=new FingerVeinnerBean();
+            fingerVeinner.setUse(false);
+            bean.setFingerVeinner(fingerVeinner);
+        }
+
+        if(bean.getCabinets()==null){
+            HashMap<String, CabinetBean> cabinets=new HashMap<String, CabinetBean>();
+            bean.setCabinets(cabinets);
+        }
+
+        if(bean.getPayOptions()==null){
+            List<TerminalPayOptionBean> payOptions=new ArrayList<>();
+            bean.setPayOptions(payOptions);
+        }
+
         return bean;
 
     }

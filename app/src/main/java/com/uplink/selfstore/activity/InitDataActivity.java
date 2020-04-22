@@ -16,8 +16,8 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
-import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
-import com.uplink.selfstore.deviceCtrl.ScanMidCtrl;
+import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
+import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -102,7 +102,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
-        FingerVeinCtrl.getInstance().tryGetPermission(InitDataActivity.this);
+        FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
     }
 
@@ -238,7 +238,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             cabinetCtrlByDS.disConnect();
         }
 
-        FingerVeinCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
+        FingerVeinnerCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
     }
 
     public void setTips(int what, String msg) {
@@ -277,7 +277,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                     OstCtrlInterface.init(machine.getOstVern());
                     OstCtrlInterface.getInstance().setHideStatusBar(InitDataActivity.this,true);
 
-                    ScanMidCtrl.getInstance().setComId(machine.getScanCfg().getComId());
+                    ScannerCtrl.getInstance().setComId(machine.getScanner().getComId());
 
                     HashMap<String, CabinetBean> cabinets = machine.getCabinets();
 

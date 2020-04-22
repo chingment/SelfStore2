@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.deviceCtrl.FingerVeinCtrl;
+import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 
@@ -19,7 +19,7 @@ public class CustomFingerVeinDialog extends Dialog {
     private View layoutRes;// 布局文件
     private BaseFragmentActivity mContext;
     private View btn_close;
-    private FingerVeinCtrl mFingerVeinCtrl;
+    private FingerVeinnerCtrl mFingerVeinnerCtrl;
     private Button btn_ReCollect;
     private TextView txt_Title;
     private TextView txt_Message;
@@ -32,33 +32,33 @@ public class CustomFingerVeinDialog extends Dialog {
         initEvent();
         initData();
 
-        mFingerVeinCtrl = FingerVeinCtrl.getInstance();
-        mFingerVeinCtrl.connect(mContext);
+        mFingerVeinnerCtrl = FingerVeinnerCtrl.getInstance();
+        mFingerVeinnerCtrl.connect(mContext);
     }
 
 
     public void setCollectHandler(Handler collectHandler){
-        mFingerVeinCtrl.setCollectHandler(collectHandler);
+        mFingerVeinnerCtrl.setCollectHandler(collectHandler);
     }
 
     public void setCheckLoginHandler(Handler checkLoginHandler){
-        mFingerVeinCtrl.setCheckLoginHandler(checkLoginHandler);
+        mFingerVeinnerCtrl.setCheckLoginHandler(checkLoginHandler);
     }
 
     public void startCollect(){
-        mFingerVeinCtrl.startCollect();
+        mFingerVeinnerCtrl.startCollect();
     }
 
     public void startCheckLogin(){
-        mFingerVeinCtrl.startCheckLogin();
+        mFingerVeinnerCtrl.startCheckLogin();
     }
 
     public void pauseCheckLogin(){
-        mFingerVeinCtrl.pauseCheckLogin();
+        mFingerVeinnerCtrl.pauseCheckLogin();
     }
 
     public void resumeCheckLogin(){
-        mFingerVeinCtrl.resumeCheckLogin();
+        mFingerVeinnerCtrl.resumeCheckLogin();
     }
 
     public Button getBtnReCollect()
@@ -72,7 +72,7 @@ public class CustomFingerVeinDialog extends Dialog {
     }
 
     public void stopCheckLogin(){
-        mFingerVeinCtrl.stopCheckLogin();
+        mFingerVeinnerCtrl.stopCheckLogin();
     }
 
     @Override
@@ -93,8 +93,8 @@ public class CustomFingerVeinDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFingerVeinCtrl.stopCheckLogin();
-                mFingerVeinCtrl.stopCollect();
+                mFingerVeinnerCtrl.stopCheckLogin();
+                mFingerVeinnerCtrl.stopCollect();
                 dismiss();
             }
         });
@@ -104,7 +104,7 @@ public class CustomFingerVeinDialog extends Dialog {
             public void onClick(View v) {
                 txt_Message.setText("请将手指放入设备,再移开");
                 btn_ReCollect.setVisibility(View.VISIBLE);
-                mFingerVeinCtrl.startCollect();
+                mFingerVeinnerCtrl.startCollect();
             }
         });
     }
@@ -117,7 +117,7 @@ public class CustomFingerVeinDialog extends Dialog {
     @Override
     public  void  cancel(){
         super.cancel();
-        mFingerVeinCtrl.disConnect(mContext);
+        mFingerVeinnerCtrl.disConnect(mContext);
     }
     @Override
     public void show() {
