@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class OrderReserveResultBean implements Serializable {
 
     private String orderId;
-    private String orderSn;
+
     private String chargeAmount;
 
     public String getChargeAmount() {
@@ -18,15 +18,6 @@ public class OrderReserveResultBean implements Serializable {
 
     public void setChargeAmount(String chargeAmount) {
         this.chargeAmount = chargeAmount;
-    }
-
-
-    public String getOrderSn() {
-        return orderSn;
-    }
-
-    public void setOrderSn(String orderSn) {
-        this.orderSn = orderSn;
     }
 
     public String getOrderId() {

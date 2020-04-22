@@ -86,6 +86,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private EditText ds_hd_et_ck;
     private Button ds_hd_btn_connect;
     private Button ds_hd_btn_gozero;
+    private Button ds_hd_btn_openpickupdoor;
     private Button ds_hd_btn_stop;
     private TextView ds_tv_log;
 
@@ -243,9 +244,11 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         ds_hd_btn_connect = (Button) findViewById(R.id.ds_hd_btn_connect);
         ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
         ds_hd_btn_stop= (Button) findViewById(R.id.ds_hd_btn_stop);
+        ds_hd_btn_openpickupdoor = (Button) findViewById(R.id.ds_hd_btn_openpickupdoor);
         ds_hd_btn_connect.setOnClickListener(this);
         ds_hd_btn_gozero.setOnClickListener(this);
         ds_hd_btn_stop.setOnClickListener(this);
+        ds_hd_btn_openpickupdoor.setOnClickListener(this);
     }
 
     @Override
@@ -485,10 +488,17 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.ds_hd_btn_stop:
                     if(!ds_CabinetCtrlByZS.isConnect()){
-                        showToast("[zs设备]未打开连接");
+                        showToast("[ds设备]未打开连接");
                         return;
                     }
                     ds_CabinetCtrlByZS.emgStop();
+                    break;
+                case R.id.ds_hd_btn_openpickupdoor:
+                    if(!ds_CabinetCtrlByZS.isConnect()){
+                        showToast("[ds设备]未打开连接");
+                        return;
+                    }
+                    ds_CabinetCtrlByZS.openPickupDoor();
                     break;
                 case R.id.zs_hd_btn_connect:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {

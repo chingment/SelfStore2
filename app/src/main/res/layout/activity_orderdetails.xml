@@ -40,12 +40,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/aty_orderdetaiks_tvtx_ordersn"
+                    android:text="@string/aty_orderdetaiks_tvtx_orderid"
                     android:textColor="@color/field_name"
                     android:textSize="@dimen/size_14" />
 
                 <TextView
-                    android:id="@+id/txt_OrderSn"
+                    android:id="@+id/txt_OrderId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"

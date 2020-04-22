@@ -310,6 +310,14 @@
                     android:text="回原点"/>
 
 
+                <Button
+                    android:id="@+id/ds_hd_btn_openpickupdoor"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_24"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:textSize="@dimen/sp_6"
+                    android:text="打开取货门"/>
             </LinearLayout>
 
 

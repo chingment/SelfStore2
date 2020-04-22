@@ -47,7 +47,7 @@ public class ExHandleOrderAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_exhandleorder, parent, false);
         }
         final ExHandleOrderBean item = items.get(position);
-        TextView txt_OrderSn = ViewHolder.get(convertView, R.id.txt_OrderSn);
+        TextView txt_OrderId = ViewHolder.get(convertView, R.id.txt_OrderId);
         MyListView list_OrderDetailItems = ViewHolder.get(convertView, R.id.list_exorder_detailitems);
 
         if(item.getDetailItems()!=null) {
@@ -56,7 +56,7 @@ public class ExHandleOrderAdapter extends BaseAdapter {
             list_OrderDetailItems.setAdapter(exHandleOrderDetailItemAdapter);
         }
 
-        txt_OrderSn.setText(item.getSn());
+        txt_OrderId.setText(item.getId());
 
         return convertView;
     }

@@ -6,8 +6,6 @@ import java.util.List;
 public class ExHandleOrderBean implements Serializable {
     private   String id;
 
-    private String sn;
-
     private List<ExHandleOrderDetailItemBean> detailItems;
 
     public String getId() {
@@ -16,14 +14,6 @@ public class ExHandleOrderBean implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getSn() {
-        return sn;
-    }
-
-    public void setSn(String sn) {
-        this.sn = sn;
     }
 
 

@@ -77,7 +77,7 @@
     <string name="aty_smuserinfo_tips_confirmdel">确定要删除静脉指</string>
     <string name="aty_smuserinfo_tips_puthand">请将手指放入设备,再移开</string>
     <string name="aty_orderdetails_navtitle">订单详情</string>
-    <string name="aty_orderdetaiks_tvtx_ordersn">订单号</string>
+    <string name="aty_orderdetaiks_tvtx_orderid">订单号</string>
     <string name="aty_orderdetails_btntx_pickupcompelte">完成取货</string>
     <string name="aty_orderdetails_btntx_contactkefu">联系客服</string>
     <string name="aty_orderdetails_tips_contactkefu">请打开微信扫一扫，联系客服</string>

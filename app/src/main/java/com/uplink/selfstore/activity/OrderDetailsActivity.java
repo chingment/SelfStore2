@@ -41,7 +41,7 @@ import java.util.List;
 public class OrderDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "OrderDetailsActivity";
 
-    private TextView txt_OrderSn;
+    private TextView txt_OrderId;
     private MyListView list_Skus;
     private View btn_PickupCompeled;
     private View btn_ContactKefu;
@@ -307,7 +307,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private void initView() {
 
-        txt_OrderSn = (TextView) findViewById(R.id.txt_OrderSn);
+        txt_OrderId = (TextView) findViewById(R.id.txt_OrderId);
         btn_PickupCompeled = (View) findViewById(R.id.btn_PickupCompeled);
         btn_ContactKefu = (View) findViewById(R.id.btn_ContactKefu);
         list_Skus = (MyListView) findViewById(R.id.list_skus);
@@ -357,7 +357,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             return;
         }
 
-        txt_OrderSn.setText(orderDetails.getSn());
+        txt_OrderId.setText(orderDetails.getId());
 
 
         OrderDetailsSkuAdapter orderDetailsSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());

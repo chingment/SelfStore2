@@ -10,7 +10,6 @@ import java.util.List;
 public class OrderPayStatusQueryResultBean implements Serializable {
 
     private String id;
-    private String sn;
     private int status;
     private List<OrderDetailsSkuBean> productSkus;
 
@@ -20,14 +19,6 @@ public class OrderPayStatusQueryResultBean implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getSn() {
-        return sn;
-    }
-
-    public void setSn(String sn) {
-        this.sn = sn;
     }
 
     public int getStatus() {

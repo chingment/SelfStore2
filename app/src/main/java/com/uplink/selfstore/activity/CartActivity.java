@@ -420,7 +420,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                     OrderDetailsBean orderDetails = new OrderDetailsBean();
                     orderDetails.setId(bean.getId());
-                    orderDetails.setSn(bean.getSn());
                     orderDetails.setStatus(bean.getStatus());
                     orderDetails.setProductSkus(bean.getProductSkus());
                     bundle.putSerializable("dataBean", orderDetails);
