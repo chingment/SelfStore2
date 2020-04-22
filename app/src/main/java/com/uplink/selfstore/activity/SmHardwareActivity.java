@@ -230,7 +230,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         ds_CabinetCtrlByZS.setGoZeroHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-
                 Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
                 String message = bundle.getString("message");
@@ -463,68 +462,84 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.ds_hd_btn_connect:
                     if (StringUtil.isEmpty(str_ds_hd_et_ck)) {
-                        showToast("请输入串口名称");
+                        showToast("[ds设备]请输入串口名称");
                         return;
                     }
                     ds_CabinetCtrlByZS.setComId(str_ds_hd_et_ck);
-                    zs_CabinetCtrlByZS.connect();
+                    ds_CabinetCtrlByZS.connect();
+
+                    if(!ds_CabinetCtrlByZS.isConnect()){
+                        showToast("[ds设备]连接失败");
+                        return;
+                    }
+
+                    showToast("[ds设备]连接成功");
+
                     break;
                 case R.id.ds_hd_btn_gozero:
                     if(!ds_CabinetCtrlByZS.isConnect()){
-                        showToast("未打开连接");
+                        showToast("[ds设备]未打开连接");
                         return;
                     }
                     ds_CabinetCtrlByZS.goZero();
                     break;
                 case R.id.ds_hd_btn_stop:
                     if(!ds_CabinetCtrlByZS.isConnect()){
-                        showToast("未打开连接");
+                        showToast("[zs设备]未打开连接");
                         return;
                     }
                     ds_CabinetCtrlByZS.emgStop();
                     break;
                 case R.id.zs_hd_btn_connect:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
-                        showToast("请输入串口名称");
+                        showToast("[zs设备]请输入串口名称");
                         return;
                     }
                     zs_CabinetCtrlByZS.setComId(str_zs_hd_et_ck);
                     zs_CabinetCtrlByZS.connect();
+
+                    if(!zs_CabinetCtrlByZS.isConnect()){
+                        showToast("[zs设备]连接失败");
+                        return;
+                    }
+
+                    showToast("[zs设备]连接成功");
+
                     break;
                 case R.id.zs_hd_btn_testopen:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
-                        showToast("请输入串口名称");
+                        showToast("[zs设备]请输入串口名称");
                         return;
                     }
                     if (StringUtil.isEmpty(str_zs_hd_et_plateid)) {
-                        showToast("请输入锁版ID");
+                        showToast("[zs设备]请输入锁版ID");
                         return;
                     }
                     if (StringUtil.isEmpty(str_zs_hd_et_numid)) {
-                        showToast("请输入箱子ID");
+                        showToast("[zs设备]请输入箱子ID");
                         return;
                     }
                     if(!zs_CabinetCtrlByZS.isConnect()){
-                        showToast("未打开连接");
+                        showToast("[zs设备]未打开连接");
                         return;
                     }
                     zs_CabinetCtrlByZS.unLock(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
                 case R.id.zs_hd_btn_teststatus:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
-                        showToast("请输入串口名称");
+                        showToast("[zs设备]请输入串口名称");
                         return;
                     }
                     if (StringUtil.isEmpty(str_zs_hd_et_plateid)) {
-                        showToast("请输入锁版ID");
+                        showToast("[zs设备]请输入锁版ID");
                         return;
                     }
                     if (StringUtil.isEmpty(str_zs_hd_et_numid)) {
-                        showToast("请输入箱子ID");
+                        showToast("[zs设备]请输入箱子ID");
                         return;
                     }
                     if(!zs_CabinetCtrlByZS.isConnect()){
-                        showToast("未打开连接");
+                        showToast("[zs设备]未打开连接");
                         return;
                     }
                     zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));

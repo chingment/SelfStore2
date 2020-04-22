@@ -24,7 +24,9 @@ public class MachineBean implements Serializable {
     private boolean isHiddenKind;
     private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
-    private boolean isOpenChkCamera;
+    private boolean cameraByChkIsUse;
+    private boolean cameraByRlIsUse;
+    private boolean cameraByJgIsUse;
     private int maxBuyNumber;
     private boolean exIsHas;
     private String ostVern;
@@ -54,14 +56,6 @@ public class MachineBean implements Serializable {
 
     public void setMaxBuyNumber(int maxBuyNumber) {
         this.maxBuyNumber = maxBuyNumber;
-    }
-
-    public boolean isOpenChkCamera() {
-        return isOpenChkCamera;
-    }
-
-    public void setOpenChkCamera(boolean openChkCamera) {
-        isOpenChkCamera = openChkCamera;
     }
 
     public String getCsrQrCode() {
@@ -200,5 +194,29 @@ public class MachineBean implements Serializable {
 
     public void setScanner(ScannerBean scanner) {
         this.scanner = scanner;
+    }
+
+    public boolean isCameraByChkIsUse() {
+        return cameraByChkIsUse;
+    }
+
+    public void setCameraByChkIsUse(boolean cameraByChkIsUse) {
+        this.cameraByChkIsUse = cameraByChkIsUse;
+    }
+
+    public boolean isCameraByRlIsUse() {
+        return cameraByRlIsUse;
+    }
+
+    public void setCameraByRlIsUse(boolean cameraByRlIsUse) {
+        this.cameraByRlIsUse = cameraByRlIsUse;
+    }
+
+    public boolean isCameraByJgIsUse() {
+        return cameraByJgIsUse;
+    }
+
+    public void setCameraByJgIsUse(boolean cameraByJgIsUse) {
+        this.cameraByJgIsUse = cameraByJgIsUse;
     }
 }

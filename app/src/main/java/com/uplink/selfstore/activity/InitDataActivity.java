@@ -250,6 +250,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                             setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：" + ex.getMessage());
                         }
                         break;
+                    case WHAT_READ_CONFIG_FAILURE:
+                        setHandleMessage(WHAT_TIPS, "重新尝试读取机器信息");
+                        initIsRun=false;
+                        break;
                 }
 
                 return  false;
