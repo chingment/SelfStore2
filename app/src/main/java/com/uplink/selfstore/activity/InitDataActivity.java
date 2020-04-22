@@ -38,6 +38,7 @@ import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,8 +77,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         }
     };
 
-
-
+    public final int WHAT_TIPS = 1;
+    public final int WHAT_READ_CONFIG_SUCCESS = 2;
+    public final int WHAT_READ_CONFIG_FAILURE = 3;
+    public final int WHAT_SET_CONFIG_SUCCESS = 4;
+    public final int WHAT_SET_CONFIG_FALURE = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,44 +140,115 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         handler_msg = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                String content=msg.obj.toString();
-                loading_msg.setText(msg.obj.toString());
 
-                LogBean log=new LogBean();
-                log.setDateTime(DateUtil.getStringDate() );
-                log.setContent(content);
-                logs.add(log);
-
-                List<LogBean> reverseLogs=new ArrayList<>();
-                for (int i=logs.size();i>0;i--) {
-                    if(reverseLogs.size()>10) {
-                        break;
-                    }
-                    reverseLogs.add(logs.get(i-1));
+                String message="";
+                Bundle bundle=msg.getData();
+                if(bundle!=null) {
+                    message = bundle.getString("message", "");
                 }
 
-                LogAdapter logAdapter = new LogAdapter(InitDataActivity.this,reverseLogs);
-                list_log.setAdapter(logAdapter);
+                if(!StringUtil.isEmptyNotNull(message)) {
+                    loading_msg.setText(message);
+
+                    LogBean log = new LogBean();
+                    log.setDateTime(DateUtil.getStringDate());
+                    log.setContent(message);
+                    logs.add(log);
+
+                    List<LogBean> reverseLogs = new ArrayList<>();
+                    for (int i = logs.size(); i > 0; i--) {
+                        if (reverseLogs.size() > 10) {
+                            break;
+                        }
+                        reverseLogs.add(logs.get(i - 1));
+                    }
+
+                    LogAdapter logAdapter = new LogAdapter(InitDataActivity.this, reverseLogs);
+                    list_log.setAdapter(logAdapter);
+                }
+
 
                 switch (msg.what) {
-                    case 1:
+                    case WHAT_TIPS:
                         break;
-                    case 2:
-                        initIsRun=false;
-                        btn_retry.setVisibility(View.VISIBLE);
-                        break;
-                    case 3:
-                        loading_msg.setText("信息配置完成，正在启动机器恢复原始状态");
-                        new Thread(new Runnable() {
-                            public void run() {
-                                SystemClock.sleep(5000);
-                                Intent intent = new Intent(getAppContext(), MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                    case WHAT_READ_CONFIG_SUCCESS:
+                        setHandleMessage(WHAT_TIPS, "正在配置机器信息");
+                        try {
+
+                            if(bundle==null){
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：bundle对象为控");
+                                return false;
                             }
-                        }).start();
-                    case 4:
-                        btn_retry.setVisibility(View.INVISIBLE);
+
+                            if(bundle.getSerializable("globalDataSetBean")==null) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：bundle.globalDataSetBean对象为控");
+                                return false;
+                            }
+
+                            GlobalDataSetBean data_globalDataSet = (GlobalDataSetBean) bundle.getSerializable("globalDataSetBean");//全局数据
+
+                            if(data_globalDataSet==null) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：data_globalDataSet对象为控");
+                                return false;
+                            }
+
+                            MachineBean machine = data_globalDataSet.getMachine();//机器数据
+
+                            if(machine==null) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：data_globalDataSet.machine对象为控");
+                                return false;
+                            }
+
+
+                            AppCacheManager.setGlobalDataSet(data_globalDataSet);//设置全局缓存数据
+
+                            AppCacheManager.clearCartSkus();//清空购物车数据
+
+                            OstCtrlInterface.init(machine.getOstVern());//初始化Ost控制
+
+                            ScannerCtrl.getInstance().setComId(machine.getScanner().getComId());//设置扫描器串口ID
+
+                            //根据机构类型设置串口信息
+                            HashMap<String, CabinetBean> cabinets = machine.getCabinets();
+
+                            HashMap<String, String> modelNos = new HashMap<>();
+
+                            for (HashMap.Entry<String, CabinetBean> entry : cabinets.entrySet()) {
+                                CabinetBean cabinet = entry.getValue();
+                                if (!modelNos.containsKey(cabinet.getModelNo())) {
+                                    modelNos.put(cabinet.getModelNo(), cabinet.getComId());
+                                }
+                            }
+
+                            for (HashMap.Entry<String, String> modelNo : modelNos.entrySet()) {
+                                switch (modelNo.getKey()) {
+                                    case "dsx01":
+                                        cabinetCtrlByDS.setComId(modelNo.getValue());
+                                        cabinetCtrlByDS.connect();
+                                        cabinetCtrlByDS.firstSet();
+                                        break;
+                                    case "zsx01":
+                                        cabinetCtrlByZS.setComId(modelNo.getValue());
+                                        break;
+                                }
+                            }
+
+                            setHandleMessage(WHAT_SET_CONFIG_SUCCESS, "信息配置完成，正在启动机器恢复原始状态");
+
+                            new Thread(new Runnable() {
+                                public void run() {
+                                    SystemClock.sleep(5000);
+
+                                    setHandleMessage(WHAT_TIPS, "配置结束，进入购物车界面");
+
+                                    Intent intent = new Intent(getAppContext(), MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }).start();
+                        } catch (Exception ex) {
+                            setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：" + ex.getMessage());
+                        }
                         break;
                 }
 
@@ -190,18 +265,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.btn_retry:
-                setTips(4, getAppContext().getString(R.string.aty_initdata_tips_retry));
-                handler_msg.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        setMachineInitData();
-                    }
-                }, 2000);
 
-                break;
-        }
     }
 
     @Override
@@ -241,16 +305,25 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         FingerVeinnerCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
     }
 
-    public void setTips(int what, String msg) {
+    public void setHandleMessage(int what, String msg,GlobalDataSetBean globalDataSet) {
         final Message m = new Message();
         m.what = what;
-        m.obj = msg;
+        Bundle bundle = new Bundle();
+        bundle.putString("message", msg);
+        if(globalDataSet!=null) {
+            bundle.putSerializable("globalDataSetBean", globalDataSet);
+        }
+        m.setData(bundle);
         handler_msg.sendMessage(m);
+    }
+
+    public void setHandleMessage(int what, String msg) {
+        setHandleMessage(what,msg,null);
     }
 
     public void setMachineInitData() {
 
-        setTips(1, getAppContext().getString(R.string.aty_initdata_tips_settingmachine));
+        setHandleMessage(WHAT_TIPS, getAppContext().getString(R.string.aty_initdata_tips_settingmachine));
 
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
@@ -267,53 +340,15 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                 ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
                 });
                 if (rt.getResult() == Result.SUCCESS) {
-
-                    GlobalDataSetBean data_globalDataSet = rt.getData();
-
-                    AppCacheManager.setGlobalDataSet(data_globalDataSet);
-
-                    MachineBean machine = data_globalDataSet.getMachine();
-
-                    OstCtrlInterface.init(machine.getOstVern());
-                    OstCtrlInterface.getInstance().setHideStatusBar(InitDataActivity.this,true);
-
-                    ScannerCtrl.getInstance().setComId(machine.getScanner().getComId());
-
-                    HashMap<String, CabinetBean> cabinets = machine.getCabinets();
-
-                    HashMap<String, String> modelNos = new HashMap<>();
-
-                    for (HashMap.Entry<String, CabinetBean> entry : cabinets.entrySet()) {
-                        CabinetBean cabinet = entry.getValue();
-                        if (!modelNos.containsKey(cabinet.getModelNo())) {
-                            modelNos.put(cabinet.getModelNo(), cabinet.getComId());
-                        }
-                    }
-
-                    for (HashMap.Entry<String, String> modelNo : modelNos.entrySet()) {
-                        switch (modelNo.getKey()) {
-                            case "dsx01":
-                                cabinetCtrlByDS.setComId(modelNo.getValue());
-                                cabinetCtrlByDS.connect();
-                                cabinetCtrlByDS.firstSet();
-                                break;
-                            case "zsx01":
-                                cabinetCtrlByZS.setComId(modelNo.getValue());
-                                break;
-                        }
-                    }
-
-                    AppCacheManager.setCartSkus(null);
-
-                    setTips(3, getAppContext().getString(R.string.aty_initdata_tips_settingmachinesuccess));
+                    setHandleMessage(WHAT_READ_CONFIG_SUCCESS, getAppContext().getString(R.string.aty_initdata_tips_settingmachinecfgreadsuccess),rt.getData());
                 } else {
-                    setTips(2, getAppContext().getString(R.string.aty_initdata_tips_settingmachinefailure) + ":" + rt.getMessage());
+                    setHandleMessage(WHAT_READ_CONFIG_FAILURE, getAppContext().getString(R.string.aty_initdata_tips_settingmachinecfgreadfailure) + ":" + rt.getMessage());
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
-                setTips(2, msg);
+                setHandleMessage(WHAT_READ_CONFIG_FAILURE, getAppContext().getString(R.string.aty_initdata_tips_settingmachinecfgreadfailure) + ":" + msg);
             }
         });
     }

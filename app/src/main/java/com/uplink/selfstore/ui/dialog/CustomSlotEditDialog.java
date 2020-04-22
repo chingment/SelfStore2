@@ -241,13 +241,11 @@ public class CustomSlotEditDialog extends Dialog {
             scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
                         @Override
                         public boolean handleMessage(Message msg) {
-
                             Bundle bundle;
                             bundle = msg.getData();
                             String scanResult = bundle.getString("result");
                             txt_searchKey.setText(scanResult);
                             searchSkus(scanResult);
-
                             return false;
                         }
                     })
@@ -324,7 +322,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-
         btn_pick_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -367,7 +364,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -388,7 +384,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-
         btn_fill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -404,7 +399,6 @@ public class CustomSlotEditDialog extends Dialog {
 
             }
         });
-
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -479,7 +473,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-
         //点击添加
         btn_increase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -501,7 +494,6 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-
         //点击减去
         btn_decreasebymax.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -520,7 +512,6 @@ public class CustomSlotEditDialog extends Dialog {
                 txt_MaxQty.setText(String.valueOf(maxQty));
             }
         });
-
 
         //点击添加
         btn_increasebymax.setOnClickListener(new View.OnClickListener() {

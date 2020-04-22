@@ -76,7 +76,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
         layout_ex=(LinearLayout) findViewById(R.id.layout_ex);
         layout_exorders=(LinearLayout) findViewById(R.id.layout_exorders);
-        dialog_ConfrmHandle = new CustomConfirmDialog(SmRunExHandleActivity.this, "确定要处理异常订单，慎重操作，会影响实际库存？", true);
+        dialog_ConfrmHandle = new CustomConfirmDialog(SmRunExHandleActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
         dialog_ConfrmHandle.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
         dialog_ConfrmHandle.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/size_16"
+    android:layout_height="wrap_content"
     android:paddingLeft="@dimen/size_10"
     android:paddingRight="@dimen/size_10"
     android:gravity="center_vertical"
@@ -12,7 +12,7 @@
         android:layout_width="@dimen/size_100"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:gravity="center_vertical|left"
+        android:gravity="top|left"
         android:text="时间"
         android:textColor="@color/text_111"
         android:textSize="@dimen/sp_8" />
@@ -20,9 +20,9 @@
         android:id="@+id/txt_content"
         android:layout_marginRight="@dimen/size_5"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_vertical|left"
+        android:gravity="top|left"
         android:text="内容"
         android:textColor="@color/text_111"
         android:textSize="@dimen/sp_8"/>

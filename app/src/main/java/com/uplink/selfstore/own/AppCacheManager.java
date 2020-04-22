@@ -146,6 +146,10 @@ public class AppCacheManager {
         }
     }
 
+    public static void clearCartSkus() {
+        AppCacheManager.getCache().remove(Cache_Key_Cart);
+    }
+
     public static List<CartSkuBean> getCartSkus() {
 
         ArrayList<CartSkuBean> bean = (ArrayList<CartSkuBean>) AppCacheManager.getCache().getAsObject(Cache_Key_Cart);
