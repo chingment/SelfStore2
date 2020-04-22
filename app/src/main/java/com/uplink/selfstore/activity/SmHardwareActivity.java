@@ -428,7 +428,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                                 showToast("摄像头数量为0");
                                 return;
                             }
-                            chuhuokou_camera = Camera.open(0);
+                            chuhuokou_camera = Camera.open(2);
                             if (chuhuokou_camera == null) {
                                 showToast("出货口摄像头对象为空");
                                 return;
