@@ -9,6 +9,7 @@ public class ExHandleOrderDetailItemBean implements Serializable {
     private String quantity;
     private String uniqueId;
     private String slotId;
+    private StatusBean status;
     private boolean canHandle;
     private int signStatus;
 
@@ -74,5 +75,13 @@ public class ExHandleOrderDetailItemBean implements Serializable {
 
     public void setSignStatus(int signStatus) {
         this.signStatus = signStatus;
+    }
+
+    public StatusBean getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusBean status) {
+        this.status = status;
     }
 }

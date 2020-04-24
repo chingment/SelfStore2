@@ -61,13 +61,16 @@ public class ExHandleOrderDetailItemAdapter  extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         CheckBox cbx_sign_pickup = ViewHolder.get(convertView, R.id.cbx_sign_pickup);
         CheckBox cbx_sign_unpickup = ViewHolder.get(convertView, R.id.cbx_sign_unpickup);
+        TextView txt_statusName = ViewHolder.get(convertView, R.id.txt_statusName);
 
 
         if(exOrderDetailItem.isCanHandle()){
             cbx_sign_pickup.setVisibility(View.VISIBLE);
+            cbx_sign_unpickup.setVisibility(View.VISIBLE);
         }
         else {
             cbx_sign_pickup.setVisibility(View.GONE);
+            cbx_sign_unpickup.setVisibility(View.GONE);
         }
 
         cbx_sign_pickup.setTag(exOrderDetailItem.getUniqueId());
@@ -116,6 +119,7 @@ public class ExHandleOrderDetailItemAdapter  extends BaseAdapter {
         txt_name.setText(exOrderDetailItem.getName());
         txt_quantity.setText(String.valueOf(exOrderDetailItem.getQuantity()));
 
+        txt_statusName.setText(exOrderDetailItem.getStatus().getText());
 
        
         return convertView;

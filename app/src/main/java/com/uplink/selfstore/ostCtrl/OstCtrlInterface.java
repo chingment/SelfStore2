@@ -5,7 +5,6 @@ public class OstCtrlInterface {
     private static IOstCtrl ostCtrl;
 
     public static void init(String name) {
-
         if(name==null){
             ostCtrl = new OstCtrlByYs();
         }

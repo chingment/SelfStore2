@@ -1,7 +1,8 @@
 package com.uplink.selfstore.own;
 
+
 import android.app.Activity;
-import android.content.Intent;
+import android.view.View;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -12,8 +13,11 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
-import com.uplink.selfstore.model.api.UpdateHomeLogoBean;
-import com.uplink.selfstore.model.api.UpdateProductSkuStockBean;
+import com.uplink.selfstore.model.push.UpdateHomeLogoBean;
+import com.uplink.selfstore.model.push.UpdateProductSkuStockBean;
+import com.uplink.selfstore.model.push.*;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.HashMap;
@@ -32,45 +36,73 @@ public class PushUpdateUtil {
         LogUtil.i(TAG, "cmd:" + cmd + ",content:" + content);
 
         switch (cmd) {
-            case "reboot":
-                reboot();//重启系统
+            case "mcmd:sys:Reboot":
+                sysReboot();//重启系统
                 break;
-            case "update_baseparams":
-                update_baseparams(content);//更新机器基础参数
+            case "mcmd:sys:Shutdown":
+                sysShutdown();//关闭系统
                 break;
-            case "update:HomeLogo":
+            case "mcmd:sys:SetStatus":
+                sysSetStatus(content);
+                break;
+            case "mcmd:update:HomeLogo":
                 LogUtil.d("进入update:HomeLogo");
                 updateHomeLogo(content);//更新机器logo
                 break;
-            case "update:HomeBanners":
+            case "mcmd:update:HomeBanners":
                 LogUtil.d("进入update:HomeBanners");
                 updateHomeBanners(content);//更新机器banner
                 break;
-            case "update:ProductSkuStock":
+            case "mcmd:update:ProductSkuStock":
                 LogUtil.d("进入update:ProductSkuStock");
                 //updateProductSkuStock(content);//更新机器种类
                 break;
-            case "paySuccess":
+            case "mcmd:pay:Success":
                 LogUtil.d("进入paySuccess");
                 //paySuccess(content);//支付成功
                 break;
-            case "openPickupDoor":
+            case "mcmd:dsx01:OpenPickupDoor":
                 LogUtil.d("进入openPickupDoor");
-                openPickupDoor();//支付成功
+                dsx01openPickupDoor();//支付成功
                 break;
         }
     }
 
-    private static void reboot() {
-
-        Intent it = new Intent();
-        it.setAction("com.fourfaith.reboot");
-        it.putExtra("mode", "0");//0 重启 1 关机
-        Activity act = AppManager.getAppManager().currentActivity();
-        act.sendBroadcast(it);
+    private static void sysReboot() {
+        OstCtrlInterface.getInstance().reboot(AppContext.getInstance().getApplicationContext());
     }
 
-    private static void update_baseparams(String content) {
+    private static void sysShutdown() {
+        OstCtrlInterface.getInstance().shutdown(AppContext.getInstance().getApplicationContext());
+    }
+
+    private static void sysSetStatus(String content) {
+
+        SysSetStatusBean sysSetStatusBean = JSON.parseObject(content, new TypeReference<SysSetStatusBean>() {
+        });
+
+        if (sysSetStatusBean == null)
+            return;
+
+        BaseFragmentActivity currentActivity = (BaseFragmentActivity) AppManager.getAppManager().currentActivity();
+
+        if (currentActivity == null)
+            return;
+
+        if (currentActivity.getDialogBySystemWarn() == null)
+            return;
+
+        if (sysSetStatusBean.getStatus() == 1) {
+            if (currentActivity.getDialogBySystemWarn().isShowing()) {
+                currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                currentActivity.getDialogBySystemWarn().dismiss();
+            }
+        } else if (sysSetStatusBean.getStatus() == 2) {
+            if (!currentActivity.getDialogBySystemWarn().isShowing()) {
+                currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                currentActivity.getDialogBySystemWarn().show();
+            }
+        }
 
     }
 
@@ -115,49 +147,17 @@ public class PushUpdateUtil {
         if (acts != null) {
             if (acts.size() > 0) {
                 for (Activity act : acts) {
-
                     if (act instanceof MainActivity) {
-
                         MainActivity act_MainActivity = (MainActivity) act;
-
                         act_MainActivity.loadBanner();
                         break;
                     }
                 }
             }
         }
-
     }
 
-//    private static void updateStockSlots(String content) {
-//
-//        List<ProductKindBean> productKinds = JSON.parseObject(content, new TypeReference<List<ProductKindBean>>() {
-//        });
-//
-//        GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
-//
-//        globalDataSet.setProductKinds(productKinds);
-//
-//        AppCacheManager.setGlobalDataSet(globalDataSet);
-//
-//        List<Activity> acts = AppManager.getAppManager().getActivityStack();
-//        if (acts != null) {
-//            if (acts.size() > 0) {
-//                for (Activity act : acts) {
-//
-//                    if (act instanceof ProductKindActivity) {
-//
-//                        ProductKindActivity act_ProductKind = (ProductKindActivity) act;
-//
-//                        act_ProductKind.loadKindData();
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-    private  static void updateProductSkuStock(String content) {
+    private static void updateProductSkuStock(String content) {
         try {
 
             UpdateProductSkuStockBean updateProductSkuStock = JSON.parseObject(content, new TypeReference<UpdateProductSkuStockBean>() {
@@ -188,18 +188,18 @@ public class PushUpdateUtil {
 
     }
 
-    private  static void paySuccess(String content){
+    private static void paySuccess(String content) {
 
         OrderPayStatusQueryResultBean payResult = JSON.parseObject(content, new TypeReference<OrderPayStatusQueryResultBean>() {
         });
 
-        if(payResult!=null) {
+        if (payResult != null) {
             List<Activity> acts = AppManager.getAppManager().getActivityStack();
             if (acts != null) {
                 if (acts.size() > 0) {
                     for (Activity act : acts) {
                         if (act instanceof CartActivity) {
-                            if( CartActivity.LAST_ORDERID.equals(payResult.getId())) {
+                            if (CartActivity.LAST_ORDERID.equals(payResult.getId())) {
                                 CartActivity act_CartActivity = (CartActivity) act;
                                 act_CartActivity.doPaySuccess(payResult);
                                 break;
@@ -212,13 +212,9 @@ public class PushUpdateUtil {
 
     }
 
-
-    private  static void openPickupDoor() {
-
-        CabinetCtrlByDS cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
-
+    private static void dsx01openPickupDoor() {
+        CabinetCtrlByDS cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.connect();
-
         cabinetCtrlByDS.openPickupDoor();
     }
 }
