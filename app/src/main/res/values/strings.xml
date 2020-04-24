@@ -119,6 +119,9 @@
     <string name="zs_hd_btntx_connect">连接</string>
     <string name="zs_hd_btntx_testopen">测试打开</string>
     <string name="zs_hd_btntx_teststatus">查询状态</string>
+    <string name="wg_hd_title">扫描器(wg)</string>
+    <string name="wg_hd_scanresult">扫描结果:</string>
+
     <string name="camera_btn_open">打开</string>
     <string name="camera_btn_close">关闭</string>
     <string name="camera_btn_captureStill">拍照</string>

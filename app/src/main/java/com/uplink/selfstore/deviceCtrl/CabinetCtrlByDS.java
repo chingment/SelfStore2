@@ -40,7 +40,7 @@ public class CabinetCtrlByDS {
     private static final int MESSAGE_WHAT_DOOR = 3;
     private static final int MESSAGE_WHAT_GOZERO = 4;
 
-    public static String ComId="ttymxc1";
+    private static String ComId="ttymxc1";
 
     private  CabinetCtrlByDS() {
         try {
@@ -74,6 +74,11 @@ public class CabinetCtrlByDS {
     public void setComId(String comId) {
         CabinetCtrlByDS.ComId = comId;
     }
+
+    public String getComId() {
+        return CabinetCtrlByDS.ComId;
+    }
+
 
     public boolean connect() {
         try {

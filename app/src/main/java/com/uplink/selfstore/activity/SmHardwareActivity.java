@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
+import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.own.Config;
@@ -90,6 +91,13 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private Button ds_hd_btn_stop;
     private TextView ds_tv_log;
 
+
+    //微光互联硬件诊断
+    private ScannerCtrl wg_ScannerCtrl=null;
+    private EditText wg_hd_et_ck;
+    private Button wg_hd_btn_connect;
+    private TextView wg_hd_et_scanresult;
+
     Semaphore mCameraOpenCloseLock = new Semaphore(1);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +110,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         initViewByCamera();
         initViewByDS();
         initViewByZS();
+        initViewByWG();
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -173,6 +182,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         zs_hd_et_plateid= (EditText) findViewById(R.id.zs_hd_et_plateid);
         zs_hd_et_numid= (EditText) findViewById(R.id.zs_hd_et_numid);
         zs_hd_et_ck= (EditText) findViewById(R.id.zs_hd_et_ck);
+
+        zs_hd_et_ck.setText(zs_CabinetCtrlByZS.getComId());
+
         zs_hd_btn_connect= (Button) findViewById(R.id.zs_hd_btn_connect);
         zs_hd_btn_testopen= (Button) findViewById(R.id.zs_hd_btn_testopen);
         zs_hd_btn_teststatus= (Button) findViewById(R.id.zs_hd_btn_teststatus);
@@ -241,6 +253,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         }));
 
         ds_hd_et_ck = (EditText) findViewById(R.id.ds_hd_et_ck);
+        ds_hd_et_ck.setText(ds_CabinetCtrlByZS.getComId());
         ds_hd_btn_connect = (Button) findViewById(R.id.ds_hd_btn_connect);
         ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
         ds_hd_btn_stop= (Button) findViewById(R.id.ds_hd_btn_stop);
@@ -249,6 +262,28 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         ds_hd_btn_gozero.setOnClickListener(this);
         ds_hd_btn_stop.setOnClickListener(this);
         ds_hd_btn_openpickupdoor.setOnClickListener(this);
+    }
+
+    private void  initViewByWG() {
+
+        wg_ScannerCtrl = ScannerCtrl.getInstance();
+        wg_ScannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        Bundle bundle;
+                        bundle = msg.getData();
+                        String scanResult = bundle.getString("result");
+                        wg_hd_et_scanresult.setText(scanResult);
+                        return false;
+                    }
+                })
+        );
+
+        wg_hd_et_ck = (EditText) findViewById(R.id.wg_hd_et_ck);
+        wg_hd_et_ck.setText(wg_ScannerCtrl.getComId());
+        wg_hd_btn_connect = (Button) findViewById(R.id.wg_hd_btn_connect);
+        wg_hd_et_scanresult = (EditText) findViewById(R.id.wg_hd_et_scanresult);
+        wg_hd_btn_connect.setOnClickListener(this);
     }
 
     @Override
@@ -324,6 +359,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
         String str_ds_hd_et_ck=ds_hd_et_ck.getText()+"";
         String str_zs_hd_et_ck=zs_hd_et_ck.getText()+"";
+        String str_wg_hd_et_ck=wg_hd_et_ck.getText()+"";
         String str_zs_hd_et_plateid=zs_hd_et_plateid.getText()+"";
         String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
 
@@ -429,6 +465,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                                 return;
                             }
                             chuhuokou_camera = Camera.open(2);
+
+
                             if (chuhuokou_camera == null) {
                                 showToast("出货口摄像头对象为空");
                                 return;
@@ -553,6 +591,22 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         return;
                     }
                     zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
+                    break;
+                case R.id.wg_hd_btn_connect:
+
+                    if (StringUtil.isEmpty(str_wg_hd_et_ck)) {
+                        showToast("[wg扫描设备]请输入串口名称");
+                        return;
+                    }
+
+                    wg_ScannerCtrl.connect();
+
+
+                    if(!wg_ScannerCtrl.isConnect()){
+                        showToast("[wg扫描设备]连接失败");
+                        return;
+                    }
+
                     break;
             }
         }
