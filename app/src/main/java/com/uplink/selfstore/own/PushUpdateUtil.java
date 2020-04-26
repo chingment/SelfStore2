@@ -36,32 +36,32 @@ public class PushUpdateUtil {
         LogUtil.i(TAG, "cmd:" + cmd + ",content:" + content);
 
         switch (cmd) {
-            case "mcmd:sys:Reboot":
+            case "MCmdSysReboot":
                 sysReboot();//重启系统
                 break;
-            case "mcmd:sys:Shutdown":
+            case "MCmdSysShutdown":
                 sysShutdown();//关闭系统
                 break;
-            case "mcmd:sys:SetStatus":
+            case "MCmdSysSetStatus":
                 sysSetStatus(content);
                 break;
-            case "mcmd:update:HomeLogo":
+            case "MCmdUpdateHomeLogo":
                 LogUtil.d("进入update:HomeLogo");
                 updateHomeLogo(content);//更新机器logo
                 break;
-            case "mcmd:update:HomeBanners":
+            case "MCmdUpdateHomeBanners":
                 LogUtil.d("进入update:HomeBanners");
                 updateHomeBanners(content);//更新机器banner
                 break;
-            case "mcmd:update:ProductSkuStock":
+            case "MCmdUpdateProductSkuStock":
                 LogUtil.d("进入update:ProductSkuStock");
                 //updateProductSkuStock(content);//更新机器种类
                 break;
-            case "mcmd:pay:Success":
+            case "MCmdPaySuccess":
                 LogUtil.d("进入paySuccess");
                 //paySuccess(content);//支付成功
                 break;
-            case "mcmd:dsx01:OpenPickupDoor":
+            case "MCmdDsx01OpenPickupDoor":
                 LogUtil.d("进入openPickupDoor");
                 dsx01openPickupDoor();//支付成功
                 break;
