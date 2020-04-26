@@ -174,7 +174,7 @@ public class FingerVeinnerCtrl {
 
             int status = getConnectStatus();
             if (status != 0) {
-                sendCheckLoginHandlerMessage(1, "静指脉设备连接异常", null);
+                sendCheckLoginHandlerMessage(3, "静指脉设备连接异常", null);
                 return;
             }
 
@@ -267,7 +267,7 @@ public class FingerVeinnerCtrl {
 
             int status = getConnectStatus();
             if (status != 0) {
-                sendCollectHandlerMessage(3, "静指脉设备连接异常，点击重新采集",null);
+                sendCollectHandlerMessage(3, "静指脉设备连接异常", null);
                 return;
             }
 
@@ -351,7 +351,6 @@ public class FingerVeinnerCtrl {
                                     }
                                 }
                                 else {
-                                    //sendCollectHandlerMessage(1, "手指已放入", null);
                                     LogUtil.i(TAG, "指静脉采集流程监听->获取手指状态已放置");
                                 }
                             }

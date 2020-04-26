@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,11 +78,15 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                             byte[] result;
                             switch (status) {
                                 case 1://消息提示
-                                    showToast(message);
+                                    //showToast(message);
+                                    LogUtil.e(TAG,"静指脉设备消息提示："+message);
                                     break;
                                 case 2://检查到手指
                                     result = bundle.getByteArray("result");
                                     loginByFingerVein(result);
+                                    break;
+                                case 3://异常信息
+                                    LogUtil.e(TAG,"静指脉设备连接异常");
                                     break;
                             }
                             return false;

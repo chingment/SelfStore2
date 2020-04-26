@@ -54,7 +54,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
         setContentView(R.layout.activity_productdetails);
 
         setNavTtile(this.getResources().getString(R.string.aty_productdetails_navtitle));
-
+        setScannerCtrl();
         productSku = (ProductSkuBean) getIntent().getSerializableExtra("dataBean");
         initView();
         initEvent();

@@ -33,39 +33,19 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
-    private ScannerCtrl scannerCtrl;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         setHideStatusBar(true);
-
-        scannerCtrl = ScannerCtrl.getInstance();
-        scannerCtrl.connect();
-        scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        Bundle bundle;
-                        bundle = msg.getData();
-                        String scanResult = bundle.getString("result");
-                        if(scanResult!=null){
-                            if(scanResult.contains("pickupcode")){
-                                LogUtil.e("pickupcode:" + scanResult);
-                                orderSearchByPickupCode(scanResult);
-                            }
-                        }
-                        return false;
-                    }
-                })
-        );
+        setScannerCtrl();
 
         initView();
         initEvent();
         initData();
 
-        LogUtil.e(TAG,"机器的状态是否异常："+getMachine().isExIsHas());
+        LogUtil.e(TAG, "机器的状态是否异常：" + getMachine().isExIsHas());
     }
 
     protected void initView() {
@@ -153,34 +133,17 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     public void onResume(){
         super.onResume();
-
-        if(scannerCtrl ==null) {
-            scannerCtrl = ScannerCtrl.getInstance();
-        }
-
-        scannerCtrl.connect();
-
         checkIsHasExHappen();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        if(scannerCtrl !=null){
-            scannerCtrl.disConnect();
-            scannerCtrl = null;
-        }
     }
 
     @Override
     public void onPause(){
         super.onPause();
-
-        if(scannerCtrl !=null){
-            scannerCtrl.disConnect();
-            scannerCtrl = null;
-        }
     }
 
     @Override
@@ -188,11 +151,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         super.onDestroy();
         if (dialog_NumKey != null && dialog_NumKey.isShowing()) {
             dialog_NumKey.cancel();
-        }
-
-        if(scannerCtrl !=null){
-            scannerCtrl.disConnect();
-            scannerCtrl = null;
         }
     }
 }

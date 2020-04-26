@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
+import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.jpush.LocalBroadcastManager;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
@@ -66,6 +68,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
     private MachineBean machine;
+    private ScannerCtrl scannerCtrl;
+
     public LocationUtil locationUtil;
 
     private Map<String,Boolean> orderSearchByPickupCode=new HashMap<String, Boolean>();
@@ -238,6 +242,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         closePageCountTimerStart();
         AppManager.getAppManager().setCurrentActivity(this);
         HeartbeatService.sendHeartbeatBag();
+
+        if(scannerCtrl!=null) {
+            scannerCtrl.connect();
+        }
         //TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
@@ -249,6 +257,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = false;
         super.onPause();
         closePageCountTimerStop();
+
+        if(scannerCtrl!=null) {
+            scannerCtrl.disConnect();
+        }
         //TcStatInterface.recordPageEnd();
     }
 
@@ -261,6 +273,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         isForeground = false;
         super.onStop();
         closePageCountTimerStop();
+
+        if(scannerCtrl!=null) {
+            scannerCtrl.disConnect();
+        }
     }
 
     /**
@@ -281,6 +297,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         if (dialogByLoading != null && dialogByLoading.isShowing()) {
             dialogByLoading.cancel();
+        }
+        if(scannerCtrl!=null) {
+            scannerCtrl.disConnect();
         }
     }
 
@@ -535,6 +554,34 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
+    public void setScannerCtrl() {
+        if(getMachine().getScanner().getUse()) {
+            scannerCtrl = ScannerCtrl.getInstance();
+            scannerCtrl.connect();
+
+            if(!scannerCtrl.isConnect()) {
+                LogUtil.e(TAG, "扫描器连接失败");
+            }
+
+            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message msg) {
+                            Bundle bundle;
+                            bundle = msg.getData();
+                            String scanResult = bundle.getString("result");
+                            if (scanResult != null) {
+                                if (scanResult.contains("pickupcode")) {
+                                    LogUtil.e("pickupcode:" + scanResult);
+                                    orderSearchByPickupCode(scanResult);
+                                }
+                            }
+                            return false;
+                        }
+                    })
+            );
+        }
+    }
+
     public String getTopComponentName(){
         String name=null;
         try {
@@ -551,7 +598,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         catch (Exception ex){
 
         }
-
 
         return  name;
     }

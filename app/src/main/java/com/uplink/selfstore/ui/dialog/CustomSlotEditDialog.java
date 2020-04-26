@@ -2,6 +2,7 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,7 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomSlotEditDialog extends Dialog {
-
+    private static final String TAG = "CustomSlotEditDialog";
     private View layoutRes;// 布局文件
     private SmMachineStockActivity mContext;
     private View btn_close;
@@ -697,8 +698,8 @@ public class CustomSlotEditDialog extends Dialog {
         if (scannerCtrl != null) {
             scannerCtrl.connect();
             scannerCtrl.setMessageWhat(ScannerCtrl.MESSAGE_WHAT_SCANRESULT);
-            if (!scannerCtrl.isConnect()) {
-                mContext.showToast("扫描器连接失败");
+            if(!scannerCtrl.isConnect()) {
+                LogUtil.e(TAG, "扫描器连接失败");
             }
         }
     }
