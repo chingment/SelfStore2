@@ -74,6 +74,52 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     private Map<String,Boolean> orderSearchByPickupCode=new HashMap<String, Boolean>();
 
+    public GlobalDataSetBean getGlobalDataSet() {
+
+        if (globalDataSet == null) {
+            globalDataSet = AppCacheManager.getGlobalDataSet();
+        }
+
+        return globalDataSet;
+    }
+
+    public MachineBean getMachine() {
+        machine = AppCacheManager.getMachine();
+        return machine;
+    }
+
+    public AppContext getAppContext() {
+        return appContext;
+    }
+
+    public String getTopComponentName(){
+        String name=null;
+        try {
+            ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            if(am!=null) {
+                if(am.getRunningTasks(1)!=null) {
+                    if(am.getRunningTasks(1).get(0)!=null) {
+                        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+                        name = cn.getClassName();
+                    }
+                }
+            }
+        }
+        catch (Exception ex){
+
+        }
+
+        return  name;
+    }
+
+    public CustomSystemWarnDialog getDialogBySystemWarn(){
+        if(dialogBySystemWarn==null){
+            dialogBySystemWarn = new CustomSystemWarnDialog(this);
+        }
+
+        return dialogBySystemWarn;
+    }
+
     public void setNavTtile(String title) {
         TextView nav_title = (TextView) findViewById(R.id.nav_title);
         if (nav_title != null) {
@@ -90,19 +136,87 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             nav_back.setVisibility(View.GONE);
         }
     }
-
-    public GlobalDataSetBean getGlobalDataSet() {
-
-        if (globalDataSet == null) {
-            globalDataSet = AppCacheManager.getGlobalDataSet();
-        }
-
-        return globalDataSet;
+    public void setHideStatusBar(boolean ishidden) {
+        OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
 
-    public MachineBean getMachine() {
-        machine = AppCacheManager.getMachine();
-        return machine;
+    public void setScannerCtrl() {
+        if(getMachine().getScanner().getUse()) {
+            scannerCtrl = ScannerCtrl.getInstance();
+            scannerCtrl.connect();
+
+            if(!scannerCtrl.isConnect()) {
+                LogUtil.e(TAG, "扫描器连接失败");
+            }
+
+            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message msg) {
+                            Bundle bundle;
+                            bundle = msg.getData();
+                            String scanResult = bundle.getString("result");
+                            if (scanResult != null) {
+                                if (scanResult.contains("pickupcode")) {
+                                    LogUtil.e("pickupcode:" + scanResult);
+                                    orderSearchByPickupCode(scanResult);
+                                }
+                            }
+                            return false;
+                        }
+                    })
+            );
+        }
+    }
+
+    public void  useClosePageCountTimer() {
+        if(closePageCountTimer==null) {
+            closePageCountTimer = new ClosePageCountTimer(this, 120);
+        }
+    }
+
+    public void  useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster,long seconds) {
+        if(closePageCountTimer==null) {
+            closePageCountTimer = new ClosePageCountTimer(this, seconds, onPageCountLinster);
+        }
+    }
+
+    public void  closePageCountTimerStart() {
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                if(closePageCountTimer!=null) {
+                    closePageCountTimer.start();
+                }
+            }
+        });
+    }
+
+    public void  closePageCountTimerStop() {
+
+        if(closePageCountTimer!=null) {
+            closePageCountTimer.cancel();
+        }
+    }
+
+    public void checkIsHasExHappen() {
+        MachineBean machine=getMachine();
+        if(machine!=null) {
+            if(!machine.getId().equals("")) {
+                if(machine.isExIsHas()) {
+                    if(!getDialogBySystemWarn().isShowing()) {
+                        getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                        getDialogBySystemWarn().show();
+                    }
+                }
+            }
+        }
+    }
+
+    public void showToast(String txt) {
+        if (!StringUtil.isEmpty(txt)) {
+            ToastUtil.showMessage(BaseFragmentActivity.this, txt, Toast.LENGTH_LONG);
+        }
     }
 
     @Override
@@ -141,100 +255,16 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     }
 
-    public CustomSystemWarnDialog getDialogBySystemWarn(){
-        if(dialogBySystemWarn==null){
-            dialogBySystemWarn = new CustomSystemWarnDialog(this);
-        }
-
-        return dialogBySystemWarn;
-    }
-
-    public void  useClosePageCountTimer() {
-        if(closePageCountTimer==null) {
-            closePageCountTimer = new ClosePageCountTimer(this, 120);
-        }
-    }
-
-    public void  useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster,long seconds) {
-        if(closePageCountTimer==null) {
-            closePageCountTimer = new ClosePageCountTimer(this, seconds, onPageCountLinster);
-        }
-    }
-
-    public void  closePageCountTimerStart() {
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                if(closePageCountTimer!=null) {
-                    closePageCountTimer.start();
-                }
-            }
-        });
-    }
-
-    public void  closePageCountTimerStop() {
-
-        if(closePageCountTimer!=null) {
-            closePageCountTimer.cancel();
-        }
-    }
-
-    public void setHideStatusBar(boolean ishidden) {
-        OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    public AppContext getAppContext() {
-        return appContext;
-    }
-
-    public void showToast(String txt) {
-        if (!StringUtil.isEmpty(txt)) {
-            ToastUtil.showMessage(BaseFragmentActivity.this, txt, Toast.LENGTH_LONG);
-        }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()){
-            //获取触摸动作，如果ACTION_UP，计时开始。
-            case MotionEvent.ACTION_UP:
-                closePageCountTimerStart();
-                break;
-            //否则其他动作计时取消
-            default:
-                closePageCountTimerStop();
-                break;
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-
-    /**
-     * Activity从后台重新回到前台时被调用
-     */
     @Override
     protected void onRestart() {
         super.onRestart();
     }
 
-    /**
-     * Activity创建或者从后台重新回到前台时被调用
-     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
-
-    /**
-     * Activity创建或者从被覆盖、后台重新回到前台时被调用
-     */
     @Override
     protected void onResume() {
         isForeground = true;
@@ -249,9 +279,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         //TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
-    /**
-     * Activity被覆盖到下面或者锁屏时被调用
-     */
     @Override
     protected void onPause() {
         isForeground = false;
@@ -264,24 +291,13 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         //TcStatInterface.recordPageEnd();
     }
 
-
-    /**
-     * 退出当前Activity或者跳转到新Activity时被调用
-     */
     @Override
     protected void onStop() {
         isForeground = false;
         super.onStop();
         closePageCountTimerStop();
-
-        if(scannerCtrl!=null) {
-            scannerCtrl.disConnect();
-        }
     }
 
-    /**
-     * 退出当前Activity时被调用,调用之后Activity就结束了
-     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -298,9 +314,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if (dialogByLoading != null && dialogByLoading.isShowing()) {
             dialogByLoading.cancel();
         }
-        if(scannerCtrl!=null) {
-            scannerCtrl.disConnect();
-        }
     }
 
     @Override
@@ -309,26 +322,24 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.finish();
     }
 
-    protected void hideInput() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        View v = getWindow().peekDecorView();
-        if (null != v) {
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        }
+    @Override
+    public void onClick(View v) {
+
     }
 
-    public void checkIsHasExHappen() {
-        MachineBean machine=getMachine();
-        if(machine!=null) {
-            if(!machine.getId().equals("")) {
-                if(machine.isExIsHas()) {
-                    if(!getDialogBySystemWarn().isShowing()) {
-                        getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
-                        getDialogBySystemWarn().show();
-                    }
-                }
-            }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()){
+            //获取触摸动作，如果ACTION_UP，计时开始。
+            case MotionEvent.ACTION_UP:
+                closePageCountTimerStart();
+                break;
+            //否则其他动作计时取消
+            default:
+                closePageCountTimerStop();
+                break;
         }
+        return super.dispatchTouchEvent(ev);
     }
 
     public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
@@ -552,54 +563,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 showToast(msg);
             }
         });
-    }
-
-    public void setScannerCtrl() {
-        if(getMachine().getScanner().getUse()) {
-            scannerCtrl = ScannerCtrl.getInstance();
-            scannerCtrl.connect();
-
-            if(!scannerCtrl.isConnect()) {
-                LogUtil.e(TAG, "扫描器连接失败");
-            }
-
-            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            Bundle bundle;
-                            bundle = msg.getData();
-                            String scanResult = bundle.getString("result");
-                            if (scanResult != null) {
-                                if (scanResult.contains("pickupcode")) {
-                                    LogUtil.e("pickupcode:" + scanResult);
-                                    orderSearchByPickupCode(scanResult);
-                                }
-                            }
-                            return false;
-                        }
-                    })
-            );
-        }
-    }
-
-    public String getTopComponentName(){
-        String name=null;
-        try {
-            ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-            if(am!=null) {
-                if(am.getRunningTasks(1)!=null) {
-                    if(am.getRunningTasks(1).get(0)!=null) {
-                        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
-                        name = cn.getClassName();
-                    }
-                }
-            }
-        }
-        catch (Exception ex){
-
-        }
-
-        return  name;
     }
 
 }

@@ -692,15 +692,4 @@ public class CustomSlotEditDialog extends Dialog {
         }
     }
 
-    @Override
-    public void show() {
-        super.show();
-        if (scannerCtrl != null) {
-            scannerCtrl.connect();
-            scannerCtrl.setMessageWhat(ScannerCtrl.MESSAGE_WHAT_SCANRESULT);
-            if(!scannerCtrl.isConnect()) {
-                LogUtil.e(TAG, "扫描器连接失败");
-            }
-        }
-    }
 }

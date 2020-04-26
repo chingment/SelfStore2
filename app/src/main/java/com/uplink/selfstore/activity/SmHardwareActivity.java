@@ -294,16 +294,16 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     @Override
     public void onStop() {
         super.onStop();
-
-        if (zs_CabinetCtrlByZS != null) {
-            zs_CabinetCtrlByZS.disConnect();
-            zs_CabinetCtrlByZS=null;
-        }
-
-        if (ds_CabinetCtrlByZS != null) {
-            ds_CabinetCtrlByZS.disConnect();
-            ds_CabinetCtrlByZS=null;
-        }
+//
+//        if (zs_CabinetCtrlByZS != null) {
+//            zs_CabinetCtrlByZS.disConnect();
+//            zs_CabinetCtrlByZS=null;
+//        }
+//
+//        if (ds_CabinetCtrlByZS != null) {
+//            ds_CabinetCtrlByZS.disConnect();
+//            ds_CabinetCtrlByZS=null;
+//        }
     }
 
     @Override
@@ -319,21 +319,16 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             ds_CabinetCtrlByZS.disConnect();
             ds_CabinetCtrlByZS=null;
         }
+
+        if (wg_ScannerCtrl != null) {
+            wg_ScannerCtrl.disConnect();
+            wg_ScannerCtrl = null;
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (zs_CabinetCtrlByZS != null) {
-            zs_CabinetCtrlByZS.disConnect();
-            zs_CabinetCtrlByZS=null;
-        }
-
-        if (ds_CabinetCtrlByZS != null) {
-            ds_CabinetCtrlByZS.disConnect();
-            ds_CabinetCtrlByZS=null;
-        }
-
         if (renlian_camera != null) {
             renlian_camera.stopPreview();
             renlian_camera.release();
@@ -351,6 +346,17 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             chuhuokou_camera.release();
             chuhuokou_camera = null;
         }
+
+//        if (zs_CabinetCtrlByZS != null) {
+//            zs_CabinetCtrlByZS.disConnect();
+//            zs_CabinetCtrlByZS=null;
+//        }
+//
+//        if (ds_CabinetCtrlByZS != null) {
+//            ds_CabinetCtrlByZS.disConnect();
+//            ds_CabinetCtrlByZS=null;
+//        }
+
     }
 
     @Override

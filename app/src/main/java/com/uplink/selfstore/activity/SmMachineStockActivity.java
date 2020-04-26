@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
+import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
@@ -60,6 +61,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private Button btn_RefreshStock;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
+    private ScannerCtrl scannerCtrl;
+
     private CustomDialogLoading customDialogRunning;
     private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
@@ -76,15 +79,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         String cabinetId = getIntent().getStringExtra("cabinetId");
         cabinet = getMachine().getCabinets().get(cabinetId);
-        if(cabinet==null) {
+        if (cabinet == null) {
             showToast("未配置对应机柜，请联系管理员");
             return;
         }
 
-        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.connect();
-
-        cabinetCtrlByDS.setScanSlotHandler(new Handler(  new Handler.Callback() {
+        cabinetCtrlByDS.setScanSlotHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
                         Bundle bundle;
@@ -99,15 +101,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 1:
                                 showToast(message);
                                 //异常消息
-                                if(customDialogRunning!=null) {
-                                    if(customDialogRunning.isShowing()) {
+                                if (customDialogRunning != null) {
+                                    if (customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
                                     }
                                 }
                                 break;
                             case 2://启动就绪
-                                scanSlotsEventNotify(2000,"启动就绪");
-                                if(customDialogRunning!=null) {
+                                scanSlotsEventNotify(2000, "启动就绪");
+                                if (customDialogRunning != null) {
                                     customDialogRunning.setProgressText(message);
                                     if (!customDialogRunning.isShowing()) {
                                         customDialogRunning.showDialog();
@@ -115,46 +117,51 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 break;
                             case 3://扫描中
-                                if(customDialogRunning!=null) {
+                                if (customDialogRunning != null) {
                                     customDialogRunning.setProgressText(message);
                                 }
                                 break;
                             case 4://扫描成功
                                 if (result != null) {
-                                    scanSlotsEventNotify(4000,"扫描成功,结果:"+ InterUtil.arrayTransformString(result.rowColLayout,",")+",用时:"+result.getUseTime());
-                                    DSCabRowColLayoutBean sSCabRowColLayoutBean=new DSCabRowColLayoutBean();
+                                    scanSlotsEventNotify(4000, "扫描成功,结果:" + InterUtil.arrayTransformString(result.rowColLayout, ",") + ",用时:" + result.getUseTime());
+                                    DSCabRowColLayoutBean sSCabRowColLayoutBean = new DSCabRowColLayoutBean();
                                     sSCabRowColLayoutBean.setRows(result.rowColLayout);
                                     String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
                                     saveCabinetRowColLayout(cabinet.getId(), strRowColLayout);
                                 }
                                 break;
                             case 5://扫描超时
-                                scanSlotsEventNotify(5000,"扫描超时");
-                                if(customDialogRunning!=null) {
-                                    if(customDialogRunning.isShowing()) {
+                                scanSlotsEventNotify(5000, "扫描超时");
+                                if (customDialogRunning != null) {
+                                    if (customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
                                     }
                                 }
                                 showToast(message);
                                 break;
                             case 6://扫描失败
-                                scanSlotsEventNotify(6000,"扫描失败");
-                                if(customDialogRunning!=null) {
-                                    if(customDialogRunning.isShowing()) {
+                                scanSlotsEventNotify(6000, "扫描失败");
+                                if (customDialogRunning != null) {
+                                    if (customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
                                     }
                                 }
                                 showToast(message);
                                 break;
-
                         }
                         return false;
                     }
                 })
         );
 
-        cabinetCtrlByZS= CabinetCtrlByZS.getInstance();
+        cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
         cabinetCtrlByZS.connect();
+
+        if (getMachine().getScanner().getUse()) {
+            scannerCtrl = ScannerCtrl.getInstance();
+            scannerCtrl.connect();
+        }
+
 
         initView();
         initEvent();
@@ -476,21 +483,32 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         cabinetCtrlByZS.connect();
 
+        if(getMachine().getScanner().getUse()) {
+            if (scannerCtrl == null) {
+                scannerCtrl = ScannerCtrl.getInstance();
+            }
+            scannerCtrl.connect();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        if (cabinetCtrlByDS != null) {
-            cabinetCtrlByDS.disConnect();
-            cabinetCtrlByDS = null;
-        }
-
-        if (cabinetCtrlByZS != null) {
-            cabinetCtrlByZS.disConnect();
-            cabinetCtrlByZS = null;
-        }
+//        if (cabinetCtrlByDS != null) {
+//            cabinetCtrlByDS.disConnect();
+//            cabinetCtrlByDS = null;
+//        }
+//
+//        if (cabinetCtrlByZS != null) {
+//            cabinetCtrlByZS.disConnect();
+//            cabinetCtrlByZS = null;
+//        }
+//
+//        if (scannerCtrl != null) {
+//            scannerCtrl.disConnect();
+//            scannerCtrl = null;
+//        }
     }
 
     @Override
@@ -506,20 +524,30 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetCtrlByZS.disConnect();
             cabinetCtrlByZS = null;
         }
+
+        if (scannerCtrl != null) {
+            scannerCtrl.disConnect();
+            scannerCtrl = null;
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (cabinetCtrlByDS != null) {
-            cabinetCtrlByDS.disConnect();
-            cabinetCtrlByDS = null;
-        }
-
-        if (cabinetCtrlByZS != null) {
-            cabinetCtrlByZS.disConnect();
-            cabinetCtrlByZS = null;
-        }
+//        if (cabinetCtrlByDS != null) {
+//            cabinetCtrlByDS.disConnect();
+//            cabinetCtrlByDS = null;
+//        }
+//
+//        if (cabinetCtrlByZS != null) {
+//            cabinetCtrlByZS.disConnect();
+//            cabinetCtrlByZS = null;
+//        }
+//
+//        if (scannerCtrl != null) {
+//            scannerCtrl.disConnect();
+//            scannerCtrl = null;
+//        }
     }
 
     @Override
@@ -627,29 +655,5 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
             }
         });
-    }
-
-
-    private class TestThread extends Thread {
-
-        public TestThread() {
-
-        }
-
-        @Override
-        public void run() {
-
-
-            while (true){
-                try
-                {
-                    Thread.sleep(10000);
-                }
-                catch (Exception ex){
-                }
-
-                LogUtil.i(TAG,"SDASDADADS");
-            }
-        }
     }
 }

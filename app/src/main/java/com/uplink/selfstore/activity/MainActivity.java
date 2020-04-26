@@ -48,6 +48,30 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         LogUtil.e(TAG, "机器的状态是否异常：" + getMachine().isExIsHas());
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        checkIsHasExHappen();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog_NumKey != null && dialog_NumKey.isShowing()) {
+            dialog_NumKey.cancel();
+        }
+    }
+
     protected void initView() {
         layout_header = (RelativeLayout) findViewById(R.id.layout_header);
         banner_pager = (AutoLoopViewPager) findViewById(R.id.banner_pager);
@@ -129,28 +153,4 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
     }
 
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        checkIsHasExHappen();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dialog_NumKey != null && dialog_NumKey.isShowing()) {
-            dialog_NumKey.cancel();
-        }
-    }
 }
