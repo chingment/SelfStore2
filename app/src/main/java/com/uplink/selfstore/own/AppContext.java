@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedReader;
@@ -86,7 +88,7 @@ public class AppContext extends Application {
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
         CrashReport.initCrashReport(context, "b9d0425e4c", true);
 
-
+        OstCtrlInterface.init(Build.MODEL);//  初始化Ost控制
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);  // 初始化 JPus
 

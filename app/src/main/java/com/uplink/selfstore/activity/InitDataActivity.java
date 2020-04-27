@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -203,8 +204,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                             AppCacheManager.setGlobalDataSet(data_globalDataSet);//设置全局缓存数据
 
                             AppCacheManager.clearCartSkus();//清空购物车数据
-
-                            OstCtrlInterface.init(machine.getOstVern());//初始化Ost控制
 
                             ScannerCtrl.getInstance().setComId(machine.getScanner().getComId());//设置扫描器串口ID
 

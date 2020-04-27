@@ -4,16 +4,16 @@ public class OstCtrlInterface {
 
     private static IOstCtrl ostCtrl;
 
-    public static void init(String name) {
-        if(name==null){
+    public static void init(String model) {
+        if(model==null){
             ostCtrl = new OstCtrlByYs();
         }
         else {
-            switch (name) {
-                case "SX":
+            switch (model) {
+                case "SABRESD-MX6DQ":
                     ostCtrl = new OstCtrlBySx();
                     break;
-                case "YS":
+                case "rk3399-all":
                     ostCtrl = new OstCtrlByYs();
                     break;
                 default:
