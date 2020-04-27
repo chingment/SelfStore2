@@ -60,6 +60,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private TextView txt_version;
     private MyListView list_log;
     private View btn_appexit;
+    private View btn_appset;
     private List<LogBean> logs=new ArrayList<>();
     private CabinetCtrlByDS cabinetCtrlByDS=null;
     private CabinetCtrlByZS cabinetCtrlByZS=null;
@@ -120,6 +121,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         txt_version=(TextView) findViewById(R.id.txt_version);
         list_log=(MyListView)findViewById(R.id.list_log);
         btn_appexit=(View)findViewById(R.id.btn_appexit);
+        btn_appset=(View)findViewById(R.id.btn_appset);
     }
 
 
@@ -132,6 +134,18 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             public boolean onLongClick(View v) {
                 setHideStatusBar(false);
                 AppManager.getAppManager().AppExit(InitDataActivity.this);
+                return true;
+            }
+        });
+
+        LongClickUtil.setLongClick(new Handler(), btn_appset, 3000, new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                Intent intent = new Intent(getAppContext(), InitToolActivity.class);
+                startActivity(intent);
+                finish();
+
                 return true;
             }
         });

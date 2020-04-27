@@ -8,8 +8,10 @@
 
 
     <LinearLayout
+        android:id="@+id/btn_appset"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_200"
+        android:paddingTop="@dimen/size_20"
         android:orientation="vertical">
     <com.uplink.selfstore.ui.my.MyListView
         android:id="@+id/list_log"
