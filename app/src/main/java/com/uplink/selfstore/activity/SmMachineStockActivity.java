@@ -577,7 +577,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             content.put("cabinetId", cabinet.getId());
             content.put("status", status);
             content.put("remark", remark);
-            eventNotify("ScanSlots", content);
+            eventNotify("ScanSlots","扫描货道",content);
         }catch (JSONException e) {
             e.printStackTrace();
         }

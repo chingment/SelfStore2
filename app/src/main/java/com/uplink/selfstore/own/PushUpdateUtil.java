@@ -66,6 +66,9 @@ public class PushUpdateUtil {
                 dsx01openPickupDoor();//支付成功
                 break;
         }
+
+        BaseFragmentActivity.eventNotify(cmd,"接收命令成功",null);
+
     }
 
     private static void sysReboot() {

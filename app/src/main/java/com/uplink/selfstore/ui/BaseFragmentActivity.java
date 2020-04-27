@@ -55,7 +55,7 @@ import java.util.Map;
  */
 
 public class BaseFragmentActivity extends FragmentActivity implements View.OnClickListener {
-    private String TAG = "BaseFragmentActivity";
+    private static final String TAG = "BaseFragmentActivity";
     private AppContext appContext;
     public static boolean isForeground = false;
     private MessageReceiver mJpush_MessageReceiver;
@@ -504,23 +504,36 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void eventNotify(String eventCode, JSONObject content){
+    public static void eventNotify(String eventCode,String eventRemark, JSONObject content){
 
         MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
         params.put("appId", BuildConfig.APPLICATION_ID);
-        params.put("deviceId", getAppContext().getDeviceId());
+        params.put("deviceId", AppContext.getInstance().getDeviceId());
         params.put("machineId", machine.getId() + "");
         params.put("lat", LocationUtil.LAT);
         params.put("lng", LocationUtil.LNG);
         params.put("eventCode", eventCode);
-        params.put("content", content);
+        params.put("eventRemark", eventRemark);
+        if(content!=null) {
+            params.put("content", content);
+        }
 
-        postByMy(Config.URL.machine_EventNotify, params, null, false, "", new HttpResponseHandler() {
+        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_EventNotify, params, null, new HttpResponseHandler() {
+
+            @Override
+            public void onBeforeSend() {
+
+            }
+
             @Override
             public void onSuccess(String response) {
+                LogUtil.e(BaseFragmentActivity.TAG, "心跳包发送成功");
+            }
 
+            @Override
+            public void onFailure(String msg, Exception e) {
             }
         });
     }

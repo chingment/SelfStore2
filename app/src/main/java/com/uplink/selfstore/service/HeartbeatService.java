@@ -20,6 +20,7 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -85,14 +86,6 @@ public class HeartbeatService extends Service {
             LogUtil.e(TAG, "心跳包发送：" + System.currentTimeMillis());
             MachineBean machine = AppCacheManager.getMachine();
 
-            Map<String, Object> params = new HashMap<>();
-            params.put("appId", BuildConfig.APPLICATION_ID);
-            params.put("deviceId", AppContext.getInstance().getDeviceId());
-            params.put("machineId", machine.getId());
-            params.put("lat", LocationUtil.LAT);
-            params.put("lng", LocationUtil.LNG);
-            params.put("eventCode", "HeartbeatBag");
-
             String status = "unknow";
 
             Activity activity = AppManager.getAppManager().currentActivity();
@@ -101,37 +94,21 @@ public class HeartbeatService extends Service {
                 LogUtil.e(TAG, "当前activity:" + activityName);
                 if (activityName.contains(".Sm")) {
                     status = "setting";
-                    params.put("status", AppContext.getInstance().getDeviceId());
                 } else {
                     status = "running";
                 }
             }
 
+            JSONObject jsonObject = new JSONObject();
             try {
-                JSONObject jsonObject = new JSONObject();
                 jsonObject.put("status", status);
-                params.put("content", jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
                 return;
             }
 
-            HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_EventNotify, params, null, new HttpResponseHandler() {
+            BaseFragmentActivity.eventNotify("HeartbeatBag","发送心跳包",jsonObject);
 
-                @Override
-                public void onBeforeSend() {
-
-                }
-
-                @Override
-                public void onSuccess(String response) {
-                    LogUtil.e(TAG, "心跳包发送成功");
-                }
-
-                @Override
-                public void onFailure(String msg, Exception e) {
-                }
-            });
         }
         catch (Exception ex){
             TcStatInterface.onEvent("sendHeartbeatBag.error", null);

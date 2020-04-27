@@ -686,7 +686,7 @@ public class CustomSlotEditDialog extends Dialog {
                 content.put("pickupUseTime", pickupResult.getPickupUseTime());
                 content.put("isPickupComplete", pickupResult.isPickupComplete());
             }
-            mContext.eventNotify("Pickup", content);
+            mContext.eventNotify("Pickup","商品测试取货", content);
         }catch (JSONException e) {
             e.printStackTrace();
         }
