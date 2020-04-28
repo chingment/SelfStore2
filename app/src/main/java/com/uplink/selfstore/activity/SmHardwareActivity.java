@@ -89,6 +89,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private Button ds_hd_btn_gozero;
     private Button ds_hd_btn_openpickupdoor;
     private Button ds_hd_btn_stop;
+    private Button ds_hd_btn_pickuptest;
+
     private TextView ds_tv_log;
 
 
@@ -160,6 +162,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         jigui_camera_btn_captureStill.setOnClickListener(this);
         jigui_camera_btn_record = (Button) findViewById(R.id.jigui_camera_btn_record);
         jigui_camera_btn_record.setOnClickListener(this);
+
+
 
         chuhuokou_camera_surfaceView = (SurfaceView) findViewById(R.id.chuhuokou_camera_surfaceView);
         chuhuokou_camera_surfaceholder = chuhuokou_camera_surfaceView.getHolder();
@@ -258,10 +262,14 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
         ds_hd_btn_stop= (Button) findViewById(R.id.ds_hd_btn_stop);
         ds_hd_btn_openpickupdoor = (Button) findViewById(R.id.ds_hd_btn_openpickupdoor);
+        ds_hd_btn_pickuptest = (Button) findViewById(R.id.ds_hd_btn_pickuptest);
         ds_hd_btn_connect.setOnClickListener(this);
         ds_hd_btn_gozero.setOnClickListener(this);
         ds_hd_btn_stop.setOnClickListener(this);
         ds_hd_btn_openpickupdoor.setOnClickListener(this);
+        ds_hd_btn_pickuptest.setOnClickListener(this);
+
+
     }
 
     private void  initViewByWG() {
@@ -544,6 +552,13 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     }
                     ds_CabinetCtrlByZS.openPickupDoor();
                     break;
+                case R.id.ds_hd_btn_pickuptest:
+                    if(!ds_CabinetCtrlByZS.isConnect()){
+                        showToast("[ds设备]未打开连接");
+                        return;
+                    }
+                    ds_CabinetCtrlByZS.pickUp(0,0,null);
+                    break;
                 case R.id.zs_hd_btn_connect:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
                         showToast("[zs设备]请输入串口名称");
@@ -605,6 +620,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         return;
                     }
 
+                    wg_ScannerCtrl.setComId(str_wg_hd_et_ck);
                     wg_ScannerCtrl.connect();
 
 

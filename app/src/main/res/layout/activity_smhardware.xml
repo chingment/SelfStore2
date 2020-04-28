@@ -318,6 +318,15 @@
                     android:paddingBottom="0dp"
                     android:textSize="@dimen/sp_6"
                     android:text="打开取货门"/>
+
+                <Button
+                    android:id="@+id/ds_hd_btn_pickuptest"
+                    android:layout_width="@dimen/size_80"
+                    android:layout_height="@dimen/size_24"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:textSize="@dimen/sp_6"
+                    android:text="取第一行第一列"/>
             </LinearLayout>
 
 

@@ -22,7 +22,7 @@ public class ScannerCtrl {
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
-    private static String ComId="ttymxc3";
+    private static String ComId="ttyS2";
 
     public static final int MESSAGE_WHAT_SCANRESULT=1;
 
@@ -142,12 +142,16 @@ public class ScannerCtrl {
                 byte[] buffer = new byte[1024];
                 int size; //读取数据的大小
                 try {
-                    size = in.read(buffer);
-                    Log.d(TAG, "扫描数据：" + ChangeToolUtils.byteArrToHex(buffer, 0, size));
-                    Log.d(TAG, "扫描数据长度：" + String.valueOf(size));
-                    String scanResult = ChangeToolUtils.byteArrToString(buffer);
-                    Log.d(TAG, "扫描数据内容:" + scanResult);
-                    sendHandlerMessage(scanResult);
+                    int availableLen=in.available();
+                    Log.d(TAG, "availableLen：" + availableLen);
+                    if(availableLen>0) {
+                        size = in.read(buffer,0,availableLen);
+                        Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(buffer, 0, size));
+                        Log.d(TAG, "扫描结果数据长度：" + String.valueOf(size));
+                        String scanResult = ChangeToolUtils.byteArrToString(buffer);
+                        Log.d(TAG, "扫描结果数据内容:" + scanResult);
+                        sendHandlerMessage(scanResult);
+                    }
                 } catch (IOException e) {
                     Log.e(TAG, "扫描数据读取异常：" + e.toString());
                 }

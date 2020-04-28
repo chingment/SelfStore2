@@ -237,35 +237,23 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().addActivity(this);
 
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
-            Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity instanceof InitDataActivity) {
+//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
+//            Activity activity = AppManager.getAppManager().currentActivity();
+//            if (activity instanceof InitDataActivity) {
+//
+//            } else {
+//                showToast("检查异常，设备重新运行");
+//                Intent intent = new Intent(appContext, InitDataActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }
+//        else {
+//            dialogBySystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
+//            dialogBySystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
+//            dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
+//        }
 
-            } else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
-        else {
-            dialogBySystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
-            dialogBySystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
-            dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
-        }
-
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.width = 500;
-        params.height = 500;
-
-        //params.alpha = 0;
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        // 屏蔽点击事件
-        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
-        View convertView = LayoutInflater.from(BaseFragmentActivity.this).inflate(R.layout.item_list_sku_tmp1, null, false);
-        this.addContentView(convertView, params);
     }
 
     @Override
