@@ -39,6 +39,15 @@
                 android:paddingBottom="0dp"
                 android:text="显示导航栏（YC）"/>
 
+
+            <Button
+                android:id="@+id/btn_AppExit"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/size_24"
+                android:textSize="@dimen/sp_6"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:text="关闭应用"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

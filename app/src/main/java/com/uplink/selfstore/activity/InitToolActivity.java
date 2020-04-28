@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.ostCtrl.OstCtrlBySx;
 import com.uplink.selfstore.ostCtrl.OstCtrlByYs;
+import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
@@ -15,7 +16,7 @@ public class InitToolActivity extends SwipeBackActivity implements View.OnClickL
 
     private Button btn_ShowNavBySx;
     private Button btn_ShowNavByYs;
-
+    private Button btn_AppExit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +31,13 @@ public class InitToolActivity extends SwipeBackActivity implements View.OnClickL
     protected void initView() {
         btn_ShowNavBySx=(Button) findViewById(R.id.btn_ShowNavBySx);
         btn_ShowNavByYs=(Button)findViewById(R.id.btn_ShowNavByYs);
+        btn_AppExit=(Button)findViewById(R.id.btn_AppExit);
     }
 
     private void initEvent() {
         btn_ShowNavBySx.setOnClickListener(this);
         btn_ShowNavByYs.setOnClickListener(this);
+        btn_AppExit.setOnClickListener(this);
     }
 
     @Override
@@ -54,7 +57,11 @@ public class InitToolActivity extends SwipeBackActivity implements View.OnClickL
                     OstCtrlByYs ostCtrlByYs=new OstCtrlByYs();
                     ostCtrlByYs.setHideStatusBar(InitToolActivity.this,false);
                     break;
+                case R.id.btn_AppExit:
+                    AppManager.getAppManager().AppExit(InitToolActivity.this);
+                    break;
             }
         }
     }
+
 }
