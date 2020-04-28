@@ -312,7 +312,7 @@
 
                 <Button
                     android:id="@+id/ds_hd_btn_openpickupdoor"
-                    android:layout_width="@dimen/size_50"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_24"
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
@@ -321,7 +321,7 @@
 
                 <Button
                     android:id="@+id/ds_hd_btn_pickuptest"
-                    android:layout_width="@dimen/size_80"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_24"
                     android:paddingTop="0dp"
                     android:paddingBottom="0dp"
@@ -523,7 +523,7 @@
                     android:layout_width="@dimen/size_200"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_12"
-                    android:text="1" />
+                    android:text="" />
             </LinearLayout>
 
 
