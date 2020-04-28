@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -253,6 +254,18 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
         }
 
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.width = 500;
+        params.height = 500;
+
+        //params.alpha = 0;
+        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        // 屏蔽点击事件
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+        View convertView = LayoutInflater.from(BaseFragmentActivity.this).inflate(R.layout.item_list_sku_tmp1, null, false);
+        this.addContentView(convertView, params);
     }
 
     @Override

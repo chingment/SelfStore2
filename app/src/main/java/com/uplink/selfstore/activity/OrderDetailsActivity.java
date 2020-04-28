@@ -23,6 +23,7 @@ import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyListView;
@@ -36,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class OrderDetailsActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -101,6 +103,44 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         else if(!componentName.toLowerCase().contains("orderdetailsactivity")) {
                             isHappneException = true;
                         }
+
+
+                        boolean isTakePic=false;
+                        if(isHappneException) {
+                            isTakePic=true;
+                        }
+
+                        if(!isTakePic) {
+                            if (pickupResult != null) {
+                                if (pickupResult.isPickupComplete()) {
+                                    isTakePic = true;
+                                }
+                            }
+                        }
+
+                        if(!isTakePic) {
+                            if (status == 4 || status == 5 || status > 6) {
+                                isTakePic = true;
+                            }
+                        }
+
+                        if(isTakePic){
+                            if(pickupResult==null){
+                                pickupResult=new PickupResult();
+                            }
+
+                            if(CameraWindow.cameraIsRunningByChk()) {
+                                pickupResult.setImgId(UUID.randomUUID().toString());
+                                CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
+                            }
+
+                            if(CameraWindow.cameraIsRunningByJg()) {
+                                pickupResult.setImgId2(UUID.randomUUID().toString());
+                                CameraWindow.takeCameraPicByJg(pickupResult.getImgId2());
+                            }
+                        }
+
+
 
                         if (isHappneException) {
                             cabinetCtrlByDS.emgStop();
@@ -213,6 +253,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                CameraWindow.openCameraByJg();
+                CameraWindow.openCameraByChk();
+
                 curPickupSku = getCurrentPickupProductSku();
                 if (curPickupSku != null) {
                     setSendPickup(curPickupSku);
@@ -371,11 +415,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
             curPickupSku_Tv_Tip1.setText(pickupSku.getName());
             curPickupSku_Tv_Tip2.setText("准备出货......");
+
             pickupEventNotify(pickupSku, 3011, "发起取货", null);
         }
     }
 
     public void pickupEventNotify(final PickupSkuBean pickupSku, final int status, String remark, PickupResult pickupResult) {
+
+        //捕捉相片
 
         try {
             JSONObject content = new JSONObject();
@@ -394,6 +441,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 content.put("pickupUseTime", pickupResult.getPickupUseTime());
                 content.put("isPickupComplete", pickupResult.isPickupComplete());
                 content.put("imgId", pickupResult.getImgId());
+                content.put("imgId2", pickupResult.getImgId2());
             }
             content.put("remark", remark);
             LogUtil.d("status:" + status);
@@ -402,7 +450,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             e.printStackTrace();
         }
 
+
+
+
         if(isHappneException) {
+
             if (!OrderDetailsActivity.this.isFinishing()) {
                 if (!getDialogBySystemWarn().isShowing()) {
                     getDialogBySystemWarn().setWarnTile("系统维护中..");
@@ -539,50 +591,4 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         closePageCountTimerStop();
     }
-
-
-//    public  void  saveCaptureStill(byte[] data,String saveDir,String fileName) {
-//        try {
-//            if (data == null)
-//                return;
-//            if (saveDir == null)
-//                return;
-//            if (fileName == null)
-//                return;
-//
-//            YuvImage yuvImage = new YuvImage(data, ImageFormat.NV21, mCameraPreviewWidth, mCameraPreviewHeight, null);
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
-//            yuvImage.compressToJpeg(new Rect(0, 0, mCameraPreviewWidth, mCameraPreviewHeight), 100, bos);
-//            byte[] buffer = bos.toByteArray();
-//
-//            Bitmap bitmap = BitmapFactory.decodeByteArray(buffer, 0, buffer.length);
-//
-//            String mSaveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/" + saveDir;
-//
-//            File pathFile = new File(mSaveDir);
-//            if (!pathFile.exists()) {
-//                pathFile.mkdirs();
-//            }
-//
-//            String filePath = mSaveDir + "/" + fileName + ".jpg";
-//            File outputFile = new File(filePath);
-//            final BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(outputFile));
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-//            os.flush();
-//            os.close();
-//
-//            //上传到服务器
-//            List<String> filePaths = new ArrayList<>();
-//            filePaths.add(filePath);
-//            Map<String, String> params = new HashMap<>();
-//            params.put("fileName", fileName);
-//            params.put("folder", "pickup");
-//            HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
-//
-//            LogUtil.i(TAG,"拍照保存成功");
-//
-//        } catch (Exception e) {
-//            Log.e(TAG, e.toString());
-//        }
-//    }
 }

@@ -2,12 +2,26 @@ package com.uplink.selfstore.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.hardware.Camera;
 import android.os.Build;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
+import com.uplink.selfstore.http.HttpClient;
+import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.LogUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 隐藏的全局窗口，用于后台拍照
@@ -16,14 +30,19 @@ import com.uplink.selfstore.utils.LogUtil;
  */
 public class CameraWindow {
 
-    private static final String TAG = CameraWindow.class.getSimpleName();
+    private static final String TAG = "CameraWindow";
 
     private static WindowManager windowManager;
 
     private static Context applicationContext;
 
-    private static SurfaceView dummyCameraView;
+    private static Camera cameraJg;
+    private static SurfaceView cameraViewByJg;
+    private static SurfaceHolder cameraHolderByJg;
 
+    private static Camera cameraChk;
+    private static SurfaceView cameraViewByChk;
+    private static SurfaceHolder cameraHolderyChk;
     /**
      * 显示全局窗口
      *
@@ -34,7 +53,10 @@ public class CameraWindow {
             applicationContext = context.getApplicationContext();
             windowManager = (WindowManager) applicationContext
                     .getSystemService(Context.WINDOW_SERVICE);
-            dummyCameraView = new SurfaceView(applicationContext);
+
+
+            cameraViewByJg = new SurfaceView(applicationContext);
+            cameraHolderByJg = cameraViewByJg.getHolder();
             LayoutParams params = new LayoutParams();
             params.width = 1;
             params.height = 1;
@@ -45,29 +67,174 @@ public class CameraWindow {
                     | LayoutParams.FLAG_NOT_FOCUSABLE
                     | LayoutParams.FLAG_NOT_TOUCHABLE;
 
-            windowManager.addView(dummyCameraView, params);
+            windowManager.addView(cameraViewByJg, params);
+
+
+            cameraViewByChk = new SurfaceView(applicationContext);
+            cameraHolderyChk = cameraViewByChk.getHolder();
+
+            windowManager.addView(cameraViewByChk, params);
+
             LogUtil.d(TAG, TAG + " showing");
         }
     }
 
-    /**
-     * @return 获取窗口视图
-     */
-    public static SurfaceView getDummyCameraView() {
-        return dummyCameraView;
-    }
 
     /**
      * 隐藏窗口
      */
     public static void dismiss() {
         try {
-            if (windowManager != null && dummyCameraView != null) {
-                windowManager.removeView(dummyCameraView);
-                LogUtil.d(TAG, TAG + " dismissed");
+            if (windowManager != null && cameraViewByJg != null) {
+                windowManager.removeView(cameraViewByJg);
             }
+
+            if (windowManager != null && cameraViewByChk != null) {
+                windowManager.removeView(cameraViewByChk);
+            }
+
+            LogUtil.d(TAG, TAG + " dismissed");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void openCameraByJg(){
+        try {
+            cameraJg = Camera.open(1);
+            cameraJg.setPreviewDisplay(cameraHolderByJg);
+            cameraJg.startPreview();
+        }
+        catch (Exception ex) {
+            LogUtil.e(TAG,"打开机柜摄像头失败");
+            LogUtil.e(TAG,ex);
+            cameraJg = null;
+        }
+    }
+
+    public static void releaseCameraByJg(){
+        try {
+
+            if (cameraJg != null) {
+                cameraJg.stopPreview();
+                cameraJg.release();
+                cameraJg = null;
+            }
+        }
+        catch (Exception ex){
+            cameraJg=null;
+        }
+    }
+
+    public static boolean  cameraIsRunningByJg() {
+
+        if (cameraJg == null)
+            return false;
+
+        return true;
+    }
+
+    public static void openCameraByChk(){
+        try {
+            cameraChk = Camera.open(2);
+            cameraChk.setPreviewDisplay(cameraHolderyChk);
+            cameraChk.startPreview();
+        }
+        catch (Exception ex) {
+            cameraChk = null;
+            LogUtil.e(TAG, "打开出货口摄像头失败");
+            LogUtil.e(TAG, ex);
+        }
+    }
+
+    public static boolean  cameraIsRunningByChk() {
+
+        if (cameraChk == null)
+            return false;
+
+        return true;
+    }
+
+    public static void releaseCameraByChk(){
+        try {
+
+            if (cameraChk!= null) {
+                cameraChk.stopPreview();
+                cameraChk.release();
+                cameraChk = null;
+            }
+        }
+        catch (Exception ex){
+            cameraChk=null;
+        }
+    }
+
+
+
+    public static void takeCameraPicByJg(String imgId){
+        try {
+            if(cameraJg!=null) {
+                cameraJg.takePicture(null, null, new TakePicCallback(imgId));
+            }
+
+        }
+        catch (Exception ex){
+            LogUtil.e(TAG, ex);
+        }
+    }
+
+
+
+    public static void takeCameraPicByChk(String imgId){
+        try {
+            if(cameraChk!=null) {
+                cameraChk.takePicture(null, null, new TakePicCallback(imgId));
+            }
+        }
+        catch (Exception ex){
+            LogUtil.e(TAG, ex);
+        }
+    }
+
+    public static class TakePicCallback implements Camera.PictureCallback {
+
+        private String imgId;
+        public  TakePicCallback(String imgId){
+            this.imgId=imgId;
+        }
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+            try {
+                //保存在本地
+
+                String mSaveDir = OwnFileUtil.getPicSaveDir();
+
+                File pathFile = new File(mSaveDir);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
+                }
+
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                String filePath = mSaveDir + "/" + imgId + ".jpg";
+                File file = new File(filePath);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+                outputStream.close();
+
+                //上传到服务器
+                List<String> filePaths = new ArrayList<>();
+                filePaths.add(filePath);
+                Map<String, String> params = new HashMap<>();
+                params.put("fileName", imgId);
+                params.put("folder", "pickup");
+                HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
+
+                LogUtil.e(TAG, "拍照结束");
+            } catch (Exception ex) {
+                LogUtil.e(TAG, ex);
+            }
         }
     }
 }

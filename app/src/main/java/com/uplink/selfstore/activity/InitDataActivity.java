@@ -96,6 +96,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         initHandler.postDelayed(initRunable, 1000);
 
+
         Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);
 

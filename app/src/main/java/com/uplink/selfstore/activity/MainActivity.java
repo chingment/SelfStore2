@@ -1,9 +1,11 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
 import android.os.Message;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,6 +17,7 @@ import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
@@ -44,6 +47,21 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initView();
         initEvent();
         initData();
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityForResult(intent, 1);
+            } else {
+                //TODO 做你需要的事情
+                CameraWindow.show(this);
+            }
+        }
+        else {
+            CameraWindow.show(this);
+        }
 
         LogUtil.e(TAG, "机器的状态是否异常：" + getMachine().isExIsHas());
     }
@@ -140,12 +158,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-                      //CrashReport.testJavaCrash();
-//                    Intent cameraSnapService2 = new Intent();
-//                    cameraSnapService2.setAction("android.intent.action.cameraSnapService");
-//                    cameraSnapService2.putExtra("cameraId", 0);
-//                    cameraSnapService2.putExtra("imgId", "dasd");
-//                    sendBroadcast(cameraSnapService2);
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
                     break;
