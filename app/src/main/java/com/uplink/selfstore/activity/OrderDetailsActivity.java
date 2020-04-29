@@ -416,6 +416,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             curPickupSku_Tv_Tip1.setText(pickupSku.getName());
             curPickupSku_Tv_Tip2.setText("准备出货......");
 
+
             pickupEventNotify(pickupSku, 3011, "发起取货", null);
         }
     }

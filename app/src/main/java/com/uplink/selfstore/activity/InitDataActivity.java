@@ -1,7 +1,6 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -33,7 +31,6 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.service.UpdateAppService;
-import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
@@ -134,7 +131,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
             @Override
             public boolean onLongClick(View v) {
 
-                Intent intent = new Intent(getAppContext(), InitToolActivity.class);
+                Intent intent = new Intent(getAppContext(), SmRescueToolActivity.class);
                 startActivity(intent);
                 finish();
 

@@ -1,6 +1,5 @@
 package com.uplink.selfstore.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,7 @@ import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
-public class InitToolActivity extends SwipeBackActivity implements View.OnClickListener {
+public class SmRescueToolActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private Button btn_ShowNavBySx;
     private Button btn_ShowNavByYs;
@@ -20,7 +19,7 @@ public class InitToolActivity extends SwipeBackActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inittool);
+        setContentView(R.layout.activity_smrescuetool);
         setNavTtile("设置检查");
         setNavGoBackBtnVisible(true);
 
@@ -51,14 +50,14 @@ public class InitToolActivity extends SwipeBackActivity implements View.OnClickL
                     break;
                 case R.id.btn_ShowNavBySx:
                     OstCtrlBySx ostCtrlBySx=new OstCtrlBySx();
-                    ostCtrlBySx.setHideStatusBar(InitToolActivity.this,false);
+                    ostCtrlBySx.setHideStatusBar(SmRescueToolActivity.this,false);
                     break;
                 case R.id.btn_ShowNavByYs:
                     OstCtrlByYs ostCtrlByYs=new OstCtrlByYs();
-                    ostCtrlByYs.setHideStatusBar(InitToolActivity.this,false);
+                    ostCtrlByYs.setHideStatusBar(SmRescueToolActivity.this,false);
                     break;
                 case R.id.btn_AppExit:
-                    AppManager.getAppManager().AppExit(InitToolActivity.this);
+                    AppManager.getAppManager().AppExit(SmRescueToolActivity.this);
                     break;
             }
         }

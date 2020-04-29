@@ -105,9 +105,9 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                LogUtil.e("长按触发");
-                setHideStatusBar(false);
-                AppManager.getAppManager().AppExit(SmLoginActivity.this);
+                Intent intent = new Intent(getAppContext(), SmRescueToolActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             }
         });
