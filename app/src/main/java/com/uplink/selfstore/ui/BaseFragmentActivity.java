@@ -237,22 +237,22 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().addActivity(this);
 
 
-//        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
-//            Activity activity = AppManager.getAppManager().currentActivity();
-//            if (activity instanceof InitDataActivity) {
-//
-//            } else {
-//                showToast("检查异常，设备重新运行");
-//                Intent intent = new Intent(appContext, InitDataActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        }
-//        else {
-//            dialogBySystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
-//            dialogBySystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
-//            dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
-//        }
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
+            Activity activity = AppManager.getAppManager().currentActivity();
+            if (activity instanceof InitDataActivity) {
+
+            } else {
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+        else {
+            dialogBySystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
+            dialogBySystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
+            dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
+        }
 
     }
 
@@ -489,13 +489,14 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-    public void orderCancle(String orderId, String reason) {
+    public void orderCancle(String orderId,int type, String reason) {
 
         MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", machine.getId() + "");
         params.put("orderId", orderId);
+        params.put("type", type);
         params.put("reason", reason);
 
         postByMy(Config.URL.order_Cancle, params, null, true, "", new HttpResponseHandler() {

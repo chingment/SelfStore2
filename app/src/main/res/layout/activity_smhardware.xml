@@ -268,7 +268,7 @@
                     android:layout_width="@dimen/size_60"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_12"
-                    android:text="ttymxc1" />
+                    android:text="ttyS0" />
 
 
             </LinearLayout>

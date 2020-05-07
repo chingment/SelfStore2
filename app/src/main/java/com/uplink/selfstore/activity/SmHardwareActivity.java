@@ -83,7 +83,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private TextView zs_tv_log;
 
     //德尚硬件诊断
-    private CabinetCtrlByDS ds_CabinetCtrlByZS=null;
+    private CabinetCtrlByDS ds_CabinetCtrlByDS=null;
     private EditText ds_hd_et_ck;
     private Button ds_hd_btn_connect;
     private Button ds_hd_btn_gozero;
@@ -242,9 +242,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     private void  initViewByDS() {
 
-        ds_CabinetCtrlByZS = CabinetCtrlByDS.getInstance();
+        ds_CabinetCtrlByDS = CabinetCtrlByDS.getInstance();
 
-        ds_CabinetCtrlByZS.setGoZeroHandler(new Handler(new Handler.Callback() {
+        ds_CabinetCtrlByDS.setGoZeroHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 Bundle bundle = msg.getData();
@@ -257,7 +257,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         }));
 
         ds_hd_et_ck = (EditText) findViewById(R.id.ds_hd_et_ck);
-        ds_hd_et_ck.setText(ds_CabinetCtrlByZS.getComId());
+        ds_hd_et_ck.setText(ds_CabinetCtrlByDS.getComId());
         ds_hd_btn_connect = (Button) findViewById(R.id.ds_hd_btn_connect);
         ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
         ds_hd_btn_stop= (Button) findViewById(R.id.ds_hd_btn_stop);
@@ -323,9 +323,9 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             zs_CabinetCtrlByZS=null;
         }
 
-        if (ds_CabinetCtrlByZS != null) {
-            ds_CabinetCtrlByZS.disConnect();
-            ds_CabinetCtrlByZS=null;
+        if (ds_CabinetCtrlByDS != null) {
+            ds_CabinetCtrlByDS.disConnect();
+            ds_CabinetCtrlByDS=null;
         }
 
         if (wg_ScannerCtrl != null) {
@@ -520,10 +520,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("[ds设备]请输入串口名称");
                         return;
                     }
-                    ds_CabinetCtrlByZS.setComId(str_ds_hd_et_ck);
-                    ds_CabinetCtrlByZS.connect();
+                    ds_CabinetCtrlByDS.setComId(str_ds_hd_et_ck);
+                    ds_CabinetCtrlByDS.connect();
 
-                    if(!ds_CabinetCtrlByZS.isConnect()){
+                    if(!ds_CabinetCtrlByDS.isConnect()){
                         showToast("[ds设备]连接失败");
                         return;
                     }
@@ -532,32 +532,32 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
                     break;
                 case R.id.ds_hd_btn_gozero:
-                    if(!ds_CabinetCtrlByZS.isConnect()){
+                    if(!ds_CabinetCtrlByDS.isConnect()){
                         showToast("[ds设备]未打开连接");
                         return;
                     }
-                    ds_CabinetCtrlByZS.goZero();
+                    ds_CabinetCtrlByDS.goZero();
                     break;
                 case R.id.ds_hd_btn_stop:
-                    if(!ds_CabinetCtrlByZS.isConnect()){
+                    if(!ds_CabinetCtrlByDS.isConnect()){
                         showToast("[ds设备]未打开连接");
                         return;
                     }
-                    ds_CabinetCtrlByZS.emgStop();
+                    ds_CabinetCtrlByDS.emgStop();
                     break;
                 case R.id.ds_hd_btn_openpickupdoor:
-                    if(!ds_CabinetCtrlByZS.isConnect()){
+                    if(!ds_CabinetCtrlByDS.isConnect()){
                         showToast("[ds设备]未打开连接");
                         return;
                     }
-                    ds_CabinetCtrlByZS.openPickupDoor();
+                    ds_CabinetCtrlByDS.openPickupDoor();
                     break;
                 case R.id.ds_hd_btn_pickuptest:
-                    if(!ds_CabinetCtrlByZS.isConnect()){
+                    if(!ds_CabinetCtrlByDS.isConnect()){
                         showToast("[ds设备]未打开连接");
                         return;
                     }
-                    ds_CabinetCtrlByZS.pickUp(0,0,null);
+                    ds_CabinetCtrlByDS.pickUp(0,0,null);
                     break;
                 case R.id.zs_hd_btn_connect:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {

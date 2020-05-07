@@ -128,7 +128,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 closePageCountTimerStart();
                 dialog_ScanPay_ConfirmClose.dismiss();
                 dialog_ScanPay.dismiss();
-                orderCancle(LAST_ORDERID, "取消订单");
+                orderCancle(LAST_ORDERID,1, "取消订单");
                 taskByCheckPayTimeout.cancel();
                 LAST_ORDERID = "";
             }
