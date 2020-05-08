@@ -152,13 +152,13 @@ public class HttpClient {
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
 
-            LogUtil.d("key:"+key);
-            LogUtil.d("secret:"+secret);
-            LogUtil.d("data:"+data);
-            LogUtil.d("currenttime:"+currenttime);
+            //LogUtil.d("key:"+key);
+            //LogUtil.d("secret:"+secret);
+            //LogUtil.d("data:"+data);
+            //LogUtil.d("currenttime:"+currenttime);
 
             String sign = Config.getSign(key, secret, data, currenttime);
-            LogUtil.d("sign:"+sign);
+            //LogUtil.d("sign:"+sign);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 

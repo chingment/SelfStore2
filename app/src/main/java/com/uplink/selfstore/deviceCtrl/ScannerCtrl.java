@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android_serialport_api.SerialPort;
 
@@ -22,8 +23,8 @@ public class ScannerCtrl {
     private static SerialPort mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
-    private static String ComId="ttyS2";
-
+    private static String ComId="ttymxc3";
+    private static boolean mRunFlag;
     public static final int MESSAGE_WHAT_SCANRESULT=1;
 
     private int message_what=-1;
@@ -47,7 +48,7 @@ public class ScannerCtrl {
     }
 
     public void setComId(String comId) {
-        ScannerCtrl.ComId = comId;
+        //ScannerCtrl.ComId = comId;
     }
 
     public String getComId() {
@@ -63,18 +64,21 @@ public class ScannerCtrl {
                 mSerialPort = new SerialPort(file, nBaudrate, 0);
                 this.out = mSerialPort.getOutputStream();
                 this.in = mSerialPort.getInputStream();
+                isConnect = true;
+                mRunFlag=true;
                 readThread = new ReadThread();
                 readThread.start();
-                isConnect = true;
             }
         } catch (SecurityException var4) {
             var4.printStackTrace();
             isConnect = false;
+            mRunFlag=false;
             return isConnect;
         } catch (IOException var5) {
             var5.printStackTrace();
             Log.e(TAG, String.format("connect to %s:%d failed", strPort, nBaudrate));
             isConnect = false;
+            mRunFlag=false;
             return isConnect;
         } finally {
             return isConnect;
@@ -83,6 +87,14 @@ public class ScannerCtrl {
 
     public void disConnect() {
         try {
+            isConnect = false;
+            mRunFlag=false;
+
+            if (readThread != null) {
+                readThread.interrupt();
+                readThread = null;
+            }
+
             if (this.out != null) {
                 this.out.close();
             }
@@ -93,11 +105,6 @@ public class ScannerCtrl {
 
             if (mSerialPort != null) {
                 mSerialPort.close();
-            }
-
-            if(readThread!=null)
-            {
-                readThread.onStop();
             }
 
         } catch (IOException var2) {
@@ -113,15 +120,11 @@ public class ScannerCtrl {
 
     private class ReadThread extends Thread {
 
-        private boolean mRunFlag;
+        //private ArrayList<Byte> buffer_List = new ArrayList<Byte>();
+
 
         private ReadThread() {
-            mRunFlag = true;
-        }
 
-        private void onStop() {
-            LogUtil.d("线程停止");
-            mRunFlag = false;
         }
 
         @Override
@@ -142,16 +145,48 @@ public class ScannerCtrl {
                 byte[] buffer = new byte[1024];
                 int size; //读取数据的大小
                 try {
-                    int availableLen=in.available();
-                    Log.d(TAG, "availableLen：" + availableLen);
-                    if(availableLen>0) {
-                        size = in.read(buffer,0,availableLen);
-                        Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(buffer, 0, size));
-                        Log.d(TAG, "扫描结果数据长度：" + String.valueOf(size));
-                        String scanResult = ChangeToolUtils.byteArrToString(buffer);
-                        Log.d(TAG, "扫描结果数据内容:" + scanResult);
-                        sendHandlerMessage(scanResult);
-                    }
+
+                    //Log.d(TAG, "availableLen：" + availableLen);
+
+                    size = in.read(buffer);
+                    Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(buffer, 0, size));
+                    Log.d(TAG, "扫描结果数据长度：" + String.valueOf(size));
+                    String scanResult = ChangeToolUtils.byteArrToString(buffer);
+                    Log.d(TAG, "扫描结果数据内容:" + scanResult);
+                    sendHandlerMessage(scanResult);
+
+
+//                    int availableLen=in.available();
+//                    //Log.d(TAG, "availableLen：" + availableLen);
+//                    if(availableLen>0) {
+//
+//                        size = in.read(buffer,0,availableLen);
+//
+//                        for (int i=0; i< size;i++) {
+//
+//                            buffer_List.add(buffer[i]);
+//                        }
+//
+//                    }
+//                    else {
+//
+//                        if(buffer_List.size()>0) {
+//                            byte[] by = new byte[buffer_List.size()];
+//                            for (int i = 0; i < buffer_List.size(); i++) {
+//                                by[i] = buffer_List.get(i);
+//                            }
+//
+//                            Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(by, 0, by.length));
+//                            Log.d(TAG, "扫描结果数据长度：" + String.valueOf(by.length));
+//
+//                            String scanResult = ChangeToolUtils.byteArrToString(by);
+//                            Log.d(TAG, "扫描结果数据内容:" + scanResult);
+//                            sendHandlerMessage(scanResult);
+//
+//                            buffer_List.clear();
+//                        }
+//                    }
+
                 } catch (IOException e) {
                     Log.e(TAG, "扫描数据读取异常：" + e.toString());
                 }

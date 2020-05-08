@@ -547,7 +547,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         params.put("machineId", this.getMachine().getId());
         params.put("pickupCode", pickCode);
 
-        getByMy(Config.URL.order_SearchByPickupCode, params, true, "正在寻找订单", new HttpResponseHandler() {
+        getByMy(Config.URL.order_SearchByPickupCode, params, false, "正在寻找订单", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
