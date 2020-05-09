@@ -106,17 +106,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
 
                         boolean isTakePic=false;
+
                         if(isHappneException) {
                             isTakePic=true;
                         }
-
-//                        if(!isTakePic) {
-//                            if (pickupResult != null) {
-//                                if (pickupResult.isPickupComplete()) {
-//                                    isTakePic = true;
-//                                }
-//                            }
-//                        }
 
                         if(!isTakePic) {
                             if (status == 5 || status > 6) {
@@ -124,12 +117,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             }
                         }
 
-                        boolean isDelayTakeCameraPicByChk=false;
                         if(pickupResult!=null) {
                             if (pickupResult.getCurrentActionId() == 8) {
                                 isTakePic = true;
-                                isDelayTakeCameraPicByChk=true;
                             }
+                        }
+
+                        //判断是使用WIFI网络，则每一步捕捉相片
+                        if(CommonUtil.isWifi(OrderDetailsActivity.this)) {
+                            isTakePic = true;
                         }
 
                         if(isTakePic){
