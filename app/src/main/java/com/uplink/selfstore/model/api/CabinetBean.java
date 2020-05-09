@@ -6,7 +6,7 @@ public class CabinetBean implements Serializable {
     private String id;
     private String name;
     private String rowColLayout;
-    private int fixSlotQuantity;
+    private int slotMaxQuantity;
     private int priority;
     private String comId;
 
@@ -19,12 +19,13 @@ public class CabinetBean implements Serializable {
         this.comId = comId;
     }
 
-    public int getFixSlotQuantity() {
-        return fixSlotQuantity;
+
+    public int getSlotMaxQuantity() {
+        return slotMaxQuantity;
     }
 
-    public void setFixSlotQuantity(int fixSlotQuantity) {
-        this.fixSlotQuantity = fixSlotQuantity;
+    public void setSlotMaxQuantity(int slotMaxQuantity) {
+        this.slotMaxQuantity = slotMaxQuantity;
     }
 
     public int getPriority() {

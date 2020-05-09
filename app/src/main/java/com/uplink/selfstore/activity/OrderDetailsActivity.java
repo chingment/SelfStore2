@@ -110,17 +110,25 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             isTakePic=true;
                         }
 
+//                        if(!isTakePic) {
+//                            if (pickupResult != null) {
+//                                if (pickupResult.isPickupComplete()) {
+//                                    isTakePic = true;
+//                                }
+//                            }
+//                        }
+
                         if(!isTakePic) {
-                            if (pickupResult != null) {
-                                if (pickupResult.isPickupComplete()) {
-                                    isTakePic = true;
-                                }
+                            if (status == 5 || status > 6) {
+                                isTakePic = true;
                             }
                         }
 
-                        if(!isTakePic) {
-                            if (status == 4 || status == 5 || status > 6) {
+                        boolean isDelayTakeCameraPicByChk=false;
+                        if(pickupResult!=null) {
+                            if (pickupResult.getCurrentActionId() == 8) {
                                 isTakePic = true;
+                                isDelayTakeCameraPicByChk=true;
                             }
                         }
 
@@ -131,7 +139,24 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                             if(CameraWindow.cameraIsRunningByChk()) {
                                 pickupResult.setImgId(UUID.randomUUID().toString());
+
+                                LogUtil.e(TAG,"开始拍照");
                                 CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
+
+//                                final String imgId=pickupResult.getImgId();
+//                                if(isDelayTakeCameraPicByChk){
+//                                    Handler handler = new Handler();
+//                                    handler.postDelayed(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            CameraWindow.takeCameraPicByChk(imgId);
+//                                        }
+//                                    }, 5000);
+//                                }
+//                                else
+//                                {
+//                                    CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
+//                                }
                             }
 
                             if(CameraWindow.cameraIsRunningByJg()) {
@@ -140,10 +165,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             }
                         }
 
-
-
                         if (isHappneException) {
-                            cabinetCtrlByDS.emgStop();
+                            if(cabinetCtrlByDS!=null) {
+                                cabinetCtrlByDS.emgStop();
+                            }
                             pickupEventNotify(curPickupSku, 6000, "取货失败，不在当前取货界面", pickupResult);
                         }
                         else {

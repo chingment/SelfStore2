@@ -528,9 +528,9 @@ public class CustomSlotEditDialog extends Dialog {
 
                 maxQty = maxQty + 1;
 
-                if(cabinet.getFixSlotQuantity()!=-1) {
-                    if (maxQty > cabinet.getFixSlotQuantity()) {
-                        mContext.showToast("最大数量不能大于最大数量：" + cabinet.getFixSlotQuantity());
+                if(cabinet.getSlotMaxQuantity()>0) {
+                    if (maxQty > cabinet.getSlotMaxQuantity()) {
+                        mContext.showToast("最大数量不能大于最大数量：" + cabinet.getSlotMaxQuantity());
                         return;
                     }
                 }
