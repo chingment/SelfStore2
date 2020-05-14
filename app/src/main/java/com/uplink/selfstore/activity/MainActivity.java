@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.tamic.statinterface.stats.core.TcStatInterface;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;

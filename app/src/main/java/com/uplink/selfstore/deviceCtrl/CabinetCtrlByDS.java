@@ -207,23 +207,33 @@ public class CabinetCtrlByDS {
     }
 
     public void openPickupDoor() {
-        if (!isConnect)
-            return;
 
-        if (sym == null)
-            return;
 
-        sym.SN_MV_ManuProc(1, 0, 0);
+        new Thread(new Runnable() {
+            public void run() {
 
-    }
+                if(isConnect) {
 
-    public void closePickupDoor() {
-        if (!isConnect)
-            return;
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    sym.SN_MV_MotorAction(1, 0, 0);//回原点
 
-        if (sym == null)
-            return;
-        sym.SN_MV_ManuProc(2, 0, 0);
+                    try {
+                        Thread.sleep(5*1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //关闭取货口
+                    sym.SN_MV_ManuProc(2, 0, 0);//关闭取货们
+                }
+            }
+
+        }).start();
+
+
     }
 
     public void doorControl() {

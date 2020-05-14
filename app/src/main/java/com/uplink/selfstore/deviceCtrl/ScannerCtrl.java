@@ -48,7 +48,7 @@ public class ScannerCtrl {
     }
 
     public void setComId(String comId) {
-        //ScannerCtrl.ComId = comId;
+        ScannerCtrl.ComId = comId;
     }
 
     public String getComId() {
@@ -120,8 +120,7 @@ public class ScannerCtrl {
 
     private class ReadThread extends Thread {
 
-        //private ArrayList<Byte> buffer_List = new ArrayList<Byte>();
-
+        private ArrayList<Byte> buffer_List = new ArrayList<Byte>();
 
         private ReadThread() {
 
@@ -148,44 +147,39 @@ public class ScannerCtrl {
 
                     //Log.d(TAG, "availableLen：" + availableLen);
 
-                    size = in.read(buffer);
-                    Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(buffer, 0, size));
-                    Log.d(TAG, "扫描结果数据长度：" + String.valueOf(size));
-                    String scanResult = ChangeToolUtils.byteArrToString(buffer);
-                    Log.d(TAG, "扫描结果数据内容:" + scanResult);
-                    sendHandlerMessage(scanResult);
+//                    size = in.read(buffer);
+//                    Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(buffer, 0, size));
+//                    Log.d(TAG, "扫描结果数据长度：" + String.valueOf(size));
+//                    String scanResult = ChangeToolUtils.byteArrToString(buffer);
+//                    Log.d(TAG, "扫描结果数据内容:" + scanResult);
+//                    sendHandlerMessage(scanResult);
 
 
-//                    int availableLen=in.available();
-//                    //Log.d(TAG, "availableLen：" + availableLen);
-//                    if(availableLen>0) {
-//
-//                        size = in.read(buffer,0,availableLen);
-//
-//                        for (int i=0; i< size;i++) {
-//
-//                            buffer_List.add(buffer[i]);
-//                        }
-//
-//                    }
-//                    else {
-//
-//                        if(buffer_List.size()>0) {
-//                            byte[] by = new byte[buffer_List.size()];
-//                            for (int i = 0; i < buffer_List.size(); i++) {
-//                                by[i] = buffer_List.get(i);
-//                            }
-//
-//                            Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(by, 0, by.length));
-//                            Log.d(TAG, "扫描结果数据长度：" + String.valueOf(by.length));
-//
-//                            String scanResult = ChangeToolUtils.byteArrToString(by);
-//                            Log.d(TAG, "扫描结果数据内容:" + scanResult);
-//                            sendHandlerMessage(scanResult);
-//
-//                            buffer_List.clear();
-//                        }
-//                    }
+                    int availableLen=in.available();
+                    //Log.d(TAG, "availableLen：" + availableLen);
+                    if(availableLen>0) {
+
+                        size = in.read(buffer,0,availableLen);
+
+                        for (int i=0; i< size;i++) {
+                            buffer_List.add(buffer[i]);
+                        }
+                    }
+                    else {
+                        if(buffer_List.size()>0) {
+                            byte[] by = new byte[buffer_List.size()];
+                            for (int i = 0; i < buffer_List.size(); i++) {
+                                by[i] = buffer_List.get(i);
+                            }
+
+                            Log.d(TAG, "扫描结果数据HEX：" + ChangeToolUtils.byteArrToHex(by, 0, by.length));
+                            Log.d(TAG, "扫描结果数据长度：" + String.valueOf(by.length));
+                            String scanResult = ChangeToolUtils.byteArrToString(by);
+                            Log.d(TAG, "扫描结果数据内容:" + scanResult);
+                            sendHandlerMessage(scanResult);
+                        }
+                        buffer_List.clear();
+                    }
 
                 } catch (IOException e) {
                     Log.e(TAG, "扫描数据读取异常：" + e.toString());

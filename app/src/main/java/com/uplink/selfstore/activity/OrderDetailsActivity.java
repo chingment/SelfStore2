@@ -84,6 +84,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     @Override
                     public boolean handleMessage(Message msg) {
 
+                        if(!CameraWindow.cameraIsRunningByChk()){
+                            CameraWindow.openCameraByChk();
+                        }
+
+                        if(!CameraWindow.cameraIsRunningByJg()){
+                            CameraWindow.openCameraByJg();
+                        }
+
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
@@ -274,9 +282,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                CameraWindow.openCameraByJg();
-                CameraWindow.openCameraByChk();
 
                 curPickupSku = getCurrentPickupProductSku();
                 if (curPickupSku != null) {
