@@ -6,11 +6,14 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.os.Message;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.R;
@@ -161,6 +164,35 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 case R.id.btn_pick:
                     TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
+
+
+                    EMClient.getInstance().login("13512719235", "123456", new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            Log.d(TAG, "login: onSuccess");
+
+
+                            // ** manually load all local groups and conversation
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+
+                            startActivity(new Intent(MainActivity.this, EasemobVideoCallActivity.class).putExtra("username", "15920310566")
+                                    .putExtra("isComingCall", false));
+
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            Log.d(TAG, "login: onProgress");
+                        }
+
+                        @Override
+                        public void onError(final int code, final String message) {
+                            Log.d(TAG, "login: onError: " + code);
+                        }
+                    });
+
                     break;
             }
         }

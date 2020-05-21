@@ -46,3 +46,10 @@
 -keep class org.apache.**{*;}
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+
+-keep class com.hyphenate.** {*;}
+-dontwarn  com.hyphenate.**
+-keep class internal.org.apache.http.entity.** {*;}
+//如果使用了实时音视频功能
+-keep class com.superrtc.** {*;}
+-dontwarn  com.superrtc.**
