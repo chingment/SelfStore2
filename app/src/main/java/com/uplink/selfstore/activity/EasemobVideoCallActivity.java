@@ -44,7 +44,7 @@ import com.uplink.selfstore.utils.EasemobPreferenceManager;
 import java.io.InputStream;
 import java.util.UUID;
 
-public class EasemobVideoCallActivity extends EasemobCallActivity {
+public class EasemobVideoCallActivity extends EasemobCallActivity implements View.OnClickListener {
 
     private boolean isMuteState;
     private boolean isHandsfreeState;
@@ -86,10 +86,7 @@ public class EasemobVideoCallActivity extends EasemobCallActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null){
-            finish();
-            return;
-        }
+
         setContentView(R.layout.activity_easemobvideocall);
 
         EasemobHelper.getInstance().isVideoCalling = true;

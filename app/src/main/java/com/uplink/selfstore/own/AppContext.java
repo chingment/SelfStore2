@@ -12,6 +12,8 @@ import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
 import com.tamic.statinterface.stats.core.TcCrashHandler;
 import com.tamic.statinterface.stats.db.DbManager;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -91,6 +93,19 @@ public class AppContext extends Application {
         OstCtrlInterface.init(Build.MODEL);//  初始化Ost控制
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);  // 初始化 JPus
+
+        EMOptions options = new EMOptions();
+        // 默认添加好友时，是不需要验证的，改成需要验证
+        options.setAcceptInvitationAlways(false);
+        // 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
+        options.setAutoTransferMessageAttachments(true);
+        // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
+        options.setAutoDownloadThumbnail(true);
+        //初始化
+        EMClient.getInstance().init(context, options);
+        //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+        EMClient.getInstance().setDebugMode(true);
+
 
         //DbManager.getInstance().init(this);
 

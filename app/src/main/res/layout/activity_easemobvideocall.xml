@@ -52,7 +52,7 @@
                 android:textSize="22sp"
                 android:visibility="visible" />
 
-            <com.hyphenate.chatuidemo.widget.MyChronometer
+            <com.uplink.selfstore.ui.EasemobMyChronometer
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

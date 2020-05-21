@@ -119,16 +119,16 @@ public class EasemobCallActivity extends SwipeBackActivity {
 
         EMClient.getInstance().callManager().setPushProvider(pushProvider);
 
-        if(EasemobPreferenceManager.getInstance().isWatermarkResolution()) {
-            try {
-                InputStream in = this.getResources().getAssets().open("watermark.png");
-                watermarkbitmap = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            wmOption = new EMWaterMarkOption(watermarkbitmap, 75, 25, EMWaterMarkPosition.TOP_RIGHT, 8, 8);
-//            watermark = new EMWaterMarkOption(watermarkbitmap, 75, 25, EMWaterMarkPosition.TOP_RIGHT, 8, 8);
-        }
+//        if(EasemobPreferenceManager.getInstance().isWatermarkResolution()) {
+//            try {
+//                InputStream in = this.getResources().getAssets().open("watermark.png");
+//                watermarkbitmap = BitmapFactory.decodeStream(in);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            wmOption = new EMWaterMarkOption(watermarkbitmap, 75, 25, EMWaterMarkPosition.TOP_RIGHT, 8, 8);
+////            watermark = new EMWaterMarkOption(watermarkbitmap, 75, 25, EMWaterMarkPosition.TOP_RIGHT, 8, 8);
+//        }
 
     }
 
