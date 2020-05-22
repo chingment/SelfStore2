@@ -22,6 +22,7 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
+import com.uplink.selfstore.utils.EMPreferenceManager;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedReader;
@@ -106,7 +107,7 @@ public class AppContext extends Application {
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
 
-
+        EMPreferenceManager.init(context);
         //DbManager.getInstance().init(this);
 
         TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);

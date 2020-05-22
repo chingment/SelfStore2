@@ -46,11 +46,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.EasemobVideoCallActivity"
-            android:label="@string/title_activity_video_call"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.SmRescueToolActivity" />
         <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,6 +59,8 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.SmUserInfoActivity" />
         <activity android:name=".activity.SmHardwareActivity" />
+        <activity android:name=".activity.EmVideoCallActivity"></activity>
+        <activity android:name=".activity.SmRescueToolActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask" /> <!-- Rich push 核心功能 since 2.0.6 -->

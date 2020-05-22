@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
-import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -15,11 +14,8 @@ import android.widget.RelativeLayout;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
-import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
-import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
@@ -177,7 +173,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                             EMClient.getInstance().groupManager().loadAllGroups();
                             EMClient.getInstance().chatManager().loadAllConversations();
 
-                            startActivity(new Intent(MainActivity.this, EasemobVideoCallActivity.class).putExtra("username", "15920310566")
+                            startActivity(new Intent(MainActivity.this, EmVideoCallActivity.class).putExtra("username", "15920310566")
                                     .putExtra("isComingCall", false));
 
                         }
