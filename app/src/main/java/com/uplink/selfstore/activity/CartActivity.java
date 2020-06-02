@@ -214,11 +214,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 list_empty_tip.setVisibility(View.VISIBLE);
             }
         } else {
+
             if(list_skus!=null) {
                 CartSkuAdapter cartSkuAdapter = new CartSkuAdapter(CartActivity.this, this.getGlobalDataSet(), cartSkus);
                 list_skus.setAdapter(cartSkuAdapter);
                 list_skus.setVisibility(View.VISIBLE);
             }
+
             if(list_empty_tip!=null) {
                 list_empty_tip.setVisibility(View.GONE);
             }
@@ -237,17 +239,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.btn_pay_z_wechat:
-                    TcStatInterface.onEvent("btn_paypartner_z_wechat", null);
+
                     TerminalPayOptionBean payOption10=(TerminalPayOptionBean)v.getTag();
                     paySend(payOption10);
                     break;
                 case R.id.btn_pay_z_zhifubao:
-                    TcStatInterface.onEvent("btn_paypartner_z_zhifubao", null);
                     TerminalPayOptionBean payOption20=(TerminalPayOptionBean)v.getTag();
                     paySend(payOption20);
                     break;
                 case R.id.btn_pay_z_aggregate:
-                    TcStatInterface.onEvent("btn_pay_z_aggregate", null);
                     TerminalPayOptionBean payOption30=(TerminalPayOptionBean)v.getTag();
                     paySend(payOption30);
                     break;
@@ -327,21 +327,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         params.put("payPartner", payOption.getPartner() + "");
         params.put("payCaller", payOption.getCaller() + "");
 
-        HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
-
         JSONArray json_Skus = new JSONArray();
 
         try {
             for (CartSkuBean bean : cartSkus) {
-                ProductSkuBean sku = productSkus.get(bean.getId());
-                if (sku != null) {
-                    JSONObject json_Sku = new JSONObject();
-                    json_Sku.put("id", bean.getId());
-                    json_Sku.put("quantity", bean.getQuantity());
-                    json_Skus.put(json_Sku);
-                }
+                JSONObject json_Sku = new JSONObject();
+                json_Sku.put("id", bean.getId());
+                json_Sku.put("quantity", bean.getQuantity());
+                json_Skus.put(json_Sku);
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -373,7 +367,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         });
 
     }
-
 
     public void payStatusQuery() {
 

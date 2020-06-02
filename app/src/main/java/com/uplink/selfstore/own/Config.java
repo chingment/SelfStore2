@@ -50,5 +50,6 @@ public class Config {
         public static final String own_UploadFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/UploadFingerVeinData";
         public static final String own_DeleteFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/DeleteFingerVeinData";
         public static final String uploadfile="http://upload.17fanju.com/api/upload";
+        public static final String imservice_Seats= BuildConfig.ENVIRONMENT + "/api/ImService/Seats";
     }
 }
