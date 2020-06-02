@@ -173,10 +173,7 @@ public class PushUpdateUtil {
 
 
             if (productSkus.get(updateProductSkuStock.getId()) != null) {
-
-                productSkus.get(updateProductSkuStock.getId()).setLockQuantity(updateProductSkuStock.getLockQuantity());
                 productSkus.get(updateProductSkuStock.getId()).setSellQuantity(updateProductSkuStock.getSellQuantity());
-                productSkus.get(updateProductSkuStock.getId()).setSellQuantity(updateProductSkuStock.getSumQuantity());
                 productSkus.get(updateProductSkuStock.getId()).setSalePrice(updateProductSkuStock.getSalePrice());
                 productSkus.get(updateProductSkuStock.getId()).setSalePriceByVip(updateProductSkuStock.getSalePriceByVip());
                 productSkus.get(updateProductSkuStock.getId()).setOffSell(updateProductSkuStock.isOffSell());

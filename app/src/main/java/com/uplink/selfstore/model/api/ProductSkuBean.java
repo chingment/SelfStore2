@@ -22,9 +22,10 @@ public class ProductSkuBean implements Serializable {
     private float showPrice;
     private String specDes;
     private boolean isOffSell;
-    private int sumQuantity;
-    private int lockQuantity;
     private int sellQuantity;
+    private boolean isTrgVideoService;
+    private List<String> charTags;
+
 
     public String getId() {
         return id;
@@ -130,27 +131,27 @@ public class ProductSkuBean implements Serializable {
         isOffSell = offSell;
     }
 
-    public int getSumQuantity() {
-        return sumQuantity;
-    }
-
-    public void setSumQuantity(int sumQuantity) {
-        this.sumQuantity = sumQuantity;
-    }
-
-    public int getLockQuantity() {
-        return lockQuantity;
-    }
-
-    public void setLockQuantity(int lockQuantity) {
-        this.lockQuantity = lockQuantity;
-    }
-
     public int getSellQuantity() {
         return sellQuantity;
     }
 
     public void setSellQuantity(int sellQuantity) {
         this.sellQuantity = sellQuantity;
+    }
+
+    public boolean isTrgVideoService() {
+        return isTrgVideoService;
+    }
+
+    public void setTrgVideoService(boolean trgVideoService) {
+        isTrgVideoService = trgVideoService;
+    }
+
+    public List<String> getCharTags() {
+        return charTags;
+    }
+
+    public void setCharTags(List<String> charTags) {
+        this.charTags = charTags;
     }
 }

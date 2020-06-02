@@ -162,7 +162,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     dialog_NumKey.show();
 
 
-                    EMClient.getInstance().login("13512719235", "123456", new EMCallBack() {
+                    EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
 
                         @Override
                         public void onSuccess() {
@@ -173,7 +173,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                             EMClient.getInstance().groupManager().loadAllGroups();
                             EMClient.getInstance().chatManager().loadAllConversations();
 
-                            startActivity(new Intent(MainActivity.this, EmVideoCallActivity.class).putExtra("username", "15920310566")
+                            startActivity(new Intent(MainActivity.this, EmVideoCallActivity.class).putExtra("username", "15989287032")
                                     .putExtra("isComingCall", false));
 
                         }

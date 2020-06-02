@@ -180,29 +180,30 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     public void setList() {
 
 
-        List<CartSkuBean> cartSkusByCache = AppCacheManager.getCartSkus();
-        //检查当前机器商品库存是否存在，不存在的过滤
-        List<CartSkuBean> cartSkus = new ArrayList<>();
+        List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
-        if (this.getGlobalDataSet() != null) {
-            if (this.getGlobalDataSet().getProductSkus() != null) {
-
-                for (CartSkuBean bean :
-                        cartSkusByCache) {
-                    ProductSkuBean productSku = this.getGlobalDataSet().getProductSkus().get(bean.getId());
-                    if (productSku != null) {
-
-                        CartSkuBean cartSku = new CartSkuBean();
-                        cartSku.setId(productSku.getId());
-                        cartSku.setMainImgUrl(productSku.getMainImgUrl());
-                        cartSku.setQuantity(bean.getQuantity());
-                        cartSku.setName(productSku.getName());
-                        cartSku.setSalePrice(productSku.getSalePrice());
-                        cartSkus.add(cartSku);
-                    }
-                }
-            }
-        }
+//        //检查当前机器商品库存是否存在，不存在的过滤
+//        List<CartSkuBean> cartSkus = new ArrayList<>();
+//
+//        if (this.getGlobalDataSet() != null) {
+//            if (this.getGlobalDataSet().getProductSkus() != null) {
+//
+//                for (CartSkuBean bean :
+//                        cartSkusByCache) {
+//                    ProductSkuBean productSku = this.getGlobalDataSet().getProductSkus().get(bean.getId());
+//                    if (productSku != null) {
+//
+//                        CartSkuBean cartSku = new CartSkuBean();
+//                        cartSku.setId(productSku.getId());
+//                        cartSku.setMainImgUrl(productSku.getMainImgUrl());
+//                        cartSku.setQuantity(bean.getQuantity());
+//                        cartSku.setName(productSku.getName());
+//                        cartSku.setSalePrice(productSku.getSalePrice());
+//                        cartSkus.add(cartSku);
+//                    }
+//                }
+//            }
+//        }
 
 
         if (cartSkus.size() == 0) {

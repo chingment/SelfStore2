@@ -96,4 +96,8 @@
     <color name="sellQuantity">#67c23a</color>
 
     <color name="callvideo_voip_interface_text_color">#bababa</color>
+    <color name="tag_chartag1">#67c23a</color>
+    <color name="tag_chartag2">#0093dd</color>
+    <color name="tag_chartag3">#f56c6c</color>
+    <color name="tag_istrgvideoservice">#FF0000</color>
 </resources>

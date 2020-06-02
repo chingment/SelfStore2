@@ -93,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/callvideo_switch_camera"
+            android:visibility="gone"
             android:layout_below="@id/btn_record_video"
             />
         <!--     <Button
@@ -135,6 +136,7 @@
                 android:paddingBottom="18dp" >
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_voice_control"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -178,6 +180,7 @@
                             android:src="@drawable/em_icon_speaker_normal" />
 
                         <TextView
+
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"

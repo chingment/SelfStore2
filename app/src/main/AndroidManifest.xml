@@ -210,7 +210,7 @@
 
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1102200312157944#medical" />
+            android:value="1106200520157173#selfstore" />
 
         <service android:name="com.hyphenate.chat.EMChatService" android:exported="true"/>
         <service android:name="com.hyphenate.chat.EMJobService"

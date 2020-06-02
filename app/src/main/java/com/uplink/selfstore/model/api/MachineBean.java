@@ -34,6 +34,8 @@ public class MachineBean implements Serializable {
     private FingerVeinnerBean fingerVeinner;
     private ScannerBean scanner;
 
+
+
     public String getCsrHelpTip() {
         return csrHelpTip;
     }

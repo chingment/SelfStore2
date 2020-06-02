@@ -15,6 +15,7 @@ import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -83,6 +84,8 @@ public class CartSkuAdapter extends BaseAdapter {
         }
         final CartSkuBean item = items.get(position);
 
+        ProductSkuBean productSku= globalDataSet.getProductSkus().get(item.getId());
+
         View btn_delete = ViewHolder.get(convertView, R.id.btn_delete);
         ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
         TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
@@ -93,14 +96,25 @@ public class CartSkuAdapter extends BaseAdapter {
         TextView txt_quantity = ViewHolder.get(convertView, R.id.txt_quantity);
         View btn_increase = ViewHolder.get(convertView, R.id.btn_increase);
 
-        CommonUtil.loadImageFromUrl(context, img_main, item.getMainImgUrl());
-        txt_name.setText(item.getName());
+        TextView tag_isTrgVideoService = ViewHolder.get(convertView, R.id.tag_isTrgVideoService);
+
+        CommonUtil.loadImageFromUrl(context, img_main, productSku.getMainImgUrl());
+        txt_name.setText(productSku.getName());
         txt_quantity.setText(String.valueOf(item.getQuantity()));
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
-        String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
+        String[] price = CommonUtil.getPrice(String.valueOf(productSku.getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
+
+        if(productSku.isTrgVideoService()){
+            tag_isTrgVideoService.setVisibility(View.VISIBLE);
+        }
+        else {
+            tag_isTrgVideoService.setVisibility(View.GONE);
+        }
+
 //
+
 //
 //        //点击图片
 //        img_main.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +133,7 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 TcStatInterface.onEvent("btn_delete", null);
-                CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), item.getMainImgUrl());
+                CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), productSku.getMainImgUrl());
                 delete_Dialog.getBtnSure().setTag(item);
                 delete_Dialog.show();
 

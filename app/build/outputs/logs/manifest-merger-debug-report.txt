@@ -513,9 +513,9 @@ ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidMani
 	android:name
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:209:19-62
 meta-data#EASEMOB_APPKEY
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:211:9-213:56
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:211:9-213:58
 	android:value
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:213:13-53
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:213:13-55
 	android:name
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:212:13-42
 service#com.hyphenate.chat.EMChatService
