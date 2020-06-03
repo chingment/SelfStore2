@@ -105,7 +105,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         int sellQuantity = item.getSellQuantity();
 
         txt_name.setText(item.getName());
-        int cartQuantity = CartActivity.getQuantity(item.getId());
+        int cartQuantity = CartActivity.getSkuQuantity(item.getId());
         txt_quantity.setText(String.valueOf(cartQuantity));
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
 

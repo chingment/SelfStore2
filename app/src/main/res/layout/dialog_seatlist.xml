@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dialog_bg"
+    >
+
+    <LinearLayout
+
+        android:layout_width="@dimen/size_300"
+        android:layout_height="@dimen/size_300"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/dialog"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_20"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="@dimen/size_30"
+                android:id="@+id/btn_close"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal|center_vertical"
+                >
+
+                <ImageView
+
+                    android:layout_width="@dimen/size_10"
+                    android:layout_height="@dimen/size_10"
+                    android:contentDescription="@string/image_content_description"
+                    android:src="@drawable/dialog_ic_delete" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <com.uplink.selfstore.ui.my.MyScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            tools:ignore="ObsoleteLayoutParam">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <com.uplink.selfstore.ui.my.MyListView
+                    android:id="@+id/list_seats"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:divider="@color/dividerline"
+                    android:dividerHeight="1px"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never"
+                    android:paddingLeft="@dimen/size_10"
+                    android:paddingRight="@dimen/size_10"
+                    android:scrollbars="none" />
+
+            </LinearLayout>
+        </com.uplink.selfstore.ui.my.MyScrollView>
+
+
+
+    </LinearLayout>
+</RelativeLayout>

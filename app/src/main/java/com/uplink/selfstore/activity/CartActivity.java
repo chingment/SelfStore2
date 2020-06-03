@@ -4,21 +4,27 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
+import com.uplink.selfstore.activity.adapter.ImSeatAdapter;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
+import com.uplink.selfstore.model.api.ImSeatBean;
+import com.uplink.selfstore.model.api.ImServiceSeatsRealtBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -31,6 +37,7 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomImSeatListDialog;
 import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -46,6 +53,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +62,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private static final String TAG = "CartActivity";
     private View btn_back;
     private View btn_goshopping;
-    private View btn_pay_z_wechat;//微信官方支付 手机扫二维码
-    private View btn_pay_z_zhifubao;//支付宝官方支付 手机扫二维码
+    private View btn_pay_z_wechat;//微信支付 手机扫二维码
+    private View btn_pay_z_zhifubao;//支付宝支付 手机扫二维码
     private View btn_pay_z_aggregate;//第三聚合支付  手机扫二维码
     private MyListView list_skus;
     private View list_empty_tip;
@@ -65,6 +73,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     public static String LAST_ORDERID;
 
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
+
+    private CustomImSeatListDialog customImSeatListDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +147,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         dialog_ScanPay_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 closePageCountTimerStart();
                 dialog_ScanPay_ConfirmClose.dismiss();
             }
@@ -163,6 +172,98 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 }
             }
         };
+
+
+        customImSeatListDialog = new CustomImSeatListDialog(CartActivity.this);
+        customImSeatListDialog.setOnLinster(new CustomImSeatListDialog.OnLinster() {
+            @Override
+            public void setSeats(MyListView v) {
+
+                LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+
+                Map<String, Object> params = new HashMap<>();
+                params.put("machineId", getMachine().getId() + "");
+
+                JSONArray json_Skus = new JSONArray();
+
+                try {
+                    for(String key : cartSkus.keySet()) {
+                        CartSkuBean bean=cartSkus.get(key);
+                        JSONObject json_Sku = new JSONObject();
+                        json_Sku.put("id", bean.getId());
+                        json_Sku.put("quantity", bean.getQuantity());
+                        json_Skus.put(json_Sku);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                postByMy(Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+
+                        ApiResultBean<ImServiceSeatsRealtBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<ImServiceSeatsRealtBean>>() {
+                        });
+
+                        if (rt.getResult() == Result.SUCCESS) {
+
+                            ImServiceSeatsRealtBean d = rt.getData();
+
+                            ImSeatAdapter imSeatAdapter = new ImSeatAdapter(CartActivity.this, d.getSeats());
+                            imSeatAdapter.setOnLinster(new ImSeatAdapter.OnItemListener(){
+                                @Override
+                                public void call(ImSeatBean v){
+
+                                    EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
+
+                                        @Override
+                                        public void onSuccess() {
+                                            Log.d(TAG, "login: onSuccess");
+
+                                            // ** manually load all local groups and conversation
+                                            //EMClient.getInstance().groupManager().loadAllGroups();
+                                            //EMClient.getInstance().chatManager().loadAllConversations();
+
+                                            Intent intent=new Intent(CartActivity.this, EmVideoCallActivity.class);
+                                            intent.putExtra("username","15989287032");
+                                            intent.putExtra("isComingCall",false);
+                                            intent.putExtra("ex_nickName","黄大衣");
+                                            startActivity(intent);
+
+                                        }
+
+                                        @Override
+                                        public void onProgress(int progress, String status) {
+                                            Log.d(TAG, "login: onProgress");
+                                        }
+
+                                        @Override
+                                        public void onError(final int code, final String message) {
+                                            Log.d(TAG, "login: onError: " + code);
+                                        }
+                                    });
+                                }
+                            });
+
+                            v.setAdapter(imSeatAdapter);
+
+                        } else {
+                            showToast(rt.getMessage());
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg, Exception e) {
+                        showToast(msg);
+                    }
+                });
+
+
+            }
+        });
     }
 
     private void initEvent() {
@@ -179,31 +280,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public void setList() {
 
-
-        List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-
-//        //检查当前机器商品库存是否存在，不存在的过滤
-//        List<CartSkuBean> cartSkus = new ArrayList<>();
-//
-//        if (this.getGlobalDataSet() != null) {
-//            if (this.getGlobalDataSet().getProductSkus() != null) {
-//
-//                for (CartSkuBean bean :
-//                        cartSkusByCache) {
-//                    ProductSkuBean productSku = this.getGlobalDataSet().getProductSkus().get(bean.getId());
-//                    if (productSku != null) {
-//
-//                        CartSkuBean cartSku = new CartSkuBean();
-//                        cartSku.setId(productSku.getId());
-//                        cartSku.setMainImgUrl(productSku.getMainImgUrl());
-//                        cartSku.setQuantity(bean.getQuantity());
-//                        cartSku.setName(productSku.getName());
-//                        cartSku.setSalePrice(productSku.getSalePrice());
-//                        cartSkus.add(cartSku);
-//                    }
-//                }
-//            }
-//        }
+        LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
 
         if (cartSkus.size() == 0) {
@@ -216,7 +293,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         } else {
 
             if(list_skus!=null) {
-                CartSkuAdapter cartSkuAdapter = new CartSkuAdapter(CartActivity.this, this.getGlobalDataSet(), cartSkus);
+                CartSkuAdapter cartSkuAdapter = new CartSkuAdapter(CartActivity.this, cartSkus);
                 list_skus.setAdapter(cartSkuAdapter);
                 list_skus.setVisibility(View.VISIBLE);
             }
@@ -239,17 +316,26 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     startActivity(intent);
                     break;
                 case R.id.btn_pay_z_wechat:
-
-                    TerminalPayOptionBean payOption10=(TerminalPayOptionBean)v.getTag();
-                    paySend(payOption10);
-                    break;
                 case R.id.btn_pay_z_zhifubao:
-                    TerminalPayOptionBean payOption20=(TerminalPayOptionBean)v.getTag();
-                    paySend(payOption20);
-                    break;
                 case R.id.btn_pay_z_aggregate:
-                    TerminalPayOptionBean payOption30=(TerminalPayOptionBean)v.getTag();
-                    paySend(payOption30);
+
+                    boolean isHasVieoService=false;
+                    LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+                    for (String key : cartSkus.keySet()) {
+                        CartSkuBean bean = cartSkus.get(key);
+                        if (bean.isTrgVideoService()) {
+                            isHasVieoService = true;
+                            break;
+                        }
+                    }
+
+                    if(isHasVieoService){
+                        customImSeatListDialog.show();
+                        return;
+                    }
+
+                    TerminalPayOptionBean payOption=(TerminalPayOptionBean)v.getTag();
+                    paySend(payOption);
                     break;
             }
         }
@@ -316,7 +402,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     private  void  paySend(final TerminalPayOptionBean payOption) {
 
-        List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+        LinkedHashMap<String, CartSkuBean>  cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
             showToast(getAppContext().getString(R.string.aty_cart_tips_cartisnull));
             return;
@@ -330,12 +416,14 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         JSONArray json_Skus = new JSONArray();
 
         try {
-            for (CartSkuBean bean : cartSkus) {
+            for(String key : cartSkus.keySet()) {
+                CartSkuBean bean=cartSkus.get(key);
                 JSONObject json_Sku = new JSONObject();
                 json_Sku.put("id", bean.getId());
                 json_Sku.put("quantity", bean.getQuantity());
                 json_Skus.put(json_Sku);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -427,127 +515,111 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     }
 
     public static CartStatisticsBean getStatistics() {
-        List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-        HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
-
-        List<CartSkuBean> new_cartSkus=new ArrayList<>();
 
         CartStatisticsBean statistics = new CartStatisticsBean();
+
         int sumQuantity = 0;
         float sumSalesPrice = 0;
-        for (CartSkuBean bean : cartSkus) {
-            if (productSkus != null) {
-                ProductSkuBean productSku = productSkus.get(bean.getId());
-                if (productSku != null) {
-                    sumQuantity += bean.getQuantity();
-                    sumSalesPrice += bean.getQuantity() * productSku.getSalePrice();
 
-                    new_cartSkus.add(bean);
-                }
+        LinkedHashMap<String, CartSkuBean>  cartSkus = AppCacheManager.getCartSkus();
+
+        if(cartSkus!=null&&cartSkus.size()>0) {
+            for (String key : cartSkus.keySet()) {
+                CartSkuBean bean = cartSkus.get(key);
+                sumQuantity += bean.getQuantity();
+                sumSalesPrice += bean.getQuantity() * bean.getSalePrice();
             }
         }
-
-        AppCacheManager.setCartSkus(new_cartSkus);
-
 
         statistics.setSumQuantity(sumQuantity);
         statistics.setSumSalesPrice(sumSalesPrice);
         return statistics;
     }
 
-    public static int getQuantity(String skuId) {
+    public static int getSkuQuantity(String skuId) {
 
-        List<CartSkuBean> beans = AppCacheManager.getCartSkus();
         int quantity = 0;
-        for (int i = 0; i < beans.size(); i++) {
-            if (beans.get(i).getId().equals(skuId)) {
-                quantity = beans.get(i).getQuantity();
-                break;
-            }
-        }
+
+        LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+
+        if (cartSkus == null || cartSkus.size() == 0)
+            return quantity;
+
+        CartSkuBean cartSku = cartSkus.get(skuId);
+
+        if (cartSku == null)
+            return quantity;
+
+        quantity = cartSku.getQuantity();
 
         return quantity;
     }
 
     public static void operate(int type,String productSkuId, final CarOperateHandler handler) {
 
-        MachineBean machine=AppCacheManager.getMachine();
+        MachineBean machine = AppCacheManager.getMachine();
 
-        List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-
+        LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
+        CartSkuBean cartSku = cartSkus.get(productSkuId);
+        ProductSkuBean productSku = productSkus.get(productSkuId);
 
-        int postion = -1;
-        for (int i = 0; i < cartSkus.size(); i++) {
-            if (cartSkus.get(i).getId().equals(productSkuId)) {
-                postion = i;
-                break;
-            }
+        if (cartSku==null) {
+            cartSku = new CartSkuBean();
+            cartSku.setId(productSkuId);
+            cartSku.setMainImgUrl(productSku.getMainImgUrl());
+            cartSku.setTrgVideoService(productSku.isTrgVideoService());
+            cartSku.setCurrencySymbol("");
+            cartSku.setName(productSku.getName());
+            cartSku.setSalePrice(productSku.getSalePrice());
+            cartSku.setQuantity(0);
+            cartSkus.put(productSkuId, cartSku);
         }
 
-        int cur_Quantity = 0;
-
-        if (postion > -1) {
-            CartSkuBean bean = cartSkus.get(postion);
-            cur_Quantity = bean.getQuantity();
-        }
+        int cur_Quantity=cartSku.getQuantity();
 
         switch (type) {
             case CartOperateType.INCREASE:
 
-
+                //判断总数量是否大于
                 int mSumQuantity = 0;
-                for (CartSkuBean mBean : cartSkus) {
-                    mSumQuantity += mBean.getQuantity();
+                for(String key : cartSkus.keySet()) {
+                    mSumQuantity += cartSkus.get(key).getQuantity();
                 }
 
-
-                if ((mSumQuantity+1) > machine.getMaxBuyNumber()) {
-                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过"+machine.getMaxBuyNumber()+"个", Toast.LENGTH_LONG);
+                if ((mSumQuantity + 1) > machine.getMaxBuyNumber()) {
+                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过" + machine.getMaxBuyNumber() + "个", Toast.LENGTH_LONG);
                     return;
                 }
 
-
                 handler.callAnimation();
 
-                if (postion > -1) {
-                    cartSkus.get(postion).setQuantity(cur_Quantity + 1);
-                } else {
-                    cartSkus.add(new CartSkuBean(productSkuId, 1));
-                }
+                cartSkus.get(productSkuId).setQuantity(cur_Quantity + 1);
 
                 break;
             case CartOperateType.DECREASE:
-
-                if (cur_Quantity >= 1) {
-                    cartSkus.get(postion).setQuantity(cur_Quantity - 1);
-                    if (cur_Quantity == 1) {
-                        cartSkus.remove(postion);
-                    }
+                if (cur_Quantity > 1) {
+                    cartSkus.get(productSkuId).setQuantity(cur_Quantity - 1);
                 }
                 break;
             case CartOperateType.DELETE:
-                cartSkus.remove(postion);
+                cartSkus.remove(productSkuId);
                 break;
         }
 
-
         AppCacheManager.setCartSkus(cartSkus);
-
 
         int sumQuantity = 0;
         float sumSalesPrice = 0;
-        for (CartSkuBean bean : cartSkus) {
-            ProductSkuBean productSku = productSkus.get(bean.getId());
-            if (productSku != null) {
-                sumQuantity += bean.getQuantity();
-                sumSalesPrice += bean.getQuantity() * productSku.getSalePrice();
-            }
+
+        for(String key : cartSkus.keySet()) {
+            CartSkuBean bean = cartSkus.get(key);
+            sumQuantity += bean.getQuantity();
+            sumSalesPrice += bean.getQuantity() * bean.getSalePrice();
         }
 
-
         LinkedList<Activity> activityStack = AppManager.getAppManager().getActivityStack();
-        if(activityStack!=null) {
+        if (activityStack != null) {
             for (Activity activity : activityStack) {
 
                 if (activity instanceof ProductKindActivity) {

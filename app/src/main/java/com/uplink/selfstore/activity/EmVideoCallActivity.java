@@ -72,12 +72,15 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
 
     private Handler uiHandler;
 
+    //private String username;
     private boolean isInCalling;
     //    private Button recordBtn;
     private EMVideoCallHelper callHelper;
     private Button toggleVideoBtn;
     private Bitmap watermarkbitmap;
     private EMWaterMarkOption watermark;
+
+    private String ex_nickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,10 +129,11 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         msgid = UUID.randomUUID().toString();
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
 
-        username = getIntent().getStringExtra("username");
+        //username = getIntent().getStringExtra("username");
 
+        ex_nickName=getIntent().getStringExtra("ex_nickName");
 
-        nickTextView.setText(username);
+        nickTextView.setText(ex_nickName);
 
         //获取水印图片
         if(EMPreferenceManager.getInstance().isWatermarkResolution()) {

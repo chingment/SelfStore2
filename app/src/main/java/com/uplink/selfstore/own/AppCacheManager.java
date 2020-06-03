@@ -5,7 +5,9 @@ import com.uplink.selfstore.utils.ACache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chingment on 2018/1/16.
@@ -134,15 +136,11 @@ public class AppCacheManager {
 
     }
 
-    public static void setCartSkus(List<CartSkuBean> list) {
-        if(list==null)
-        {
+    public static void setCartSkus(LinkedHashMap<String, CartSkuBean> list) {
+        if (list == null) {
             AppCacheManager.getCache().remove(Cache_Key_Cart);
-        }
-        else
-        {
-            ArrayList<CartSkuBean>   bean= (ArrayList<CartSkuBean>) list;
-            AppCacheManager.getCache().put(Cache_Key_Cart, bean);
+        } else {
+            AppCacheManager.getCache().put(Cache_Key_Cart, list);
         }
     }
 
@@ -150,15 +148,38 @@ public class AppCacheManager {
         AppCacheManager.getCache().remove(Cache_Key_Cart);
     }
 
-    public static List<CartSkuBean> getCartSkus() {
+    public static  LinkedHashMap<String, CartSkuBean> getCartSkus() {
+        LinkedHashMap<String, CartSkuBean> cartSkus = new LinkedHashMap<String, CartSkuBean>();
 
-        ArrayList<CartSkuBean> bean = (ArrayList<CartSkuBean>) AppCacheManager.getCache().getAsObject(Cache_Key_Cart);
 
-        if (bean == null) {
-            bean = new ArrayList<CartSkuBean>();
-        }
+        LinkedHashMap<String, CartSkuBean> cartSkusByCache = (LinkedHashMap<String, CartSkuBean>) AppCacheManager.getCache().getAsObject(Cache_Key_Cart);
+        if (cartSkusByCache == null)
+            return cartSkus;
 
-        return bean;
+
+//        for(String key : cartSkus.keySet()) {
+//            CartSkuBean bean = cartSkus.get(key);
+//            sumQuantity += bean.getQuantity();
+//            sumSalesPrice += bean.getQuantity() * bean.getSalePrice();
+//        }
+//
+//        for (CartSkuBean bean : cartSkusByCache) {
+//            ProductSkuBean productSku = globalDataSet.getProductSkus().get(bean.getId());
+//            if (productSku != null) {
+//                CartSkuBean cartSku = new CartSkuBean();
+//                cartSku.setId(productSku.getId());
+//                cartSku.setMainImgUrl(productSku.getMainImgUrl());
+//                cartSku.setQuantity(bean.getQuantity());
+//                cartSku.setTrgVideoService(productSku.isTrgVideoService());
+//                cartSku.setName(productSku.getName());
+//                cartSku.setSalePrice(productSku.getSalePrice());
+//                cartSkus.add(cartSku);
+//            }
+//        }
+
+        //AppCacheManager.setCartSkus(cartSkus);
+
+        return cartSkusByCache;
 
     }
 

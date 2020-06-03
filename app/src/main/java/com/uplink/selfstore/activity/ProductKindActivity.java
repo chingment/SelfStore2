@@ -31,6 +31,7 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ProductKindActivity extends SwipeBackActivity implements View.OnClickListener {
@@ -188,7 +189,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
                     break;
                 case R.id.btn_cart:
                 case R.id.btn_gosettlement:
-                    List<CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+                    LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
                     if (cartSkus == null || cartSkus.size() <= 0) {
                         showToast(getAppContext().getString(R.string.aty_cart_tips_cartismust));
