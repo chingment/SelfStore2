@@ -183,7 +183,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 Map<String, Object> params = new HashMap<>();
                 params.put("machineId", getMachine().getId() + "");
-
                 JSONArray json_Skus = new JSONArray();
 
                 try {
@@ -199,6 +198,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     e.printStackTrace();
                     return;
                 }
+
+                params.put("productSkus",json_Skus);
 
                 postByMy(Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
@@ -222,16 +223,24 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                         public void onSuccess() {
                                             Log.d(TAG, "login: onSuccess");
 
-                                            // ** manually load all local groups and conversation
-                                            //EMClient.getInstance().groupManager().loadAllGroups();
-                                            //EMClient.getInstance().chatManager().loadAllConversations();
+
+                                            params.put("type","buyinfo");
+
+                                            JSONObject json = new JSONObject();
+                                            try {
+                                                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                                                    json.put(entry.getKey(), entry.getValue());
+                                                }
+                                            } catch (JSONException e) {
+
+                                            }
 
                                             Intent intent=new Intent(CartActivity.this, EmVideoCallActivity.class);
-                                            intent.putExtra("username","15989287032");
+                                            intent.putExtra("username",v.getImUserName());
                                             intent.putExtra("isComingCall",false);
-                                            intent.putExtra("ex_nickName","黄大衣");
+                                            intent.putExtra("ex_nickName",v.getNickName());
+                                            intent.putExtra("ex_message",json.toString());
                                             startActivity(intent);
-
                                         }
 
                                         @Override

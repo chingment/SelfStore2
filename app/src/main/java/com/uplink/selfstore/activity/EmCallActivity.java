@@ -60,6 +60,7 @@ public class EmCallActivity extends SwipeBackActivity {
     private EMWaterMarkOption watermark;
     private EMWaterMarkOption wmOption;
 
+    protected String ex_message;
     /**
      * 0：voice call，1：video call
      */
@@ -185,9 +186,9 @@ public class EmCallActivity extends SwipeBackActivity {
                                 EMClient.getInstance().callManager().setWaterMark(wmOption);
 //                            EMClient.getInstance().callManager().setWaterMark(wmOption);
                             }
-                            EMClient.getInstance().callManager().makeVideoCall(username, "", record, merge);
+                            EMClient.getInstance().callManager().makeVideoCall(username, ex_message, record, merge);
                         } else {
-                            EMClient.getInstance().callManager().makeVoiceCall(username, "", record, merge);
+                            EMClient.getInstance().callManager().makeVoiceCall(username, ex_message, record, merge);
                         }
                     } catch (final EMServiceNotReadyException e) {
                         e.printStackTrace();

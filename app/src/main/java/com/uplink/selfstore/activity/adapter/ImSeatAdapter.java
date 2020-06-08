@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tamic.statinterface.stats.core.TcStatInterface;
@@ -51,15 +52,43 @@ public class ImSeatAdapter extends BaseAdapter {
         }
         final ImSeatBean item = items.get(position);
 
-        TextView txt_userName = ViewHolder.get(convertView, R.id.txt_userName);
+        TextView txt_nickName = ViewHolder.get(convertView, R.id.txt_nickName);
         TextView txt_briefDes = ViewHolder.get(convertView, R.id.txt_briefDes);
+        TextView tag_charTag1 = ViewHolder.get(convertView, R.id.tag_charTag1);
+        TextView tag_charTag2 = ViewHolder.get(convertView, R.id.tag_charTag2);
+        TextView tag_charTag3 = ViewHolder.get(convertView, R.id.tag_charTag3);
+        LinearLayout layout_charTags = ViewHolder.get(convertView, R.id.layout_charTags);
         ImageView img_avatar = ViewHolder.get(convertView, R.id.img_avatar);
-        Button btn_call = ViewHolder.get(convertView, R.id.btn_call);
+
+
+        TextView btn_call = ViewHolder.get(convertView, R.id.btn_call);
 
         txt_briefDes.setText(item.getBriefDes());
-        txt_userName.setText(item.getUserName());
+        txt_nickName.setText(item.getNickName());
         CommonUtil.loadImageFromUrl(context, img_avatar, item.getAvatar());
 
+        List<String> charTags=item.getCharTags();
+
+        if(charTags!=null){
+
+            if(charTags.size()>=1) {
+                tag_charTag1.setText(charTags.get(0));
+                tag_charTag1.setVisibility(View.VISIBLE);
+
+                layout_charTags.setVisibility(View.VISIBLE);
+            }
+
+            if(charTags.size()>=2){
+                tag_charTag2.setText(charTags.get(1));
+                tag_charTag2.setVisibility(View.VISIBLE);
+            }
+
+            if(charTags.size()>=3) {
+                tag_charTag3.setText(charTags.get(2));
+                tag_charTag3.setVisibility(View.VISIBLE);
+            }
+
+        }
 
         btn_call.setOnClickListener(new View.OnClickListener() {
             @Override

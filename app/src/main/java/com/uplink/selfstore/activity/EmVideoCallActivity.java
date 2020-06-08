@@ -129,8 +129,8 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         msgid = UUID.randomUUID().toString();
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
 
-        //username = getIntent().getStringExtra("username");
-
+        username = getIntent().getStringExtra("username");
+        ex_message=getIntent().getStringExtra("ex_message");
         ex_nickName=getIntent().getStringExtra("ex_nickName");
 
         nickTextView.setText(ex_nickName);
