@@ -111,7 +111,7 @@ public class HeartbeatService extends Service {
 
         }
         catch (Exception ex){
-            TcStatInterface.onEvent("sendHeartbeatBag.error", null);
+           ex.printStackTrace();
         }
 
     }

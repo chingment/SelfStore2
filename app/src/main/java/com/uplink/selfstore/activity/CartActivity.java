@@ -13,7 +13,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
 import com.uplink.selfstore.activity.adapter.ImSeatAdapter;
@@ -46,6 +45,8 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
+import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
+import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,6 +87,19 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initEvent();
         initData();
         useClosePageCountTimer();
+
+        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(CartActivity.this, new PermissionsResultAction() {
+            @Override
+            public void onGranted() {
+
+//              Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDenied(String permission) {
+                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     protected void initView() {
@@ -164,6 +178,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onFinish() {
                 closePageCountTimerStart();
+
+                orderCancle(LAST_ORDERID,1,"支付超时");
+
                 if (dialog_ScanPay != null && dialog_ScanPay.isShowing()) {
                     dialog_ScanPay.dismiss();
                 }
@@ -217,6 +234,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                 @Override
                                 public void call(ImSeatBean v){
 
+
+
                                     EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
 
                                         @Override
@@ -224,22 +243,41 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                             Log.d(TAG, "login: onSuccess");
 
 
-                                            params.put("type","buyinfo");
+                                            JSONObject jsonExMessage = new JSONObject();
 
-                                            JSONObject json = new JSONObject();
                                             try {
-                                                for (Map.Entry<String, Object> entry : params.entrySet()) {
-                                                    json.put(entry.getKey(), entry.getValue());
+
+                                            jsonExMessage.put("type","buyinfo");
+                                            jsonExMessage.put("machineId",getMachine().getId());
+                                            jsonExMessage.put("storeName",getMachine().getStoreName());
+
+                                            JSONArray json_Skus = new JSONArray();
+
+                                            try {
+                                                for(String key : cartSkus.keySet()) {
+                                                    CartSkuBean bean=cartSkus.get(key);
+                                                    JSONObject json_Sku = new JSONObject();
+                                                    json_Sku.put("id", bean.getId());
+                                                    json_Sku.put("name", bean.getName());
+                                                    json_Sku.put("mainImgUrl", bean.getMainImgUrl());
+                                                    json_Sku.put("quantity", bean.getQuantity());
+                                                    json_Skus.put(json_Sku);
                                                 }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            jsonExMessage.put("skus",json_Skus);
                                             } catch (JSONException e) {
 
                                             }
 
+                                            LogUtil.i(TAG,"jsonExMessage:"+jsonExMessage.toString());
                                             Intent intent=new Intent(CartActivity.this, EmVideoCallActivity.class);
                                             intent.putExtra("username",v.getImUserName());
                                             intent.putExtra("isComingCall",false);
                                             intent.putExtra("ex_nickName",v.getNickName());
-                                            intent.putExtra("ex_message",json.toString());
+                                            intent.putExtra("ex_message",jsonExMessage.toString());
                                             startActivity(intent);
                                         }
 

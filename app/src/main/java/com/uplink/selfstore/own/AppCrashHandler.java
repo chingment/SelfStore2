@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.utils.LogUtil;

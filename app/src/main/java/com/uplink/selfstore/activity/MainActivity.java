@@ -11,9 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -153,42 +150,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
-                    TcStatInterface.onEvent("btn_buy", null);
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-                    TcStatInterface.onEvent("btn_pick", null);
                     dialog_NumKey.show();
-
-
-//                    EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
-//
-//                        @Override
-//                        public void onSuccess() {
-//                            Log.d(TAG, "login: onSuccess");
-//
-//
-//                            // ** manually load all local groups and conversation
-//                            EMClient.getInstance().groupManager().loadAllGroups();
-//                            EMClient.getInstance().chatManager().loadAllConversations();
-//
-//                            startActivity(new Intent(MainActivity.this, EmVideoCallActivity.class).putExtra("username", "15989287032")
-//                                    .putExtra("isComingCall", false));
-//
-//                        }
-//
-//                        @Override
-//                        public void onProgress(int progress, String status) {
-//                            Log.d(TAG, "login: onProgress");
-//                        }
-//
-//                        @Override
-//                        public void onError(final int code, final String message) {
-//                            Log.d(TAG, "login: onError: " + code);
-//                        }
-//                    });
-
                     break;
             }
         }

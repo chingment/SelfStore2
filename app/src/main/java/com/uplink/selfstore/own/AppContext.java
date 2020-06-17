@@ -75,6 +75,7 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Context context = getApplicationContext();
 
         TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
             @Override
@@ -83,13 +84,12 @@ public class AppContext extends Application {
             }
         });
 
-        //腾讯Bugly 配置
-        Context context = getApplicationContext();
-        String packageName = context.getPackageName();
-        String processName = getProcessName(android.os.Process.myPid());
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
-        strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        CrashReport.initCrashReport(context, "b9d0425e4c", true);
+          //腾讯Bugly 配置
+//        String packageName = context.getPackageName();
+//        String processName = getProcessName(android.os.Process.myPid());
+//        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
+//        strategy.setUploadProcess(processName == null || processName.equals(packageName));
+//        CrashReport.initCrashReport(context, "b9d0425e4c", true);
 
         OstCtrlInterface.init(Build.MODEL);//  初始化Ost控制
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志

@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -277,7 +276,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(scannerCtrl!=null) {
             scannerCtrl.connect();
         }
-        //TcStatInterface.recordPageStart(BaseFragmentActivity.this);
     }
 
     @Override
@@ -289,7 +287,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(scannerCtrl!=null) {
             scannerCtrl.disConnect();
         }
-        //TcStatInterface.recordPageEnd();
+        TcStatInterface.recordPageEnd();
     }
 
     @Override
@@ -306,6 +304,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mJpush_MessageReceiver);
         AppManager.getAppManager().finishActivity(this);
         closePageCountTimerStop();
+
         TcStatInterface.recordAppEnd();
 
         if (dialogBySystemWarn != null && dialogBySystemWarn.isShowing()) {

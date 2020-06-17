@@ -135,8 +135,11 @@ public class EmCallActivity extends SwipeBackActivity {
             soundPool.release();
         if (ringtone != null && ringtone.isPlaying())
             ringtone.stop();
-        audioManager.setMode(AudioManager.MODE_NORMAL);
-        audioManager.setMicrophoneMute(false);
+
+        if(audioManager!=null) {
+            audioManager.setMode(AudioManager.MODE_NORMAL);
+            audioManager.setMicrophoneMute(false);
+        }
 
         if(callStateListener != null)
             EMClient.getInstance().callManager().removeCallStateChangeListener(callStateListener);
@@ -182,11 +185,10 @@ public class EmCallActivity extends SwipeBackActivity {
                         boolean merge = EMPreferenceManager.getInstance().isMergeStream();
                         if (msg.what == MSG_CALL_MAKE_VIDEO) {
                             //推流时设置水印图片
-                            if(EMPreferenceManager.getInstance().isWatermarkResolution()){
-                                EMClient.getInstance().callManager().setWaterMark(wmOption);
-//                            EMClient.getInstance().callManager().setWaterMark(wmOption);
-                            }
-                            EMClient.getInstance().callManager().makeVideoCall(username, ex_message, record, merge);
+//                            if(EMPreferenceManager.getInstance().isWatermarkResolution()){
+//                                EMClient.getInstance().callManager().setWaterMark(wmOption);
+//                            }
+                            EMClient.getInstance().callManager().makeVideoCall(username, ex_message , record, merge);
                         } else {
                             EMClient.getInstance().callManager().makeVoiceCall(username, ex_message, record, merge);
                         }

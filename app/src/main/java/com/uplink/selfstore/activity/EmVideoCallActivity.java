@@ -531,6 +531,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                 callStateTextView.setText(getResources().getString(R.string.callvideo_hanging_up));
                 EMLog.d(TAG, "btn_hangup_call");
                 handler.sendEmptyMessage(MSG_CALL_END);
+                //finish();
                 break;
 
             case R.id.iv_mute: // mute
