@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.text.BoringLayout;
 import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
@@ -305,8 +306,10 @@ public class EmCallActivity extends SwipeBackActivity {
      */
     protected int playMakeCallSounds() {
         try {
-            audioManager.setMode(AudioManager.MODE_RINGTONE);
-            audioManager.setSpeakerphoneOn(true);
+            if(audioManager!=null) {
+                audioManager.setMode(AudioManager.MODE_RINGTONE);
+                audioManager.setSpeakerphoneOn(true);
+            }
 
             // play
             int id = soundPool.play(outgoing, // sound resource

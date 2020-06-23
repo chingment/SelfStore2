@@ -184,8 +184,10 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
             voiceContronlLayout.setVisibility(View.INVISIBLE);
             localSurface.setVisibility(View.INVISIBLE);
             Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-            audioManager.setMode(AudioManager.MODE_RINGTONE);
-            audioManager.setSpeakerphoneOn(true);
+            if(audioManager!=null) {
+                audioManager.setMode(AudioManager.MODE_RINGTONE);
+                audioManager.setSpeakerphoneOn(true);
+            }
             ringtone = RingtoneManager.getRingtone(this, ringUri);
             ringtone.play();
             EMClient.getInstance().callManager().setSurfaceView(localSurface, oppositeSurface);

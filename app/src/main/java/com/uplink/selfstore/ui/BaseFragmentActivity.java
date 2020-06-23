@@ -287,7 +287,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(scannerCtrl!=null) {
             scannerCtrl.disConnect();
         }
-        TcStatInterface.recordPageEnd();
+        //TcStatInterface.recordPageEnd();
     }
 
     @Override
@@ -305,7 +305,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().finishActivity(this);
         closePageCountTimerStop();
 
-        TcStatInterface.recordAppEnd();
+        //TcStatInterface.recordAppEnd();
 
         if (dialogBySystemWarn != null && dialogBySystemWarn.isShowing()) {
             dialogBySystemWarn.cancel();

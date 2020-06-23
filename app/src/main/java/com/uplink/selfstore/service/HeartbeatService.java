@@ -83,7 +83,7 @@ public class HeartbeatService extends Service {
         try {
 
 
-            LogUtil.e(TAG, "心跳包发送：" + System.currentTimeMillis());
+            LogUtil.i(TAG, "心跳包发送：" + System.currentTimeMillis());
             MachineBean machine = AppCacheManager.getMachine();
 
             String status = "unknow";

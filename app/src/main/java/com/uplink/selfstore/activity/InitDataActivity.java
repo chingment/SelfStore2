@@ -37,6 +37,8 @@ import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
+import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
+import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,6 +109,20 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
+
+
+//        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(CartActivity.this, new PermissionsResultAction() {
+//            @Override
+//            public void onGranted() {
+//
+////              Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onDenied(String permission) {
+//                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 

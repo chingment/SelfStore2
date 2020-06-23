@@ -72,9 +72,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
     private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
-
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
-
     private CustomImSeatListDialog customImSeatListDialog;
 
     @Override
@@ -87,19 +85,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initEvent();
         initData();
         useClosePageCountTimer();
-
-        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(CartActivity.this, new PermissionsResultAction() {
-            @Override
-            public void onGranted() {
-
-//              Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onDenied(String permission) {
-                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     protected void initView() {
@@ -233,8 +218,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                             imSeatAdapter.setOnLinster(new ImSeatAdapter.OnItemListener(){
                                 @Override
                                 public void call(ImSeatBean v){
-
-
 
                                     EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
 

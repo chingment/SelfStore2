@@ -40,10 +40,7 @@ public class AlarmService  extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                LogUtil.e(TAG,"定时删除文件："+ System.currentTimeMillis());
-
-
+                LogUtil.i(TAG,"定时删除文件："+ System.currentTimeMillis());
                 String picDir = OwnFileUtil.getPicSaveDir();
                 AlarmService.delete(picDir,7);
                 String moveDir = OwnFileUtil.getMovieSaveDir();
