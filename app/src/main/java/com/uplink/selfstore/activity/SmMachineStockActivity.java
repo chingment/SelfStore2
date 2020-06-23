@@ -274,7 +274,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
             }
 
-            for (int j = 0; j < colLength; j++) {
+            for (int j = colLength-1; j >=0; j--) {
                 //tv用于显示
                 final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
                 LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
