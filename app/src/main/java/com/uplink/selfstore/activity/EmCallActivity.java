@@ -70,6 +70,7 @@ public class EmCallActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+
         audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
         pushProvider = new EMCallManager.EMCallPushProvider() {

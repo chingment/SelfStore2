@@ -63,6 +63,7 @@
                     android:divider="@color/dividerline"
                     android:dividerHeight="1px"
                     android:fadingEdge="none"
+                    android:listSelector="@android:color/transparent"
                     android:overScrollMode="never"
                     android:paddingLeft="@dimen/size_10"
                     android:paddingRight="@dimen/size_10"

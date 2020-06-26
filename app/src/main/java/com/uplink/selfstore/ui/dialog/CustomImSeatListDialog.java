@@ -32,6 +32,8 @@ public class CustomImSeatListDialog extends Dialog {
     protected void initView() {
         btn_close = ViewHolder.get(this.layoutRes, R.id.btn_close);
         list_seats= ViewHolder.get(this.layoutRes, R.id.list_seats);
+        list_seats.setFocusable(false);
+        list_seats.setClickable(false);
     }
 
     protected void initEvent() {

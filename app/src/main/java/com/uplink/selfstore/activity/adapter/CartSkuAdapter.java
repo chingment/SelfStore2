@@ -114,22 +114,7 @@ public class CartSkuAdapter extends BaseAdapter {
             tag_isTrgVideoService.setVisibility(View.GONE);
         }
 
-//
 
-//
-//        //点击图片
-//        img_main.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(context, ProductDetailsActivity.class);
-//                Bundle b = new Bundle();
-//                b.putSerializable("dataBean", bean);
-//                intent.putExtras(b);
-//                context.startActivity(intent);
-//            }
-//        });
-//
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
