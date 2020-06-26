@@ -613,7 +613,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 //判断总数量是否大于
                 int mSumQuantity = 0;
-                for(String key : cartSkus.keySet()) {
+                for (String key : cartSkus.keySet()) {
                     mSumQuantity += cartSkus.get(key).getQuantity();
                 }
 
@@ -628,8 +628,11 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 break;
             case CartOperateType.DECREASE:
-                if (cur_Quantity > 1) {
-                    cartSkus.get(productSkuId).setQuantity(cur_Quantity - 1);
+                cur_Quantity -= 1;
+                if (cur_Quantity == 0) {
+                    cartSkus.remove(productSkuId);
+                } else {
+                    cartSkus.get(productSkuId).setQuantity(cur_Quantity);
                 }
                 break;
             case CartOperateType.DELETE:

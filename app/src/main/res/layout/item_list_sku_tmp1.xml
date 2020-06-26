@@ -49,7 +49,7 @@
             <LinearLayout
                 android:layout_width="@dimen/size_40"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
+                android:gravity="center_horizontal|left"
                 android:orientation="horizontal"
                 >
 
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_16"
                     android:gravity="bottom"
-                    android:text="10"
+                    android:text="0"
                     android:includeFontPadding="false"
                     android:textColor="@color/colorPrimaryLight"
                     android:textSize="@dimen/size_13" />
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/size_16"
                     android:gravity="bottom"
-                    android:text=".99"
+                    android:text=".00"
                     android:includeFontPadding="false"
                     android:textColor="@color/colorPrimaryLight"
                     android:textSize="@dimen/size_10" />
