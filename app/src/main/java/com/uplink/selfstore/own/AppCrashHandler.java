@@ -236,52 +236,56 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
     public void saveLogcat2Server(String cmd) {
 
-        StringBuilder log = new StringBuilder();
-        try {
-            Process process = Runtime.getRuntime().exec("logcat -d");
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()),1024);
 
-            String message = "";
-            String line = null;
-            while((line = bufferedReader.readLine()) != null) {
-                message += line;
-            }
+        new Thread(new Runnable(){
+
+            @Override
+            public void run(){
 
 
-            StringBuffer sb = new StringBuffer();
-            sb.append(message);
-            long timestamp = System.currentTimeMillis();
-            String time = formatter.format(new Date());
 
-            String fileName = "logcat-" + time + "-" + timestamp + ".log";
-            String path =OwnFileUtil.getLogDir();
-            File dir = new File(path);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            String  filePath=path +"/"+ fileName;
-            FileOutputStream fos = new FileOutputStream(filePath);
-            fos.write(sb.toString().getBytes());
-            fos.flush();
-            fos.close();
+                long timestamp = System.currentTimeMillis();
+                String time = formatter.format(new Date());
 
-            HashMap<String, String> fields=new HashMap<>();
-            fields.put("folder","SelfStoreLogcatLog");
-            fields.put("fileName",fileName);
-            List<String> filePaths = new ArrayList<>();
-            filePaths.add(filePath);
-
-            HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-
+                String fileName = "logcat-" + time + "-" + timestamp + ".log";
+                String path =OwnFileUtil.getLogDir();
+                File dir = new File(path);
+                if (!dir.exists()) {
+                    dir.mkdirs();
                 }
-            });
+                String  filePath=path +"/"+ fileName;
+
+                StringBuilder log = new StringBuilder();
+                try {
+                    Process process = Runtime.getRuntime().exec(cmd+" -f "+ filePath);
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    HashMap<String, String> fields=new HashMap<>();
+                    fields.put("folder","SelfStoreLogcatLog");
+                    fields.put("fileName",fileName);
+                    List<String> filePaths = new ArrayList<>();
+                    filePaths.add(filePath);
+
+                    HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
+                        @Override
+                        public void onSuccess(String response) {
+
+                        }
+                    });
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 }
