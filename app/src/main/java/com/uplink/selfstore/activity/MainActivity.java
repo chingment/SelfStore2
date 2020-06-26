@@ -59,8 +59,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         else {
             CameraWindow.show(this);
         }
-
-        LogUtil.e(TAG, "机器的状态是否异常：" + getMachine().isExIsHas());
     }
 
     @Override

@@ -13,6 +13,8 @@ import android.util.Log;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
+import com.uplink.selfstore.http.HttpClient;
+import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.BufferedReader;
@@ -28,8 +30,10 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -101,7 +105,9 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         // 收集设备参数信息
         collectDeviceInfo(mContext);
         // 保存日志文件
-        saveCrashInfo2File(ex);
+        String filePath = saveCrashInfo2File(ex);
+        // 上传到服务器
+        saveCrashInfo2Server(filePath,ex);
         return true;
     }
 
@@ -179,6 +185,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
+        String filePath=null;
         try {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
@@ -189,17 +196,40 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            FileOutputStream fos = new FileOutputStream(path +"/"+ fileName);
+            filePath=path +"/"+ fileName;
+            FileOutputStream fos = new FileOutputStream(filePath);
             fos.write(sb.toString().getBytes());
             fos.flush();
             fos.close();
-            return fileName;
+            return filePath;
         } catch (Exception e) {
             Log.e(TAG, "an error occured while writing file...", e);
         }
-        //上传到服务器
-        //new PostErrorLoggerTask().execute(sb.toString());
         return null;
+    }
+
+    private void  saveCrashInfo2Server(String filePath, Throwable ex){
+
+        if(filePath!=null) {
+
+            File file = new File(filePath);
+
+            HashMap<String, String> fields=new HashMap<>();
+
+            fields.put("folder","SelfStoreLog");
+            fields.put("fileName",file.getName());
+            List<String> filePaths = new ArrayList<>();
+            filePaths.add(filePath);
+
+            HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+
+                }
+            });
+        }
+
+
     }
 
 //    /**

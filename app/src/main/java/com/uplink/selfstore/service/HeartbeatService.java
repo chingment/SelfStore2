@@ -77,7 +77,7 @@ public class HeartbeatService extends Service {
             Activity activity = AppManager.getAppManager().currentActivity();
             if (activity != null) {
                 String activityName = activity.getLocalClassName();
-                LogUtil.e(TAG, "当前activity:" + activityName);
+                //LogUtil.e(TAG, "当前activity:" + activityName);
                 if (activityName.contains(".Sm")) {
                     status = "setting";
                 } else {

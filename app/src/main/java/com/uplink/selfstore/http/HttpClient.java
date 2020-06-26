@@ -343,9 +343,19 @@ public class HttpClient {
             MultipartBody.Builder builder=new MultipartBody.Builder().setType(MultipartBody.FORM);
 
 
-            for (Map.Entry<String, String> entry : fields.entrySet()) {
-                builder.addFormDataPart(entry.getKey(), entry.getValue());
+            if(fields!=null) {
+                if(fields.size()>0) {
+                    for (Map.Entry<String, String> entry : fields.entrySet()) {
+                        builder.addFormDataPart(entry.getKey(), entry.getValue());
+                    }
+                }
             }
+
+            if(filePaths==null)
+                return;
+
+            if(filePaths.size()<1)
+                return;
 
             for (String filePath : filePaths) {
                 File file = new File(filePath);

@@ -529,7 +529,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public void onSuccess(String response) {
-                LogUtil.e(BaseFragmentActivity.TAG, "心跳包发送成功");
+                LogUtil.i(BaseFragmentActivity.TAG, "心跳包发送成功");
             }
 
             @Override
