@@ -94,8 +94,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initEvent();
         initData();
 
-        AppCrashHandler.getInstance().saveLogcat2Server("logcat -s symvdio CabinetCtrlByDS ");
-
         initHandler.postDelayed(initRunable, 1000);
 
 

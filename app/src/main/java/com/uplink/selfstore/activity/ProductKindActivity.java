@@ -118,7 +118,6 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         if (productKinds.size() <= 0)
             return;
 
-
         if(cur_Kind_Position<=-1){
             return;
         }
@@ -127,7 +126,6 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
         if (kind == null)
             return;
-
 
         ProductKindNameAdapter list_kind_name_adapter = new ProductKindNameAdapter(getAppContext(), productKinds, cur_Kind_Position);
         list_kind_name.setAdapter(list_kind_name_adapter);
