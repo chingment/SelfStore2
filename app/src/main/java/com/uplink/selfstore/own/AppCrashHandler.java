@@ -127,6 +127,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         String filePath = saveCrashInfo2Local(ex);
         // 上传到服务器
         saveCrashInfo2Server(filePath, ex);
+
         return true;
     }
 
@@ -239,7 +240,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
 
-    public void saveLogcat2Server(String cmd) {
+    public void saveLogcat2Server(String cmd,String action) {
 
         FileOutputStream fos=null;
         try {
@@ -254,7 +255,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
 
-            String fileName = "logcat-" + time + "-" + timestamp + ".log";
+            String fileName = "logcat-"+action+"-" + time + "-" + timestamp + ".log";
             String path = OwnFileUtil.getLogDir();
             File dir = new File(path);
             if (!dir.exists()) {
@@ -311,9 +312,6 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
                 }
             }
-
         }
-
-
     }
 }

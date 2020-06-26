@@ -46,8 +46,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initEvent();
         initData();
 
-        AppCrashHandler.getInstance().saveLogcat2Server("logcat -d -s HttpClient ");
-
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);

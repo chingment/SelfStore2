@@ -106,6 +106,7 @@
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -176,25 +177,24 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCrashHandler.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="300" selection-start-line="300" selection-end-line="300" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="class#HandlerResult#0;class#AppCrashHandler#0" />
-                <element signature="e#8770#9243#0" expanded="true" />
-                <element signature="e#9242#9243#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="70">
+              <caret line="495" column="51" lean-forward="true" selection-start-line="495" selection-start-column="51" selection-end-line="495" selection-end-column="51" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCrashHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="495" column="97" selection-start-line="495" selection-start-column="61" selection-end-line="495" selection-end-column="97" />
+            <state relative-caret-position="239">
+              <caret line="313" column="13" selection-start-line="313" selection-start-column="13" selection-end-line="313" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#saveCrashInfo2Local#0;class#AppCrashHandler#0" />
+                <element signature="class#HandlerResult#0;class#AppCrashHandler#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -323,8 +323,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/ProductKindActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCrashHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCrashHandler.java" />
       </list>
     </option>
   </component>
@@ -386,14 +386,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="own" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -711,7 +704,7 @@
     <frame x="0" y="23" width="1355" height="709" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.62046206" visible="true" weight="0.31607008" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.62046206" visible="true" weight="0.33815688" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24878837" />
       <window_info id="Captures" order="2" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
       <window_info id="Build Variants" order="3" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
@@ -730,10 +723,10 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.3231018" side_tool="true" weight="0.489842" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.47253636" weight="0.6026936" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.5565428" visible="true" weight="0.27104378" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.5565428" weight="0.33164984" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.67689824" weight="0.26767677" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.67689824" visible="true" weight="0.26767677" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.588853" weight="0.8634064" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
       <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.6138934" weight="0.48653197" />
@@ -1030,7 +1023,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCrashHandler.java</url>
-          <line>170</line>
+          <line>171</line>
           <properties />
           <option name="timeStamp" value="812" />
         </line-breakpoint>
@@ -1412,10 +1405,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/utils/FileUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="508" column="26" selection-start-line="508" selection-start-column="26" selection-end-line="508" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="48" column="82" selection-start-line="48" selection-start-column="82" selection-end-line="48" selection-end-column="82" />
+        <state relative-caret-position="151">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#initData#0;class#MainActivity#0" />
@@ -1425,30 +1425,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/utils/FileUtil.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="508" column="26" selection-start-line="508" selection-start-column="26" selection-end-line="508" selection-end-column="26" />
+        <state relative-caret-position="70">
+          <caret line="495" column="51" lean-forward="true" selection-start-line="495" selection-start-column="51" selection-end-line="495" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppCrashHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="300" selection-start-line="300" selection-end-line="300" />
+        <state relative-caret-position="239">
+          <caret line="313" column="13" selection-start-line="313" selection-start-column="13" selection-end-line="313" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#saveCrashInfo2Local#0;class#AppCrashHandler#0" />
             <element signature="class#HandlerResult#0;class#AppCrashHandler#0" />
-            <element signature="e#8770#9243#0" expanded="true" />
-            <element signature="e#9242#9243#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="495" column="97" selection-start-line="495" selection-start-column="61" selection-end-line="495" selection-end-column="97" />
         </state>
       </provider>
     </entry>
