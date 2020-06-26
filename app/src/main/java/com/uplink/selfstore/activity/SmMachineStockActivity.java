@@ -31,6 +31,7 @@ import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineSlotsResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
+import com.uplink.selfstore.own.AppCrashHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
@@ -100,7 +101,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         switch (status) {
                             case 1:
                                 showToast(message);
-                                //异常消息
                                 if (customDialogRunning != null) {
                                     if (customDialogRunning.isShowing()) {
                                         customDialogRunning.cancelDialog();
@@ -131,6 +131,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 }
                                 break;
                             case 5://扫描超时
+                                AppCrashHandler.getInstance().saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(5000, "扫描超时");
                                 if (customDialogRunning != null) {
                                     if (customDialogRunning.isShowing()) {
@@ -140,6 +141,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 showToast(message);
                                 break;
                             case 6://扫描失败
+                                AppCrashHandler.getInstance().saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(6000, "扫描失败");
                                 if (customDialogRunning != null) {
                                     if (customDialogRunning.isShowing()) {
