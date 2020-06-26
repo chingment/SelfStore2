@@ -18,6 +18,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.BufferedReader;
@@ -55,11 +56,15 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
     // 用于格式化日期,作为日志文件名的一部分
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
-    /** 保证只有一个CrashHandler实例 */
+    /**
+     * 保证只有一个CrashHandler实例
+     */
     private AppCrashHandler() {
     }
 
-    /** 获取CrashHandler实例 ,单例模式 */
+    /**
+     * 获取CrashHandler实例 ,单例模式
+     */
     public static AppCrashHandler getInstance() {
         return INSTANCE;
     }
@@ -74,7 +79,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         // 获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         //处理结果器
-        mHandlerResult=handlerResult;
+        mHandlerResult = handlerResult;
         // 设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
@@ -87,10 +92,9 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
         handleException(ex);
 
-        if(mHandlerResult==null){
+        if (mHandlerResult == null) {
             mDefaultHandler.uncaughtException(thread, ex);
-        }
-        else {
+        } else {
             mHandlerResult.complete(thread, ex);
         }
     }
@@ -122,7 +126,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         // 保存日志文件
         String filePath = saveCrashInfo2Local(ex);
         // 上传到服务器
-        saveCrashInfo2Server(filePath,ex);
+        saveCrashInfo2Server(filePath, ex);
         return true;
     }
 
@@ -160,7 +164,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
      * 保存错误信息到文件中
      *
      * @param ex
-     * @return 返回文件名称,便于将文件传送到服务器
+     * @return 返回文件名称, 便于将文件传送到服务器
      */
     private String saveCrashInfo2Local(Throwable ex) {
 
@@ -183,18 +187,18 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         printWriter.close();
         String result = writer.toString();
         sb.append(result);
-        String filePath=null;
+        String filePath = null;
         try {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
 
             String fileName = "crash-" + time + "-" + timestamp + ".log";
-            String path =OwnFileUtil.getLogDir();
+            String path = OwnFileUtil.getLogDir();
             File dir = new File(path);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            filePath=path +"/"+ fileName;
+            filePath = path + "/" + fileName;
             FileOutputStream fos = new FileOutputStream(filePath);
             fos.write(sb.toString().getBytes());
             fos.flush();
@@ -206,16 +210,16 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         return null;
     }
 
-    private void  saveCrashInfo2Server(String filePath, Throwable ex){
+    private void saveCrashInfo2Server(String filePath, Throwable ex) {
 
-        if(filePath!=null) {
+        if (filePath != null) {
 
             File file = new File(filePath);
 
-            HashMap<String, String> fields=new HashMap<>();
+            HashMap<String, String> fields = new HashMap<>();
 
-            fields.put("folder","SelfStoreCrashLog");
-            fields.put("fileName",file.getName());
+            fields.put("folder", "SelfStoreCrashLog");
+            fields.put("fileName", file.getName());
             List<String> filePaths = new ArrayList<>();
             filePaths.add(filePath);
 
@@ -234,58 +238,82 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         void complete(Thread thread, Throwable ex);
     }
 
+
     public void saveLogcat2Server(String cmd) {
 
+        FileOutputStream fos=null;
+        try {
 
-        new Thread(new Runnable(){
+            Process process = Runtime.getRuntime().exec(cmd);//抓取当前的缓存日志
+            BufferedReader buffRead = new BufferedReader(new InputStreamReader(process.getInputStream()));//获取输入流
+            //Runtime.getRuntime().exec("logcat -c");//清除是为了下次抓取不会从头抓取
+            String line = null;
+            String newline = System.getProperty("line.separator");
+            int logCount=0;
 
-            @Override
-            public void run(){
+            long timestamp = System.currentTimeMillis();
+            String time = formatter.format(new Date());
 
+            String fileName = "logcat-" + time + "-" + timestamp + ".log";
+            String path = OwnFileUtil.getLogDir();
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
+            String filePath = path + "/" + fileName;
 
-                long timestamp = System.currentTimeMillis();
-                String time = formatter.format(new Date());
+            fos = new FileOutputStream(filePath);
 
-                String fileName = "logcat-" + time + "-" + timestamp + ".log";
-                String path =OwnFileUtil.getLogDir();
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                String  filePath=path +"/"+ fileName;
+            while ((line = buffRead.readLine()) != null) {//循环读取每一行
 
-                StringBuilder log = new StringBuilder();
-                try {
-                    Process process = Runtime.getRuntime().exec(cmd+" -f "+ filePath);
+                fos.write((line).getBytes());//追加内容
+                fos.write(newline.getBytes());//换行
 
-
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                    HashMap<String, String> fields=new HashMap<>();
-                    fields.put("folder","SelfStoreLogcatLog");
-                    fields.put("fileName",fileName);
-                    List<String> filePaths = new ArrayList<>();
-                    filePaths.add(filePath);
-
-                    HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
-                        @Override
-                        public void onSuccess(String response) {
-
-                        }
-                    });
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                logCount++;
+                if (logCount > 1000) {//判断是否大于1000行 退出
+                    break;
                 }
             }
-        }).start();
+
+            Runtime.getRuntime().exec("logcat -c");
+
+            fos.flush();
+            fos.close();
+            fos = null;
+
+            HashMap<String, String> fields = new HashMap<>();
+            fields.put("folder", "SelfStoreLogcatLog");
+            fields.put("fileName", fileName);
+            List<String> filePaths = new ArrayList<>();
+            filePaths.add(filePath);
+
+            HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    if(response!=null){
+                        if(response.contains("上传成功")){
+                            FileUtil.deleteFile(filePath);
+                        }
+                    }
+                }
+            });
+
+        } catch (Exception var1) {
+
+            if(fos!=null){
+                try {
+                    fos.flush();
+                    fos.close();
+                    fos = null;
+                }
+                catch (Exception var2){
+
+                }
+            }
+
+        }
+
 
     }
 }

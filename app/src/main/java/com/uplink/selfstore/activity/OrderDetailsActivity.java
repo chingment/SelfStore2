@@ -493,7 +493,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             cabinetCtrlByDS.emgStop();
             curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");
 
-            AppCrashHandler.getInstance().saveLogcat2Server("logcat -s symvdio CabinetCtrlByDS ");
+            AppCrashHandler.getInstance().saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ");
 
         }
         else {
