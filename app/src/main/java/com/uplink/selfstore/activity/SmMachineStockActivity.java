@@ -170,7 +170,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         initData();
     }
 
-    protected void initView() {
+    private void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
 
@@ -204,12 +204,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 //                .onStart();
     }
 
-    protected void initEvent() {
+    private void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
         btn_RefreshStock.setOnClickListener(this);
     }
 
-    protected void initData() {
+    private void initData() {
         getCabinetSlots();
 
         txt_CabinetName.setText(cabinet.getName()+"("+cabinet.getId()+")");

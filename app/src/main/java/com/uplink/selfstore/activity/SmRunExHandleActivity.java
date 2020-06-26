@@ -62,7 +62,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
         initData();
     }
 
-    protected void initView() {
+    private void initView() {
 
         btn_GoBack = (Button) findViewById(R.id.btn_GoBack);
         btn_Handle = (Button) findViewById(R.id.btn_Handle);
@@ -209,7 +209,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
         list_reasons.setVisibility(View.VISIBLE);
     }
 
-    protected void initData() {
+    private void initData() {
         getRunExHandleItems();
     }
 

@@ -173,7 +173,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         });
     }
 
-    protected void initView() {
+    private void initView() {
 
         MyGridView gridview = (MyGridView) findViewById(R.id.gridview_ninegrid);
 

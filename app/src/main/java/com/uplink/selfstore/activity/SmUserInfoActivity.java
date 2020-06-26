@@ -48,7 +48,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
     }
 
-    protected void initView() {
+    private void initView() {
         txt_UserName = (TextView) findViewById(R.id.txt_UserName);
         txt_FullName = (TextView) findViewById(R.id.txt_FullName);
         txt_FingerVein = (TextView) findViewById(R.id.txt_FingerVein);
@@ -95,12 +95,12 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         );
     }
 
-    protected void initEvent() {
+    private void initEvent() {
         txt_FingerVein.setOnClickListener(this);
         btn_DelFingerVein.setOnClickListener(this);
     }
 
-    protected void initData() {
+    private void initData() {
         getInfo();
     }
 

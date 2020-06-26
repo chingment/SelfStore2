@@ -127,7 +127,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
     }
 
-    protected void initView() {
+    private void initView() {
         btn_retry = (Button) findViewById(R.id.btn_retry);
         loading_ani = (LoadingView) findViewById(R.id.loading_ani);
         loading_bar = (ProgressBar) findViewById(R.id.loading_bar);

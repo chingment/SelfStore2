@@ -58,7 +58,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         useClosePageCountTimer();
     }
 
-    protected void initView() {
+    private void initView() {
 
         nav_back=this.findViewById(R.id.nav_back);
         btn_loginByAccount = (Button) this.findViewById(R.id.btn_loginByAccount);
@@ -97,7 +97,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         }
     }
 
-    protected void initEvent() {
+    private void initEvent() {
         btn_loginByAccount.setOnClickListener(this);
         btn_loginByVeinLock.setOnClickListener(this);
         nav_back.setOnClickListener(this);
@@ -113,7 +113,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         });
     }
 
-    protected void initData() {
+    private void initData() {
 
         String lastUsername = AppCacheManager.getLastUserName();
 

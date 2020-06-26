@@ -87,7 +87,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         useClosePageCountTimer();
     }
 
-    protected void initView() {
+    private void initView() {
         btn_back = findViewById(R.id.btn_back);
         btn_goshopping = findViewById(R.id.btn_goshopping);
         btn_pay_z_wechat = findViewById(R.id.btn_pay_z_wechat);

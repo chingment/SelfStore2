@@ -27,7 +27,7 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
     }
 
-    protected void initView() {
+    private void initView() {
         btn_ShowNavBySx=(Button) findViewById(R.id.btn_ShowNavBySx);
         btn_ShowNavByYs=(Button)findViewById(R.id.btn_ShowNavByYs);
         btn_AppExit=(Button)findViewById(R.id.btn_AppExit);
