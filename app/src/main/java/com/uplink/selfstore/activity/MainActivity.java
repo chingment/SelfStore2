@@ -150,6 +150,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.btn_buy:
+                    int a=10/0;
                     Intent intent = new Intent(getAppContext(), ProductKindActivity.class);
                     startActivity(intent);
                     break;

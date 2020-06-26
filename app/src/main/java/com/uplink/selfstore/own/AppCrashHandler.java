@@ -15,13 +15,18 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.utils.LogUtil;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Field;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,57 +35,40 @@ import java.util.Map;
 
 public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
+    public static final String TAG = "AppCrashHandler";
 
-
-    private static final String TAG = "CrashHandler";
-    /**
-     * 系统默认的UncaughtException处理类
-     */
+    // 系统默认的UncaughtException处理类
     private Thread.UncaughtExceptionHandler mDefaultHandler;
-    /**
-     * 程序的Context对象
-     */
+    // CrashHandler实例
+    private static AppCrashHandler INSTANCE = new AppCrashHandler();
+    // 程序的Context对象
     private Context mContext;
-    /**
-     * 错误报告文件的扩展名
-     */
-    private static final String CRASH_REPORTER_EXTENSION = ".log";
+    // 用来存储设备信息和异常信息
+    private Map<String, String> infos = new HashMap<String, String>();
+    // 用于格式化日期,作为日志文件名的一部分
+    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 
-    /**
-     * CrashHandler实例
-     */
-    private static AppCrashHandler INSTANCE;
-
-    /**
-     * 保证只有一个CrashHandler实例
-     */
+    /** 保证只有一个CrashHandler实例 */
     private AppCrashHandler() {
     }
 
-    /**
-     * 获取CrashHandler实例 ,单例模式
-     */
+    /** 获取CrashHandler实例 ,单例模式 */
     public static AppCrashHandler getInstance() {
-        if (INSTANCE == null) {
-            synchronized (AppCrashHandler.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new AppCrashHandler();
-                }
-            }
-        }
         return INSTANCE;
     }
 
     /**
-     * 初始化,注册Context对象,
-     * 获取系统默认的UncaughtException处理器,
-     * 设置该CrashHandler为程序的默认处理器
+     * 初始化
      *
-     * @param ctx
+     * @param context
      */
-    public void init(Context ctx) {
-        mContext = ctx;
+    public void init(Context context, HandlerResult handlerResult) {
+        mContext = context;
+        // 获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+        //处理结果器
+        mHandlerResult=handlerResult;
+        // 设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 
@@ -89,109 +77,161 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+
         handleException(ex);
-        if (mDefaultHandler != null) {
-            //收集完信息后，交给系统自己处理崩溃
+
+        if(mHandlerResult==null){
             mDefaultHandler.uncaughtException(thread, ex);
         }
+        else {
+            mHandlerResult.complete(thread, ex);
+        }
     }
 
     /**
-     * 自定义错误处理,收集错误信息
-     * 发送错误报告等操作均在此完成.
-     * 开发者可以根据自己的情况来自定义异常处理逻辑
+     * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成.
+     *
+     * @param ex
+     * @return true:如果处理了该异常信息;否则返回false.
      */
-    private void handleException(Throwable ex) {
+    private boolean handleException(Throwable ex) {
         if (ex == null) {
-            Log.w(TAG, "handleException--- ex==null");
-            return;
+            return false;
         }
-        String msg = ex.getLocalizedMessage();
-        if (msg == null) {
-            return;
-        }
-        //收集设备信息
-        //保存错误报告文件
-        saveCrashInfoToFile(ex);
+        // 收集设备参数信息
+        collectDeviceInfo(mContext);
+        // 保存日志文件
+        saveCrashInfo2File(ex);
+        return true;
     }
 
-
     /**
-     * 获取错误报告文件路径
+     * 收集设备参数信息
      *
      * @param ctx
-     * @return
      */
-    public static String[] getCrashReportFiles(Context ctx) {
-        File filesDir = new File(getCrashFilePath(ctx));
-        String[] fileNames = filesDir.list();
-        int length = fileNames.length;
-        String[] filePaths = new String[length];
-        for (int i = 0; i < length; i++) {
-            filePaths[i] = getCrashFilePath(ctx) + fileNames[i];
+    public void collectDeviceInfo(Context ctx) {
+        try {
+            PackageManager pm = ctx.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
+            if (pi != null) {
+                String versionName = pi.versionName == null ? "null" : pi.versionName;
+                String versionCode = pi.versionCode + "";
+                infos.put("versionName", versionName);
+                infos.put("versionCode", versionCode);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "an error occured when collect package info", e);
         }
-        return filePaths;
+        Field[] fields = Build.class.getDeclaredFields();
+        for (Field field : fields) {
+            try {
+                field.setAccessible(true);
+                infos.put(field.getName(), field.get(null).toString());
+                Log.d(TAG, field.getName() + " : " + field.get(null));
+            } catch (Exception e) {
+                Log.e(TAG, "an error occured when collect crash info", e);
+            }
+        }
     }
 
     /**
      * 保存错误信息到文件中
      *
      * @param ex
-     * @return
+     * @return 返回文件名称,便于将文件传送到服务器
      */
-    private void saveCrashInfoToFile(Throwable ex) {
-        Writer info = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(info);
+    private String saveCrashInfo2File(Throwable ex) {
+
+//        StringBuilder log = new StringBuilder();
+//        try {
+//            Process process = Runtime.getRuntime().exec("logcat -d");
+//            BufferedReader bufferedReader = new BufferedReader(
+//                    new InputStreamReader(process.getInputStream()));
+//
+//            String line;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                log.append(line);
+//            }
+//
+//
+//        }
+//        catch (Exception e){
+//          e.printStackTrace();
+//        }
+
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<String, String> entry : infos.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            sb.append(key + "=" + value + "\n");
+        }
+
+
+        Writer writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
         ex.printStackTrace(printWriter);
         Throwable cause = ex.getCause();
         while (cause != null) {
             cause.printStackTrace(printWriter);
             cause = cause.getCause();
         }
-        String result = info.toString();
         printWriter.close();
-        StringBuilder sb = new StringBuilder();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
-        String now = sdf.format(new Date());
-        sb.append("TIME:").append(now);//崩溃时间
-        //程序信息
-        sb.append("\nAPPLICATION_ID:").append(BuildConfig.APPLICATION_ID);//软件APPLICATION_ID
-        sb.append("\nVERSION_CODE:").append(BuildConfig.VERSION_CODE);//软件版本号
-        sb.append("\nVERSION_NAME:").append(BuildConfig.VERSION_NAME);//VERSION_NAME
-        sb.append("\nBUILD_TYPE:").append(BuildConfig.BUILD_TYPE);//是否是DEBUG版本
-        //设备信息
-        sb.append("\nMODEL:").append(android.os.Build.MODEL);
-        sb.append("\nRELEASE:").append(Build.VERSION.RELEASE);
-        sb.append("\nSDK:").append(Build.VERSION.SDK_INT);
-        sb.append("\nEXCEPTION:").append(ex.getLocalizedMessage());
-        sb.append("\nSTACK_TRACE:").append(result);
+        String result = writer.toString();
+        sb.append(result);
         try {
-            FileWriter writer = new FileWriter(getCrashFilePath(mContext) + now + CRASH_REPORTER_EXTENSION,true);
-            writer.write(sb.toString());
-            writer.close();
+            long timestamp = System.currentTimeMillis();
+            String time = formatter.format(new Date());
+
+            String fileName = "crash-" + time + "-" + timestamp + ".log";
+            String path =OwnFileUtil.getLogDir();
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            FileOutputStream fos = new FileOutputStream(path +"/"+ fileName);
+            fos.write(sb.toString().getBytes());
+            fos.flush();
+            fos.close();
+            return fileName;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "an error occured while writing file...", e);
         }
+        //上传到服务器
+        //new PostErrorLoggerTask().execute(sb.toString());
+        return null;
     }
 
-    /**
-     * 获取文件夹路径
-     *
-     * @param context
-     * @return
-     */
-    private static String getCrashFilePath(Context context) {
-        String path = null;
-        try {
-            path = Environment.getExternalStorageDirectory().getCanonicalPath() + "/CrashLog/";
-            File file = new File(path);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.e(TAG, "getCrashFilePath: " + path);
-        return path;
+//    /**
+//     * 提交错误日志到服务器
+//     */
+//    class PostErrorLoggerTask extends AsyncTask<String, Integer, WebApiResultMessage> {
+//
+//        @Override
+//        protected WebApiResultMessage doInBackground(String... messageText) {
+//            WebApiResultMessage rs = new WebApiResultMessage();
+//            rs.setMessage("");
+//            rs.setResult(null);
+//            rs.setSuccess(false);
+//            JSONHttpClient jsonHttpClient = new JSONHttpClient();
+//            List<NameValuePair> params = new ArrayList();
+//            params.add(new BasicNameValuePair("errorMessage", messageTeparams.add(new B
+//            asicNameValuePair("logType", "Error"));xt[0]));
+//            String url = "http://192.168.122.5:5990/SmartWCS/UpLoadPDA_Logger";
+//            try {
+//                return jsonHttpClient.PostJsonObject(url, "{}", params);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                rs.setMessage(e.getMessage());
+//            }
+//            return rs;
+//        }
+//    }
+
+    private HandlerResult mHandlerResult = null;
+
+    public interface HandlerResult {
+        void complete(Thread thread, Throwable ex);
     }
+
 }

@@ -35,13 +35,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+// variable that can be referenced to keep support libs consistent
 ext {
-    //supportLibVersion = '27.1.1'  // variable that can be referenced to keep support libs consistent
-    //compileSdkVersion= 28
-    versionBuildTool = '28.0.3'
-    //versionCompiler = 27
-    //versionTarget = 27
-    //versionNameString = '1.0.0'
-    //javaSourceCompatibility = JavaVersion.VERSION_1_8
-    //javaTargetCompatibility = JavaVersion.VERSION_1_8
+
 }

@@ -392,11 +392,11 @@ public class CabinetCtrlByDS {
                 return;
             }
 
-            if (!isIdle()) {
-                LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
-                sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
-                return;
-            }
+//            if (!isIdle()) {
+//                LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在空闲状态");
+//                sendScanSlotHandlerMessage(1, "启动前，检查设备不在空闲状态", null);
+//                return;
+//            }
 
             int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
             if (rt_goZero != S_RC_SUCCESS) {

@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;

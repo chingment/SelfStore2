@@ -14,13 +14,9 @@ import android.text.TextUtils;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
-import com.tamic.statinterface.stats.core.TcCrashHandler;
-import com.tamic.statinterface.stats.db.DbManager;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
-import com.tamic.statinterface.stats.core.TcStatInterface;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.utils.EMPreferenceManager;
 import com.uplink.selfstore.utils.StringUtil;
@@ -77,23 +73,16 @@ public class AppContext extends Application {
 
         Context context = getApplicationContext();
 
-        TcCrashHandler.getInstance().init(this, new TcCrashHandler.ExceptionHandler() {
+        AppCrashHandler.getInstance().init(context, new AppCrashHandler.HandlerResult() {
             @Override
-            public void Handler() {
+            public void complete(Thread thread, Throwable ex) {
                 restartApp();
             }
-        });
-
-          //腾讯Bugly 配置
-//        String packageName = context.getPackageName();
-//        String processName = getProcessName(android.os.Process.myPid());
-//        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
-//        strategy.setUploadProcess(processName == null || processName.equals(packageName));
-//        CrashReport.initCrashReport(context, "b9d0425e4c", true);
+        }); //初始异常日志收集器
 
         OstCtrlInterface.init(Build.MODEL);//  初始化Ost控制
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);  // 初始化 JPus
+        JPushInterface.init(context);  // 初始化 JPus
 
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
@@ -109,24 +98,18 @@ public class AppContext extends Application {
 
         EMPreferenceManager.init(context);
         //DbManager.getInstance().init(this);
-
-        TcStatInterface.setUrl(Config.URL.machine_UpLoadTraceLog);
-        TcStatInterface.setUploadPolicy(TcStatInterface.UploadPolicy.UPLOAD_POLICY_REALTIME, TcStatInterface.UPLOAD_INTERVAL_REALTIME);
-        TcStatInterface.initialize(this, BuildConfig.APPLICATION_ID, "android.storeterm", "stat_id.json");
-        TcStatInterface.recordAppStart();
-
     }
 
     @Override
     public void onTerminate() {
-        DbManager.getInstance().destroy();
-        TcStatInterface.recordAppEnd();
         super.onTerminate();
     }
 
     private void restartApp() {
         SystemClock.sleep(2000);
         Intent intent = new Intent(app.getApplicationContext(), InitDataActivity.class);
+
+
         PendingIntent restartIntent = PendingIntent.getActivity(app.getApplicationContext(), 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
         //退出程序
         AlarmManager mgr = (AlarmManager) app.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
@@ -136,11 +119,6 @@ public class AppContext extends Application {
         //结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
         android.os.Process.killProcess(android.os.Process.myPid());
     }
-
-//    public static String getDeviceId() {
-//        String androidId = Settings.Secure.getString(app.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-//        return androidId;
-//    }
 
     public String getDeviceId() {
         //todo 获取方式必须跟statinterface里获取的设备号一致

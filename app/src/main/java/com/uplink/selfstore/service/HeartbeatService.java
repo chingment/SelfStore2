@@ -5,31 +5,17 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
-
-import com.tamic.statinterface.stats.core.TcStatInterface;
-import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.broadcast.HeartbeatRecevier;
-import com.uplink.selfstore.http.HttpClient;
-import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
-import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class HeartbeatService extends Service {
 
     private static final String TAG = "HeartbeatService";
