@@ -28,6 +28,7 @@ node_modules*/
 *.rawproto
 obj/
 [Rr]elease*/
+app/build/
 _ReSharper*/
 [Tt]est[Rr]esult*
 
