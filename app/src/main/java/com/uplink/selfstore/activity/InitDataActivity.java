@@ -178,6 +178,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                     logs.add(log);
 
                     List<LogBean> reverseLogs = new ArrayList<>();
+
                     for (int i = logs.size(); i > 0; i--) {
                         if (reverseLogs.size() > 10) {
                             break;

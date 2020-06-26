@@ -99,16 +99,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    /**
-     * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成.
-     *
-     * @param ex
-     * @return true:如果处理了该异常信息;否则返回false.
-     */
-    private boolean handleException(Throwable ex) {
-        if (ex == null) {
-            return false;
-        }
+    private void handleException(Throwable ex) {
 
         // 使用Toast来显示异常信息
         new Thread() {
@@ -120,7 +111,6 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             }
         }.start();
 
-
         // 收集设备参数信息
         collectDeviceInfo(mContext);
         // 保存日志文件
@@ -128,15 +118,9 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         // 上传到服务器
         saveCrashInfo2Server(filePath, ex);
 
-        return true;
     }
 
-    /**
-     * 收集设备参数信息
-     *
-     * @param ctx
-     */
-    public void collectDeviceInfo(Context ctx) {
+    private void collectDeviceInfo(Context ctx) {
         try {
             PackageManager pm = ctx.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
@@ -161,12 +145,6 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         }
     }
 
-    /**
-     * 保存错误信息到文件中
-     *
-     * @param ex
-     * @return 返回文件名称, 便于将文件传送到服务器
-     */
     private String saveCrashInfo2Local(Throwable ex) {
 
         StringBuffer sb = new StringBuffer();
@@ -239,7 +217,6 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         void complete(Thread thread, Throwable ex);
     }
 
-
     public void saveLogcat2Server(String cmd,String action) {
 
         FileOutputStream fos=null;
@@ -255,14 +232,16 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
 
-            String fileName = "logcat-"+action+"-" + time + "-" + timestamp + ".log";
+            String fileName = "logcat_"+action+"_" + time + "_" + timestamp;
+            String fileExt=".log";
+
             String path = OwnFileUtil.getLogDir();
             File dir = new File(path);
             if (!dir.exists()) {
-                dir.mkdirs();
+                 dir.mkdirs();
             }
 
-            String filePath = path + "/" + fileName;
+            String filePath = path + "/" + fileName+fileExt;
 
             fos = new FileOutputStream(filePath);
 
