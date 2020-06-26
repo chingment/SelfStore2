@@ -81,24 +81,24 @@ public class CabinetCtrlByDS {
 
 
     public boolean connect() {
-        try {
-            if (sym == null) {
-                isConnect = false;
-            } else {
-
-                File file = new File("/dev/"+CabinetCtrlByDS.ComId);
-                if (file.exists()) {
-                    int rc_status = sym.Connect(CabinetCtrlByDS.ComId, 9600);
-                    if (rc_status == 0) {
-                        isConnect = true;
-                    }
+        if (sym == null) {
+            LogUtil.e(TAG, "打开串口:" +getComId() + ",失败，sym为 NULL");
+            isConnect = false;
+        } else {
+            File file = new File("/dev/" + getComId());
+            if (file.exists()) {
+                int rc_status = sym.Connect(getComId(), 9600);
+                LogUtil.e(TAG, "打开串口：" + getComId() + "，状态为：" + rc_status);
+                if (rc_status == 0) {
+                    isConnect = true;
                 }
+            } else {
+                LogUtil.e(TAG, "打开串口：" + getComId() + "，失败，串口ID不存在");
             }
-            return isConnect;
         }
-        catch (Exception ex) {
-            return false;
-        }
+
+        return isConnect;
+
     }
 
     public void disConnect() {

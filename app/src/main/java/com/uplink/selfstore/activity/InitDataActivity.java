@@ -22,6 +22,7 @@ import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppCrashHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -92,6 +93,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         initView();
         initEvent();
         initData();
+
+        AppCrashHandler.getInstance().saveLogcat2Server("logcat -s symvdio CabinetCtrlByDS ");
 
         initHandler.postDelayed(initRunable, 1000);
 

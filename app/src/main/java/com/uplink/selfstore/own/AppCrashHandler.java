@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
@@ -102,10 +105,22 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
+
+        // 使用Toast来显示异常信息
+        new Thread() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                Toast.makeText(mContext, "很抱歉,程序出现异常即将退出", Toast.LENGTH_LONG).show();
+                Looper.loop();
+            }
+        }.start();
+
+
         // 收集设备参数信息
         collectDeviceInfo(mContext);
         // 保存日志文件
-        String filePath = saveCrashInfo2File(ex);
+        String filePath = saveCrashInfo2Local(ex);
         // 上传到服务器
         saveCrashInfo2Server(filePath,ex);
         return true;
@@ -147,24 +162,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
      * @param ex
      * @return 返回文件名称,便于将文件传送到服务器
      */
-    private String saveCrashInfo2File(Throwable ex) {
-
-//        StringBuilder log = new StringBuilder();
-//        try {
-//            Process process = Runtime.getRuntime().exec("logcat -d");
-//            BufferedReader bufferedReader = new BufferedReader(
-//                    new InputStreamReader(process.getInputStream()));
-//
-//            String line;
-//            while ((line = bufferedReader.readLine()) != null) {
-//                log.append(line);
-//            }
-//
-//
-//        }
-//        catch (Exception e){
-//          e.printStackTrace();
-//        }
+    private String saveCrashInfo2Local(Throwable ex) {
 
         StringBuffer sb = new StringBuffer();
         for (Map.Entry<String, String> entry : infos.entrySet()) {
@@ -216,7 +214,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
             HashMap<String, String> fields=new HashMap<>();
 
-            fields.put("folder","SelfStoreLog");
+            fields.put("folder","SelfStoreCrashLog");
             fields.put("fileName",file.getName());
             List<String> filePaths = new ArrayList<>();
             filePaths.add(filePath);
@@ -228,35 +226,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
                 }
             });
         }
-
-
     }
-
-//    /**
-//     * 提交错误日志到服务器
-//     */
-//    class PostErrorLoggerTask extends AsyncTask<String, Integer, WebApiResultMessage> {
-//
-//        @Override
-//        protected WebApiResultMessage doInBackground(String... messageText) {
-//            WebApiResultMessage rs = new WebApiResultMessage();
-//            rs.setMessage("");
-//            rs.setResult(null);
-//            rs.setSuccess(false);
-//            JSONHttpClient jsonHttpClient = new JSONHttpClient();
-//            List<NameValuePair> params = new ArrayList();
-//            params.add(new BasicNameValuePair("errorMessage", messageTeparams.add(new B
-//            asicNameValuePair("logType", "Error"));xt[0]));
-//            String url = "http://192.168.122.5:5990/SmartWCS/UpLoadPDA_Logger";
-//            try {
-//                return jsonHttpClient.PostJsonObject(url, "{}", params);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                rs.setMessage(e.getMessage());
-//            }
-//            return rs;
-//        }
-//    }
 
     private HandlerResult mHandlerResult = null;
 
@@ -264,4 +234,54 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         void complete(Thread thread, Throwable ex);
     }
 
+    public void saveLogcat2Server(String cmd) {
+
+        StringBuilder log = new StringBuilder();
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d");
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()),1024);
+
+            String message = "";
+            String line = null;
+            while((line = bufferedReader.readLine()) != null) {
+                message += line;
+            }
+
+
+            StringBuffer sb = new StringBuffer();
+            sb.append(message);
+            long timestamp = System.currentTimeMillis();
+            String time = formatter.format(new Date());
+
+            String fileName = "logcat-" + time + "-" + timestamp + ".log";
+            String path =OwnFileUtil.getLogDir();
+            File dir = new File(path);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            String  filePath=path +"/"+ fileName;
+            FileOutputStream fos = new FileOutputStream(filePath);
+            fos.write(sb.toString().getBytes());
+            fos.flush();
+            fos.close();
+
+            HashMap<String, String> fields=new HashMap<>();
+            fields.put("folder","SelfStoreLogcatLog");
+            fields.put("fileName",fileName);
+            List<String> filePaths = new ArrayList<>();
+            filePaths.add(filePath);
+
+            HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

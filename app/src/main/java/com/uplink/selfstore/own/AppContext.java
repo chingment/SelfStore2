@@ -19,6 +19,7 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import cn.jpush.android.api.JPushInterface;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.utils.EMPreferenceManager;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedReader;
@@ -30,7 +31,7 @@ import java.io.IOException;
  */
 
 public class AppContext extends Application {
-
+    private static final String TAG = "AppContext";
     private static AppContext app;
 
     public AppContext() {
@@ -97,7 +98,6 @@ public class AppContext extends Application {
         EMClient.getInstance().setDebugMode(true);
 
         EMPreferenceManager.init(context);
-        //DbManager.getInstance().init(this);
     }
 
     @Override
@@ -106,16 +106,18 @@ public class AppContext extends Application {
     }
 
     private void restartApp() {
-        SystemClock.sleep(2000);
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){
+            LogUtil.e(TAG, "error : ", e);
+        }
+
         Intent intent = new Intent(app.getApplicationContext(), InitDataActivity.class);
-
-
         PendingIntent restartIntent = PendingIntent.getActivity(app.getApplicationContext(), 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
         //退出程序
         AlarmManager mgr = (AlarmManager) app.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
                 restartIntent); // 1秒钟后重启应用
-
         //结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
         android.os.Process.killProcess(android.os.Process.myPid());
     }

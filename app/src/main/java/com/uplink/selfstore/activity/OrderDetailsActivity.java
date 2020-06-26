@@ -23,6 +23,7 @@ import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
+import com.uplink.selfstore.own.AppCrashHandler;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
@@ -84,13 +85,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     @Override
                     public boolean handleMessage(Message msg) {
 
-                        if(!CameraWindow.cameraIsRunningByChk()){
-                            CameraWindow.openCameraByChk();
-                        }
-
-                        if(!CameraWindow.cameraIsRunningByJg()){
-                            CameraWindow.openCameraByJg();
-                        }
+//                        if(!CameraWindow.cameraIsRunningByChk()){
+//                            CameraWindow.openCameraByChk();
+//                        }
+//
+//                        if(!CameraWindow.cameraIsRunningByJg()){
+//                            CameraWindow.openCameraByJg();
+//                        }
 
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
@@ -491,6 +492,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
             cabinetCtrlByDS.emgStop();
             curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");
+
+            AppCrashHandler.getInstance().saveLogcat2Server("logcat -s symvdio CabinetCtrlByDS");
+
         }
         else {
             CabinetBean cabinet = getMachine().getCabinets().get(pickupSku.getCabinetId());

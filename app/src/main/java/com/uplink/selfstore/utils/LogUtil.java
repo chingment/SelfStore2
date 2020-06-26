@@ -72,6 +72,11 @@ public class LogUtil {
         Log.e(tag, content);
     }
 
+    public static void e(String tag, String content, Throwable tr) {
+        if (!Config.IS_APP_DEBUG) return;
+        Log.e(tag, content,tr);
+    }
+
     public static void i(String content) {
         if (!Config.IS_APP_DEBUG) return;
         String tag = generateTag();
