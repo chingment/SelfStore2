@@ -382,13 +382,13 @@ public class CabinetCtrlByDS {
 
             if (!isConnect) {
                 LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
-                sendScanSlotHandlerMessage(1, "启动前，检查设备连接失败", null);
+                sendScanSlotHandlerMessage(6, "启动前，检查设备连接失败", null);
                 return;
             }
 
             if (!isNormarl()) {
                 LogUtil.i(TAG, "扫描流程监听：启动前，检查设备不在线");
-                sendScanSlotHandlerMessage(1, "启动前，检查设备不在线", null);
+                sendScanSlotHandlerMessage(6, "启动前，检查设备不在线", null);
                 return;
             }
 
@@ -401,7 +401,7 @@ public class CabinetCtrlByDS {
             int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
             if (rt_goZero != S_RC_SUCCESS) {
                 LogUtil.i(TAG, "扫描流程监听：启动回原点失败");
-                sendScanSlotHandlerMessage(1, "启动回原点失败", null);
+                sendScanSlotHandlerMessage(6, "启动回原点失败", null);
                 return;
             }
 
@@ -431,7 +431,7 @@ public class CabinetCtrlByDS {
 
             if (!bCanSelfAutoScan) {
                 LogUtil.i(TAG, "扫描流程监听：回原点失败");
-                sendScanSlotHandlerMessage(1, "回原点失败", null);
+                sendScanSlotHandlerMessage(6, "回原点失败", null);
                 return;
             }
 
@@ -440,7 +440,7 @@ public class CabinetCtrlByDS {
 
             if (rc_selfAutoScan != S_RC_SUCCESS) {
                 LogUtil.i(TAG, "扫描流程监听：扫描货道启动失败");
-                sendScanSlotHandlerMessage(1, "扫描货道启动失败", null);
+                sendScanSlotHandlerMessage(6, "扫描货道启动失败", null);
                 return;
             }
             cmd_ScanSlotIsStopListener = false;
