@@ -103,17 +103,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductChildKindAdapter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_list_sku_tmp1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_list_sku_tmp1.xml" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -174,60 +164,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/item_list_sku_tmp1.xml">
-          <provider editor-type-id="android-designer2" />
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="80" column="37" selection-start-line="80" selection-start-column="37" selection-end-line="80" selection-end-column="37" />
-              <folding>
-                <element signature="e#2338#2354#0" expanded="true" />
-                <element signature="e#2796#2812#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindSkuAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="164" column="37" lean-forward="true" selection-start-line="164" selection-start-column="37" selection-end-line="164" selection-end-column="37" />
-              <folding>
-                <element signature="e#6391#6392#0" expanded="true" />
-                <element signature="e#6469#6470#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="635" column="17" selection-start-line="635" selection-start-column="17" selection-end-line="635" selection-end-column="17" />
-              <folding>
-                <element signature="e#5320#5321#0" expanded="true" />
-                <element signature="e#5386#5387#0" expanded="true" />
-                <element signature="method#initEvent#0;class#CartActivity#0" />
-                <element signature="method#setList#0;class#CartActivity#0" />
-                <element signature="method#onDestroy#0;class#CartActivity#0" />
-                <element signature="method#payStatusQuery#0;class#CartActivity#0" />
-                <element signature="method#doPaySuccess#0;class#CartActivity#0" />
-                <element signature="method#getStatistics#0;class#CartActivity#0" />
-                <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
-              </folding>
+            <state relative-caret-position="10">
+              <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="124" column="13" lean-forward="true" selection-start-line="124" selection-start-column="13" selection-end-line="124" selection-end-column="13" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -247,7 +195,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>btn_close</find>
       <find>nickTextView</find>
       <find>ex_nickName</find>
       <find>username</find>
@@ -277,6 +224,7 @@
       <find>layout_parentroot</find>
       <find>formatter</find>
       <find>cabinetCtrlByDS</find>
+      <find>buildTime</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -361,9 +309,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="31" />
-    <option name="y" value="64" />
+    <option name="y" value="23" />
     <option name="width" value="1355" />
-    <option name="height" value="712" />
+    <option name="height" value="708" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="1" />
@@ -421,46 +369,6 @@
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
-              <item name="adapter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
-              <item name="handler" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -760,10 +668,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="31" y="64" width="1355" height="712" extended-state="0" />
-    <editor active="true" />
+    <frame x="31" y="23" width="1355" height="708" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.62046206" visible="true" weight="0.28255904" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.62046206" visible="true" weight="0.28255904" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24878837" />
       <window_info id="Captures" order="2" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
       <window_info id="Build Variants" order="3" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
@@ -774,7 +681,7 @@
       <window_info id="Resources Explorer" order="8" sideWeight="0.49311927" weight="0.32875606" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.48869145" weight="0.25925925" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7802908" weight="0.4589615" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7802908" weight="0.45868465" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5371567" weight="0.05050505" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -782,13 +689,13 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.3231018" side_tool="true" weight="0.489842" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.47253636" weight="0.6026936" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.5565428" visible="true" weight="0.20100503" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.5565428" weight="0.41315347" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.67689824" weight="0.4438861" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.67689824" weight="0.44350758" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.588853" weight="0.8634064" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
-      <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.6138934" weight="0.48576215" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="16" sideWeight="0.6138934" visible="true" weight="0.7740303" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1123,9 +1030,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/viewpagerindicator/CirclePageIndicator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="56">
@@ -1144,11 +1048,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/assets/stat_id.json" />
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1490" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/OwnFileUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1171,13 +1070,6 @@
             <element signature="e#1655#1656#0" expanded="true" />
             <element signature="e#1706#1707#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1428,13 +1320,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductChildKindAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="51" column="16" lean-forward="true" selection-start-line="51" selection-start-column="16" selection-end-line="51" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductChildKindAdapter.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/ProductKindBodyAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -1483,13 +1369,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="5" lean-forward="true" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="635" column="17" selection-start-line="635" selection-start-column="17" selection-end-line="635" selection-end-column="17" />
           <folding>
-            <element signature="e#5320#5321#0" expanded="true" />
-            <element signature="e#5386#5387#0" expanded="true" />
             <element signature="method#initEvent#0;class#CartActivity#0" />
             <element signature="method#setList#0;class#CartActivity#0" />
             <element signature="method#onDestroy#0;class#CartActivity#0" />
@@ -1498,6 +1389,16 @@
             <element signature="method#getStatistics#0;class#CartActivity#0" />
             <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10">
+          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
         </state>
       </provider>
     </entry>
