@@ -36,6 +36,7 @@ import com.uplink.selfstore.model.api.SearchProductSkuBean;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppCrashHandler;
+import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -136,7 +137,7 @@ public class CustomSlotEditDialog extends Dialog {
                         }
                         break;
                     case 5://取货超时
-                        AppCrashHandler.getInstance().saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickuptest");
+                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickuptest");
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }
@@ -145,7 +146,7 @@ public class CustomSlotEditDialog extends Dialog {
                         LogUtil.e("取货超时");
                         break;
                     case 6://取货失败
-                        AppCrashHandler.getInstance().saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickuptest");
+                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
                             customDialogRunning.cancelDialog();
                         }

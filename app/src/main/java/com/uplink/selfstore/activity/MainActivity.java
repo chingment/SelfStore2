@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.own.AppCrashHandler;
+import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         initEvent();
         initData();
 
-        AppCrashHandler.getInstance().saveLogcat2Server("logcat -d ","test");
+        AppLogcatManager.saveLogcat2Server("logcat -d ","test");
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {

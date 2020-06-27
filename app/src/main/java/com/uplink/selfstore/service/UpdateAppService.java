@@ -246,20 +246,6 @@ public class UpdateAppService extends Service {
 
                 }
             });
-
-
-            //判断App是否为最新版本，若不是进行下载
-            //downloadManagerApk();
-
-//                LogUtil.i(TAG,"判断App是否能进行安装，只能在当前页面是MainActivity情况下更新app");
-//                Activity act=AppManager.getAppManager().currentActivity();
-//                if(act instanceof MainActivity) {
-//                    LogUtil.i(TAG,"当前Activity is MainActivity");
-//                    final Message m = new Message();
-//                    m.what = 1;
-//                    handler_msg.sendMessage(m);
-//
-//                }
         }
     }
 
@@ -306,26 +292,6 @@ public class UpdateAppService extends Service {
                 OstCtrlInterface.getInstance().installApk(UpdateAppService.this,path);
             }
         }
-        /**
-         * 安装apk文件
-         */
-//        private void installAPK(Uri apk) {
-//
-//            // 通过Intent安装APK文件
-//            Intent intents = new Intent();
-//
-//            intents.setAction("android.intent.action.VIEW");
-//            intents.addCategory("android.intent.category.DEFAULT");
-//            intents.setType("application/vnd.android.package-archive");
-//            intents.setData(apk);
-//            intents.setDataAndType(apk,"application/vnd.android.package-archive");
-//            intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            android.os.Process.killProcess(android.os.Process.myPid());
-//            // 如果不加上这句的话在apk安装完成之后点击单开会崩溃
-//
-//            startActivity(intents);
-//
-//        }
 
     }
 }
