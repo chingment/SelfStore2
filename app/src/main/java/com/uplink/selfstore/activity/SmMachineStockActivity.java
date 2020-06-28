@@ -266,16 +266,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             TableRow tableRow = new TableRow(SmMachineStockActivity.this);
             int colLength = rowColLayout[i - 1];
 
-            boolean isPndantRow = false;
-            int[] cabinetPendantRows = dSCabRowColLayout.getPendantRows();
-            if (cabinetPendantRows != null) {
-                for (int z = 0; z < cabinetPendantRows.length; z++) {
-                    if (cabinetPendantRows[z] == (i - 1)) {
-                        isPndantRow = true;
-                        break;
-                    }
-                }
-            }
+//            boolean isPndantRow = false;
+//            int[] cabinetPendantRows = dSCabRowColLayout.getPendantRows();
+//            if (cabinetPendantRows != null) {
+//                for (int z = 0; z < cabinetPendantRows.length; z++) {
+//                    if (cabinetPendantRows[z] == (i - 1)) {
+//                        isPndantRow = true;
+//                        break;
+//                    }
+//                }
+//            }
 
             for (int j = colLength-1; j >=0; j--) {
                 //tv用于显示
@@ -293,11 +293,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 final String slotId = "r" + (i - 1) + "c" + j;
 
 
-                if (isPndantRow) {
-                    if (j == 0) {
-                        convertView.setVisibility(View.GONE);
-                    }
-                }
+//                if (isPndantRow) {
+//                    if (j == 0) {
+//                        convertView.setVisibility(View.GONE);
+//                    }
+//                }
 
 
                 txt_SlotId.setText(slotId);
