@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
 
 import java.io.File;

@@ -114,7 +114,7 @@ public class CustomSlotEditDialog extends Dialog {
                     case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
                         if (!customDialogRunning.isShowing()) {
                             customDialogRunning.showDialog();
-                            customDialogRunning.setProgressText("取货就绪成功");
+                            customDialogRunning.setProgressText(message);
                         }
                         break;
                     case 3://取货中
@@ -307,10 +307,6 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 _this.dismiss();
-
-                if(scannerCtrl !=null) {
-                    scannerCtrl.disConnect();
-                }
             }
         });
 

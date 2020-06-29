@@ -22,7 +22,6 @@ import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppCrashHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -38,8 +37,6 @@ import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
-import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
-import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;

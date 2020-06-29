@@ -1,33 +1,17 @@
 package com.uplink.selfstore.activity.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.CartActivity;
-import com.uplink.selfstore.activity.ProductDetailsActivity;
-import com.uplink.selfstore.activity.handler.CarOperateHandler;
-import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.ExHandleReasonBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
-import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ExHandleReasonAdapter extends BaseAdapter {

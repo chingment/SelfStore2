@@ -23,7 +23,6 @@ import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
-import com.uplink.selfstore.own.AppCrashHandler;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;

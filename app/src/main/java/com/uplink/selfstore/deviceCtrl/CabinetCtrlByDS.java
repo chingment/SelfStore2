@@ -186,7 +186,7 @@ public class CabinetCtrlByDS {
                 if(isConnect) {
                     sym.SN_MV_EmgStop();//急停
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -197,7 +197,13 @@ public class CabinetCtrlByDS {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    //关闭取货口
+
+                    sym.SN_MV_ManuProc(1, 0, 0);//打开取货们
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     sym.SN_MV_ManuProc(2, 0, 0);//关闭取货们
                 }
             }
@@ -559,13 +565,15 @@ public class CabinetCtrlByDS {
 
             for (int i = 0; i < 60; i++) {
 
-                boolean flag1 = false;
-                int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
-                if (rc_status1[0] == S_RC_SUCCESS) {
-                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
-                        flag1 = true;
-                    }
-                }
+                boolean flag1 = true;
+
+//                boolean flag1 = false;
+//                int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
+//                if (rc_status1[0] == S_RC_SUCCESS) {
+//                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+//                        flag1 = true;
+//                    }
+//                }
 
                 boolean flag2 = false;
                 int[] rc_status2 = sym.SN_MV_Get_FlowStatus();

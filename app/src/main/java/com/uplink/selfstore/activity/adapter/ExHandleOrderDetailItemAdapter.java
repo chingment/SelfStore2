@@ -16,7 +16,6 @@ import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
 
 import java.util.List;
-import java.util.Map;
 
 public class ExHandleOrderDetailItemAdapter  extends BaseAdapter {
 

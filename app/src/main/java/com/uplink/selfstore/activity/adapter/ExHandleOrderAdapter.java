@@ -13,7 +13,6 @@ import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.my.MyListView;
 
 import java.util.List;
-import java.util.Map;
 
 public class ExHandleOrderAdapter extends BaseAdapter {
 
