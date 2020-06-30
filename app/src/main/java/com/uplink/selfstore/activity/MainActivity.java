@@ -21,6 +21,8 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
+import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -57,6 +59,21 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         else {
             CameraWindow.show(this);
         }
+
+        /**
+         * 请求所有必要的权限----原理就是获取清单文件中申请的权限
+         */
+        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(this, new PermissionsResultAction() {
+            @Override
+            public void onGranted() {
+//              Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDenied(String permission) {
+                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@
     android:background="#000000"
     android:animateLayoutChanges="true" >
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,6 +17,7 @@
             android:id="@+id/opposite_surface"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
 
         <com.hyphenate.media.EMCallSurfaceView
             android:id="@+id/local_surface"
@@ -88,11 +90,11 @@
             android:visibility="gone"
             />
 
-        <Button
+        <ImageView
             android:id="@+id/btn_switch_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/callvideo_switch_camera"
+            android:src="@drawable/em_icon_speaker_normal"
             android:visibility="gone"
             android:layout_below="@id/btn_record_video"
             />

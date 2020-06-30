@@ -10,18 +10,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.hyphenate.chat.EMCallSession;
 import com.hyphenate.chat.EMCallStateChangeListener;
 import com.hyphenate.chat.EMClient;
@@ -41,6 +45,7 @@ import java.io.InputStream;
 import java.util.UUID;
 
 public class EmVideoCallActivity extends EmCallActivity implements View.OnClickListener {
+
 
     private boolean isMuteState;
     private boolean isHandsfreeState;
@@ -72,7 +77,6 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
 
     private Handler uiHandler;
 
-    //private String username;
     private boolean isInCalling;
     //    private Button recordBtn;
     private EMVideoCallHelper callHelper;
@@ -80,15 +84,20 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
     private Bitmap watermarkbitmap;
     private EMWaterMarkOption watermark;
 
-    private String ex_nickName;
+
+
+    private GridView custom_list_skus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(savedInstanceState != null){
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_easemobvideocall);
 
-        EMHelper.getInstance().isVideoCalling = true;
+        //DemoHelper.getInstance().isVideoCalling = true;
         callType = 1;
 
         getWindow().addFlags(
@@ -115,7 +124,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         bottomContainer = (LinearLayout) findViewById(R.id.ll_bottom_container);
         monitorTextView = (TextView) findViewById(R.id.tv_call_monitor);
         netwrokStatusVeiw = (TextView) findViewById(R.id.tv_network_status);
-        Button switchCameraBtn = (Button) findViewById(R.id.btn_switch_camera);
+        ImageView switchCameraBtn = (ImageView) findViewById(R.id.btn_switch_camera);
 
         refuseBtn.setOnClickListener(this);
         answerBtn.setOnClickListener(this);
@@ -125,15 +134,12 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         rootContainer.setOnClickListener(this);
         switchCameraBtn.setOnClickListener(this);
 
-
         msgid = UUID.randomUUID().toString();
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
-
         username = getIntent().getStringExtra("username");
         ex_message=getIntent().getStringExtra("ex_message");
-        ex_nickName=getIntent().getStringExtra("ex_nickName");
+        nickTextView.setText(username);
 
-        nickTextView.setText(ex_nickName);
 
         //获取水印图片
         if(EMPreferenceManager.getInstance().isWatermarkResolution()) {
@@ -184,10 +190,8 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
             voiceContronlLayout.setVisibility(View.INVISIBLE);
             localSurface.setVisibility(View.INVISIBLE);
             Uri ringUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-            if(audioManager!=null) {
-                audioManager.setMode(AudioManager.MODE_RINGTONE);
-                audioManager.setSpeakerphoneOn(true);
-            }
+            audioManager.setMode(AudioManager.MODE_RINGTONE);
+            audioManager.setSpeakerphoneOn(true);
             ringtone = RingtoneManager.getRingtone(this, ringUri);
             ringtone.play();
             EMClient.getInstance().callManager().setSurfaceView(localSurface, oppositeSurface);
@@ -289,7 +293,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 netwrokStatusVeiw.setVisibility(View.VISIBLE);
-                                netwrokStatusVeiw.setText(R.string.no_network_connection_toast);
+                                netwrokStatusVeiw.setText(R.string.network_unstable);
                             }
                         });
                         break;
@@ -355,9 +359,9 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                                         EMPhoneStateManager.get(EmVideoCallActivity.this).removeStateCallback(phoneStateCallback);
 
                                         saveCallRecord();
-                                        Animation animation = new AlphaAnimation(1.0f, 0.0f);
-                                        animation.setDuration(1200);
-                                        rootContainer.startAnimation(animation);
+                                        //Animation animation = new AlphaAnimation(1.0f, 0.0f);
+                                        //animation.setDuration(1200);
+                                        //rootContainer.startAnimation(animation);
                                         finish();
                                     }
 
@@ -533,7 +537,6 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                 callStateTextView.setText(getResources().getString(R.string.callvideo_hanging_up));
                 EMLog.d(TAG, "btn_hangup_call");
                 handler.sendEmptyMessage(MSG_CALL_END);
-                //finish();
                 break;
 
             case R.id.iv_mute: // mute
@@ -609,7 +612,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        EMHelper.getInstance().isVideoCalling = false;
+
         stopMonitor();
         localSurface.getRenderer().dispose();
         localSurface = null;

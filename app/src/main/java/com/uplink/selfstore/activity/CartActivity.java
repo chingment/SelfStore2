@@ -231,14 +231,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                             try {
 
                                             jsonExMessage.put("type","buyinfo");
-                                            jsonExMessage.put("machineId",getMachine().getId());
-                                            jsonExMessage.put("storeName",getMachine().getStoreName());
 
+                                            JSONObject jsonExMessageContent = new JSONObject();
+                                            jsonExMessageContent.put("machineId",getMachine().getId());
+                                            jsonExMessageContent.put("storeName",getMachine().getStoreName());
                                             JSONArray json_Skus = new JSONArray();
-
-                                            try {
                                                 for(String key : cartSkus.keySet()) {
-                                                    CartSkuBean bean=cartSkus.get(key);
+                                                    CartSkuBean bean = cartSkus.get(key);
                                                     JSONObject json_Sku = new JSONObject();
                                                     json_Sku.put("id", bean.getId());
                                                     json_Sku.put("name", bean.getName());
@@ -246,13 +245,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                                     json_Sku.put("quantity", bean.getQuantity());
                                                     json_Skus.put(json_Sku);
                                                 }
+                                                jsonExMessageContent.put("skus",json_Skus);
+                                                jsonExMessage.put("content",jsonExMessageContent);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
-                                            }
-
-                                            jsonExMessage.put("skus",json_Skus);
-                                            } catch (JSONException e) {
-
                                             }
 
                                             LogUtil.i(TAG,"jsonExMessage:"+jsonExMessage.toString());
