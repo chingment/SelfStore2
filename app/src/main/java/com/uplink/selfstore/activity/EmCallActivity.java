@@ -211,7 +211,7 @@ public class EmCallActivity extends SwipeBackActivity {
                                 } else if (e.getErrorCode() == EMError.NETWORK_ERROR) {
                                     st2 = getResources().getString(R.string.callvideo_can_not_connect_chat_server_connection);
                                 }
-                                Toast.makeText(EmCallActivity.this, st2, Toast.LENGTH_SHORT).show();
+                                showToast(st2);
                                 finish();
                             }
                         });

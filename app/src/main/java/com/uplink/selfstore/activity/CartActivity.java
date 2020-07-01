@@ -12,7 +12,11 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.hyphenate.EMCallBack;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMMessageBody;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
 import com.uplink.selfstore.activity.adapter.ImSeatAdapter;
@@ -223,7 +227,57 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                                         @Override
                                         public void onSuccess() {
-                                            Log.d(TAG, "login: onSuccess");
+                                            Log.d(TAG, "EMClient->login: onSuccess");
+
+
+                                            EMMessageListener msgListener = new EMMessageListener() {
+
+                                                @Override
+                                                public void onMessageReceived(List<EMMessage> messages) {
+                                                    //收到消息
+                                                    LogUtil.d("EMClient->EMMessage: onMessageReceived");
+                                                    for(int i=0;i<messages.size();i++) {
+                                                        int msgType=messages.get(i).getType().ordinal();
+                                                        if(msgType==EMMessage.Type.TXT.ordinal()) {
+                                                            EMTextMessageBody body = (EMTextMessageBody) messages.get(i).getBody();
+                                                            String message = body.getMessage();
+                                                            LogUtil.d("EMClient->EMMessage: onMessageReceived:" + message);
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCmdMessageReceived(List<EMMessage> messages) {
+                                                    //收到透传消息
+                                                    LogUtil.d("EMClient->EMMessage: onCmdMessageReceived");
+                                                }
+
+                                                @Override
+                                                public void onMessageRead(List<EMMessage> messages) {
+                                                    //收到已读回执
+                                                    LogUtil.d("EMClient->EMMessage: onMessageRead");
+                                                }
+
+                                                @Override
+                                                public void onMessageDelivered(List<EMMessage> message) {
+                                                    //收到已送达回执
+                                                    LogUtil.d("EMClient->EMMessage: onMessageDelivered");
+                                                }
+                                                @Override
+                                                public void onMessageRecalled(List<EMMessage> messages) {
+                                                    //消息被撤回
+                                                    LogUtil.d("EMClient->EMMessage: onMessageRecalled");
+                                                }
+
+                                                @Override
+                                                public void onMessageChanged(EMMessage message, Object change) {
+                                                    //消息状态变动
+                                                    LogUtil.d("EMClient->EMMessage: onMessageChanged");
+                                                }
+                                            };
+
+                                            EMClient.getInstance().chatManager().addMessageListener(msgListener);
+
 
 
                                             JSONObject jsonExMessage = new JSONObject();
@@ -258,16 +312,18 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                             intent.putExtra("ex_nickName",v.getNickName());
                                             intent.putExtra("ex_message",jsonExMessage.toString());
                                             startActivity(intent);
+
+
                                         }
 
                                         @Override
                                         public void onProgress(int progress, String status) {
-                                            Log.d(TAG, "login: onProgress");
+                                            Log.d(TAG, "EMClient->login: onProgress");
                                         }
 
                                         @Override
                                         public void onError(final int code, final String message) {
-                                            Log.d(TAG, "login: onError: " + code);
+                                            Log.d(TAG, "EMClient->login: onError: " + code);
                                         }
                                     });
                                 }
