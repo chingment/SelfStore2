@@ -46,7 +46,6 @@ import java.util.UUID;
 
 public class EmVideoCallActivity extends EmCallActivity implements View.OnClickListener {
 
-
     private boolean isMuteState;
     private boolean isHandsfreeState;
     private boolean isAnswered;
@@ -138,7 +137,8 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         isInComingCall = getIntent().getBooleanExtra("isComingCall", false);
         username = getIntent().getStringExtra("username");
         ex_message=getIntent().getStringExtra("ex_message");
-        nickTextView.setText(username);
+        ex_nickName=getIntent().getStringExtra("ex_nickName");
+        nickTextView.setText(ex_nickName);
 
 
         //获取水印图片
@@ -161,7 +161,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         // remote surfaceview
         oppositeSurface = (EMCallSurfaceView) findViewById(R.id.opposite_surface);
 
-        // set call state listener
+        // set call state listenerfoppositeSurface
         addCallStateListener();
         if (!isInComingCall) {// outgoing call
             soundPool = new SoundPool(1, AudioManager.STREAM_RING, 0);
@@ -290,12 +290,12 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                         });
                         break;
                     case NETWORK_DISCONNECTED:
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                netwrokStatusVeiw.setVisibility(View.VISIBLE);
-                                netwrokStatusVeiw.setText(R.string.network_unstable);
-                            }
-                        });
+//                        runOnUiThread(new Runnable() {
+//                            public void run() {
+//                                netwrokStatusVeiw.setVisibility(View.VISIBLE);
+//                                netwrokStatusVeiw.setText(R.string.network_unstable);
+//                            }
+//                        });
                         break;
                     case NETWORK_UNSTABLE:
                         runOnUiThread(new Runnable() {
@@ -589,18 +589,18 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
             break;
         */
             case R.id.root_layout:
-                if (callingState == CallingState.NORMAL) {
-                    if (bottomContainer.getVisibility() == View.VISIBLE) {
-                        bottomContainer.setVisibility(View.GONE);
-                        topContainer.setVisibility(View.GONE);
-                        oppositeSurface.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFill);
-
-                    } else {
-                        bottomContainer.setVisibility(View.VISIBLE);
-                        topContainer.setVisibility(View.VISIBLE);
-                        oppositeSurface.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFit);
-                    }
-                }
+//                if (callingState == CallingState.NORMAL) {
+//                    if (bottomContainer.getVisibility() == View.VISIBLE) {
+//                        bottomContainer.setVisibility(View.GONE);
+//                        topContainer.setVisibility(View.GONE);
+//                        oppositeSurface.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFill);
+//
+//                    } else {
+//                        bottomContainer.setVisibility(View.VISIBLE);
+//                        topContainer.setVisibility(View.VISIBLE);
+//                        oppositeSurface.setScaleMode(VideoView.EMCallViewScaleMode.EMCallViewScaleModeAspectFit);
+//                    }
+//                }
                 break;
             case R.id.btn_switch_camera: //switch camera
                 handler.sendEmptyMessage(MSG_CALL_SWITCH_CAMERA);

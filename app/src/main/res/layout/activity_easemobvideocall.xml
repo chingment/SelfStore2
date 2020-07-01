@@ -11,6 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#000000"
         android:id="@+id/layout_surface_container"
         >
         <com.hyphenate.media.EMCallSurfaceView
@@ -21,9 +22,9 @@
 
         <com.hyphenate.media.EMCallSurfaceView
             android:id="@+id/local_surface"
-            android:layout_width="100dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="96dp"
+            android:layout_width="@dimen/size_120"
+            android:layout_height="@dimen/size_140"
+            android:layout_marginTop="@dimen/size_96"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
 
@@ -48,10 +49,10 @@
                 android:id="@+id/tv_call_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+                android:paddingLeft="@dimen/size_12"
+                android:paddingRight="@dimen/size_12"
                 android:textColor="@color/callvideo_voip_interface_text_color"
-                android:textSize="22sp"
+                android:textSize="@dimen/sp_18"
                 android:visibility="visible" />
 
             <com.uplink.selfstore.ui.EasemobMyChronometer
@@ -73,22 +74,12 @@
                 android:id="@+id/tv_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/size_10"
                 android:text="张三"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="@dimen/sp_20"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
-
-        <!-- 演示视频录制功能 -->
-        <Button
-            android:id="@+id/btn_record_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/callvideo_recording_video"
-            android:layout_below="@id/ll_top_container"
-            android:visibility="gone"
-            />
 
         <ImageView
             android:id="@+id/btn_switch_camera"
@@ -96,16 +87,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/em_icon_speaker_normal"
             android:visibility="gone"
-            android:layout_below="@id/btn_record_video"
+            android:layout_below="@id/ll_top_container"
             />
-        <!--     <Button
-            android:layout_marginTop="3dp"
-            android:id="@+id/btn_toggle_video_stream"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="暂停视频"
-            android:layout_below="@id/btn_record_video"
-            /> -->
 
         <TextView
             android:id="@+id/tv_call_monitor"
@@ -195,17 +178,17 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" >
+                    android:layout_marginTop="@dimen/size_20" >
 
                     <Button
                         android:id="@+id/btn_hangup_call"
                         android:layout_width="fill_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="@dimen/size_45"
                         android:background="@drawable/em_call_hangup_bg"
                         android:gravity="center"
                         android:text="@string/callvideo_hang_up"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/sp_18"
                         android:visibility="invisible" />
 
                     <LinearLayout
@@ -245,8 +228,9 @@
         android:id="@+id/tv_network_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/size_20"
         android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_20"
         android:layout_centerInParent="true"
         />
 

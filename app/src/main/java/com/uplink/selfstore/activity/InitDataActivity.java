@@ -38,9 +38,12 @@ import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
@@ -170,7 +173,12 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                     loading_msg.setText(message);
 
                     LogBean log = new LogBean();
-                    log.setDateTime(DateUtil.getStringDate());
+
+                    Date currentTime = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS", Locale.CHINA);
+                    String dateString = sdf.format(currentTime);
+
+                    log.setDateTime(dateString);
                     log.setContent(message);
                     logs.add(log);
 

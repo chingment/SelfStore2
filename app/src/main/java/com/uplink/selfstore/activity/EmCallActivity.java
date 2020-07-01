@@ -62,6 +62,7 @@ public class EmCallActivity extends SwipeBackActivity {
     private EMWaterMarkOption wmOption;
 
     protected String ex_message;
+    protected String ex_nickName;
     /**
      * 0：voice call，1：video call
      */

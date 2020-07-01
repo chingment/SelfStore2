@@ -138,7 +138,7 @@ public class ScannerCtrl {
                     var15.printStackTrace();
                 }
 
-                Log.d(TAG, "进入读线程监听接收扫描数据");
+                //Log.d(TAG, "进入读线程监听接收扫描数据");
 
                 byte[] buffer = new byte[1024];
                 int size; //读取数据的大小
