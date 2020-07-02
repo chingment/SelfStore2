@@ -89,7 +89,56 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initEvent();
         initData();
         useClosePageCountTimer();
+
+
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
+
+    EMMessageListener msgListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+            //收到消息
+            LogUtil.d("EMClient->EMMessage: onMessageReceived");
+            for(int i=0;i<messages.size();i++) {
+                int msgType=messages.get(i).getType().ordinal();
+                if(msgType==EMMessage.Type.TXT.ordinal()) {
+                    EMTextMessageBody body = (EMTextMessageBody) messages.get(i).getBody();
+                    String message = body.getMessage();
+                    LogUtil.d("EMClient->EMMessage: onMessageReceived:" + message);
+                }
+            }
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> messages) {
+            //收到透传消息
+            LogUtil.d("EMClient->EMMessage: onCmdMessageReceived");
+        }
+
+        @Override
+        public void onMessageRead(List<EMMessage> messages) {
+            //收到已读回执
+            LogUtil.d("EMClient->EMMessage: onMessageRead");
+        }
+
+        @Override
+        public void onMessageDelivered(List<EMMessage> message) {
+            //收到已送达回执
+            LogUtil.d("EMClient->EMMessage: onMessageDelivered");
+        }
+        @Override
+        public void onMessageRecalled(List<EMMessage> messages) {
+            //消息被撤回
+            LogUtil.d("EMClient->EMMessage: onMessageRecalled");
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage message, Object change) {
+            //消息状态变动
+            LogUtil.d("EMClient->EMMessage: onMessageChanged");
+        }
+    };
 
     private void initView() {
         btn_back = findViewById(R.id.btn_back);
@@ -223,60 +272,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                 @Override
                                 public void call(ImSeatBean v){
 
+
                                     EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
 
                                         @Override
                                         public void onSuccess() {
                                             Log.d(TAG, "EMClient->login: onSuccess");
-
-
-                                            EMMessageListener msgListener = new EMMessageListener() {
-
-                                                @Override
-                                                public void onMessageReceived(List<EMMessage> messages) {
-                                                    //收到消息
-                                                    LogUtil.d("EMClient->EMMessage: onMessageReceived");
-                                                    for(int i=0;i<messages.size();i++) {
-                                                        int msgType=messages.get(i).getType().ordinal();
-                                                        if(msgType==EMMessage.Type.TXT.ordinal()) {
-                                                            EMTextMessageBody body = (EMTextMessageBody) messages.get(i).getBody();
-                                                            String message = body.getMessage();
-                                                            LogUtil.d("EMClient->EMMessage: onMessageReceived:" + message);
-                                                        }
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onCmdMessageReceived(List<EMMessage> messages) {
-                                                    //收到透传消息
-                                                    LogUtil.d("EMClient->EMMessage: onCmdMessageReceived");
-                                                }
-
-                                                @Override
-                                                public void onMessageRead(List<EMMessage> messages) {
-                                                    //收到已读回执
-                                                    LogUtil.d("EMClient->EMMessage: onMessageRead");
-                                                }
-
-                                                @Override
-                                                public void onMessageDelivered(List<EMMessage> message) {
-                                                    //收到已送达回执
-                                                    LogUtil.d("EMClient->EMMessage: onMessageDelivered");
-                                                }
-                                                @Override
-                                                public void onMessageRecalled(List<EMMessage> messages) {
-                                                    //消息被撤回
-                                                    LogUtil.d("EMClient->EMMessage: onMessageRecalled");
-                                                }
-
-                                                @Override
-                                                public void onMessageChanged(EMMessage message, Object change) {
-                                                    //消息状态变动
-                                                    LogUtil.d("EMClient->EMMessage: onMessageChanged");
-                                                }
-                                            };
-
-                                            EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
 
 
@@ -443,6 +444,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         if (taskByCheckPayTimeout != null) {
             taskByCheckPayTimeout.cancel();
+        }
+
+        if(msgListener!=null){
+            EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         }
     }
 
