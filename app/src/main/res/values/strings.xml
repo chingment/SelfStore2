@@ -139,6 +139,7 @@
     <string name="callvideo_hang_up">挂断</string>
     <string name="callvideo_hanging_up">正在挂断……</string>
     <string name="callvideo_answer">接听</string>
+    <string name="callvideo_switch">切换</string>
     <string name="callvideo_the_other_is_hang_up">对方已经挂断</string>
     <string name="callvideo_the_other_is_not_online">对方不在线</string>
     <string name="callvideo_is_not_yet_connected_to_the_server">尚未连接至服务器</string>
