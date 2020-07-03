@@ -14,6 +14,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCustomMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.chat.EMTextMessageBody;
@@ -102,10 +103,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             LogUtil.d("EMClient->EMMessage: onMessageReceived");
             for(int i=0;i<messages.size();i++) {
                 int msgType=messages.get(i).getType().ordinal();
-                if(msgType==EMMessage.Type.TXT.ordinal()) {
-                    EMTextMessageBody body = (EMTextMessageBody) messages.get(i).getBody();
-                    String message = body.getMessage();
-                    LogUtil.d("EMClient->EMMessage: onMessageReceived:" + message);
+                LogUtil.d("EMClient->EMMessage: onMessageReceived:msgType:" + msgType);
+                if(msgType==EMMessage.Type.CUSTOM.ordinal()) {
+                    EMCustomMessageBody body = (EMCustomMessageBody) messages.get(i).getBody();
+                    String type = body.getParams().get("type");
+                    String content = body.getParams().get("content");
+                    LogUtil.d("EMClient->EMMessage: onMessageReceived:type:" + type);
+                    LogUtil.d("EMClient->EMMessage: onMessageReceived:content:" + content);
                 }
             }
         }
