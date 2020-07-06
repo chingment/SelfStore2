@@ -127,6 +127,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                     if (rt.getHandleStatus() == 1) {
                                         paySend(payOption);
                                     }
+                                    else if(rt.getHandleStatus()==2) {
+                                        showToast("不同意购买");
+                                    }
                                 }
                             }
                         }
