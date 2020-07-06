@@ -1,0 +1,117 @@
+package com.uplink.selfstore.ui.dialog;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.uplink.selfstore.R;
+import com.uplink.selfstore.utils.LogUtil;
+
+public class CustomHandlingDialog extends Dialog {
+
+    private View layoutRes;// 布局文件
+    private Context mContext;
+    private Dialog _this;
+    private TextView txt_tips;//等待提示
+    private TextView txt_seconds;//等待秒数
+    private LinearLayout btn_close;
+    private CustomConfirmDialog dialog_ConfirmClose;
+    private CountDownTimer countDownTimer;
+    public CustomHandlingDialog(Context context,int seconds,String tips) {
+        super(context, R.style.dialog_style);
+
+        _this=this;
+        mContext = context;
+        layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_handling, null);
+
+        btn_close = (LinearLayout) this.layoutRes.findViewById(R.id.btn_close);
+        txt_seconds = (TextView) this.layoutRes.findViewById(R.id.txt_seconds);
+        txt_seconds.setText(String.valueOf(seconds) + "'");
+        txt_tips = (TextView) this.layoutRes.findViewById(R.id.txt_tips);
+        txt_tips.setText(tips);
+
+        dialog_ConfirmClose = new CustomConfirmDialog(context,"确定要退出等候？" , true);
+        dialog_ConfirmClose.getTipsImage().setVisibility(View.GONE);
+        dialog_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_ConfirmClose.hide();
+                _this.hide();
+            }
+        });
+
+        dialog_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_ConfirmClose.hide();
+            }
+        });
+
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_ConfirmClose.show();
+            }
+        });
+
+        countDownTimer = new CountDownTimer(seconds * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = (millisUntilFinished / 1000);
+                LogUtil.i("处理倒计时倒计时:" + seconds);
+                txt_seconds.setText(seconds + "'");
+            }
+
+            @Override
+            public void onFinish() {
+                _this.hide();
+            }
+        };
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setContentView(layoutRes);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        countDownTimer.cancel();
+        countDownTimer.start();
+    }
+
+    @Override
+    public void hide() {
+        super.hide();
+
+        if(dialog_ConfirmClose!=null&&dialog_ConfirmClose.isShowing()) {
+            dialog_ConfirmClose.hide();
+        }
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
+
+    @Override
+    public void cancel(){
+        super.cancel();
+
+        if(dialog_ConfirmClose!=null&&dialog_ConfirmClose.isShowing()) {
+            dialog_ConfirmClose.cancel();
+        }
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+    }
+
+}

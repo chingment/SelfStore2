@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -69,7 +70,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
     private TextView call_tv_nickname;
     private TextView call_tv_networkstatus;
     private Chronometer call_chm_tick;
-
+    private TextView call_tv_is_p2p;
     private Button call_btn_hangup;
     private LinearLayout call_coming_ll;
     private Button call_coming_btn_refusecall;
@@ -116,6 +117,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
         call_tv_monitor = (TextView) findViewById(R.id.call_tv_monitor);
         call_tv_nickname = (TextView) findViewById(R.id.call_tv_nickname);
         call_tv_networkstatus = (TextView) findViewById(R.id.call_tv_networkstatus);
+        call_tv_is_p2p= (TextView) findViewById(R.id.call_tv_is_p2p);
 
         call_btn_hangup = (Button) findViewById(R.id.call_btn_hangup);
         call_btn_hangup.setOnClickListener(this);
@@ -295,7 +297,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                                 } catch (Exception e) {
                                 }
                                 openSpeakerOn();
-                                ((TextView)findViewById(R.id.call_tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+                                call_tv_is_p2p.setText(EMClient.getInstance().callManager().isDirectCall()
                                         ? R.string.callvideo_direct_call : R.string.callvideo_relay_call);
                                 iv_handsfree.setImageResource(R.drawable.em_icon_speaker_on);
                                 isHandsfreeState = true;
@@ -385,6 +387,12 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                                         EMPhoneStateManager.get(EmVideoCallActivity.this).removeStateCallback(phoneStateCallback);
 
                                         saveCallRecord();
+
+                                        Intent intent=new Intent();
+
+                                        intent.putExtra("surface_state",surface_state);
+
+                                        setResult(0x001,intent);
 
                                         finish();
 
@@ -642,7 +650,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                                     + "\nRemoteBitrate：" + callHelper.getRemoteBitrate()
                                     + "\n" + recordString);
 
-                            ((TextView)findViewById(R.id.call_tv_is_p2p)).setText(EMClient.getInstance().callManager().isDirectCall()
+                            call_tv_is_p2p.setText(EMClient.getInstance().callManager().isDirectCall()
                                     ? R.string.callvideo_direct_call : R.string.callvideo_relay_call);
                         }
                     });

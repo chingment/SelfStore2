@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/size_5"
                 android:gravity="center_horizontal"
                 android:orientation="vertical" >
 
@@ -41,17 +41,18 @@
                     android:id="@+id/call_tv_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
+                    android:paddingLeft="@dimen/size_12"
+                    android:paddingRight="@dimen/size_12"
                     android:textColor="@color/callvideo_voip_interface_text_color"
-                    android:textSize="22sp"
+                    android:textSize="@dimen/sp_18"
                     android:visibility="visible" />
 
                 <com.uplink.selfstore.ui.EasemobMyChronometer
                     android:id="@+id/call_chm_tick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chronometer"
+                    android:text=""
+                    android:textSize="@dimen/sp_16"
                     android:textColor="#fff"
                     android:visibility="invisible" />
 
@@ -59,6 +60,7 @@
                     android:id="@+id/call_tv_is_p2p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:textColor="#fff" />
 
                 <TextView
@@ -68,13 +70,14 @@
                     android:layout_marginTop="10dp"
                     android:text="张三"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/sp_20" />
 
                 <TextView
                     android:id="@+id/call_tv_networkstatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@@dimen/size_10"
+                    android:textSize="@dimen/sp_16"
                     android:textColor="@android:color/white"
                     android:layout_centerInParent="true"
                     />
@@ -88,8 +91,8 @@
                 android:layout_above="@+id/surface_sv_local"
                 android:layout_alignParentRight="true"
                 android:textColor="#afff"
-                android:textSize="12sp"
-                android:layout_marginBottom="6dp"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginBottom="@dimen/size_6"
                 />
 
         </RelativeLayout>

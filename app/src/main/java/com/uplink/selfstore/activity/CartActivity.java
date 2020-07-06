@@ -16,8 +16,6 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCustomMessageBody;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMMessageBody;
-import com.hyphenate.chat.EMTextMessageBody;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CartSkuAdapter;
 import com.uplink.selfstore.activity.adapter.ImSeatAdapter;
@@ -37,10 +35,13 @@ import com.uplink.selfstore.model.api.OrderReserveResultBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.TerminalPayOptionBean;
+import com.uplink.selfstore.model.chat.CustomMsg;
+import com.uplink.selfstore.model.chat.MsgContentByBuyInfo;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomHandlingDialog;
 import com.uplink.selfstore.ui.dialog.CustomImSeatListDialog;
 import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
 import com.uplink.selfstore.ui.my.MyListView;
@@ -50,14 +51,11 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
-import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
-import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -74,12 +72,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private MyListView list_skus;
     private View list_empty_tip;
     private CustomScanPayDialog dialog_ScanPay;
-    private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
-    private CountDownTimer taskByCheckPayTimeout;
+    //private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
+    //private CountDownTimer taskByCheckPayTimeout;
     public static String LAST_ORDERID;
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
     private CustomImSeatListDialog customImSeatListDialog;
 
+    private CustomHandlingDialog customHandlingDialog;
+
+    private  TerminalPayOptionBean payOption;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +92,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initData();
         useClosePageCountTimer();
 
-
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
@@ -99,19 +99,44 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
-            //收到消息
-            LogUtil.d("EMClient->EMMessage: onMessageReceived");
-            for(int i=0;i<messages.size();i++) {
-                int msgType=messages.get(i).getType().ordinal();
-                LogUtil.d("EMClient->EMMessage: onMessageReceived:msgType:" + msgType);
-                if(msgType==EMMessage.Type.CUSTOM.ordinal()) {
-                    EMCustomMessageBody body = (EMCustomMessageBody) messages.get(i).getBody();
-                    String type = body.getParams().get("type");
-                    String content = body.getParams().get("content");
-                    LogUtil.d("EMClient->EMMessage: onMessageReceived:type:" + type);
-                    LogUtil.d("EMClient->EMMessage: onMessageReceived:content:" + content);
+
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+
+                    //收到消息
+                    LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived");
+                    for (int i = 0; i < messages.size(); i++) {
+                        int msgType = messages.get(i).getType().ordinal();
+                        LogUtil.d("EMClient->EMMessage: onMessageReceived:msgType:" + msgType);
+                        if (msgType == EMMessage.Type.CUSTOM.ordinal()) {
+                            EMCustomMessageBody body = (EMCustomMessageBody) messages.get(i).getBody();
+                            String type = body.getParams().get("type");
+                            String content = body.getParams().get("content");
+                            LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived:type:" + type);
+                            LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived:content:" + content);
+
+                            customHandlingDialog.hide();
+
+                            if (type.equals("buyinfo")) {
+                                MsgContentByBuyInfo rt = JSON.parseObject(content, new TypeReference<MsgContentByBuyInfo>() {
+                                });
+
+                                if (rt != null) {
+                                    if (rt.getHandleStatus() == 1) {
+                                        paySend(payOption);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
-            }
+
+            });
+
+
         }
 
         @Override
@@ -175,63 +200,38 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         list_skus.setPressed(false);
         list_skus.setEnabled(false);
         list_empty_tip = findViewById(R.id.list_empty_tip);
-        dialog_ScanPay = new CustomScanPayDialog(CartActivity.this);
 
-        dialog_ScanPay.getBtnClose().setOnClickListener(new View.OnClickListener() {
+        dialog_ScanPay = new CustomScanPayDialog(CartActivity.this, 120, new CustomScanPayDialog.IHanldeListener() {
             @Override
-            public void onClick(View v) {
-                dialog_ScanPay_ConfirmClose.show();
+            public void onShow() {
+                closePageCountTimerStop();
             }
-        });
 
-
-        dialog_ScanPay_ConfirmClose = new CustomConfirmDialog(CartActivity.this, getAppContext().getString(R.string.aty_cart_confirmtips_payclose), true);
-        dialog_ScanPay_ConfirmClose.getTipsImage().setVisibility(View.GONE);
-
-        dialog_ScanPay_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancleClose() {
                 closePageCountTimerStart();
-                dialog_ScanPay_ConfirmClose.dismiss();
-                dialog_ScanPay.dismiss();
-                orderCancle(LAST_ORDERID,1, "取消订单");
-                taskByCheckPayTimeout.cancel();
+            }
+
+            @Override
+            public void onSureClose() {
+                closePageCountTimerStart();
+                orderCancle(LAST_ORDERID, 1, "取消订单");
                 LAST_ORDERID = "";
             }
-        });
 
-        dialog_ScanPay_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                closePageCountTimerStart();
-                dialog_ScanPay_ConfirmClose.dismiss();
-            }
-        });
-
-        taskByCheckPayTimeout = new CountDownTimer(120 * 1000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long seconds = (millisUntilFinished / 1000);
-                LogUtil.i("支付倒计时:" + seconds);
-                dialog_ScanPay.getPaySecondsText().setText(seconds + "'");
+            public void onTimeTick() {
                 payStatusQuery();
             }
 
             @Override
-            public void onFinish() {
+            public void onTimeFinish() {
                 closePageCountTimerStart();
-
-                orderCancle(LAST_ORDERID,1,"支付超时");
-
-                if (dialog_ScanPay != null && dialog_ScanPay.isShowing()) {
-                    dialog_ScanPay.dismiss();
-                }
-                if (dialog_ScanPay_ConfirmClose != null && dialog_ScanPay_ConfirmClose.isShowing()) {
-                    dialog_ScanPay_ConfirmClose.dismiss();
-                }
+                orderCancle(LAST_ORDERID, 1, "支付超时");
+                LAST_ORDERID = "";
             }
-        };
 
+        });
 
         customImSeatListDialog = new CustomImSeatListDialog(CartActivity.this);
         customImSeatListDialog.setOnLinster(new CustomImSeatListDialog.OnLinster() {
@@ -245,8 +245,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 JSONArray json_Skus = new JSONArray();
 
                 try {
-                    for(String key : cartSkus.keySet()) {
-                        CartSkuBean bean=cartSkus.get(key);
+                    for (String key : cartSkus.keySet()) {
+                        CartSkuBean bean = cartSkus.get(key);
                         JSONObject json_Sku = new JSONObject();
                         json_Sku.put("id", bean.getId());
                         json_Sku.put("quantity", bean.getQuantity());
@@ -258,7 +258,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     return;
                 }
 
-                params.put("productSkus",json_Skus);
+                params.put("productSkus", json_Skus);
 
                 postByMy(Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
@@ -272,9 +272,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                             ImServiceSeatsRealtBean d = rt.getData();
 
                             ImSeatAdapter imSeatAdapter = new ImSeatAdapter(CartActivity.this, d.getSeats());
-                            imSeatAdapter.setOnLinster(new ImSeatAdapter.OnItemListener(){
+                            imSeatAdapter.setOnLinster(new ImSeatAdapter.OnItemListener() {
                                 @Override
-                                public void call(ImSeatBean v){
+                                public void call(ImSeatBean v) {
 
 
                                     EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
@@ -284,18 +284,17 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                             Log.d(TAG, "EMClient->login: onSuccess");
 
 
-
                                             JSONObject jsonExMessage = new JSONObject();
 
                                             try {
 
-                                            jsonExMessage.put("type","buyinfo");
+                                                jsonExMessage.put("type", "buyinfo");
 
-                                            JSONObject jsonExMessageContent = new JSONObject();
-                                            jsonExMessageContent.put("machineId",getMachine().getId());
-                                            jsonExMessageContent.put("storeName",getMachine().getStoreName());
-                                            JSONArray json_Skus = new JSONArray();
-                                                for(String key : cartSkus.keySet()) {
+                                                JSONObject jsonExMessageContent = new JSONObject();
+                                                jsonExMessageContent.put("machineId", getMachine().getId());
+                                                jsonExMessageContent.put("storeName", getMachine().getStoreName());
+                                                JSONArray json_Skus = new JSONArray();
+                                                for (String key : cartSkus.keySet()) {
                                                     CartSkuBean bean = cartSkus.get(key);
                                                     JSONObject json_Sku = new JSONObject();
                                                     json_Sku.put("id", bean.getId());
@@ -304,20 +303,20 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                                     json_Sku.put("quantity", bean.getQuantity());
                                                     json_Skus.put(json_Sku);
                                                 }
-                                                jsonExMessageContent.put("skus",json_Skus);
-                                                jsonExMessage.put("content",jsonExMessageContent);
+                                                jsonExMessageContent.put("skus", json_Skus);
+                                                jsonExMessage.put("content", jsonExMessageContent);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
 
-                                            LogUtil.i(TAG,"jsonExMessage:"+jsonExMessage.toString());
-                                            Intent intent=new Intent(CartActivity.this, EmVideoCallActivity.class);
-                                            intent.putExtra("username",v.getImUserName());
-                                            intent.putExtra("isComingCall",false);
-                                            intent.putExtra("ex_nickName",v.getNickName());
-                                            intent.putExtra("ex_message",jsonExMessage.toString());
-                                            startActivity(intent);
+                                            LogUtil.i(TAG, "jsonExMessage:" + jsonExMessage.toString());
+                                            Intent intent = new Intent(CartActivity.this, EmVideoCallActivity.class);
+                                            intent.putExtra("username", v.getImUserName());
+                                            intent.putExtra("isComingCall", false);
+                                            intent.putExtra("ex_nickName", v.getNickName());
+                                            intent.putExtra("ex_message", jsonExMessage.toString());
 
+                                            startActivityForResult(intent, 0x002);
 
                                         }
 
@@ -351,6 +350,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
             }
         });
+        customHandlingDialog = new CustomHandlingDialog(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候");
     }
 
     private void initEvent() {
@@ -406,6 +406,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 case R.id.btn_pay_z_zhifubao:
                 case R.id.btn_pay_z_aggregate:
 
+                    payOption=(TerminalPayOptionBean)v.getTag();
+
                     boolean isHasVieoService=false;
                     LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
                     for (String key : cartSkus.keySet()) {
@@ -421,7 +423,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                         return;
                     }
 
-                    TerminalPayOptionBean payOption=(TerminalPayOptionBean)v.getTag();
                     paySend(payOption);
                     break;
             }
@@ -442,17 +443,38 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             dialog_ScanPay.cancel();
         }
 
-        if (dialog_ScanPay_ConfirmClose != null && dialog_ScanPay_ConfirmClose.isShowing()) {
-            dialog_ScanPay_ConfirmClose.cancel();
+        if(customImSeatListDialog!=null&&customImSeatListDialog.isShowing()) {
+            customImSeatListDialog.cancel();
         }
 
-        if (taskByCheckPayTimeout != null) {
-            taskByCheckPayTimeout.cancel();
+        if(customHandlingDialog!=null&&customHandlingDialog.isShowing()) {
+            customHandlingDialog.cancel();
         }
 
         if(msgListener!=null){
             EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==0x002) {
+            if (resultCode == 0x001) {
+                int surface_state = data.getIntExtra("surface_state",0);
+                LogUtil.d(TAG,"requestCode:"+requestCode);
+                LogUtil.d(TAG,"resultCode:"+resultCode);
+                LogUtil.d(TAG,"surface_state:"+surface_state);
+
+                if(surface_state==0) {//表示有通话记录
+                    customImSeatListDialog.hide();
+                    customHandlingDialog.show();
+                }
+            }
+        }
+
+
     }
 
     private  void  buildBayParams(final String orderId, final TerminalPayOptionBean payOption) {
@@ -471,10 +493,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                     OrderBuildPayParamsResultBean d = rt.getData();
 
-                    taskByCheckPayTimeout.start();
+                    //taskByCheckPayTimeout.start();
                     LAST_ORDERID=orderId;
                     dialog_ScanPay.setPayWayQrcode(payOption,d.getPayUrl(),d.getChargeAmount());
-                    closePageCountTimerStop();
                     dialog_ScanPay.show();
 
                 } else {
@@ -500,7 +521,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", this.getMachine().getId() + "");
+        params.put("machineId", getMachine().getId() + "");
         params.put("payPartner", payOption.getPartner() + "");
         params.put("payCaller", payOption.getCaller() + "");
 
@@ -585,13 +606,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             synchronized(CartActivity.class) {
                 if (!ordersPaySuccess.containsKey(LAST_ORDERID)) {
                     ordersPaySuccess.put(LAST_ORDERID, true);
-                    if (taskByCheckPayTimeout != null) {
-                        taskByCheckPayTimeout.cancel();
-                    }
+//                    if (taskByCheckPayTimeout != null) {
+//                        taskByCheckPayTimeout.cancel();
+//                    }
                     AppCacheManager.setCartSkus(null);
                     Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
                     Bundle bundle = new Bundle();
-
                     OrderDetailsBean orderDetails = new OrderDetailsBean();
                     orderDetails.setId(bean.getId());
                     orderDetails.setStatus(bean.getStatus());
