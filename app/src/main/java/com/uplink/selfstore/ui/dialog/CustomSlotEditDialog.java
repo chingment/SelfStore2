@@ -86,7 +86,7 @@ public class CustomSlotEditDialog extends Dialog {
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
-        mThis=this;
+        mThis = this;
         mContext = (SmMachineStockActivity) context;
         mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
@@ -94,13 +94,13 @@ public class CustomSlotEditDialog extends Dialog {
         initEvent();
         initData();
 
-        cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+        cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
 
                 String slotId = String.valueOf(txt_SlotName.getText());
-                String productSkuId=String.valueOf(txt_SkuId.getText());
+                String productSkuId = String.valueOf(txt_SkuId.getText());
 
                 Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
@@ -111,39 +111,39 @@ public class CustomSlotEditDialog extends Dialog {
                 }
                 switch (status) {
                     case 1://消息提示
-                            dialog_Running.hide();
+                        dialog_Running.hide();
                         mContext.showToast(message);
                         break;
                     case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
-                            dialog_Running.setProgressText(message);
-                            dialog_Running.show();
+                        dialog_Running.setProgressText(message);
+                        dialog_Running.show();
                         break;
                     case 3://取货中
+                        dialog_Running.setProgressText("正在取货中..请稍等");
                         if (pickupResult != null) {
-                                dialog_Running.setProgressText("正在取货中..请稍等");
-                                pickupEventNotify(productSkuId,slotId,3012,"发起取货",pickupResult);
+                            pickupEventNotify(productSkuId, slotId, 3012, "发起取货", pickupResult);
                         }
                         break;
                     case 4://取货成功
+                        dialog_Running.hide();
                         if (pickupResult != null) {
                             if (pickupResult.isPickupComplete()) {
-                                    dialog_Running.hide();
                                 mContext.showToast("取货完成");
-                                pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
+                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", pickupResult);
                             }
                         }
                         break;
                     case 5://取货超时
-                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickuptest");
-                            dialog_Running.hide();
-                        pickupEventNotify(productSkuId,slotId,6000,"取货超时",pickupResult);
+                        dialog_Running.hide();
+                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
+                        pickupEventNotify(productSkuId, slotId, 6000, "取货超时", pickupResult);
                         mContext.showToast(message);
                         LogUtil.e("取货超时");
                         break;
                     case 6://取货失败
+                        dialog_Running.hide();
                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
-                            dialog_Running.hide();
-                        pickupEventNotify(productSkuId,slotId,6000,"取货失败",pickupResult);
+                        pickupEventNotify(productSkuId, slotId, 6000, "取货失败", pickupResult);
                         mContext.showToast(message);
                         LogUtil.e("取货失败");
                         break;
@@ -152,7 +152,7 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-        cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
+        cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
         cabinetCtrlByZS.setHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -167,12 +167,12 @@ public class CustomSlotEditDialog extends Dialog {
                         String message = bundle.getString("message");
                         switch (status) {
                             case 1://消息提示
-                                    dialog_Running.hide();
+                                dialog_Running.hide();
                                 mContext.showToast(message);
                                 break;
                             case 2://启动就绪成功
-                                    dialog_Running.setProgressText("取货就绪成功");
-                                    dialog_Running.show();
+                                dialog_Running.setProgressText("取货就绪成功");
+                                dialog_Running.show();
                                 break;
 //                            case 3://取货中
 //                                if (customDialogRunning != null) {
@@ -206,7 +206,7 @@ public class CustomSlotEditDialog extends Dialog {
 
                                 break;
                             case 5://取货超时
-                                    dialog_Running.hide();
+                                dialog_Running.hide();
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货超时", null);
                                 LogUtil.e("取货超时");
@@ -226,7 +226,7 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-        if(mContext.getMachine().getScanner().getUse()) {
+        if (mContext.getMachine().getScanner().getUse()) {
             scannerCtrl = ScannerCtrl.getInstance();
             scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
                         @Override
