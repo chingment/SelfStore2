@@ -34,7 +34,7 @@ import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
+import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -63,7 +63,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private CabinetCtrlByZS cabinetCtrlByZS;
     private ScannerCtrl scannerCtrl;
 
-    private CustomDialogLoading dialog_Running;
+    private CustomLoadingDialog dialog_Running;
 
     private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
@@ -169,7 +169,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         txt_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
-        dialog_Running = new CustomDialogLoading(this);
+        dialog_Running = new CustomLoadingDialog(this);
 
 
         switch (cabinet.getModelNo())

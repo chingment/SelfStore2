@@ -119,8 +119,6 @@ public class CustomFingerVeinDialog extends Dialog {
     public  void  cancel(){
         super.cancel();
         mFingerVeinnerCtrl.disConnect(mContext);
-
-
     }
     @Override
     public void show() {

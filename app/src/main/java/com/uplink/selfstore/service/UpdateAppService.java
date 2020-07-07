@@ -24,7 +24,7 @@ import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
-import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
+import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class UpdateAppService extends Service {
     private DownloadManager manager;
     private DownloadCompleteReceiver receiver;
     private Handler handler_msg;
-    private CustomDialogLoading customDialogLoading;
+    private CustomLoadingDialog customDialogLoading;
     private CommandReceiver cmdReceiver;
 
     private void downloadManagerApk(String downpath) {
@@ -103,7 +103,7 @@ public class UpdateAppService extends Service {
                 {
                     case  1:
                         if(customDialogLoading==null) {
-                            customDialogLoading = new CustomDialogLoading(AppManager.getAppManager().currentActivity());
+                            customDialogLoading = new CustomLoadingDialog(AppManager.getAppManager().currentActivity());
                         }
                         customDialogLoading.setProgressText("系统正在更新中....");
                             customDialogLoading.show();

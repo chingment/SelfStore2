@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,7 +37,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
-import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
+import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -62,7 +61,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public static final String mJpush_KEY_TITLE = "title";
     public static final String mJpush_KEY_MESSAGE = "message";
     public static final String mJpush_KEY_EXTRAS = "extras";
-    private CustomDialogLoading dialog_Loading;
+    private CustomLoadingDialog dialog_Loading;
     private CustomSystemWarnDialog dialog_SystemWarn;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
@@ -224,7 +223,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
 
         appContext = (AppContext) getApplication();
-        dialog_Loading = new CustomDialogLoading(this);
+        dialog_Loading = new CustomLoadingDialog(this);
         dialog_SystemWarn = new CustomSystemWarnDialog(this);
 
 

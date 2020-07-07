@@ -9,9 +9,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomDialogLoading extends Dialog {
+public class CustomLoadingDialog extends Dialog {
 
-	public CustomDialogLoading(Context context) {
+	public CustomLoadingDialog(Context context) {
 		super(context,R.style.dialog_style);
 		this.context = context;
 		initDialog(context);

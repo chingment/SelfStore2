@@ -2,7 +2,6 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,7 +34,6 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SearchProductSkuBean;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppCrashHandler;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
@@ -84,7 +82,7 @@ public class CustomSlotEditDialog extends Dialog {
     private ScannerCtrl scannerCtrl;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
-    private CustomDialogLoading dialog_Running;
+    private CustomLoadingDialog dialog_Running;
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
@@ -278,7 +276,7 @@ public class CustomSlotEditDialog extends Dialog {
         btn_decreasebymax = ViewHolder.get(mLayoutRes, R.id.btn_decreasebymax);
         btn_increasebymax = ViewHolder.get(mLayoutRes, R.id.btn_increasebymax);
 
-        dialog_Running = new CustomDialogLoading(this.mContext);
+        dialog_Running = new CustomLoadingDialog(this.mContext);
 
     }
 
@@ -675,4 +673,12 @@ public class CustomSlotEditDialog extends Dialog {
         }
     }
 
+    @Override
+    public void cancel(){
+        super.cancel();
+
+        if(dialog_Running!=null){
+            dialog_Running.cancel();
+        }
+    }
 }
