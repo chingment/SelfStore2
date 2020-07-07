@@ -462,7 +462,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 LogUtil.d(TAG,"requestCode:"+requestCode);
                 LogUtil.d(TAG,"resultCode:"+resultCode);
                 LogUtil.d(TAG,"surface_state:"+surface_state);
-
                 if(surface_state==0) {//表示有通话记录
                     dialog_ImSeatList.hide();
                     dialog_Handling.show();
@@ -470,10 +469,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             }
         }
 
-
     }
 
-    private  void  buildBayParams(final String orderId, final TerminalPayOptionBean payOption) {
+    private void buildBayParams(final String orderId, final TerminalPayOptionBean payOption) {
         Map<String, Object> params = new HashMap<>();
         params.put("orderId", orderId);
         params.put("payPartner", payOption.getPartner() + "");
@@ -508,7 +506,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     }
 
-    private  void  paySend(final TerminalPayOptionBean payOption) {
+    private void paySend(final TerminalPayOptionBean payOption) {
 
         LinkedHashMap<String, CartSkuBean>  cartSkus = AppCacheManager.getCartSkus();
         if (cartSkus == null || cartSkus.size() <= 0) {
@@ -593,7 +591,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         });
     }
 
-    public  void  doPaySuccess(OrderPayStatusQueryResultBean bean) {
+    public void doPaySuccess(OrderPayStatusQueryResultBean bean) {
         if (bean == null)
             return;
         //4 为 已完成支付

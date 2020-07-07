@@ -42,6 +42,25 @@
         </LinearLayout>
 
 
+        <LinearLayout
+            android:paddingStart="@dimen/size_10"
+            android:paddingEnd="@dimen/size_10"
+            android:paddingTop="@dimen/size_10"
+            android:paddingBottom="@dimen/size_10"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/colorPrimary"
+                android:text="您购买的商品需视频咨询后，才能支付"
+                android:lineSpacingExtra="@dimen/size_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
         <com.uplink.selfstore.ui.my.MyScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"

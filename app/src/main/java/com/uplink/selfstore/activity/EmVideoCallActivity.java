@@ -347,28 +347,28 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                     case VIDEO_PAUSE:
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "VIDEO_PAUSE", Toast.LENGTH_SHORT).show();
+                                showToast("VIDEO_PAUSE");
                             }
                         });
                         break;
                     case VIDEO_RESUME:
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "VIDEO_RESUME", Toast.LENGTH_SHORT).show();
+                                showToast("VIDEO_RESUME");
                             }
                         });
                         break;
                     case VOICE_PAUSE:
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "VOICE_PAUSE", Toast.LENGTH_SHORT).show();
+                                showToast( "VOICE_PAUSE");
                             }
                         });
                         break;
                     case VOICE_RESUME:
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "VOICE_RESUME", Toast.LENGTH_SHORT).show();
+                                showToast("VOICE_RESUME");
                             }
                         });
                         break;
@@ -472,7 +472,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                                         }
                                     }
                                 }
-                                Toast.makeText(EmVideoCallActivity.this, call_tv_state.getText(), Toast.LENGTH_SHORT).show();
+                                showToast(call_tv_state.getText()+"");
                                 postDelayedCloseMsg();
                             }
                         });
