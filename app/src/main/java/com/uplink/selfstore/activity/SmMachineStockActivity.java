@@ -102,7 +102,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 1:
                                 showToast(message);
                                 if (dialog_Running != null&&dialog_Running.isShowing()) {
-                                    dialog_Running.hide();
+                                    dialog_Running.dismiss();
                                 }
                                 break;
                             case 2://启动就绪
@@ -130,7 +130,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(5000, "扫描超时");
                                 if (dialog_Running != null&&dialog_Running.isShowing()) {
-                                    dialog_Running.hide();
+                                    dialog_Running.dismiss();
                                 }
                                 showToast(message);
                                 break;
@@ -138,7 +138,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                 AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(6000, "扫描失败");
                                 if (dialog_Running != null&&dialog_Running.isShowing()) {
-                                    dialog_Running.hide();
+                                    dialog_Running.dismiss();
                                 }
                                 showToast(message);
                                 break;
@@ -657,14 +657,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                 }
 
                 if(dialog_Running!=null&&dialog_Running.isShowing()) {
-                    dialog_Running.hide();
+                    dialog_Running.dismiss();
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
                 if (dialog_Running!=null&&dialog_Running.isShowing()) {
-                    dialog_Running.hide();
+                    dialog_Running.dismiss();
                 }
             }
         });

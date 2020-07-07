@@ -62,8 +62,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public static final String mJpush_KEY_TITLE = "title";
     public static final String mJpush_KEY_MESSAGE = "message";
     public static final String mJpush_KEY_EXTRAS = "extras";
-    private CustomDialogLoading dialogByLoading;
-    private CustomSystemWarnDialog dialogBySystemWarn;
+    private CustomDialogLoading dialog_Loading;
+    private CustomSystemWarnDialog dialog_SystemWarn;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
     private MachineBean machine;
@@ -112,11 +112,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     public CustomSystemWarnDialog getDialogBySystemWarn(){
-        if(dialogBySystemWarn==null){
-            dialogBySystemWarn = new CustomSystemWarnDialog(this);
+        if(dialog_SystemWarn==null){
+            dialog_SystemWarn = new CustomSystemWarnDialog(this);
         }
 
-        return dialogBySystemWarn;
+        return dialog_SystemWarn;
     }
 
     public void setNavTtile(String title) {
@@ -226,8 +226,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
 
         appContext = (AppContext) getApplication();
-        dialogByLoading = new CustomDialogLoading(this);
-        dialogBySystemWarn = new CustomSystemWarnDialog(this);
+        dialog_Loading = new CustomDialogLoading(this);
+        dialog_SystemWarn = new CustomSystemWarnDialog(this);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -247,9 +247,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             }
         }
         else {
-            dialogBySystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
-            dialogBySystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
-            dialogBySystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
+            dialog_SystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
+            dialog_SystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
+            dialog_SystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
         }
 
     }
@@ -306,12 +306,12 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         //TcStatInterface.recordAppEnd();
 
-        if (dialogBySystemWarn != null && dialogBySystemWarn.isShowing()) {
-            dialogBySystemWarn.cancel();
+        if (dialog_Loading != null && dialog_Loading.isShowing()) {
+            dialog_Loading.cancel();
         }
 
-        if (dialogByLoading != null && dialogByLoading.isShowing()) {
-            dialogByLoading.cancel();
+        if (dialog_Loading != null && dialog_Loading.isShowing()) {
+            dialog_Loading.cancel();
         }
     }
 
@@ -350,17 +350,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(dialogByLoading!=null&&!dialogByLoading.isShowing()) {
-                            dialogByLoading.setProgressText(loadingMsg);
-                            dialogByLoading.show();
+                        if(dialog_Loading!=null&&!dialog_Loading.isShowing()) {
+                            dialog_Loading.setProgressText(loadingMsg);
+                            dialog_Loading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    if (dialogByLoading != null && dialogByLoading.isShowing()) {
-                                        dialogByLoading.hide();
+                                    if (dialog_Loading != null && dialog_Loading.isShowing()) {
+                                        dialog_Loading.dismiss();
                                     }
                                 }
                             }, 6000);
@@ -373,8 +373,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.hide();
+                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
+                        dialog_Loading.dismiss();
                     }
                 }
                 final String s = response;
@@ -397,8 +397,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.hide();
+                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
+                        dialog_Loading.dismiss();
                     }
                 }
                 handler.onFailure(msg, e);
@@ -414,17 +414,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onBeforeSend() {
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(dialogByLoading!=null&&!dialogByLoading.isShowing()) {
-                            dialogByLoading.setProgressText(loadingMsg);
-                            dialogByLoading.show();
+                        if(dialog_Loading!=null&&!dialog_Loading.isShowing()) {
+                            dialog_Loading.setProgressText(loadingMsg);
+                            dialog_Loading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    if (dialogByLoading != null && dialogByLoading.isShowing()) {
-                                        dialogByLoading.hide();
+                                    if (dialog_Loading != null && dialog_Loading.isShowing()) {
+                                        dialog_Loading.dismiss();
                                     }
                                 }
                             }, 6000);
@@ -437,8 +437,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.hide();
+                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
+                        dialog_Loading.dismiss();
                     }
                 }
                 final String s = response;
@@ -459,8 +459,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.hide();
+                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
+                        dialog_Loading.dismiss();
                     }
                 }
                 handler.onFailure(msg, e);

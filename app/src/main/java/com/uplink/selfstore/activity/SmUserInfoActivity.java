@@ -63,7 +63,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         dialog_FingerVeinConfirmDel.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_FingerVeinConfirmDel.hide();
+                dialog_FingerVeinConfirmDel.dismiss();
             }
         });
 
@@ -157,7 +157,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 if (rt.getResult() == Result.SUCCESS) {
                     getInfo();
                 }
-                dialog_FingerVeinConfirmDel.hide();
+                dialog_FingerVeinConfirmDel.dismiss();
             }
 
             @Override

@@ -21,6 +21,7 @@
     <color name="loading_bg">#2000</color>
     <color name="crop_rect_default_bg_line">#140000</color>
     <color name="line_bg">#E6E6E6</color>
+    <color name="dialog">#fff</color>
     <color name="dialog_bg">#2000</color>
     <color name="dialog_confirm_bg">#2000</color>
     <color name="dialog_title">#333333</color>

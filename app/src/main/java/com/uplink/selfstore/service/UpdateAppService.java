@@ -114,7 +114,7 @@ public class UpdateAppService extends Service {
                                 @Override
                                 public void run() {
                                     if (customDialogLoading != null && customDialogLoading.isShowing()) {
-                                        customDialogLoading.hide();
+                                        customDialogLoading.dismiss();
                                     }
                                 }
                             }, 30*60*1000);
@@ -122,7 +122,7 @@ public class UpdateAppService extends Service {
                         break;
                     case 2:
                         if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                            customDialogLoading.hide();
+                            customDialogLoading.dismiss();
                         }
                         break;
                     case 3:

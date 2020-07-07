@@ -110,7 +110,7 @@ public class CustomSlotEditDialog extends Dialog {
                 switch (status) {
                     case 1://消息提示
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                            customDialogRunning.hide();
+                            customDialogRunning.dismiss();
                         }
                         mContext.showToast(message);
                         break;
@@ -132,7 +132,7 @@ public class CustomSlotEditDialog extends Dialog {
                         if (pickupResult != null) {
                             if (pickupResult.isPickupComplete()) {
                                 if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
+                                    customDialogRunning.dismiss();
                                 }
                                 mContext.showToast("取货完成");
                                 pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
@@ -142,7 +142,7 @@ public class CustomSlotEditDialog extends Dialog {
                     case 5://取货超时
                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickuptest");
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                            customDialogRunning.hide();
+                            customDialogRunning.dismiss();
                         }
                         pickupEventNotify(productSkuId,slotId,6000,"取货超时",pickupResult);
                         mContext.showToast(message);
@@ -151,7 +151,7 @@ public class CustomSlotEditDialog extends Dialog {
                     case 6://取货失败
                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                            customDialogRunning.hide();
+                            customDialogRunning.dismiss();
                         }
                         pickupEventNotify(productSkuId,slotId,6000,"取货失败",pickupResult);
                         mContext.showToast(message);
@@ -178,7 +178,7 @@ public class CustomSlotEditDialog extends Dialog {
                         switch (status) {
                             case 1://消息提示
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
+                                    customDialogRunning.dismiss();
                                 }
                                 mContext.showToast(message);
                                 break;
@@ -198,7 +198,7 @@ public class CustomSlotEditDialog extends Dialog {
                             case 3:
                             case 4:
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
+                                    customDialogRunning.dismiss();
                                 }
                                 mContext.showToast("取货完成");
                                 pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
@@ -222,7 +222,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 break;
                             case 5://取货超时
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
+                                    customDialogRunning.dismiss();
                                 }
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货超时", null);
@@ -230,7 +230,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 break;
                             case 6://取货失败
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.hide();
+                                    customDialogRunning.dismiss();
                                 }
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货失败[" + message + "]", null);

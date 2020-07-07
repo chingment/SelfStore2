@@ -65,7 +65,7 @@ public class CustomNumKeyDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mThis.hide();
+                mThis.dismiss();
             }
         });
 
