@@ -23,12 +23,14 @@ import com.uplink.selfstore.R;
  * @version 1.0
  */
 public class CustomDialog extends Dialog {
-	View layoutRes;// 布局文件
-	Context context;
+
+	private static final String TAG = "CustomDialog";
+	View mLayoutRes;// 布局文件
+	Context mContext;
 
 	public CustomDialog(Context context) {
 		super(context, R.style.dialog_style);
-		this.context = context;
+		this.mContext = context;
 	}
 
 	/**
@@ -39,8 +41,8 @@ public class CustomDialog extends Dialog {
 	 */
 	public CustomDialog(Context context, View resLayout) {
 		super(context);
-		this.context = context;
-		this.layoutRes = resLayout;
+		this.mContext = context;
+		this.mLayoutRes = resLayout;
 	}
 
 	/**
@@ -52,8 +54,8 @@ public class CustomDialog extends Dialog {
 	 */
 	public CustomDialog(Context context, int theme, View resLayout) {
 		super(context, theme);
-		this.context = context;
-		this.layoutRes = resLayout;
+		this.mContext = context;
+		this.mLayoutRes = resLayout;
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class CustomDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(layoutRes);
+		this.setContentView(mLayoutRes);
 	}
 	
 	public OnDialogBackKeyDown backListener;

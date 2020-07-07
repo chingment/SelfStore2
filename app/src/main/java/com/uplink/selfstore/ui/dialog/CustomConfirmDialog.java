@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.ui.ViewHolder;
 
 /**
  * <p>
@@ -28,8 +29,11 @@ import com.uplink.selfstore.R;
  * @version 1.0
  */
 public class CustomConfirmDialog extends Dialog {
-    private View layoutRes;// 布局文件
-    private Context context;
+    private static final String TAG = "CustomConfirmDialog";
+    private Dialog mThis;
+    private Context mContext;
+    private View mLayoutRes;
+
     private Button btnSure;
     private LinearLayout btnSureLayout;
     private Button btnCancle;
@@ -61,17 +65,18 @@ public class CustomConfirmDialog extends Dialog {
 
     public CustomConfirmDialog(Context context, String tips, boolean isCancle) {
         super(context, R.style.dialog_style);
-        this.context = context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_confirm, null);
+        mThis=this;
+        mContext = context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_confirm, null);
 
-        txtTipsText = (TextView) this.layoutRes.findViewById(R.id.dialog_confirm_tips_txt);
-        txtTipsImage = (ImageView) this.layoutRes.findViewById(R.id.dialog_confirm_tips_img);
-        btnSure = (Button) this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure);
-        btnSureLayout= (LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure_layout);
-        btnCancle = (Button) this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle);
-        btnCancleLayout= (LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle_layout);
-        btnClose = this.layoutRes.findViewById(R.id.dialog_btn_close);
-        btnArea=(LinearLayout) this.layoutRes.findViewById(R.id.dialog_confirm_btn_area);
+        txtTipsText = ViewHolder.get(mLayoutRes,R.id.dialog_confirm_tips_txt);
+        txtTipsImage = ViewHolder.get(mLayoutRes,R.id.dialog_confirm_tips_img);
+        btnSure = ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_sure);
+        btnSureLayout=ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_sure_layout);
+        btnCancle = ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_cancle);
+        btnCancleLayout= ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_cancle_layout);
+        btnClose =ViewHolder.get(mLayoutRes,R.id.dialog_btn_close);
+        btnArea=ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_area);
         txtTipsText.setText(tips);
 
         if (!isCancle) {
@@ -81,16 +86,9 @@ public class CustomConfirmDialog extends Dialog {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                close();
+                mThis.hide();
             }
         });
-
-
-    }
-
-    private void close() {
-        this.dismiss();
     }
 
     public void setBtnCloseVisibility(int visibility) {
@@ -109,9 +107,7 @@ public class CustomConfirmDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     public OnDialogBackKeyDown backListener;

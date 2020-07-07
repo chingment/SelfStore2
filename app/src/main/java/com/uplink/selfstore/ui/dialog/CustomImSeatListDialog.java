@@ -12,12 +12,12 @@ import com.uplink.selfstore.ui.my.MyListView;
 
 public class CustomImSeatListDialog extends Dialog {
     private static final String TAG = "CustomImSeatListDialog";
-    private View layoutRes;// 布局文件
+    private View mLayoutRes;// 布局文件
     private View btn_close;
     private MyListView list_seats;
     public CustomImSeatListDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_seatlist, null);
+        mLayoutRes= LayoutInflater.from(context).inflate(R.layout.dialog_seatlist, null);
         initView();
         initEvent();
 
@@ -26,12 +26,12 @@ public class CustomImSeatListDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     protected void initView() {
-        btn_close = ViewHolder.get(this.layoutRes, R.id.btn_close);
-        list_seats= ViewHolder.get(this.layoutRes, R.id.list_seats);
+        btn_close = ViewHolder.get(mLayoutRes, R.id.btn_close);
+        list_seats= ViewHolder.get(mLayoutRes, R.id.list_seats);
         list_seats.setFocusable(false);
         list_seats.setClickable(false);
     }

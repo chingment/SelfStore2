@@ -350,9 +350,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(!dialogByLoading.isShowing()) {
+                        if(dialogByLoading!=null&&!dialogByLoading.isShowing()) {
                             dialogByLoading.setProgressText(loadingMsg);
-                            dialogByLoading.showDialog();
+                            dialogByLoading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -360,7 +360,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                                 public void run() {
 
                                     if (dialogByLoading != null && dialogByLoading.isShowing()) {
-                                        dialogByLoading.cancelDialog();
+                                        dialogByLoading.hide();
                                     }
                                 }
                             }, 6000);
@@ -374,7 +374,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onSuccess(String response) {
                 if (isShowLoading) {
                     if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.cancelDialog();
+                        dialogByLoading.hide();
                     }
                 }
                 final String s = response;
@@ -398,7 +398,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
                     if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.cancelDialog();
+                        dialogByLoading.hide();
                     }
                 }
                 handler.onFailure(msg, e);
@@ -414,9 +414,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onBeforeSend() {
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(!dialogByLoading.isShowing()) {
+                        if(dialogByLoading!=null&&!dialogByLoading.isShowing()) {
                             dialogByLoading.setProgressText(loadingMsg);
-                            dialogByLoading.showDialog();
+                            dialogByLoading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
@@ -424,7 +424,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                                 public void run() {
 
                                     if (dialogByLoading != null && dialogByLoading.isShowing()) {
-                                        dialogByLoading.cancelDialog();
+                                        dialogByLoading.hide();
                                     }
                                 }
                             }, 6000);
@@ -438,7 +438,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onSuccess(String response) {
                 if (isShowLoading) {
                     if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.cancelDialog();
+                        dialogByLoading.hide();
                     }
                 }
                 final String s = response;
@@ -460,7 +460,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
                     if(dialogByLoading!=null&&dialogByLoading.isShowing()) {
-                        dialogByLoading.cancelDialog();
+                        dialogByLoading.hide();
                     }
                 }
                 handler.onFailure(msg, e);

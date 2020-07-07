@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.model.api.TerminalPayOptionBean;
+import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.BitmapUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -26,10 +27,11 @@ import java.util.List;
  */
 
 public class CustomScanPayDialog extends Dialog {
-
-    private View layoutRes;// 布局文件
+    private static final String TAG = "CustomScanPayDialog";
+    private View mLayoutRes;
     private Context mContext;
-    private Dialog _this;
+    private Dialog mThis;
+
     private TextView txt_payamount;
     private ImageView img_payqrcode;
     private TextView txt_paytips;
@@ -72,19 +74,18 @@ public class CustomScanPayDialog extends Dialog {
 
     public CustomScanPayDialog(Context context,int seconds,IHanldeListener hanldeListener) {
         super(context, R.style.dialog_style);
-        _this=this;
+        mThis=this;
         mContext = context;
         myHanldeListener=hanldeListener;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_scanpay, null);
 
-        layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_scanpay, null);
-
-        btn_close = (LinearLayout) this.layoutRes.findViewById(R.id.btn_close);
-        txt_payamount = (TextView) this.layoutRes.findViewById(R.id.txt_payamount);
-        img_payqrcode = (ImageView) this.layoutRes.findViewById(R.id.img_payqrcode);
-        txt_paytips = (TextView) this.layoutRes.findViewById(R.id.txt_paytips);
-        icon_payway_z_wechat = this.layoutRes.findViewById(R.id.icon_payway_z_wechat);
-        icon_payway_z_zhifubao = this.layoutRes.findViewById(R.id.icon_payway_z_zhifubao);
-        txt_payseconds = (TextView) this.layoutRes.findViewById(R.id.txt_payseconds);
+        btn_close = ViewHolder.get(mLayoutRes,R.id.btn_close);
+        txt_payamount = ViewHolder.get(mLayoutRes,R.id.txt_payamount);
+        img_payqrcode =ViewHolder.get(mLayoutRes,R.id.img_payqrcode);
+        txt_paytips = ViewHolder.get(mLayoutRes,R.id.txt_paytips);
+        icon_payway_z_wechat = ViewHolder.get(mLayoutRes,R.id.icon_payway_z_wechat);
+        icon_payway_z_zhifubao = ViewHolder.get(mLayoutRes,R.id.icon_payway_z_zhifubao);
+        txt_payseconds = ViewHolder.get(mLayoutRes,R.id.txt_payseconds);
 
 
         dialog_ConfirmClose = new CustomConfirmDialog(context,"确定要取消支付？" , true);
@@ -93,7 +94,7 @@ public class CustomScanPayDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dialog_ConfirmClose.hide();
-                _this.hide();
+                mThis.hide();
                 myHanldeListener.onSureClose();
             }
         });
@@ -124,7 +125,7 @@ public class CustomScanPayDialog extends Dialog {
 
             @Override
             public void onFinish() {
-                _this.hide();
+                mThis.hide();
                 myHanldeListener.onTimeFinish();
             }
         };
@@ -134,7 +135,7 @@ public class CustomScanPayDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     @Override

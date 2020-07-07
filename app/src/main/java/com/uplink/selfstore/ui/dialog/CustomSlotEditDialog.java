@@ -52,8 +52,10 @@ import java.util.Map;
 
 public class CustomSlotEditDialog extends Dialog {
     private static final String TAG = "CustomSlotEditDialog";
-    private View layoutRes;// 布局文件
+    private View mLayoutRes;// 布局文件
     private SmMachineStockActivity mContext;
+    private Dialog mThis;
+
     private View btn_close;
     private TextView txt_searchKey;
     private ImageView img_SkuImg;
@@ -86,8 +88,9 @@ public class CustomSlotEditDialog extends Dialog {
 
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.mContext = (SmMachineStockActivity) context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
+        mThis=this;
+        mContext = (SmMachineStockActivity) context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.setPickupHandler(new Handler(new Handler.Callback() {
@@ -107,14 +110,14 @@ public class CustomSlotEditDialog extends Dialog {
                 switch (status) {
                     case 1://消息提示
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                            customDialogRunning.cancelDialog();
+                            customDialogRunning.hide();
                         }
                         mContext.showToast(message);
                         break;
                     case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
-                        if (!customDialogRunning.isShowing()) {
-                            customDialogRunning.showDialog();
+                        if (customDialogRunning!=null&&!customDialogRunning.isShowing()) {
                             customDialogRunning.setProgressText(message);
+                            customDialogRunning.show();
                         }
                         break;
                     case 3://取货中
@@ -129,7 +132,7 @@ public class CustomSlotEditDialog extends Dialog {
                         if (pickupResult != null) {
                             if (pickupResult.isPickupComplete()) {
                                 if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancelDialog();
+                                    customDialogRunning.hide();
                                 }
                                 mContext.showToast("取货完成");
                                 pickupEventNotify(productSkuId,slotId,4000,"取货完成",pickupResult);
@@ -139,7 +142,7 @@ public class CustomSlotEditDialog extends Dialog {
                     case 5://取货超时
                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickuptest");
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                            customDialogRunning.cancelDialog();
+                            customDialogRunning.hide();
                         }
                         pickupEventNotify(productSkuId,slotId,6000,"取货超时",pickupResult);
                         mContext.showToast(message);
@@ -148,7 +151,7 @@ public class CustomSlotEditDialog extends Dialog {
                     case 6://取货失败
                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
                         if(customDialogRunning!=null&&customDialogRunning.isShowing()) {
-                            customDialogRunning.cancelDialog();
+                            customDialogRunning.hide();
                         }
                         pickupEventNotify(productSkuId,slotId,6000,"取货失败",pickupResult);
                         mContext.showToast(message);
@@ -175,14 +178,14 @@ public class CustomSlotEditDialog extends Dialog {
                         switch (status) {
                             case 1://消息提示
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancelDialog();
+                                    customDialogRunning.hide();
                                 }
                                 mContext.showToast(message);
                                 break;
                             case 2://启动就绪成功
-                                if (!customDialogRunning.isShowing()) {
-                                    customDialogRunning.showDialog();
+                                if (customDialogRunning != null &&!customDialogRunning.isShowing()) {
                                     customDialogRunning.setProgressText("取货就绪成功");
+                                    customDialogRunning.show();
                                 }
                                 break;
 //                            case 3://取货中
@@ -195,7 +198,7 @@ public class CustomSlotEditDialog extends Dialog {
                             case 3:
                             case 4:
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancelDialog();
+                                    customDialogRunning.hide();
                                 }
                                 mContext.showToast("取货完成");
                                 pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
@@ -219,7 +222,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 break;
                             case 5://取货超时
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancelDialog();
+                                    customDialogRunning.hide();
                                 }
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货超时", null);
@@ -227,7 +230,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 break;
                             case 6://取货失败
                                 if (customDialogRunning != null && customDialogRunning.isShowing()) {
-                                    customDialogRunning.cancelDialog();
+                                    customDialogRunning.hide();
                                 }
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货失败[" + message + "]", null);
@@ -264,35 +267,34 @@ public class CustomSlotEditDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     protected void initView() {
-        btn_close = ViewHolder.get(this.layoutRes, R.id.btn_close);
-        txt_searchKey = ViewHolder.get(this.layoutRes, R.id.txt_searchKey);
+        btn_close = ViewHolder.get(mLayoutRes, R.id.btn_close);
+        txt_searchKey = ViewHolder.get(mLayoutRes, R.id.txt_searchKey);
 
-        txt_Version=ViewHolder.get(this.layoutRes, R.id.txt_Version);
-        img_SkuImg = ViewHolder.get(this.layoutRes, R.id.img_SkuImg);
-        txt_SlotName = ViewHolder.get(this.layoutRes, R.id.txt_SlotName);
-        txt_SkuCumCode= ViewHolder.get(this.layoutRes, R.id.txt_SkuCumCode);
-        txt_SkuId = ViewHolder.get(this.layoutRes, R.id.txt_SkuId);
-        txt_SkuName = ViewHolder.get(this.layoutRes, R.id.txt_SkuName);
-        txt_SkuSpecDes= ViewHolder.get(this.layoutRes, R.id.txt_SkuSpecDes);
-        txt_SellQty = ViewHolder.get(this.layoutRes, R.id.txt_SellQty);
-        txt_LockQty = ViewHolder.get(this.layoutRes, R.id.txt_LockQty);
-        txt_SumQty = ViewHolder.get(this.layoutRes, R.id.txt_SumQty);
-        txt_MaxQty = ViewHolder.get(this.layoutRes, R.id.txt_MaxQty);
-        list_search_skus = ViewHolder.get(this.layoutRes, R.id.list_search_skus);
-        btn_keydelete = ViewHolder.get(this.layoutRes, R.id.btn_keydelete);
-
-        btn_pick_test = ViewHolder.get(this.layoutRes, R.id.btn_pick_test);
-        btn_delete = ViewHolder.get(this.layoutRes, R.id.btn_delete);
-        btn_fill = ViewHolder.get(this.layoutRes, R.id.btn_fill);
-        btn_decrease = ViewHolder.get(this.layoutRes, R.id.btn_decrease);
-        btn_increase = ViewHolder.get(this.layoutRes, R.id.btn_increase);
-        btn_save = ViewHolder.get(this.layoutRes, R.id.btn_save);
-        btn_decreasebymax = ViewHolder.get(this.layoutRes, R.id.btn_decreasebymax);
-        btn_increasebymax = ViewHolder.get(this.layoutRes, R.id.btn_increasebymax);
+        txt_Version=ViewHolder.get(mLayoutRes, R.id.txt_Version);
+        img_SkuImg = ViewHolder.get(mLayoutRes, R.id.img_SkuImg);
+        txt_SlotName = ViewHolder.get(mLayoutRes, R.id.txt_SlotName);
+        txt_SkuCumCode= ViewHolder.get(mLayoutRes, R.id.txt_SkuCumCode);
+        txt_SkuId = ViewHolder.get(mLayoutRes, R.id.txt_SkuId);
+        txt_SkuName = ViewHolder.get(mLayoutRes, R.id.txt_SkuName);
+        txt_SkuSpecDes= ViewHolder.get(mLayoutRes, R.id.txt_SkuSpecDes);
+        txt_SellQty = ViewHolder.get(mLayoutRes, R.id.txt_SellQty);
+        txt_LockQty = ViewHolder.get(mLayoutRes, R.id.txt_LockQty);
+        txt_SumQty = ViewHolder.get(mLayoutRes, R.id.txt_SumQty);
+        txt_MaxQty = ViewHolder.get(mLayoutRes, R.id.txt_MaxQty);
+        list_search_skus = ViewHolder.get(mLayoutRes, R.id.list_search_skus);
+        btn_keydelete = ViewHolder.get(mLayoutRes, R.id.btn_keydelete);
+        btn_pick_test = ViewHolder.get(mLayoutRes, R.id.btn_pick_test);
+        btn_delete = ViewHolder.get(mLayoutRes, R.id.btn_delete);
+        btn_fill = ViewHolder.get(mLayoutRes, R.id.btn_fill);
+        btn_decrease = ViewHolder.get(mLayoutRes, R.id.btn_decrease);
+        btn_increase = ViewHolder.get(mLayoutRes, R.id.btn_increase);
+        btn_save = ViewHolder.get(mLayoutRes, R.id.btn_save);
+        btn_decreasebymax = ViewHolder.get(mLayoutRes, R.id.btn_decreasebymax);
+        btn_increasebymax = ViewHolder.get(mLayoutRes, R.id.btn_increasebymax);
 
         customDialogRunning = new CustomDialogLoading(this.mContext);
 
@@ -538,7 +540,7 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
-        LinearLayout all_key = ViewHolder.get(this.layoutRes, R.id.all_key);
+        LinearLayout all_key = ViewHolder.get(mLayoutRes, R.id.all_key);
         for (int i = 0; i < all_key.getChildCount(); i++) {
             LinearLayout viewchild = (LinearLayout) all_key.getChildAt(i);
 

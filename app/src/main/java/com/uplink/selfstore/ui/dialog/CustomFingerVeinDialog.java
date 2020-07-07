@@ -15,9 +15,10 @@ import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 
 public class CustomFingerVeinDialog extends Dialog {
-
-    private View layoutRes;// 布局文件
+    private static final String TAG = "CustomFingerVeinDialog";
+    private View mLayoutRes;// 布局文件
     private BaseFragmentActivity mContext;
+
     private View btn_close;
     private FingerVeinnerCtrl mFingerVeinnerCtrl;
     private Button btn_ReCollect;
@@ -25,8 +26,8 @@ public class CustomFingerVeinDialog extends Dialog {
     private TextView txt_Message;
     public CustomFingerVeinDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.mContext =(BaseFragmentActivity) context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_fingervein, null);
+        mContext =(BaseFragmentActivity) context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_fingervein, null);
 
         initView();
         initEvent();
@@ -78,15 +79,15 @@ public class CustomFingerVeinDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     protected void initView() {
 
-        btn_close= ViewHolder.get(this.layoutRes, R.id.btn_close);
-        btn_ReCollect=ViewHolder.get(this.layoutRes, R.id.btn_ReCollect);
-        txt_Title=ViewHolder.get(this.layoutRes, R.id.txt_Title);
-        txt_Message=ViewHolder.get(this.layoutRes, R.id.txt_Message);
+        btn_close= ViewHolder.get(mLayoutRes, R.id.btn_close);
+        btn_ReCollect=ViewHolder.get(mLayoutRes, R.id.btn_ReCollect);
+        txt_Title=ViewHolder.get(mLayoutRes, R.id.txt_Title);
+        txt_Message=ViewHolder.get(mLayoutRes, R.id.txt_Message);
     }
 
     protected void initEvent() {

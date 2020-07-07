@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -23,48 +24,48 @@ import java.util.List;
  */
 
 public class CustomNumKeyDialog extends Dialog {
-    private View layoutRes;// 布局文件
-    private Context context;
+    private static final String TAG = "CustomNumKeyDialog";
 
+    private View mLayoutRes;
+    private Context mContext;
+    private Dialog mThis;
 
     // private LinearLayout txt_all;
     private TextView txt_val;
 
     public CustomNumKeyDialog(Context context) {
         super(context, R.style.dialog_style);
-        this.context = context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_numkey, null);
+        mContext= context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_numkey, null);
+        mThis=this;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
 
+        txt_val = ViewHolder.get(mLayoutRes,R.id.txt_val);
+        final LinearLayout btn_close = ViewHolder.get(mLayoutRes,R.id.btn_close);
+        final Button btn_0 = ViewHolder.get(mLayoutRes,R.id.btn_0);
+        final Button btn_1 = ViewHolder.get(mLayoutRes,R.id.btn_1);
+        final Button btn_2 = ViewHolder.get(mLayoutRes,R.id.btn_2);
+        final Button btn_3 = ViewHolder.get(mLayoutRes,R.id.btn_3);
+        final Button btn_4 = ViewHolder.get(mLayoutRes,R.id.btn_4);
+        final Button btn_5 = ViewHolder.get(mLayoutRes,R.id.btn_5);
+        final Button btn_6 = ViewHolder.get(mLayoutRes,R.id.btn_6);
+        final Button btn_7 = ViewHolder.get(mLayoutRes,R.id.btn_7);
+        final Button btn_8 =ViewHolder.get(mLayoutRes,R.id.btn_8);
+        final Button btn_9 = ViewHolder.get(mLayoutRes,R.id.btn_9);
 
-        final Dialog _this=this;
-
-        txt_val = (TextView) this.layoutRes.findViewById(R.id.txt_val);
-        final LinearLayout btn_close = (LinearLayout) this.layoutRes.findViewById(R.id.btn_close);
-        final Button btn_0 = (Button) this.layoutRes.findViewById(R.id.btn_0);
-        final Button btn_1 = (Button) this.layoutRes.findViewById(R.id.btn_1);
-        final Button btn_2 = (Button) this.layoutRes.findViewById(R.id.btn_2);
-        final Button btn_3 = (Button) this.layoutRes.findViewById(R.id.btn_3);
-        final Button btn_4 = (Button) this.layoutRes.findViewById(R.id.btn_4);
-        final Button btn_5 = (Button) this.layoutRes.findViewById(R.id.btn_5);
-        final Button btn_6 = (Button) this.layoutRes.findViewById(R.id.btn_6);
-        final Button btn_7 = (Button) this.layoutRes.findViewById(R.id.btn_7);
-        final Button btn_8 = (Button) this.layoutRes.findViewById(R.id.btn_8);
-        final Button btn_9 = (Button) this.layoutRes.findViewById(R.id.btn_9);
-
-        final ImageView btn_delete = (ImageView) this.layoutRes.findViewById(R.id.btn_delete);
-        final LinearLayout btn_clear = (LinearLayout) this.layoutRes.findViewById(R.id.btn_clear);
-        final LinearLayout btn_sure = (LinearLayout) this.layoutRes.findViewById(R.id.btn_sure);
+        final ImageView btn_delete = ViewHolder.get(mLayoutRes,R.id.btn_delete);
+        final LinearLayout btn_clear = ViewHolder.get(mLayoutRes,R.id.btn_clear);
+        final LinearLayout btn_sure = ViewHolder.get(mLayoutRes,R.id.btn_sure);
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _this.dismiss();
+                mThis.hide();
             }
         });
 
@@ -193,7 +194,7 @@ public class CustomNumKeyDialog extends Dialog {
 
     }
     private void playSound(int id) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, id);
+        MediaPlayer mediaPlayer = MediaPlayer.create(mContext, id);
         mediaPlayer.start();
 
     }

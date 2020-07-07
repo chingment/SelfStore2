@@ -394,7 +394,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             public void onClick(View v) {
 
                 if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
-                    dialog_PickupCompelte.cancel();
+                    dialog_PickupCompelte.hide();
                 }
 
                 Intent intent = new Intent(OrderDetailsActivity.this, ProductKindActivity.class);
@@ -405,7 +405,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         dialog_PickupCompelte.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_PickupCompelte.dismiss();
+                dialog_PickupCompelte.hide();
             }
         });
 
@@ -606,7 +606,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
+        if (dialog_PickupCompelte != null) {
             dialog_PickupCompelte.cancel();
         }
 

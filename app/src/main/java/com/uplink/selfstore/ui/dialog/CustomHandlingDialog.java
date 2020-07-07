@@ -10,13 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.LogUtil;
 
 public class CustomHandlingDialog extends Dialog {
-
-    private View layoutRes;// 布局文件
+    private static final String TAG = "CustomHandlingDialog";
+    private View mLayoutRes;// 布局文件
     private Context mContext;
-    private Dialog _this;
+    private Dialog mThis;
+
     private TextView txt_tips;//等待提示
     private TextView txt_seconds;//等待秒数
     private LinearLayout btn_close;
@@ -25,14 +27,14 @@ public class CustomHandlingDialog extends Dialog {
     public CustomHandlingDialog(Context context,int seconds,String tips) {
         super(context, R.style.dialog_style);
 
-        _this=this;
+        mThis=this;
         mContext = context;
-        layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_handling, null);
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_handling, null);
 
-        btn_close = (LinearLayout) this.layoutRes.findViewById(R.id.btn_close);
-        txt_seconds = (TextView) this.layoutRes.findViewById(R.id.txt_seconds);
+        btn_close =  ViewHolder.get(mLayoutRes,R.id.btn_close);
+        txt_seconds = ViewHolder.get(mLayoutRes,R.id.txt_seconds);
         txt_seconds.setText(String.valueOf(seconds) + "'");
-        txt_tips = (TextView) this.layoutRes.findViewById(R.id.txt_tips);
+        txt_tips =  ViewHolder.get(mLayoutRes,R.id.txt_tips);
         txt_tips.setText(tips);
 
         dialog_ConfirmClose = new CustomConfirmDialog(context,"确定要退出等候？" , true);
@@ -41,7 +43,7 @@ public class CustomHandlingDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dialog_ConfirmClose.hide();
-                _this.hide();
+                mThis.hide();
             }
         });
 
@@ -69,7 +71,7 @@ public class CustomHandlingDialog extends Dialog {
 
             @Override
             public void onFinish() {
-                _this.hide();
+                mThis.hide();
             }
         };
     }
@@ -77,7 +79,7 @@ public class CustomHandlingDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     @Override

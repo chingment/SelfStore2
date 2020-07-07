@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.ui.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,9 @@ import java.util.List;
  */
 
 public class CustomChooseListDialog extends Dialog {
-    private View layoutRes;// 布局文件
-    private Context context;
+    private static final String TAG = "CustomChooseListDialog";
+    private View mLayoutRes;// 布局文件
+    private Context mContext;
     private List<String> listChooseVals;
 
     private TextView txtTitle;
@@ -51,12 +53,12 @@ public class CustomChooseListDialog extends Dialog {
 
     public CustomChooseListDialog(Context context, String tips) {
         super(context,R.style.dialog_style);
-        this.context = context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_chooselist, null);
+        mContext = context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_chooselist, null);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        txtTitle=(TextView)this.layoutRes.findViewById(R.id.dialog_title);
-        listView=(ListView)this.layoutRes.findViewById(R.id.dialog_chooselist);
+        txtTitle= ViewHolder.get(mLayoutRes,R.id.dialog_title);
+        listView=ViewHolder.get(mLayoutRes,R.id.dialog_chooselist);
 
 
         List<String> items=new ArrayList<>();
@@ -64,7 +66,6 @@ public class CustomChooseListDialog extends Dialog {
         //items.add("2");
         adapter = new CustomChooseListDiaglogListAdpater(inflater, items);
         listView.setAdapter(adapter);
-
 
         txtTitle.setText(tips);
     }
@@ -82,9 +83,7 @@ public class CustomChooseListDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     public CustomEditTextDialog.OnDialogBackKeyDown backListener;

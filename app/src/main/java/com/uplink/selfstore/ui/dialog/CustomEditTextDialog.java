@@ -11,14 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.ui.ViewHolder;
 
 /**
  * Created by chingment on 2017/12/22.
  */
 
 public class CustomEditTextDialog extends Dialog  {
-    private View layoutRes;// 布局文件
-    private Context context;
+    private static final String TAG = "CustomEditTextDialog";
+    private View mLayoutRes;// 布局文件
+    private Context mContext;
+
     private Button btnSure;
     private Button btnCancle;
     private TextView txtTitle;
@@ -51,13 +54,13 @@ public class CustomEditTextDialog extends Dialog  {
 
     public CustomEditTextDialog(Context context, String tips) {
         super(context,R.style.dialog_style);
-        this.context = context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_edittext, null);
+        mContext = context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_edittext, null);
 
-        txtTitle=(TextView)this.layoutRes.findViewById(R.id.dialog_title);
-        btnSure=(Button)this.layoutRes.findViewById(R.id.dialog_confirm_btn_sure);
-        btnCancle=(Button)this.layoutRes.findViewById(R.id.dialog_confirm_btn_cancle);
-        txtEdit=(EditText)this.layoutRes.findViewById(R.id.dialog_txt_eidt);
+        txtTitle= ViewHolder.get(mLayoutRes,R.id.dialog_title);
+        btnSure= ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_sure);
+        btnCancle= ViewHolder.get(mLayoutRes,R.id.dialog_confirm_btn_cancle);
+        txtEdit= ViewHolder.get(mLayoutRes,R.id.dialog_txt_eidt);
 
         txtTitle.setText(tips);
     }
@@ -75,9 +78,7 @@ public class CustomEditTextDialog extends Dialog  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     public CustomEditTextDialog.OnDialogBackKeyDown backListener;

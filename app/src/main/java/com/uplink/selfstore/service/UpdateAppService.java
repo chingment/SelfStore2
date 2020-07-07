@@ -107,22 +107,22 @@ public class UpdateAppService extends Service {
                         }
                         customDialogLoading.setProgressText("系统正在更新中....");
                         if(!customDialogLoading.isShowing()) {
-                            customDialogLoading.showDialog();
+                            customDialogLoading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (customDialogLoading != null && customDialogLoading.isShowing()) {
-                                        customDialogLoading.cancelDialog();
+                                        customDialogLoading.hide();
                                     }
                                 }
                             }, 30*60*1000);
                         }
                         break;
                     case 2:
-                        if(customDialogLoading!=null) {
-                            customDialogLoading.cancelDialog();
+                        if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
+                            customDialogLoading.hide();
                         }
                         break;
                     case 3:
@@ -162,6 +162,10 @@ public class UpdateAppService extends Service {
         // 注销下载广播
         if (receiver != null)
             unregisterReceiver(receiver);
+
+        if(customDialogLoading!=null){
+            customDialogLoading.cancel();
+        }
 
         super.onDestroy();
     }

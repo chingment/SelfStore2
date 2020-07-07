@@ -21,9 +21,11 @@ import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 public class CustomSystemWarnDialog extends Dialog {
-
-    private View layoutRes;// 布局文件
+    private static final String TAG = "CustomSystemWarnDialog";
+    private View mLayoutRes;
     private Context mContext;
+    private Dialog mThis;
+
     private ImageView img_warn;
     private View btn_close;
     private TextView txt_WarnTitle;
@@ -34,8 +36,9 @@ public class CustomSystemWarnDialog extends Dialog {
     private WebView wv_csrHelpTips;
     public CustomSystemWarnDialog(final Context context) {
         super(context, R.style.dialog_style);
-        this.mContext = context;
-        this.layoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_systemwarn, null);
+        mThis=this;
+        mContext = context;
+        mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_systemwarn, null);
 
         initView();
         initEvent();
@@ -45,7 +48,7 @@ public class CustomSystemWarnDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(layoutRes);
+        this.setContentView(mLayoutRes);
     }
 
     public void setBtnCloseVisibility(int visibility) {
@@ -98,14 +101,14 @@ public class CustomSystemWarnDialog extends Dialog {
 
 
     protected void initView() {
-        img_warn= ViewHolder.get(this.layoutRes, R.id.img_warn);
-        btn_close= ViewHolder.get(this.layoutRes, R.id.btn_close);
-        txt_WarnTitle= ViewHolder.get(this.layoutRes, R.id.txt_WarnTitle);
-        layout_csrQrcode= ViewHolder.get(this.layoutRes, R.id.layout_csrQrcode);
-        img_crsQrcode= ViewHolder.get(this.layoutRes, R.id.img_crsQrcode);
-        layout_csrPhoneNumber= ViewHolder.get(this.layoutRes, R.id.layout_csrPhoneNumber);
-        txt_csrPhoneNumber= ViewHolder.get(this.layoutRes, R.id.txt_csrPhoneNumber);
-        wv_csrHelpTips=ViewHolder.get(this.layoutRes, R.id.wv_csrHelpTips);
+        img_warn= ViewHolder.get(mLayoutRes, R.id.img_warn);
+        btn_close= ViewHolder.get(mLayoutRes, R.id.btn_close);
+        txt_WarnTitle= ViewHolder.get(mLayoutRes, R.id.txt_WarnTitle);
+        layout_csrQrcode= ViewHolder.get(mLayoutRes, R.id.layout_csrQrcode);
+        img_crsQrcode= ViewHolder.get(mLayoutRes, R.id.img_crsQrcode);
+        layout_csrPhoneNumber= ViewHolder.get(mLayoutRes, R.id.layout_csrPhoneNumber);
+        txt_csrPhoneNumber= ViewHolder.get(mLayoutRes, R.id.txt_csrPhoneNumber);
+        wv_csrHelpTips=ViewHolder.get(mLayoutRes, R.id.wv_csrHelpTips);
     }
 
     protected void initEvent() {

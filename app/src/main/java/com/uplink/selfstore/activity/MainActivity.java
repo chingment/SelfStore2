@@ -95,7 +95,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog_NumKey != null && dialog_NumKey.isShowing()) {
+        if (dialog_NumKey != null) {
             dialog_NumKey.cancel();
         }
     }

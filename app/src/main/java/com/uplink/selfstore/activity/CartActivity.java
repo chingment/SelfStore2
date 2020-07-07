@@ -35,12 +35,10 @@ import com.uplink.selfstore.model.api.OrderReserveResultBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.TerminalPayOptionBean;
-import com.uplink.selfstore.model.chat.CustomMsg;
 import com.uplink.selfstore.model.chat.MsgContentByBuyInfo;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomHandlingDialog;
 import com.uplink.selfstore.ui.dialog.CustomImSeatListDialog;
 import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
@@ -72,14 +70,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private MyListView list_skus;
     private View list_empty_tip;
     private CustomScanPayDialog dialog_ScanPay;
-    //private CustomConfirmDialog dialog_ScanPay_ConfirmClose;
-    //private CountDownTimer taskByCheckPayTimeout;
+    private CustomImSeatListDialog dialog_ImSeatList;
+    private CustomHandlingDialog dialog_Handling;
     public static String LAST_ORDERID;
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
-    private CustomImSeatListDialog customImSeatListDialog;
-
-    private CustomHandlingDialog customHandlingDialog;
-
     private  TerminalPayOptionBean payOption;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +85,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         initEvent();
         initData();
         useClosePageCountTimer();
-
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
@@ -117,7 +110,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                             LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived:type:" + type);
                             LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived:content:" + content);
 
-                            customHandlingDialog.hide();
+                            dialog_Handling.hide();
 
                             if (type.equals("buyinfo")) {
                                 MsgContentByBuyInfo rt = JSON.parseObject(content, new TypeReference<MsgContentByBuyInfo>() {
@@ -236,8 +229,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         });
 
-        customImSeatListDialog = new CustomImSeatListDialog(CartActivity.this);
-        customImSeatListDialog.setOnLinster(new CustomImSeatListDialog.OnLinster() {
+        dialog_ImSeatList = new CustomImSeatListDialog(CartActivity.this);
+        dialog_ImSeatList.setOnLinster(new CustomImSeatListDialog.OnLinster() {
             @Override
             public void setSeats(MyListView v) {
 
@@ -353,7 +346,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
             }
         });
-        customHandlingDialog = new CustomHandlingDialog(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候");
+        dialog_Handling = new CustomHandlingDialog(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候");
     }
 
     private void initEvent() {
@@ -422,7 +415,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     }
 
                     if(isHasVieoService){
-                        customImSeatListDialog.show();
+                        dialog_ImSeatList.show();
                         return;
                     }
 
@@ -442,16 +435,16 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_ScanPay != null && dialog_ScanPay.isShowing()) {
+        if (dialog_ScanPay != null) {
             dialog_ScanPay.cancel();
         }
 
-        if(customImSeatListDialog!=null&&customImSeatListDialog.isShowing()) {
-            customImSeatListDialog.cancel();
+        if(dialog_ImSeatList!=null) {
+            dialog_ImSeatList.cancel();
         }
 
-        if(customHandlingDialog!=null&&customHandlingDialog.isShowing()) {
-            customHandlingDialog.cancel();
+        if(dialog_Handling!=null) {
+            dialog_Handling.cancel();
         }
 
         if(msgListener!=null){
@@ -471,8 +464,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 LogUtil.d(TAG,"surface_state:"+surface_state);
 
                 if(surface_state==0) {//表示有通话记录
-                    customImSeatListDialog.hide();
-                    customHandlingDialog.show();
+                    dialog_ImSeatList.hide();
+                    dialog_Handling.show();
                 }
             }
         }

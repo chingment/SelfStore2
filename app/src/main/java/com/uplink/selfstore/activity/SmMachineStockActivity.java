@@ -63,7 +63,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private CabinetCtrlByZS cabinetCtrlByZS;
     private ScannerCtrl scannerCtrl;
 
-    private CustomDialogLoading customDialogRunning;
+    private CustomDialogLoading dialog_Running;
+
     private TextView txt_CabinetName;
     private Handler handler_UpdateUI;
     private MyBreathLight breathlight_machine;
@@ -100,24 +101,20 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         switch (status) {
                             case 1:
                                 showToast(message);
-                                if (customDialogRunning != null) {
-                                    if (customDialogRunning.isShowing()) {
-                                        customDialogRunning.cancelDialog();
-                                    }
+                                if (dialog_Running != null&&dialog_Running.isShowing()) {
+                                    dialog_Running.hide();
                                 }
                                 break;
                             case 2://启动就绪
                                 scanSlotsEventNotify(2000, "启动就绪");
-                                if (customDialogRunning != null) {
-                                    customDialogRunning.setProgressText(message);
-                                    if (!customDialogRunning.isShowing()) {
-                                        customDialogRunning.showDialog();
-                                    }
+                                if (dialog_Running != null&&!dialog_Running.isShowing()) {
+                                    dialog_Running.setProgressText(message);
+                                    dialog_Running.show();
                                 }
                                 break;
                             case 3://扫描中
-                                if (customDialogRunning != null) {
-                                    customDialogRunning.setProgressText(message);
+                                if (dialog_Running != null) {
+                                    dialog_Running.setProgressText(message);
                                 }
                                 break;
                             case 4://扫描成功
@@ -132,20 +129,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 5://扫描超时
                                 AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(5000, "扫描超时");
-                                if (customDialogRunning != null) {
-                                    if (customDialogRunning.isShowing()) {
-                                        customDialogRunning.cancelDialog();
-                                    }
+                                if (dialog_Running != null&&dialog_Running.isShowing()) {
+                                    dialog_Running.hide();
                                 }
                                 showToast(message);
                                 break;
                             case 6://扫描失败
                                 AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(6000, "扫描失败");
-                                if (customDialogRunning != null) {
-                                    if (customDialogRunning.isShowing()) {
-                                        customDialogRunning.cancelDialog();
-                                    }
+                                if (dialog_Running != null&&dialog_Running.isShowing()) {
+                                    dialog_Running.hide();
                                 }
                                 showToast(message);
                                 break;
@@ -176,7 +169,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         txt_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
-        customDialogRunning = new CustomDialogLoading(this);
+        dialog_Running = new CustomDialogLoading(this);
 
 
         switch (cabinet.getModelNo())
@@ -546,6 +539,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+
+        if(dialog_SlotEdit!=null) {
+            dialog_SlotEdit.cancel();
+        }
+
+        if(dialog_Running!=null){
+            dialog_Running.cancel();
+        }
+
 //        if (cabinetCtrlByDS != null) {
 //            cabinetCtrlByDS.disConnect();
 //            cabinetCtrlByDS = null;
@@ -653,17 +656,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     getCabinetSlots();
                 }
 
-                if(customDialogRunning!=null) {
-                    if (customDialogRunning.isShowing()) {
-                        customDialogRunning.cancelDialog();
-                    }
+                if(dialog_Running!=null&&dialog_Running.isShowing()) {
+                    dialog_Running.hide();
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
-                if (customDialogRunning.isShowing()) {
-                    customDialogRunning.cancelDialog();
+                if (dialog_Running!=null&&dialog_Running.isShowing()) {
+                    dialog_Running.hide();
                 }
             }
         });

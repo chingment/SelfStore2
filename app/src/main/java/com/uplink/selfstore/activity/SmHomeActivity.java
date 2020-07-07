@@ -161,14 +161,14 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                         break;
                 }
-                confirmDialog.dismiss();
+                confirmDialog.hide();
             }
         });
 
         confirmDialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmDialog.dismiss();
+                confirmDialog.hide();
             }
         });
     }
@@ -367,7 +367,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (confirmDialog != null && confirmDialog.isShowing()) {
+        if (confirmDialog != null) {
             confirmDialog.cancel();
         }
 

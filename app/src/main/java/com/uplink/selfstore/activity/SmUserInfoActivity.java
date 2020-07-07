@@ -32,8 +32,8 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
     private TextView txt_FullName;
     private TextView txt_FingerVein;
     private ImageView btn_DelFingerVein;
-    private CustomFingerVeinDialog dialog_FingerVein;
-    private CustomConfirmDialog confirmDialog;
+    private CustomFingerVeinDialog dialog_FingerVeinCollect;
+    private CustomConfirmDialog dialog_FingerVeinConfirmDel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,22 +53,22 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         txt_FullName = (TextView) findViewById(R.id.txt_FullName);
         txt_FingerVein = (TextView) findViewById(R.id.txt_FingerVein);
         btn_DelFingerVein = (ImageView) findViewById(R.id.btn_DelFingerVein);
-        confirmDialog = new CustomConfirmDialog(SmUserInfoActivity.this, "", true);
-        confirmDialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_FingerVeinConfirmDel = new CustomConfirmDialog(SmUserInfoActivity.this, "确定要删除？", true);
+        dialog_FingerVeinConfirmDel.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 delFingerVein();
             }
         });
-        confirmDialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+        dialog_FingerVeinConfirmDel.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                confirmDialog.dismiss();
+                dialog_FingerVeinConfirmDel.hide();
             }
         });
-        dialog_FingerVein = new CustomFingerVeinDialog(SmUserInfoActivity.this);
-        dialog_FingerVein.setCollectHandler(new Handler(new Handler.Callback() {
+
+        dialog_FingerVeinCollect = new CustomFingerVeinDialog(SmUserInfoActivity.this);
+        dialog_FingerVeinCollect.setCollectHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
                         Bundle bundle = msg.getData();
@@ -77,7 +77,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                         byte[] result;
                         switch (status) {
                             case 1://采集提示
-                                dialog_FingerVein.getTxtMessage().setText(message);
+                                dialog_FingerVeinCollect.getTxtMessage().setText(message);
                                 break;
                             case 2://采集成功
                                 //dialog_FingerVein.getTxtMessage().setText(message);
@@ -85,8 +85,8 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                                 uploadFingerVeinData(result);
                                 break;
                             case 3://采集失败
-                                dialog_FingerVein.getTxtMessage().setText(message);
-                                dialog_FingerVein.getBtnReCollect().setVisibility(View.VISIBLE);
+                                dialog_FingerVeinCollect.getTxtMessage().setText(message);
+                                dialog_FingerVeinCollect.getBtnReCollect().setVisibility(View.VISIBLE);
                                 break;
                         }
                         return false;
@@ -157,9 +157,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 if (rt.getResult() == Result.SUCCESS) {
                     getInfo();
                 }
-
-                confirmDialog.dismiss();
-
+                dialog_FingerVeinConfirmDel.hide();
             }
 
             @Override
@@ -176,16 +174,29 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     finish();
                     break;
                 case R.id.btn_DelFingerVein:
-                    confirmDialog.getTipsImage().setVisibility(View.GONE);
-                    confirmDialog.getTipsText().setText(R.string.aty_smuserinfo_tvtx_fv_clickin);
-                    confirmDialog.show();
+                    dialog_FingerVeinConfirmDel.getTipsImage().setVisibility(View.GONE);
+                    dialog_FingerVeinConfirmDel.getTipsText().setText(R.string.aty_smuserinfo_tips_confirmdel);
+                    dialog_FingerVeinConfirmDel.show();
                     break;
                 case R.id.txt_FingerVein:
-                    dialog_FingerVein.getTxtMessage().setText(R.string.aty_smuserinfo_tips_puthand);
-                    dialog_FingerVein.startCollect();
-                    dialog_FingerVein.show();
+                    dialog_FingerVeinCollect.getTxtMessage().setText(R.string.aty_smuserinfo_tips_puthand);
+                    dialog_FingerVeinCollect.startCollect();
+                    dialog_FingerVeinCollect.show();
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(dialog_FingerVeinConfirmDel!=null){
+            dialog_FingerVeinConfirmDel.cancel();
+        }
+
+        if(dialog_FingerVeinCollect!=null){
+            dialog_FingerVeinCollect.cancel();
         }
     }
 
@@ -204,7 +215,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
-                dialog_FingerVein.getTxtMessage().setText(rt.getMessage());
+                dialog_FingerVeinCollect.getTxtMessage().setText(rt.getMessage());
                 if (rt.getResult() == Result.SUCCESS) {
                     getInfo();
                 }
@@ -215,6 +226,5 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 showToast(msg);
             }
         });
-
     }
 }
