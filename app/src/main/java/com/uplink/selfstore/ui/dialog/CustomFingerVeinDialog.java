@@ -96,7 +96,7 @@ public class CustomFingerVeinDialog extends Dialog {
             public void onClick(View v) {
                 mFingerVeinnerCtrl.stopCheckLogin();
                 mFingerVeinnerCtrl.stopCollect();
-                dismiss();
+                hide();
             }
         });
 
@@ -119,6 +119,8 @@ public class CustomFingerVeinDialog extends Dialog {
     public  void  cancel(){
         super.cancel();
         mFingerVeinnerCtrl.disConnect(mContext);
+
+
     }
     @Override
     public void show() {

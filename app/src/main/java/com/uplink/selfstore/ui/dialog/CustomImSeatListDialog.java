@@ -44,7 +44,7 @@ public class CustomImSeatListDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _this.dismiss();
+                _this.hide();
             }
         });
     }

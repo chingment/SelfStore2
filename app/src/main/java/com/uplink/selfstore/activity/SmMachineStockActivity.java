@@ -101,13 +101,13 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         switch (status) {
                             case 1:
                                 showToast(message);
-                                if (dialog_Running != null&&dialog_Running.isShowing()) {
-                                    dialog_Running.dismiss();
+                                if (dialog_Running != null) {
+                                    dialog_Running.hide();
                                 }
                                 break;
                             case 2://启动就绪
                                 scanSlotsEventNotify(2000, "启动就绪");
-                                if (dialog_Running != null&&!dialog_Running.isShowing()) {
+                                if (dialog_Running != null) {
                                     dialog_Running.setProgressText(message);
                                     dialog_Running.show();
                                 }
@@ -129,16 +129,16 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                             case 5://扫描超时
                                 AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(5000, "扫描超时");
-                                if (dialog_Running != null&&dialog_Running.isShowing()) {
-                                    dialog_Running.dismiss();
+                                if (dialog_Running != null) {
+                                    dialog_Running.hide();
                                 }
                                 showToast(message);
                                 break;
                             case 6://扫描失败
                                 AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
                                 scanSlotsEventNotify(6000, "扫描失败");
-                                if (dialog_Running != null&&dialog_Running.isShowing()) {
-                                    dialog_Running.dismiss();
+                                if (dialog_Running != null) {
+                                    dialog_Running.hide();
                                 }
                                 showToast(message);
                                 break;
@@ -656,15 +656,15 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     getCabinetSlots();
                 }
 
-                if(dialog_Running!=null&&dialog_Running.isShowing()) {
-                    dialog_Running.dismiss();
+                if(dialog_Running!=null) {
+                    dialog_Running.hide();
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
-                if (dialog_Running!=null&&dialog_Running.isShowing()) {
-                    dialog_Running.dismiss();
+                if (dialog_Running!=null) {
+                    dialog_Running.hide();
                 }
             }
         });

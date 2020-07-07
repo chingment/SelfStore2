@@ -203,10 +203,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(machine!=null) {
             if(!machine.getId().equals("")) {
                 if(machine.isExIsHas()) {
-                    if(!getDialogBySystemWarn().isShowing()) {
                         getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                         getDialogBySystemWarn().show();
-                    }
                 }
             }
         }
@@ -306,11 +304,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         //TcStatInterface.recordAppEnd();
 
-        if (dialog_Loading != null && dialog_Loading.isShowing()) {
+        if (dialog_Loading != null) {
             dialog_Loading.cancel();
         }
 
-        if (dialog_Loading != null && dialog_Loading.isShowing()) {
+        if (dialog_Loading != null) {
             dialog_Loading.cancel();
         }
     }
@@ -350,7 +348,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(dialog_Loading!=null&&!dialog_Loading.isShowing()) {
+                        if(dialog_Loading!=null) {
                             dialog_Loading.setProgressText(loadingMsg);
                             dialog_Loading.show();
 
@@ -360,7 +358,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                                 public void run() {
 
                                     if (dialog_Loading != null && dialog_Loading.isShowing()) {
-                                        dialog_Loading.dismiss();
+                                        dialog_Loading.hide();
                                     }
                                 }
                             }, 6000);
@@ -373,8 +371,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
-                        dialog_Loading.dismiss();
+                    if(dialog_Loading!=null) {
+                        dialog_Loading.hide();
                     }
                 }
                 final String s = response;
@@ -397,8 +395,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
-                        dialog_Loading.dismiss();
+                    if(dialog_Loading!=null) {
+                        dialog_Loading.hide();
                     }
                 }
                 handler.onFailure(msg, e);
@@ -414,7 +412,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public void onBeforeSend() {
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(dialog_Loading!=null&&!dialog_Loading.isShowing()) {
+                        if(dialog_Loading!=null) {
                             dialog_Loading.setProgressText(loadingMsg);
                             dialog_Loading.show();
 
@@ -422,9 +420,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-
-                                    if (dialog_Loading != null && dialog_Loading.isShowing()) {
-                                        dialog_Loading.dismiss();
+                                    if (dialog_Loading != null) {
+                                        dialog_Loading.hide();
                                     }
                                 }
                             }, 6000);
@@ -437,8 +434,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
-                        dialog_Loading.dismiss();
+                    if(dialog_Loading!=null) {
+                        dialog_Loading.hide();
                     }
                 }
                 final String s = response;
@@ -459,8 +456,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null&&dialog_Loading.isShowing()) {
-                        dialog_Loading.dismiss();
+                    if(dialog_Loading!=null) {
+                        dialog_Loading.hide();
                     }
                 }
                 handler.onFailure(msg, e);

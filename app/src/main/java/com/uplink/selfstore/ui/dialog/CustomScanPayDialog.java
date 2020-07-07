@@ -93,8 +93,8 @@ public class CustomScanPayDialog extends Dialog {
         dialog_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_ConfirmClose.dismiss();
-                mThis.dismiss();
+                dialog_ConfirmClose.hide();
+                mThis.hide();
                 myHanldeListener.onSureClose();
             }
         });
@@ -102,7 +102,7 @@ public class CustomScanPayDialog extends Dialog {
         dialog_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_ConfirmClose.dismiss();
+                dialog_ConfirmClose.hide();
                 myHanldeListener.onCancleClose();
             }
         });
@@ -125,7 +125,7 @@ public class CustomScanPayDialog extends Dialog {
 
             @Override
             public void onFinish() {
-                mThis.dismiss();
+                mThis.hide();
                 myHanldeListener.onTimeFinish();
             }
         };
@@ -149,11 +149,11 @@ public class CustomScanPayDialog extends Dialog {
     }
 
     @Override
-    public void dismiss() {
-        super.dismiss();
+    public void hide() {
+        super.hide();
 
-        if(dialog_ConfirmClose!=null&&dialog_ConfirmClose.isShowing()) {
-            dialog_ConfirmClose.dismiss();
+        if(dialog_ConfirmClose!=null) {
+            dialog_ConfirmClose.hide();
         }
 
         if (countDownTimer != null) {
@@ -165,7 +165,7 @@ public class CustomScanPayDialog extends Dialog {
     public void cancel(){
         super.cancel();
 
-        if(dialog_ConfirmClose!=null&&dialog_ConfirmClose.isShowing()) {
+        if(dialog_ConfirmClose!=null) {
             dialog_ConfirmClose.cancel();
         }
 

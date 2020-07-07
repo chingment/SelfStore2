@@ -106,23 +106,22 @@ public class UpdateAppService extends Service {
                             customDialogLoading = new CustomDialogLoading(AppManager.getAppManager().currentActivity());
                         }
                         customDialogLoading.setProgressText("系统正在更新中....");
-                        if(!customDialogLoading.isShowing()) {
                             customDialogLoading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (customDialogLoading != null && customDialogLoading.isShowing()) {
-                                        customDialogLoading.dismiss();
+                                    if (customDialogLoading != null) {
+                                        customDialogLoading.hide();
                                     }
                                 }
                             }, 30*60*1000);
-                        }
+
                         break;
                     case 2:
-                        if(customDialogLoading!=null&&customDialogLoading.isShowing()) {
-                            customDialogLoading.dismiss();
+                        if(customDialogLoading!=null) {
+                            customDialogLoading.hide();
                         }
                         break;
                     case 3:

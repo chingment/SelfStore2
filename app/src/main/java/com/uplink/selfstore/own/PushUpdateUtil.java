@@ -96,15 +96,11 @@ public class PushUpdateUtil {
             return;
 
         if (sysSetStatusBean.getStatus() == 1) {
-            if (currentActivity.getDialogBySystemWarn().isShowing()) {
                 currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
-                currentActivity.getDialogBySystemWarn().dismiss();
-            }
+                currentActivity.getDialogBySystemWarn().hide();
         } else if (sysSetStatusBean.getStatus() == 2) {
-            if (!currentActivity.getDialogBySystemWarn().isShowing()) {
                 currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                 currentActivity.getDialogBySystemWarn().show();
-            }
         }
 
     }

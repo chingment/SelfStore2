@@ -110,7 +110,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                             LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived:type:" + type);
                             LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived:content:" + content);
 
-                            dialog_Handling.dismiss();
+                            dialog_Handling.hide();
 
                             if (type.equals("buyinfo")) {
                                 MsgContentByBuyInfo rt = JSON.parseObject(content, new TypeReference<MsgContentByBuyInfo>() {
@@ -464,7 +464,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 LogUtil.d(TAG,"surface_state:"+surface_state);
 
                 if(surface_state==0) {//表示有通话记录
-                    dialog_ImSeatList.dismiss();
+                    dialog_ImSeatList.hide();
                     dialog_Handling.show();
                 }
             }

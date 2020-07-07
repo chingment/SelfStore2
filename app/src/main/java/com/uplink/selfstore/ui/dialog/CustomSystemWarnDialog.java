@@ -126,7 +126,7 @@ public class CustomSystemWarnDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                hide();
             }
         });
     }

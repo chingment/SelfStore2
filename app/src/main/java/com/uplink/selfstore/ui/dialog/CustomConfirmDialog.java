@@ -86,7 +86,7 @@ public class CustomConfirmDialog extends Dialog {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mThis.dismiss();
+                mThis.hide();
             }
         });
     }

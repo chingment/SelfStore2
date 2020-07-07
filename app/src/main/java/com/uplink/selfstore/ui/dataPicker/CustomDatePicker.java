@@ -113,7 +113,7 @@ public class CustomDatePicker {
         tv_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                datePickerDialog.dismiss();
+                datePickerDialog.hide();
             }
         });
 
@@ -122,7 +122,7 @@ public class CustomDatePicker {
             public void onClick(View view) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
                 handler.handle(sdf.format(selectedCalender.getTime()));
-                datePickerDialog.dismiss();
+                datePickerDialog.hide();
             }
         });
     }

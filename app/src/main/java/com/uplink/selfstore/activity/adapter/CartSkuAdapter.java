@@ -43,7 +43,7 @@ public class CartSkuAdapter extends BaseAdapter {
 
                 CartSkuBean sku = (CartSkuBean)v.getTag();
                 operate(CartOperateType.DELETE, sku.getId());
-                delete_Dialog.dismiss();
+                delete_Dialog.hide();
 
             }
         });
@@ -52,7 +52,7 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                delete_Dialog.dismiss();
+                delete_Dialog.hide();
             }
         });
 

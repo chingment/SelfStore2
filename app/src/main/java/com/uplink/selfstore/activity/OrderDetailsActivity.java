@@ -393,8 +393,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void onClick(View v) {
 
-                if (dialog_PickupCompelte != null && dialog_PickupCompelte.isShowing()) {
-                    dialog_PickupCompelte.dismiss();
+                if (dialog_PickupCompelte != null) {
+                    dialog_PickupCompelte.hide();
                 }
 
                 Intent intent = new Intent(OrderDetailsActivity.this, ProductKindActivity.class);
@@ -405,7 +405,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         dialog_PickupCompelte.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_PickupCompelte.dismiss();
+                dialog_PickupCompelte.hide();
             }
         });
 
@@ -484,11 +484,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if(isHappneException) {
 
             if (!OrderDetailsActivity.this.isFinishing()) {
-                if (!getDialogBySystemWarn().isShowing()) {
                     getDialogBySystemWarn().setWarnTile("系统维护中..");
                     getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                     getDialogBySystemWarn().show();
-                }
             }
             cabinetCtrlByDS.emgStop();
             curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");

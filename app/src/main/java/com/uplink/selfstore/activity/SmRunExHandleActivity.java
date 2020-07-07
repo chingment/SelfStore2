@@ -81,8 +81,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
             @Override
             public void onClick(View v) {
 
-                if (dialog_ConfrmHandle != null && dialog_ConfrmHandle.isShowing()) {
-                    dialog_ConfrmHandle.cancel();
+                if (dialog_ConfrmHandle != null) {
+                    dialog_ConfrmHandle.hide();
                 }
 
 
@@ -158,7 +158,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
         dialog_ConfrmHandle.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_ConfrmHandle.dismiss();
+                dialog_ConfrmHandle.hide();
             }
         });
 
@@ -168,7 +168,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
         dialog_HandleComplete.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_ConfrmHandle.dismiss();
+                dialog_ConfrmHandle.hide();
                 finish();
             }
         });
