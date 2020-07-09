@@ -75,6 +75,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     public static String LAST_ORDERID;
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
     private  TerminalPayOptionBean payOption;
+    private CartSkuAdapter cartSkuAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -273,7 +274,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                 public void call(ImSeatBean v) {
 
 
-                                    EMClient.getInstance().login("MH_202004220011", "1a2b3c4d", new EMCallBack() {
+                                    EMClient.getInstance().login(getMachine().getImUserName(), getMachine().getImPassword(), new EMCallBack() {
 
                                         @Override
                                         public void onSuccess() {
@@ -376,7 +377,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         } else {
 
             if(list_skus!=null) {
-                CartSkuAdapter cartSkuAdapter = new CartSkuAdapter(CartActivity.this, cartSkus);
+                cartSkuAdapter = new CartSkuAdapter(CartActivity.this, cartSkus);
                 list_skus.setAdapter(cartSkuAdapter);
                 list_skus.setVisibility(View.VISIBLE);
             }
@@ -404,19 +405,20 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                     payOption=(TerminalPayOptionBean)v.getTag();
 
-                    boolean isHasVieoService=false;
-                    LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-                    for (String key : cartSkus.keySet()) {
-                        CartSkuBean bean = cartSkus.get(key);
-                        if (bean.isTrgVideoService()) {
-                            isHasVieoService = true;
-                            break;
+                    if(getMachine().isImIsUse()) {
+                        boolean isHasVieoService = false;
+                        LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
+                        for (String key : cartSkus.keySet()) {
+                            CartSkuBean bean = cartSkus.get(key);
+                            if (bean.isTrgVideoService()) {
+                                isHasVieoService = true;
+                                break;
+                            }
                         }
-                    }
-
-                    if(isHasVieoService){
-                        dialog_ImSeatList.show();
-                        return;
+                        if (isHasVieoService) {
+                            dialog_ImSeatList.show();
+                            return;
+                        }
                     }
 
                     paySend(payOption);
@@ -445,6 +447,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         if(dialog_Handling!=null) {
             dialog_Handling.cancel();
+        }
+
+        if(cartSkuAdapter!=null){
+            cartSkuAdapter.dismiss();
         }
 
         if(msgListener!=null){

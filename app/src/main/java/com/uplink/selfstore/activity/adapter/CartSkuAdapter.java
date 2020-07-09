@@ -155,5 +155,11 @@ public class CartSkuAdapter extends BaseAdapter {
         });
     }
 
+    public void dismiss(){
+
+        if(delete_Dialog!=null){
+            delete_Dialog.dismiss();
+        }
+    }
 
 }
