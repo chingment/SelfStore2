@@ -17,19 +17,22 @@ public class CustomHandlingDialog extends Dialog {
     private static final String TAG = "CustomHandlingDialog";
     private View mLayoutRes;// 布局文件
     private Context mContext;
-    private Dialog mThis;
+    private CustomHandlingDialog mThis;
 
     private TextView txt_tips;//等待提示
     private TextView txt_seconds;//等待秒数
     private LinearLayout btn_close;
     private CustomConfirmDialog dialog_ConfirmClose;
     private CountDownTimer countDownTimer;
-    public CustomHandlingDialog(Context context,int seconds,String tips) {
+
+    private IHanldeListener mHanldeListener;
+    public CustomHandlingDialog(Context context, int seconds, String tips, IHanldeListener hanldeListener) {
         super(context, R.style.dialog_style);
 
         mThis=this;
         mContext = context;
         mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_handling, null);
+        mHanldeListener=hanldeListener;
 
         btn_close =  ViewHolder.get(mLayoutRes,R.id.btn_close);
         txt_seconds = ViewHolder.get(mLayoutRes,R.id.txt_seconds);
@@ -44,6 +47,7 @@ public class CustomHandlingDialog extends Dialog {
             public void onClick(View v) {
                 dialog_ConfirmClose.hide();
                 mThis.hide();
+                hanldeListener.onCancle();
             }
         });
 
@@ -87,6 +91,8 @@ public class CustomHandlingDialog extends Dialog {
         super.show();
         countDownTimer.cancel();
         countDownTimer.start();
+        mHanldeListener.onShow();
+
     }
 
     @Override
@@ -100,6 +106,7 @@ public class CustomHandlingDialog extends Dialog {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+
     }
 
     @Override
@@ -114,6 +121,11 @@ public class CustomHandlingDialog extends Dialog {
             countDownTimer.cancel();
         }
 
+    }
+
+    public  interface IHanldeListener{
+        void onCancle();
+        void onShow();
     }
 
 }

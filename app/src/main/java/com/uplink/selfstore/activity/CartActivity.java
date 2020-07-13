@@ -3,7 +3,6 @@ package com.uplink.selfstore.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -72,10 +71,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CustomScanPayDialog dialog_ScanPay;
     private CustomImSeatListDialog dialog_ImSeatList;
     private CustomHandlingDialog dialog_Handling;
+    private boolean isWaitHandling=false;
     public static String LAST_ORDERID;
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
     private  TerminalPayOptionBean payOption;
     private CartSkuAdapter cartSkuAdapter;
+
+    private String currentSvcConsulterId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +100,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 @Override
                 public void run() {
+
+                    if(!isWaitHandling)
+                        return;
 
                     //收到消息
                     LogUtil.d(TAG, "EMClient->EMMessage: onMessageReceived");
@@ -280,6 +285,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                         public void onSuccess() {
                                             Log.d(TAG, "EMClient->login: onSuccess");
 
+                                            currentSvcConsulterId=v.getUserId();
 
                                             JSONObject jsonExMessage = new JSONObject();
 
@@ -347,7 +353,16 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
             }
         });
-        dialog_Handling = new CustomHandlingDialog(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候");
+        dialog_Handling = new CustomHandlingDialog(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候",new CustomHandlingDialog.IHanldeListener(){
+            @Override
+            public void onShow() {
+                isWaitHandling=true;
+            }
+            @Override
+            public void onCancle() {
+                isWaitHandling = false;
+            }
+        });
     }
 
     private void initEvent() {
@@ -522,8 +537,6 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", getMachine().getId() + "");
-        params.put("payPartner", payOption.getPartner() + "");
-        params.put("payCaller", payOption.getCaller() + "");
 
         JSONArray json_Skus = new JSONArray();
 
@@ -533,6 +546,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 JSONObject json_Sku = new JSONObject();
                 json_Sku.put("id", bean.getId());
                 json_Sku.put("quantity", bean.getQuantity());
+                if(currentSvcConsulterId!=null) {
+                    json_Sku.put("svcConsulterId", currentSvcConsulterId);
+                }
                 json_Skus.put(json_Sku);
             }
 
