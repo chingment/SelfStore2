@@ -616,8 +616,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     public void doPaySuccess(OrderPayStatusQueryResultBean bean) {
         if (bean == null)
             return;
-        //4 为 已完成支付
-        if (bean.getStatus() == 3000) {
+        //3 为 已支付成功
+        if (bean.getStatus() == 3) {
 
             synchronized(CartActivity.class) {
                 if (!ordersPaySuccess.containsKey(LAST_ORDERID)) {

@@ -315,8 +315,8 @@ public class EmCallActivity extends SwipeBackActivity {
 
             // play
             int id = soundPool.play(outgoing, // sound resource
-                    0.3f, // left volume
-                    0.3f, // right volume
+                    1, // left volume
+                    1, // right volume
                     1,    // priority
                     -1,   // loop，0 is no loop，-1 is loop forever
                     1);   // playback rate (1.0 = normal playback, range 0.5 to 2.0)

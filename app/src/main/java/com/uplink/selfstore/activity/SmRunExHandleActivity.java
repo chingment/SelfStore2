@@ -13,12 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.adapter.ExHandleOrderAdapter;
+import com.uplink.selfstore.activity.adapter.ExHandleItemAdapter;
 import com.uplink.selfstore.activity.adapter.ExHandleReasonAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.ExHandleOrderBean;
-import com.uplink.selfstore.model.api.ExHandleOrderDetailItemBean;
+import com.uplink.selfstore.model.api.ExHandleItemBean;
+import com.uplink.selfstore.model.api.ExHandleUniqueBean;
 import com.uplink.selfstore.model.api.ExHandleReasonBean;
 import com.uplink.selfstore.model.api.MachineGetRunExHandleItemsResultBean;
 import com.uplink.selfstore.model.api.Result;
@@ -43,7 +43,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     private Button btn_Handle;
     private CustomConfirmDialog dialog_ConfrmHandle;
     private CustomConfirmDialog dialog_HandleComplete;
-    private List<ExHandleOrderBean> exOrders;
+    private List<ExHandleItemBean> exItems;
     private List<ExHandleReasonBean> exReasons;
 
     private LinearLayout layout_ex;
@@ -89,38 +89,38 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                 Map<String, Object> params = new HashMap<>();
                 params.put("machineId", getMachine().getId() + "");
 
-                JSONArray json_ExOrders = new JSONArray();
-                JSONArray json_ExReasons = new JSONArray();
+                JSONArray json_items = new JSONArray();
+                JSONArray json_reasons = new JSONArray();
                 try {
 
-                    for (int i=0;i<exOrders.size();i++) {
-                        JSONObject json_Order = new JSONObject();
-                        json_Order.put("id", exOrders.get(i).getId());
-                        JSONArray json_UniqueItems = new JSONArray();
-                        List<ExHandleOrderDetailItemBean> detailItems = exOrders.get(i).getDetailItems();
-                        for (int j = 0; j < detailItems.size(); j++) {
-                            ExHandleOrderDetailItemBean detailItem = detailItems.get(j);
-                            if(detailItem.isCanHandle()) {
-                                JSONObject json_UniqueItem = new JSONObject();
-                                json_UniqueItem.put("uniqueId", detailItem.getUniqueId());
-                                json_UniqueItem.put("signStatus", detailItem.getSignStatus());
-                                json_UniqueItems.put(json_UniqueItem);
+                    for (int i=0;i<exItems.size();i++) {
+                        JSONObject json_item = new JSONObject();
+                        json_item.put("id", exItems.get(i).getId());
+                        JSONArray json_uniques = new JSONArray();
+                        List<ExHandleUniqueBean> uniques = exItems.get(i).getUniques();
+                        for (int j = 0; j < uniques.size(); j++) {
+                            ExHandleUniqueBean unique = uniques.get(j);
+                            if(unique.isCanHandle()) {
+                                JSONObject json_unique = new JSONObject();
+                                json_unique.put("id", unique.getId());
+                                json_unique.put("signStatus", unique.getSignStatus());
+                                json_uniques.put(json_unique);
                             }
                         }
 
-                        json_Order.put("uniqueItems",json_UniqueItems);
+                        json_item.put("uniques",json_uniques);
 
-                        json_ExOrders.put(json_Order);
+                        json_items.put(json_item);
                     }
 
 
                     for (int i=0;i<exReasons.size();i++) {
                       ExHandleReasonBean exReason=exReasons.get(i);
                         if(exReason.isChecked()){
-                            JSONObject json_ExReason = new JSONObject();
-                            json_ExReason.put("id",exReason.getId());
-                            json_ExReason.put("title",exReason.getTitle());
-                            json_ExReasons.put(json_ExReason);
+                            JSONObject json_reason = new JSONObject();
+                            json_reason.put("id",exReason.getId());
+                            json_reason.put("title",exReason.getTitle());
+                            json_reasons.put(json_reason);
                         }
                     }
 
@@ -129,8 +129,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                     return;
                 }
 
-                params.put("exOrders", json_ExOrders);
-                params.put("exReasons", json_ExReasons);
+                params.put("items", json_items);
+                params.put("reasons", json_reasons);
                 postByMy(Config.URL.machine_HandleRunExItems, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
@@ -182,12 +182,12 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     }
 
 
-    public void loadExOrders() {
-        if (exOrders != null) {
+    public void loadExItems() {
+        if (exItems != null) {
 
-            if(exOrders.size()>0) {
-                ExHandleOrderAdapter exHandleOrderAdapter = new ExHandleOrderAdapter(SmRunExHandleActivity.this, exOrders);
-                list_exorders.setAdapter(exHandleOrderAdapter);
+            if(exItems.size()>0) {
+                ExHandleItemAdapter exHandleItemAdapter = new ExHandleItemAdapter(SmRunExHandleActivity.this, exItems);
+                list_exorders.setAdapter(exHandleItemAdapter);
                 layout_exorders.setVisibility(View.VISIBLE);
             }
         }
@@ -222,9 +222,9 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    exOrders=rt.getData().getExOrders();
+                    exItems=rt.getData().getExItems();
                     exReasons=rt.getData().getExReasons();
-                    loadExOrders();
+                    loadExItems();
                     loadExReasons();
                 } else {
                     showToast(rt.getMessage());
@@ -289,11 +289,11 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
             return;
         }
 
-        if(exReasons!=null) {
-            for (int i = 0; i < exOrders.size(); i++) {
-                List<ExHandleOrderDetailItemBean> detailItems = exOrders.get(i).getDetailItems();
-                for (int j = 0; j < detailItems.size(); j++) {
-                    ExHandleOrderDetailItemBean detailItem = detailItems.get(j);
+        if(exItems!=null) {
+            for (int i = 0; i < exItems.size(); i++) {
+                List<ExHandleUniqueBean> uniques = exItems.get(i).getUniques();
+                for (int j = 0; j < uniques.size(); j++) {
+                    ExHandleUniqueBean detailItem = uniques.get(j);
                     if(detailItem.isCanHandle()) {
                         if (detailItem.getSignStatus() == 0) {
                             showToast("请标记" + detailItem.getName() + "的取货状态");

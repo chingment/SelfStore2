@@ -8,7 +8,7 @@ public class MachineGetRunExHandleItemsResultBean  implements Serializable {
 
     private List<ExHandleReasonBean> exReasons;
 
-    private List<ExHandleOrderBean> exOrders;
+    private List<ExHandleItemBean> exItems;
 
     public List<ExHandleReasonBean> getExReasons() {
         return exReasons;
@@ -18,12 +18,12 @@ public class MachineGetRunExHandleItemsResultBean  implements Serializable {
         this.exReasons = exReasons;
     }
 
-    public List<ExHandleOrderBean> getExOrders() {
-        return exOrders;
+
+    public List<ExHandleItemBean> getExItems() {
+        return exItems;
     }
 
-    public void setExOrders(List<ExHandleOrderBean> exOrders) {
-        this.exOrders = exOrders;
+    public void setExItems(List<ExHandleItemBean> exItems) {
+        this.exItems = exItems;
     }
-
 }
