@@ -72,6 +72,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private CustomImSeatListDialog dialog_ImSeatList;
     private CustomHandlingDialog dialog_Handling;
     private boolean isWaitHandling=false;
+    public static String LAST_PAYTRANSID;
     public static String LAST_ORDERID;
     private Map<String,Boolean> ordersPaySuccess=new HashMap<String, Boolean>();
     private  TerminalPayOptionBean payOption;
@@ -218,7 +219,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             public void onSureClose() {
                 closePageCountTimerStart();
                 orderCancle(LAST_ORDERID, 1, "取消订单");
-                LAST_ORDERID = "";
+                LAST_PAYTRANSID = "";
+                LAST_ORDERID="";
             }
 
             @Override
@@ -230,7 +232,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             public void onTimeFinish() {
                 closePageCountTimerStart();
                 orderCancle(LAST_ORDERID, 1, "支付超时");
-                LAST_ORDERID = "";
+                LAST_PAYTRANSID = "";
+                LAST_ORDERID="";
             }
 
         });
@@ -494,6 +497,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     private void buildBayParams(final String orderId, final TerminalPayOptionBean payOption) {
         Map<String, Object> params = new HashMap<>();
+
         params.put("orderId", orderId);
         params.put("payPartner", payOption.getPartner() + "");
         params.put("payCaller", payOption.getCaller() + "");
@@ -510,6 +514,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                     //taskByCheckPayTimeout.start();
                     LAST_ORDERID=orderId;
+                    LAST_PAYTRANSID=d.getPayTransId();
                     dialog_ScanPay.setPayWayQrcode(payOption,d.getPayUrl(),d.getChargeAmount());
                     dialog_ScanPay.show();
 
@@ -586,12 +591,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public void payStatusQuery() {
 
-        if(StringUtil.isEmptyNotNull(LAST_ORDERID))
+        if(StringUtil.isEmptyNotNull(LAST_PAYTRANSID))
             return;
 
         Map<String, String> params = new HashMap<>();
         params.put("machineId", this.getMachine().getId());
-        params.put("orderId", LAST_ORDERID);
+        params.put("payTransId", LAST_PAYTRANSID);
 
         getByMy(Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
             @Override
@@ -617,11 +622,11 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         if (bean == null)
             return;
         //3 为 已支付成功
-        if (bean.getStatus() == 3) {
+        if (bean.getPayStatus() == 3) {
 
             synchronized(CartActivity.class) {
-                if (!ordersPaySuccess.containsKey(LAST_ORDERID)) {
-                    ordersPaySuccess.put(LAST_ORDERID, true);
+                if (!ordersPaySuccess.containsKey(LAST_PAYTRANSID)) {
+                    ordersPaySuccess.put(LAST_PAYTRANSID, true);
 //                    if (taskByCheckPayTimeout != null) {
 //                        taskByCheckPayTimeout.cancel();
 //                    }
@@ -629,8 +634,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
                     Bundle bundle = new Bundle();
                     OrderDetailsBean orderDetails = new OrderDetailsBean();
-                    orderDetails.setId(bean.getId());
-                    orderDetails.setStatus(bean.getStatus());
+                    orderDetails.setId(bean.getOrderId());
+                    orderDetails.setStatus(bean.getPayStatus());
                     orderDetails.setProductSkus(bean.getProductSkus());
                     bundle.putSerializable("dataBean", orderDetails);
                     intent.putExtras(bundle);

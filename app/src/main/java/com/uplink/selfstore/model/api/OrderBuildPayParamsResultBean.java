@@ -20,4 +20,14 @@ public class OrderBuildPayParamsResultBean {
     }
 
     private String payUrl;
+
+    private String payTransId;
+
+    public String getPayTransId() {
+        return payTransId;
+    }
+
+    public void setPayTransId(String payTransId) {
+        this.payTransId = payTransId;
+    }
 }

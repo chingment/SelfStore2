@@ -9,24 +9,34 @@ import java.util.List;
 
 public class OrderPayStatusQueryResultBean implements Serializable {
 
-    private String id;
-    private int status;
+    private String orderId;
+    private String payTransId;
+    private int payStatus;
     private List<OrderDetailsSkuBean> productSkus;
 
-    public String getId() {
-        return id;
+
+    public int getPayStatus() {
+        return payStatus;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPayStatus(int payStatus) {
+        this.payStatus = payStatus;
     }
 
-    public int getStatus() {
-        return status;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPayTransId() {
+        return payTransId;
+    }
+
+    public void setPayTransId(String payTransId) {
+        this.payTransId = payTransId;
     }
 
     public List<OrderDetailsSkuBean> getProductSkus() {

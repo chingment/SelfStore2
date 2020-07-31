@@ -1,6 +1,7 @@
 package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by chingment on 2018/10/8.
@@ -8,9 +9,16 @@ import java.io.Serializable;
 
 public class OrderReserveResultBean implements Serializable {
 
-    private String orderId;
+    private  String orderId;
+    private  String chargeAmount;
 
-    private String chargeAmount;
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
     public String getChargeAmount() {
         return chargeAmount;
@@ -18,14 +26,5 @@ public class OrderReserveResultBean implements Serializable {
 
     public void setChargeAmount(String chargeAmount) {
         this.chargeAmount = chargeAmount;
-    }
-
-    public String getOrderId() {
-        return orderId;
-
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
     }
 }
