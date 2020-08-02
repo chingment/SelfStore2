@@ -23,8 +23,13 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -141,9 +146,9 @@ public class AppContext extends Application {
             deviceId="";
         }
 
-        if(Config.IS_BUILD_DEBUG) {
-            return "02:00:00:00:00:00";
-        }
+//        if(Config.IS_BUILD_DEBUG) {
+//            return "02:00:00:00:00:00";
+//        }
 
         return deviceId;
     }
@@ -162,10 +167,80 @@ public class AppContext extends Application {
         return imeiId;
     }
 
-    public String getMacAddress() {
-        WifiManager wifi = (WifiManager) app.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = wifi.getConnectionInfo();
-        return info != null ? info.getMacAddress() : "";
+
+    public static String getMacAddress() {
+//        String mac = "02:00:00:00:00:00";
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            mac = getMacDefault(app.getApplicationContext());
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            mac = getMacFromFile();
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        String    mac = getMacFromHardware();
+       // }
+        return mac;
+    }
+
+    private static String getMacFromFile() {
+        String WifiAddress = "02:00:00:00:00:00";
+        try {
+            WifiAddress = new BufferedReader(new FileReader(new File("/sys/class/net/wlan0/address"))).readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return WifiAddress;
+    }
+
+    private static String getMacFromHardware() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:", b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "02:00:00:00:00:00";
+    }
+
+    private static String getMacDefault(Context context) {
+        String mac = "02:00:00:00:00:00";
+        if (context == null) {
+            return mac;
+        }
+
+        WifiManager wifi = (WifiManager) context.getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
+        if (wifi == null) {
+            return mac;
+        }
+        WifiInfo info = null;
+        try {
+            info = wifi.getConnectionInfo();
+        } catch (Exception e) {
+        }
+        if (info == null) {
+            return null;
+        }
+        mac = info.getMacAddress();
+        if (!TextUtils.isEmpty(mac)) {
+            mac = mac.toUpperCase(Locale.ENGLISH);
+        }
+        return mac;
     }
 
 }

@@ -28,12 +28,12 @@ android {
         applicationId "com.uplink.selfstore"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 89
-        versionName "1.0.8.9"
+        versionCode 92
+        versionName "1.1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
 
-
+a
 //        ndk {
 //            abiFilters "armeabi", "armeabi-v7a", "x86"
 //        }
