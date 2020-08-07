@@ -74,6 +74,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
             }
         });
+
+        showMachineId();
     }
 
     @Override
@@ -113,6 +115,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         banner_pager.setInterval(5000);
 
         dialog_NumKey = new CustomNumKeyDialog(MainActivity.this);
+
     }
 
     private void initEvent() {

@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -249,6 +251,22 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             dialog_SystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
         }
 
+    }
+
+    public void  showMachineId() {
+        RelativeLayout layout_machineid = findViewById(R.id.layout_machineid);
+        if (layout_machineid != null) {
+            layout_machineid.getBackground().setAlpha(50);
+            layout_machineid.setVisibility(View.VISIBLE);
+            TextView tv_machineId_title =findViewById(R.id.tv_machineId_title);
+            TextView tv_machineId_value =findViewById(R.id.tv_machineId_value);
+            if(tv_machineId_value!=null){
+
+                tv_machineId_value.setText(getMachine().getId());
+                tv_machineId_value.setTextColor(Color.argb(255, 0, 255, 0));
+                tv_machineId_title.setTextColor(Color.argb(255, 0, 255, 0));
+            }
+        }
     }
 
     @Override

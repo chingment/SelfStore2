@@ -56,7 +56,7 @@
     <string name="aty_initdata_tips_settingmachine">正在配置商户机器信息</string>
     <string name="aty_initdata_tips_settingmachinecfgreadsuccess">读取商户机器配置信息成功</string>
     <string name="aty_initdata_tips_settingmachinecfgreadfailure">读取商户机器配置信息失败</string>
-    <string name="aty_initdata_tvtx_deviceid">设备编码</string>
+    <string name="aty_initdata_tvtx_deviceid">设备标识</string>
     <string name="aty_initdata_tvtx_version">应用版本</string>
     <string name="aty_smhome_navtitle">设置中心</string>
     <string name="aty_smhome_ngtitle_stockset">库存设置</string>

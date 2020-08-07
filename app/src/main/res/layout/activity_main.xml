@@ -4,15 +4,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:paddingTop="@dimen/size_2"
-    android:paddingBottom="@dimen/size_2"
-    android:paddingLeft="@dimen/size_2"
-    android:paddingRight="@dimen/size_2"
     android:background="@color/white"
     >
 
 
+
     <RelativeLayout
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:id="@+id/layout_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_40"
@@ -34,10 +33,10 @@
 
     </RelativeLayout>
 
-
-
     <RelativeLayout
         android:id="@+id/layout_body"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/layout_header"
@@ -63,6 +62,8 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:id="@+id/layout_footer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_70"
@@ -119,5 +120,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <include layout="@layout/layout_machineid" />
 
 </RelativeLayout>
