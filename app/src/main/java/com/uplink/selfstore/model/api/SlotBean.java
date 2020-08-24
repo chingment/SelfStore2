@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class SlotBean implements Serializable {
     private  String id;
+    private  String cabinetId;
     private  String productSkuId;
     private  String productSkuCumCode;
     private  String productSkuName;
@@ -110,5 +111,13 @@ public class SlotBean implements Serializable {
 
     public void setProductSkuCumCode(String productSkuCumCode) {
         this.productSkuCumCode = productSkuCumCode;
+    }
+
+    public String getCabinetId() {
+        return cabinetId;
+    }
+
+    public void setCabinetId(String cabinetId) {
+        this.cabinetId = cabinetId;
     }
 }

@@ -14,6 +14,7 @@ public class PickupSkuBean {
     private String slotId;
     private String cabinetId;
     private int status;
+    private String tips;
     private Date startTime;
 
     public Date getStartTime() {
@@ -78,5 +79,13 @@ public class PickupSkuBean {
 
     public void setCabinetId(String cabinetId) {
         this.cabinetId = cabinetId;
+    }
+
+    public String getTips() {
+        return tips;
+    }
+
+    public void setTips(String tips) {
+        this.tips = tips;
     }
 }

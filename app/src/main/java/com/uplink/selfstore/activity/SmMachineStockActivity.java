@@ -29,12 +29,14 @@ import com.uplink.selfstore.model.ZsCabRowLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineSlotsResultBean;
+import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
+import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
 import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -45,9 +47,11 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class SmMachineStockActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmMachineStockActivity";
@@ -55,10 +59,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout table_slotstock;
     private CustomSlotEditDialog dialog_SlotEdit;
+    private CustomPickupAutoTestDialog dialog_PickupAutoTest;
     private CabinetBean cabinet =null;//机柜信息
     private HashMap<String, SlotBean> cabinetSlots = null;//机柜货道信息
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
+    private Button btn_AutoTest;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     private ScannerCtrl scannerCtrl;
@@ -165,9 +171,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
         dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
-
+        dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmMachineStockActivity.this);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
+        btn_AutoTest= (Button) findViewById(R.id.btn_AutoTest);
         txt_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         dialog_Running = new CustomLoadingDialog(this);
 
@@ -199,6 +206,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
         btn_RefreshStock.setOnClickListener(this);
+        btn_AutoTest.setOnClickListener(this);
     }
 
     private void initData() {
@@ -549,6 +557,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             dialog_Running.cancel();
         }
 
+        if(dialog_PickupAutoTest!=null) {
+            dialog_PickupAutoTest.cancel();
+        }
+
 //        if (cabinetCtrlByDS != null) {
 //            cabinetCtrlByDS.disConnect();
 //            cabinetCtrlByDS = null;
@@ -579,6 +591,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     break;
                 case R.id.btn_RefreshStock:
                     getCabinetSlots();
+                    break;
+                case R.id.btn_AutoTest:
+                    dialog_PickupAutoTest.setIsHappneException(false);
+                    dialog_PickupAutoTest.setSlots(cabinet,getPickupSkus());
+                    dialog_PickupAutoTest.show();
                     break;
                 default:
                     break;
@@ -669,4 +686,29 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             }
         });
     }
+
+    public List<PickupSkuBean> getPickupSkus(){
+
+        List<PickupSkuBean> slots=new ArrayList<>();
+
+        for (String key :this.cabinetSlots.keySet()){
+             SlotBean l_slot= this.cabinetSlots.get(key);
+             for (int i=0;i<l_slot.getSellQuantity();i++){
+                 PickupSkuBean a_slot=new PickupSkuBean();
+                 a_slot.setUniqueId(UUID.randomUUID().toString());
+                 a_slot.setId(l_slot.getProductSkuId());
+                 a_slot.setSlotId(l_slot.getId());
+                 a_slot.setCabinetId(l_slot.getCabinetId());
+                 a_slot.setMainImgUrl(l_slot.getProductSkuMainImgUrl());
+                 a_slot.setName(l_slot.getProductSkuName());
+                 a_slot.setStatus(3010);
+                 a_slot.setTips("待取货");
+                 slots.add(a_slot);
+             }
+        }
+
+        return slots;
+
+    }
+
 }
