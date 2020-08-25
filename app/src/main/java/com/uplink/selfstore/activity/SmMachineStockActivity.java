@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -685,6 +686,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                  slots.add(a_slot);
              }
         }
+
+        Collections.shuffle(slots);
 
         return slots;
 

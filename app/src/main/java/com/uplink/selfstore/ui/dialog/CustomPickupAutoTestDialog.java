@@ -33,6 +33,7 @@ import com.uplink.selfstore.utils.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -355,6 +356,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     }
 
     public void  setSlots(CabinetBean cabinet,List<PickupSkuBean> pickupSkus){
+
         this.cabinet=cabinet;
         this.pickupSkus=pickupSkus;
         PickupAutoTestSlotAdapter orderDetailsSkuAdapter = new PickupAutoTestSlotAdapter(mContext,pickupSkus) ;
