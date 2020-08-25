@@ -119,6 +119,157 @@
                         android:textSize="@dimen/sp_8" />
                 </LinearLayout>
             </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:paddingTop="@dimen/size_2"
+            android:paddingBottom="@dimen/size_2"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="总数量："
+                    android:textSize="@dimen/sp_6" />
+
+            <TextView
+                android:id="@+id/txt_sumQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="@dimen/size_12"
+                android:text="0"
+                android:textColor="@color/sellQuantity"
+                android:textSize="@dimen/sp_6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="待取货："
+                    android:textSize="@dimen/sp_6" />
+
+            <TextView
+                android:id="@+id/txt_waitPickupQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:width="@dimen/size_12"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/lockQuantity"
+                android:textSize="@dimen/sp_6"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="取货中："
+                    android:textSize="@dimen/sp_6" />
+
+                <TextView
+                    android:id="@+id/txt_pickupingQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:width="@dimen/size_12"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/lockQuantity"
+                    android:textSize="@dimen/sp_6"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="已取货："
+                    android:textSize="@dimen/sp_6" />
+
+            <TextView
+                android:id="@+id/txt_pickupedQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:width="@dimen/size_12"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/sumQuantity"
+                android:textSize="@dimen/sp_6" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="异常："
+                    android:textSize="@dimen/sp_6" />
+
+                <TextView
+                    android:id="@+id/txt_exQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:width="@dimen/size_12"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/sumQuantity"
+                    android:textSize="@dimen/sp_6" />
+            </LinearLayout>
+
+        </LinearLayout>
+
                 <com.uplink.selfstore.ui.my.MyScrollView
                     android:id="@+id/scroll_skus"
                     android:layout_width="match_parent"
@@ -179,6 +330,7 @@
                     android:background="@drawable/widget_btn_green"
                     android:gravity="center"
                     android:text="@string/btntx_stoptestpickup"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_10"/>
 
@@ -194,13 +346,6 @@
                     android:textSize="@dimen/sp_10"/>
 
             </LinearLayout>
-
-
-
-
         </LinearLayout>
-
-
-
     </LinearLayout>
 </RelativeLayout>

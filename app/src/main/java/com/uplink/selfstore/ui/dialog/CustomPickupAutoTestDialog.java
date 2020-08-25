@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,6 +45,16 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
 
     private View btn_start;
+    private View btn_stop;
+    private View btn_exit;
+
+
+    private TextView txt_sumQuantity;
+    private TextView txt_waitPickupQuantity;
+    private TextView txt_pickupedQuantity;
+    private TextView txt_exQuantity;
+    private TextView txt_pickupingQuantity;
+
 
     private MyListView list_Skus;
     private PickupSkuBean curPickupSku=null;
@@ -272,18 +283,26 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
     protected void initView() {
         btn_close = ViewHolder.get(mLayoutRes, R.id.btn_close);
-
-        btn_start= ViewHolder.get(mLayoutRes, R.id.btn_start);
-
+        btn_start = ViewHolder.get(mLayoutRes, R.id.btn_start);
+        btn_stop = ViewHolder.get(mLayoutRes, R.id.btn_stop);
+        btn_exit = ViewHolder.get(mLayoutRes, R.id.btn_exit);
         list_Skus = ViewHolder.get(mLayoutRes, R.id.list_skus);
         list_Skus.setFocusable(false);
         list_Skus.setClickable(false);
         list_Skus.setPressed(false);
         list_Skus.setEnabled(false);
 
+
+        txt_sumQuantity = ViewHolder.get(mLayoutRes, R.id.txt_sumQuantity);
+        txt_waitPickupQuantity = ViewHolder.get(mLayoutRes, R.id.txt_waitPickupQuantity);
+        txt_pickupedQuantity = ViewHolder.get(mLayoutRes, R.id.txt_pickupedQuantity);
+        txt_exQuantity = ViewHolder.get(mLayoutRes, R.id.txt_exQuantity);
+        txt_pickupingQuantity=ViewHolder.get(mLayoutRes, R.id.txt_pickupingQuantity);
+
+
         curPickupSku_Img_Mainimg = ViewHolder.get(mLayoutRes, R.id.curpickupsku_img_main);
         curPickupSku_Tv_Tip1 = ViewHolder.get(mLayoutRes, R.id.curpickupsku_tip1);
-        curPickupSku_Tv_Tip2 =  ViewHolder.get(mLayoutRes, R.id.curpickupsku_tip2);
+        curPickupSku_Tv_Tip2 = ViewHolder.get(mLayoutRes, R.id.curpickupsku_tip2);
     }
 
     protected void initEvent() {
@@ -298,6 +317,13 @@ public class CustomPickupAutoTestDialog extends Dialog {
             }
         });
 
+        btn_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cabinetCtrlByDS.emgStop();
+                _this.hide();
+            }
+        });
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -313,6 +339,14 @@ public class CustomPickupAutoTestDialog extends Dialog {
             }
         });
 
+
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cabinetCtrlByDS.emgStop();
+            }
+        });
+
     }
 
     protected void initData() {
@@ -325,11 +359,35 @@ public class CustomPickupAutoTestDialog extends Dialog {
         this.pickupSkus=pickupSkus;
         PickupAutoTestSlotAdapter orderDetailsSkuAdapter = new PickupAutoTestSlotAdapter(mContext,pickupSkus) ;
         list_Skus.setAdapter(orderDetailsSkuAdapter);
+
+        txt_sumQuantity.setText(pickupSkus.size()+"");
+
+        int waitPickupQuantity=0;
+        int pickupedQuantity=0;
+        int exQuantity=0;
+        int pickupingQuantity=0;
+        for (int i=0;i<pickupSkus.size();i++) {
+            PickupSkuBean sku = pickupSkus.get(i);
+            if (sku.getStatus() == 3010) {
+                waitPickupQuantity += 1;
+            }
+            else if (sku.getStatus() == 3011 || sku.getStatus() == 3012) {
+                pickupingQuantity += 1;
+            }
+            else if (sku.getStatus() == 4000) {
+                pickupedQuantity += 1;
+            } else if (sku.getStatus() == 6000) {
+                exQuantity += 1;
+            }
+        }
+
+        txt_waitPickupQuantity.setText(waitPickupQuantity+"");
+        txt_pickupingQuantity.setText(pickupingQuantity+"");
+        txt_pickupedQuantity.setText(pickupedQuantity+"");
+        txt_exQuantity.setText(exQuantity+"");
+
     }
 
-    public  void  setIsHappneException(Boolean isHappneException){
-        this.isHappneException=isHappneException;
-    }
     // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
     private PickupSkuBean getCurrentPickupProductSku() {
         PickupSkuBean cur_pickupSku=null;
@@ -366,5 +424,21 @@ public class CustomPickupAutoTestDialog extends Dialog {
         curPickupSku_Img_Mainimg.setImageResource(R.drawable.icon_pickupcomplete);
         curPickupSku_Tv_Tip1.setText("出货完成");
         curPickupSku_Tv_Tip2.setText("欢迎再次购买......");
+    }
+
+    @Override
+    public void show(){
+        super.show();
+        isHappneException=false;
+
+        curPickupSku_Img_Mainimg.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.default_image));
+        curPickupSku_Tv_Tip1.setText("请点击开始测试");
+        curPickupSku_Tv_Tip2.setText("开始测试前，请确保库存数量与机器实际库存数量一致");
+        btn_start.setVisibility(View.VISIBLE);
+        btn_stop.setVisibility(View.GONE);
+//        txt_sumQuantity.setText("0");
+//        txt_waitPickupQuantity.setText("0");
+//        txt_pickupedQuantity.setText("0");
+//        txt_exQuantity.setText("0");
     }
 }

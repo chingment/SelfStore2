@@ -179,8 +179,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         dialog_Running = new CustomLoadingDialog(this);
 
 
-        switch (cabinet.getModelNo())
-        {
+        switch (cabinet.getModelNo()) {
             case "dsx01":
                 btn_ScanSlots.setVisibility(View.VISIBLE);
                 break;
@@ -265,17 +264,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             TableRow tableRow = new TableRow(SmMachineStockActivity.this);
             int colLength = rowColLayout[i - 1];
 
-//            boolean isPndantRow = false;
-//            int[] cabinetPendantRows = dSCabRowColLayout.getPendantRows();
-//            if (cabinetPendantRows != null) {
-//                for (int z = 0; z < cabinetPendantRows.length; z++) {
-//                    if (cabinetPendantRows[z] == (i - 1)) {
-//                        isPndantRow = true;
-//                        break;
-//                    }
-//                }
-//            }
-
             if(colLength==0){
 
                 final View convertView = LayoutInflater.from(SmMachineStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
@@ -300,14 +288,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
 
                     final String slotId = "r" + (i - 1) + "c" + j;
-
-
-//                if (isPndantRow) {
-//                    if (j == 0) {
-//                        convertView.setVisibility(View.GONE);
-//                    }
-//                }
-
 
                     txt_SlotId.setText(slotId);
                     txt_SlotId.setVisibility(View.GONE);
@@ -593,7 +573,6 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     getCabinetSlots();
                     break;
                 case R.id.btn_AutoTest:
-                    dialog_PickupAutoTest.setIsHappneException(false);
                     dialog_PickupAutoTest.setSlots(cabinet,getPickupSkus());
                     dialog_PickupAutoTest.show();
                     break;
