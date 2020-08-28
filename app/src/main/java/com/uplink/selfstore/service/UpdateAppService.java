@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -25,8 +27,10 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
+import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +49,7 @@ public class UpdateAppService extends Service {
     private CustomLoadingDialog customDialogLoading;
     private CommandReceiver cmdReceiver;
 
+    private static String downloadUpdateApkFilePath="";
     private void downloadManagerApk(String downpath) {
 
         try {
@@ -70,10 +75,32 @@ public class UpdateAppService extends Service {
             // 显示下载界面
             down.setVisibleInDownloadsUi(true);
 
-            String path = Environment.getExternalStorageDirectory() + "/Download";
 
+            //String path = Environment.getExternalStorageDirectory() + "/Download";
+
+
+            String filePath = null;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
+                filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            } else {
+                filePath = Environment.getExternalStorageDirectory() + "/Download";
+                //return;
+            }
+
+
+
+            downloadUpdateApkFilePath = filePath + File.separator + "fanju" + System.currentTimeMillis() + ".apk";
+
+            if(FileUtil.isFileExist(downloadUpdateApkFilePath)) {
+                // 若存在，则删除 (这里具体逻辑具体看,我这里是删除)
+                deleteFile(downloadUpdateApkFilePath);
+            }
+
+            Uri fileUri = Uri.fromFile(new File(downloadUpdateApkFilePath));
+
+            down.setDestinationUri(fileUri);
             // 设置下载后文件存放的位置
-            down.setDestinationInExternalFilesDir(this, path, "fanju.apk");
+            //down.setDestinationInExternalFilesDir(this, path, "fanju.apk");
 
             // 将下载请求放入队列
             manager.enqueue(down);
@@ -276,13 +303,31 @@ public class UpdateAppService extends Service {
             //判断是否下载完成的广播
             if (intent.getAction().equals(
                     DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-
+                LogUtil.i(TAG,"下载完成");
                 //获取下载的文件id
                 long downId = intent.getLongExtra(
                         DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
                 Uri uri=manager.getUriForDownloadedFile(downId);
-                installAPK(uri);
+
+                LogUtil.i(TAG,"downloadUpdateApkFilePath:"+downloadUpdateApkFilePath);
+
+                if(Build.VERSION.SDK_INT>=24) {//判读版本是否在7.0以上
+                    LogUtil.i(TAG,"7.0系统以上");
+                    File file = (new File(downloadUpdateApkFilePath));
+                    Uri apkUri = FileProvider.getUriForFile(context, "com.uplink.selfstore.fileprovider"
+                            , file);//在AndroidManifest中的android:authorities值
+                    Intent install = new Intent(Intent.ACTION_VIEW);
+                    install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                    startActivity(install);
+
+                }
+                else {
+                    LogUtil.i(TAG,"7.0系统以下");
+                    installAPK(uri);
+                }
             }
         }
 

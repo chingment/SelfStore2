@@ -17,6 +17,14 @@ public class PickupSkuBean {
     private String tips;
     private Date startTime;
 
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -25,13 +33,6 @@ public class PickupSkuBean {
         this.startTime = startTime;
     }
 
-    public String getUniqueId() {
-        return uniqueId;
-    }
-
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
-    }
 
     public String getId() {
         return id;

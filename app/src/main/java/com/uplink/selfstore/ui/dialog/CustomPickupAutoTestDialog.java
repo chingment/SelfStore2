@@ -201,6 +201,8 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
     private void pickupEventNotify(final PickupSkuBean pickupSku, final int status, String remark, PickupResult pickupResult) {
 
+        if (pickupSku == null)
+            return;
 
         try {
             JSONObject content = new JSONObject();
@@ -222,7 +224,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             }
             content.put("remark", remark);
             LogUtil.d("status:" + status);
-            if(mContext!=null) {
+            if (mContext != null) {
                 mContext.eventNotify("PickupTest", "商品取货", content);
             }
         } catch (JSONException e) {
@@ -230,14 +232,13 @@ public class CustomPickupAutoTestDialog extends Dialog {
         }
 
 
-        if(isHappneException) {
+        if (isHappneException) {
             cabinetCtrlByDS.emgStop();
             curPickupSku_Tv_Tip2.setText(remark);
             pickupSkus.get(curPickupSku_idx).setStatus(6000);
             pickupSkus.get(curPickupSku_idx).setTips("取货异常");
-            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","pickup");
-        }
-        else {
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickup");
+        } else {
 
             switch (status) {
                 case 3011:

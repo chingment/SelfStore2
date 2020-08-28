@@ -171,7 +171,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     private void initView() {
         table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
-        dialog_SlotEdit = new CustomSlotEditDialog(SmMachineStockActivity.this);
+
         dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmMachineStockActivity.this);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
@@ -332,6 +332,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
+                            dialog_SlotEdit=new CustomSlotEditDialog(SmMachineStockActivity.this);
                             dialog_SlotEdit.setCabinet(cabinet);
                             dialog_SlotEdit.setSlot(l_Slot);
                             dialog_SlotEdit.clearSearch();
@@ -574,6 +575,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     getCabinetSlots();
                     break;
                 case R.id.btn_AutoTest:
+                    dialog_PickupAutoTest=new CustomPickupAutoTestDialog(SmMachineStockActivity.this);
                     dialog_PickupAutoTest.setSlots(cabinet,getPickupSkus());
                     dialog_PickupAutoTest.show();
                     break;
