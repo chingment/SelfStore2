@@ -17,12 +17,14 @@
             android:id="@+id/tv_machineId_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_10"
             android:text="设备编码:"
             ></TextView>
         <TextView
             android:id="@+id/tv_machineId_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_10"
             android:text=""
             ></TextView>
 </LinearLayout>

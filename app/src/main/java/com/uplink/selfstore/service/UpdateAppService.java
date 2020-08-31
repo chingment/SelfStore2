@@ -315,14 +315,21 @@ public class UpdateAppService extends Service {
                 if(Build.VERSION.SDK_INT>=24) {//判读版本是否在7.0以上
                     LogUtil.i(TAG,"7.0系统以上");
                     File file = (new File(downloadUpdateApkFilePath));
-                    Uri apkUri = FileProvider.getUriForFile(context, "com.uplink.selfstore.fileprovider"
-                            , file);//在AndroidManifest中的android:authorities值
-                    Intent install = new Intent(Intent.ACTION_VIEW);
-                    install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    install.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                    startActivity(install);
+                    //Uri apkUri = FileProvider.getUriForFile(context, "com.uplink.selfstore.fileprovider"
+                    //        , file);//在AndroidManifest中的android:authorities值
 
+                    Uri apkUri= Uri.fromFile(file);
+
+                    LogUtil.i(TAG,"path1:"+file.getAbsolutePath());
+                    LogUtil.i(TAG,"path2:"+file.getPath());
+                   // file.getAbsolutePath()
+//                    Intent install = new Intent(Intent.ACTION_VIEW);
+//                    install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                    install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+//                    startActivity(install);
+
+                    installAPK(apkUri);
                 }
                 else {
                     LogUtil.i(TAG,"7.0系统以下");
@@ -337,6 +344,7 @@ public class UpdateAppService extends Service {
             handler_msg.sendMessage(m);
             if(apk!=null) {
                 String path = apk.getPath();
+                LogUtil.i(TAG,"path:"+path);
                 OstCtrlInterface.getInstance().installApk(UpdateAppService.this,path);
             }
         }
