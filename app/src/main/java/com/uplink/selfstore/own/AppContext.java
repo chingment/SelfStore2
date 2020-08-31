@@ -86,7 +86,7 @@ public class AppContext extends Application {
             }
         }); //初始异常日志收集器
 
-        OstCtrlInterface.init(Build.MODEL);//  初始化Ost控制
+        OstCtrlInterface.init(context);//  初始化Ost控制
         JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
         JPushInterface.init(context);  // 初始化 JPus
 

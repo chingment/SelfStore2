@@ -85,13 +85,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     @Override
                     public boolean handleMessage(Message msg) {
 
-//                        if(!CameraWindow.cameraIsRunningByChk()){
-//                            CameraWindow.openCameraByChk();
-//                        }
-//
-//                        if(!CameraWindow.cameraIsRunningByJg()){
-//                            CameraWindow.openCameraByJg();
-//                        }
+                        if(!CameraWindow.cameraIsRunningByChk()){
+                            CameraWindow.openCameraByChk();
+                        }
+
+                        if(!CameraWindow.cameraIsRunningByJg()){
+                            CameraWindow.openCameraByJg();
+                        }
 
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
@@ -144,8 +144,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                             if(CameraWindow.cameraIsRunningByChk()) {
                                 pickupResult.setImgId(UUID.randomUUID().toString());
-
-                                LogUtil.e(TAG,"开始拍照");
+                                LogUtil.e(TAG,"开始拍照->出货口");
                                 CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
 
 //                                final String imgId=pickupResult.getImgId();
@@ -165,6 +164,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             }
 
                             if(CameraWindow.cameraIsRunningByJg()) {
+                                LogUtil.e(TAG,"开始拍照->机柜");
                                 pickupResult.setImgId2(UUID.randomUUID().toString());
                                 CameraWindow.takeCameraPicByJg(pickupResult.getImgId2());
                             }

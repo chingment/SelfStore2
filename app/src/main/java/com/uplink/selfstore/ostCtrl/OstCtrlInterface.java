@@ -1,14 +1,17 @@
 package com.uplink.selfstore.ostCtrl;
 
+import android.content.Context;
+import android.os.Build;
+
 public class OstCtrlInterface {
 
     private static IOstCtrl ostCtrl;
 
-    public static void init(String model) {
-        if(model==null){
+    public static void init(Context context) {
+        String model = Build.MODEL;
+        if (model == null) {
             ostCtrl = new OstCtrlByYs();
-        }
-        else {
+        } else {
             switch (model) {
                 case "SABRESD-MX6DQ":
                     ostCtrl = new OstCtrlBySx();

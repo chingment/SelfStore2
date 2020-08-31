@@ -7,14 +7,14 @@ import android.widget.Button;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.ostCtrl.OstCtrlBySx;
 import com.uplink.selfstore.ostCtrl.OstCtrlByYs;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 public class SmRescueToolActivity extends SwipeBackActivity implements View.OnClickListener {
 
-    private Button btn_ShowNavBySx;
-    private Button btn_ShowNavByYs;
+    private Button btn_ShowNav;
     private Button btn_AppExit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,12 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
     }
 
     private void initView() {
-        btn_ShowNavBySx=(Button) findViewById(R.id.btn_ShowNavBySx);
-        btn_ShowNavByYs=(Button)findViewById(R.id.btn_ShowNavByYs);
+        btn_ShowNav=(Button) findViewById(R.id.btn_ShowNav);
         btn_AppExit=(Button)findViewById(R.id.btn_AppExit);
     }
 
     private void initEvent() {
-        btn_ShowNavBySx.setOnClickListener(this);
-        btn_ShowNavByYs.setOnClickListener(this);
+        btn_ShowNav.setOnClickListener(this);
         btn_AppExit.setOnClickListener(this);
     }
 
@@ -48,13 +46,8 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                 case R.id.nav_back:
                     finish();
                     break;
-                case R.id.btn_ShowNavBySx:
-                    OstCtrlBySx ostCtrlBySx=new OstCtrlBySx();
-                    ostCtrlBySx.setHideStatusBar(SmRescueToolActivity.this,false);
-                    break;
-                case R.id.btn_ShowNavByYs:
-                    OstCtrlByYs ostCtrlByYs=new OstCtrlByYs();
-                    ostCtrlByYs.setHideStatusBar(SmRescueToolActivity.this,false);
+                case R.id.btn_ShowNav:
+                    OstCtrlInterface.getInstance().setHideStatusBar(SmRescueToolActivity.this,false);
                     break;
                 case R.id.btn_AppExit:
                     AppManager.getAppManager().AppExit(SmRescueToolActivity.this);

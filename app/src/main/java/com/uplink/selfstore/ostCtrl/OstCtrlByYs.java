@@ -42,7 +42,7 @@ public class OstCtrlByYs implements IOstCtrl {
        // execLinuxCommand();
 //        try {
 //            Thread.sleep(2000);
-//            execLinuxCommand();
+            execLinuxCommand();
 //        }
 //        catch (Exception ex) {
 //

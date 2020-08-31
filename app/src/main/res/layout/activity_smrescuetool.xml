@@ -21,23 +21,13 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_ShowNavBySx"
+                android:id="@+id/btn_ShowNav"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/size_24"
                 android:textSize="@dimen/sp_6"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:text="显示导航栏（SX）"/>
-
-
-            <Button
-                android:id="@+id/btn_ShowNavByYs"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/size_24"
-                android:textSize="@dimen/sp_6"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:text="显示导航栏（YC）"/>
+                android:text="显示导航栏"/>
 
 
             <Button
