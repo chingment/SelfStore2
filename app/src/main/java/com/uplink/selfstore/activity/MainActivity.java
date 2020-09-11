@@ -37,7 +37,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
-    private ScanKeyManager scanKeyManager;
+    //private ScanKeyManager scanKeyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +85,12 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         showMachineId();
 
         //拦截扫码器回调,获取扫码内容
-        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
-            @Override
-            public void onScanValue(String value) {
-                LogUtil.e("ScanValue", value);
-            }
-        });
+//        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
+//            @Override
+//            public void onScanValue(String value) {
+//                LogUtil.e("ScanValue", value);
+//            }
+//        });
     }
 
     @Override
@@ -191,15 +191,15 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         }
     }
 
-    /*监听键盘事件,除了返回事件都将它拦截,使用我们自定义的拦截器处理该事件*/
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-
-        if (event.getKeyCode() != KeyEvent.KEYCODE_BACK) {
-            scanKeyManager.analysisKeyEvent(event);
-            return true;
-        }
-        return super.dispatchKeyEvent(event);
-    }
+//    /*监听键盘事件,除了返回事件都将它拦截,使用我们自定义的拦截器处理该事件*/
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//
+//        if (event.getKeyCode() != KeyEvent.KEYCODE_BACK) {
+//            scanKeyManager.analysisKeyEvent(event);
+//            return true;
+//        }
+//        return super.dispatchKeyEvent(event);
+//    }
 
 }

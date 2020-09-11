@@ -42,6 +42,7 @@ import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
 import org.json.JSONException;
@@ -543,6 +544,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             dialog_PickupAutoTest.cancel();
         }
 
+        if(table_slotstock!=null) {
+            table_slotstock.removeAllViews();
+        }
+
 //        if (cabinetCtrlByDS != null) {
 //            cabinetCtrlByDS.disConnect();
 //            cabinetCtrlByDS = null;
@@ -563,6 +568,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     public void onClick(View v) {
         super.onClick(v);
 
+        LogUtil.i(TAG,"点击了");
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
@@ -599,12 +605,14 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     private void getCabinetSlots() {
 
+
         Map<String, String> params = new HashMap<>();
 
         params.put("machineId", getMachine().getId());
         params.put("cabinetId",String.valueOf(cabinet.getId()));
 
-        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        //显示loading 会影响点击屏幕触发
+        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

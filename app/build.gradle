@@ -28,8 +28,8 @@ android {
         applicationId "com.uplink.selfstore"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 96
-        versionName "1.1.0.6"
+        versionCode 100
+        versionName "1.1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         useLibrary 'org.apache.http.legacy'
 

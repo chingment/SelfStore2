@@ -358,6 +358,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
+        if(dialog_Loading!=null) {
+            dialog_Loading.hide();
+        }
+
         HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
 
             @Override

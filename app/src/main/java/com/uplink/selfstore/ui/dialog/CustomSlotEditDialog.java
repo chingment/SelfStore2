@@ -90,7 +90,7 @@ public class CustomSlotEditDialog extends Dialog {
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
 
-    private ScanKeyManager scanKeyManager;
+    //private ScanKeyManager scanKeyManager;
 
 
     private boolean isHappneException=false;
@@ -327,17 +327,17 @@ public class CustomSlotEditDialog extends Dialog {
             );
         }
 
-        setCanceledOnTouchOutside(false);
-        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
-            @Override
-            public void onScanValue(String value) {
-                LogUtil.e(TAG, value);
-                if(!StringUtil.isEmptyNotNull(value)){
-                    txt_searchKey.setText(value);
-                    searchSkus(value);
-                }
-            }
-        });
+//        setCanceledOnTouchOutside(false);
+//        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
+//            @Override
+//            public void onScanValue(String value) {
+//                LogUtil.e(TAG, value);
+//                if(!StringUtil.isEmptyNotNull(value)){
+//                    txt_searchKey.setText(value);
+//                    searchSkus(value);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -784,7 +784,6 @@ public class CustomSlotEditDialog extends Dialog {
     public void cancel(){
         super.cancel();
 
-        setCanceledOnTouchOutside(true);
 
         if(dialog_Running!=null){
             dialog_Running.cancel();
@@ -794,11 +793,13 @@ public class CustomSlotEditDialog extends Dialog {
         CameraWindow.releaseCameraByJg();
     }
 
-    @Override
-    public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
-        scanKeyManager.analysisKeyEvent(event);
-        return true;
-    }
+//    @Override
+//    public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
+//        scanKeyManager.analysisKeyEvent(event);
+//        return true;
+//    }
+
+
     @Override
     public void show() {
         super.show();
