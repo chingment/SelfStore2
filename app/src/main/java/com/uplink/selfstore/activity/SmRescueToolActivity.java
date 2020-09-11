@@ -50,6 +50,7 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                     OstCtrlInterface.getInstance().setHideStatusBar(SmRescueToolActivity.this,false);
                     break;
                 case R.id.btn_AppExit:
+                    OstCtrlInterface.getInstance().setHideStatusBar(SmRescueToolActivity.this,false);
                     AppManager.getAppManager().AppExit(SmRescueToolActivity.this);
                     break;
             }

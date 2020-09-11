@@ -752,7 +752,7 @@ public class CabinetCtrlByDS {
                         sym.SN_MV_EmgStop();
                         LogUtil.e(TAG, "取货流程监听：发生异常");
                         LogUtil.e(TAG, ex);
-                        sendPickupHandlerMessage(6, "取货异常", null);
+                        sendPickupHandlerMessage(6, "取货异常:" + ex.getMessage(), null);
                     }
                 }
             }

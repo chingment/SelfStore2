@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
+import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
@@ -21,6 +23,7 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.ScanKeyManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
@@ -34,10 +37,14 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageButton btn_pick;
     private CustomNumKeyDialog dialog_NumKey;
 
+    private ScanKeyManager scanKeyManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(pickupSku.getCabinetId(), pickupSku.getSlotId());
 
         setHideStatusBar(true);
         setScannerCtrl();
@@ -76,6 +83,14 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         });
 
         showMachineId();
+
+        //拦截扫码器回调,获取扫码内容
+        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
+            @Override
+            public void onScanValue(String value) {
+                LogUtil.e("ScanValue", value);
+            }
+        });
     }
 
     @Override
@@ -174,6 +189,17 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     break;
             }
         }
+    }
+
+    /*监听键盘事件,除了返回事件都将它拦截,使用我们自定义的拦截器处理该事件*/
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+
+        if (event.getKeyCode() != KeyEvent.KEYCODE_BACK) {
+            scanKeyManager.analysisKeyEvent(event);
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
     }
 
 }

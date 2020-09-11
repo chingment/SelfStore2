@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
@@ -36,9 +39,11 @@ import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.ScanKeyManager;
 import com.uplink.selfstore.utils.StringUtil;
 
 import org.json.JSONException;
@@ -47,6 +52,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class CustomSlotEditDialog extends Dialog {
     private static final String TAG = "CustomSlotEditDialog";
@@ -84,6 +90,12 @@ public class CustomSlotEditDialog extends Dialog {
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
 
+    private ScanKeyManager scanKeyManager;
+
+
+    private boolean isHappneException=false;
+    private String exceptionMessage="";
+
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         mThis = this;
@@ -99,6 +111,15 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public boolean handleMessage(Message msg) {
 
+                if(!CameraWindow.cameraIsRunningByChk()){
+                    CameraWindow.openCameraByChk();
+                }
+
+                if(!CameraWindow.cameraIsRunningByJg()){
+                    CameraWindow.openCameraByJg();
+                }
+
+
                 String slotId = String.valueOf(txt_SlotName.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
 
@@ -109,44 +130,108 @@ public class CustomSlotEditDialog extends Dialog {
                 if (bundle.getSerializable("result") != null) {
                     pickupResult = (PickupResult) bundle.getSerializable("result");
                 }
-                switch (status) {
-                    case 1://消息提示
-                        dialog_Running.hide();
-                        mContext.showToast(message);
-                        break;
-                    case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
-                        dialog_Running.setProgressText(message);
-                        dialog_Running.show();
-                        break;
-                    case 3://取货中
-                        dialog_Running.setProgressText("正在取货中..请稍等");
-                        if (pickupResult != null) {
-                            pickupEventNotify(productSkuId, slotId, 3012, "发起取货", pickupResult);
-                        }
-                        break;
-                    case 4://取货成功
-                        dialog_Running.hide();
-                        if (pickupResult != null) {
-                            if (pickupResult.isPickupComplete()) {
-                                mContext.showToast("取货完成");
-                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", pickupResult);
+
+
+                boolean isTakePic=false;
+
+                if(isHappneException) {
+                    isTakePic = true;
+                }
+
+                if(!isTakePic) {
+                    if (status == 5 || status > 6) {
+                        isTakePic = true;
+                    }
+                }
+
+                if(pickupResult!=null) {
+                    if (pickupResult.getCurrentActionId() == 8) {
+                        isTakePic = true;
+                    }
+                }
+
+                //判断是使用WIFI网络，则每一步捕捉相片
+                if(CommonUtil.isWifi(context)) {
+                    isTakePic = true;
+                }
+
+                if(isTakePic){
+                    if(pickupResult==null){
+                        pickupResult=new PickupResult();
+                    }
+
+                    if(CameraWindow.cameraIsRunningByChk()) {
+                        pickupResult.setImgId(UUID.randomUUID().toString());
+                        LogUtil.e(TAG,"开始拍照->出货口");
+                        CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
+                    }
+
+                    if(CameraWindow.cameraIsRunningByJg()) {
+                        LogUtil.e(TAG,"开始拍照->机柜");
+                        pickupResult.setImgId2(UUID.randomUUID().toString());
+                        CameraWindow.takeCameraPicByJg(pickupResult.getImgId2());
+                    }
+                }
+
+
+                if (isHappneException) {
+                    if (cabinetCtrlByDS != null) {
+                        cabinetCtrlByDS.emgStop();
+                    }
+                    pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                }
+                else {
+                    switch (status) {
+                        case 1://消息提示
+                            dialog_Running.hide();
+                            mContext.showToast(message);
+                            break;
+                        case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
+                            dialog_Running.setProgressText(message);
+                            dialog_Running.show();
+                            break;
+                        case 3://取货中
+                            dialog_Running.setProgressText("正在取货中..请稍等");
+                            if (pickupResult != null) {
+                                pickupEventNotify(productSkuId, slotId, 3012, "发起取货", pickupResult);
                             }
-                        }
-                        break;
-                    case 5://取货超时
-                        dialog_Running.hide();
-                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
-                        pickupEventNotify(productSkuId, slotId, 6000, "取货超时", pickupResult);
-                        mContext.showToast(message);
-                        LogUtil.e("取货超时");
-                        break;
-                    case 6://取货失败
-                        dialog_Running.hide();
-                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
-                        pickupEventNotify(productSkuId, slotId, 6000, "取货失败", pickupResult);
-                        mContext.showToast(message);
-                        LogUtil.e("取货失败");
-                        break;
+                            break;
+                        case 4://取货成功
+                            dialog_Running.hide();
+                            if (pickupResult != null) {
+                                if (pickupResult.isPickupComplete()) {
+                                    mContext.showToast("取货完成");
+                                    pickupEventNotify(productSkuId, slotId, 4000, "取货完成", pickupResult);
+                                }
+                            }
+                            break;
+                        case 5://取货超时
+                            isHappneException = true;
+                            exceptionMessage = "取货失败,机器发生异常:" + message;
+                            LogUtil.e(TAG, exceptionMessage);
+                            dialog_Running.hide();
+                            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
+                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                            mContext.showToast(exceptionMessage);
+                            break;
+                        case 6://取货失败
+                            isHappneException = true;
+                            exceptionMessage = "取货失败,程序发生异常:" + message;
+                            LogUtil.e(TAG, exceptionMessage);
+                            dialog_Running.hide();
+                            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
+                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                            mContext.showToast(exceptionMessage);
+                            break;
+                        default:
+                            isHappneException = true;
+                            exceptionMessage = "取货失败，未知状态:" + message;
+                            LogUtil.e(TAG, exceptionMessage);
+                            dialog_Running.hide();
+                            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
+                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                            break;
+                    }
                 }
                 return false;
             }
@@ -209,7 +294,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 dialog_Running.hide();
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货超时", null);
-                                LogUtil.e("取货超时");
+                                LogUtil.e(TAG,"取货超时");
                                 break;
                             case 6://取货失败
                                 if (dialog_Running != null) {
@@ -217,7 +302,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 }
                                 mContext.showToast(message);
                                 pickupEventNotify(productSkuId, slotId, 6000, "取货失败[" + message + "]", null);
-                                LogUtil.e("取货失败");
+                                LogUtil.e(TAG,"取货失败");
                                 break;
                         }
                         break;
@@ -242,6 +327,17 @@ public class CustomSlotEditDialog extends Dialog {
             );
         }
 
+        setCanceledOnTouchOutside(false);
+        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
+            @Override
+            public void onScanValue(String value) {
+                LogUtil.e(TAG, value);
+                if(!StringUtil.isEmptyNotNull(value)){
+                    txt_searchKey.setText(value);
+                    searchSkus(value);
+                }
+            }
+        });
     }
 
     @Override
@@ -288,7 +384,7 @@ public class CustomSlotEditDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _this.hide();
+                _this.dismiss();
             }
         });
 
@@ -319,9 +415,20 @@ public class CustomSlotEditDialog extends Dialog {
                 switch (cabinet.getModelNo()){
                     case "dsx01":
                         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
+
+                        if(cabinet.getId()==null){
+                            mContext.showToast("准备出货异常......机柜编号为空");
+                            return;
+                        }
+
+                        if(slotId==null){
+                            mContext.showToast("准备出货异常......货道编号为空");
+                            return;
+                        }
+
                         DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
                         if (dsCabSlotNRC == null) {
-                            mContext.showToast("货道编号解释错误");
+                            mContext.showToast("准备出货异常......机柜（" + cabinet.getId() + "）货道编号（" + slotId+ "）解释错误，");
                             return;
                         }
 
@@ -677,8 +784,25 @@ public class CustomSlotEditDialog extends Dialog {
     public void cancel(){
         super.cancel();
 
+        setCanceledOnTouchOutside(true);
+
         if(dialog_Running!=null){
             dialog_Running.cancel();
         }
+
+        CameraWindow.releaseCameraByChk();
+        CameraWindow.releaseCameraByJg();
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
+        scanKeyManager.analysisKeyEvent(event);
+        return true;
+    }
+    @Override
+    public void show() {
+        super.show();
+        isHappneException = false;
+        exceptionMessage="";
     }
 }

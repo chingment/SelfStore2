@@ -39,6 +39,7 @@ public class CustomLoadingDialog extends Dialog {
 		super.show();
 	}
 
+	@Override
 	public void cancel(){
 		ivProgress.clearAnimation();
 		super.cancel();
