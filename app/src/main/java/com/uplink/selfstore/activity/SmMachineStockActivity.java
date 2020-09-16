@@ -211,9 +211,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     private void initData() {
+
+
         getCabinetSlots();
 
-        txt_CabinetName.setText(cabinet.getName()+"("+cabinet.getId()+")");
+
+        txt_CabinetName.setText(cabinet.getName() + "(" + cabinet.getId() + ")");
     }
 
     public void setSlot(SlotBean slot) {
@@ -612,7 +615,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         params.put("cabinetId",String.valueOf(cabinet.getId()));
 
         //显示loading 会影响点击屏幕触发
-        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

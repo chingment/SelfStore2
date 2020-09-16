@@ -69,7 +69,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private GlobalDataSetBean globalDataSet;
     private MachineBean machine;
     private ScannerCtrl scannerCtrl;
-
+    private Handler laodingUIHandler;
     public LocationUtil locationUtil;
 
     private Map<String,Boolean> orderSearchByPickupCode=new HashMap<String, Boolean>();
@@ -244,13 +244,39 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 startActivity(intent);
                 finish();
             }
-        }
-        else {
+        } else {
             dialog_SystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
             dialog_SystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
             dialog_SystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
         }
 
+
+        laodingUIHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch (msg.what) {
+                    case 1:
+                        if(dialog_Loading!=null) {
+                            dialog_Loading.setProgressText("正在处理中");
+                            dialog_Loading.show();
+                            new Handler().postDelayed(new Runnable() {
+                                public void run() {
+                                    if (dialog_Loading.isShowing()) {
+                                        laodingUIHandler.sendEmptyMessage(2);
+                                    }
+                                }
+                            }, 6000);
+                        }
+                        break;
+                    case 2:
+                        if (dialog_Loading != null) {
+                            dialog_Loading.hide();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     public void  showMachineId() {
@@ -324,10 +350,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if (dialog_Loading != null) {
             dialog_Loading.cancel();
         }
-
-        if (dialog_Loading != null) {
-            dialog_Loading.cancel();
-        }
     }
 
     @Override
@@ -356,11 +378,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         return super.dispatchTouchEvent(ev);
     }
 
-    public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
-        if(dialog_Loading!=null) {
-            dialog_Loading.hide();
-        }
+
+
+    public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
 
@@ -369,22 +390,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(dialog_Loading!=null) {
-                            dialog_Loading.setProgressText(loadingMsg);
-                            dialog_Loading.show();
-
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    if (dialog_Loading != null && dialog_Loading.isShowing()) {
-                                        dialog_Loading.hide();
-                                    }
-                                }
-                            }, 6000);
-                        }
-
+                        laodingUIHandler.sendEmptyMessage(1);
                     }
                 }
             }
@@ -392,9 +398,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null) {
-                        dialog_Loading.hide();
-                    }
+                    laodingUIHandler.sendEmptyMessage(2);
                 }
                 final String s = response;
 
@@ -416,9 +420,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null) {
-                        dialog_Loading.hide();
-                    }
+                    laodingUIHandler.sendEmptyMessage(2);
                 }
                 handler.onFailure(msg, e);
             }
@@ -432,32 +434,14 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onBeforeSend() {
                 if (isShowLoading) {
-                    if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        if(dialog_Loading!=null) {
-                            dialog_Loading.setProgressText(loadingMsg);
-                            dialog_Loading.show();
-
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (dialog_Loading != null) {
-                                        dialog_Loading.hide();
-                                    }
-                                }
-                            }, 6000);
-                        }
-
-                    }
+                    laodingUIHandler.sendEmptyMessage(1);
                 }
             }
 
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null) {
-                        dialog_Loading.hide();
-                    }
+                    laodingUIHandler.sendEmptyMessage(2);
                 }
                 final String s = response;
                 if (s.indexOf("\"result\":") > -1) {
@@ -477,9 +461,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    if(dialog_Loading!=null) {
-                        dialog_Loading.hide();
-                    }
+                    laodingUIHandler.sendEmptyMessage(2);
                 }
                 handler.onFailure(msg, e);
             }

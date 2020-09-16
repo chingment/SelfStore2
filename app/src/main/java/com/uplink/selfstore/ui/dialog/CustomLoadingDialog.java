@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class CustomLoadingDialog extends Dialog {
 
 	public CustomLoadingDialog(Context context) {
-		super(context,R.style.dialog_style);
+		super(context,R.style.dialog_loading_style);
 		this.context = context;
 		initDialog(context);
 	}
@@ -34,14 +34,14 @@ public class CustomLoadingDialog extends Dialog {
 	public void show(){
 		Animation animation = AnimationUtils.loadAnimation(context,
 				R.anim.dialog_load_animation);
-		// 显示动画
+	// 显示动画
 		ivProgress.startAnimation(animation);
 		super.show();
 	}
 
 	@Override
 	public void cancel(){
-		ivProgress.clearAnimation();
+		//ivProgress.clearAnimation();
 		super.cancel();
 	}
 	
