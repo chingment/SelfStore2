@@ -463,7 +463,7 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
-                txt_SlotId.setText("");
+                txt_StockId.setText("");
                 txt_SkuId.setText("");
                 txt_SkuName.setText("暂无设置");
                 txt_SkuSpecDes.setText("");
@@ -511,8 +511,8 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
                 Map<String, Object> params = new HashMap<>();
+                params.put("id", slotId);
                 params.put("stockId", stockId);
-                params.put("slotId", slotId);
                 params.put("machineId", machine.getId());
                 params.put("cabinetId", cabinet.getId());
                 params.put("productSkuId", productSkuId);
