@@ -112,6 +112,18 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
 
+//        getByMy("http://127.0.0.1/api/Machine/initData" ,null, false, "", new HttpResponseHandler() {
+//            @Override
+//            public void onSuccess(String response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String msg, Exception e) {
+//
+//            }
+//        });
+
 //        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(CartActivity.this, new PermissionsResultAction() {
 //            @Override
 //            public void onGranted() {

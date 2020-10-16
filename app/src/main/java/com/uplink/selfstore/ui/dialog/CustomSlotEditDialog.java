@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.SmMachineStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
@@ -63,7 +62,8 @@ public class CustomSlotEditDialog extends Dialog {
     private View btn_close;
     private TextView txt_searchKey;
     private ImageView img_SkuImg;
-    private TextView txt_SlotName;
+    private TextView txt_SlotId;
+    private TextView txt_StockId;
     private TextView txt_Version;
     private TextView txt_SkuId;
     private TextView txt_SkuCumCode;
@@ -120,7 +120,7 @@ public class CustomSlotEditDialog extends Dialog {
                 }
 
 
-                String slotId = String.valueOf(txt_SlotName.getText());
+                String slotId = String.valueOf(txt_SlotId.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
 
                 Bundle bundle = msg.getData();
@@ -242,7 +242,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public boolean handleMessage(Message msg) {
 
-                String slotId = String.valueOf(txt_SlotName.getText());
+                String slotId = String.valueOf(txt_SlotId.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
 
                 switch (msg.what) {
@@ -352,7 +352,8 @@ public class CustomSlotEditDialog extends Dialog {
 
         txt_Version=ViewHolder.get(mLayoutRes, R.id.txt_Version);
         img_SkuImg = ViewHolder.get(mLayoutRes, R.id.img_SkuImg);
-        txt_SlotName = ViewHolder.get(mLayoutRes, R.id.txt_SlotName);
+        txt_SlotId = ViewHolder.get(mLayoutRes, R.id.txt_SlotId);
+        txt_StockId  = ViewHolder.get(mLayoutRes, R.id.txt_StockId);
         txt_SkuCumCode= ViewHolder.get(mLayoutRes, R.id.txt_SkuCumCode);
         txt_SkuId = ViewHolder.get(mLayoutRes, R.id.txt_SkuId);
         txt_SkuName = ViewHolder.get(mLayoutRes, R.id.txt_SkuName);
@@ -404,7 +405,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                String slotId = String.valueOf(txt_SlotName.getText());
+                String slotId = String.valueOf(txt_SlotId.getText());
 
 
                 String productSkuId=String.valueOf(txt_SkuId.getText());
@@ -462,6 +463,7 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
+                txt_SlotId.setText("");
                 txt_SkuId.setText("");
                 txt_SkuName.setText("暂无设置");
                 txt_SkuSpecDes.setText("");
@@ -495,7 +497,8 @@ public class CustomSlotEditDialog extends Dialog {
 
                 MachineBean machine = AppCacheManager.getMachine();
 
-                String id = String.valueOf(txt_SlotName.getText());
+                String stockId = String.valueOf(txt_StockId.getText());
+                String slotId = String.valueOf(txt_SlotId.getText());
                 String productSkuId = String.valueOf(txt_SkuId.getText());
                 int version=Integer.valueOf(txt_Version.getText()+"");
                 int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
@@ -508,7 +511,8 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
                 Map<String, Object> params = new HashMap<>();
-                params.put("id", id);
+                params.put("stockId", stockId);
+                params.put("slotId", slotId);
                 params.put("machineId", machine.getId());
                 params.put("cabinetId", cabinet.getId());
                 params.put("productSkuId", productSkuId);
@@ -656,10 +660,11 @@ public class CustomSlotEditDialog extends Dialog {
 
         this.slot = slot;
 
-        txt_SlotName.setText(slot.getId());
+        txt_SlotId.setText(slot.getId());
 
         if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
             txt_Version.setText(String.valueOf(slot.getVersion()));
+            txt_StockId.setText("");
             txt_SkuId.setText("");
             txt_SkuCumCode.setText("");
             txt_SkuName.setText("暂无设置");
@@ -671,6 +676,7 @@ public class CustomSlotEditDialog extends Dialog {
             img_SkuImg.setImageResource(R.drawable.default_image);
         } else {
             txt_Version.setText(String.valueOf(slot.getVersion()));
+            txt_StockId.setText(slot.getStockId());
             txt_SkuId.setText(slot.getProductSkuId());
             txt_SkuCumCode.setText(slot.getProductSkuCumCode());
             txt_SkuName.setText(slot.getProductSkuName());

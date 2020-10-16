@@ -91,9 +91,18 @@
                             android:textSize="@dimen/sp_10" />
 
                         <TextView
-                            android:id="@+id/txt_SlotName"
+                            android:id="@+id/txt_SlotId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:textColor="@color/field_value"
+                            android:textSize="@dimen/sp_10" />
+
+                        <TextView
+                            android:id="@+id/txt_StockId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:gravity="right"
                             android:textColor="@color/field_value"
                             android:textSize="@dimen/sp_10" />
