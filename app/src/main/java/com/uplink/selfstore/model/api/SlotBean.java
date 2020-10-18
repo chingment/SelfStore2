@@ -14,6 +14,8 @@ public class SlotBean implements Serializable {
     private  int sumQuantity;
     private  int lockQuantity;
     private  int sellQuantity;
+    private  int warnQuantity;
+    private  int holdQuantity;
     private  boolean isOffSell;
     private  int maxQuantity;
     private int version;
@@ -130,5 +132,21 @@ public class SlotBean implements Serializable {
 
     public void setCabinetId(String cabinetId) {
         this.cabinetId = cabinetId;
+    }
+
+    public int getWarnQuantity() {
+        return warnQuantity;
+    }
+
+    public void setWarnQuantity(int warnQuantity) {
+        this.warnQuantity = warnQuantity;
+    }
+
+    public int getHoldQuantity() {
+        return holdQuantity;
+    }
+
+    public void setHoldQuantity(int holdQuantity) {
+        this.holdQuantity = holdQuantity;
     }
 }
