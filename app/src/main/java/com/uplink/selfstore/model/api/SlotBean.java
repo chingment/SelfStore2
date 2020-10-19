@@ -18,6 +18,7 @@ public class SlotBean implements Serializable {
     private  int holdQuantity;
     private  boolean isOffSell;
     private  int maxQuantity;
+    private  Boolean isCanAlterMaxQuantity;
     private int version;
 
 
@@ -148,5 +149,13 @@ public class SlotBean implements Serializable {
 
     public void setHoldQuantity(int holdQuantity) {
         this.holdQuantity = holdQuantity;
+    }
+
+    public Boolean getCanAlterMaxQuantity() {
+        return isCanAlterMaxQuantity;
+    }
+
+    public void setCanAlterMaxQuantity(Boolean canAlterMaxQuantity) {
+        isCanAlterMaxQuantity = canAlterMaxQuantity;
     }
 }

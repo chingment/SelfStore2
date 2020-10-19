@@ -620,12 +620,6 @@ public class CustomSlotEditDialog extends Dialog {
 
                 maxQty = maxQty + 1;
 
-                if(cabinet.getSlotMaxQuantity()>0) {
-                    if (maxQty > cabinet.getSlotMaxQuantity()) {
-                        mContext.showToast("最大数量不能大于最大数量：" + cabinet.getSlotMaxQuantity());
-                        return;
-                    }
-                }
 
                 txt_MaxQty.setText(String.valueOf(maxQty));
             }
@@ -685,6 +679,18 @@ public class CustomSlotEditDialog extends Dialog {
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
             txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
+
+            if(slot.getCanAlterMaxQuantity()){
+                btn_decreasebymax.setVisibility(View.VISIBLE);
+                btn_increasebymax.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                btn_decreasebymax.setVisibility(View.INVISIBLE);
+                btn_increasebymax.setVisibility(View.INVISIBLE);
+
+            }
+
             CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getProductSkuMainImgUrl());
         }
     }
