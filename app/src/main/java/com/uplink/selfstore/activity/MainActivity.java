@@ -47,7 +47,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(pickupSku.getCabinetId(), pickupSku.getSlotId());
 
         setHideStatusBar(true);
-        setScannerCtrl();
+        setScannerCtrl(MainActivity.this);
 
         initView();
         initEvent();
@@ -152,7 +152,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             @Override
             public void onClick(View v, String number) {
                 LogUtil.e("pickupcode:" + number);
-                orderSearchByPickupCode("pickupcode@v1:"+number);
+                orderSearchByPickupCode(MainActivity.this, "pickupcode@v1:"+number);
             }
         });
 

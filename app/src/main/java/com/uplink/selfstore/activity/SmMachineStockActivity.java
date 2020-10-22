@@ -131,7 +131,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                                     DSCabRowColLayoutBean sSCabRowColLayoutBean = new DSCabRowColLayoutBean();
                                     sSCabRowColLayoutBean.setRows(result.rowColLayout);
                                     String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
-                                    saveCabinetRowColLayout(cabinet.getId(), strRowColLayout);
+                                    saveCabinetRowColLayout(cabinet.getCabinetId(), strRowColLayout);
                                 }
                                 break;
                             case 5://扫描超时
@@ -216,20 +216,20 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         getCabinetSlots();
 
 
-        txt_CabinetName.setText(cabinet.getName() + "(" + cabinet.getId() + ")");
+        txt_CabinetName.setText(cabinet.getName() + "(" + cabinet.getCabinetId() + ")");
     }
 
     public void setSlot(SlotBean slot) {
         if(slot!=null) {
-            cabinetSlots.get(slot.getId()).setProductSkuId(slot.getProductSkuId());
-            cabinetSlots.get(slot.getId()).setProductSkuName(slot.getProductSkuName());
-            cabinetSlots.get(slot.getId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
-            cabinetSlots.get(slot.getId()).setOffSell(slot.isOffSell());
-            cabinetSlots.get(slot.getId()).setLockQuantity(slot.getLockQuantity());
-            cabinetSlots.get(slot.getId()).setSellQuantity(slot.getSellQuantity());
-            cabinetSlots.get(slot.getId()).setSumQuantity(slot.getSumQuantity());
-            cabinetSlots.get(slot.getId()).setMaxQuantity(slot.getMaxQuantity());
-            cabinetSlots.get(slot.getId()).setVersion(slot.getVersion());
+            cabinetSlots.get(slot.getSlotId()).setProductSkuId(slot.getProductSkuId());
+            cabinetSlots.get(slot.getSlotId()).setProductSkuName(slot.getProductSkuName());
+            cabinetSlots.get(slot.getSlotId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
+            cabinetSlots.get(slot.getSlotId()).setOffSell(slot.isOffSell());
+            cabinetSlots.get(slot.getSlotId()).setLockQuantity(slot.getLockQuantity());
+            cabinetSlots.get(slot.getSlotId()).setSellQuantity(slot.getSellQuantity());
+            cabinetSlots.get(slot.getSlotId()).setSumQuantity(slot.getSumQuantity());
+            cabinetSlots.get(slot.getSlotId()).setMaxQuantity(slot.getMaxQuantity());
+            cabinetSlots.get(slot.getSlotId()).setVersion(slot.getVersion());
             switch (cabinet.getModelNo()){
                 case "dsx01":
                     drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinetSlots);
@@ -305,7 +305,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                     if (slot == null) {
                         slot = new SlotBean();
-                        slot.setId(slotId);
+                        slot.setSlotId(slotId);
                         slots.put(slotId, slot);
                     }
 
@@ -410,7 +410,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
                 if (slot == null) {
                     slot = new SlotBean();
-                    slot.setId(slotId);
+                    slot.setSlotId(slotId);
                     slots.put(slotId, slot);
                 }
 
@@ -597,7 +597,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private void scanSlotsEventNotify(int status, String remark) {
         try {
             JSONObject content = new JSONObject();
-            content.put("cabinetId", cabinet.getId());
+            content.put("cabinetId", cabinet.getCabinetId());
             content.put("status", status);
             content.put("remark", remark);
             eventNotify("ScanSlots","扫描货道",content);
@@ -611,11 +611,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         Map<String, String> params = new HashMap<>();
 
-        params.put("machineId", getMachine().getId());
-        params.put("cabinetId",String.valueOf(cabinet.getId()));
+        params.put("machineId", getMachine().getMachineId());
+        params.put("cabinetId",String.valueOf(cabinet.getCabinetId()));
 
         //显示loading 会影响点击屏幕触发
-        getByMy(Config.URL.stockSetting_GetCabinetSlots, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        getByMy(SmMachineStockActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -649,11 +649,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
     private void saveCabinetRowColLayout(final String cabinetId, final String cabinetRowColLayout) {
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", getMachine().getId());
+        params.put("machineId", getMachine().getMachineId());
         params.put("cabinetId", cabinetId);
-        params.put("cabinetRowColLayout", cabinetRowColLayout);
+        params.put("rowColLayout", cabinetRowColLayout);
 
-        postByMy(Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmMachineStockActivity.this, Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -689,8 +689,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
              for (int i=0;i<l_slot.getSellQuantity();i++){
                  PickupSkuBean a_slot=new PickupSkuBean();
                  a_slot.setUniqueId(UUID.randomUUID().toString());
-                 a_slot.setId(l_slot.getProductSkuId());
-                 a_slot.setSlotId(l_slot.getId());
+                 a_slot.setProductSkuId(l_slot.getProductSkuId());
+                 a_slot.setSlotId(l_slot.getSlotId());
                  a_slot.setCabinetId(l_slot.getCabinetId());
                  a_slot.setMainImgUrl(l_slot.getProductSkuMainImgUrl());
                  a_slot.setName(l_slot.getProductSkuName());

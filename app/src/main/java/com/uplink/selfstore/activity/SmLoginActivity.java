@@ -208,14 +208,14 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
         try {
             JSONObject loginPms = new JSONObject();
-            loginPms.put("machineId", machine.getId() + "");
+            loginPms.put("machineId", machine.getMachineId() + "");
             params.put("loginPms", loginPms);
         }catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        postByMy(Config.URL.own_LoginByAccount, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmLoginActivity.this, Config.URL.own_LoginByAccount, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -255,14 +255,14 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
         try {
             JSONObject loginPms = new JSONObject();
-            loginPms.put("machineId", machine.getId() + "");
+            loginPms.put("machineId", machine.getMachineId() + "");
             params.put("loginPms", loginPms);
         }catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        postByMy(Config.URL.own_LoginByFingerVein, params, null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmLoginActivity.this, Config.URL.own_LoginByFingerVein, params, null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

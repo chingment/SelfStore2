@@ -64,7 +64,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
 
         txt_MerchantName.setText(getMachine().getMerchName());
         txt_StoreName.setText(getMachine().getStoreName());
-        txt_MachineId.setText(getMachine().getId());
+        txt_MachineId.setText(getMachine().getMachineId());
         txt_DeviceId.setText(getAppContext().getDeviceId());
         txt_JPushRegId.setText(JPushInterface.getRegistrationID(getAppContext()));
         txt_AppVersion.setText(BuildConfig.VERSION_NAME);

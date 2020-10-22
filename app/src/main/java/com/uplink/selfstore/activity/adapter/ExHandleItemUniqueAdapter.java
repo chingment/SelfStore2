@@ -72,7 +72,7 @@ public class ExHandleItemUniqueAdapter extends BaseAdapter {
             cbx_sign_unpickup.setVisibility(View.GONE);
         }
 
-        cbx_sign_pickup.setTag(exOrderDetailItem.getId());
+        cbx_sign_pickup.setTag(exOrderDetailItem.getUniqueId());
         cbx_sign_pickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +81,7 @@ public class ExHandleItemUniqueAdapter extends BaseAdapter {
 
                 for (int i=0;i<exOrders.size();i++){
                     for (int j=0;j<exOrders.get(i).getUniques().size();j++){
-                        if(exOrders.get(i).getUniques().get(j).getId().equals(uniqueId)){
+                        if(exOrders.get(i).getUniques().get(j).getUniqueId().equals(uniqueId)){
                             exOrders.get(i).getUniques().get(j).setSignStatus(1);
                             break;
                         }
@@ -93,7 +93,7 @@ public class ExHandleItemUniqueAdapter extends BaseAdapter {
             }
         });
 
-        cbx_sign_unpickup.setTag(exOrderDetailItem.getId());
+        cbx_sign_unpickup.setTag(exOrderDetailItem.getUniqueId());
         cbx_sign_unpickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +101,7 @@ public class ExHandleItemUniqueAdapter extends BaseAdapter {
                 String uniqueId=v.getTag().toString();
                 for (int i=0;i<exOrders.size();i++){
                     for (int j=0;j<exOrders.get(i).getUniques().size();j++){
-                        if(exOrders.get(i).getUniques().get(j).getId().equals(uniqueId)){
+                        if(exOrders.get(i).getUniques().get(j).getUniqueId().equals(uniqueId)){
                             exOrders.get(i).getUniques().get(j).setSignStatus(2);
                             break;
                         }

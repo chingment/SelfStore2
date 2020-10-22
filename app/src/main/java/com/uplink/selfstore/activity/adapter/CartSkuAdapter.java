@@ -42,7 +42,7 @@ public class CartSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 CartSkuBean sku = (CartSkuBean)v.getTag();
-                operate(CartOperateType.DELETE, sku.getId());
+                operate(CartOperateType.DELETE, sku.getProductSkuId());
                 delete_Dialog.hide();
 
             }
@@ -129,7 +129,7 @@ public class CartSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (item.getQuantity() == 1)
                     return;
-                operate(CartOperateType.DECREASE, item.getId());
+                operate(CartOperateType.DECREASE, item.getProductSkuId());
             }
         });
 
@@ -138,7 +138,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operate(CartOperateType.INCREASE, item.getId());
+                operate(CartOperateType.INCREASE, item.getProductSkuId());
             }
         });
 

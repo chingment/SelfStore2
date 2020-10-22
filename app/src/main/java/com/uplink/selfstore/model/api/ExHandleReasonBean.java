@@ -3,16 +3,17 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class ExHandleReasonBean implements Serializable {
-    private   String id;
+    private   String reasonId;
     private   String title;
     private   boolean isChecked;
 
-    public String getId() {
-        return id;
+
+    public String getReasonId() {
+        return reasonId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setReasonId(String reasonId) {
+        this.reasonId = reasonId;
     }
 
     public String getTitle() {

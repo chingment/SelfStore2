@@ -81,12 +81,12 @@ public class AppCacheManager {
 
         GlobalDataSetBean globalDataSet = getGlobalDataSet();
         if(globalDataSet==null) {
-            bean.setId("");
+            bean.setMachineId("");
             return bean;
         }
 
         if(globalDataSet.getMachine()==null){
-            bean.setId("");
+            bean.setMachineId("");
             return bean;
         }
 

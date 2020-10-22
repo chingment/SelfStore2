@@ -4,16 +4,17 @@ import java.io.Serializable;
 
 public class ScannerBean implements Serializable {
 
-    private String id;
+    private String scannerId;
     private Boolean isUse;
     private String comId;
 
-    public String getId() {
-        return id;
+
+    public String getScannerId() {
+        return scannerId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setScannerId(String scannerId) {
+        this.scannerId = scannerId;
     }
 
     public Boolean getUse() {

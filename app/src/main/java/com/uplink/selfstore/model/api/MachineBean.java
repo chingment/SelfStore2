@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MachineBean implements Serializable {
 
-    private String id;
+    private String machineId;
     public  String name;
     private String merchName;
     private String storeName;
@@ -79,12 +79,12 @@ public class MachineBean implements Serializable {
     }
 
 
-    public String getId() {
-        return id;
+    public String getMachineId() {
+        return machineId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMachineId(String machineId) {
+        this.machineId = machineId;
     }
 
     public String getName() {

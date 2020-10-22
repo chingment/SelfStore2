@@ -84,7 +84,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
-        setScannerCtrl();
+        setScannerCtrl(CartActivity.this);
         initView();
         initEvent();
         initData();
@@ -218,7 +218,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onSureClose() {
                 closePageCountTimerStart();
-                orderCancle(LAST_ORDERID, 1, "取消订单");
+                orderCancle(CartActivity.this, LAST_ORDERID, 1, "取消订单");
                 LAST_PAYTRANSID = "";
                 LAST_ORDERID="";
             }
@@ -231,7 +231,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onTimeFinish() {
                 closePageCountTimerStart();
-                orderCancle(LAST_ORDERID, 1, "支付超时");
+                orderCancle(CartActivity.this, LAST_ORDERID, 1, "支付超时");
                 LAST_PAYTRANSID = "";
                 LAST_ORDERID="";
             }
@@ -246,14 +246,14 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
                 Map<String, Object> params = new HashMap<>();
-                params.put("machineId", getMachine().getId() + "");
+                params.put("machineId", getMachine().getMachineId() + "");
                 JSONArray json_Skus = new JSONArray();
 
                 try {
                     for (String key : cartSkus.keySet()) {
                         CartSkuBean bean = cartSkus.get(key);
                         JSONObject json_Sku = new JSONObject();
-                        json_Sku.put("id", bean.getId());
+                        json_Sku.put("productSkuId", bean.getProductSkuId());
                         json_Sku.put("quantity", bean.getQuantity());
                         json_Skus.put(json_Sku);
                     }
@@ -265,7 +265,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 params.put("productSkus", json_Skus);
 
-                postByMy(Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(CartActivity.this,Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -297,13 +297,13 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                                 jsonExMessage.put("type", "buyinfo");
 
                                                 JSONObject jsonExMessageContent = new JSONObject();
-                                                jsonExMessageContent.put("machineId", getMachine().getId());
+                                                jsonExMessageContent.put("machineId", getMachine().getMachineId());
                                                 jsonExMessageContent.put("storeName", getMachine().getStoreName());
                                                 JSONArray json_Skus = new JSONArray();
                                                 for (String key : cartSkus.keySet()) {
                                                     CartSkuBean bean = cartSkus.get(key);
                                                     JSONObject json_Sku = new JSONObject();
-                                                    json_Sku.put("id", bean.getId());
+                                                    json_Sku.put("productSkuId", bean.getProductSkuId());
                                                     json_Sku.put("name", bean.getName());
                                                     json_Sku.put("mainImgUrl", bean.getMainImgUrl());
                                                     json_Sku.put("quantity", bean.getQuantity());
@@ -501,7 +501,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         params.put("orderId", orderId);
         params.put("payPartner", payOption.getPartner() + "");
         params.put("payCaller", payOption.getCaller() + "");
-        postByMy(Config.URL.order_BuildPayParams, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(CartActivity.this, Config.URL.order_BuildPayParams, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -541,7 +541,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", getMachine().getId() + "");
+        params.put("machineId", getMachine().getMachineId() + "");
 
         JSONArray json_Skus = new JSONArray();
 
@@ -549,7 +549,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             for(String key : cartSkus.keySet()) {
                 CartSkuBean bean=cartSkus.get(key);
                 JSONObject json_Sku = new JSONObject();
-                json_Sku.put("id", bean.getId());
+                json_Sku.put("productSkuId", bean.getProductSkuId());
                 json_Sku.put("quantity", bean.getQuantity());
                 if(currentSvcConsulterId!=null) {
                     json_Sku.put("svcConsulterId", currentSvcConsulterId);
@@ -564,7 +564,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         params.put("productSkus", json_Skus);
 
-        postByMy(Config.URL.order_Reserve, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(CartActivity.this, Config.URL.order_Reserve, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -595,10 +595,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
 
         Map<String, String> params = new HashMap<>();
-        params.put("machineId", this.getMachine().getId());
+        params.put("machineId", this.getMachine().getMachineId());
         params.put("payTransId", LAST_PAYTRANSID);
 
-        getByMy(Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
+        getByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -634,7 +634,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
                     Bundle bundle = new Bundle();
                     OrderDetailsBean orderDetails = new OrderDetailsBean();
-                    orderDetails.setId(bean.getOrderId());
+                    orderDetails.setOrderId(bean.getOrderId());
                     orderDetails.setStatus(bean.getPayStatus());
                     orderDetails.setProductSkus(bean.getProductSkus());
                     bundle.putSerializable("dataBean", orderDetails);
@@ -698,7 +698,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         if (cartSku==null) {
             cartSku = new CartSkuBean();
-            cartSku.setId(productSkuId);
+            cartSku.setProductSkuId(productSkuId);
             cartSku.setMainImgUrl(productSku.getMainImgUrl());
             cartSku.setTrgVideoService(productSku.isTrgVideoService());
             cartSku.setCurrencySymbol("");

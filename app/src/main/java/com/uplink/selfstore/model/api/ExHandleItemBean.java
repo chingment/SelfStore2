@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ExHandleItemBean implements Serializable {
-    private   String id;
+    private   String itemId;
 
     private List<ExHandleUniqueBean> uniques;
 
-    public String getId() {
-        return id;
+
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
-
 
     public List<ExHandleUniqueBean> getUniques() {
         return uniques;

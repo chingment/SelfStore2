@@ -87,7 +87,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
 
                 Map<String, Object> params = new HashMap<>();
-                params.put("machineId", getMachine().getId() + "");
+                params.put("machineId", getMachine().getMachineId() + "");
 
                 JSONArray json_items = new JSONArray();
                 JSONArray json_reasons = new JSONArray();
@@ -95,14 +95,14 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
                     for (int i=0;i<exItems.size();i++) {
                         JSONObject json_item = new JSONObject();
-                        json_item.put("id", exItems.get(i).getId());
+                        json_item.put("itemId", exItems.get(i).getItemId());
                         JSONArray json_uniques = new JSONArray();
                         List<ExHandleUniqueBean> uniques = exItems.get(i).getUniques();
                         for (int j = 0; j < uniques.size(); j++) {
                             ExHandleUniqueBean unique = uniques.get(j);
                             if(unique.isCanHandle()) {
                                 JSONObject json_unique = new JSONObject();
-                                json_unique.put("id", unique.getId());
+                                json_unique.put("uniqueId", unique.getUniqueId());
                                 json_unique.put("signStatus", unique.getSignStatus());
                                 json_uniques.put(json_unique);
                             }
@@ -118,7 +118,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                       ExHandleReasonBean exReason=exReasons.get(i);
                         if(exReason.isChecked()){
                             JSONObject json_reason = new JSONObject();
-                            json_reason.put("id",exReason.getId());
+                            json_reason.put("reasonId",exReason.getReasonId());
                             json_reason.put("title",exReason.getTitle());
                             json_reasons.put(json_reason);
                         }
@@ -131,7 +131,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
                 params.put("items", json_items);
                 params.put("reasons", json_reasons);
-                postByMy(Config.URL.machine_HandleRunExItems, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(SmRunExHandleActivity.this, Config.URL.machine_HandleRunExItems, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -211,9 +211,9 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     private void getRunExHandleItems() {
 
         Map<String, String> params = new HashMap<>();
-        params.put("machineId", getMachine().getId());
+        params.put("machineId", getMachine().getMachineId());
 
-        getByMy(Config.URL.machine_GetRunExHandleItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        getByMy(SmRunExHandleActivity.this, Config.URL.machine_GetRunExHandleItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

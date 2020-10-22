@@ -55,7 +55,7 @@ public class ExHandleItemAdapter extends BaseAdapter {
             list_OrderDetailItems.setAdapter(exHandleItemUniqueAdapter);
         }
 
-        txt_OrderId.setText(item.getId());
+        txt_OrderId.setText(item.getItemId());
 
         return convertView;
     }

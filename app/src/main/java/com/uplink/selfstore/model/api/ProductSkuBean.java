@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductSkuBean implements Serializable {
 
-    private String id;
+    private String productSkuId;
     private String productId;
     private String name;
     private String mainImgUrl;
@@ -27,12 +27,12 @@ public class ProductSkuBean implements Serializable {
     private List<String> charTags;
 
 
-    public String getId() {
-        return id;
+    public String getProductSkuId() {
+        return productSkuId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductSkuId(String productSkuId) {
+        this.productSkuId = productSkuId;
     }
 
     public String getProductId() {

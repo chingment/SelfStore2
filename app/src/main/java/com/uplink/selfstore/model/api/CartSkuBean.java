@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class CartSkuBean implements Serializable {
 
-    private String id;
+    private String productSkuId;
     private int quantity;
     private boolean isTrgVideoService;
     private String name;
@@ -20,17 +20,17 @@ public class CartSkuBean implements Serializable {
 
     }
 
-    public CartSkuBean(String id,  int quantity) {
-        this.id = id;
+    public CartSkuBean(String productSkuId,  int quantity) {
+        this.productSkuId = productSkuId;
         this.quantity = quantity;
     }
 
-    public String getId() {
-        return id;
+    public String getProductSkuId() {
+        return productSkuId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductSkuId(String id) {
+        this.productSkuId = id;
     }
 
     public int getQuantity() {

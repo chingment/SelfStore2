@@ -41,7 +41,7 @@ public class CustomLoadingDialog extends Dialog {
 
 	@Override
 	public void cancel(){
-		//ivProgress.clearAnimation();
+		ivProgress.clearAnimation();
 		super.cancel();
 	}
 	

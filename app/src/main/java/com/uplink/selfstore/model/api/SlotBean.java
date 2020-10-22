@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class SlotBean implements Serializable {
-    private  String id;
+    private  String slotId;
     private  String stockId;
     private  String cabinetId;
     private  String productSkuId;
@@ -30,12 +30,12 @@ public class SlotBean implements Serializable {
         this.stockId = stockId;
     }
 
-    public String getId() {
-        return id;
+    public String getSlotId() {
+        return slotId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSlotId(String slotId) {
+        this.slotId = slotId;
     }
 
     public String getProductSkuId() {

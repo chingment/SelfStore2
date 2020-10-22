@@ -376,7 +376,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());
         params.put("macAddress", getAppContext().getMacAddress());
 
-        postByMy(Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {
+        postByMy(InitDataActivity.this, Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {

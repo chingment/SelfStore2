@@ -133,13 +133,13 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                         try {
                             JSONObject loginPms = new JSONObject();
-                            loginPms.put("machineId", getMachine().getId() + "");
+                            loginPms.put("machineId", getMachine().getMachineId() + "");
                             params.put("loginPms", loginPms);
                         }catch (JSONException e) {
                             e.printStackTrace();
                             return;
                         }
-                        postByMy(Config.URL.own_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
+                        postByMy(SmHomeActivity.this, Config.URL.own_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
@@ -250,7 +250,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                 case "fun.machinestock":
                                     CabinetBean cabinet = (CabinetBean)gridviewitem.getTag();
                                     intent = new Intent(getAppContext(), SmMachineStockActivity.class);
-                                    intent.putExtra("cabinetId", cabinet.getId());
+                                    intent.putExtra("cabinetId", cabinet.getCabinetId());
                                     startActivity(intent);
                                     break;
                                 case "fun.runexhandle":

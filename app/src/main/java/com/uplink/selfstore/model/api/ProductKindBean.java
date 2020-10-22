@@ -9,16 +9,16 @@ import java.util.List;
  */
 
 public class ProductKindBean implements Serializable {
-    private String id;
+    private String kindId;
     private String name;
     private List<String> childs;
 
-    public String getId() {
-        return id;
+    public String getKindId() {
+        return kindId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setKindId(String kindId) {
+        this.kindId = kindId;
     }
 
     public String getName() {
@@ -42,8 +42,8 @@ public class ProductKindBean implements Serializable {
 
     }
 
-    public ProductKindBean(String id, String name) {
-        this.id = id;
+    public ProductKindBean(String kindId, String name) {
+        this.kindId = kindId;
         this.name = name;
     }
 }

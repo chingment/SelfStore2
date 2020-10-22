@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class ExHandleUniqueBean implements Serializable {
-    private String id;
+    private String uniqueId;
     private String productSkuId;
     private String mainImgUrl;
     private String name;
@@ -13,12 +13,13 @@ public class ExHandleUniqueBean implements Serializable {
     private boolean canHandle;
     private int signStatus;
 
-    public String getId() {
-        return id;
+
+    public String getUniqueId() {
+        return uniqueId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 
     public String getProductSkuId() {

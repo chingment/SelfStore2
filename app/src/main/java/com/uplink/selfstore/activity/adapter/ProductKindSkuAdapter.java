@@ -104,7 +104,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
         int sellQuantity = item.getSellQuantity();
 
         txt_name.setText(item.getName());
-        int cartQuantity = CartActivity.getSkuQuantity(item.getId());
+        int cartQuantity = CartActivity.getSkuQuantity(item.getProductSkuId());
         txt_quantity.setText(String.valueOf(cartQuantity));
         txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
 
@@ -144,7 +144,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             convertView.setAlpha(1f);
 
             final HashMap<String, String> params = new HashMap<String, String>();
-            params.put("skuId", item.getId());
+            params.put("skuId", item.getProductSkuId());
 
             //点击图片
             img_main.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +162,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
             btn_decrease.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CartActivity.operate(CartOperateType.DECREASE, item.getId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.DECREASE, item.getProductSkuId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
                             notifyDataSetChanged();
@@ -187,7 +187,7 @@ public class ProductKindSkuAdapter extends BaseAdapter {
                         return;
                     }
 
-                    CartActivity.operate(CartOperateType.INCREASE, item.getId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.INCREASE, item.getProductSkuId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
                             notifyDataSetChanged();

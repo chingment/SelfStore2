@@ -3,19 +3,20 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class SearchProductSkuBean implements Serializable {
-    private String id;
+    private String productSkuId;
     private String cumCode;
     private String barCode;
     private String name;
     private String mainImgUrl;
     private String specDes;
 
-    public String getId() {
-        return id;
+
+    public String getProductSkuId() {
+        return productSkuId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductSkuId(String productSkuId) {
+        this.productSkuId = productSkuId;
     }
 
     public String getBarCode() {

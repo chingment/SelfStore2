@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 
 public class CabinetBean implements Serializable {
-    private String id;
+    private String cabinetId;
     private String name;
     private String rowColLayout;
     private int priority;
@@ -34,12 +34,12 @@ public class CabinetBean implements Serializable {
         this.rowColLayout = rowColLayout;
     }
 
-    public String getId() {
-        return id;
+    public String getCabinetId() {
+        return cabinetId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCabinetId(String cabinetId) {
+        this.cabinetId = cabinetId;
     }
 
     public String getName() {
@@ -52,31 +52,31 @@ public class CabinetBean implements Serializable {
 
     public String getModelNo() {
         String modelNo="";
-        if(id==null){
+        if(cabinetId==null){
             return modelNo;
         }
 
-        if(id.length()!=8){
+        if(cabinetId.length()!=8){
             return modelNo;
         }
 
-        modelNo=id.substring(0,5);
+        modelNo=cabinetId.substring(0,5);
 
         return modelNo;
     }
 
     public int getCodeNo() {
         int codeNo=-1;
-        if(id==null){
+        if(cabinetId==null){
             return codeNo;
         }
 
-        if(id.length()!=8){
+        if(cabinetId.length()!=8){
             return codeNo;
         }
 
 
-        codeNo=Integer.valueOf(id.substring(6,8));
+        codeNo=Integer.valueOf(cabinetId.substring(6,8));
 
         return codeNo;
     }

@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class ProductChildKindBean implements Serializable {
-    private String id;
+    private String kindId;
     private String name;
     private List<String> childs;
 
@@ -20,12 +20,13 @@ public class ProductChildKindBean implements Serializable {
         this.childs = childs;
     }
 
-    public String getId() {
-        return id;
+
+    public String getKindId() {
+        return kindId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setKindId(String kindId) {
+        this.kindId = kindId;
     }
 
     public String getName() {

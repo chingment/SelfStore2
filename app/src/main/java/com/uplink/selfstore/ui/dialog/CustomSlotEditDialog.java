@@ -417,7 +417,7 @@ public class CustomSlotEditDialog extends Dialog {
                     case "dsx01":
                         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
 
-                        if(cabinet.getId()==null){
+                        if(cabinet.getCabinetId()==null){
                             mContext.showToast("准备出货异常......机柜编号为空");
                             return;
                         }
@@ -427,9 +427,9 @@ public class CustomSlotEditDialog extends Dialog {
                             return;
                         }
 
-                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(cabinet.getId(), slotId);
+                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(cabinet.getCabinetId(), slotId);
                         if (dsCabSlotNRC == null) {
-                            mContext.showToast("准备出货异常......机柜（" + cabinet.getId() + "）货道编号（" + slotId+ "）解释错误，");
+                            mContext.showToast("准备出货异常......机柜（" + cabinet.getCabinetId() + "）货道编号（" + slotId+ "）解释错误，");
                             return;
                         }
 
@@ -511,16 +511,16 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
                 Map<String, Object> params = new HashMap<>();
-                params.put("id", slotId);
+                params.put("slotId", slotId);
                 params.put("stockId", stockId);
-                params.put("machineId", machine.getId());
-                params.put("cabinetId", cabinet.getId());
+                params.put("machineId", machine.getMachineId());
+                params.put("cabinetId", cabinet.getCabinetId());
                 params.put("productSkuId", productSkuId);
                 params.put("sumQuantity", sumQuantity);
                 params.put("maxQuantity", maxQuantity);
                 params.put("version", version);
 
-                mContext.postByMy(Config.URL.stockSetting_SaveCabinetSlot, params, null, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                mContext.postByMy(mContext,Config.URL.stockSetting_SaveCabinetSlot, params, null, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -654,7 +654,7 @@ public class CustomSlotEditDialog extends Dialog {
 
         this.slot = slot;
 
-        txt_SlotId.setText(slot.getId());
+        txt_SlotId.setText(slot.getSlotId());
 
         if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
             txt_Version.setText(String.valueOf(slot.getVersion()));
@@ -711,10 +711,10 @@ public class CustomSlotEditDialog extends Dialog {
 
         MachineBean machine = AppCacheManager.getMachine();
 
-        params.put("machineId", machine.getId());
+        params.put("machineId", machine.getMachineId());
         params.put("key", key);
 
-        mContext.getByMy(Config.URL.productSku_Search, params, false, "正在寻找", new HttpResponseHandler() {
+        mContext.getByMy(mContext,Config.URL.productSku_Search, params, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -732,7 +732,7 @@ public class CustomSlotEditDialog extends Dialog {
                         @Override
                         public void setSlot(SearchProductSkuBean sku) {
 
-                            txt_SkuId.setText(sku.getId());
+                            txt_SkuId.setText(sku.getProductSkuId());
                             txt_SkuCumCode.setText(sku.getCumCode());
                             txt_SkuName.setText(sku.getName());
                             txt_SkuSpecDes.setText(sku.getSpecDes());
@@ -749,7 +749,7 @@ public class CustomSlotEditDialog extends Dialog {
                     if (d.getProductSkus() != null) {
                         if (d.getProductSkus().size() == 1) {
                             SearchProductSkuBean sku = d.getProductSkus().get(0);
-                            txt_SkuId.setText(sku.getId());
+                            txt_SkuId.setText(sku.getProductSkuId());
                             txt_SkuName.setText(sku.getName());
                             txt_SkuCumCode.setText(sku.getCumCode());
                             txt_SkuSpecDes.setText(sku.getSpecDes());
@@ -773,7 +773,7 @@ public class CustomSlotEditDialog extends Dialog {
             JSONObject content = new JSONObject();
 
             content.put("productSkuId", productSkuId);
-            content.put("cabinetId", cabinet.getId());
+            content.put("cabinetId", cabinet.getCabinetId());
             content.put("slotId", slotId);
             content.put("status", status);
             content.put("remark", remark);

@@ -54,7 +54,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
         setContentView(R.layout.activity_productdetails);
 
         setNavTtile(this.getResources().getString(R.string.aty_productdetails_navtitle));
-        setScannerCtrl();
+        setScannerCtrl(ProductDetailsActivity.this);
         productSku = (ProductSkuBean) getIntent().getSerializableExtra("dataBean");
         initView();
         initEvent();
@@ -160,7 +160,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                         ToastUtil.showMessage(ProductDetailsActivity.this, "商品已下架", Toast.LENGTH_LONG);
                         return;
                     }
-                    CartActivity.operate(CartOperateType.INCREASE,productSku.getId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.INCREASE,productSku.getProductSkuId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
 
@@ -177,11 +177,11 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                     }
 
                     CartSkuBean cartSku=new CartSkuBean();
-                    cartSku.setId(productSku.getId());
+                    cartSku.setProductSkuId(productSku.getProductSkuId());
                     cartSku.setQuantity(1);
 
 
-                    CartActivity.operate(CartOperateType.INCREASE, productSku.getId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.INCREASE, productSku.getProductSkuId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
                             Intent intent2 = new Intent(getAppContext(), CartActivity.class);

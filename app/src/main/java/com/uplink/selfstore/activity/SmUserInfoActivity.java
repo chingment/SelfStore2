@@ -108,7 +108,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, String> params = new HashMap<>();
 
-        getByMy(Config.URL.own_GetInfo, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        getByMy(SmUserInfoActivity.this, Config.URL.own_GetInfo, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -144,7 +144,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, String> params = new HashMap<>();
 
-        postByMy(Config.URL.own_DeleteFingerVeinData, null, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmUserInfoActivity.this, Config.URL.own_DeleteFingerVeinData, null, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -205,10 +205,10 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", machine.getId() + "");
+        params.put("machineId", machine.getMachineId() + "");
         params.put("veinData", Base64.encodeToString(data, Base64.NO_WRAP));
 
-        postByMy(Config.URL.own_UploadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmUserInfoActivity.this, Config.URL.own_UploadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

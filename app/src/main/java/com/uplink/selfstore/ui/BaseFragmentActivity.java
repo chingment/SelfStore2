@@ -140,7 +140,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
 
-    public void setScannerCtrl() {
+    public void setScannerCtrl(Context context) {
         if(getMachine().getScanner().getUse()) {
             scannerCtrl = ScannerCtrl.getInstance();
             scannerCtrl.connect();
@@ -158,7 +158,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                             if (scanResult != null) {
                                 if (scanResult.contains("pickupcode")) {
                                     LogUtil.e("pickupcode:" + scanResult);
-                                    orderSearchByPickupCode(scanResult);
+                                    orderSearchByPickupCode(context,scanResult);
                                 }
                             }
                             return false;
@@ -202,7 +202,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public void checkIsHasExHappen() {
         MachineBean machine=getMachine();
         if(machine!=null) {
-            if(!machine.getId().equals("")) {
+            if(!machine.getMachineId().equals("")) {
                 if(machine.isExIsHas()) {
                         getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                         getDialogBySystemWarn().show();
@@ -234,7 +234,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().addActivity(this);
 
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getId()) || this.getGlobalDataSet() == null) {
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getMachineId()) || this.getGlobalDataSet() == null) {
             Activity activity = AppManager.getAppManager().currentActivity();
             if (activity instanceof InitDataActivity) {
 
@@ -256,13 +256,16 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        if(dialog_Loading!=null) {
+                        if(msg.obj!=null) {
+                            dialog_Loading = new CustomLoadingDialog((Context) msg.obj);
                             dialog_Loading.setProgressText("正在处理中");
                             dialog_Loading.show();
                             new Handler().postDelayed(new Runnable() {
                                 public void run() {
-                                    if (dialog_Loading.isShowing()) {
-                                        laodingUIHandler.sendEmptyMessage(2);
+                                    if (dialog_Loading != null) {
+                                        if (dialog_Loading.isShowing()) {
+                                            laodingUIHandler.sendEmptyMessage(2);
+                                        }
                                     }
                                 }
                             }, 6000);
@@ -270,7 +273,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                         break;
                     case 2:
                         if (dialog_Loading != null) {
-                            dialog_Loading.hide();
+                            dialog_Loading.cancel();
+                            dialog_Loading=null;
                         }
                         break;
                 }
@@ -288,7 +292,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             TextView tv_machineId_value =findViewById(R.id.tv_machineId_value);
             if(tv_machineId_value!=null){
 
-                tv_machineId_value.setText(getMachine().getId());
+                tv_machineId_value.setText(getMachine().getMachineId());
                 tv_machineId_value.setTextColor(Color.argb(255, 0, 255, 0));
                 tv_machineId_title.setTextColor(Color.argb(255, 0, 255, 0));
             }
@@ -381,7 +385,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
 
 
-    public void getByMy(String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
+    public void getByMy(Context context, String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
 
@@ -390,7 +394,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
                 if (isShowLoading) {
                     if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-                        laodingUIHandler.sendEmptyMessage(1);
+
+                        Message m = new Message();
+                        m.what=1;
+                        m.obj=context;
+                        laodingUIHandler.sendMessage(m);
                     }
                 }
             }
@@ -398,7 +406,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    laodingUIHandler.sendEmptyMessage(2);
+                    Message m = new Message();
+                    m.what=2;
+                    m.obj=context;
+                    laodingUIHandler.sendMessage(m);
                 }
                 final String s = response;
 
@@ -420,28 +431,37 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    laodingUIHandler.sendEmptyMessage(2);
+                    Message m = new Message();
+                    m.what=2;
+                    m.obj=context;
+                    laodingUIHandler.sendMessage(m);
                 }
                 handler.onFailure(msg, e);
             }
         });
     }
 
-    public void postByMy(String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
+    public void postByMy(Context context,String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, filePaths, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
                 if (isShowLoading) {
-                    laodingUIHandler.sendEmptyMessage(1);
+                    Message m = new Message();
+                    m.what=1;
+                    m.obj=context;
+                    laodingUIHandler.sendMessage(m);
                 }
             }
 
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    laodingUIHandler.sendEmptyMessage(2);
+                    Message m = new Message();
+                    m.what=2;
+                    m.obj=context;
+                    laodingUIHandler.sendMessage(m);
                 }
                 final String s = response;
                 if (s.indexOf("\"result\":") > -1) {
@@ -461,7 +481,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    laodingUIHandler.sendEmptyMessage(2);
+                    Message m = new Message();
+                    m.what=2;
+                    m.obj=context;
+                    laodingUIHandler.sendMessage(m);
                 }
                 handler.onFailure(msg, e);
             }
@@ -487,17 +510,17 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-    public void orderCancle(String orderId,int type, String reason) {
+    public void orderCancle(Context context, String orderId,int type, String reason) {
 
         MachineBean machine = AppCacheManager.getMachine();
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", machine.getId() + "");
+        params.put("machineId", machine.getMachineId() + "");
         params.put("orderId", orderId);
         params.put("type", type);
         params.put("reason", reason);
 
-        postByMy(Config.URL.order_Cancle, params, null, true, "", new HttpResponseHandler() {
+        postByMy(context,Config.URL.order_Cancle, params, null, true, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
             }
@@ -511,7 +534,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         Map<String, Object> params = new HashMap<>();
         params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("deviceId", AppContext.getInstance().getDeviceId());
-        params.put("machineId", machine.getId() + "");
+        params.put("machineId", machine.getMachineId() + "");
         params.put("lat", LocationUtil.LAT);
         params.put("lng", LocationUtil.LNG);
         params.put("eventCode", eventCode);
@@ -538,14 +561,14 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void orderSearchByPickupCode(String pickCode) {
+    public void orderSearchByPickupCode(Context context, String pickCode) {
 
         Map<String, String> params = new HashMap<>();
 
-        params.put("machineId", this.getMachine().getId());
+        params.put("machineId", this.getMachine().getMachineId());
         params.put("pickupCode", pickCode);
 
-        getByMy(Config.URL.order_SearchByPickupCode, params, false, "正在寻找订单", new HttpResponseHandler() {
+        getByMy(context,Config.URL.order_SearchByPickupCode, params, false, "正在寻找订单", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
