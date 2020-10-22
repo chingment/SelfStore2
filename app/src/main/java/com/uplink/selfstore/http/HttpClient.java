@@ -3,6 +3,7 @@ package com.uplink.selfstore.http;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
@@ -130,7 +132,7 @@ public class HttpClient {
     }
 
 
-    public static void getByAppSecret(String key, String secret, String url, Map<String, String> param, final HttpResponseHandler handler) {
+    public static void getByAppSecret(String appKey, String appSecret, String url, Map<String, String> param, final HttpResponseHandler handler) {
 
         try {
             if (!isNetworkAvailable()) {
@@ -148,7 +150,8 @@ public class HttpClient {
             }
 
             Request.Builder requestBuilder = new Request.Builder().url(url);
-            requestBuilder.addHeader("key", "" + key);
+            requestBuilder.addHeader("appId", "" + BuildConfig.APPLICATION_ID);
+            requestBuilder.addHeader("appKey", "" + appKey);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
 
@@ -157,7 +160,7 @@ public class HttpClient {
             //LogUtil.d("data:"+data);
             //LogUtil.d("currenttime:"+currenttime);
 
-            String sign = Config.getSign(key, secret, data, currenttime);
+            String sign = Config.getSign(BuildConfig.APPLICATION_ID,appKey, appSecret, data, currenttime);
             //LogUtil.d("sign:"+sign);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
@@ -203,7 +206,7 @@ public class HttpClient {
         }
     }
 
-    public static void postByAppSecret(String key, String secret, String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public static void postByAppSecret(String appKey, String appSecret, String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
 
         try
         {
@@ -233,10 +236,11 @@ public class HttpClient {
 
             Request.Builder requestBuilder = new Request.Builder().url(url);
 
-            requestBuilder.addHeader("key", "" + key);
+            requestBuilder.addHeader("appId", "" + BuildConfig.APPLICATION_ID);
+            requestBuilder.addHeader("appKey", "" + appKey);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
-            String sign = Config.getSign(key, secret, json.toString(), currenttime);
+            String sign = Config.getSign(BuildConfig.APPLICATION_ID,appKey, appSecret, json.toString(), currenttime);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
