@@ -5,7 +5,7 @@ import java.util.List;
 
 public class UpdateProductSkuStockBean implements Serializable {
 
-    private String id;
+    private String productSkuId;
     private float salePrice;
     private float salePriceByVip;
     private boolean isOffSell;
@@ -13,12 +13,13 @@ public class UpdateProductSkuStockBean implements Serializable {
     private int lockQuantity;
     private int sellQuantity;
 
-    public String getId() {
-        return id;
+
+    public String getProductSkuId() {
+        return productSkuId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProductSkuId(String productSkuId) {
+        this.productSkuId = productSkuId;
     }
 
     public float getSalePrice() {

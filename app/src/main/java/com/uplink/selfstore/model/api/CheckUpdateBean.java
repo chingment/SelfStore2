@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class CheckUpdateBean implements Serializable {
     private String versionCode;
     private String versionName;
-    private String apkDownloadUrl;
+    private String downloadUrl;
 
     public String getVersionCode() {
         return versionCode;
@@ -23,11 +23,12 @@ public class CheckUpdateBean implements Serializable {
         this.versionName = versionName;
     }
 
-    public String getApkDownloadUrl() {
-        return apkDownloadUrl;
+
+    public String getDownloadUrl() {
+        return downloadUrl;
     }
 
-    public void setApkDownloadUrl(String apkDownloadUrl) {
-        this.apkDownloadUrl = apkDownloadUrl;
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }

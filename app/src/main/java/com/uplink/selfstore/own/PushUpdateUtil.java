@@ -19,6 +19,7 @@ import com.uplink.selfstore.model.push.*;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -167,20 +168,27 @@ public class PushUpdateUtil {
 
             HashMap<String, ProductSkuBean> productSkus = globalDataSet.getProductSkus();
 
+            String productSkuId = updateProductSkuStock.getProductSkuId();
 
-            if (productSkus.get(updateProductSkuStock.getId()) != null) {
-                productSkus.get(updateProductSkuStock.getId()).setSellQuantity(updateProductSkuStock.getSellQuantity());
-                productSkus.get(updateProductSkuStock.getId()).setSalePrice(updateProductSkuStock.getSalePrice());
-                productSkus.get(updateProductSkuStock.getId()).setSalePriceByVip(updateProductSkuStock.getSalePriceByVip());
-                productSkus.get(updateProductSkuStock.getId()).setOffSell(updateProductSkuStock.isOffSell());
+            if (!StringUtil.isEmpty(productSkuId)) {
+                if (productSkus.containsKey(productSkuId)) {
+
+                    ProductSkuBean productSku = productSkus.get(productSkuId);
+
+                    productSku.setSellQuantity(updateProductSkuStock.getSellQuantity());
+                    productSku.setSalePrice(updateProductSkuStock.getSalePrice());
+                    productSku.setSalePriceByVip(updateProductSkuStock.getSalePriceByVip());
+                    productSku.setOffSell(updateProductSkuStock.isOffSell());
+
+                    productSkus.put(productSkuId, productSku);
+
+                    globalDataSet.setProductSkus(productSkus);
+                }
             }
-
-            globalDataSet.setProductSkus(productSkus);
 
         } catch (Exception ex) {
             LogUtil.e(TAG, ex);
         }
-
 
     }
 

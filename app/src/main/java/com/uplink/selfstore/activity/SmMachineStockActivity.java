@@ -44,6 +44,7 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -220,25 +221,47 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     }
 
     public void setSlot(SlotBean slot) {
-        if(slot!=null) {
-            cabinetSlots.get(slot.getSlotId()).setProductSkuId(slot.getProductSkuId());
-            cabinetSlots.get(slot.getSlotId()).setProductSkuName(slot.getProductSkuName());
-            cabinetSlots.get(slot.getSlotId()).setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
-            cabinetSlots.get(slot.getSlotId()).setOffSell(slot.isOffSell());
-            cabinetSlots.get(slot.getSlotId()).setLockQuantity(slot.getLockQuantity());
-            cabinetSlots.get(slot.getSlotId()).setSellQuantity(slot.getSellQuantity());
-            cabinetSlots.get(slot.getSlotId()).setSumQuantity(slot.getSumQuantity());
-            cabinetSlots.get(slot.getSlotId()).setMaxQuantity(slot.getMaxQuantity());
-            cabinetSlots.get(slot.getSlotId()).setVersion(slot.getVersion());
-            switch (cabinet.getModelNo()){
-                case "dsx01":
-                    drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinetSlots);
-                    break;
-                case "zsx01":
-                    drawsCabinetSlotsByZS(cabinet.getRowColLayout(), cabinetSlots);
-                    break;
-            }
+
+        if (slot == null)
+            return;
+
+        String slotId = slot.getSlotId();
+
+        if (StringUtil.isEmpty(slotId))
+            return;
+
+        if (cabinetSlots == null)
+            return;
+
+        if (!cabinetSlots.containsKey(slotId))
+            return;
+
+
+        SlotBean l_slot = cabinetSlots.get(slot.getSlotId());
+
+        l_slot.setProductSkuId(slot.getProductSkuId());
+        l_slot.setProductSkuName(slot.getProductSkuName());
+        l_slot.setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
+        l_slot.setOffSell(slot.isOffSell());
+        l_slot.setLockQuantity(slot.getLockQuantity());
+        l_slot.setSellQuantity(slot.getSellQuantity());
+        l_slot.setSumQuantity(slot.getSumQuantity());
+        l_slot.setMaxQuantity(slot.getMaxQuantity());
+        l_slot.setVersion(slot.getVersion());
+
+
+        cabinetSlots.put(slotId,l_slot);
+
+        switch (cabinet.getModelNo()) {
+            case "dsx01":
+                drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinetSlots);
+                break;
+            case "zsx01":
+                drawsCabinetSlotsByZS(cabinet.getRowColLayout(), cabinetSlots);
+                break;
         }
+
+
     }
 
     public void drawsCabinetSlotsByDS(String strRowColLayout, HashMap<String, SlotBean> slots) {

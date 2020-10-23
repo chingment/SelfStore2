@@ -256,10 +256,10 @@ public class UpdateAppService extends Service {
                     if (rt.getResult() == Result.SUCCESS) {
                         CheckUpdateBean d = rt.getData();
                         if (d != null) {
-                            if (d.getVersionName() != null && d.getApkDownloadUrl() != null) {
+                            if (d.getVersionName() != null && d.getDownloadUrl() != null) {
                                 int c = compareVersion(d.getVersionName(), BuildConfig.VERSION_NAME);
                                 if (c == 1) {
-                                    downloadManagerApk(d.getApkDownloadUrl());
+                                    downloadManagerApk(d.getDownloadUrl());
                                 }
                                 else {
                                     Message m = new Message();
