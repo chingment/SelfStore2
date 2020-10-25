@@ -129,8 +129,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                     return;
                 }
 
-                params.put("items", json_items);
-                params.put("reasons", json_reasons);
+                params.put("exItems", json_items);
+                params.put("exReasons", json_reasons);
                 postByMy(SmRunExHandleActivity.this, Config.URL.machine_HandleRunExItems, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
