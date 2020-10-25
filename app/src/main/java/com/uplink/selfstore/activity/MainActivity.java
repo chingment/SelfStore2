@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.activity.adapter.AdContentAdapter;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.model.DSCabSlotNRC;
+import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
@@ -26,6 +28,8 @@ import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.ScanKeyManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
+
+import java.util.HashMap;
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -160,7 +164,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     private void initData() {
         loadLogo();
-        loadBanner();
+        loadAds();
     }
 
     public void loadLogo() {
@@ -168,11 +172,20 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         CommonUtil.loadImageFromUrl(getAppContext(), img_logo, this.getGlobalDataSet().getMachine().getLogoImgUrl());
     }
 
-    public void loadBanner() {
+    public void loadAds() {
 
-        BannerAdapter banner_adapter = new BannerAdapter(getAppContext(), this.getGlobalDataSet().getBanners(), ImageView.ScaleType.FIT_XY);
-        banner_pager.setAdapter(banner_adapter);
-        banner_indicator.setViewPager(banner_pager);
+        HashMap<String, AdBean> ads = this.getGlobalDataSet().getAds();
+
+        if(ads==null)
+            return;
+
+        //200 是首页主广告
+        if(ads.containsKey("100")) {
+            AdBean ad = ads.get("100");
+            AdContentAdapter adContent_adapter = new AdContentAdapter(getAppContext(), ad.getContents(), ImageView.ScaleType.FIT_XY);
+            banner_pager.setAdapter(adContent_adapter);
+            banner_indicator.setViewPager(banner_pager);
+        }
     }
 
     @Override

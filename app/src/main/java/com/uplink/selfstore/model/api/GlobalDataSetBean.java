@@ -14,7 +14,7 @@ public class GlobalDataSetBean implements Serializable {
     private MachineBean machine;
     private List<ProductKindBean> productKinds;
     private HashMap<String, ProductSkuBean> productSkus;
-    private List<ImgSetBean> banners;
+    private HashMap<String, AdBean> ads;
 
     public HashMap<String, ProductSkuBean> getProductSkus() {
         return productSkus;
@@ -32,12 +32,13 @@ public class GlobalDataSetBean implements Serializable {
         this.machine = machine;
     }
 
-    public List<ImgSetBean> getBanners() {
-        return banners;
+
+    public HashMap<String, AdBean> getAds() {
+        return ads;
     }
 
-    public void setBanners(List<ImgSetBean> banners) {
-        this.banners = banners;
+    public void setAds(HashMap<String, AdBean> ads) {
+        this.ads = ads;
     }
 
     public List<ProductKindBean> getProductKinds() {

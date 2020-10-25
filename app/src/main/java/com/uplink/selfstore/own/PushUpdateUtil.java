@@ -9,6 +9,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
@@ -134,12 +135,12 @@ public class PushUpdateUtil {
 
     private static void updateHomeBanners(String content) {
 
-        List<ImgSetBean> banners = JSON.parseObject(content, new TypeReference<List<ImgSetBean>>() {
+        HashMap<String, AdBean> ads = JSON.parseObject(content, new TypeReference<HashMap<String, AdBean>>() {
         });
 
         GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
 
-        globalDataSet.setBanners(banners);
+        globalDataSet.setAds(ads);
 
         AppCacheManager.setGlobalDataSet(globalDataSet);
 
@@ -149,7 +150,7 @@ public class PushUpdateUtil {
                 for (Activity act : acts) {
                     if (act instanceof MainActivity) {
                         MainActivity act_MainActivity = (MainActivity) act;
-                        act_MainActivity.loadBanner();
+                        act_MainActivity.loadAds();
                         break;
                     }
                 }
