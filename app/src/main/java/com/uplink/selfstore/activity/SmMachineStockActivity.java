@@ -240,8 +240,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         SlotBean l_slot = cabinetSlots.get(slot.getSlotId());
 
         l_slot.setProductSkuId(slot.getProductSkuId());
-        l_slot.setProductSkuName(slot.getProductSkuName());
-        l_slot.setProductSkuMainImgUrl(slot.getProductSkuMainImgUrl());
+        l_slot.setName(slot.getName());
+        l_slot.setMainImgUrl(slot.getMainImgUrl());
         l_slot.setOffSell(slot.isOffSell());
         l_slot.setLockQuantity(slot.getLockQuantity());
         l_slot.setSellQuantity(slot.getSellQuantity());
@@ -339,12 +339,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         txt_sumQuantity.setText("0");
 
                     } else {
-                        txt_name.setText(slot.getProductSkuName());
+                        txt_name.setText(slot.getName());
                         txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
                         txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
                         txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
 
-                        CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getProductSkuMainImgUrl());
+                        CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getMainImgUrl());
 
                         if (slot.getLockQuantity() > 0) {
                             GradientDrawable drawable = new GradientDrawable();
@@ -451,12 +451,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     txt_sumQuantity.setText("0");
 
                 } else {
-                    txt_name.setText(slot.getProductSkuName());
+                    txt_name.setText(slot.getName());
                     txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
                     txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
                     txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
 
-                    CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getProductSkuMainImgUrl());
+                    CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getMainImgUrl());
 
                     if (slot.getLockQuantity() > 0) {
                         GradientDrawable drawable = new GradientDrawable();
@@ -715,8 +715,8 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                  a_slot.setProductSkuId(l_slot.getProductSkuId());
                  a_slot.setSlotId(l_slot.getSlotId());
                  a_slot.setCabinetId(l_slot.getCabinetId());
-                 a_slot.setMainImgUrl(l_slot.getProductSkuMainImgUrl());
-                 a_slot.setName(l_slot.getProductSkuName());
+                 a_slot.setMainImgUrl(l_slot.getMainImgUrl());
+                 a_slot.setName(l_slot.getName());
                  a_slot.setStatus(3010);
                  a_slot.setTips("待取货");
                  slots.add(a_slot);

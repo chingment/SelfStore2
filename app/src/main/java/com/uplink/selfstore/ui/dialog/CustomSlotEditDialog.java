@@ -672,9 +672,9 @@ public class CustomSlotEditDialog extends Dialog {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_StockId.setText(slot.getStockId());
             txt_SkuId.setText(slot.getProductSkuId());
-            txt_SkuCumCode.setText(slot.getProductSkuCumCode());
-            txt_SkuName.setText(slot.getProductSkuName());
-            txt_SkuSpecDes.setText(slot.getProductSkuSpecDes());
+            txt_SkuCumCode.setText(slot.getCumCode());
+            txt_SkuName.setText(slot.getName());
+            txt_SkuSpecDes.setText(slot.getSpecDes());
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
@@ -691,7 +691,7 @@ public class CustomSlotEditDialog extends Dialog {
 
             }
 
-            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getProductSkuMainImgUrl());
+            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getMainImgUrl());
         }
     }
 

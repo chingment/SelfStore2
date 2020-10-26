@@ -7,10 +7,10 @@ public class SlotBean implements Serializable {
     private  String stockId;
     private  String cabinetId;
     private  String productSkuId;
-    private  String productSkuCumCode;
-    private  String productSkuName;
-    private  String productSkuMainImgUrl;
-    private  String productSkuSpecDes;
+    private  String cumCode;
+    private  String name;
+    private  String mainImgUrl;
+    private  String specDes;
     private  int sumQuantity;
     private  int lockQuantity;
     private  int sellQuantity;
@@ -45,23 +45,6 @@ public class SlotBean implements Serializable {
     public void setProductSkuId(String productSkuId) {
         this.productSkuId = productSkuId;
     }
-
-    public String getProductSkuName() {
-        return productSkuName;
-    }
-
-    public void setProductSkuName(String productSkuName) {
-        this.productSkuName = productSkuName;
-    }
-
-    public String getProductSkuMainImgUrl() {
-        return productSkuMainImgUrl;
-    }
-
-    public void setProductSkuMainImgUrl(String productSkuMainImgUrl) {
-        this.productSkuMainImgUrl = productSkuMainImgUrl;
-    }
-
 
     public int getSumQuantity() {
         return sumQuantity;
@@ -103,28 +86,12 @@ public class SlotBean implements Serializable {
         this.version = version;
     }
 
-    public String getProductSkuSpecDes() {
-        return productSkuSpecDes;
-    }
-
-    public void setProductSkuSpecDes(String productSkuSpecDes) {
-        this.productSkuSpecDes = productSkuSpecDes;
-    }
-
     public int getMaxQuantity() {
         return maxQuantity;
     }
 
     public void setMaxQuantity(int maxQuantity) {
         this.maxQuantity = maxQuantity;
-    }
-
-    public String getProductSkuCumCode() {
-        return productSkuCumCode;
-    }
-
-    public void setProductSkuCumCode(String productSkuCumCode) {
-        this.productSkuCumCode = productSkuCumCode;
     }
 
     public String getCabinetId() {
@@ -157,5 +124,37 @@ public class SlotBean implements Serializable {
 
     public void setCanAlterMaxQuantity(Boolean canAlterMaxQuantity) {
         isCanAlterMaxQuantity = canAlterMaxQuantity;
+    }
+
+    public String getCumCode() {
+        return cumCode;
+    }
+
+    public void setCumCode(String cumCode) {
+        this.cumCode = cumCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMainImgUrl() {
+        return mainImgUrl;
+    }
+
+    public void setMainImgUrl(String mainImgUrl) {
+        this.mainImgUrl = mainImgUrl;
+    }
+
+    public String getSpecDes() {
+        return specDes;
+    }
+
+    public void setSpecDes(String specDes) {
+        this.specDes = specDes;
     }
 }
