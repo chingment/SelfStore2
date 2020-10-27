@@ -248,7 +248,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         l_slot.setSumQuantity(slot.getSumQuantity());
         l_slot.setMaxQuantity(slot.getMaxQuantity());
         l_slot.setVersion(slot.getVersion());
-
+        l_slot.setCanAlterMaxQuantity(slot.getCanAlterMaxQuantity());
 
         cabinetSlots.put(slotId,l_slot);
 

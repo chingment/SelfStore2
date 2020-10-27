@@ -18,7 +18,7 @@ import com.uplink.selfstore.activity.adapter.PickupAutoTestSlotAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.DSCabSlotNRC;
-import com.uplink.selfstore.model.PickupResult;
+import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.own.AppLogcatManager;
@@ -97,9 +97,9 @@ public class CustomPickupAutoTestDialog extends Dialog {
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
                         String message = bundle.getString("message");
-                        PickupResult pickupResult = null;
+                        PickupActionResult pickupActionResult = null;
                         if (bundle.getSerializable("result") != null) {
-                            pickupResult = (PickupResult) bundle.getSerializable("result");
+                            pickupActionResult = (PickupActionResult) bundle.getSerializable("result");
                         }
 
                         if (!StringUtil.isEmptyNotNull(message)) {
@@ -119,8 +119,8 @@ public class CustomPickupAutoTestDialog extends Dialog {
                             }
                         }
 
-                        if(pickupResult!=null) {
-                            if (pickupResult.getCurrentActionId() == 8) {
+                        if(pickupActionResult!=null) {
+                            if (pickupActionResult.getActionId() == 8) {
                                 isTakePic = true;
                             }
                         }
@@ -131,20 +131,20 @@ public class CustomPickupAutoTestDialog extends Dialog {
                         }
 
                         if(isTakePic){
-                            if(pickupResult==null){
-                                pickupResult=new PickupResult();
+                            if(pickupActionResult==null){
+                                pickupActionResult=new PickupActionResult();
                             }
 
                             if(CameraWindow.cameraIsRunningByChk()) {
-                                pickupResult.setImgId(UUID.randomUUID().toString());
+                                pickupActionResult.setImgId(UUID.randomUUID().toString());
 
                                 LogUtil.e(TAG,"开始拍照");
-                                CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
+                                CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
                             }
 
                             if(CameraWindow.cameraIsRunningByJg()) {
-                                pickupResult.setImgId2(UUID.randomUUID().toString());
-                                CameraWindow.takeCameraPicByJg(pickupResult.getImgId2());
+                                pickupActionResult.setImgId2(UUID.randomUUID().toString());
+                                CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
                             }
                         }
 
@@ -152,7 +152,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                             if(cabinetCtrlByDS!=null) {
                                 cabinetCtrlByDS.emgStop();
                             }
-                            pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupResult);
+                            pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                         }
                         else {
                             switch (status) {
@@ -164,11 +164,11 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     break;
                                 case 3://取货中
                                     curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
-                                    pickupEventNotify(curPickupSku, 3012, "取货中", pickupResult);
+                                    pickupEventNotify(curPickupSku, 3012, "取货中", pickupActionResult);
                                     break;
                                 case 4://取货成功
                                     curPickupSku_Tv_Tip2.setText("取货完成");
-                                    pickupEventNotify(curPickupSku, 4000, "取货完成", pickupResult);
+                                    pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
                                     break;
                                 case 5://取货失败，机器异常
                                     isHappneException = true;
@@ -176,7 +176,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     LogUtil.e(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
-                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupResult);
+                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     break;
                                 case 6://取货失败，程序异常
                                     isHappneException = true;
@@ -184,7 +184,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     LogUtil.e(TAG,exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
-                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupResult);
+                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     break;
                                 default:
                                     isHappneException = true;
@@ -192,7 +192,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     LogUtil.e(TAG,exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
-                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupResult);
+                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     break;
                             }
                         }
@@ -204,7 +204,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
     }
 
-    private void pickupEventNotify(final PickupSkuBean pickupSku, final int status, String remark, PickupResult pickupResult) {
+    private void pickupEventNotify(final PickupSkuBean pickupSku, final int pickupStatus, String remark, PickupActionResult actionResult) {
 
         if (pickupSku == null)
             return;
@@ -215,20 +215,27 @@ public class CustomPickupAutoTestDialog extends Dialog {
             content.put("productSkuId", pickupSku.getProductSkuId());
             content.put("cabinetId", pickupSku.getCabinetId());
             content.put("slotId", pickupSku.getSlotId());
-            content.put("status", status);
-            content.put("isTest", true);
-            if (pickupResult != null) {
-                content.put("actionId", pickupResult.getCurrentActionId());
-                content.put("actionName", pickupResult.getCurrentActionName());
-                content.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
-                content.put("actionStatusName", pickupResult.getCurrentActionStatusName());
-                content.put("pickupUseTime", pickupResult.getPickupUseTime());
-                content.put("isPickupComplete", pickupResult.isPickupComplete());
-                content.put("imgId", pickupResult.getImgId());
-                content.put("imgId2", pickupResult.getImgId2());
+            content.put("pickupStatus", pickupStatus);
+            if (actionResult != null) {
+                content.put("actionId", actionResult.getActionId());
+                content.put("actionName", actionResult.getActionName());
+                content.put("actionStatusCode", actionResult.getActionStatusCode());
+                content.put("actionStatusName", actionResult.getActionStatusName());
+                content.put("pickupUseTime", actionResult.getPickupUseTime());
+                content.put("imgId", actionResult.getImgId());
+                content.put("imgId2", actionResult.getImgId2());
+            }
+            else {
+                content.put("actionId", 0);
+                content.put("actionName", "未知动作");
+                content.put("actionStatusCode", "");
+                content.put("actionStatusName", "");
+                content.put("pickupUseTime", 0);
+                content.put("imgId", "");
+                content.put("imgId2", "");
             }
             content.put("remark", remark);
-            LogUtil.d(TAG,"status:" + status);
+            LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
             if (mContext != null) {
                 mContext.eventNotify("PickupTest", "商品取货", content);
             }
@@ -245,7 +252,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickup");
         } else {
 
-            switch (status) {
+            switch (pickupStatus) {
                 case 3011:
                     pickupSkus.get(curPickupSku_idx).setStatus(3011);
                     pickupSkus.get(curPickupSku_idx).setTips("取货中");

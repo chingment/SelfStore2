@@ -26,7 +26,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
-import com.uplink.selfstore.model.PickupResult;
+import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
@@ -126,9 +126,9 @@ public class CustomSlotEditDialog extends Dialog {
                 Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
                 String message = bundle.getString("message");
-                PickupResult pickupResult = null;
+                PickupActionResult pickupActionResult = null;
                 if (bundle.getSerializable("result") != null) {
-                    pickupResult = (PickupResult) bundle.getSerializable("result");
+                    pickupActionResult = (PickupActionResult) bundle.getSerializable("result");
                 }
 
 
@@ -144,8 +144,8 @@ public class CustomSlotEditDialog extends Dialog {
                     }
                 }
 
-                if(pickupResult!=null) {
-                    if (pickupResult.getCurrentActionId() == 8) {
+                if(pickupActionResult!=null) {
+                    if (pickupActionResult.getActionId() == 8) {
                         isTakePic = true;
                     }
                 }
@@ -156,20 +156,20 @@ public class CustomSlotEditDialog extends Dialog {
                 }
 
                 if(isTakePic){
-                    if(pickupResult==null){
-                        pickupResult=new PickupResult();
+                    if(pickupActionResult==null){
+                        pickupActionResult=new PickupActionResult();
                     }
 
                     if(CameraWindow.cameraIsRunningByChk()) {
-                        pickupResult.setImgId(UUID.randomUUID().toString());
+                        pickupActionResult.setImgId(UUID.randomUUID().toString());
                         LogUtil.e(TAG,"开始拍照->出货口");
-                        CameraWindow.takeCameraPicByChk(pickupResult.getImgId());
+                        CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
                     }
 
                     if(CameraWindow.cameraIsRunningByJg()) {
                         LogUtil.e(TAG,"开始拍照->机柜");
-                        pickupResult.setImgId2(UUID.randomUUID().toString());
-                        CameraWindow.takeCameraPicByJg(pickupResult.getImgId2());
+                        pickupActionResult.setImgId2(UUID.randomUUID().toString());
+                        CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
                     }
                 }
 
@@ -178,7 +178,7 @@ public class CustomSlotEditDialog extends Dialog {
                     if (cabinetCtrlByDS != null) {
                         cabinetCtrlByDS.emgStop();
                     }
-                    pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                    pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
                 }
                 else {
                     switch (status) {
@@ -192,17 +192,16 @@ public class CustomSlotEditDialog extends Dialog {
                             break;
                         case 3://取货中
                             dialog_Running.setProgressText("正在取货中..请稍等");
-                            if (pickupResult != null) {
-                                pickupEventNotify(productSkuId, slotId, 3012, "发起取货", pickupResult);
+                            if (pickupActionResult != null) {
+                                pickupEventNotify(productSkuId, slotId, 3012, "发起取货", pickupActionResult);
                             }
                             break;
                         case 4://取货成功
                             dialog_Running.hide();
-                            if (pickupResult != null) {
-                                if (pickupResult.isPickupComplete()) {
-                                    mContext.showToast("取货完成");
-                                    pickupEventNotify(productSkuId, slotId, 4000, "取货完成", pickupResult);
-                                }
+                            if (pickupActionResult != null) {
+                                mContext.showToast("取货完成");
+                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", pickupActionResult);
+
                             }
                             break;
                         case 5://取货超时
@@ -211,7 +210,7 @@ public class CustomSlotEditDialog extends Dialog {
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
-                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
                             mContext.showToast(exceptionMessage);
                             break;
                         case 6://取货失败
@@ -220,7 +219,7 @@ public class CustomSlotEditDialog extends Dialog {
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
-                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
                             mContext.showToast(exceptionMessage);
                             break;
                         default:
@@ -229,7 +228,7 @@ public class CustomSlotEditDialog extends Dialog {
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
-                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupResult);
+                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
                             break;
                     }
                 }
@@ -680,15 +679,15 @@ public class CustomSlotEditDialog extends Dialog {
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
             txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
 
-            if(slot.getCanAlterMaxQuantity()){
-                btn_decreasebymax.setVisibility(View.VISIBLE);
-                btn_increasebymax.setVisibility(View.VISIBLE);
-            }
-            else
-            {
-                btn_decreasebymax.setVisibility(View.INVISIBLE);
-                btn_increasebymax.setVisibility(View.INVISIBLE);
+            if(slot.getCanAlterMaxQuantity()!=null) {
+                if (slot.getCanAlterMaxQuantity()) {
+                    btn_decreasebymax.setVisibility(View.VISIBLE);
+                    btn_increasebymax.setVisibility(View.VISIBLE);
+                } else {
+                    btn_decreasebymax.setVisibility(View.INVISIBLE);
+                    btn_increasebymax.setVisibility(View.INVISIBLE);
 
+                }
             }
 
             CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getMainImgUrl());
@@ -767,7 +766,7 @@ public class CustomSlotEditDialog extends Dialog {
         list_search_skus.setAdapter(slotSkuSearchAdapter);
     }
 
-    private void pickupEventNotify(final String productSkuId, final String slotId,final int status, String remark,PickupResult pickupResult) {
+    private void pickupEventNotify(final String productSkuId, final String slotId,final int pickupStatus, String remark,PickupActionResult actionResult) {
 
         try {
             JSONObject content = new JSONObject();
@@ -775,17 +774,28 @@ public class CustomSlotEditDialog extends Dialog {
             content.put("productSkuId", productSkuId);
             content.put("cabinetId", cabinet.getCabinetId());
             content.put("slotId", slotId);
-            content.put("status", status);
+            content.put("pickupStatus", pickupStatus);
             content.put("remark", remark);
-            content.put("isTest", true);
-            if (pickupResult != null) {
-                content.put("actionId", pickupResult.getCurrentActionId());
-                content.put("actionName", pickupResult.getCurrentActionName());
-                content.put("actionStatusCode", pickupResult.getCurrentActionStatusCode());
-                content.put("actionStatusName", pickupResult.getCurrentActionStatusName());
-                content.put("pickupUseTime", pickupResult.getPickupUseTime());
-                content.put("isPickupComplete", pickupResult.isPickupComplete());
+            if (actionResult != null) {
+                content.put("actionId", actionResult.getActionId());
+                content.put("actionName", actionResult.getActionName());
+                content.put("actionStatusCode", actionResult.getActionStatusCode());
+                content.put("actionStatusName", actionResult.getActionStatusName());
+                content.put("pickupUseTime", actionResult.getPickupUseTime());
+                content.put("imgId", actionResult.getImgId());
+                content.put("imgId2", actionResult.getImgId2());
             }
+            else
+            {
+                content.put("actionId", -1);
+                content.put("actionName", "未知动作");
+                content.put("actionStatusCode", "");
+                content.put("actionStatusName", "");
+                content.put("pickupUseTime", 0);
+                content.put("imgId", "");
+                content.put("imgId2", "");
+            }
+
             mContext.eventNotify("PickupTest","商品测试取货", content);
         }catch (JSONException e) {
             e.printStackTrace();

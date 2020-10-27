@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.uplink.selfstore.model.PickupResult;
+import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -343,7 +343,7 @@ public class CabinetCtrlByDS {
         }
     }
 
-    private void sendPickupHandlerMessage(int status, String message, PickupResult result) {
+    private void sendPickupHandlerMessage(int status, String message, PickupActionResult result) {
         if (pickupHandler != null) {
             Message m = new Message();
             m.what = MESSAGE_WHAT_PICKUP;
@@ -703,31 +703,32 @@ public class CabinetCtrlByDS {
 
                             int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
 
-                            PickupResult result = new PickupResult();
+                            PickupActionResult result = new PickupActionResult();
                             result.setActionCount(rc_flowStatus[1]);//动作总数
-                            result.setCurrentActionId(rc_flowStatus[2]);//当前动作号
-                            result.setCurrentActionStatusCode(rc_flowStatus[3]);//当前动作状态
+                            result.setActionId(rc_flowStatus[2]);//当前动作号
+                            result.setActionStatusCode(rc_flowStatus[3]);//当前动作状态
 
+                            boolean isPickupComplete=false;
                             if (rc_flowStatus[0] == S_RC_SUCCESS) {
                                 if (rc_flowStatus[2] == S_ACTION_GOZERO) {
                                     if (rc_flowStatus[3] == S_Motor_Done) {
-                                        result.setPickupComplete(true);//设置取货完成
+                                        isPickupComplete=true;//设置取货完成
                                         long nPickupEndTime = System.currentTimeMillis();
                                         long sTime = nPickupEndTime - nPickupStartTime;
                                         result.setPickupUseTime(sTime);//设置取货消耗时间
                                     }
                                 }
 
-                                if (result.isPickupComplete()) {
-                                    LogUtil.i(TAG, "取货流程监听：当前动作" + result.getCurrentActionName() + "（" + result.getCurrentActionId() + "）" + "," + result.getCurrentActionStatusName() + "（" + result.getCurrentActionStatusCode() + "）");
+                                if (isPickupComplete) {
+                                    LogUtil.i(TAG, "取货流程监听：当前动作" + result.getActionName() + "（" + result.getActionId() + "）" + "," + result.getActionStatusName() + "（" + result.getActionStatusCode() + "）");
                                     LogUtil.i(TAG, "取货流程监听：取货完成，用时" + result.getPickupUseTime());
                                     cmd_PickupIsStopListener = true;
                                     sendPickupHandlerMessage(4, "取货成功", result);
                                 } else {
-                                    String action_key = result.getCurrentActionId() + "-" + result.getCurrentActionStatusCode();
-                                    String action_value = result.getCurrentActionName() + "-" + result.getCurrentActionStatusName();
+                                    String action_key = result.getActionId() + "-" + result.getActionStatusCode();
+                                    String action_value = result.getActionName() + "-" + result.getActionStatusName();
                                     if (!nPickupActionMap.containsKey(action_key)) {
-                                        LogUtil.i(TAG, "取货流程监听：当前动作" + result.getCurrentActionName() + "（" + result.getCurrentActionId() + "）" + "," + result.getCurrentActionStatusName() + "（" + result.getCurrentActionStatusCode() + "）");
+                                        LogUtil.i(TAG, "取货流程监听：当前动作" + result.getActionName() + "（" + result.getActionId() + "）" + "," + result.getActionStatusName() + "（" + result.getActionStatusCode() + "）");
                                         nPickupActionMap.put(action_key, action_value);
                                         if (rc_flowStatus[3] == S_Motor_Busy || rc_flowStatus[3] == S_Motor_Done) {
                                             sendPickupHandlerMessage(3, "正在取货中", result);
