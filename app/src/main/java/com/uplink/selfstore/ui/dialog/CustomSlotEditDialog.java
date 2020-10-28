@@ -89,10 +89,7 @@ public class CustomSlotEditDialog extends Dialog {
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
-
     private ScanKeyManager scanKeyManager;
-
-
     private boolean isHappneException=false;
     private String exceptionMessage="";
 
@@ -820,7 +817,6 @@ public class CustomSlotEditDialog extends Dialog {
         scanKeyManager.analysisKeyEvent(event);
         return true;
     }
-
 
     @Override
     public void show() {
