@@ -50,6 +50,14 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="layout_input_amount_style2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/size_36</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
     <style name="btn_input_amount_style">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>

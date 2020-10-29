@@ -478,7 +478,6 @@
             android:id="@+id/table_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#e0e0e0"
             android:orientation="horizontal"
          >
             <LinearLayout
@@ -486,7 +485,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="@dimen/size_200"
-                android:background="@color/white"
+                android:background="#ffd8d8d8"
                 android:baselineAligned="false"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
@@ -556,7 +555,7 @@
                 <Button
                     android:id="@+id/btn_I"
                     style="@style/btn_input_amount_style"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginRight="@dimen/size_1"
                     android:tag="I"
                     android:text="I" />
 
@@ -727,7 +726,7 @@
             </LinearLayout>
 
 
-            <LinearLayout style="@style/layout_input_amount_style">
+            <LinearLayout style="@style/layout_input_amount_style2">
 
                 <Button
                     android:id="@+id/btn_4"

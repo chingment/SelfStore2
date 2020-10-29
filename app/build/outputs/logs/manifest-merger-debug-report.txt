@@ -6,7 +6,6 @@ INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidM
 INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-248:12
 MERGED from [com.android.support:design:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/090ca09b825ab4c2ebaa1020e66d473b/design-27.1.1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/6d359ea6d6374310b5c4470154cf5028/appcompat-v7-27.1.1/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/chingment/.gradle/caches/transforms-2/files-2.1/f591f924014e91d4ccc9e32394985185/constraint-layout-1.1.3/AndroidManifest.xml:2:1-11:12
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:17:1-55:12
 MERGED from [com.android.support:support-v4:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/04afc0327164f0a8080071b23617ca8e/support-v4-27.1.1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-fragment:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/a61819d0b0cbb6b4990cd2b89c30b13d/support-fragment-27.1.1/AndroidManifest.xml:17:1-22:12
@@ -173,8 +172,6 @@ ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidMani
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:40:17-69
 application
 ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:42:5-246:19
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/chingment/.gradle/caches/transforms-2/files-2.1/f591f924014e91d4ccc9e32394985185/constraint-layout-1.1.3/AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/chingment/.gradle/caches/transforms-2/files-2.1/f591f924014e91d4ccc9e32394985185/constraint-layout-1.1.3/AndroidManifest.xml:9:5-20
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:45:5-53:19
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:45:5-53:19
 	android:supportsRtl
@@ -527,8 +524,6 @@ MERGED from [com.android.support:design:27.1.1] /Users/chingment/.gradle/caches/
 MERGED from [com.android.support:design:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/090ca09b825ab4c2ebaa1020e66d473b/design-27.1.1/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/6d359ea6d6374310b5c4470154cf5028/appcompat-v7-27.1.1/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/6d359ea6d6374310b5c4470154cf5028/appcompat-v7-27.1.1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/chingment/.gradle/caches/transforms-2/files-2.1/f591f924014e91d4ccc9e32394985185/constraint-layout-1.1.3/AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/chingment/.gradle/caches/transforms-2/files-2.1/f591f924014e91d4ccc9e32394985185/constraint-layout-1.1.3/AndroidManifest.xml:5:5-7:41
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:19:5-43
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:19:5-43
 MERGED from [com.android.support:support-v4:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/04afc0327164f0a8080071b23617ca8e/support-v4-27.1.1/AndroidManifest.xml:20:5-44
