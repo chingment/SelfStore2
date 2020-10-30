@@ -30,6 +30,7 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.HeartbeatService;
+import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
@@ -46,7 +47,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cn.jpush.android.api.JPushInterface;
 
 public class InitDataActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "InitDataActivity";
@@ -103,8 +103,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent alarmService = new Intent(this, AlarmService.class);
         startService(alarmService);
 
-        Intent heartbeatService = new Intent(this, HeartbeatService.class);
-        startService(heartbeatService);
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
@@ -271,6 +269,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 }
                             }
 
+
+                            Intent mqttServerService = new Intent(InitDataActivity.this, MqttServer.class);
+
+                            startService(mqttServerService);
+
                             setHandleMessage(WHAT_SET_CONFIG_SUCCESS, "信息配置完成，正在启动机器恢复原始状态");
 
                             new Thread(new Runnable() {
@@ -370,7 +373,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
         params.put("imeiId",getAppContext().getImeiId());
-        params.put("jPushRegId", JPushInterface.getRegistrationID(getAppContext()));
+        params.put("jPushRegId", "");
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
         params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());

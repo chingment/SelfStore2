@@ -33,11 +33,11 @@ public class PushUpdateUtil {
 
     private static final String TAG = "PushUpdateUtil";
 
-    public static void receive(String cmd, String content) {
+    public static void receive(String type, String content) {
 
-        LogUtil.i(TAG, "cmd:" + cmd + ",content:" + content);
+        LogUtil.i(TAG, "type:" + type + ",content:" + content);
 
-        switch (cmd) {
+        switch (type) {
             case "MCmdSysReboot":
                 sysReboot();//重启系统
                 break;
@@ -69,7 +69,7 @@ public class PushUpdateUtil {
                 break;
         }
 
-        BaseFragmentActivity.eventNotify(cmd,"接收命令成功",null);
+        BaseFragmentActivity.eventNotify(type,"接收命令成功",null);
 
     }
 

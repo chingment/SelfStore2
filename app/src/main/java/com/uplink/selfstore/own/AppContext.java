@@ -16,7 +16,6 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
-import cn.jpush.android.api.JPushInterface;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.utils.EMPreferenceManager;
 import com.uplink.selfstore.utils.LogUtil;
@@ -87,8 +86,7 @@ public class AppContext extends Application {
         }); //初始异常日志收集器
 
         OstCtrlInterface.init(context);//  初始化Ost控制
-        JPushInterface.setDebugMode(true);  // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(context);  // 初始化 JPus
+
 
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证

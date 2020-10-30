@@ -25,7 +25,6 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
-import com.uplink.selfstore.jpush.LocalBroadcastManager;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -345,7 +344,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onDestroy() {
         super.onDestroy();
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mJpush_MessageReceiver);
+
         AppManager.getAppManager().finishActivity(this);
         closePageCountTimerStop();
 
