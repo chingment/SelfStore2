@@ -2,7 +2,6 @@ package com.uplink.selfstore.ui;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -57,16 +56,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private static final String TAG = "BaseFragmentActivity";
     private AppContext appContext;
     public static boolean isForeground = false;
-    private MessageReceiver mJpush_MessageReceiver;
-    public static final String mJpush_MESSAGE_RECEIVED_ACTION = "com.uplink.selfstore.MESSAGE_RECEIVED_ACTION";
-    public static final String mJpush_KEY_TITLE = "title";
-    public static final String mJpush_KEY_MESSAGE = "message";
-    public static final String mJpush_KEY_EXTRAS = "extras";
     private CustomLoadingDialog dialog_Loading;
     private CustomSystemWarnDialog dialog_SystemWarn;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
-    private MachineBean machine;
     private ScannerCtrl scannerCtrl;
     private Handler laodingUIHandler;
     public LocationUtil locationUtil;
@@ -83,8 +76,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     public MachineBean getMachine() {
-        machine = AppCacheManager.getMachine();
-        return machine;
+        return AppCacheManager.getMachine();
     }
 
     public AppContext getAppContext() {
@@ -135,6 +127,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             nav_back.setVisibility(View.GONE);
         }
     }
+
     public void setHideStatusBar(boolean ishidden) {
         OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
@@ -167,19 +160,19 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
-    public void  useClosePageCountTimer() {
+    public void useClosePageCountTimer() {
         if(closePageCountTimer==null) {
             closePageCountTimer = new ClosePageCountTimer(this, 120);
         }
     }
 
-    public void  useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster,long seconds) {
+    public void useClosePageCountTimer(ClosePageCountTimer.OnPageCountLinster onPageCountLinster,long seconds) {
         if(closePageCountTimer==null) {
             closePageCountTimer = new ClosePageCountTimer(this, seconds, onPageCountLinster);
         }
     }
 
-    public void  closePageCountTimerStart() {
+    public void closePageCountTimerStart() {
 
         new Handler().post(new Runnable() {
             @Override
@@ -191,7 +184,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void  closePageCountTimerStop() {
+    public void closePageCountTimerStop() {
 
         if(closePageCountTimer!=null) {
             closePageCountTimer.cancel();
@@ -282,7 +275,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void  showMachineId() {
+    public void showMachineId() {
         RelativeLayout layout_machineid = findViewById(R.id.layout_machineid);
         if (layout_machineid != null) {
             layout_machineid.getBackground().setAlpha(50);
@@ -330,7 +323,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(scannerCtrl!=null) {
             scannerCtrl.disConnect();
         }
-        //TcStatInterface.recordPageEnd();
     }
 
     @Override
@@ -344,14 +336,16 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     protected void onDestroy() {
         super.onDestroy();
 
-
         AppManager.getAppManager().finishActivity(this);
-        closePageCountTimerStop();
 
-        //TcStatInterface.recordAppEnd();
+        closePageCountTimerStop();
 
         if (dialog_Loading != null) {
             dialog_Loading.cancel();
+        }
+
+        if(dialog_SystemWarn!=null){
+            dialog_SystemWarn.cancel();
         }
     }
 
@@ -380,9 +374,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
         return super.dispatchTouchEvent(ev);
     }
-
-
-
 
     public void getByMy(Context context, String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
@@ -488,25 +479,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 handler.onFailure(msg, e);
             }
         });
-    }
-
-    public class MessageReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            try {
-                if (mJpush_MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
-                    String messge = intent.getStringExtra(mJpush_KEY_MESSAGE);
-                    String extras = intent.getStringExtra(mJpush_KEY_EXTRAS);
-                    StringBuilder showMsg = new StringBuilder();
-                    showMsg.append(mJpush_KEY_MESSAGE + " : " + messge + "\n");
-                    if (!StringUtil.isEmpty(extras)) {
-                        showMsg.append(mJpush_KEY_EXTRAS + " : " + extras + "\n");
-                    }
-                }
-            } catch (Exception e) {
-            }
-        }
     }
 
     public void orderCancle(Context context, String orderId,int type, String reason) {
