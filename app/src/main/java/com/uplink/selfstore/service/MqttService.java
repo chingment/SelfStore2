@@ -30,9 +30,9 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public class MqttServer extends Service {
+public class MqttService extends Service {
 
-    private static final String TAG = "MqttServer";
+    private static final String TAG = "MqttService";
 
     private static MqttAndroidClient mqttAndroidClient;
     private MqttConnectOptions mMqttConnectOptions;

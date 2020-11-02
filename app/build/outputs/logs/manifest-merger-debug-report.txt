@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
-INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
-INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
-INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
+INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
+INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
+INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
 MERGED from [com.android.support:design:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/090ca09b825ab4c2ebaa1020e66d473b/design-27.1.1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/chingment/.gradle/caches/transforms-2/files-2.1/6d359ea6d6374310b5c4470154cf5028/appcompat-v7-27.1.1/AndroidManifest.xml:17:1-22:12
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:17:1-55:12
@@ -21,20 +21,20 @@ MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/chingment/.gradl
 MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/ca7c21b220350552287230595d4c1d57/viewmodel-1.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/b89db69df866d4c8a4b2d656bf175000/runtime-1.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/7da255ba7c69e0fe7bec06d99f3181e6/runtime-1.1.0/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
-INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
-INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
+INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
+INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
+INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
 	package
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:3:5-35
 		INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
 		INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-157:12
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:1-152:12
 		INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:2:11-69
@@ -171,7 +171,7 @@ ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidMani
 	android:name
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:40:17-69
 application
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:42:5-155:19
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:42:5-150:19
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:45:5-53:19
 MERGED from [com.journeyapps:zxing-android-embedded:3.3.0] /Users/chingment/.gradle/caches/transforms-2/files-2.1/53398d5ef633c2cea92e95d01a3fb263/zxing-android-embedded-3.3.0/AndroidManifest.xml:45:5-53:19
 	android:supportsRtl
@@ -275,85 +275,73 @@ ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidMani
 	android:name
 		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:113:19-66
 service#com.uplink.selfstore.service.UpdateAppService
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:115:9-61
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:114:9-61
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:115:18-58
-service#com.uplink.selfstore.service.HeartbeatService
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:116:9-119:39
-	android:enabled
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:118:13-35
-	android:exported
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:119:13-36
-	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:117:13-53
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:114:18-58
 service#com.uplink.selfstore.service.AlarmService
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:120:9-123:39
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:115:9-118:39
 	android:enabled
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:122:13-35
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:117:13-35
 	android:exported
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:123:13-36
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:118:13-36
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:121:13-49
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:116:13-49
 service#org.eclipse.paho.android.service.MqttService
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:124:9-80
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:119:9-80
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:124:18-77
-service#com.uplink.selfstore.service.MqttServer
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:125:9-128:15
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:119:18-77
+service#com.uplink.selfstore.service.MqttService
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:120:9-123:15
 	android:enabled
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:126:13-35
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:121:13-35
 	android:exported
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:127:13-36
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:122:13-36
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:125:18-52
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:120:18-53
 receiver#com.uplink.selfstore.broadcast.AlarmReceiver
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:129:9-61
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:124:9-61
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:129:19-58
-receiver#com.uplink.selfstore.broadcast.HeartbeatRecevier
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:130:9-65
-	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:130:19-62
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:124:19-58
 meta-data#EASEMOB_APPKEY
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:132:9-134:58
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:127:9-129:58
 	android:value
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:134:13-55
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:129:13-55
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:133:13-42
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:128:13-42
 service#com.hyphenate.chat.EMChatService
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:136:9-138:39
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:131:9-133:39
 	android:exported
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:138:13-36
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:133:13-36
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:137:13-60
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:132:13-60
 service#com.hyphenate.chat.EMJobService
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:139:9-142:72
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:134:9-137:72
 	android:exported
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:141:13-36
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:136:13-36
 	android:permission
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:142:13-69
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:137:13-69
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:140:13-59
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:135:13-59
 receiver#com.hyphenate.chat.EMMonitorReceiver
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:143:9-154:20
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:138:9-149:20
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:143:19-70
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:138:19-70
 intent-filter#action:name:android.intent.action.PACKAGE_REMOVED+data:scheme:package
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:144:13-148:29
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:139:13-143:29
 action#android.intent.action.PACKAGE_REMOVED
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:145:17-80
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:140:17-80
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:145:25-77
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:140:25-77
 data
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:147:17-50
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:142:17-50
 	android:scheme
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:147:23-47
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:142:23-47
 intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.USER_PRESENT
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:150:13-153:29
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:145:13-148:29
 action#android.intent.action.USER_PRESENT
-ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:152:17-77
+ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:147:17-77
 	android:name
-		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:152:25-74
+		ADDED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml:147:25-74
 uses-sdk
 INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/chingment/Documents/github/SelfStore2/app/src/main/AndroidManifest.xml
