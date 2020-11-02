@@ -29,7 +29,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
-import com.uplink.selfstore.service.MqttService;
+import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
@@ -268,7 +268,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                             }
 
 
-                            Intent mqttServerService = new Intent(InitDataActivity.this, MqttService.class);
+                            Intent mqttServerService = new Intent(InitDataActivity.this, MqttServer.class);
 
                             startService(mqttServerService);
 

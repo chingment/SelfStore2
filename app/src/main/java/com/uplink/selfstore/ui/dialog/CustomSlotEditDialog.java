@@ -558,7 +558,7 @@ public class CustomSlotEditDialog extends Dialog {
                     int sellQty = sumQty - lockQty;
                     txt_SellQty.setText(String.valueOf(sellQty));
                     txt_SumQty.setText(String.valueOf(sumQty));
-                }
+            }
             }
         });
 
@@ -577,9 +577,14 @@ public class CustomSlotEditDialog extends Dialog {
                 int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
                 sumQty += 1;
 
+
                 int sellQty = sumQty - lockQty;
                 txt_SellQty.setText(String.valueOf(sellQty));
                 txt_SumQty.setText(String.valueOf(sumQty));
+
+                if(sumQty>maxQty){
+                    txt_MaxQty.setText(String.valueOf(sumQty));
+                }
             }
         });
 
@@ -593,9 +598,18 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
+
+                int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
                 int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
+
+
                 if (maxQty > 0) {
                     maxQty = maxQty - 1;
+                }
+
+                if(maxQty<sumQty){
+                    mContext.showToast("最大数量不能小于实际数量");
+                    return;
                 }
 
                 txt_MaxQty.setText(String.valueOf(maxQty));

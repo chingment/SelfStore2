@@ -111,18 +111,23 @@
         <!-- </receiver> -->
         <activity android:name=".activity.SmLoginActivity" />
         <activity android:name=".activity.SmMachineStockActivity" />
+
         <service android:name=".service.UpdateAppService" />
+        <service
+            android:name=".service.HeartbeatService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".service.AlarmService"
             android:enabled="true"
             android:exported="true" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <service android:name=".service.MqttService"
+        <service android:name=".service.MqttServer"
             android:enabled="true"
             android:exported="true"
             />
         <receiver android:name=".broadcast.AlarmReceiver" />
-
+        <receiver android:name=".broadcast.HeartbeatRecevier" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"

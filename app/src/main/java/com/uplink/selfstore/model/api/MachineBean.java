@@ -33,10 +33,8 @@ public class MachineBean implements Serializable {
     private String mstVern;
     private FingerVeinnerBean fingerVeinner;
     private ScannerBean scanner;
-    private boolean imIsUse;
-    private String imPartner;
-    private String imUserName;
-    private String imPassword;
+    private ImBean im;
+    private MqttBean mqtt;
 
     public String getCsrHelpTip() {
         return csrHelpTip;
@@ -224,35 +222,19 @@ public class MachineBean implements Serializable {
         this.cameraByJgIsUse = cameraByJgIsUse;
     }
 
-    public boolean isImIsUse() {
-        return imIsUse;
+    public ImBean getIm() {
+        return im;
     }
 
-    public void setImIsUse(boolean imIsUse) {
-        this.imIsUse = imIsUse;
+    public void setIm(ImBean im) {
+        this.im = im;
     }
 
-    public String getImPartner() {
-        return imPartner;
+    public MqttBean getMqtt() {
+        return mqtt;
     }
 
-    public void setImPartner(String imPartner) {
-        this.imPartner = imPartner;
-    }
-
-    public String getImUserName() {
-        return imUserName;
-    }
-
-    public void setImUserName(String imUserName) {
-        this.imUserName = imUserName;
-    }
-
-    public String getImPassword() {
-        return imPassword;
-    }
-
-    public void setImPassword(String imPassword) {
-        this.imPassword = imPassword;
+    public void setMqtt(MqttBean mqtt) {
+        this.mqtt = mqtt;
     }
 }

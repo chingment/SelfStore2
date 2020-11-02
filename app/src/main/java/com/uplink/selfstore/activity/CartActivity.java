@@ -24,6 +24,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
+import com.uplink.selfstore.model.api.ImBean;
 import com.uplink.selfstore.model.api.ImSeatBean;
 import com.uplink.selfstore.model.api.ImServiceSeatsRealtBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -281,8 +282,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                 @Override
                                 public void call(ImSeatBean v) {
 
+                                   ImBean im= getMachine().getIm();
 
-                                    EMClient.getInstance().login(getMachine().getImUserName(), getMachine().getImPassword(), new EMCallBack() {
+                                    EMClient.getInstance().login(im.getUserName(), im.getPassword(), new EMCallBack() {
 
                                         @Override
                                         public void onSuccess() {
@@ -423,7 +425,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                     payOption=(TerminalPayOptionBean)v.getTag();
 
-                    if(getMachine().isImIsUse()) {
+                    if(getMachine().getIm().isUse()) {
                         boolean isHasVieoService = false;
                         LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
                         for (String key : cartSkus.keySet()) {
