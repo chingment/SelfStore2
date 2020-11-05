@@ -307,7 +307,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onResume();
         closePageCountTimerStart();
         AppManager.getAppManager().setCurrentActivity(this);
-        HeartbeatService.sendHeartbeatBag();
+        //HeartbeatService.sendHeartbeatBag();
 
         if(scannerCtrl!=null) {
             scannerCtrl.connect();
@@ -523,7 +523,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
             @Override
             public void onSuccess(String response) {
-                LogUtil.i(BaseFragmentActivity.TAG, "心跳包发送成功");
+
             }
 
             @Override

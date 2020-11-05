@@ -37,8 +37,8 @@ public class MqttServer extends Service {
 
     private static MqttAndroidClient mqttAndroidClient;
     private MqttConnectOptions mMqttConnectOptions;
-    public String HOST = "tcp://112.74.179.185:1883";//服务器地址（协议+地址+端口号）
-    //public String HOST = "tcp://120.24.57.24:1883";//服务器地址（协议+地址+端口号）
+    //public String HOST = "tcp://112.74.179.185:1883";//服务器地址（协议+地址+端口号）
+    public String HOST = "tcp://120.24.57.24:1883";//服务器地址（协议+地址+端口号）
     public String USERNAME = "admin";//用户名
     public String PASSWORD = "public";//密码
 
@@ -52,55 +52,60 @@ public class MqttServer extends Service {
     private Runnable timRunable = new Runnable() {
         @Override
         public void run() {
-
-            LogUtil.d(TAG,"正在执行发送机器状态");
-
-            MachineBean machine = AppCacheManager.getMachine();
-
-            String status = "unknow";
-            String activityName="";
-            Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity != null) {
-                activityName = activity.getLocalClassName();
-                if (activityName.contains(".Sm")) {
-                    status = "setting";
-                } else {
-                    if (machine.isExIsHas()) {
-                        status = "exception";
-                    } else {
-                        status = "running";
-                    }
-                }
-            }
-
-            JSONObject msg = new JSONObject();
-
-            JSONObject msg_content = new JSONObject();
-            try {
-
-                msg.put("msg_id", UUID.randomUUID().toString().replace("-",""));
-                msg.put("type", "machine_status");
-                msg.put("status", "0");
-
-                msg_content.put("machineId",machine.getMachineId());
-                msg_content.put("status", status);
-                msg_content.put("activity", activityName);
-
-                msg.put("content",msg_content);
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return;
-            }
-
-            String str_msg=msg.toString();
-
-            publish(str_msg);
-
-            timHandler.postDelayed(this, 5*1000);
+            sendMachineStatus();
+            timHandler.postDelayed(this, 5 * 1000);
         }
     };
+
+
+    private void  sendMachineStatus(){
+
+
+        LogUtil.d(TAG,"正在执行发送机器状态");
+
+        MachineBean machine = AppCacheManager.getMachine();
+
+        String status = "unknow";
+        String activityName="";
+        Activity activity = AppManager.getAppManager().currentActivity();
+        if (activity != null) {
+            activityName = activity.getLocalClassName();
+            if (activityName.contains(".Sm")) {
+                status = "setting";
+            } else {
+                if (machine.isExIsHas()) {
+                    status = "exception";
+                } else {
+                    status = "running";
+                }
+            }
+        }
+
+        JSONObject msg = new JSONObject();
+
+        JSONObject msg_content = new JSONObject();
+        try {
+
+            msg.put("msg_id", UUID.randomUUID().toString().replace("-",""));
+            msg.put("type", "machine_status");
+            msg.put("status", "0");
+
+            msg_content.put("machineId",machine.getMachineId());
+            msg_content.put("status", status);
+            msg_content.put("activity", activityName);
+
+            msg.put("content",msg_content);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String str_msg=msg.toString();
+
+        publish(str_msg);
+    }
 
     @Override
     public void onCreate() {

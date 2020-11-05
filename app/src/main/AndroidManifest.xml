@@ -114,10 +114,6 @@
 
         <service android:name=".service.UpdateAppService" />
         <service
-            android:name=".service.HeartbeatService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".service.AlarmService"
             android:enabled="true"
             android:exported="true" />
@@ -127,7 +123,7 @@
             android:exported="true"
             />
         <receiver android:name=".broadcast.AlarmReceiver" />
-        <receiver android:name=".broadcast.HeartbeatRecevier" />
+
 
         <meta-data
             android:name="EASEMOB_APPKEY"
