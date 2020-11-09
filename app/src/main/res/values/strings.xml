@@ -61,6 +61,7 @@
     <string name="aty_smhome_navtitle">设置中心</string>
     <string name="aty_smhome_ngtitle_stockset">库存设置</string>
     <string name="aty_smhome_ngtitle_machineset">机器信息</string>
+    <string name="aty_smhome_ngtitle_shownav">显示导航</string>
     <string name="aty_smhome_ngtitle_runexhandle">异常处理</string>
     <string name="aty_smhome_ngtitle_userinfo">用户信息</string>
     <string name="aty_smhome_ngtitle_hardware">硬件诊断</string>
