@@ -513,6 +513,8 @@ public class CustomSlotEditDialog extends Dialog {
                 params.put("cabinetId", cabinet.getCabinetId());
                 params.put("productSkuId", productSkuId);
                 params.put("sumQuantity", sumQuantity);
+                params.put("holdQuantity", 0);
+                params.put("warnQuantity", 0);
                 params.put("maxQuantity", maxQuantity);
                 params.put("version", version);
 
@@ -814,11 +816,11 @@ public class CustomSlotEditDialog extends Dialog {
     }
 
     @Override
-    public void cancel(){
+    public void cancel() {
         super.cancel();
 
 
-        if(dialog_Running!=null){
+        if (dialog_Running != null) {
             dialog_Running.cancel();
         }
 

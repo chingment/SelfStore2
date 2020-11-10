@@ -2,6 +2,7 @@ package com.uplink.selfstore.own;
 
 import com.uplink.selfstore.model.api.*;
 import com.uplink.selfstore.utils.ACache;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,9 @@ public class AppCacheManager {
     }
 
     public static void setLastUserName(String userName) {
-        AppCacheManager.getCache().put(Cache_Key_LastUserName, userName);
+        if(!StringUtil.isEmptyNotNull(userName)) {
+            AppCacheManager.getCache().put(Cache_Key_LastUserName, userName);
+        }
     }
 
     public static String getLastUserName() {

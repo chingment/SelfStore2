@@ -560,14 +560,17 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         if(dialog_SlotEdit!=null) {
             dialog_SlotEdit.cancel();
+            dialog_SlotEdit.dismiss();
         }
 
         if(dialog_Running!=null){
             dialog_Running.cancel();
+            dialog_Running.dismiss();
         }
 
         if(dialog_PickupAutoTest!=null) {
             dialog_PickupAutoTest.cancel();
+            dialog_PickupAutoTest.dismiss();
         }
 
         if(table_slotstock!=null) {

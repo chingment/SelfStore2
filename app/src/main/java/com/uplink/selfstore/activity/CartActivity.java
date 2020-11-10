@@ -190,7 +190,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 } else if (payOptions.get(i).getCaller() == 20) {
                     btn_pay_z_zhifubao.setTag(payOptions.get(i));
                     btn_pay_z_zhifubao.setVisibility(View.VISIBLE);
-                } else if (payOptions.get(i).getCaller() == 90) {
+                }
+                else if (payOptions.get(i).getCaller() == 30) {
+                    btn_pay_z_aggregate.setTag(payOptions.get(i));
+                    btn_pay_z_aggregate.setVisibility(View.VISIBLE);
+                }
+                else if (payOptions.get(i).getCaller() == 90) {
                     btn_pay_z_aggregate.setTag(payOptions.get(i));
                     btn_pay_z_aggregate.setVisibility(View.VISIBLE);
                 }
@@ -593,14 +598,15 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public void payStatusQuery() {
 
-        if(StringUtil.isEmptyNotNull(LAST_PAYTRANSID))
+        if (StringUtil.isEmptyNotNull(LAST_PAYTRANSID) && StringUtil.isEmptyNotNull(LAST_ORDERID))
             return;
 
         Map<String, String> params = new HashMap<>();
         params.put("machineId", this.getMachine().getMachineId());
         params.put("payTransId", LAST_PAYTRANSID);
+        params.put("orderId", LAST_ORDERID);
 
-        getByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params, false,"", new HttpResponseHandler() {
+        getByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -613,6 +619,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     doPaySuccess(rt.getData());
                 }
             }
+
             @Override
             public void onFailure(String msg, Exception e) {
                 showToast(msg);
