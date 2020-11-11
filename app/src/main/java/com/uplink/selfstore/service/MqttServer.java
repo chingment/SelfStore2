@@ -149,9 +149,9 @@ public class MqttServer extends Service {
         // 设置密码
         mMqttConnectOptions.setPassword(PASSWORD.toCharArray());
         // 设置超时时间，单位：秒
-        mMqttConnectOptions.setConnectionTimeout(10);
+        mMqttConnectOptions.setConnectionTimeout(15);
         // 心跳包发送间隔，单位：秒
-        mMqttConnectOptions.setKeepAliveInterval(20);
+        mMqttConnectOptions.setKeepAliveInterval(30);
         //设置服务质量
         MqttMessage message = new MqttMessage("PayLoad".getBytes());
         message.setQos(1);
