@@ -38,7 +38,8 @@ public class MqttServer extends Service {
     private static MqttAndroidClient mqttAndroidClient;
     private MqttConnectOptions mMqttConnectOptions;
     //public String HOST = "tcp://112.74.179.185:1883";//服务器地址（协议+地址+端口号）
-    public String HOST = "tcp://120.24.57.24:1883";//服务器地址（协议+地址+端口号）
+   //public String HOST = "tcp://120.24.57.24:1883";//服务器地址（协议+地址+端口号）
+    public String HOST = "";
     public String USERNAME = "admin";//用户名
     public String PASSWORD = "public";//密码
 
@@ -128,11 +129,11 @@ public class MqttServer extends Service {
 
         MqttBean mqtt=machine.getMqtt();
 
-//        if(mqtt!=null) {
-//            HOST = mqtt.getHost();
-//            USERNAME = mqtt.getUserName();
-//            PASSWORD = mqtt.getPassword();
-//        }
+        if(mqtt!=null) {
+            HOST = mqtt.getHost();
+            USERNAME = mqtt.getUserName();
+            PASSWORD = mqtt.getPassword();
+        }
 
         SUBSCRIBE_TOPIC_A = "topic_s_mch/" + machine.getMachineId();//订阅主题
         PUBLISH_TOPIC_A = "topic_p_mch/" + machine.getMachineId();//发布主题
