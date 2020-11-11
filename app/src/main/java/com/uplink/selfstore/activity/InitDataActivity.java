@@ -101,6 +101,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent alarmService = new Intent(this, AlarmService.class);
         startService(alarmService);
 
+        Intent mqttServer = new Intent(this, MqttServer.class);
+        stopService(mqttServer);
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();

@@ -23,6 +23,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
+import com.uplink.selfstore.activity.SmRescueToolActivity;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
@@ -46,6 +47,7 @@ import com.uplink.selfstore.utils.ToastUtil;
 
 import org.json.JSONObject;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -228,7 +230,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getMachineId()) || this.getGlobalDataSet() == null) {
             Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity instanceof InitDataActivity) {
+            if (activity instanceof InitDataActivity||activity instanceof SmRescueToolActivity) {
 
             } else {
                 showToast("检查异常，设备重新运行");
@@ -480,6 +482,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             }
         });
     }
+
 
     public void orderCancle(Context context, String orderId,int type, String reason) {
 

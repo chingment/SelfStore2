@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
@@ -229,7 +230,7 @@ public class CameraWindow {
                 Map<String, String> params = new HashMap<>();
                 params.put("fileName", imgId);
                 params.put("folder", "pickup");
-                HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
+                HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, params, filePaths, null);
 
                 LogUtil.e(TAG, "拍照结束");
             } catch (Exception ex) {

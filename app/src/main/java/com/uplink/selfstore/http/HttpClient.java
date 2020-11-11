@@ -331,63 +331,79 @@ public class HttpClient {
     }
 
 
-    public static void postFile(String url, Map<String, String> fields, List<String> filePaths, final HttpResponseHandler handler) {
+    public static void postFile(String appKey, String appSecret,String url, Map<String, String> fields, List<String> filePaths, final HttpResponseHandler handler) {
 
-        try
-        {
+        try {
             if (!isNetworkAvailable()) {
-                handler.sendFailureMessage("网络连接不可用,请检查设置",null);
+                handler.sendFailureMessage("网络连接不可用,请检查设置", null);
                 return;
             }
 
-            if(handler!=null) {
+            if (handler != null) {
                 handler.sendBeforeSendMessage();
             }
 
-            MultipartBody.Builder builder=new MultipartBody.Builder().setType(MultipartBody.FORM);
 
 
-            if(fields!=null) {
-                if(fields.size()>0) {
+            Request.Builder requestBuilder = new Request.Builder().url(url);
+
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
+
+
+            String fields_data="";
+            if (fields != null) {
+                if (fields.size() > 0) {
                     for (Map.Entry<String, String> entry : fields.entrySet()) {
                         builder.addFormDataPart(entry.getKey(), entry.getValue());
                     }
+
+                    fields_data = mapToQueryString(fields);
                 }
             }
 
-            if(filePaths==null)
+            if (filePaths == null)
                 return;
 
-            if(filePaths.size()<1)
+            if (filePaths.size() < 1)
                 return;
 
             for (String filePath : filePaths) {
                 File file = new File(filePath);
-                String fileName=file.getName();
+                String fileName = file.getName();
                 RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
                 builder.addFormDataPart("file", fileName, fileBody);
             }
 
-            RequestBody requestBody=builder.build();
 
-                        Request request=new Request.Builder()
-                                .url(url)
-                                .post(requestBody)
-                                .build();
-            client.newCall(request).enqueue(new Callback() {
+
+            RequestBody requestBody = builder.build();
+
+            requestBuilder.post(requestBody);
+
+            requestBuilder.addHeader("appId", "" + BuildConfig.APPLICATION_ID);
+            requestBuilder.addHeader("appKey", "" + appKey);
+            String currenttime = (System.currentTimeMillis() / 1000) + "";
+            requestBuilder.addHeader("timestamp", currenttime);
+            String sign = Config.getSign(BuildConfig.APPLICATION_ID,appKey, appSecret, fields_data, currenttime);
+            requestBuilder.addHeader("sign", "" + sign);
+            requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
+
+
+            client.newCall(requestBuilder.build()).enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
 
                     try {
                         String body = response.body().string();
                         LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
-                        if(handler!=null) {
+                        if (handler != null) {
                             handler.sendSuccessMessage(body);
                         }
 
                     } catch (Exception e) {
                         LogUtil.i(TAG, "Request.onFailure====>>>" + response);
-                        if(handler!=null) {
+                        if (handler != null) {
                             handler.sendFailureMessage("读取数据发生异常", e);
                         }
                     }
@@ -407,13 +423,13 @@ public class HttpClient {
                         msg = "读取数据服务网络异常或连接不存在";
                     }
 
-                    if(handler!=null) {
+                    if (handler != null) {
                         handler.sendFailureMessage(msg, e);
                     }
                 }
             });
         } catch (Exception ex) {
-            if(handler!=null) {
+            if (handler != null) {
                 handler.sendFailureMessage("数据提交发生异常", ex);
             }
         }

@@ -18,6 +18,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -202,12 +203,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             List<String> filePaths = new ArrayList<>();
             filePaths.add(filePath);
 
-            HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-
-                }
-            });
+            HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, fields, filePaths,null);
         }
     }
 

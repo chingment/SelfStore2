@@ -1,7 +1,9 @@
 package com.uplink.selfstore.own;
 
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.FileUtil;
 
 import java.io.BufferedReader;
@@ -71,7 +73,7 @@ public class AppLogcatManager {
             List<String> filePaths = new ArrayList<>();
             filePaths.add(filePath);
 
-            HttpClient.postFile(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
+            HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     if(response!=null){

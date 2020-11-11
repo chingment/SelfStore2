@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
@@ -26,6 +27,7 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -703,7 +705,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 Map<String, String> params = new HashMap<>();
                 params.put("fileName", imgId);
                 params.put("folder", "pickup");
-                HttpClient.postFile(Config.URL.uploadfile, params, filePaths, null);
+                HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET,Config.URL.uploadfile, params, filePaths, null);
 
                 Log.e(TAG, "拍照结束");
             } catch (Exception e) {
