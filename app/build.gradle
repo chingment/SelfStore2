@@ -57,7 +57,7 @@ android {
         debug {
             signingConfig signingConfigs.release
             buildConfigField "Boolean", "ISAPPDEBUG", "true"
-            buildConfigField "String", "ENVIRONMENT", "\"http://192.168.50.6\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
         }

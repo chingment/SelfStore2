@@ -29,24 +29,28 @@ import org.json.JSONObject;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class MqttServer extends Service {
 
     private static final String TAG = "MqttServer";
-
     private static MqttAndroidClient mqttAndroidClient;
     private MqttConnectOptions mMqttConnectOptions;
     //public String HOST = "tcp://112.74.179.185:1883";//服务器地址（协议+地址+端口号）
    //public String HOST = "tcp://120.24.57.24:1883";//服务器地址（协议+地址+端口号）
-    public String HOST = "";
-    public String USERNAME = "admin";//用户名
-    public String PASSWORD = "public";//密码
+    private String HOST = "";
+    private String USERNAME = "admin";//用户名
+    private String PASSWORD = "public";//密码
 
-    public static String SUBSCRIBE_TOPIC_A = "";//订阅主题
-    public static String PUBLISH_TOPIC_A = "";//发布主题
-    public static String RESPONSE_TOPIC_A = "";//响应主题
-    public String CLIENT_ID = "";
+    private static String SUBSCRIBE_TOPIC_A = "";//订阅主题
+    private static String PUBLISH_TOPIC_A = "";//发布主题
+    private static String RESPONSE_TOPIC_A = "";//响应主题
+    private String CLIENT_ID = "";
+
+    private ScheduledExecutorService reconnectPool;//重连线程池
 
     private Handler timHandler = new Handler();
 
@@ -62,7 +66,7 @@ public class MqttServer extends Service {
     private void  sendMachineStatus(){
 
 
-        LogUtil.d(TAG,"正在执行发送机器状态");
+       //LogUtil.d(TAG,"正在执行发送机器状态");
 
         MachineBean machine = AppCacheManager.getMachine();
 
@@ -112,24 +116,57 @@ public class MqttServer extends Service {
     public void onCreate() {
         super.onCreate();
 
-        connectionMQTTServer();
+        buildClient();
+    }
 
+    private IMqttActionListener iMqttActionListener = new IMqttActionListener() {
+        @Override
+        public void onSuccess(IMqttToken asyncActionToken) {
+            LogUtil.i(TAG,"连接成功");
+            closeReconnectTask();
+
+            try {
+                //订阅公有主题和私有主题
+                mqttAndroidClient.subscribe(SUBSCRIBE_TOPIC_A, 1);//订阅主题，参数：主题、服务质量
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+
+
+            if (timHandler != null && timRunable != null) {
+                timHandler.removeCallbacks(timRunable);
+            }
+
+            //主线程中调用：
+            timHandler.postDelayed(timRunable, 1000);//延时100毫秒
+
+        }
+
+        @Override
+        public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+
+            LogUtil.i(TAG,"连接失败-"+exception);
+
+            startReconnectTask();
+        }
+    };
+
+
+    public void buildClient() {
+        closeMQTT();//先关闭上一个连接
+        buildMQTTClient();
     }
 
 
-    /**
-     * 进行连接操作
-     */
-
-    private void connectionMQTTServer() { // 连接操作
+    private void buildMQTTClient() { // 连接操作
 
         MachineBean machine = AppCacheManager.getMachine();
 
         CLIENT_ID = "mch_" + machine.getMachineId();
 
-        MqttBean mqtt=machine.getMqtt();
+        MqttBean mqtt = machine.getMqtt();
 
-        if(mqtt!=null) {
+        if (mqtt != null) {
             HOST = mqtt.getHost();
             USERNAME = mqtt.getUserName();
             PASSWORD = mqtt.getPassword();
@@ -147,74 +184,65 @@ public class MqttServer extends Service {
         mMqttConnectOptions.setCleanSession(true);
         // 设置连接的用户名
         mMqttConnectOptions.setUserName(USERNAME);
-        // 设置密码
+        // 设置密码connect-onFailure-java
         mMqttConnectOptions.setPassword(PASSWORD.toCharArray());
         // 设置超时时间，单位：秒
-        mMqttConnectOptions.setConnectionTimeout(15);
+        mMqttConnectOptions.setConnectionTimeout(10);
         // 心跳包发送间隔，单位：秒
-        mMqttConnectOptions.setKeepAliveInterval(30);
-        //设置服务质量
-        MqttMessage message = new MqttMessage("PayLoad".getBytes());
-        message.setQos(1);
+        mMqttConnectOptions.setKeepAliveInterval(20);
+
 
         mqttAndroidClient.setCallback(mqttCallback);// 回调
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    //进行服务器连接
-                    /***
-                     * mMqttConnectOptions MQTT设置
-                     * iMqttActionListener MQTT连接监听
-                     */
-                    mqttAndroidClient.connect(mMqttConnectOptions, null, new IMqttActionListener() {
-                        @Override
-                        public void onSuccess(IMqttToken asyncActionToken) { // 连接成功
-
-                            LogUtil.d(TAG, "连接成功");
-
-                            try {
-                                //订阅公有主题和私有主题
-                                mqttAndroidClient.subscribe(SUBSCRIBE_TOPIC_A, 1);//订阅主题，参数：主题、服务质量
-                            } catch (MqttException e) {
-                                e.printStackTrace();
-                            }
-
-
-                            if(timHandler!=null&&timRunable!=null) {
-                                timHandler.removeCallbacks(timRunable);
-                            }
-
-                            //主线程中调用：
-                            timHandler.postDelayed(timRunable, 1000);//延时100毫秒
-                        }
-
-                        @Override
-                        public void onFailure(IMqttToken asyncActionToken, Throwable exception) { //连接失败
-                            LogUtil.d(TAG, "连接失败！正在重新连接");
-
-                            exception.printStackTrace();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    connectionMQTTServer(); // ReConnection
-                                }
-                            }, 5000);   //延时5秒重新连接MQTT服务器
-                        }
-                    });
-
-                } catch (MqttException e) {
-                    LogUtil.d(TAG, "连接异常");
-                    e.fillInStackTrace();
-                }
-            }
-        }).run();
+        doClientConnection();
 
 
     }
 
+    private synchronized void doClientConnection() {
+        if (!mqttAndroidClient.isConnected()) {
+            try {
+                mqttAndroidClient.connect(mMqttConnectOptions, null, iMqttActionListener);
+                LogUtil.d(TAG,"连接中，ClientId："+mqttAndroidClient.getClientId());
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private synchronized void startReconnectTask(){
+        LogUtil.d(TAG,"开启重连任务");
+        if (reconnectPool != null)return;
+        reconnectPool = Executors.newScheduledThreadPool(1);
+        reconnectPool.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                doClientConnection();
+            }
+        } , 0 , 5*1000 , TimeUnit.MILLISECONDS);
+    }
+
+    private synchronized void closeReconnectTask(){
+        LogUtil.d(TAG,"关闭重连任务");
+        if (reconnectPool != null) {
+            reconnectPool.shutdownNow();
+            reconnectPool = null;
+        }
+    }
+
+    public void closeMQTT(){
+        closeReconnectTask();
+        if (mqttAndroidClient != null){
+            try {
+                mqttAndroidClient.unregisterResources();
+                mqttAndroidClient.disconnect();
+                LogUtil.i(TAG,"关闭连接，ClientId："+mqttAndroidClient.getClientId());
+                mqttAndroidClient = null;
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private MqttCallback mqttCallback = new MqttCallbackExtended() {  //回传
         @Override
@@ -230,7 +258,10 @@ public class MqttServer extends Service {
         @Override
         public void connectionLost(Throwable cause) {
             LogUtil.d(TAG,"连接断开");
-            connectionMQTTServer(); // ReConnection
+
+            if (cause != null) {//null表示被关闭
+                startReconnectTask();
+            }
         }
 
         @Override
@@ -279,6 +310,9 @@ public class MqttServer extends Service {
 
         }
     };
+
+
+
 
     /**
      * 发布消息 publish(主题,消息的字节数组,服务质量,是否在服务器保留断开连接后的最后一条消息);
@@ -347,14 +381,16 @@ public class MqttServer extends Service {
      **/
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         try {
-            mqttAndroidClient.disconnect();
+
+            closeMQTT();
+
             if(timHandler!=null&&timRunable!=null) {
                 timHandler.removeCallbacks(timRunable);
             }
