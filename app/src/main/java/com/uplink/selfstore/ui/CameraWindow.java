@@ -224,12 +224,14 @@ public class CameraWindow {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
                 outputStream.close();
 
-                //上传到服务器
-                List<String> filePaths = new ArrayList<>();
-                filePaths.add(filePath);
+
                 Map<String, String> params = new HashMap<>();
                 params.put("fileName", imgId);
                 params.put("folder", "pickup");
+
+                Map<String, String> filePaths = new HashMap<>();
+                filePaths.put("file", filePath);
+
                 HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, params, filePaths, null);
 
                 LogUtil.e(TAG, "拍照结束");

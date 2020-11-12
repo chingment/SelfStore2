@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AppLogcatManager {
 
@@ -70,8 +71,10 @@ public class AppLogcatManager {
             HashMap<String, String> fields = new HashMap<>();
             fields.put("folder", "SelfStoreLogcatLog");
             fields.put("fileName", fileName);
-            List<String> filePaths = new ArrayList<>();
-            filePaths.add(filePath);
+
+
+            Map<String, String> filePaths = new HashMap<>();
+            filePaths.put("file",filePath);
 
             HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
                 @Override

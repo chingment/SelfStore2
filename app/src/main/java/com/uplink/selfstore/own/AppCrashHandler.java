@@ -200,8 +200,11 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
 
             fields.put("folder", "SelfStoreCrashLog");
             fields.put("fileName", file.getName());
-            List<String> filePaths = new ArrayList<>();
-            filePaths.add(filePath);
+
+
+            Map<String, String> filePaths = new HashMap<>();
+            filePaths.put("file", filePath);
+
 
             HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, fields, filePaths,null);
         }

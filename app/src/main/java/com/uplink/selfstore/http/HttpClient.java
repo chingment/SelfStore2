@@ -331,11 +331,13 @@ public class HttpClient {
     }
 
 
-    public static void postFile(String appKey, String appSecret,String url, Map<String, String> fields, List<String> filePaths, final HttpResponseHandler handler) {
+    public static void postFile(String appKey, String appSecret,String url, Map<String, String> fields, Map<String, String> filePaths, final HttpResponseHandler handler) {
 
         try {
             if (!isNetworkAvailable()) {
-                handler.sendFailureMessage("网络连接不可用,请检查设置", null);
+                if(handler!=null) {
+                    handler.sendFailureMessage("网络连接不可用,请检查设置", null);
+                }
                 return;
             }
 
@@ -368,13 +370,14 @@ public class HttpClient {
             if (filePaths.size() < 1)
                 return;
 
-            for (String filePath : filePaths) {
-                File file = new File(filePath);
+
+            for (Map.Entry<String, String> entry : filePaths.entrySet()) {
+
+                File file = new File( entry.getValue());
                 String fileName = file.getName();
                 RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
-                builder.addFormDataPart("file", fileName, fileBody);
+                builder.addFormDataPart(entry.getKey(), fileName, fileBody);
             }
-
 
 
             RequestBody requestBody = builder.build();
