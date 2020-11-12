@@ -177,7 +177,7 @@ public class MqttServer extends Service {
         RESPONSE_TOPIC_A = "topic_r_mch/" + machine.getMachineId();//响应主题
 
 
-        mqttAndroidClient = new MqttAndroidClient(this, HOST, CLIENT_ID);
+        mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), HOST, CLIENT_ID);
 
         mMqttConnectOptions = new MqttConnectOptions();
         // 在重新启动和重新连接时记住状态
@@ -191,6 +191,8 @@ public class MqttServer extends Service {
         // 心跳包发送间隔，单位：秒
         mMqttConnectOptions.setKeepAliveInterval(20);
 
+        //mMqttConnectOptions.setAutomaticReconnect(true);
+
 
         mqttAndroidClient.setCallback(mqttCallback);// 回调
 
@@ -202,7 +204,8 @@ public class MqttServer extends Service {
     private synchronized void doClientConnection() {
         if (!mqttAndroidClient.isConnected()) {
             try {
-                mqttAndroidClient.connect(mMqttConnectOptions, null, iMqttActionListener);
+
+                mqttAndroidClient.connect(mMqttConnectOptions, getApplicationContext(), iMqttActionListener);
                 LogUtil.d(TAG,"连接中，ClientId："+mqttAndroidClient.getClientId());
             } catch (MqttException e) {
                 e.printStackTrace();

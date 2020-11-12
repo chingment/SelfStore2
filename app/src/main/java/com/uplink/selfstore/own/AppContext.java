@@ -190,6 +190,11 @@ public class AppContext extends Application {
     }
 
     private static String getMacFromHardware() {
+
+        if(Config.IS_BUILD_DEBUG) {
+            return "02:00:00:00:00:00";
+        }
+
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : all) {
