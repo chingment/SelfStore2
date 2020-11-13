@@ -14,6 +14,8 @@ import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.PushUpdateUtil;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.NetFlowInfo;
+import com.uplink.selfstore.utils.NetFlowUtil;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -98,6 +100,13 @@ public class MqttServer extends Service {
             msg_content.put("machineId",machine.getMachineId());
             msg_content.put("status", status);
             msg_content.put("activity", activityName);
+
+
+            NetFlowInfo flowInfo= NetFlowUtil.getAppFlowInfo("com.uplink.selfstore",getApplicationContext());
+
+            msg_content.put("upKb", flowInfo.getUpKb());
+            msg_content.put("downKb", flowInfo.getDownKb());
+
 
             msg.put("content",msg_content);
 

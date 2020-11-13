@@ -1,9 +1,13 @@
 package com.uplink.selfstore.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.TrafficStats;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -20,6 +24,7 @@ import com.uplink.selfstore.R;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by chingment on 2017/12/18.
@@ -228,4 +233,6 @@ public class CommonUtil {
         }
         return false;
     }
+
+
 }
