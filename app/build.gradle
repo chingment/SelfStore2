@@ -7,6 +7,8 @@ def static buildTime() {
 }
 
 android {
+
+
     compileSdkVersion 27
     buildToolsVersion '28.0.3'
 
@@ -23,6 +25,17 @@ android {
         abortOnError false
     }
 
+    flavorDimensions "mode"
+    productFlavors {
+        taian{
+            buildConfigField "String", "COMNAME", "\"taian\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://automat.taianjk.com\""
+        }
+        uplink {
+            buildConfigField "String", "COMNAME", "\"uplink\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
+        }
+    }
 
     defaultConfig {
         applicationId "com.uplink.selfstore"
@@ -63,7 +76,7 @@ android {
         }
         release {
             buildConfigField "Boolean", "ISAPPDEBUG", "true"
-            buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
+            //buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
             buildConfigField "String", "APPKEY", "\"fanju\""
             buildConfigField "String", "APPSECRET", "\"7460e6512f1940f68c00fe1fdb2b7eb1\""
             minifyEnabled true
@@ -77,7 +90,7 @@ android {
                     def fileName
 
                     if (variant.buildType.name.equals('release')) {//如果是release包
-                        fileName = "fanju_release_v${defaultConfig.versionName}_t${buildTime()}.apk"
+                        fileName = "fanju_${productFlavors[0].name}_release_v${defaultConfig.versionName}_t${buildTime()}.apk"
                     } else if (variant.buildType.name.equals('debug')) {//如果是debug包
                         fileName = "fanju_debug_v${defaultConfig.versionName}_t${buildTime()}.apk"
                     }
