@@ -126,6 +126,38 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/size_10"
+        android:paddingRight="@dimen/size_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/size_10"
+            android:paddingTop="@dimen/sp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/aty_initdata_tvtx_comname"
+                android:textColor="@color/field_name"
+                android:textSize="@dimen/sp_10" />
+
+            <TextView
+                android:id="@+id/txt_comname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="@color/field_value"
+                android:textSize="@dimen/size_10" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btn_inittool"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_200"

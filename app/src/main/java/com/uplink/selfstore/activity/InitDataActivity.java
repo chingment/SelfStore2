@@ -56,6 +56,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private TextView loading_msg;
     private TextView txt_deviceId;
     private TextView txt_version;
+    private TextView txt_comname;
     private MyListView list_log;
     private View btn_inittool;
 
@@ -144,6 +145,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         loading_msg = (TextView) findViewById(R.id.loading_msg);
         txt_deviceId=(TextView) findViewById(R.id.txt_deviceId);
         txt_version=(TextView) findViewById(R.id.txt_version);
+        txt_comname=(TextView) findViewById(R.id.txt_comname);
         list_log=(MyListView)findViewById(R.id.list_log);
         btn_inittool=(View)findViewById(R.id.btn_inittool);
 
@@ -305,6 +307,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     private void initData() {
         txt_deviceId.setText(getAppContext().getDeviceId());
         txt_version.setText(BuildConfig.VERSION_NAME);
+        txt_comname.setText(BuildConfig.COMNAME);
     }
 
     @Override

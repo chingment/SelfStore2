@@ -39,6 +39,7 @@
     <string name="aty_smmachineinfo_tvtx_paytimeout">支付超时（秒）</string>
     <string name="aty_smmachineinfo_tvtx_versionname">程序版本号</string>
     <string name="aty_smmachineinfo_tvtx_cabinetctrlsdkversionbyds">设备控制版本号</string>
+    <string name="aty_smmachineinfo_tvtx_comname">COM.N</string>
     <string name="aty_smmachineinfo_tvtx_currency">货币</string>
     <string name="aty_smmachineinfo_tvtx_currencysymbol">货币符号</string>
     <string name="aty_smmachinestock_navtitle">机器库存</string>
@@ -58,6 +59,7 @@
     <string name="aty_initdata_tips_settingmachinecfgreadfailure">读取商户机器配置信息失败</string>
     <string name="aty_initdata_tvtx_deviceid">设备标识</string>
     <string name="aty_initdata_tvtx_version">应用版本</string>
+    <string name="aty_initdata_tvtx_comname">COM.N</string>
     <string name="aty_smhome_navtitle">设置中心</string>
     <string name="aty_smhome_ngtitle_stockset">库存设置</string>
     <string name="aty_smhome_ngtitle_machineset">机器信息</string>

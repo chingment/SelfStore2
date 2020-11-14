@@ -23,7 +23,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private TextView txt_CabinetCtrlSdkVersionByDS;
     private TextView txt_Currency;
     private TextView txt_CurrencySymbol;
-
+    private TextView txt_ComName;
     private CabinetCtrlByDS cabinetCtrlByDS=null;
 
     @Override
@@ -45,13 +45,14 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_MerchantName = (TextView) findViewById(R.id.txt_MerchantName);
         txt_StoreName = (TextView) findViewById(R.id.txt_StoreName);
         txt_MachineId = (TextView) findViewById(R.id.txt_MachineId);
-        txt_DeviceId=(TextView) findViewById(R.id.txt_DeviceId);
+        txt_DeviceId = (TextView) findViewById(R.id.txt_DeviceId);
         txt_Location = (TextView) findViewById(R.id.txt_Location);
         txt_JPushRegId = (TextView) findViewById(R.id.txt_JPushRegId);
-        txt_AppVersion= (TextView) findViewById(R.id.txt_AppVersion);
-        txt_CabinetCtrlSdkVersionByDS=(TextView) findViewById(R.id.txt_CabinetCtrlSdkVersionByDS);
-        txt_Currency= (TextView) findViewById(R.id.txt_Currency);
-        txt_CurrencySymbol= (TextView) findViewById(R.id.txt_CurrencySymbol);
+        txt_AppVersion = (TextView) findViewById(R.id.txt_AppVersion);
+        txt_CabinetCtrlSdkVersionByDS = (TextView) findViewById(R.id.txt_CabinetCtrlSdkVersionByDS);
+        txt_Currency = (TextView) findViewById(R.id.txt_Currency);
+        txt_CurrencySymbol = (TextView) findViewById(R.id.txt_CurrencySymbol);
+        txt_ComName = (TextView) findViewById(R.id.txt_ComName);
     }
 
     private void initEvent() {
@@ -70,6 +71,7 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
         txt_Currency.setText(getMachine().getCurrency());
         txt_CurrencySymbol.setText(getMachine().getCurrencySymbol());
         txt_Location.setText(LocationUtil.LAT+","+ LocationUtil.LNG);
+        txt_ComName.setText(BuildConfig.COMNAME);
     }
 
     @Override

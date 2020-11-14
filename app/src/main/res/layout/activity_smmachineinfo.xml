@@ -245,6 +245,32 @@
                     android:textSize="@dimen/size_10" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingTop="@dimen/size_10"
+                android:background="@drawable/field_border_bottom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aty_smmachineinfo_tvtx_comname"
+                    android:textColor="@color/field_name"
+                    android:textSize="@dimen/size_10" />
+
+                <TextView
+                    android:id="@+id/txt_ComName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/size_10" />
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
