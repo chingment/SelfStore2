@@ -107,14 +107,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_smmachineinfo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_smmachineinfo.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -185,19 +183,26 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/ProductKindActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="143" column="41" selection-start-line="143" selection-start-column="41" selection-end-line="143" selection-end-column="41" />
+            <state relative-caret-position="153">
+              <caret line="33" column="84" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml">
+          <provider editor-type-id="android-designer2" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="542" column="28" selection-start-line="542" selection-start-column="28" selection-end-line="542" selection-end-column="28" />
+            <state relative-caret-position="326">
+              <caret line="109" column="54" selection-start-line="109" selection-start-column="54" selection-end-line="109" selection-end-column="54" />
+              <folding>
+                <element signature="e#2735#2749#0" expanded="true" />
+                <element signature="e#5141#5157#0" expanded="true" />
+                <element signature="e#5495#5528#0" expanded="true" />
+                <element signature="e#5611#5625#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -277,7 +282,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/GlobalDataSetBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/AdBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/AdContentBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/BannerAdapter.java" />
@@ -320,7 +324,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/utils/NetFlowInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/utils/NetFlowUtil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/MqttServer.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_initdata.xml" />
@@ -328,6 +331,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_smmachineinfo.xml" />
         <option value="$PROJECT_DIR$/local.properties" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml" />
       </list>
     </option>
   </component>
@@ -370,15 +375,13 @@
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -707,10 +710,10 @@
     <frame x="0" y="23" width="1240" height="777" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.75820893" visible="true" weight="0.15275459" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7591241" visible="true" weight="0.35308847" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24878837" />
       <window_info id="Captures" order="2" sideWeight="0.3992095" side_tool="true" weight="0.10212998" />
-      <window_info id="Build Variants" order="3" sideWeight="0.24179104" side_tool="true" visible="true" weight="0.15275459" />
+      <window_info id="Build Variants" order="3" sideWeight="0.24087591" side_tool="true" visible="true" weight="0.35308847" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
       <window_info id="Image Layers" order="6" />
@@ -719,20 +722,20 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.48747912" weight="0.5030211" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7704508" weight="0.31570998" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5776294" weight="0.17371601" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5759599" weight="0.35498488" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49192247" weight="0.3237774" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.37813023" side_tool="true" visible="true" weight="0.4939577" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.42570952" side_tool="true" visible="true" weight="0.17220543" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.46661103" weight="0.60120845" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.48998332" weight="0.22205438" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4891486" weight="0.28700906" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.5751252" weight="0.3202417" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.57429045" visible="true" weight="0.17220543" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8290242" weight="0.4244713" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="16" sideWeight="0.6218698" visible="true" weight="0.4939577" />
+      <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.62103504" weight="0.4939577" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -979,12 +982,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java</url>
-          <line>369</line>
-          <properties />
-          <option name="timeStamp" value="851" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java</url>
           <line>170</line>
           <properties />
           <option name="timeStamp" value="858" />
@@ -1032,16 +1029,10 @@
           <option name="timeStamp" value="940" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/http/HttpClient.java</url>
-          <line>144</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java</url>
+          <line>535</line>
           <properties />
-          <option name="timeStamp" value="949" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java</url>
-          <line>387</line>
-          <properties />
-          <option name="timeStamp" value="951" />
+          <option name="timeStamp" value="953" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -1052,27 +1043,6 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.2/852be62ab6b7f724f50502c2d48c5ef090d4db34/org.eclipse.paho.client.mqttv3-1.2.2-sources.jar!/org/eclipse/paho/client/mqttv3/IMqttToken.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-222">
-          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.paho/org.eclipse.paho.android.service/1.1.1/f12a679a207391e812b891615a9f6b527f02bbd4/org.eclipse.paho.android.service-1.1.1-sources.jar!/org/eclipse/paho/android/service/MqttConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="288" selection-start-line="288" selection-end-line="288" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.paho/org.eclipse.paho.android.service/1.1.1/f12a679a207391e812b891615a9f6b527f02bbd4/org.eclipse.paho.android.service-1.1.1-sources.jar!/org/eclipse/paho/android/service/MqttService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="331" lean-forward="true" selection-start-line="331" selection-end-line="331" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-27/android.jar!/android/content/BroadcastReceiver.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1135,13 +1105,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1170">
           <caret line="93" column="13" lean-forward="true" selection-start-line="93" selection-start-column="13" selection-end-line="93" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/CameraWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="231" column="4" lean-forward="true" selection-start-line="231" selection-start-column="4" selection-end-line="232" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -1260,13 +1223,6 @@
           <folding>
             <element signature="e#12141#14996#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/http/HttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="205" selection-start-line="205" selection-end-line="205" />
         </state>
       </provider>
     </entry>
@@ -1408,13 +1364,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="309" column="47" selection-start-line="309" selection-start-column="47" selection-end-line="309" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_initdata.xml">
       <provider selected="true" editor-type-id="android-designer2" />
       <provider editor-type-id="text-editor">
@@ -1441,13 +1390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="75" column="17" lean-forward="true" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/local.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1469,10 +1411,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="259" column="56" selection-start-line="259" selection-start-column="45" selection-end-line="259" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="387" selection-start-line="387" selection-end-line="387" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/http/HttpClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="144" selection-start-line="144" selection-end-line="144" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="542" column="28" selection-start-line="542" selection-start-column="28" selection-end-line="542" selection-end-column="28" />
+        <state relative-caret-position="179">
+          <caret line="543" selection-start-line="543" selection-end-line="543" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/CameraWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="104" selection-start-line="104" selection-end-line="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="369" selection-start-line="369" selection-end-line="369" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="33" column="84" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smlogin.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="109" column="54" selection-start-line="109" selection-start-column="54" selection-end-line="109" selection-end-column="54" />
+          <folding>
+            <element signature="e#2735#2749#0" expanded="true" />
+            <element signature="e#5141#5157#0" expanded="true" />
+            <element signature="e#5495#5528#0" expanded="true" />
+            <element signature="e#5611#5625#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

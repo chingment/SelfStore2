@@ -27,7 +27,16 @@ android {
 
     flavorDimensions "mode"
     productFlavors {
+        dev{
+            //开发版本
+            buildConfigField "Boolean", "ISAPPDEBUG", "true"
+            buildConfigField "String", "COMNAME", "\"dev\""
+            buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
+            buildConfigField "String", "APPKEY", "\"test\""
+            buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
+        }
         taian{
+            //泰安版本
             buildConfigField "Boolean", "ISAPPDEBUG", "true"
             buildConfigField "String", "COMNAME", "\"taian\""
             buildConfigField "String", "ENVIRONMENT", "\"http://automat.taianjk.com\""
@@ -35,6 +44,7 @@ android {
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
         }
         uplink {
+            //全线通版本
             buildConfigField "Boolean", "ISAPPDEBUG", "true"
             buildConfigField "String", "COMNAME", "\"uplink\""
             buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
@@ -73,13 +83,13 @@ android {
     }
 
     buildTypes {
-//        debug {
-//            signingConfig signingConfigs.release
+        debug {
+             signingConfig signingConfigs.release
 //            buildConfigField "Boolean", "ISAPPDEBUG", "true"
 //            buildConfigField "String", "ENVIRONMENT", "\"http://automat.taianjk.com\""
 //            buildConfigField "String", "APPKEY", "\"test\""
 //            buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
-//        }
+        }
         release {
 //            buildConfigField "Boolean", "ISAPPDEBUG", "true"
 //            //buildConfigField "String", "ENVIRONMENT", "\"http://api.term.17fanju.com\""
