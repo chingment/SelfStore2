@@ -535,6 +535,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                             DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
                             });
+
+                            if(dSCabRowColLayout==null){
+                                curPickupSku_Tv_Tip2.setText("准备出货异常......机柜货道解释异常");
+                                return;
+                            }
+
                             cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                             break;
                         case "zsx01":
