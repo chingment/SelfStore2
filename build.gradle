@@ -34,8 +34,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-// variable that can be referenced to keep support libs consistent
-ext {
-
-}

@@ -522,7 +522,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     //taskByCheckPayTimeout.start();
                     LAST_ORDERID=orderId;
                     LAST_PAYTRANSID=d.getPayTransId();
-                    dialog_ScanPay.setPayWayQrcode(payOption,d.getPayUrl(),d.getChargeAmount());
+                    dialog_ScanPay.setPayWayQrcode(payOption,d.getParamType(), d.getParamData(),d.getChargeAmount());
                     dialog_ScanPay.show();
 
                 } else {

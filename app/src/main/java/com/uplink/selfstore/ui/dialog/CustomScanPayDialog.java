@@ -2,9 +2,11 @@ package com.uplink.selfstore.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -44,28 +46,30 @@ public class CustomScanPayDialog extends Dialog {
 
     private IHanldeListener myHanldeListener;
 
-    public void setPayWayQrcode(TerminalPayOptionBean payOption, String payUrl, String chargeAmount) {
+    public void setPayWayQrcode(TerminalPayOptionBean payOption,String paramType, String paramData, String chargeAmount) {
 
 
         this.icon_payway_z_wechat.setVisibility(View.GONE);
         this.icon_payway_z_zhifubao.setVisibility(View.GONE);
 
         this.txt_payamount.setText(chargeAmount);
-        this.img_payqrcode.setImageBitmap(BitmapUtil.createQrCodeBitmap(payUrl));
 
-        int[] supportWays=payOption.getSupportWays();
+        if (paramType.equals("url")) {
+            this.img_payqrcode.setImageBitmap(BitmapUtil.createQrCodeBitmap(paramData));
+        } else if (paramType.equals("base64")) {
+            byte[] decodedString = Base64.decode(paramData.split(",")[1], Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            this.img_payqrcode.setImageBitmap(decodedByte);
+        }
 
-        if(supportWays!=null)
-        {
+        int[] supportWays = payOption.getSupportWays();
 
-            for (int i=0;i<supportWays.length;i++)
-            {
-                if(supportWays[i]==1)
-                {
+        if (supportWays != null) {
+
+            for (int i = 0; i < supportWays.length; i++) {
+                if (supportWays[i] == 1) {
                     this.icon_payway_z_wechat.setVisibility(View.VISIBLE);
-                }
-                else if(supportWays[i]==2)
-                {
+                } else if (supportWays[i] == 2) {
                     this.icon_payway_z_zhifubao.setVisibility(View.VISIBLE);
                 }
             }
