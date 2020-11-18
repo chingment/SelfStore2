@@ -50,33 +50,40 @@ public class CameraWindow {
      * @param context
      */
     public static void show(Context context) {
-        if (applicationContext == null) {
-            applicationContext = context.getApplicationContext();
-            windowManager = (WindowManager) applicationContext
-                    .getSystemService(Context.WINDOW_SERVICE);
+        try {
 
 
-            cameraViewByJg = new SurfaceView(applicationContext);
-            cameraHolderByJg = cameraViewByJg.getHolder();
-            LayoutParams params = new LayoutParams();
-            params.width = 1;
-            params.height = 1;
-            params.alpha = 0;
-            params.type = LayoutParams.TYPE_SYSTEM_ALERT;
-            // 屏蔽点击事件
-            params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-                    | LayoutParams.FLAG_NOT_FOCUSABLE
-                    | LayoutParams.FLAG_NOT_TOUCHABLE;
-
-            windowManager.addView(cameraViewByJg, params);
+            if (applicationContext == null) {
+                applicationContext = context.getApplicationContext();
+                windowManager = (WindowManager) applicationContext
+                        .getSystemService(Context.WINDOW_SERVICE);
 
 
-            cameraViewByChk = new SurfaceView(applicationContext);
-            cameraHolderyChk = cameraViewByChk.getHolder();
+                cameraViewByJg = new SurfaceView(applicationContext);
+                cameraHolderByJg = cameraViewByJg.getHolder();
+                LayoutParams params = new LayoutParams();
+                params.width = 1;
+                params.height = 1;
+                params.alpha = 0;
+                params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+                // 屏蔽点击事件
+                params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        | LayoutParams.FLAG_NOT_FOCUSABLE
+                        | LayoutParams.FLAG_NOT_TOUCHABLE;
 
-            windowManager.addView(cameraViewByChk, params);
+                windowManager.addView(cameraViewByJg, params);
 
-            LogUtil.d(TAG, TAG + " showing");
+
+                cameraViewByChk = new SurfaceView(applicationContext);
+                cameraHolderyChk = cameraViewByChk.getHolder();
+
+                windowManager.addView(cameraViewByChk, params);
+
+                LogUtil.d(TAG, TAG + " showing");
+            }
+        }
+        catch (Exception ex){
+
         }
     }
 

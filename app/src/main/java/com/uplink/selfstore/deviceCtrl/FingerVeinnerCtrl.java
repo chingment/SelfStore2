@@ -453,11 +453,18 @@ public class FingerVeinnerCtrl {
     }
 
     public void unregisterReceiver(Context mContext){
-        if(mContext==null)
-            return;
-        if(mUsbPermissionActionReceiver==null)
-            return;
+        try {
 
-        mContext.unregisterReceiver(mUsbPermissionActionReceiver);
+
+            if (mContext == null)
+                return;
+            if (mUsbPermissionActionReceiver == null)
+                return;
+
+            mContext.unregisterReceiver(mUsbPermissionActionReceiver);
+        }
+        catch (Exception ex){
+
+        }
     }
 }
