@@ -188,8 +188,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="41" column="86" selection-start-line="41" selection-start-column="86" selection-end-line="41" selection-end-column="86" />
+            <state relative-caret-position="272">
+              <caret line="45" column="7" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -684,12 +684,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="44" y="39" width="1240" height="777" extended-state="1" />
+    <frame x="2" y="23" width="1240" height="777" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5868644" visible="true" weight="0.34223706" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24878837" />
       <window_info id="Captures" order="2" sideWeight="0.3992095" side_tool="true" weight="0.10212998" />
-      <window_info active="true" id="Build Variants" order="3" sideWeight="0.4131356" side_tool="true" visible="true" weight="0.34223706" />
+      <window_info id="Build Variants" order="3" sideWeight="0.4131356" side_tool="true" visible="true" weight="0.34223706" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
       <window_info id="Image Layers" order="6" />
@@ -705,7 +705,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.33806345" side_tool="true" weight="0.45015106" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4657763" weight="0.60120845" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4799666" visible="true" weight="0.28700906" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.4799666" visible="true" weight="0.28700906" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
       <window_info anchor="bottom" id="Build" order="13" sideWeight="0.56010014" weight="0.35045317" />
@@ -1427,8 +1427,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="41" column="86" selection-start-line="41" selection-start-column="86" selection-end-line="41" selection-end-column="86" />
+        <state relative-caret-position="272">
+          <caret line="45" column="7" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
         </state>
       </provider>
     </entry>
