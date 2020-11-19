@@ -24,6 +24,7 @@ public class CabinetCtrlByDS {
     public static final int S_RC_INVALID_PARAM = 1;
     public static final int S_RC_ERROR = 2;
     public static final int S_ACTION_GOZERO = 1;
+    public static final int S_ACTION_DOWN_Y= 6;
     private boolean isConnect = false;
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
@@ -459,7 +460,7 @@ public class CabinetCtrlByDS {
                 }
                 try {
                     long maxPickTime = System.currentTimeMillis() - nScanSlotStartTime;
-                    if (maxPickTime < 5 * 60 * 1000) {
+                    if (maxPickTime < 10 * 60 * 1000) {
                         int[] rc_scanStatus = sym.SN_MV_Get_ScanStatus();
                         if (rc_scanStatus[0] == S_RC_SUCCESS) {
                             //LogUtil.i(TAG, "扫描流程监听：扫描状态" + rc_scanStatus[0]);
@@ -684,6 +685,7 @@ public class CabinetCtrlByDS {
                 LogUtil.i(TAG, "取货流程监听：取货启动失败");
                 sendPickupHandlerMessage(5, "尝试3次取货启动失败", null);
                 interrupt();
+                return;
             } else {
                 cmd_PickupIsStopListener = false;
 

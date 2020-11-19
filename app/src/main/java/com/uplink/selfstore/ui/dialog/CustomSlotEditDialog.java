@@ -307,21 +307,21 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-        if (mContext.getMachine().getScanner().getUse()) {
-            scannerCtrl = ScannerCtrl.getInstance();
-            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            Bundle bundle;
-                            bundle = msg.getData();
-                            String scanResult = bundle.getString("result");
-                            txt_searchKey.setText(scanResult);
-                            searchSkus(scanResult);
-                            return false;
-                        }
-                    })
-            );
-        }
+//        if (mContext.getMachine().getScanner().getUse()) {
+//            scannerCtrl = ScannerCtrl.getInstance();
+//            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
+//                        @Override
+//                        public boolean handleMessage(Message msg) {
+//                            Bundle bundle;
+//                            bundle = msg.getData();
+//                            String scanResult = bundle.getString("result");
+//                            txt_searchKey.setText(scanResult);
+//                            searchSkus(scanResult);
+//                            return false;
+//                        }
+//                    })
+//            );
+//        }
 
         setCanceledOnTouchOutside(false);
         scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
