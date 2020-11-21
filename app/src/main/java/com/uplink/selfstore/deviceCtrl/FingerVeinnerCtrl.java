@@ -205,11 +205,11 @@ public class FingerVeinnerCtrl {
                     }
                     else if(bFingerSt[0]==0x03){
                         LogUtil.i(TAG, "指静脉采检查登录监听->获取手指状态成功,手指已放置");
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            Thread.sleep(50);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                         //一枚手指特征数据
                         byte[] featureData = new byte[512];
                         int flag=0;
@@ -305,11 +305,11 @@ public class FingerVeinnerCtrl {
                         if (cur_ret_GrabFeature == 0) {
                             LogUtil.i(TAG, "指静脉采集流程监听->获取手指信息成功");
 
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                Thread.sleep(50);
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
 
                             if (reg_cur > 0) {
                                 byte[] featureTmp = new byte[512 * reg_cur];
@@ -325,11 +325,11 @@ public class FingerVeinnerCtrl {
 
                             System.arraycopy(cur_feature, 0, reg_feature, 512 * reg_cur, 512);
 
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                Thread.sleep(50);
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
 
                             ret = BioVein.FV_FingerDetect(mByteDevName, bFingerSt);
 

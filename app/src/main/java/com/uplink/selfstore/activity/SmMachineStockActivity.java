@@ -239,14 +239,21 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         SlotBean l_slot = cabinetSlots.get(slot.getSlotId());
 
+        l_slot.setSlotId(slot.getSlotId());
+        l_slot.setStockId(slot.getStockId());
+        l_slot.setCabinetId(slot.getCabinetId());
         l_slot.setProductSkuId(slot.getProductSkuId());
+        l_slot.setCumCode(slot.getCumCode());
         l_slot.setName(slot.getName());
         l_slot.setMainImgUrl(slot.getMainImgUrl());
+        l_slot.setSpecDes(slot.getSpecDes());
         l_slot.setOffSell(slot.isOffSell());
         l_slot.setLockQuantity(slot.getLockQuantity());
         l_slot.setSellQuantity(slot.getSellQuantity());
         l_slot.setSumQuantity(slot.getSumQuantity());
         l_slot.setMaxQuantity(slot.getMaxQuantity());
+        l_slot.setWarnQuantity(slot.getWarnQuantity());
+        l_slot.setHoldQuantity(slot.getHoldQuantity());
         l_slot.setVersion(slot.getVersion());
         l_slot.setCanAlterMaxQuantity(slot.getCanAlterMaxQuantity());
 
