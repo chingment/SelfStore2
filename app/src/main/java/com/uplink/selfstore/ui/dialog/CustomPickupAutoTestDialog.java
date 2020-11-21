@@ -228,7 +228,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             else {
                 content.put("actionId", 0);
                 content.put("actionName", "未知动作");
-                content.put("actionStatusCode", "");
+                content.put("actionStatusCode", 0);
                 content.put("actionStatusName", "");
                 content.put("pickupUseTime", 0);
                 content.put("imgId", "");

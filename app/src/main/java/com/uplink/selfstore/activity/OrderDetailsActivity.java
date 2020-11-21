@@ -480,7 +480,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             {
                 content.put("actionId", -1);
                 content.put("actionName", "未知动作");
-                content.put("actionStatusCode", "");
+                content.put("actionStatusCode", 0);
                 content.put("actionStatusName", "");
                 content.put("pickupUseTime", 0);
                 content.put("imgId", "");
