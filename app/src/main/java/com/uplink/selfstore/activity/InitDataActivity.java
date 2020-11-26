@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
@@ -94,11 +95,14 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/"+BuildConfig.APPLICATION_ID+"/files/MqttConnection";
 
+
+        File mqttConnection= getAppContext().getExternalFilesDir("MqttConnection");
+
+        //String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/"+BuildConfig.APPLICATION_ID+"/files/MqttConnection";
         //String dirPath="/storage/emulated/0/Android/data/com.uplink.selfstore/files/MqttConnection/mch_202004220011-tcp112741791851883";
 
-        FileUtil.deleteDirWihtFile(new File(dirPath));
+        FileUtil.deleteDirWihtFile(mqttConnection);
 
 
         initView();
