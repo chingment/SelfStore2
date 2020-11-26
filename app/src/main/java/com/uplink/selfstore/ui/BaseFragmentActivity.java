@@ -343,6 +343,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         closePageCountTimerStop();
 
         if (dialog_Loading != null) {
+
             dialog_Loading.cancel();
         }
 
@@ -482,7 +483,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             }
         });
     }
-
 
     public void orderCancle(Context context, String orderId,int type, String reason) {
 
