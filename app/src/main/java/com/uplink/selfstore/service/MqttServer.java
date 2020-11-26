@@ -124,7 +124,6 @@ public class MqttServer extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         buildClient();
     }
 

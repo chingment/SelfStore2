@@ -71,7 +71,7 @@ public class EmCallActivity extends SwipeBackActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-
+///storage/emulated/0/Android/data/com.uplink.selfstore/files/MqttConnection/mch_202004220011-tcp112741791851883
         audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
 
         pushProvider = new EMCallManager.EMCallPushProvider() {

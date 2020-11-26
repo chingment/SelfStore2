@@ -216,7 +216,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
 
 
-        //locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
+        locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
 
         appContext = (AppContext) getApplication();
         dialog_Loading = new CustomLoadingDialog(this);

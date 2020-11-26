@@ -576,6 +576,26 @@ public final class FileUtil {
         }
     }
 
+    public static void deleteDirWihtFile(File dir) {
+        try {
+
+
+            if (dir == null || !dir.exists() || !dir.isDirectory())
+                return;
+            for (File file : dir.listFiles()) {
+                if (file.isFile())
+                    file.delete(); // 删除所有文件
+                else if (file.isDirectory())
+                    deleteDirWihtFile(file); // 递规的方式删除文件夹
+            }
+            dir.delete();// 删除目录本身
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+
     /**
      * 获得文件或文件夹的大小
      * @param path 文件或目录的绝对路径

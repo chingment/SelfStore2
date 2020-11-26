@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -34,9 +35,13 @@ import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
+import com.uplink.selfstore.utils.DateUtil;
+import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,6 +93,13 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
+
+        String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/"+BuildConfig.APPLICATION_ID+"/files/MqttConnection";
+
+        //String dirPath="/storage/emulated/0/Android/data/com.uplink.selfstore/files/MqttConnection/mch_202004220011-tcp112741791851883";
+
+        FileUtil.deleteDirWihtFile(new File(dirPath));
+
 
         initView();
         initEvent();
