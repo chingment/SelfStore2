@@ -97,6 +97,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
 
 
+        //因mqtt文件被锁定未被删除造成对象未空，因此进入程序首先删除MqttConnection文件 防止对象未空
+
         File mqttConnection= getAppContext().getExternalFilesDir("MqttConnection");
 
         //String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/"+BuildConfig.APPLICATION_ID+"/files/MqttConnection";
