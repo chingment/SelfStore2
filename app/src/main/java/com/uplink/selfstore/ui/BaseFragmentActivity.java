@@ -36,7 +36,6 @@ import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.service.HeartbeatService;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;

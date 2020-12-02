@@ -559,7 +559,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("[ds设备]未打开连接");
                         return;
                     }
-                    ds_CabinetCtrlByDS.pickUp(0,0,null);
+                    ds_CabinetCtrlByDS.startPickUp(0,0,null);
                     break;
                 case R.id.zs_hd_btn_connect:
                     if (StringUtil.isEmpty(str_zs_hd_et_ck)) {

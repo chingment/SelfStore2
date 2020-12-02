@@ -7,9 +7,9 @@ import android.content.Intent;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.utils.LogUtil;
 
-public class BootBroadcastReceiver extends BroadcastReceiver {
+public class MainReceiver extends BroadcastReceiver {
     private static final String TAG = "MainReceiver";
-    static final String ACTION = "android.intent.action.BOOT_COMPLETED";
+    static final String ACTION = "android.intent.action.PACKAGE_REPLACED";
 
     @Override
     public void onReceive(Context context, Intent intent) {

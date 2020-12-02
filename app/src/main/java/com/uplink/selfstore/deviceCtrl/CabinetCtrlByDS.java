@@ -80,7 +80,6 @@ public class CabinetCtrlByDS {
         return CabinetCtrlByDS.ComId;
     }
 
-
     public boolean connect() {
         if (sym == null) {
             LogUtil.e(TAG, "打开串口:" +getComId() + ",失败，sym为 NULL");
@@ -109,6 +108,11 @@ public class CabinetCtrlByDS {
         isConnect = false;
         cmd_ScanSlotIsStopListener = true;
         cmd_PickupIsStopListener = true;
+    }
+
+    public void stopPickup() {
+        cmd_PickupIsStopListener = true;
+        emgStop();
     }
 
 
@@ -258,7 +262,7 @@ public class CabinetCtrlByDS {
         sym.SN_MV_EmgStop();
     }
 
-    public void pickUp(int row,int col,int[] pendantRows) {
+    public void startPickUp(int row,int col,int[] pendantRows) {
 
         int mode = 0;
         if(pendantRows!=null) {

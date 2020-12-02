@@ -71,6 +71,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
     private boolean isHappneException=false;
     private String exceptionMessage="";
+
     public CustomPickupAutoTestDialog(final Context context) {
         super(context, R.style.dialog_style);
         mThis = this;
@@ -171,6 +172,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
                                     break;
                                 case 5://取货失败，机器异常
+                                    cabinetCtrlByDS.stopPickup();
                                     isHappneException = true;
                                     exceptionMessage = "取货失败,机器发生异常:" + message;
                                     LogUtil.e(TAG, exceptionMessage);
@@ -179,6 +181,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     break;
                                 case 6://取货失败，程序异常
+                                    cabinetCtrlByDS.stopPickup();
                                     isHappneException = true;
                                     exceptionMessage = "取货失败,程序异常:" + message;
                                     LogUtil.e(TAG,exceptionMessage);
@@ -187,6 +190,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     break;
                                 default:
+                                    cabinetCtrlByDS.stopPickup();
                                     isHappneException = true;
                                     exceptionMessage = "取货失败，未知状态:" + message;
                                     LogUtil.e(TAG,exceptionMessage);
@@ -278,7 +282,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
                             DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
                             });
-                            cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
+                            cabinetCtrlByDS.startPickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                             break;
                     }
                     break;
@@ -338,6 +342,10 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isHappneException=true;
+                exceptionMessage="停止机器";
+                cabinetCtrlByDS.emgStop();
+                cabinetCtrlByDS.emgStop();
                 _this.dismiss();
             }
         });
@@ -345,6 +353,9 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isHappneException=true;
+                exceptionMessage="停止机器";
+                cabinetCtrlByDS.emgStop();
                 cabinetCtrlByDS.emgStop();
                 _this.dismiss();
             }
@@ -368,6 +379,8 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isHappneException=true;
+                exceptionMessage="停止机器";
                 cabinetCtrlByDS.emgStop();
             }
         });
@@ -442,7 +455,9 @@ public class CustomPickupAutoTestDialog extends Dialog {
             CommonUtil.loadImageFromUrl(mContext, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
             curPickupSku_Tv_Tip1.setText(pickupSku.getName());
             curPickupSku_Tv_Tip2.setText("准备出货......");
-            pickupEventNotify(pickupSku, 3011, "发起取货", null);
+            if(mThis.isShowing()) {
+                pickupEventNotify(pickupSku, 3011, "发起取货", null);
+            }
         }
     }
 
@@ -462,6 +477,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
         curPickupSku_Tv_Tip2.setText("开始测试前，请确保库存数量与机器实际库存数量一致");
         btn_start.setVisibility(View.VISIBLE);
         btn_stop.setVisibility(View.GONE);
+        cabinetCtrlByDS.firstSet();
 //        txt_sumQuantity.setText("0");
 //        txt_waitPickupQuantity.setText("0");
 //        txt_pickupedQuantity.setText("0");

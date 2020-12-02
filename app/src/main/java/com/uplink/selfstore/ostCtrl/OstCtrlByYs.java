@@ -32,25 +32,17 @@ public class OstCtrlByYs implements IOstCtrl {
     }
 
     public void  installApk(Context context,String path){
+
         MyManager myManager=MyManager.getInstance(context);
         boolean flag= myManager.silentInstallApk(path);
+        if(flag) {
+           LogUtil.d(TAG,"安装成功");
+        }
 
-        LogUtil.i(TAG,"flag:"+flag);
-
-        //myManager.reboot();
-
-       // execLinuxCommand();
-//        try {
-//            Thread.sleep(2000);
-            execLinuxCommand();
-//        }
-//        catch (Exception ex) {
-//
-//        }
     }
 
     private void execLinuxCommand(){
-        String cmd= "sleep 120; am start -n com.uplink.selfstore/com.uplink.selfstore.activity.InitDataActivity";
+        String cmd= "sleep 5000; am start -n com.uplink.selfstore/com.uplink.selfstore.activity.InitDataActivity";
         //Runtime对象
         Runtime runtime = Runtime.getRuntime();
         try {

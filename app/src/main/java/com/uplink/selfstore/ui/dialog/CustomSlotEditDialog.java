@@ -441,7 +441,7 @@ public class CustomSlotEditDialog extends Dialog {
 
 
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
-                        cabinetCtrlByDS.pickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
+                        cabinetCtrlByDS.startPickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx01":
                         cabinetCtrlByZS.unLock(cabinet.getCodeNo(),Integer.valueOf(slotId));

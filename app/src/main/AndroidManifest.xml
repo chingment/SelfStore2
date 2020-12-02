@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.uplink.selfstore">
 
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
@@ -85,10 +86,17 @@
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </receiver> <!-- <receiver android:name=".broadcast.USBBroadcastReceiver"> -->
+        </receiver>
+        <receiver android:name=".broadcast.MainReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- <receiver android:name=".broadcast.USBBroadcastReceiver"> -->
         <!-- <intent-filter android:priority="200"> -->
         <!-- <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/> -->
         <!-- </intent-filter> -->
