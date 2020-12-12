@@ -298,7 +298,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                             new Thread(new Runnable() {
                                 public void run() {
-                                    SystemClock.sleep(5000);
+                                    SystemClock.sleep(6000);
 
                                     setHandleMessage(WHAT_TIPS, "配置结束，进入购物车界面");
 

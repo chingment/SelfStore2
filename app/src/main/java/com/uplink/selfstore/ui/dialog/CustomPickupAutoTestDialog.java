@@ -253,7 +253,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             curPickupSku_Tv_Tip2.setText(remark);
             pickupSkus.get(curPickupSku_idx).setStatus(6000);
             pickupSkus.get(curPickupSku_idx).setTips("取货异常");
-            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickup");
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "pickuptest");
         } else {
 
             switch (pickupStatus) {

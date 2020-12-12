@@ -148,9 +148,9 @@ public class CustomSlotEditDialog extends Dialog {
                 }
 
                 //判断是使用WIFI网络，则每一步捕捉相片
-                if(CommonUtil.isWifi(context)) {
-                    isTakePic = true;
-                }
+//                if(CommonUtil.isWifi(context)) {
+//                    isTakePic = true;
+//                }
 
                 if(isTakePic){
                     if(pickupActionResult==null){

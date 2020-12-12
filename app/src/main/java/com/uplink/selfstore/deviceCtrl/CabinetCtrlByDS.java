@@ -4,9 +4,11 @@ import android.VendingMachine.symvdio;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.ScanSlotResult;
+import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.File;
@@ -135,12 +137,12 @@ public class CabinetCtrlByDS {
                 isflag=true;
                 break;
             }
-            else{
-                connect();
-            }
+//            else{
+//                connect();
+//            }
 
             try {
-                Thread.sleep(50);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -187,30 +189,37 @@ public class CabinetCtrlByDS {
     public void firstSet(){
         new Thread(new Runnable() {
             public void run() {
-
+                LogUtil.d(TAG,"初始设备设置："+isConnect);
                 if(isConnect) {
+
                     sym.SN_MV_EmgStop();//急停
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    sym.SN_MV_MotorAction(1, 0, 0);//回原点
 
                     try {
                         Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    sym.SN_MV_MotorAction(1, 0, 0);//回原点
+
+                    try {
+                        Thread.sleep(4000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
                     sym.SN_MV_ManuProc(1, 0, 0);//打开取货们
+
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                     sym.SN_MV_ManuProc(2, 0, 0);//关闭取货们
                 }
+
+                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "firstset");
             }
 
         }).start();
@@ -300,6 +309,12 @@ public class CabinetCtrlByDS {
                 }
             }
 
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             boolean flag2 = false;
             int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
             if (rc_status2[0] == S_RC_SUCCESS) {
@@ -313,6 +328,13 @@ public class CabinetCtrlByDS {
             if (flag) {
                 break;
             }
+
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
 
         return flag;
@@ -438,6 +460,12 @@ public class CabinetCtrlByDS {
                 } else {
                     bTryAgain = true;
                 }
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             if (!bCanSelfAutoScan) {
@@ -509,6 +537,12 @@ public class CabinetCtrlByDS {
                             } else {
                                 sendScanSlotHandlerMessage(3, "正在扫描", null);
                             }
+                        }
+
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
 
                     } else {
@@ -595,7 +629,7 @@ public class CabinetCtrlByDS {
                 }
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -603,7 +637,7 @@ public class CabinetCtrlByDS {
 
             if(!isIdle) {
                 //尝试重新连接，再判断多一次，如果不成功，则放弃，返回不是空闲状态
-                sym.Connect(CabinetCtrlByDS.ComId, 9600);
+                //sym.Connect(CabinetCtrlByDS.ComId, 9600);
                 if (!isIdle()) {
                     LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
                     sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
@@ -623,7 +657,7 @@ public class CabinetCtrlByDS {
                     break;
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -659,107 +693,120 @@ public class CabinetCtrlByDS {
                 } else {
                     bTryAgain = true;
                 }
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             if (!bCanAutoStart) {
                 LogUtil.i(TAG, "取货流程监听：取货回原点失败");
                 sendPickupHandlerMessage(5, "取货回原点失败", null);
                 interrupt();
-                return;
             }
+            else {
 
-            LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
+                LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
 
-            //尝试3次发送取货命令
-            boolean isAutoStart = false;
-            for (int i = 0; i < 3; i++) {
-                int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
-                if (rc_autoStart == S_RC_SUCCESS) {
-                    isAutoStart = true;
-                    break;
-                }
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (!isAutoStart) {
-                LogUtil.i(TAG, "取货流程监听：取货启动失败");
-                sendPickupHandlerMessage(5, "尝试3次取货启动失败", null);
-                interrupt();
-                return;
-            } else {
-                cmd_PickupIsStopListener = false;
-
-                HashMap<String, String> nPickupActionMap = new HashMap<>();
-
-                long nPickupStartTime = System.currentTimeMillis();
-
-                while (!cmd_PickupIsStopListener) {
+                //尝试3次发送取货命令
+                boolean isAutoStart = false;
+                for (int i = 0; i < 10; i++) {
+                    int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
+                    if (rc_autoStart == S_RC_SUCCESS) {
+                        isAutoStart = true;
+                        break;
+                    }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(300);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
-                        if (maxPickTime < 2 * 60 * 1000) {
+                }
 
-                            int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
+                if (!isAutoStart) {
+                    LogUtil.i(TAG, "取货流程监听：取货启动失败");
+                    sendPickupHandlerMessage(5, "尝试10次取货启动失败", null);
+                    interrupt();
 
-                            PickupActionResult result = new PickupActionResult();
-                            result.setActionCount(rc_flowStatus[1]);//动作总数
-                            result.setActionId(rc_flowStatus[2]);//当前动作号
-                            result.setActionStatusCode(rc_flowStatus[3]);//当前动作状态
+                } else {
+                    cmd_PickupIsStopListener = false;
 
-                            boolean isPickupComplete=false;
-                            if (rc_flowStatus[0] == S_RC_SUCCESS) {
-                                if (rc_flowStatus[2] == S_ACTION_GOZERO) {
-                                    if (rc_flowStatus[3] == S_Motor_Done) {
-                                        isPickupComplete=true;//设置取货完成
-                                        long nPickupEndTime = System.currentTimeMillis();
-                                        long sTime = nPickupEndTime - nPickupStartTime;
-                                        result.setPickupUseTime(sTime);//设置取货消耗时间
+                    HashMap<String, String> nPickupActionMap = new HashMap<>();
+
+                    long nPickupStartTime = System.currentTimeMillis();
+
+                    while (!cmd_PickupIsStopListener) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            long maxPickTime = System.currentTimeMillis() - nPickupStartTime;
+                            if (maxPickTime < 2 * 60 * 1000) {
+
+                                int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
+
+                                PickupActionResult result = new PickupActionResult();
+                                result.setActionCount(rc_flowStatus[1]);//动作总数
+                                result.setActionId(rc_flowStatus[2]);//当前动作号
+                                result.setActionStatusCode(rc_flowStatus[3]);//当前动作状态
+
+                                boolean isPickupComplete = false;
+                                if (rc_flowStatus[0] == S_RC_SUCCESS) {
+                                    if (rc_flowStatus[2] == S_ACTION_GOZERO) {
+                                        if (rc_flowStatus[3] == S_Motor_Done) {
+                                            isPickupComplete = true;//设置取货完成
+                                            long nPickupEndTime = System.currentTimeMillis();
+                                            long sTime = nPickupEndTime - nPickupStartTime;
+                                            result.setPickupUseTime(sTime);//设置取货消耗时间
+                                        }
                                     }
-                                }
 
-                                if (isPickupComplete) {
-                                    LogUtil.i(TAG, "取货流程监听：当前动作" + result.getActionName() + "（" + result.getActionId() + "）" + "," + result.getActionStatusName() + "（" + result.getActionStatusCode() + "）");
-                                    LogUtil.i(TAG, "取货流程监听：取货完成，用时" + result.getPickupUseTime());
-                                    cmd_PickupIsStopListener = true;
-                                    sendPickupHandlerMessage(4, "取货成功", result);
-                                } else {
-                                    String action_key = result.getActionId() + "-" + result.getActionStatusCode();
-                                    String action_value = result.getActionName() + "-" + result.getActionStatusName();
-                                    if (!nPickupActionMap.containsKey(action_key)) {
+                                    if (isPickupComplete) {
                                         LogUtil.i(TAG, "取货流程监听：当前动作" + result.getActionName() + "（" + result.getActionId() + "）" + "," + result.getActionStatusName() + "（" + result.getActionStatusCode() + "）");
-                                        nPickupActionMap.put(action_key, action_value);
-                                        if (rc_flowStatus[3] == S_Motor_Busy || rc_flowStatus[3] == S_Motor_Done) {
-                                            sendPickupHandlerMessage(3, "正在取货中", result);
-                                        } else if (rc_flowStatus[3] == S_Motor_Timeout) {
-                                            cmd_PickupIsStopListener = true;
-                                            sym.SN_MV_EmgStop();
-                                            LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
-                                            sendPickupHandlerMessage(5, "单动作运行取货超时", result);
+                                        LogUtil.i(TAG, "取货流程监听：取货完成，用时" + result.getPickupUseTime());
+                                        cmd_PickupIsStopListener = true;
+                                        sendPickupHandlerMessage(4, "取货成功", result);
+                                    } else {
+                                        String action_key = result.getActionId() + "-" + result.getActionStatusCode();
+                                        String action_value = result.getActionName() + "-" + result.getActionStatusName();
+                                        if (!nPickupActionMap.containsKey(action_key)) {
+                                            LogUtil.i(TAG, "取货流程监听：当前动作" + result.getActionName() + "（" + result.getActionId() + "）" + "," + result.getActionStatusName() + "（" + result.getActionStatusCode() + "）");
+                                            nPickupActionMap.put(action_key, action_value);
+                                            if (rc_flowStatus[3] == S_Motor_Busy || rc_flowStatus[3] == S_Motor_Done) {
+                                                sendPickupHandlerMessage(3, "正在取货中", result);
+                                            } else if (rc_flowStatus[3] == S_Motor_Timeout) {
+                                                cmd_PickupIsStopListener = true;
+                                                sym.SN_MV_EmgStop();
+                                                LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
+                                                sendPickupHandlerMessage(5, "单动作运行取货超时", result);
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                        } else {
+                                try {
+                                    Thread.sleep(300);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            } else {
+                                cmd_PickupIsStopListener = true;
+                                sym.SN_MV_EmgStop();
+                                LogUtil.e(TAG, "取货流程监听：整体动作运行取货超时");
+                                sendPickupHandlerMessage(5, "整体动作运行取货超时", null);
+                            }
+                        } catch (Exception ex) {
                             cmd_PickupIsStopListener = true;
                             sym.SN_MV_EmgStop();
-                            LogUtil.e(TAG, "取货流程监听：整体动作运行取货超时");
-                            sendPickupHandlerMessage(5, "整体动作运行取货超时", null);
+                            LogUtil.e(TAG, "取货流程监听：发生异常");
+                            LogUtil.e(TAG, ex);
+                            sendPickupHandlerMessage(6, "取货异常:" + ex.getMessage(), null);
                         }
-                    } catch (Exception ex) {
-                        cmd_PickupIsStopListener = true;
-                        sym.SN_MV_EmgStop();
-                        LogUtil.e(TAG, "取货流程监听：发生异常");
-                        LogUtil.e(TAG, ex);
-                        sendPickupHandlerMessage(6, "取货异常:" + ex.getMessage(), null);
                     }
                 }
             }
