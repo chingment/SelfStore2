@@ -719,7 +719,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         for (String key :this.cabinetSlots.keySet()){
              SlotBean l_slot= this.cabinetSlots.get(key);
-             for (int i=0;i<l_slot.getSellQuantity();i++){
+             for (int i=1;i<l_slot.getSellQuantity();i++){
                  PickupSkuBean a_slot=new PickupSkuBean();
                  a_slot.setUniqueId(UUID.randomUUID().toString());
                  a_slot.setProductSkuId(l_slot.getProductSkuId());

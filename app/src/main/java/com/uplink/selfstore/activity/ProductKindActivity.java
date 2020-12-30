@@ -25,6 +25,7 @@ import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.ProductKindBean;
 import com.uplink.selfstore.model.api.ProductSkuBean;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.ui.XCRoundImageView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -210,7 +211,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
     private void addGoodsToCart(ImageView goodsImg) {
         // 创造出执行动画的主题goodsImg（这个图片就是执行动画的图片,从开始位置出发,经过一个抛物线（贝塞尔曲线）,移动到购物车里）
-        final ImageView goods = new ImageView(this);
+        final XCRoundImageView goods = new XCRoundImageView(this);
         goods.setImageDrawable(goodsImg.getDrawable());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(100, 100);
         layout_parentroot.addView(goods, params);
