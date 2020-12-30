@@ -549,7 +549,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         Map<String, Object> params = new HashMap<>();
         params.put("machineId", getMachine().getMachineId() + "");
-
+        params.put("shopMethod", 1);
         JSONArray json_Skus = new JSONArray();
 
         try {
