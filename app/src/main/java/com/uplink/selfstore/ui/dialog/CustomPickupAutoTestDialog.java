@@ -157,7 +157,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                             }
 
                             if (cabinetCtrlByDS != null) {
-                                cabinetCtrlByDS.emgStop();
+                                cabinetCtrlByDS.stopPickup();
                             }
 
                         } else {
@@ -165,7 +165,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
                             if (isHappneException) {
                                 if (cabinetCtrlByDS != null) {
-                                    cabinetCtrlByDS.emgStop();
+                                    cabinetCtrlByDS.stopPickup();
                                 }
                                 pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                             } else {
@@ -360,20 +360,19 @@ public class CustomPickupAutoTestDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-
-                if(cabinetCtrlByDS.isIdle())
-                {    isHappneException=false;
-                    isExit=true;
-                    exceptionMessage="空闲停止机器";
+                if (curPickupSku == null) {
+                    isHappneException = false;
+                    isExit = true;
+                    exceptionMessage = "空闲停止机器";
                 }
                 else {
-                    isHappneException=true;
-                    isExit=true;
-                    exceptionMessage="非空闲停止机器";
+                    isHappneException = true;
+                    isExit = true;
+                    exceptionMessage = "非空闲停止机器";
                 }
 
-                cabinetCtrlByDS.emgStop();
-                cabinetCtrlByDS.emgStop();
+                cabinetCtrlByDS.stopPickup();
+                cabinetCtrlByDS.stopPickup();
                 _this.dismiss();
             }
         });
@@ -381,18 +380,19 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cabinetCtrlByDS.isIdle())
-                {    isHappneException=false;
-                    isExit=true;
-                    exceptionMessage="空闲停止机器";
+                if (curPickupSku == null) {
+                    isHappneException = false;
+                    isExit = true;
+                    exceptionMessage = "空闲停止机器";
+
                 }
                 else {
                     isHappneException=true;
                     isExit=true;
                     exceptionMessage="非空闲停止机器";
                 }
-                cabinetCtrlByDS.emgStop();
-                cabinetCtrlByDS.emgStop();
+                cabinetCtrlByDS.stopPickup();
+                cabinetCtrlByDS.stopPickup();
                 _this.dismiss();
             }
         });
@@ -415,17 +415,17 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cabinetCtrlByDS.isIdle())
-                {    isHappneException=false;
-                    isExit=true;
-                    exceptionMessage="空闲停止机器";
+                if (curPickupSku == null) {
+                    isHappneException = false;
+                    isExit = true;
+                    exceptionMessage = "空闲停止机器";
+                } else {
+                    isHappneException = true;
+                    isExit = true;
+                    exceptionMessage = "非空闲停止机器";
                 }
-                else {
-                    isHappneException=true;
-                    isExit=true;
-                    exceptionMessage="非空闲停止机器";
-                }
-                cabinetCtrlByDS.emgStop();
+                cabinetCtrlByDS.stopPickup();
+                cabinetCtrlByDS.stopPickup();
             }
         });
 
@@ -512,12 +512,12 @@ public class CustomPickupAutoTestDialog extends Dialog {
     }
 
     @Override
-    public void show(){
+    public void show() {
         super.show();
-        isHappneException=false;
-isExit=false;
-        exceptionMessage="";
-        curPickupSku_Img_Mainimg.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.default_image));
+        isHappneException = false;
+        isExit = false;
+        exceptionMessage = "";
+        curPickupSku_Img_Mainimg.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.default_image));
         curPickupSku_Tv_Tip1.setText("请点击开始测试");
         curPickupSku_Tv_Tip2.setText("开始测试前，请确保库存数量与机器实际库存数量一致");
         btn_start.setVisibility(View.VISIBLE);
