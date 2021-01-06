@@ -70,6 +70,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     private List<PickupSkuBean> pickupSkus;
 
     private boolean isHappneException=false;
+    private boolean isExit=false;
     private String exceptionMessage="";
 
     public CustomPickupAutoTestDialog(final Context context) {
@@ -87,11 +88,11 @@ public class CustomPickupAutoTestDialog extends Dialog {
                     @Override
                     public boolean handleMessage(Message msg) {
 
-                        if(!CameraWindow.cameraIsRunningByChk()){
+                        if (!CameraWindow.cameraIsRunningByChk()) {
                             CameraWindow.openCameraByChk();
                         }
 
-                        if(!CameraWindow.cameraIsRunningByJg()){
+                        if (!CameraWindow.cameraIsRunningByJg()) {
                             CameraWindow.openCameraByJg();
                         }
 
@@ -104,105 +105,121 @@ public class CustomPickupAutoTestDialog extends Dialog {
                         }
 
                         if (!StringUtil.isEmptyNotNull(message)) {
-                            LogUtil.i(TAG,"取货消息：" + message);
+                            LogUtil.i(TAG, "取货消息：" + message);
                         }
 
 
-                        boolean isTakePic=false;
+                        boolean isTakePic = false;
 
-                        if(isHappneException) {
+                        if (isHappneException) {
                             isTakePic = true;
                         }
 
-                        if(!isTakePic) {
+                        if (!isTakePic) {
                             if (status == 5 || status > 6) {
                                 isTakePic = true;
                             }
                         }
 
-                        if(pickupActionResult!=null) {
+                        if (pickupActionResult != null) {
                             if (pickupActionResult.getActionId() == 8) {
                                 isTakePic = true;
                             }
                         }
 
                         //判断是使用WIFI网络，则每一步捕捉相片
-                        if(CommonUtil.isWifi(context)) {
+                        if (CommonUtil.isWifi(context)) {
                             isTakePic = true;
                         }
 
-                        if(isTakePic){
-                            if(pickupActionResult==null){
-                                pickupActionResult=new PickupActionResult();
+                        if (isTakePic) {
+                            if (pickupActionResult == null) {
+                                pickupActionResult = new PickupActionResult();
                             }
 
-                            if(CameraWindow.cameraIsRunningByChk()) {
+                            if (CameraWindow.cameraIsRunningByChk()) {
                                 pickupActionResult.setImgId(UUID.randomUUID().toString());
 
-                                LogUtil.e(TAG,"开始拍照");
+                                LogUtil.e(TAG, "开始拍照");
                                 CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
                             }
 
-                            if(CameraWindow.cameraIsRunningByJg()) {
+                            if (CameraWindow.cameraIsRunningByJg()) {
                                 pickupActionResult.setImgId2(UUID.randomUUID().toString());
                                 CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
                             }
                         }
 
-                        if (isHappneException) {
-                            if(cabinetCtrlByDS!=null) {
+                        if (isExit) {
+
+                            if (isHappneException) {
+                                pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
+                            }
+
+                            if (cabinetCtrlByDS != null) {
                                 cabinetCtrlByDS.emgStop();
                             }
-                            pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                        }
-                        else {
-                            switch (status) {
-                                case 1: //消息提示
-                                    //context.showToast(message);
-                                    break;
-                                case 2://取货就绪成功
-                                    curPickupSku_Tv_Tip2.setText(message);
-                                    break;
-                                case 3://取货中
-                                    curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
-                                    pickupEventNotify(curPickupSku, 3012, "取货中", pickupActionResult);
-                                    break;
-                                case 4://取货成功
-                                    curPickupSku_Tv_Tip2.setText("取货完成");
-                                    pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
-                                    break;
-                                case 5://取货失败，机器异常
-                                    cabinetCtrlByDS.stopPickup();
-                                    isHappneException = true;
-                                    exceptionMessage = "取货失败,机器发生异常:" + message;
-                                    LogUtil.e(TAG, exceptionMessage);
-                                    curPickupSku_Tv_Tip2.setText(exceptionMessage);
-                                    AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
-                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                                    break;
-                                case 6://取货失败，程序异常
-                                    cabinetCtrlByDS.stopPickup();
-                                    isHappneException = true;
-                                    exceptionMessage = "取货失败,程序异常:" + message;
-                                    LogUtil.e(TAG,exceptionMessage);
-                                    curPickupSku_Tv_Tip2.setText(exceptionMessage);
-                                    AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
-                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                                    break;
-                                default:
-                                    cabinetCtrlByDS.stopPickup();
-                                    isHappneException = true;
-                                    exceptionMessage = "取货失败，未知状态:" + message;
-                                    LogUtil.e(TAG,exceptionMessage);
-                                    curPickupSku_Tv_Tip2.setText(exceptionMessage);
-                                    AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
-                                    pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                                    break;
+
+                        } else {
+
+
+                            if (isHappneException) {
+                                if (cabinetCtrlByDS != null) {
+                                    cabinetCtrlByDS.emgStop();
+                                }
+                                pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
+                            } else {
+                                switch (status) {
+                                    case 1: //消息提示
+                                        //context.showToast(message);
+                                        break;
+                                    case 2://取货就绪成功
+                                        curPickupSku_Tv_Tip2.setText(message);
+                                        break;
+                                    case 3://取货中
+                                        curPickupSku_Tv_Tip2.setText("正在取货中..请稍等");
+                                        pickupEventNotify(curPickupSku, 3012, "取货中", pickupActionResult);
+                                        break;
+                                    case 4://取货成功
+                                        curPickupSku_Tv_Tip2.setText("取货完成");
+                                        pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
+                                        break;
+                                    case 5://取货失败，机器异常
+                                        cabinetCtrlByDS.stopPickup();
+                                        isHappneException = true;
+                                        exceptionMessage = "取货失败,机器发生异常:" + message;
+                                        LogUtil.e(TAG, exceptionMessage);
+                                        curPickupSku_Tv_Tip2.setText(exceptionMessage);
+                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
+                                        pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
+                                        break;
+                                    case 6://取货失败，程序异常
+                                        cabinetCtrlByDS.stopPickup();
+                                        isHappneException = true;
+                                        exceptionMessage = "取货失败,程序异常:" + message;
+                                        LogUtil.e(TAG, exceptionMessage);
+                                        curPickupSku_Tv_Tip2.setText(exceptionMessage);
+                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
+                                        pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
+                                        break;
+                                    default:
+                                        cabinetCtrlByDS.stopPickup();
+                                        isHappneException = true;
+                                        exceptionMessage = "取货失败，未知状态:" + message;
+                                        LogUtil.e(TAG, exceptionMessage);
+                                        curPickupSku_Tv_Tip2.setText(exceptionMessage);
+                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
+                                        pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
+                                        break;
+                                }
                             }
+
                         }
 
                         return false;
                     }
+
+
                 })
         );
 
@@ -342,8 +359,19 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isHappneException=true;
-                exceptionMessage="停止机器";
+
+
+                if(cabinetCtrlByDS.isIdle())
+                {    isHappneException=false;
+                    isExit=true;
+                    exceptionMessage="空闲停止机器";
+                }
+                else {
+                    isHappneException=true;
+                    isExit=true;
+                    exceptionMessage="非空闲停止机器";
+                }
+
                 cabinetCtrlByDS.emgStop();
                 cabinetCtrlByDS.emgStop();
                 _this.dismiss();
@@ -353,8 +381,16 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isHappneException=true;
-                exceptionMessage="停止机器";
+                if(cabinetCtrlByDS.isIdle())
+                {    isHappneException=false;
+                    isExit=true;
+                    exceptionMessage="空闲停止机器";
+                }
+                else {
+                    isHappneException=true;
+                    isExit=true;
+                    exceptionMessage="非空闲停止机器";
+                }
                 cabinetCtrlByDS.emgStop();
                 cabinetCtrlByDS.emgStop();
                 _this.dismiss();
@@ -379,8 +415,16 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isHappneException=true;
-                exceptionMessage="停止机器";
+                if(cabinetCtrlByDS.isIdle())
+                {    isHappneException=false;
+                    isExit=true;
+                    exceptionMessage="空闲停止机器";
+                }
+                else {
+                    isHappneException=true;
+                    isExit=true;
+                    exceptionMessage="非空闲停止机器";
+                }
                 cabinetCtrlByDS.emgStop();
             }
         });
@@ -471,6 +515,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     public void show(){
         super.show();
         isHappneException=false;
+isExit=false;
         exceptionMessage="";
         curPickupSku_Img_Mainimg.setImageDrawable(ContextCompat.getDrawable(mContext,R.drawable.default_image));
         curPickupSku_Tv_Tip1.setText("请点击开始测试");
