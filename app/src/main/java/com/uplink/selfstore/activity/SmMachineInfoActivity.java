@@ -15,6 +15,8 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private static final String TAG = "SmMachineInfoActivity";
     private TextView txt_MerchantName;
     private TextView txt_StoreName;
+    private TextView txt_ShopName;
+    private TextView txt_ShopAddress;
     private TextView txt_DeviceId;
     private TextView txt_MachineId;
     private TextView txt_Location;
@@ -44,6 +46,8 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
     private void initView() {
         txt_MerchantName = (TextView) findViewById(R.id.txt_MerchantName);
         txt_StoreName = (TextView) findViewById(R.id.txt_StoreName);
+        txt_ShopName = (TextView) findViewById(R.id.txt_ShopName);
+        txt_ShopAddress = (TextView) findViewById(R.id.txt_ShopAddress);
         txt_MachineId = (TextView) findViewById(R.id.txt_MachineId);
         txt_DeviceId = (TextView) findViewById(R.id.txt_DeviceId);
         txt_Location = (TextView) findViewById(R.id.txt_Location);
@@ -63,6 +67,8 @@ public class SmMachineInfoActivity extends SwipeBackActivity implements View.OnC
 
         txt_MerchantName.setText(getMachine().getMerchName());
         txt_StoreName.setText(getMachine().getStoreName());
+        txt_ShopName.setText(getMachine().getShopName());
+        txt_ShopAddress.setText(getMachine().getShopAddress());
         txt_MachineId.setText(getMachine().getMachineId());
         txt_DeviceId.setText(getAppContext().getDeviceId());
         txt_JPushRegId.setText("");

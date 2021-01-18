@@ -33,6 +33,8 @@
     <string name="aty_smmachineinfo_tvtx_machinestatus">机器状态</string>
     <string name="aty_smmachineinfo_tvtx_scanganstatus">扫描器状态</string>
     <string name="aty_smmachineinfo_tvtx_storename">店铺名称</string>
+    <string name="aty_smmachineinfo_tvtx_shopname">门店名称</string>
+    <string name="aty_smmachineinfo_tvtx_shopaddress">门店地址</string>
     <string name="aty_smmachineinfo_tvtx_deviceid">设备编码</string>
     <string name="aty_smmachineinfo_tvtx_machineid">机器编码</string>
     <string name="aty_smmachineinfo_tvtx_localtion">地理位置</string>

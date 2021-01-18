@@ -14,6 +14,8 @@ public class MachineBean implements Serializable {
     public  String name;
     private String merchName;
     private String storeName;
+    private String shopName;
+    private String shopAddress;
     private String logoImgUrl;
     private String currency;
     private String currencySymbol;
@@ -236,5 +238,21 @@ public class MachineBean implements Serializable {
 
     public void setMqtt(MqttBean mqtt) {
         this.mqtt = mqtt;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
     }
 }
