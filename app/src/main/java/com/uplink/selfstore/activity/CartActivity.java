@@ -85,7 +85,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         setNavTtile(this.getResources().getString(R.string.aty_cart_navtitle));
-        setScannerCtrl(CartActivity.this);
+        //setScannerCtrl(CartActivity.this);
         initView();
         initEvent();
         initData();

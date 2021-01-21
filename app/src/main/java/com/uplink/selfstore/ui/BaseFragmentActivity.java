@@ -2,12 +2,16 @@ package com.uplink.selfstore.ui;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
@@ -37,6 +41,7 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
+import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
 import com.uplink.selfstore.utils.LocationUtil;
@@ -48,6 +53,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -61,7 +67,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private CustomSystemWarnDialog dialog_SystemWarn;
     private ClosePageCountTimer closePageCountTimer;
     private GlobalDataSetBean globalDataSet;
-    private ScannerCtrl scannerCtrl;
+    //private ScannerCtrl scannerCtrl;
     private Handler laodingUIHandler;
     public LocationUtil locationUtil;
 
@@ -133,33 +139,33 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
 
-    public void setScannerCtrl(Context context) {
-        if(getMachine().getScanner().getUse()) {
-            scannerCtrl = ScannerCtrl.getInstance();
-            scannerCtrl.connect();
-
-            if(!scannerCtrl.isConnect()) {
-                LogUtil.e(TAG, "扫描器连接失败");
-            }
-
-            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            Bundle bundle;
-                            bundle = msg.getData();
-                            String scanResult = bundle.getString("result");
-                            if (scanResult != null) {
-                                if (scanResult.contains("pickupcode")) {
-                                    LogUtil.e("pickupcode:" + scanResult);
-                                    orderSearchByPickupCode(context,scanResult);
-                                }
-                            }
-                            return false;
-                        }
-                    })
-            );
-        }
-    }
+//    public void setScannerCtrl(Context context) {
+//        if(getMachine().getScanner().getUse()) {
+//            scannerCtrl = ScannerCtrl.getInstance();
+//            scannerCtrl.connect();
+//
+//            if(!scannerCtrl.isConnect()) {
+//                LogUtil.e(TAG, "扫描器连接失败");
+//            }
+//
+//            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
+//                        @Override
+//                        public boolean handleMessage(Message msg) {
+//                            Bundle bundle;
+//                            bundle = msg.getData();
+//                            String scanResult = bundle.getString("result");
+//                            if (scanResult != null) {
+//                                if (scanResult.contains("pickupcode")) {
+//                                    LogUtil.e("pickupcode:" + scanResult);
+//                                    orderSearchByPickupCode(context,scanResult);
+//                                }
+//                            }
+//                            return false;
+//                        }
+//                    })
+//            );
+//        }
+//    }
 
     public void useClosePageCountTimer() {
         if(closePageCountTimer==null) {
@@ -209,6 +215,46 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             ToastUtil.showMessage(BaseFragmentActivity.this, txt, Toast.LENGTH_LONG);
         }
     }
+
+    /*
+     * Notifications from UsbService will be received here.
+     */
+    private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case UsbService.ACTION_USB_PERMISSION_GRANTED: // USB PERMISSION GRANTED
+                    LogUtil.d(TAG,"USB Ready");
+                    break;
+                case UsbService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
+                    LogUtil.d(TAG,"USB Permission not granted");
+                    break;
+                case UsbService.ACTION_NO_USB: // NO USB CONNECTED
+                    LogUtil.d(TAG,"No USB connected");
+                    break;
+                case UsbService.ACTION_USB_DISCONNECTED: // USB DISCONNECTED
+                    LogUtil.d(TAG,"USB disconnected");
+                    break;
+                case UsbService.ACTION_USB_NOT_SUPPORTED: // USB NOT SUPPORTED
+                    LogUtil.d(TAG,"USB device not supported");
+                    break;
+            }
+        }
+    };
+    private UsbService usbService;
+    private Handler mScanCtrlHandler;
+    private final ServiceConnection usbConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName arg0, IBinder arg1) {
+            usbService = ((UsbService.UsbBinder) arg1).getService();
+            usbService.setHandler(mScanCtrlHandler);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            usbService = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,6 +338,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
+
+    public  void  setScanCtrlHandler(Handler handler) {
+        this.mScanCtrlHandler = handler;
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -308,11 +359,43 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onResume();
         closePageCountTimerStart();
         AppManager.getAppManager().setCurrentActivity(this);
+
+
+        setFilters();  // Start listening notifications from UsbService
+        startService(UsbService.class, usbConnection, null);
+
+
         //HeartbeatService.sendHeartbeatBag();
 
-        if(scannerCtrl!=null) {
-            scannerCtrl.connect();
+        //if(scannerCtrl!=null) {
+        //    scannerCtrl.connect();
+        //}
+    }
+
+    private void setFilters() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(UsbService.ACTION_USB_PERMISSION_GRANTED);
+        filter.addAction(UsbService.ACTION_NO_USB);
+        filter.addAction(UsbService.ACTION_USB_DISCONNECTED);
+        filter.addAction(UsbService.ACTION_USB_NOT_SUPPORTED);
+        filter.addAction(UsbService.ACTION_USB_PERMISSION_NOT_GRANTED);
+        registerReceiver(mUsbReceiver, filter);
+    }
+
+    private void startService(Class<?> service, ServiceConnection serviceConnection, Bundle extras) {
+        if (!UsbService.SERVICE_CONNECTED) {
+            Intent startService = new Intent(this, service);
+            if (extras != null && !extras.isEmpty()) {
+                Set<String> keys = extras.keySet();
+                for (String key : keys) {
+                    String extra = extras.getString(key);
+                    startService.putExtra(key, extra);
+                }
+            }
+            startService(startService);
         }
+        Intent bindingIntent = new Intent(this, service);
+        bindService(bindingIntent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -321,9 +404,12 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onPause();
         closePageCountTimerStop();
 
-        if(scannerCtrl!=null) {
-            scannerCtrl.disConnect();
-        }
+        unregisterReceiver(mUsbReceiver);
+        unbindService(usbConnection);
+
+        //if(scannerCtrl!=null) {
+        //    scannerCtrl.disConnect();
+        //}
     }
 
     @Override

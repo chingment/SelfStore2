@@ -42,7 +42,7 @@ import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.ScanKeyManager;
+//import com.uplink.selfstore.utils.ScanKeyManager;
 import com.uplink.selfstore.utils.StringUtil;
 
 import org.json.JSONException;
@@ -85,11 +85,11 @@ public class CustomSlotEditDialog extends Dialog {
     private ListView list_search_skus;
     private SlotBean slot;
     private CabinetBean cabinet;
-    private ScannerCtrl scannerCtrl;
+    //private ScannerCtrl scannerCtrl;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
-    private ScanKeyManager scanKeyManager;
+    //private ScanKeyManager scanKeyManager;
     private boolean isHappneException=false;
     private String exceptionMessage="";
 
@@ -324,16 +324,16 @@ public class CustomSlotEditDialog extends Dialog {
 //        }
 
         setCanceledOnTouchOutside(false);
-        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
-            @Override
-            public void onScanValue(String value) {
-                LogUtil.e(TAG, value);
-                if(!StringUtil.isEmptyNotNull(value)){
-                    txt_searchKey.setText(value);
-                    searchSkus(value);
-                }
-            }
-        });
+//        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
+//            @Override
+//            public void onScanValue(String value) {
+//                LogUtil.e(TAG, value);
+//                if(!StringUtil.isEmptyNotNull(value)){
+//                    txt_searchKey.setText(value);
+//                    searchSkus(value);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -718,7 +718,8 @@ public class CustomSlotEditDialog extends Dialog {
         searchSkus(val);
     }
 
-    private void searchSkus(String key) {
+    public void searchSkus(String key) {
+        txt_searchKey.setText(key);
         Map<String, String> params = new HashMap<>();
 
         MachineBean machine = AppCacheManager.getMachine();
@@ -830,7 +831,7 @@ public class CustomSlotEditDialog extends Dialog {
 
     @Override
     public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
-        scanKeyManager.analysisKeyEvent(event);
+        //scanKeyManager.analysisKeyEvent(event);
         return true;
     }
 

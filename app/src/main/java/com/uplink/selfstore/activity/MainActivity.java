@@ -25,7 +25,7 @@ import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
-import com.uplink.selfstore.utils.ScanKeyManager;
+//import com.uplink.selfstore.utils.ScanKeyManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
@@ -51,7 +51,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         //DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(pickupSku.getCabinetId(), pickupSku.getSlotId());
 
         setHideStatusBar(true);
-        setScannerCtrl(MainActivity.this);
+        //setScannerCtrl(MainActivity.this);
 
         initView();
         initEvent();

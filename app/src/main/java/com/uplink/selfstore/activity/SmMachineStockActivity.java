@@ -34,6 +34,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
@@ -70,7 +71,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
     private Button btn_AutoTest;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
-    private ScannerCtrl scannerCtrl;
+    //private ScannerCtrl scannerCtrl;
 
     private CustomLoadingDialog dialog_Running;
 
@@ -86,6 +87,26 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         setNavTtile(this.getResources().getString(R.string.aty_smmachinestock_navtitle));
         setNavGoBackBtnVisible(true);
 
+        setScanCtrlHandler(new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+
+                switch (msg.what) {
+                    case UsbService.MESSAGE_FROM_SERIAL_PORT:
+                        String data = (String) msg.obj;
+                        LogUtil.d(TAG, "扫描数据：" + data);
+                        if(!StringUtil.isEmptyNotNull(data)) {
+                            data = data.trim();
+                            if (dialog_SlotEdit != null) {
+                                dialog_SlotEdit.searchSkus(data);
+                            }
+                        }
+                        break;
+                }
+
+                return  true;
+            }
+        }));
 
         String cabinetId = getIntent().getStringExtra("cabinetId");
         cabinet = getMachine().getCabinets().get(cabinetId);
@@ -160,10 +181,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
         cabinetCtrlByZS.connect();
 
-        if (getMachine().getScanner().getUse()) {
-            scannerCtrl = ScannerCtrl.getInstance();
-            scannerCtrl.connect();
-        }
+        //if (getMachine().getScanner().getUse()) {
+          //  scannerCtrl = ScannerCtrl.getInstance();
+            //scannerCtrl.connect();
+        //}
 
 
         initView();
@@ -512,12 +533,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
 
         cabinetCtrlByZS.connect();
 
-        if(getMachine().getScanner().getUse()) {
-            if (scannerCtrl == null) {
-                scannerCtrl = ScannerCtrl.getInstance();
-            }
-            scannerCtrl.connect();
-        }
+        //if(getMachine().getScanner().getUse()) {
+          //  if (scannerCtrl == null) {
+          //      scannerCtrl = ScannerCtrl.getInstance();
+          //  }
+          //  scannerCtrl.connect();
+        //}
     }
 
     @Override
@@ -554,10 +575,10 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
             cabinetCtrlByZS = null;
         }
 
-        if (scannerCtrl != null) {
-            scannerCtrl.disConnect();
-            scannerCtrl = null;
-        }
+        //if (scannerCtrl != null) {
+          //  scannerCtrl.disConnect();
+            //scannerCtrl = null;
+       // }
     }
 
     @Override

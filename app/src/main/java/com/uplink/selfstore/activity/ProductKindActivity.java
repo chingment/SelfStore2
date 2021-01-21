@@ -59,7 +59,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productkind);
         setNavTtile(this.getResources().getString(R.string.aty_productkind_navtitle));
-        setScannerCtrl(ProductKindActivity.this);
+        //setScannerCtrl(ProductKindActivity.this);
         initView();
         initEvent();
         initData();
