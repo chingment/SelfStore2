@@ -17,8 +17,12 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -224,7 +228,10 @@ public class CameraWindow {
                     pathFile.mkdirs();
                 }
 
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+             //   Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                Bitmap bitmap = byteToBitmap(data);
+                if(bitmap==null)
+                    return;
                 String filePath = mSaveDir + "/" + imgId + ".jpg";
                 File file = new File(filePath);
                 FileOutputStream outputStream = new FileOutputStream(file);
@@ -246,5 +253,32 @@ public class CameraWindow {
                 LogUtil.e(TAG, ex);
             }
         }
+
+
+        public static Bitmap byteToBitmap(byte[] imgByte) {
+            Bitmap bitmap = null;
+            try {
+                InputStream input = null;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 8;
+                input = new ByteArrayInputStream(imgByte);
+                SoftReference softRef = new SoftReference(BitmapFactory.decodeStream(
+                        input, null, options));
+                bitmap = (Bitmap) softRef.get();
+                if (imgByte != null) {
+                    imgByte = null;
+                }
+
+                if (input != null)
+                    input.close();
+
+            } catch (IOException ex) {
+                // TODO Auto-generated catch block
+                ex.printStackTrace();
+            }
+
+            return bitmap;
+        }
+
     }
 }
