@@ -113,6 +113,7 @@
     <string name="btntx_goback">返回</string>
     <string name="btntx_handle">确认处理</string>
     <string name="btntx_starttestpickup">开始</string>
+    <string name="btntx_pausetestpickup">暂停</string>
     <string name="btntx_stoptestpickup">停止</string>
     <string name="btntx_exittestpickup">退出</string>
     <string name="aty_smuserinfo_navtitle">用户信息</string>

@@ -324,6 +324,18 @@
 
                 <Button
                     android:layout_marginLeft="@dimen/size_10"
+                    android:id="@+id/btn_pause"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_20"
+                    android:background="@drawable/widget_btn_blue"
+                    android:gravity="center"
+                    android:text="@string/btntx_pausetestpickup"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_10"/>
+
+                <Button
+                    android:layout_marginLeft="@dimen/size_10"
                     android:id="@+id/btn_stop"
                     android:layout_width="@dimen/size_50"
                     android:layout_height="@dimen/size_20"

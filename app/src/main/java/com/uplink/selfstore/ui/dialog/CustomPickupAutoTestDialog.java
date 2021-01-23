@@ -23,7 +23,7 @@ import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
-import com.uplink.selfstore.ui.CameraWindow;
+//import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -44,10 +44,11 @@ public class CustomPickupAutoTestDialog extends Dialog {
     private View btn_close;
 
 
+
     private View btn_start;
+    private View btn_pause;
     private View btn_stop;
     private View btn_exit;
-
 
     private TextView txt_sumQuantity;
     private TextView txt_waitPickupQuantity;
@@ -71,6 +72,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
     private boolean isHappneException=false;
     private boolean isExit=false;
+    private boolean isPause=false;
     private String exceptionMessage="";
 
     public CustomPickupAutoTestDialog(final Context context) {
@@ -88,13 +90,13 @@ public class CustomPickupAutoTestDialog extends Dialog {
                     @Override
                     public boolean handleMessage(Message msg) {
 
-                        if (!CameraWindow.cameraIsRunningByChk()) {
-                            CameraWindow.openCameraByChk();
-                        }
+                        //if (!CameraWindow.cameraIsRunningByChk()) {
+                        //    CameraWindow.openCameraByChk();
+                        //}
 
-                        if (!CameraWindow.cameraIsRunningByJg()) {
-                            CameraWindow.openCameraByJg();
-                        }
+                        //if (!CameraWindow.cameraIsRunningByJg()) {
+                          //  CameraWindow.openCameraByJg();
+                        //}
 
                         Bundle bundle = msg.getData();
                         int status = bundle.getInt("status");
@@ -137,17 +139,17 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                 pickupActionResult = new PickupActionResult();
                             }
 
-                            if (CameraWindow.cameraIsRunningByChk()) {
-                                pickupActionResult.setImgId(UUID.randomUUID().toString());
+                            //if (CameraWindow.cameraIsRunningByChk()) {
+                            //    pickupActionResult.setImgId(UUID.randomUUID().toString());
 
-                                LogUtil.e(TAG, "开始拍照");
-                                CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
-                            }
+                            //    LogUtil.e(TAG, "开始拍照");
+                            //    CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
+                            //}
 
-                            if (CameraWindow.cameraIsRunningByJg()) {
-                                pickupActionResult.setImgId2(UUID.randomUUID().toString());
-                                CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
-                            }
+                            //if (CameraWindow.cameraIsRunningByJg()) {
+                            //    pickupActionResult.setImgId2(UUID.randomUUID().toString());
+                            //    CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
+                            //}
                         }
 
                         if (isExit) {
@@ -308,11 +310,16 @@ public class CustomPickupAutoTestDialog extends Dialog {
                     pickupSkus.get(curPickupSku_idx).setStatus(4000);
                     pickupSkus.get(curPickupSku_idx).setTips("取货成功");
 
-                    curPickupSku = getCurrentPickupProductSku();
-                    if (curPickupSku != null) {
-                        setPickupNext(curPickupSku);
-                    } else {
-                        setPickupComplete();
+                    if(isPause){
+                        pickupSkus.get(curPickupSku_idx).setTips("取货成功,已暂停");
+                    }
+                    else {
+                        curPickupSku = getCurrentPickupProductSku();
+                        if (curPickupSku != null) {
+                            setPickupNext(curPickupSku);
+                        } else {
+                            setPickupComplete();
+                        }
                     }
                     break;
             }
@@ -332,6 +339,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
         btn_start = ViewHolder.get(mLayoutRes, R.id.btn_start);
         btn_stop = ViewHolder.get(mLayoutRes, R.id.btn_stop);
         btn_exit = ViewHolder.get(mLayoutRes, R.id.btn_exit);
+        btn_pause = ViewHolder.get(mLayoutRes, R.id.btn_pause);
         list_Skus = ViewHolder.get(mLayoutRes, R.id.list_skus);
         list_Skus.setFocusable(false);
         list_Skus.setClickable(false);
@@ -406,11 +414,12 @@ public class CustomPickupAutoTestDialog extends Dialog {
                 }
                 curPickupSku = getCurrentPickupProductSku();
                 if (curPickupSku != null) {
+                    isPause = false;
+                    btn_pause.setVisibility(View.VISIBLE);
                     setPickupNext(curPickupSku);
                 }
             }
         });
-
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -429,6 +438,15 @@ public class CustomPickupAutoTestDialog extends Dialog {
             }
         });
 
+        btn_pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (curPickupSku !=null) {
+                    isPause = true;
+                    btn_start.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     protected void initData() {
@@ -516,12 +534,14 @@ public class CustomPickupAutoTestDialog extends Dialog {
         super.show();
         isHappneException = false;
         isExit = false;
+        isPause = false;
         exceptionMessage = "";
         curPickupSku_Img_Mainimg.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.default_image));
         curPickupSku_Tv_Tip1.setText("请点击开始测试");
         curPickupSku_Tv_Tip2.setText("开始测试前，请确保库存数量与机器实际库存数量一致");
         btn_start.setVisibility(View.VISIBLE);
         btn_stop.setVisibility(View.GONE);
+        btn_pause.setVisibility(View.GONE);
         cabinetCtrlByDS.firstSet();
 //        txt_sumQuantity.setText("0");
 //        txt_waitPickupQuantity.setText("0");
@@ -533,7 +553,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     public void cancel(){
         super.cancel();
 
-        CameraWindow.releaseCameraByChk();
-        CameraWindow.releaseCameraByJg();
+        //CameraWindow.releaseCameraByChk();
+        //CameraWindow.releaseCameraByJg();
     }
 }
