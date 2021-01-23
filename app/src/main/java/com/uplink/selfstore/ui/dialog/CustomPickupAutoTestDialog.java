@@ -416,6 +416,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                 if (curPickupSku != null) {
                     isPause = false;
                     btn_pause.setVisibility(View.VISIBLE);
+                    btn_start.setVisibility(View.GONE);
                     setPickupNext(curPickupSku);
                 }
             }
@@ -443,6 +444,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             public void onClick(View v) {
                 if (curPickupSku !=null) {
                     isPause = true;
+                    btn_pause.setVisibility(View.GONE);
                     btn_start.setVisibility(View.VISIBLE);
                 }
             }
