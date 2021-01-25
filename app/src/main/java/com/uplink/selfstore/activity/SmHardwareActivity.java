@@ -289,11 +289,11 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 //                })
 //        );
 //
-//        wg_hd_et_ck = (EditText) findViewById(R.id.wg_hd_et_ck);
-//        wg_hd_et_ck.setText(wg_ScannerCtrl.getComId());
-//        wg_hd_btn_connect = (Button) findViewById(R.id.wg_hd_btn_connect);
-//        wg_hd_et_scanresult = (EditText) findViewById(R.id.wg_hd_et_scanresult);
-//        wg_hd_btn_connect.setOnClickListener(this);
+        wg_hd_et_ck = (EditText) findViewById(R.id.wg_hd_et_ck);
+        wg_hd_et_ck.setText("");
+        wg_hd_btn_connect = (Button) findViewById(R.id.wg_hd_btn_connect);
+        wg_hd_et_scanresult = (EditText) findViewById(R.id.wg_hd_et_scanresult);
+        wg_hd_btn_connect.setOnClickListener(this);
     }
 
     @Override
