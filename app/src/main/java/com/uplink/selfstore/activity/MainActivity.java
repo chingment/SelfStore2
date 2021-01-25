@@ -26,6 +26,7 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 //import com.uplink.selfstore.utils.ScanKeyManager;
+import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
@@ -163,18 +164,18 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-        loadLogo();
-        loadAds();
+        loadLogo(this.getGlobalDataSet().getMachine().getLogoImgUrl());
+        loadAds(this.getGlobalDataSet().getAds());
     }
 
-    public void loadLogo() {
+    public void loadLogo(String url) {
 
-        CommonUtil.loadImageFromUrl(getAppContext(), img_logo, this.getGlobalDataSet().getMachine().getLogoImgUrl());
+        CommonUtil.loadImageFromUrl(getAppContext(), img_logo, url);
     }
 
-    public void loadAds() {
+    public void loadAds(HashMap<String, AdBean> ads) {
 
-        HashMap<String, AdBean> ads = this.getGlobalDataSet().getAds();
+       // HashMap<String, AdBean> ads = this.getGlobalDataSet().getAds();
 
         if(ads==null)
             return;

@@ -51,9 +51,9 @@ public class PushUpdateUtil {
                 LogUtil.d("进入update:HomeLogo");
                 updateHomeLogo(content);//更新机器logo
                 break;
-            case "MCmdUpdateHomeBanners":
-                LogUtil.d("进入update:HomeBanners");
-                updateHomeBanners(content);//更新机器banner
+            case "MCmdUpdateAds":
+                LogUtil.d("进入update:Ads");
+                updateAds(content);//更新机器banner
                 break;
             case "MCmdUpdateProductSkuStock":
                 LogUtil.d("进入update:ProductSkuStock");
@@ -65,7 +65,7 @@ public class PushUpdateUtil {
                 break;
             case "MCmdDsx01OpenPickupDoor":
                 LogUtil.d("进入openPickupDoor");
-                dsx01openPickupDoor();//支付成功
+                dsx01openPickupDoor();//打开取货门
                 break;
         }
 
@@ -125,7 +125,7 @@ public class PushUpdateUtil {
                     if (act instanceof MainActivity) {
 
                         MainActivity act_Main = (MainActivity) act;
-                        act_Main.loadLogo();
+                        act_Main.loadLogo(updateHomeLogo.getUrl());
                         break;
                     }
                 }
@@ -133,7 +133,7 @@ public class PushUpdateUtil {
         }
     }
 
-    private static void updateHomeBanners(String content) {
+    private static void updateAds(String content) {
 
         HashMap<String, AdBean> ads = JSON.parseObject(content, new TypeReference<HashMap<String, AdBean>>() {
         });
@@ -150,7 +150,7 @@ public class PushUpdateUtil {
                 for (Activity act : acts) {
                     if (act instanceof MainActivity) {
                         MainActivity act_MainActivity = (MainActivity) act;
-                        act_MainActivity.loadAds();
+                        act_MainActivity.loadAds(ads);
                         break;
                     }
                 }
