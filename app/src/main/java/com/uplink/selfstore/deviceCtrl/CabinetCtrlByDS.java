@@ -99,6 +99,10 @@ public class CabinetCtrlByDS {
             }
         }
 
+        if(!isConnect){
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","connect");
+        }
+
         return isConnect;
 
     }
@@ -119,6 +123,12 @@ public class CabinetCtrlByDS {
 
 
     public boolean isNormarl() {
+
+        if(!isConnect){
+            LogUtil.e(TAG, "isNormarl：尝试再连接多一次");
+            connect();
+        }
+
         if (!isConnect) {
             return false;
         }
@@ -170,6 +180,12 @@ public class CabinetCtrlByDS {
     }
 
     public void goZero() {
+
+        if(!isConnect){
+            LogUtil.e(TAG, "goZero：尝试再连接多一次");
+            connect();
+        }
+
         if (!isConnect)
             return;
 
@@ -190,6 +206,12 @@ public class CabinetCtrlByDS {
         new Thread(new Runnable() {
             public void run() {
                 LogUtil.d(TAG,"初始设备设置："+isConnect);
+
+                if(!isConnect){
+                    LogUtil.e(TAG, "firstSet：尝试再连接多一次");
+                    connect();
+                }
+
                 if(isConnect) {
 
                     sym.SN_MV_EmgStop();//急停
@@ -288,6 +310,11 @@ public class CabinetCtrlByDS {
     }
 
     public boolean isIdle() {
+
+        if(!isConnect){
+            LogUtil.e(TAG, "判断空闲状态：尝试再连接多一次");
+            connect();
+        }
 
         if (!isConnect)
             return false;
@@ -412,6 +439,11 @@ public class CabinetCtrlByDS {
         @Override
         public void run() {
             super.run();
+
+            if(!isConnect){
+                LogUtil.e(TAG, "扫描流程监听：尝试再连接多一次");
+                connect();
+            }
 
             if (!isConnect) {
                 LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
@@ -581,6 +613,11 @@ public class CabinetCtrlByDS {
             super.run();
 
             sendPickupHandlerMessage(2, "检查设备连接状态中", null);
+
+            if(!isConnect){
+                LogUtil.e(TAG, "取货流程监听：尝试再连接多一次");
+                connect();
+            }
 
             if (!isConnect) {
                 LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
@@ -819,10 +856,18 @@ public class CabinetCtrlByDS {
         public void run() {
             super.run();
 
+            if(!isConnect){
+                LogUtil.e(TAG, "开门：尝试再连接多一次");
+                connect();
+            }
+
+
             if (!isConnect) {
                 sendDoorHandlerMessage(1, "检测设备未连接");
                 return;
             }
+
+
 
             sym.SN_MV_SetLock(true);
 
@@ -848,6 +893,11 @@ public class CabinetCtrlByDS {
         @Override
         public void run() {
             super.run();
+
+            if(!isConnect){
+                LogUtil.e(TAG, "回原点流程监听：尝试再连接多一次");
+                connect();
+            }
 
             if (!isConnect) {
                 LogUtil.i(TAG, "回原点流程监听：启动前，检查设备连接失败");
