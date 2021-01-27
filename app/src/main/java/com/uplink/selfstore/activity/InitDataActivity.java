@@ -16,10 +16,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
+import com.uplink.selfstore.daoBean.DbManager;
+import com.uplink.selfstore.daoBean.TestBean;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
+import com.uplink.selfstore.greendao.gen.TestBeanDao;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
@@ -95,6 +98,26 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
+
+//        TestBean testBean=new TestBean();
+//        testBean.setName("大毛");
+//        testBean.setPhone("13600000001");
+//
+//        TestBeanDao testBeanDao= DbManager.getInstance().getDaoSession().getTestBeanDao();
+//
+////插入数据
+//        testBeanDao.insert(testBean);
+////数据存在则替换，数据不存在则插入
+//        testBeanDao.insertOrReplace(testBean);
+//
+////条件查询10条数据
+//        List<TestBean> list=testBeanDao.queryBuilder().where(TestBeanDao.Properties.Name.eq("大毛")).limit(10).build().list();
+//
+////查询全部
+//        List<TestBean> list2=testBeanDao.queryBuilder().build().list();
+//
+////删除
+//        testBeanDao.delete(testBean);
 
 
         //因mqtt文件被锁定未被删除造成对象未空，因此进入程序首先删除MqttConnection文件 防止对象未空
@@ -275,6 +298,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                     modelNos.put(cabinet.getModelNo(), cabinet.getComId());
                                 }
                             }
+
 
                             for (HashMap.Entry<String, String> modelNo : modelNos.entrySet()) {
                                 switch (modelNo.getKey()) {

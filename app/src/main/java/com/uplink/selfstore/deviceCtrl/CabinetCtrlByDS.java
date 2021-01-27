@@ -43,7 +43,7 @@ public class CabinetCtrlByDS {
     private static final int MESSAGE_WHAT_DOOR = 3;
     private static final int MESSAGE_WHAT_GOZERO = 4;
 
-    private static String ComId="ttymxc1";
+    private static String ComId="ttyS0";
 
     private  CabinetCtrlByDS() {
         try {

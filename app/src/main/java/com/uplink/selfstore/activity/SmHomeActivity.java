@@ -49,6 +49,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smhome);
 
+
         cabinetCtrlByDS=CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS=CabinetCtrlByZS.getInstance();
 
