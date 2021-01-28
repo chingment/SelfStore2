@@ -13,6 +13,7 @@ import android.view.WindowManager.LayoutParams;
 
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.http.HttpClient;
+import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.LogUtil;
@@ -118,8 +119,9 @@ public class CameraWindow {
             cameraJg.startPreview();
         }
         catch (Exception ex) {
-            LogUtil.e(TAG,"打开机柜摄像头失败");
+            LogUtil.e(TAG,"失败->openCameraByJg");
             LogUtil.e(TAG,ex);
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CameraWindow ","camera");
             cameraJg = null;
         }
     }
@@ -153,9 +155,11 @@ public class CameraWindow {
             cameraChk.startPreview();
         }
         catch (Exception ex) {
+            ex.printStackTrace();
             cameraChk = null;
-            LogUtil.e(TAG, "打开出货口摄像头失败");
+            LogUtil.e(TAG, "失败->openCameraByChk");
             LogUtil.e(TAG, ex);
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CameraWindow ","camera");
         }
     }
 
@@ -191,7 +195,10 @@ public class CameraWindow {
 
         }
         catch (Exception ex){
+            ex.printStackTrace();
+            LogUtil.e(TAG,"失败->takeCameraPicByJg");
             LogUtil.e(TAG, ex);
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CameraWindow ","camera");
         }
     }
 
@@ -204,7 +211,10 @@ public class CameraWindow {
             }
         }
         catch (Exception ex){
+            ex.printStackTrace();
+            LogUtil.e(TAG,"失败->takeCameraPicByChk");
             LogUtil.e(TAG, ex);
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CameraWindow ","camera");
         }
     }
 
@@ -250,7 +260,11 @@ public class CameraWindow {
 
                 LogUtil.e(TAG, "拍照结束");
             } catch (Exception ex) {
+                ex.printStackTrace();
+                LogUtil.e(TAG,"失败->TakePicCallback");
                 LogUtil.e(TAG, ex);
+
+                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CameraWindow ","camera");
             }
         }
 
@@ -273,6 +287,8 @@ public class CameraWindow {
                     input.close();
 
             } catch (IOException ex) {
+                LogUtil.e(TAG,"失败->byteToBitmap");
+                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CameraWindow ","camera");
                 // TODO Auto-generated catch block
                 ex.printStackTrace();
             }
