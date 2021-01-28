@@ -22,6 +22,7 @@ import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.own.AppLogcatManager;
+import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 //import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
@@ -260,8 +261,11 @@ public class CustomPickupAutoTestDialog extends Dialog {
             content.put("remark", remark);
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
             if (mContext != null) {
-                mContext.eventNotify("PickupTest", "商品取货", content);
+                mContext.eventNotify("PickupTest", "商品测试取货", content);
             }
+
+            //MqttServer.publish("pickup_test","商品测试取货",content);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

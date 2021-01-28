@@ -38,6 +38,7 @@ import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -810,6 +811,7 @@ public class CustomSlotEditDialog extends Dialog {
                 content.put("imgId2", "");
             }
 
+            //MqttServer.publish("pickup_test","商品测试取货",content);
             mContext.eventNotify("PickupTest","商品测试取货", content);
         }catch (JSONException e) {
             e.printStackTrace();

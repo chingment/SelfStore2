@@ -88,7 +88,7 @@ public class AppContext extends Application {
 
         OstCtrlInterface.init(context);//  初始化Ost控制
 
-        DbManager.getInstance().init(context);
+        //DbManager.getInstance().init(context);
 
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证

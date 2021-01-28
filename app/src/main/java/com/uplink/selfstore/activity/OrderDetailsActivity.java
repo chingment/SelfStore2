@@ -24,12 +24,14 @@ import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
+import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
+import com.uplink.selfstore.utils.IdWorker;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -459,8 +461,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         //捕捉相片
 
+
+        IdWorker worker = new IdWorker(1,1,1);
+
         try {
             JSONObject content = new JSONObject();
+            content.put("signId", worker.nextId());
             content.put("orderId", orderDetails.getOrderId());
             content.put("uniqueId", pickupSku.getUniqueId());
             content.put("productSkuId", pickupSku.getProductSkuId() );
@@ -488,11 +494,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
             content.put("remark", remark);
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
+
+            MqttServer.publish("pickup","商品取货",content);
             eventNotify("Pickup","商品取货", content);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
 

@@ -364,6 +364,26 @@ public class MqttServer extends Service {
         }
     }
 
+    public static void publish(String type,String  remark, JSONObject content) {
+
+        JSONObject msg = new JSONObject();
+
+        try {
+            msg.put("msg_id", UUID.randomUUID().toString().replace("-",""));
+            msg.put("type", type);
+            msg.put("status", "0");
+            msg.put("content",content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String str_msg=msg.toString();
+
+        publish(str_msg);
+
+    }
+
 
     public void response(String message) {
         Integer qos = 1;

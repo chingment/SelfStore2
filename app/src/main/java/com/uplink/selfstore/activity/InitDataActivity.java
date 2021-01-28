@@ -41,6 +41,7 @@ import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
+import com.uplink.selfstore.utils.IdWorker;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -99,6 +100,13 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
 
+//        IdWorker worker = new IdWorker(1,1,1);
+//
+//        long id=worker.nextId();
+//
+//        long id2=worker.nextId();
+//
+//        long id3=worker.nextId();
 //        TestBean testBean=new TestBean();
 //        testBean.setName("大毛");
 //        testBean.setPhone("13600000001");
