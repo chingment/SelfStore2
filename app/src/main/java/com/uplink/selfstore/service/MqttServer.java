@@ -88,37 +88,21 @@ public class MqttServer extends Service {
             }
         }
 
-        JSONObject msg = new JSONObject();
-
         JSONObject msg_content = new JSONObject();
         try {
 
-            msg.put("msg_id", UUID.randomUUID().toString().replace("-",""));
-            msg.put("type", "machine_status");
-            msg.put("status", "0");
-
-            msg_content.put("machineId",machine.getMachineId());
-            msg_content.put("status", status);
-            msg_content.put("activity", activityName);
-
-
             NetFlowInfo flowInfo= NetFlowUtil.getAppFlowInfo("com.uplink.selfstore",getApplicationContext());
 
+            msg_content.put("status",status);
             msg_content.put("upKb", flowInfo.getUpKb());
             msg_content.put("downKb", flowInfo.getDownKb());
-
-
-            msg.put("content",msg_content);
-
 
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        String str_msg=msg.toString();
-
-        publish(str_msg);
+        publish("machine_status","心跳包",msg_content,0);
     }
 
     @Override
@@ -349,14 +333,14 @@ public class MqttServer extends Service {
      * 例如，正在处理太多消息。
      * @see #publish（String topic, byte[] payload, int qos,boolean retained）
      **/
-    public static void publish(String message) {
+    public static void publish(String message,int qos) {
         String topic = PUBLISH_TOPIC_A;
         Boolean retained = false;
         try {
             if (mqttAndroidClient != null) {
                 if (mqttAndroidClient.isConnected()) {
                     //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
-                    mqttAndroidClient.publish(topic, message.getBytes(), 1, retained.booleanValue());
+                    mqttAndroidClient.publish(topic, message.getBytes(), qos, retained.booleanValue());
                 }
             }
         } catch (MqttException e) {
@@ -364,7 +348,7 @@ public class MqttServer extends Service {
         }
     }
 
-    public static void publish(String type,String  remark, JSONObject content) {
+    public static void publish(String type,String remark,JSONObject content, int qos) {
 
         JSONObject msg = new JSONObject();
 
@@ -380,7 +364,7 @@ public class MqttServer extends Service {
 
         String str_msg=msg.toString();
 
-        publish(str_msg);
+        publish(str_msg,qos);
 
     }
 
