@@ -93,6 +93,8 @@ public class MqttServer extends Service {
 
             NetFlowInfo flowInfo= NetFlowUtil.getAppFlowInfo("com.uplink.selfstore",getApplicationContext());
 
+            msg_content.put("activity",activityName);
+            msg_content.put("machineId",machine.getMachineId());
             msg_content.put("status",status);
             msg_content.put("upKb", flowInfo.getUpKb());
             msg_content.put("downKb", flowInfo.getDownKb());
@@ -102,7 +104,7 @@ public class MqttServer extends Service {
             return;
         }
 
-        publish("machine_status","心跳包",msg_content,0);
+        publish("machine_status","心跳包",msg_content,1);
     }
 
     @Override

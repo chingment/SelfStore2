@@ -328,13 +328,15 @@ public class CabinetCtrlByDS {
         long nEnd = System.currentTimeMillis();
 
         for (; (nEnd - nStart <= (long) 3 * 1000); nEnd = System.currentTimeMillis()) {
-            boolean flag1 = false;
-            int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
-            if (rc_status1[0] == S_RC_SUCCESS) {
-                if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
-                    flag1 = true;
-                }
-            }
+
+            boolean flag1 = true;
+
+//            int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
+//            if (rc_status1[0] == S_RC_SUCCESS) {
+//                if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+//                    flag1 = true;
+//                }
+//            }
 
             try {
                 Thread.sleep(300);
@@ -345,7 +347,7 @@ public class CabinetCtrlByDS {
             boolean flag2 = false;
             int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
             if (rc_status2[0] == S_RC_SUCCESS) {
-                if (rc_status2[3] == S_Motor_Idle || rc_status2[3] == S_Motor_Done) {
+                if (rc_status2[3] !=1) {
                     flag2 = true;
                 }
             }
@@ -654,7 +656,7 @@ public class CabinetCtrlByDS {
                 boolean flag2 = false;
                 int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
                 if (rc_status2[0] == S_RC_SUCCESS) {
-                    if (rc_status2[3] == S_Motor_Idle || rc_status2[3] == S_Motor_Done) {
+                    if (rc_status2[3] !=1) { //直接判断不等于1 为非空闲状态
                         flag2 = true;
                     }
                 }
@@ -673,6 +675,15 @@ public class CabinetCtrlByDS {
             }
 
             if(!isIdle) {
+
+                connect();//重连一次
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 //尝试重新连接，再判断多一次，如果不成功，则放弃，返回不是空闲状态
                 //sym.Connect(CabinetCtrlByDS.ComId, 9600);
                 if (!isIdle()) {
