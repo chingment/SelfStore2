@@ -241,7 +241,7 @@ public class CabinetCtrlByDS {
                     sym.SN_MV_ManuProc(2, 0, 0);//关闭取货们
                 }
 
-                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "firstset");
+               //AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "firstset");
             }
 
         }).start();

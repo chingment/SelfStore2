@@ -141,6 +141,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         }
 
                         if(isTakePic){
+
                             if(pickupActionResult==null){
                                 pickupActionResult=new PickupActionResult();
                             }
@@ -495,6 +496,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             content.put("remark", remark);
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
 
+            MqttServer.publish("pickup_action","商品取货",content,2);
+
             eventNotify("Pickup","商品取货", content);
 
         } catch (JSONException e) {
@@ -578,6 +581,15 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                     OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
                     list_Skus.setAdapter(skuAdapter);
+
+                    try {
+
+                        Thread.sleep(200);
+                    }
+                    catch (Exception ex){
+
+                    }
+
                     curPickupSku = getCurrentPickupProductSku();
                     if (curPickupSku != null) {
                         setSendPickup(curPickupSku);
