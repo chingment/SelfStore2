@@ -766,8 +766,12 @@ public class CabinetCtrlByDS {
                         isAutoStart = true;
                         break;
                     }
+                    else {
+                        LogUtil.i(TAG, "取货启动失败：状态"+rc_autoStart+"，正在尝试"+i+"次，休息1秒");
+                    }
+
                     try {
-                        Thread.sleep(300);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

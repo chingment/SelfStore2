@@ -103,17 +103,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java" afterDir="false" />
     </list>
@@ -188,22 +181,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="597" column="21" lean-forward="true" selection-start-line="597" selection-start-column="21" selection-end-line="597" selection-end-column="21" />
+            <state relative-caret-position="206">
+              <caret line="498" column="38" lean-forward="true" selection-start-line="498" selection-start-column="38" selection-end-line="498" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#18418#18419#0" expanded="true" />
-                <element signature="e#18478#18479#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-849">
-              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
             </state>
           </provider>
         </entry>
@@ -225,10 +207,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>扫描结果数据内容</find>
-      <find>JPUSH_MESSAGE</find>
-      <find>GET_TASKS</find>
-      <find>dialog_Loading</find>
       <find>locationUtil</find>
       <find>MqttConnection</find>
       <find>TAG</find>
@@ -255,6 +233,10 @@
       <find>ComId</find>
       <find>pickupEventNotify</find>
       <find>firstset</find>
+      <find>初始设备设置</find>
+      <find>firstSet</find>
+      <find>单动作运行取货超时</find>
+      <find>程序发生异常</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -331,17 +313,16 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/MqttServer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/CameraWindow.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHardwareActivity.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-140" />
-    <option name="y" value="27" />
-    <option name="width" value="1242" />
-    <option name="height" value="778" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1239" />
+    <option name="height" value="777" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="1" />
@@ -351,6 +332,57 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SelfStore2" type="58d84e3e:PackageViewProjectNode" />
+              <item name="app" type="616d4139:PackageViewModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="activity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="deviceCtrl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -407,37 +439,6 @@
             <path>
               <item name="SelfStore2" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="~/Documents/github/SelfStore2" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SelfStore2" type="58d84e3e:PackageViewProjectNode" />
-              <item name="app" type="616d4139:PackageViewModuleNode" />
             </path>
           </expand>
           <select />
@@ -792,12 +793,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1241" height="777" extended-state="6" />
+    <frame x="0" y="23" width="1239" height="777" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8758278" visible="true" weight="0.18348624" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8680297" visible="true" weight="0.1829574" />
       <window_info id="Structure" order="1" sideWeight="0.49863014" weight="0.24878837" />
       <window_info id="Captures" order="2" sideWeight="0.17922078" side_tool="true" weight="0.2898914" />
-      <window_info id="Build Variants" order="3" sideWeight="0.12417219" side_tool="true" visible="true" weight="0.18348624" />
+      <window_info id="Build Variants" order="3" sideWeight="0.13197026" side_tool="true" visible="true" weight="0.1829574" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
       <window_info id="Image Layers" order="6" />
@@ -810,13 +812,13 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49122807" weight="0.32326284" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.4562135" side_tool="true" visible="true" weight="0.08761329" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.21136174" side_tool="true" visible="true" weight="0.18731117" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.7204659" weight="0.31268883" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.54378647" visible="true" weight="0.08761329" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.54302424" weight="0.32779455" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.79149294" weight="0.18731117" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.78863823" visible="true" weight="0.18731117" />
       <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" sideWeight="0.8263773" weight="0.4244713" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
       <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.647206" weight="0.5181269" />
@@ -1138,6 +1140,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_pickupautotest.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
           <caret line="326" column="46" selection-start-line="326" selection-start-column="37" selection-end-line="326" selection-end-column="46" />
@@ -1153,7 +1156,6 @@
           </folding>
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmRescueToolActivity.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1263,21 +1265,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomPickupAutoTestDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="266" column="14" selection-start-line="266" selection-start-column="14" selection-end-line="266" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onCreate#0;class#CustomPickupAutoTestDialog#0" />
-            <element signature="method#initView#0;class#CustomPickupAutoTestDialog#0" />
-            <element signature="method#initData#0;class#CustomPickupAutoTestDialog#0" />
-            <element signature="method#setSlots#0;class#CustomPickupAutoTestDialog#0" />
-            <element signature="method#setPickupComplete#0;class#CustomPickupAutoTestDialog#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSlotEditDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -1309,32 +1296,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByZS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2280">
-          <caret line="170" column="16" selection-start-line="170" selection-start-column="16" selection-end-line="170" selection-end-column="16" />
-          <folding>
-            <element signature="e#5315#5316#0" expanded="true" />
-            <element signature="e#5354#5355#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_orderdetails.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
           <caret line="91" column="46" selection-start-line="91" selection-start-column="46" selection-end-line="91" selection-end-column="46" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_smhardware.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
           <caret line="190" column="19" lean-forward="true" selection-start-line="190" selection-start-column="19" selection-end-line="194" selection-end-column="70" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/PickupActionResult.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1351,13 +1327,6 @@
             <element signature="e#3028#3029#0" expanded="true" />
             <element signature="e#3064#3065#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="91" selection-start-line="91" selection-end-line="91" />
         </state>
       </provider>
     </entry>
@@ -1486,21 +1455,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomPickupAutoTestDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="550" column="24" selection-start-line="550" selection-start-column="24" selection-end-line="550" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onCreate#0;class#CustomPickupAutoTestDialog#0" />
+            <element signature="method#initView#0;class#CustomPickupAutoTestDialog#0" />
+            <element signature="method#initData#0;class#CustomPickupAutoTestDialog#0" />
+            <element signature="method#setSlots#0;class#CustomPickupAutoTestDialog#0" />
+            <element signature="method#setPickupComplete#0;class#CustomPickupAutoTestDialog#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-849">
-          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        <state relative-caret-position="15">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByZS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="170" column="16" selection-start-line="170" selection-start-column="16" selection-end-line="170" selection-end-column="16" />
+          <folding>
+            <element signature="e#5315#5316#0" expanded="true" />
+            <element signature="e#5354#5355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="769" column="81" selection-start-line="769" selection-start-column="81" selection-end-line="769" selection-end-column="81" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="597" column="21" lean-forward="true" selection-start-line="597" selection-start-column="21" selection-end-line="597" selection-end-column="21" />
+        <state relative-caret-position="206">
+          <caret line="498" column="38" lean-forward="true" selection-start-line="498" selection-start-column="38" selection-end-line="498" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18418#18419#0" expanded="true" />
-            <element signature="e#18478#18479#0" expanded="true" />
           </folding>
         </state>
       </provider>
