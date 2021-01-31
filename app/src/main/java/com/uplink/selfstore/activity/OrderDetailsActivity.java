@@ -446,7 +446,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     }
 
     //设置商品卡槽去货中
-    private void setSendPickup(PickupSkuBean pickupSku) {
+    private void  setSendPickup(PickupSkuBean pickupSku) {
         if (pickupSku != null) {
             LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",productSkuId:" + pickupSku.getProductSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
             CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
@@ -458,7 +458,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
-    public void pickupEventNotify(final PickupSkuBean pickupSku, final int pickupStatus, String remark, PickupActionResult actionResult) {
+    public void pickupEventNotify(PickupSkuBean pickupSku, int pickupStatus, String remark, PickupActionResult actionResult) {
 
         //捕捉相片
 
