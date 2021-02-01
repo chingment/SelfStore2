@@ -37,6 +37,7 @@ public class MachineBean implements Serializable {
     private ScannerBean scanner;
     private ImBean im;
     private MqttBean mqtt;
+    private int picInSampleSize=8;
 
     public String getCsrHelpTip() {
         return csrHelpTip;
@@ -254,5 +255,13 @@ public class MachineBean implements Serializable {
 
     public void setShopAddress(String shopAddress) {
         this.shopAddress = shopAddress;
+    }
+
+    public int getPicInSampleSize() {
+        return picInSampleSize;
+    }
+
+    public void setPicInSampleSize(int picInSampleSize) {
+        this.picInSampleSize = picInSampleSize;
     }
 }

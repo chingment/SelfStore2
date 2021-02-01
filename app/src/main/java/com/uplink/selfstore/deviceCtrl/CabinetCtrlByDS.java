@@ -748,9 +748,6 @@ public class CabinetCtrlByDS {
                 return;
             }
 
-            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "gozero");
-
-
 
             LogUtil.i(TAG, "取货流程监听：取货就绪");
 

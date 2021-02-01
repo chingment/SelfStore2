@@ -34,6 +34,7 @@ import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.DateUtil;
@@ -43,6 +44,7 @@ import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,6 +133,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         //String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/"+BuildConfig.APPLICATION_ID+"/files/MqttConnection";
         //String dirPath="/storage/emulated/0/Android/data/com.uplink.selfstore/files/MqttConnection/mch_202004220011-tcp112741791851883";
+
 
         FileUtil.deleteDirWihtFile(mqttConnection);
 
@@ -318,6 +321,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 }
                             }
 
+                            CameraWindow.setInSampleSize(machine.getPicInSampleSize());
 
                             Intent mqttServerService = new Intent(InitDataActivity.this, MqttServer.class);
 

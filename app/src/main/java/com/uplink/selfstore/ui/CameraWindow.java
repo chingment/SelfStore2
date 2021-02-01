@@ -38,6 +38,8 @@ public class CameraWindow {
 
     private static final String TAG = "CameraWindow";
 
+    private static int inSampleSize=8;
+
     private static WindowManager windowManager;
 
     private static Context applicationContext;
@@ -49,6 +51,12 @@ public class CameraWindow {
     private static Camera cameraChk;
     private static SurfaceView cameraViewByChk;
     private static SurfaceHolder cameraHolderyChk;
+
+
+    public  static  void setInSampleSize(int size) {
+        inSampleSize = size;
+    }
+
     /**
      * 显示全局窗口
      *
@@ -257,7 +265,7 @@ public class CameraWindow {
             try {
                 InputStream input = null;
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
+                options.inSampleSize = inSampleSize;
                 input = new ByteArrayInputStream(imgByte);
                 SoftReference softRef = new SoftReference(BitmapFactory.decodeStream(
                         input, null, options));
