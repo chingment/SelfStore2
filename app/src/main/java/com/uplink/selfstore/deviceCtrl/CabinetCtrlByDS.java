@@ -721,32 +721,32 @@ public class CabinetCtrlByDS {
             sendPickupHandlerMessage(2, "取货准备，启动回原点命令成功", null);
 
             //尝试查询回原点状态
-            boolean isGoZero_Status = false;
-
-            for (int i = 0; i < 60; i++) {
-
-                int[] rc_status1 = sym.SN_MV_Get_MotionStatus();
-                if (rc_status1[0] == S_RC_SUCCESS) {
-                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
-                        isGoZero_Status = true;
-                        break;
-                    }
-                }
-
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-            if (!isGoZero_Status) {
-                LogUtil.i(TAG, "取货流程监听：启动回原点动作状态失败");
-                sendPickupHandlerMessage(5, "启动回原点动作失败", null);
-                interrupt();
-                return;
-            }
+//            boolean isGoZero_Status = false;
+//
+//            for (int i = 0; i < 60; i++) {
+//
+//                int[] rc_status1 = sym.SN_MV_Get_MotionStatus();
+//                if (rc_status1[0] == S_RC_SUCCESS) {
+//                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+//                        isGoZero_Status = true;
+//                        break;
+//                    }
+//                }
+//
+//                try {
+//                    Thread.sleep(300);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//
+//            if (!isGoZero_Status) {
+//                LogUtil.i(TAG, "取货流程监听：启动回原点动作状态失败");
+//                sendPickupHandlerMessage(5, "启动回原点动作失败", null);
+//                interrupt();
+//                return;
+//            }
 
             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "gozero");
 
