@@ -696,12 +696,12 @@ public class CabinetCtrlByDS {
 
             sendPickupHandlerMessage(2, "取货准备就绪", null);
 
-            //尝试3次回原点
-            boolean isgoZero = false;
+            //尝试3次发送回原点
+            boolean isGoZero_Cmd = false;
             for (int i = 0; i < 3; i++) {
                 int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
                 if (rt_goZero == S_RC_SUCCESS) {
-                    isgoZero = true;
+                    isGoZero_Cmd = true;
                     break;
                 }
                 try {
@@ -711,12 +711,46 @@ public class CabinetCtrlByDS {
                 }
             }
 
-            if (!isgoZero) {
-                LogUtil.i(TAG, "取货流程监听：启动回原点失败");
-                sendPickupHandlerMessage(5, "启动回原点失败", null);
+            if (!isGoZero_Cmd) {
+                LogUtil.i(TAG, "取货流程监听：启动回原点命令失败");
+                sendPickupHandlerMessage(5, "启动回原点命令失败", null);
                 interrupt();
                 return;
             }
+
+            sendPickupHandlerMessage(2, "取货准备，启动回原点命令成功", null);
+
+            //尝试查询回原点状态
+            boolean isGoZero_Status = false;
+
+            for (int i = 0; i < 60; i++) {
+
+                int[] rc_status1 = sym.SN_MV_Get_MotionStatus();
+                if (rc_status1[0] == S_RC_SUCCESS) {
+                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+                        isGoZero_Status = true;
+                        break;
+                    }
+                }
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+            if (!isGoZero_Status) {
+                LogUtil.i(TAG, "取货流程监听：启动回原点动作状态失败");
+                sendPickupHandlerMessage(5, "启动回原点动作失败", null);
+                interrupt();
+                return;
+            }
+
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "gozero");
+
+
 
             LogUtil.i(TAG, "取货流程监听：取货就绪");
 
