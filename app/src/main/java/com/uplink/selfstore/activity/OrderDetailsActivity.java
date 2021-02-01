@@ -458,7 +458,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
-    public void pickupEventNotify(PickupSkuBean pickupSku, int pickupStatus, String remark, PickupActionResult actionResult) {
+    public void pickupEventNotify(final PickupSkuBean pickupSku, final int pickupStatus,final String remark,final PickupActionResult actionResult) {
 
         //捕捉相片
 
