@@ -617,13 +617,12 @@ public class CabinetCtrlByDS {
             sendPickupHandlerMessage(2, "检查设备连接状态中", null);
 
             if(!isConnect){
-                LogUtil.e(TAG, "取货流程监听：尝试再连接多一次");
+                LogUtil.e(TAG, "取货流程监听：设备未连接，尝试再连接多一次");
                 connect();
             }
 
             if (!isConnect) {
-                LogUtil.i(TAG, "取货流程监听：启动前，检查设备连接失败");
-                sendPickupHandlerMessage(5, "启动前，检查设备连接失败", null);
+                sendPickupHandlerMessage(5, "设备连接失败", null);
                 interrupt();
                 return;
             }
@@ -631,67 +630,39 @@ public class CabinetCtrlByDS {
             sendPickupHandlerMessage(2, "设备已连接,检查在线状态中", null);
 
             if (!isNormarl()) {
-                LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在线");
-                sendPickupHandlerMessage(5, "启动前，检查设备不在线", null);
+                LogUtil.i(TAG, "取货流程监听：设备不在线");
+                sendPickupHandlerMessage(5, "设备不在线", null);
                 interrupt();
                 return;
             }
 
-            sendPickupHandlerMessage(2, "设备已在线，检查机器状态中", null);
+            sendPickupHandlerMessage(2, "设备已在线，检查运行状态中", null);
 
             boolean isIdle=false;
 
             for (int i = 0; i < 60; i++) {
 
-                boolean flag1 = true;
-
-//                boolean flag1 = false;
-//                int[] rc_status1 = sym.SN_MV_Get_ManuProcStatus();
-//                if (rc_status1[0] == S_RC_SUCCESS) {
-//                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
-//                        flag1 = true;
-//                    }
-//                }
-
-                boolean flag2 = false;
-                int[] rc_status2 = sym.SN_MV_Get_FlowStatus();
-                if (rc_status2[0] == S_RC_SUCCESS) {
-                    if (rc_status2[3] !=1) { //直接判断不等于1 为非空闲状态
-                        flag2 = true;
+                int[] rc_status = sym.SN_MV_Get_FlowStatus();
+                if (rc_status[0] == S_RC_SUCCESS) {
+                    if (rc_status[3] != 1) { //直接判断不等于1 为非空闲状态
+                        isIdle = true;
+                        break;
                     }
                 }
 
-                isIdle = flag1 && flag2;
-
-                if (isIdle) {
-                    break;
-                }
-
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }
 
             if(!isIdle) {
-
-                connect();//重连一次
-
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                //尝试重新连接，再判断多一次，如果不成功，则放弃，返回不是空闲状态
-                //sym.Connect(CabinetCtrlByDS.ComId, 9600);
-                if (!isIdle()) {
-                    LogUtil.i(TAG, "取货流程监听：启动前，检查设备不在空闲状态");
-                    sendPickupHandlerMessage(5, "启动前，检查设备不在空闲状态", null);
-                    interrupt();
-                    return;
-                }
+                LogUtil.i(TAG, "取货流程监听：设备不在空闲状态");
+                sendPickupHandlerMessage(5, "设备不在空闲状态", null);
+                interrupt();
+                return;
             }
 
             sendPickupHandlerMessage(2, "取货准备就绪", null);
@@ -705,7 +676,7 @@ public class CabinetCtrlByDS {
                     break;
                 }
                 try {
-                    Thread.sleep(300);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -718,17 +689,17 @@ public class CabinetCtrlByDS {
                 return;
             }
 
-            sendPickupHandlerMessage(2, "取货准备，启动回原点命令成功", null);
+            sendPickupHandlerMessage(2, "启动回原点命令成功", null);
 
             //尝试查询回原点状态
-            boolean isGoZero_Status = false;
+            boolean bCanAutoStart = false;
 
             for (int i = 0; i < 60; i++) {
 
                 int[] rc_status1 = sym.SN_MV_Get_MotionStatus();
                 if (rc_status1[0] == S_RC_SUCCESS) {
                     if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
-                        isGoZero_Status = true;
+                        bCanAutoStart = true;
                         break;
                     }
                 }
@@ -738,67 +709,38 @@ public class CabinetCtrlByDS {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
 
+                sendPickupHandlerMessage(2, "正在检查原点状态", null);
 
-            if (!isGoZero_Status) {
-                LogUtil.i(TAG, "取货流程监听：启动回原点动作状态失败");
-                sendPickupHandlerMessage(5, "启动回原点动作失败", null);
-                interrupt();
-                return;
-            }
-
-
-            LogUtil.i(TAG, "取货流程监听：取货就绪");
-
-            sendPickupHandlerMessage(2, "取货就绪成功..请稍等", null);
-
-            long nStart = System.currentTimeMillis();
-            long nEnd = System.currentTimeMillis();
-            boolean bTryAgain = false;
-            boolean bCanAutoStart = false;
-            for (; (nEnd - nStart <= (long) 120 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
-                int[] result = sym.SN_MV_Get_MotionStatus();
-                boolean isInZero = false;
-                if (result[0] == S_RC_SUCCESS) {
-                    if (result[2] == S_Motor_Done || result[2] == S_Motor_Idle) {
-                        isInZero = true;
-                    }
-                }
-
-                if (isInZero) {
-                    bCanAutoStart = true;
-                    break;
-                } else {
-                    bTryAgain = true;
-                }
-
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
 
             if (!bCanAutoStart) {
                 LogUtil.i(TAG, "取货流程监听：取货回原点失败");
-                sendPickupHandlerMessage(5, "取货回原点失败", null);
+                sendPickupHandlerMessage(5, "取货就绪失败", null);
                 interrupt();
             }
             else {
-
                 LogUtil.i(TAG, "取货流程监听：mode:" + mode + ",row:" + row + ",col:" + col);
+
+                sendPickupHandlerMessage(2, "取货就绪成功..请稍等", null);
 
                 //尝试3次发送取货命令
                 boolean isAutoStart = false;
+                boolean isCanSendCmdByAutoStart=true;
                 for (int i = 0; i < 10; i++) {
-                    int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
-                    if (rc_autoStart == S_RC_SUCCESS) {
-                        isAutoStart = true;
-                        break;
+                    if(isCanSendCmdByAutoStart) {
+                        isCanSendCmdByAutoStart = false;
+                        int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
+                        if (rc_autoStart == S_RC_SUCCESS) {
+                            sendPickupHandlerMessage(2, "正在出货中", null);
+                            isAutoStart = true;
+                            break;
+                        } else {
+                            LogUtil.i(TAG, "取货流程监听：取货启动失败,状态" + rc_autoStart + ",正在尝试" + i + "次,休息1秒");
+                        }
                     }
                     else {
-                        LogUtil.i(TAG, "取货启动失败：状态"+rc_autoStart+"，正在尝试"+i+"次，休息1秒");
+                        LogUtil.i(TAG, "取货流程监听：取货启动失败,正在尝试" + i + "次,休息1秒,不能再发送取后命令");
                     }
 
                     try {
@@ -806,13 +748,20 @@ public class CabinetCtrlByDS {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+                    int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
+                    if (rc_flowStatus[0] == S_RC_SUCCESS) {
+                        LogUtil.i(TAG, "取货流程监听：取货启动失败,正在尝试" + i + "次,休息1秒,当前状态"+rc_flowStatus[3]);
+                        if (rc_flowStatus[3] != 1) {
+                            isCanSendCmdByAutoStart = true;
+                        }
+                    }
                 }
 
                 if (!isAutoStart) {
-                    LogUtil.i(TAG, "取货流程监听：取货启动失败");
-                    sendPickupHandlerMessage(5, "尝试10次取货启动失败", null);
+                    LogUtil.i(TAG, "取货流程监听：取货命令启动失败");
+                    sendPickupHandlerMessage(5, "取货启动失败", null);
                     interrupt();
-
                 } else {
                     cmd_PickupIsStopListener = false;
 

@@ -527,7 +527,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         try {
 
-            Thread.sleep(200);
+            Thread.sleep(300);
         }
         catch (Exception ex){
 
