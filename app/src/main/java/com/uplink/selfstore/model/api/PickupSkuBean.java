@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class PickupSkuBean {
     private String uniqueId;
-    private String productSkuId;
+    private String skuId;
     private String name;
     private String mainImgUrl;
     private String slotId;
@@ -33,13 +33,12 @@ public class PickupSkuBean {
         this.startTime = startTime;
     }
 
-
-    public String getProductSkuId() {
-        return productSkuId;
+    public String getSkuId() {
+        return skuId;
     }
 
-    public void setProductSkuId(String productSkuId) {
-        this.productSkuId = productSkuId;
+    public void setSkuId(String skuId) {
+        this.skuId = skuId;
     }
 
     public String getName() {

@@ -17,7 +17,7 @@ import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.ImgSetBean;
-import com.uplink.selfstore.model.api.ProductSkuBean;
+import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
@@ -44,7 +44,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
     private TextView txt_price_integer;
     private TextView txt_price_decimal;
     private WebView webview;
-    private ProductSkuBean productSku;
+    private SkuBean sku;
     private TextView txt_cart_sumquantity;
 
 
@@ -55,7 +55,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
 
         setNavTtile(this.getResources().getString(R.string.aty_productdetails_navtitle));
         //setScannerCtrl(ProductDetailsActivity.this);
-        productSku = (ProductSkuBean) getIntent().getSerializableExtra("dataBean");
+        sku = (SkuBean) getIntent().getSerializableExtra("dataBean");
         initView();
         initEvent();
         initData();
@@ -102,28 +102,28 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
     private void initData() {
 
 
-        if(productSku.getDisplayImgUrls()!=null) {
+        if(sku.getDisplayImgUrls()!=null) {
 
-            BannerAdapter  banner_adapter = new BannerAdapter(getAppContext(), productSku.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
+            BannerAdapter  banner_adapter = new BannerAdapter(getAppContext(), sku.getDisplayImgUrls(), ImageView.ScaleType.CENTER_INSIDE);
             banner_pager.setAdapter(banner_adapter);
             banner_indicator.setViewPager(banner_pager);
         }
 
-        txt_name.setText(productSku.getName());
-        txt_briefInfo.setText(productSku.getBriefDes());
+        txt_name.setText(sku.getName());
+        txt_briefInfo.setText(sku.getBriefDes());
 
 
         txt_price_currencySymbol.setText(this.getGlobalDataSet().getMachine().getCurrencySymbol());
 
-        String[] price = CommonUtil.getPrice(String.valueOf(productSku.getSalePrice()));
+        String[] price = CommonUtil.getPrice(String.valueOf(sku.getSalePrice()));
         txt_price_integer.setText(price[0]);
         txt_price_decimal.setText(price[1]);
 
 
-        if(productSku.getDetailsDes()!=null) {
+        if(sku.getDetailsDes()!=null) {
             String detailsDes = "";
 
-            List<ImgSetBean> arr_DetailsDes=productSku.getDetailsDes();
+            List<ImgSetBean> arr_DetailsDes=sku.getDetailsDes();
 
             if(arr_DetailsDes.size()>0){
                 for (int i=0;i<arr_DetailsDes.size();i++){
@@ -155,12 +155,12 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                     startActivity(intent);
                     break;
                 case R.id.btn_increase:
-                    if(productSku.isOffSell())
+                    if(sku.isOffSell())
                     {
                         ToastUtil.showMessage(ProductDetailsActivity.this, "商品已下架", Toast.LENGTH_LONG);
                         return;
                     }
-                    CartActivity.operate(CartOperateType.INCREASE,productSku.getProductSkuId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.INCREASE,sku.getSkuId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
 
@@ -170,18 +170,18 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
                 case R.id.btn_buy:
 
 
-                    if(productSku.isOffSell())
+                    if(sku.isOffSell())
                     {
                         ToastUtil.showMessage(ProductDetailsActivity.this, "商品已下架", Toast.LENGTH_LONG);
                         return;
                     }
 
                     CartSkuBean cartSku=new CartSkuBean();
-                    cartSku.setProductSkuId(productSku.getProductSkuId());
+                    cartSku.setSkuId(sku.getSkuId());
                     cartSku.setQuantity(1);
 
 
-                    CartActivity.operate(CartOperateType.INCREASE, productSku.getProductSkuId(), new CarOperateHandler() {
+                    CartActivity.operate(CartOperateType.INCREASE, sku.getSkuId(), new CarOperateHandler() {
                         @Override
                         public void onSuccess(String response) {
                             Intent intent2 = new Intent(getAppContext(), CartActivity.class);

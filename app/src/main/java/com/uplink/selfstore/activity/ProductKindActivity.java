@@ -16,14 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.adapter.ProductKindBodyAdapter;
-import com.uplink.selfstore.activity.adapter.ProductKindNameAdapter;
-import com.uplink.selfstore.activity.adapter.ProductKindSkuAdapter;
+import com.uplink.selfstore.activity.adapter.KindBodyAdapter;
+import com.uplink.selfstore.activity.adapter.KindNameAdapter;
+import com.uplink.selfstore.activity.adapter.KindSkuAdapter;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
-import com.uplink.selfstore.model.api.ProductKindBean;
-import com.uplink.selfstore.model.api.ProductSkuBean;
+import com.uplink.selfstore.model.api.KindBean;
+import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.ui.XCRoundImageView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -45,13 +45,13 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     private TextView txt_cart_sumquantity;
     private TextView txt_cart_sumsalesprice;
 
-    private ProductKindSkuAdapter productKindSkuAdapter;
-    private ProductKindBodyAdapter list_kind_body_adapter;
+    private KindSkuAdapter kindSkuAdapter;
+    private KindBodyAdapter list_kind_body_adapter;
     private ImageView mCart;
     private RelativeLayout layout_parentroot;
     private PathMeasure mPathMeasure;
     private float[] mCurrentPosition = new float[2];
-    private List<ProductKindBean> productKinds;
+    private List<KindBean> kinds;
     private static int cur_Kind_Position = 0;
 
     @Override
@@ -111,53 +111,53 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         if(globalDataSet==null)
             return;
 
-        productKinds = globalDataSet.getProductKinds();
+        kinds = globalDataSet.getKinds();
 
-        if (productKinds == null)
+        if (kinds == null)
             return;
 
-        if (productKinds.size() <= 0)
+        if (kinds.size() <= 0)
             return;
 
         if(cur_Kind_Position<=-1){
             return;
         }
 
-        ProductKindBean kind = productKinds.get(cur_Kind_Position);
+        KindBean kind = kinds.get(cur_Kind_Position);
 
         if (kind == null)
             return;
 
-        ProductKindNameAdapter list_kind_name_adapter = new ProductKindNameAdapter(getAppContext(), productKinds, cur_Kind_Position);
+        KindNameAdapter list_kind_name_adapter = new KindNameAdapter(getAppContext(), kinds, cur_Kind_Position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
         if(globalDataSet.getMachine().isHiddenKind()) {
             list_kind_name.setVisibility(View.GONE);
         }
 
-        List<ProductSkuBean> productSkusByKind = new ArrayList<>();
+        List<SkuBean> skusByKind = new ArrayList<>();
 
-        HashMap<String, ProductSkuBean> productSkus = globalDataSet.getProductSkus();
+        HashMap<String, SkuBean> skus = globalDataSet.getSkus();
 
         for (String skuId : kind.getChilds()) {
-            if(productSkus!=null) {
-                ProductSkuBean productSku = productSkus.get(skuId);
-                if (productSku != null) {
-                    productSkusByKind.add(productSku);
+            if(skus!=null) {
+                SkuBean sku = skus.get(skuId);
+                if (sku != null) {
+                    skusByKind.add(sku);
                 }
             }
         }
 
 
-        productKindSkuAdapter = new ProductKindSkuAdapter(ProductKindActivity.this, productSkusByKind,globalDataSet);
-        productKindSkuAdapter.setCallBackListener(new ProductKindSkuAdapter.CallBackListener() {
+        kindSkuAdapter = new KindSkuAdapter(ProductKindActivity.this, skusByKind,globalDataSet);
+        kindSkuAdapter.setCallBackListener(new KindSkuAdapter.CallBackListener() {
             @Override
             public void callBackImg(ImageView goodsImg) {
                 // 添加商品到购物车
                 addGoodsToCart(goodsImg);
             }
         });
-        list_kind_body.setAdapter(productKindSkuAdapter);
+        list_kind_body.setAdapter(kindSkuAdapter);
 
 
     }
@@ -171,9 +171,9 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         }
     }
 
-    public void reSetProductKindBodyAdapter() {
-        if(productKindSkuAdapter!=null) {
-            productKindSkuAdapter.notifyDataSetChanged();
+    public void reSetKindBodyAdapter() {
+        if(kindSkuAdapter!=null) {
+            kindSkuAdapter.notifyDataSetChanged();
         }
     }
 

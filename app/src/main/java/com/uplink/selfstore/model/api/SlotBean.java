@@ -6,11 +6,11 @@ public class SlotBean implements Serializable {
     private  String slotId;
     private  String stockId;
     private  String cabinetId;
-    private  String productSkuId;
-    private  String cumCode;
-    private  String name;
-    private  String mainImgUrl;
-    private  String specDes;
+    private  String skuId;
+    private  String skuCumCode;
+    private  String skuName;
+    private  String skuMainImgUrl;
+    private  String skuSpecDes;
     private  int sumQuantity;
     private  int lockQuantity;
     private  int sellQuantity;
@@ -38,12 +38,44 @@ public class SlotBean implements Serializable {
         this.slotId = slotId;
     }
 
-    public String getProductSkuId() {
-        return productSkuId;
+    public String getSkuId() {
+        return skuId;
     }
 
-    public void setProductSkuId(String productSkuId) {
-        this.productSkuId = productSkuId;
+    public void setSkuId(String skuId) {
+        this.skuId = skuId;
+    }
+
+    public String getSkuCumCode() {
+        return skuCumCode;
+    }
+
+    public void setSkuCumCode(String skuCumCode) {
+        this.skuCumCode = skuCumCode;
+    }
+
+    public String getSkuName() {
+        return skuName;
+    }
+
+    public void setSkuName(String skuName) {
+        this.skuName = skuName;
+    }
+
+    public String getSkuMainImgUrl() {
+        return skuMainImgUrl;
+    }
+
+    public void setSkuMainImgUrl(String skuMainImgUrl) {
+        this.skuMainImgUrl = skuMainImgUrl;
+    }
+
+    public String getSkuSpecDes() {
+        return skuSpecDes;
+    }
+
+    public void setSkuSpecDes(String skuSpecDes) {
+        this.skuSpecDes = skuSpecDes;
     }
 
     public int getSumQuantity() {
@@ -124,37 +156,5 @@ public class SlotBean implements Serializable {
 
     public void setCanAlterMaxQuantity(Boolean canAlterMaxQuantity) {
         isCanAlterMaxQuantity = canAlterMaxQuantity;
-    }
-
-    public String getCumCode() {
-        return cumCode;
-    }
-
-    public void setCumCode(String cumCode) {
-        this.cumCode = cumCode;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMainImgUrl() {
-        return mainImgUrl;
-    }
-
-    public void setMainImgUrl(String mainImgUrl) {
-        this.mainImgUrl = mainImgUrl;
-    }
-
-    public String getSpecDes() {
-        return specDes;
-    }
-
-    public void setSpecDes(String specDes) {
-        this.specDes = specDes;
     }
 }

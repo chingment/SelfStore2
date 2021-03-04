@@ -65,6 +65,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private boolean isHappneException=false;
     private String exceptionMessage="";
+    private boolean isGoZero=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,6 +195,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     pickupEventNotify(curPickupSku, 3012, "取货中", pickupActionResult);
                                     break;
                                 case 4://取货成功
+                                    isGoZero=false;
                                     curPickupSku_Tv_Tip2.setText("取货完成");
                                     pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
                                     setCurPickupSkuComplete(curPickupSku);
@@ -296,7 +298,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void run() {
 
-                curPickupSku = getCurrentPickupProductSku();
+                curPickupSku = getCurrentPickupSku();
                 if (curPickupSku != null) {
                     setCurPickupSku(curPickupSku);
                 } else {
@@ -309,16 +311,16 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     }
 
     // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
-    private PickupSkuBean getCurrentPickupProductSku() {
+    private PickupSkuBean getCurrentPickupSku() {
 
         PickupSkuBean pickSku=null;
 
-        List<OrderDetailsSkuBean> productSkus =orderDetails.getProductSkus();
+        List<OrderDetailsSkuBean> skus =orderDetails.getSkus();
 
         boolean isHas=false;
-        for (int i = 0; i < productSkus.size(); i++) {
+        for (int i = 0; i < skus.size(); i++) {
 
-            OrderDetailsSkuBean sku = productSkus.get(i);
+            OrderDetailsSkuBean sku = skus.get(i);
             List<PickupSlotBean> slots = sku.getSlots();
 
             if(isHas) {
@@ -330,7 +332,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 if(slot.isAllowPickup()) {
                     if(slot.getStatus()==3010) {
                         pickSku = new PickupSkuBean();
-                        pickSku.setProductSkuId(sku.getProductSkuId());
+                        pickSku.setSkuId(sku.getSkuId());
                         pickSku.setName(sku.getName());
                         pickSku.setMainImgUrl(sku.getMainImgUrl());
                         pickSku.setSlotId(slot.getSlotId());
@@ -351,11 +353,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         boolean isCompelte=true;
 
-        List<OrderDetailsSkuBean> productSkus =orderDetails.getProductSkus();
+        List<OrderDetailsSkuBean> skus =orderDetails.getSkus();
 
-        for (int i = 0; i < productSkus.size(); i++) {
+        for (int i = 0; i < skus.size(); i++) {
 
-            OrderDetailsSkuBean sku = productSkus.get(i);
+            OrderDetailsSkuBean sku = skus.get(i);
             List<PickupSlotBean> slots = sku.getSlots();
 
             if(!isCompelte) {
@@ -444,14 +446,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         txt_OrderId.setText(orderDetails.getOrderId());
 
 
-        OrderDetailsSkuAdapter orderDetailsSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getProductSkus());
+        OrderDetailsSkuAdapter orderDetailsSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getSkus());
         list_Skus.setAdapter(orderDetailsSkuAdapter);
     }
 
     //设置商品卡槽去货中
     private void  setCurPickupSku(PickupSkuBean pickupSku) {
         if (pickupSku != null) {
-            LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",productSkuId:" + pickupSku.getProductSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
+            LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",skuId:" + pickupSku.getSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
             CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
             curPickupSku_Tv_Tip1.setText(pickupSku.getName());
             curPickupSku_Tv_Tip2.setText("准备出货......");
@@ -490,7 +492,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         return;
                     }
 
-                    cabinetCtrlByDS.startPickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
+                    cabinetCtrlByDS.startPickUp(isGoZero,dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                     break;
                 case "zsx01":
                     cabinetCtrlByZS.unLock(cabinet.getCodeNo(), Integer.valueOf(pickupSku.getSlotId()));
@@ -502,27 +504,27 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private void  setCurPickupSkuComplete(PickupSkuBean pickupSku) {
 
-        List<OrderDetailsSkuBean> productSkus = orderDetails.getProductSkus();
+        List<OrderDetailsSkuBean> skus = orderDetails.getSkus();
 
-        for (int i = 0; i < productSkus.size(); i++) {
-            if (productSkus.get(i).getProductSkuId().equals(pickupSku.getProductSkuId())) {
-                int quantityBySuccess = productSkus.get(i).getQuantityBySuccess();
-                int quantityByException = productSkus.get(i).getQuantityByException();
-                int quantity = productSkus.get(i).getQuantity();
+        for (int i = 0; i < skus.size(); i++) {
+            if (skus.get(i).getSkuId().equals(pickupSku.getSkuId())) {
+                int quantityBySuccess = skus.get(i).getQuantityBySuccess();
+                int quantityByException = skus.get(i).getQuantityByException();
+                int quantity = skus.get(i).getQuantity();
                 if ((quantityBySuccess + quantityByException) < quantity) {
-                    productSkus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
+                    skus.get(i).setQuantityBySuccess(quantityBySuccess + 1);
                 }
-                for (int j = 0; j < productSkus.get(i).getSlots().size(); j++) {
-                    if (productSkus.get(i).getSlots().get(j).getSlotId().equals(pickupSku.getSlotId()) && productSkus.get(i).getSlots().get(j).getUniqueId().equals(pickupSku.getUniqueId())) {
-                        productSkus.get(i).getSlots().get(j).setStatus(4000);
+                for (int j = 0; j < skus.get(i).getSlots().size(); j++) {
+                    if (skus.get(i).getSlots().get(j).getSlotId().equals(pickupSku.getSlotId()) && skus.get(i).getSlots().get(j).getUniqueId().equals(pickupSku.getUniqueId())) {
+                        skus.get(i).getSlots().get(j).setStatus(4000);
                     }
                 }
             }
         }
 
-        orderDetails.setProductSkus(productSkus);
+        orderDetails.setSkus(skus);
 
-        OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, productSkus);
+        OrderDetailsSkuAdapter skuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, skus);
         list_Skus.setAdapter(skuAdapter);
 
         try {
@@ -533,7 +535,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         }
 
-        curPickupSku = getCurrentPickupProductSku();
+        curPickupSku = getCurrentPickupSku();
         if (curPickupSku != null) {
             setCurPickupSku(curPickupSku);
         } else {
@@ -572,7 +574,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             content.put("signId", worker.nextId());
             content.put("orderId", orderDetails.getOrderId());
             content.put("uniqueId", pickupSku.getUniqueId());
-            content.put("productSkuId", pickupSku.getProductSkuId() );
+            content.put("skuId", pickupSku.getSkuId() );
             content.put("cabinetId", pickupSku.getCabinetId());
             content.put("slotId", pickupSku.getSlotId());
             content.put("pickupStatus", pickupStatus);

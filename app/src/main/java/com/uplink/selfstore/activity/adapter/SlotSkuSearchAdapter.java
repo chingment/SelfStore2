@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.model.api.SearchProductSkuBean;
+import com.uplink.selfstore.model.api.SearchSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
 
@@ -18,10 +18,10 @@ import java.util.List;
 public class SlotSkuSearchAdapter extends BaseAdapter {
     private static final String TAG = "SlotSkuSearchAdapter";
     private Context context;
-    private List<SearchProductSkuBean> items;
+    private List<SearchSkuBean> items;
     private SlotSkuSearchAdapter.CallBackListener mCallBackListener;
 
-    public SlotSkuSearchAdapter(Context context, List<SearchProductSkuBean> items) {
+    public SlotSkuSearchAdapter(Context context, List<SearchSkuBean> items) {
         this.context = context;
         this.items = items;
     }
@@ -48,7 +48,7 @@ public class SlotSkuSearchAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_sku_tmp3, parent, false);
         }
 
-        final SearchProductSkuBean item = items.get(position);
+        final SearchSkuBean item = items.get(position);
 
 
         ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
@@ -78,7 +78,7 @@ public class SlotSkuSearchAdapter extends BaseAdapter {
     }
 
     public interface CallBackListener {
-        void setSlot(SearchProductSkuBean skuBean);
+        void setSlot(SearchSkuBean skuBean);
     }
 
 }

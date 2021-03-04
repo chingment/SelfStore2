@@ -11,11 +11,10 @@ import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
-import com.uplink.selfstore.model.api.ImgSetBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
-import com.uplink.selfstore.model.api.ProductSkuBean;
+import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.model.push.UpdateHomeLogoBean;
-import com.uplink.selfstore.model.push.UpdateProductSkuStockBean;
+import com.uplink.selfstore.model.push.UpdateSkuStockBean;
 import com.uplink.selfstore.model.push.*;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -55,9 +54,9 @@ public class PushUpdateUtil {
                 LogUtil.d("进入update:Ads");
                 updateAds(content);//更新机器banner
                 break;
-            case "MCmdUpdateProductSkuStock":
-                LogUtil.d("进入update:ProductSkuStock");
-                //updateProductSkuStock(content);//更新机器种类
+            case "MCmdUpdateSkuStock":
+                LogUtil.d("进入update:SkuStock");
+                //updateSkuStock(content);//更新机器种类
                 break;
             case "MCmdPaySuccess":
                 LogUtil.d("进入paySuccess");
@@ -158,32 +157,32 @@ public class PushUpdateUtil {
         }
     }
 
-    private static void updateProductSkuStock(String content) {
+    private static void updateSkuStock(String content) {
         try {
 
-            UpdateProductSkuStockBean updateProductSkuStock = JSON.parseObject(content, new TypeReference<UpdateProductSkuStockBean>() {
+            UpdateSkuStockBean updateSkuStock = JSON.parseObject(content, new TypeReference<UpdateSkuStockBean>() {
             });
 
 
             GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
 
-            HashMap<String, ProductSkuBean> productSkus = globalDataSet.getProductSkus();
+            HashMap<String, SkuBean> skus = globalDataSet.getSkus();
 
-            String productSkuId = updateProductSkuStock.getProductSkuId();
+            String skuId = updateSkuStock.getSkuId();
 
-            if (!StringUtil.isEmpty(productSkuId)) {
-                if (productSkus.containsKey(productSkuId)) {
+            if (!StringUtil.isEmpty(skuId)) {
+                if (skus.containsKey(skuId)) {
 
-                    ProductSkuBean productSku = productSkus.get(productSkuId);
+                    SkuBean sku = skus.get(skuId);
 
-                    productSku.setSellQuantity(updateProductSkuStock.getSellQuantity());
-                    productSku.setSalePrice(updateProductSkuStock.getSalePrice());
-                    productSku.setSalePriceByVip(updateProductSkuStock.getSalePriceByVip());
-                    productSku.setOffSell(updateProductSkuStock.isOffSell());
+                    sku.setSellQuantity(updateSkuStock.getSellQuantity());
+                    sku.setSalePrice(updateSkuStock.getSalePrice());
+                    sku.setSalePriceByVip(updateSkuStock.getSalePriceByVip());
+                    sku.setOffSell(updateSkuStock.isOffSell());
 
-                    productSkus.put(productSkuId, productSku);
+                    skus.put(skuId, sku);
 
-                    globalDataSet.setProductSkus(productSkus);
+                    globalDataSet.setSkus(skus);
                 }
             }
 

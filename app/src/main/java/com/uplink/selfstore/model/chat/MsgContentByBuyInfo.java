@@ -10,7 +10,7 @@ public class MsgContentByBuyInfo {
     private  String handleDescribe;
     private String operateUserName;
 
-    private List<ProductSkuBean> skus;
+    private List<SkuBean> skus;
     public String getMachineId() {
         return machineId;
     }
@@ -23,10 +23,10 @@ public class MsgContentByBuyInfo {
     public void setStoreName(String storeName) {
         this.storeName = storeName;
     }
-    public List<ProductSkuBean> getSkus() {
+    public List<SkuBean> getSkus() {
         return skus;
     }
-    public void setSkus(List<ProductSkuBean> skus) {
+    public void setSkus(List<SkuBean> skus) {
         this.skus = skus;
     }
 

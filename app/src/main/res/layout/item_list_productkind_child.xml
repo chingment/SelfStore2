@@ -24,7 +24,7 @@
         android:layout_height="wrap_content">
 
         <GridView
-        android:id="@+id/list_productsku"
+        android:id="@+id/list_sku"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnWidth="100dp"
@@ -38,7 +38,7 @@
 
         <!--<com.uplink.selfstore.ui.my.MyListView-->
 
-            <!--android:id="@+id/list_productsku"-->
+            <!--android:id="@+id/list_sku"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:divider="@null"-->

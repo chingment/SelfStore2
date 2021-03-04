@@ -160,41 +160,20 @@ public class AppCacheManager {
             return cartSkus;
 
 
-//        for(String key : cartSkus.keySet()) {
-//            CartSkuBean bean = cartSkus.get(key);
-//            sumQuantity += bean.getQuantity();
-//            sumSalesPrice += bean.getQuantity() * bean.getSalePrice();
-//        }
-//
-//        for (CartSkuBean bean : cartSkusByCache) {
-//            ProductSkuBean productSku = globalDataSet.getProductSkus().get(bean.getId());
-//            if (productSku != null) {
-//                CartSkuBean cartSku = new CartSkuBean();
-//                cartSku.setId(productSku.getId());
-//                cartSku.setMainImgUrl(productSku.getMainImgUrl());
-//                cartSku.setQuantity(bean.getQuantity());
-//                cartSku.setTrgVideoService(productSku.isTrgVideoService());
-//                cartSku.setName(productSku.getName());
-//                cartSku.setSalePrice(productSku.getSalePrice());
-//                cartSkus.add(cartSku);
-//            }
-//        }
-
-        //AppCacheManager.setCartSkus(cartSkus);
 
         return cartSkusByCache;
 
     }
 
-    public static ProductSkuBean getProductSku(String skuId) {
-        ProductSkuBean bean = null;
+    public static SkuBean getSku(String skuId) {
+        SkuBean bean = null;
 
         GlobalDataSetBean globalDataSet = getGlobalDataSet();
 
         if (globalDataSet != null) {
-            if (globalDataSet.getProductSkus() != null) {
+            if (globalDataSet.getSkus() != null) {
 
-                HashMap<String, ProductSkuBean> skus = globalDataSet.getProductSkus();
+                HashMap<String, SkuBean> skus = globalDataSet.getSkus();
 
                 bean = skus.get(skuId);
 

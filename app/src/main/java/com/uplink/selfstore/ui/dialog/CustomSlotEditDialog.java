@@ -24,21 +24,19 @@ import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.MachineBean;
-import com.uplink.selfstore.model.api.ProductSkuSearchResultBean;
+import com.uplink.selfstore.model.api.SkuSearchResultBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.model.api.SearchProductSkuBean;
+import com.uplink.selfstore.model.api.SearchSkuBean;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.service.MqttServer;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -119,7 +117,7 @@ public class CustomSlotEditDialog extends Dialog {
 
 
                 String slotId = String.valueOf(txt_SlotId.getText());
-                String productSkuId = String.valueOf(txt_SkuId.getText());
+                String skuId = String.valueOf(txt_SkuId.getText());
 
                 Bundle bundle = msg.getData();
                 int status = bundle.getInt("status");
@@ -176,7 +174,7 @@ public class CustomSlotEditDialog extends Dialog {
                     if (cabinetCtrlByDS != null) {
                         cabinetCtrlByDS.emgStop();
                     }
-                    pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
+                    pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
                 }
                 else {
                     switch (status) {
@@ -191,14 +189,14 @@ public class CustomSlotEditDialog extends Dialog {
                         case 3://取货中
                             dialog_Running.setProgressText("正在取货中..请稍等");
                             if (pickupActionResult != null) {
-                                pickupEventNotify(productSkuId, slotId, 3012, "发起取货", pickupActionResult);
+                                pickupEventNotify(skuId, slotId, 3012, "发起取货", pickupActionResult);
                             }
                             break;
                         case 4://取货成功
                             dialog_Running.hide();
                             if (pickupActionResult != null) {
                                 mContext.showToast("取货完成");
-                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", pickupActionResult);
+                                pickupEventNotify(skuId, slotId, 4000, "取货完成", pickupActionResult);
 
                             }
                             break;
@@ -208,7 +206,7 @@ public class CustomSlotEditDialog extends Dialog {
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
-                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
+                            pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
                             mContext.showToast(exceptionMessage);
                             break;
                         case 6://取货失败
@@ -217,7 +215,7 @@ public class CustomSlotEditDialog extends Dialog {
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
-                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
+                            pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
                             mContext.showToast(exceptionMessage);
                             break;
                         default:
@@ -226,7 +224,7 @@ public class CustomSlotEditDialog extends Dialog {
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
-                            pickupEventNotify(productSkuId, slotId, 6000, exceptionMessage, pickupActionResult);
+                            pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
                             break;
                     }
                 }
@@ -240,7 +238,7 @@ public class CustomSlotEditDialog extends Dialog {
             public boolean handleMessage(Message msg) {
 
                 String slotId = String.valueOf(txt_SlotId.getText());
-                String productSkuId = String.valueOf(txt_SkuId.getText());
+                String skuId = String.valueOf(txt_SkuId.getText());
 
                 switch (msg.what) {
                     case CabinetCtrlByZS.MESSAGE_WHAT_ONEUNLOCK:
@@ -259,7 +257,7 @@ public class CustomSlotEditDialog extends Dialog {
 //                            case 3://取货中
 //                                if (customDialogRunning != null) {
 //                                    customDialogRunning.setProgressText("正在取货中..请稍等");
-//                                    pickupEventNotify(productSkuId, slotId, 3012, "发起取货", null);
+//                                    pickupEventNotify(skuId, slotId, 3012, "发起取货", null);
 //                                }
 //                                mContext.showToast(message);
 //                                break;
@@ -268,7 +266,7 @@ public class CustomSlotEditDialog extends Dialog {
                                 dialog_Running.hide();
 
                                 mContext.showToast("取货完成");
-                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
+                                pickupEventNotify(skuId, slotId, 4000, "取货完成", null);
 
 //                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
 //                                if (result != null) {
@@ -280,7 +278,7 @@ public class CustomSlotEditDialog extends Dialog {
 //                                                    customDialogRunning.cancelDialog();
 //                                                }
 //                                                mContext.showToast("取货完成");
-//                                                pickupEventNotify(productSkuId, slotId, 4000, "取货完成", null);
+//                                                pickupEventNotify(skuId, slotId, 4000, "取货完成", null);
 //                                            }
 //                                        }
 //                                    }
@@ -290,7 +288,7 @@ public class CustomSlotEditDialog extends Dialog {
                             case 5://取货超时
                                 dialog_Running.hide();
                                 mContext.showToast(message);
-                                pickupEventNotify(productSkuId, slotId, 6000, "取货超时", null);
+                                pickupEventNotify(skuId, slotId, 6000, "取货超时", null);
                                 LogUtil.e(TAG,"取货超时");
                                 break;
                             case 6://取货失败
@@ -298,7 +296,7 @@ public class CustomSlotEditDialog extends Dialog {
                                     dialog_Running.hide();
                                 }
                                 mContext.showToast(message);
-                                pickupEventNotify(productSkuId, slotId, 6000, "取货失败[" + message + "]", null);
+                                pickupEventNotify(skuId, slotId, 6000, "取货失败[" + message + "]", null);
                                 LogUtil.e(TAG,"取货失败");
                                 break;
                         }
@@ -405,9 +403,9 @@ public class CustomSlotEditDialog extends Dialog {
                 String slotId = String.valueOf(txt_SlotId.getText());
 
 
-                String productSkuId=String.valueOf(txt_SkuId.getText());
+                String skuId=String.valueOf(txt_SkuId.getText());
 
-                pickupEventNotify(productSkuId,slotId,3011,"发起取货",null);
+                pickupEventNotify(skuId,slotId,3011,"发起取货",null);
 
 
                 switch (cabinet.getModelNo()){
@@ -442,7 +440,7 @@ public class CustomSlotEditDialog extends Dialog {
 
 
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
-                        cabinetCtrlByDS.startPickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
+                        cabinetCtrlByDS.startPickUp(true, dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx01":
                         cabinetCtrlByZS.unLock(cabinet.getCodeNo(),Integer.valueOf(slotId));
@@ -496,7 +494,7 @@ public class CustomSlotEditDialog extends Dialog {
 
                 String stockId = String.valueOf(txt_StockId.getText());
                 String slotId = String.valueOf(txt_SlotId.getText());
-                String productSkuId = String.valueOf(txt_SkuId.getText());
+                String skuId = String.valueOf(txt_SkuId.getText());
                 int version=Integer.valueOf(txt_Version.getText()+"");
                 int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
                 int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
@@ -512,7 +510,7 @@ public class CustomSlotEditDialog extends Dialog {
                 params.put("stockId", stockId);
                 params.put("machineId", machine.getMachineId());
                 params.put("cabinetId", cabinet.getCabinetId());
-                params.put("productSkuId", productSkuId);
+                params.put("skuId", skuId);
                 params.put("sumQuantity", sumQuantity);
                 params.put("holdQuantity", 0);
                 params.put("warnQuantity", 0);
@@ -669,7 +667,7 @@ public class CustomSlotEditDialog extends Dialog {
 
         txt_SlotId.setText(slot.getSlotId());
 
-        if (StringUtil.isEmptyNotNull(slot.getProductSkuId())) {
+        if (StringUtil.isEmptyNotNull(slot.getSkuId())) {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_StockId.setText("");
             txt_SkuId.setText("");
@@ -684,10 +682,10 @@ public class CustomSlotEditDialog extends Dialog {
         } else {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_StockId.setText(slot.getStockId());
-            txt_SkuId.setText(slot.getProductSkuId());
-            txt_SkuCumCode.setText(slot.getCumCode());
-            txt_SkuName.setText(slot.getName());
-            txt_SkuSpecDes.setText(slot.getSpecDes());
+            txt_SkuId.setText(slot.getSkuId());
+            txt_SkuCumCode.setText(slot.getSkuCumCode());
+            txt_SkuName.setText(slot.getSkuName());
+            txt_SkuSpecDes.setText(slot.getSkuSpecDes());
             txt_SellQty.setText(String.valueOf(slot.getSellQuantity()));
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
@@ -704,7 +702,7 @@ public class CustomSlotEditDialog extends Dialog {
                 }
             }
 
-            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getMainImgUrl());
+            CommonUtil.loadImageFromUrl(mContext, img_SkuImg, slot.getSkuMainImgUrl());
         }
     }
 
@@ -728,25 +726,25 @@ public class CustomSlotEditDialog extends Dialog {
         params.put("machineId", machine.getMachineId());
         params.put("key", key);
 
-        mContext.getByMy(mContext,Config.URL.productSku_Search, params, false, "正在寻找", new HttpResponseHandler() {
+        mContext.getByMy(mContext,Config.URL.product_SearchSku, params, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
 
-                ApiResultBean<ProductSkuSearchResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<ProductSkuSearchResultBean>>() {
+                ApiResultBean<SkuSearchResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SkuSearchResultBean>>() {
                 });
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    ProductSkuSearchResultBean d = rt.getData();
+                    SkuSearchResultBean d = rt.getData();
 
-                    SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, d.getProductSkus());
+                    SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, d.getSkus());
                     slotSkuSearchAdapter.setCallBackListener(new SlotSkuSearchAdapter.CallBackListener() {
                         @Override
-                        public void setSlot(SearchProductSkuBean sku) {
+                        public void setSlot(SearchSkuBean sku) {
 
-                            txt_SkuId.setText(sku.getProductSkuId());
+                            txt_SkuId.setText(sku.getSkuId());
                             txt_SkuCumCode.setText(sku.getCumCode());
                             txt_SkuName.setText(sku.getName());
                             txt_SkuSpecDes.setText(sku.getSpecDes());
@@ -760,10 +758,10 @@ public class CustomSlotEditDialog extends Dialog {
                     });
                     list_search_skus.setAdapter(slotSkuSearchAdapter);
 
-                    if (d.getProductSkus() != null) {
-                        if (d.getProductSkus().size() == 1) {
-                            SearchProductSkuBean sku = d.getProductSkus().get(0);
-                            txt_SkuId.setText(sku.getProductSkuId());
+                    if (d.getSkus() != null) {
+                        if (d.getSkus().size() == 1) {
+                            SearchSkuBean sku = d.getSkus().get(0);
+                            txt_SkuId.setText(sku.getSkuId());
                             txt_SkuName.setText(sku.getName());
                             txt_SkuCumCode.setText(sku.getCumCode());
                             txt_SkuSpecDes.setText(sku.getSpecDes());
@@ -777,16 +775,16 @@ public class CustomSlotEditDialog extends Dialog {
 
     public void clearSearch() {
         txt_searchKey.setText("");
-        SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, new ArrayList<SearchProductSkuBean>());
+        SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, new ArrayList<SearchSkuBean>());
         list_search_skus.setAdapter(slotSkuSearchAdapter);
     }
 
-    private void pickupEventNotify(final String productSkuId, final String slotId,final int pickupStatus, String remark,PickupActionResult actionResult) {
+    private void pickupEventNotify(final String skuId, final String slotId,final int pickupStatus, String remark,PickupActionResult actionResult) {
 
         try {
             JSONObject content = new JSONObject();
 
-            content.put("productSkuId", productSkuId);
+            content.put("skuId", skuId);
             content.put("cabinetId", cabinet.getCabinetId());
             content.put("slotId", slotId);
             content.put("pickupStatus", pickupStatus);

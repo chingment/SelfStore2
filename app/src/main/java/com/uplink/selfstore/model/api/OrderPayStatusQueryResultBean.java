@@ -12,7 +12,7 @@ public class OrderPayStatusQueryResultBean implements Serializable {
     private String orderId;
     private String payTransId;
     private int payStatus;
-    private List<OrderDetailsSkuBean> productSkus;
+    private List<OrderDetailsSkuBean> skus;
 
 
     public int getPayStatus() {
@@ -39,11 +39,12 @@ public class OrderPayStatusQueryResultBean implements Serializable {
         this.payTransId = payTransId;
     }
 
-    public List<OrderDetailsSkuBean> getProductSkus() {
-        return productSkus;
+
+    public List<OrderDetailsSkuBean> getSkus() {
+        return skus;
     }
 
-    public void setProductSkus(List<OrderDetailsSkuBean> productSkus) {
-        this.productSkus = productSkus;
+    public void setSkus(List<OrderDetailsSkuBean> skus) {
+        this.skus = skus;
     }
 }

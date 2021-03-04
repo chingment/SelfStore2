@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ExHandleUniqueBean implements Serializable {
     private String uniqueId;
-    private String productSkuId;
+    private String skuId;
     private String mainImgUrl;
     private String name;
     private String quantity;
@@ -22,12 +22,13 @@ public class ExHandleUniqueBean implements Serializable {
         this.uniqueId = uniqueId;
     }
 
-    public String getProductSkuId() {
-        return productSkuId;
+
+    public String getSkuId() {
+        return skuId;
     }
 
-    public void setProductSkuId(String productSkuId) {
-        this.productSkuId = productSkuId;
+    public void setSkuId(String skuId) {
+        this.skuId = skuId;
     }
 
     public String getMainImgUrl() {

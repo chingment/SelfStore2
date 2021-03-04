@@ -35,26 +35,6 @@ public class CartSkuAdapter extends BaseAdapter {
         this.context = context;
 
 
-        delete_Dialog = new CustomConfirmDialog(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
-
-        delete_Dialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                CartSkuBean sku = (CartSkuBean)v.getTag();
-                operate(CartOperateType.DELETE, sku.getProductSkuId());
-                delete_Dialog.hide();
-
-            }
-        });
-
-        delete_Dialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                delete_Dialog.hide();
-            }
-        });
 
         for(String key : cartSkus.keySet()) {
             items.add(cartSkus.get(key));
@@ -115,7 +95,30 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                delete_Dialog = new CustomConfirmDialog(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
+
                 CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), item.getMainImgUrl());
+
+                delete_Dialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        CartSkuBean sku = (CartSkuBean)v.getTag();
+                        operate(CartOperateType.DELETE, sku.getSkuId());
+                        delete_Dialog.dismiss();
+
+                    }
+                });
+
+                delete_Dialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        delete_Dialog.dismiss();
+                    }
+                });
+
                 delete_Dialog.getBtnSure().setTag(item);
                 delete_Dialog.show();
 
@@ -129,7 +132,7 @@ public class CartSkuAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (item.getQuantity() == 1)
                     return;
-                operate(CartOperateType.DECREASE, item.getProductSkuId());
+                operate(CartOperateType.DECREASE, item.getSkuId());
             }
         });
 
@@ -138,7 +141,7 @@ public class CartSkuAdapter extends BaseAdapter {
         btn_increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operate(CartOperateType.INCREASE, item.getProductSkuId());
+                operate(CartOperateType.INCREASE, item.getSkuId());
             }
         });
 
@@ -146,8 +149,8 @@ public class CartSkuAdapter extends BaseAdapter {
     }
 
 
-    private void operate(int type, String productSkuId) {
-        CartActivity.operate(type, productSkuId, new CarOperateHandler() {
+    private void operate(int type, String skuId) {
+        CartActivity.operate(type, skuId, new CarOperateHandler() {
             @Override
             public void onSuccess(String response) {
                 notifyDataSetChanged();
@@ -158,6 +161,7 @@ public class CartSkuAdapter extends BaseAdapter {
     public void dismiss(){
 
         if(delete_Dialog!=null){
+            delete_Dialog.cancel();
             delete_Dialog.dismiss();
         }
     }

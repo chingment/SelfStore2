@@ -14,24 +14,18 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.hyphenate.chat.EMCallSession;
 import com.hyphenate.chat.EMCallStateChangeListener;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCustomMessageBody;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVideoCallHelper;
 import com.hyphenate.chat.EMWaterMarkOption;
 import com.hyphenate.chat.EMWaterMarkPosition;
@@ -40,15 +34,13 @@ import com.hyphenate.media.EMCallSurfaceView;
 import com.hyphenate.util.EMLog;
 import com.superrtc.sdk.VideoView;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.adapter.VideoProductSkuAdapter;
+import com.uplink.selfstore.activity.adapter.VideoSkuAdapter;
 import com.uplink.selfstore.model.chat.CustomMsg;
 import com.uplink.selfstore.model.chat.MsgContentByBuyInfo;
-import com.uplink.selfstore.utils.EMHelper;
 import com.uplink.selfstore.utils.EMPhoneStateManager;
 import com.uplink.selfstore.utils.EMPreferenceManager;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class EmVideoCallActivity extends EmCallActivity implements View.OnClickListener {
@@ -164,7 +156,7 @@ public class EmVideoCallActivity extends EmCallActivity implements View.OnClickL
                         buyinfo_ll_info.setVisibility(View.VISIBLE);
                         buyinfo_tv_storename.setText(buyInfo.getStoreName());
                         if (buyInfo.getSkus() != null) {
-                            VideoProductSkuAdapter productKindSkuAdapter = new VideoProductSkuAdapter(this, rt.getContent().getSkus());
+                            VideoSkuAdapter productKindSkuAdapter = new VideoSkuAdapter(this, rt.getContent().getSkus());
                             buyinfo_list_skus.setAdapter(productKindSkuAdapter);
                         }
                     }

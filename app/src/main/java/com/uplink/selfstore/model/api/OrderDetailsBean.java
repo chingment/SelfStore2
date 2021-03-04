@@ -11,7 +11,7 @@ public class OrderDetailsBean implements Serializable {
 
     private String orderId;
     private int status;
-    private List<OrderDetailsSkuBean> productSkus;
+    private List<OrderDetailsSkuBean> Skus;
 
 
     public String getOrderId() {
@@ -30,11 +30,12 @@ public class OrderDetailsBean implements Serializable {
         this.status = status;
     }
 
-    public List<OrderDetailsSkuBean> getProductSkus() {
-        return productSkus;
+
+    public List<OrderDetailsSkuBean> getSkus() {
+        return Skus;
     }
 
-    public void setProductSkus(List<OrderDetailsSkuBean> productSkus) {
-        this.productSkus = productSkus;
+    public void setSkus(List<OrderDetailsSkuBean> skus) {
+        Skus = skus;
     }
 }

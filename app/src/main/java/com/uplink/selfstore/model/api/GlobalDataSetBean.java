@@ -12,17 +12,9 @@ public class GlobalDataSetBean implements Serializable {
 
 
     private MachineBean machine;
-    private List<ProductKindBean> productKinds;
-    private HashMap<String, ProductSkuBean> productSkus;
+    private List<KindBean> kinds;
+    private HashMap<String, SkuBean> skus;
     private HashMap<String, AdBean> ads;
-
-    public HashMap<String, ProductSkuBean> getProductSkus() {
-        return productSkus;
-    }
-
-    public void setProductSkus(HashMap<String, ProductSkuBean> productSkus) {
-        this.productSkus = productSkus;
-    }
 
     public MachineBean getMachine() {
         return machine;
@@ -41,12 +33,19 @@ public class GlobalDataSetBean implements Serializable {
         this.ads = ads;
     }
 
-    public List<ProductKindBean> getProductKinds() {
-        return productKinds;
+    public List<KindBean> getKinds() {
+        return kinds;
     }
 
-    public void setProductKinds(List<ProductKindBean> productKinds) {
-        this.productKinds = productKinds;
+    public void setKinds(List<KindBean> kinds) {
+        this.kinds = kinds;
     }
 
+    public HashMap<String, SkuBean> getSkus() {
+        return skus;
+    }
+
+    public void setSkus(HashMap<String, SkuBean> skus) {
+        this.skus = skus;
+    }
 }

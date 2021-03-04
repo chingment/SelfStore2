@@ -263,11 +263,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
         l_slot.setSlotId(slot.getSlotId());
         l_slot.setStockId(slot.getStockId());
         l_slot.setCabinetId(slot.getCabinetId());
-        l_slot.setProductSkuId(slot.getProductSkuId());
-        l_slot.setCumCode(slot.getCumCode());
-        l_slot.setName(slot.getName());
-        l_slot.setMainImgUrl(slot.getMainImgUrl());
-        l_slot.setSpecDes(slot.getSpecDes());
+        l_slot.setSkuId(slot.getSkuId());
+        l_slot.setSkuCumCode(slot.getSkuCumCode());
+        l_slot.setSkuName(slot.getSkuName());
+        l_slot.setSkuMainImgUrl(slot.getSkuMainImgUrl());
+        l_slot.setSkuSpecDes(slot.getSkuSpecDes());
         l_slot.setOffSell(slot.isOffSell());
         l_slot.setLockQuantity(slot.getLockQuantity());
         l_slot.setSellQuantity(slot.getSellQuantity());
@@ -360,19 +360,19 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                         slots.put(slotId, slot);
                     }
 
-                    if (slot.getProductSkuId() == null) {
+                    if (slot.getSkuId() == null) {
                         txt_name.setText(R.string.tips_noproduct);
                         txt_sellQuantity.setText("0");
                         txt_lockQuantity.setText("0");
                         txt_sumQuantity.setText("0");
 
                     } else {
-                        txt_name.setText(slot.getName());
+                        txt_name.setText(slot.getSkuName());
                         txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
                         txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
                         txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
 
-                        CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getMainImgUrl());
+                        CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getSkuMainImgUrl());
 
                         if (slot.getLockQuantity() > 0) {
                             GradientDrawable drawable = new GradientDrawable();
@@ -465,7 +465,7 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     slots.put(slotId, slot);
                 }
 
-                if (slot.getProductSkuId() == null) {
+                if (slot.getSkuId() == null) {
                     if(col.isCanUse()) {
                         txt_name.setText(R.string.tips_noproduct);
                     }
@@ -479,12 +479,12 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
                     txt_sumQuantity.setText("0");
 
                 } else {
-                    txt_name.setText(slot.getName());
+                    txt_name.setText(slot.getSkuName());
                     txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
                     txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
                     txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
 
-                    CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getMainImgUrl());
+                    CommonUtil.loadImageFromUrl(SmMachineStockActivity.this, img_main, slot.getSkuMainImgUrl());
 
                     if (slot.getLockQuantity() > 0) {
                         GradientDrawable drawable = new GradientDrawable();
@@ -743,11 +743,11 @@ public class SmMachineStockActivity extends SwipeBackActivity implements View.On
              for (int i=1;i<l_slot.getSellQuantity();i++){
                  PickupSkuBean a_slot=new PickupSkuBean();
                  a_slot.setUniqueId(UUID.randomUUID().toString());
-                 a_slot.setProductSkuId(l_slot.getProductSkuId());
+                 a_slot.setSkuId(l_slot.getSkuId());
                  a_slot.setSlotId(l_slot.getSlotId());
                  a_slot.setCabinetId(l_slot.getCabinetId());
-                 a_slot.setMainImgUrl(l_slot.getMainImgUrl());
-                 a_slot.setName(l_slot.getName());
+                 a_slot.setMainImgUrl(l_slot.getSkuMainImgUrl());
+                 a_slot.setName(l_slot.getSkuName());
                  a_slot.setStatus(3010);
                  a_slot.setTips("待取货");
                  slots.add(a_slot);

@@ -86,7 +86,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_productskuslotname"
+                            android:text="@string/dlg_slotedit_tvtx_skuslotname"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10" />
 
@@ -119,7 +119,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dlg_slotedit_tvtx_productskucumcode"
+                        android:text="@string/dlg_slotedit_tvtx_skucumcode"
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 
@@ -156,7 +156,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_productskuname"
+                            android:text="@string/dlg_slotedit_tvtx_skuname"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -178,7 +178,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dlg_slotedit_tvtx_productskuspecdes"
+                        android:text="@string/dlg_slotedit_tvtx_skuspecdes"
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 
@@ -201,7 +201,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_productskusellqty"
+                            android:text="@string/dlg_slotedit_tvtx_skusellqty"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -224,7 +224,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_productskulockqty"
+                            android:text="@string/dlg_slotedit_tvtx_skulockqty"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -247,7 +247,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_productskusumqty"
+                            android:text="@string/dlg_slotedit_tvtx_skusumqty"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
@@ -306,7 +306,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dlg_slotedit_tvtx_productskumaxqty"
+                        android:text="@string/dlg_slotedit_tvtx_skumaxqty"
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 

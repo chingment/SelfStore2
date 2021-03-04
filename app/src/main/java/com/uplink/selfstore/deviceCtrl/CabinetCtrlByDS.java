@@ -293,7 +293,7 @@ public class CabinetCtrlByDS {
         sym.SN_MV_EmgStop();
     }
 
-    public void startPickUp(int row,int col,int[] pendantRows) {
+    public void startPickUp(boolean isGoZero, int row,int col,int[] pendantRows) {
 
         int mode = 0;
         if(pendantRows!=null) {
@@ -305,7 +305,7 @@ public class CabinetCtrlByDS {
             }
         }
 
-        pickupThread = new PickupThread(mode, row, col);
+        pickupThread = new PickupThread(isGoZero,mode, row, col);
         pickupThread.start();
     }
 
@@ -603,11 +603,12 @@ public class CabinetCtrlByDS {
         private int mode = -1;
         private int row = -1;
         private int col = -1;
-
-        private PickupThread(int mode, int row, int col) {
+        private boolean isGoZero=false;
+        private PickupThread(Boolean isGoZero, int mode, int row, int col) {
             this.mode = mode;
             this.row = row;
             this.col = col;
+            this.isGoZero=isGoZero;
         }
 
         @Override
@@ -667,29 +668,31 @@ public class CabinetCtrlByDS {
 
             sendPickupHandlerMessage(2, "取货准备就绪", null);
 
-            //尝试3次发送回原点
-            boolean isGoZero_Cmd = false;
-            for (int i = 0; i < 3; i++) {
-                int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
-                if (rt_goZero == S_RC_SUCCESS) {
-                    isGoZero_Cmd = true;
-                    break;
+            if(isGoZero) {
+                //尝试3次发送回原点
+                boolean isGoZero_Cmd = false;
+                for (int i = 0; i < 3; i++) {
+                    int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+                    if (rt_goZero == S_RC_SUCCESS) {
+                        isGoZero_Cmd = true;
+                        break;
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                if (!isGoZero_Cmd) {
+                    LogUtil.i(TAG, "取货流程监听：启动回原点命令失败");
+                    sendPickupHandlerMessage(5, "启动回原点命令失败", null);
+                    interrupt();
+                    return;
                 }
-            }
 
-            if (!isGoZero_Cmd) {
-                LogUtil.i(TAG, "取货流程监听：启动回原点命令失败");
-                sendPickupHandlerMessage(5, "启动回原点命令失败", null);
-                interrupt();
-                return;
+                sendPickupHandlerMessage(2, "启动回原点命令成功", null);
             }
-
-            sendPickupHandlerMessage(2, "启动回原点命令成功", null);
 
             //尝试查询回原点状态
             boolean bCanAutoStart = false;

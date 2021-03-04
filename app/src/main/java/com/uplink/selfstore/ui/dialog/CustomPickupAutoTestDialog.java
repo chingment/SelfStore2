@@ -75,7 +75,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     private boolean isExit=false;
     private boolean isPause=false;
     private String exceptionMessage="";
-
+    private boolean isGoZero=false;
     public CustomPickupAutoTestDialog(final Context context) {
         super(context, R.style.dialog_style);
         mThis = this;
@@ -236,7 +236,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
         try {
             JSONObject content = new JSONObject();
             content.put("uniqueId", pickupSku.getUniqueId());
-            content.put("productSkuId", pickupSku.getProductSkuId());
+            content.put("skuId", pickupSku.getName());
             content.put("cabinetId", pickupSku.getCabinetId());
             content.put("slotId", pickupSku.getSlotId());
             content.put("pickupStatus", pickupStatus);
@@ -305,12 +305,12 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
                             DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
                             });
-                            cabinetCtrlByDS.startPickUp(dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
+                            cabinetCtrlByDS.startPickUp(isGoZero,dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                             break;
                     }
                     break;
                 case 4000:
-
+                    isGoZero=false;
                     pickupSkus.get(curPickupSku_idx).setStatus(4000);
                     pickupSkus.get(curPickupSku_idx).setTips("取货成功");
 
@@ -318,7 +318,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                         pickupSkus.get(curPickupSku_idx).setTips("取货成功,已暂停");
                     }
                     else {
-                        curPickupSku = getCurrentPickupProductSku();
+                        curPickupSku = getCurrentPickupSku();
                         if (curPickupSku != null) {
                             setPickupNext(curPickupSku);
                         } else {
@@ -416,7 +416,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                     mContext.showToast("取货异常，请退出，检查机器");
                     return;
                 }
-                curPickupSku = getCurrentPickupProductSku();
+                curPickupSku = getCurrentPickupSku();
                 if (curPickupSku != null) {
                     isPause = false;
                     btn_pause.setVisibility(View.VISIBLE);
@@ -496,7 +496,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     }
 
     // 3010 待取货 3011 已发送取货命令 3012 取货中 4000 已完成 6000 异常
-    private PickupSkuBean getCurrentPickupProductSku() {
+    private PickupSkuBean getCurrentPickupSku() {
         PickupSkuBean cur_pickupSku=null;
         curPickupSku_idx=-1;
         for (int i = 0; i < pickupSkus.size(); i++) {
@@ -504,7 +504,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             if (l_pickupSku.getStatus() == 3010) {
                 curPickupSku_idx = i;
                 cur_pickupSku = new PickupSkuBean();
-                cur_pickupSku.setProductSkuId(l_pickupSku.getProductSkuId());
+                cur_pickupSku.setSkuId(l_pickupSku.getSkuId());
                 cur_pickupSku.setSlotId(l_pickupSku.getSlotId());
                 cur_pickupSku.setName(l_pickupSku.getName());
                 cur_pickupSku.setMainImgUrl(l_pickupSku.getMainImgUrl());
@@ -519,7 +519,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
 
     private void setPickupNext(PickupSkuBean pickupSku) {
         if (pickupSku != null) {
-            LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",productSkuId:" + pickupSku.getProductSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
+            LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",skuId:" + pickupSku.getSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
             CommonUtil.loadImageFromUrl(mContext, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
             curPickupSku_Tv_Tip1.setText(pickupSku.getName());
             curPickupSku_Tv_Tip2.setText("准备出货......");
@@ -539,6 +539,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     public void show() {
         super.show();
         isHappneException = false;
+        isGoZero=true;
         isExit = false;
         isPause = false;
         exceptionMessage = "";

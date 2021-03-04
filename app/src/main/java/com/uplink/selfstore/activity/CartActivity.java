@@ -32,7 +32,7 @@ import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.OrderReserveResultBean;
-import com.uplink.selfstore.model.api.ProductSkuBean;
+import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.TerminalPayOptionBean;
 import com.uplink.selfstore.model.chat.MsgContentByBuyInfo;
@@ -259,7 +259,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     for (String key : cartSkus.keySet()) {
                         CartSkuBean bean = cartSkus.get(key);
                         JSONObject json_Sku = new JSONObject();
-                        json_Sku.put("productSkuId", bean.getProductSkuId());
+                        json_Sku.put("skuId", bean.getSkuId());
                         json_Sku.put("quantity", bean.getQuantity());
                         json_Skus.put(json_Sku);
                     }
@@ -269,7 +269,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     return;
                 }
 
-                params.put("productSkus", json_Skus);
+                params.put("skus", json_Skus);
 
                 postByMy(CartActivity.this,Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
@@ -310,7 +310,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                                 for (String key : cartSkus.keySet()) {
                                                     CartSkuBean bean = cartSkus.get(key);
                                                     JSONObject json_Sku = new JSONObject();
-                                                    json_Sku.put("productSkuId", bean.getProductSkuId());
+                                                    json_Sku.put("skuId", bean.getSkuId());
                                                     json_Sku.put("name", bean.getName());
                                                     json_Sku.put("mainImgUrl", bean.getMainImgUrl());
                                                     json_Sku.put("quantity", bean.getQuantity());
@@ -556,7 +556,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             for(String key : cartSkus.keySet()) {
                 CartSkuBean bean=cartSkus.get(key);
                 JSONObject json_Sku = new JSONObject();
-                json_Sku.put("productSkuId", bean.getProductSkuId());
+                json_Sku.put("skuId", bean.getSkuId());
                 json_Sku.put("quantity", bean.getQuantity());
                 if(currentSvcConsulterId!=null) {
                     json_Sku.put("svcConsulterId", currentSvcConsulterId);
@@ -569,7 +569,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             return;
         }
 
-        params.put("productSkus", json_Skus);
+        params.put("skus", json_Skus);
 
         postByMy(CartActivity.this, Config.URL.order_Reserve, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
@@ -645,7 +645,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     OrderDetailsBean orderDetails = new OrderDetailsBean();
                     orderDetails.setOrderId(bean.getOrderId());
                     orderDetails.setStatus(bean.getPayStatus());
-                    orderDetails.setProductSkus(bean.getProductSkus());
+                    orderDetails.setSkus(bean.getSkus());
                     bundle.putSerializable("dataBean", orderDetails);
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -696,25 +696,25 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         return quantity;
     }
 
-    public static void operate(int type,String productSkuId, final CarOperateHandler handler) {
+    public static void operate(int type,String skuId, final CarOperateHandler handler) {
 
         MachineBean machine = AppCacheManager.getMachine();
 
         LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-        HashMap<String, ProductSkuBean> productSkus = AppCacheManager.getGlobalDataSet().getProductSkus();
-        CartSkuBean cartSku = cartSkus.get(productSkuId);
-        ProductSkuBean productSku = productSkus.get(productSkuId);
+        HashMap<String, SkuBean> skus = AppCacheManager.getGlobalDataSet().getSkus();
+        CartSkuBean cartSku = cartSkus.get(skuId);
+        SkuBean sku = skus.get(skuId);
 
         if (cartSku==null) {
             cartSku = new CartSkuBean();
-            cartSku.setProductSkuId(productSkuId);
-            cartSku.setMainImgUrl(productSku.getMainImgUrl());
-            cartSku.setTrgVideoService(productSku.isTrgVideoService());
+            cartSku.setSkuId(skuId);
+            cartSku.setMainImgUrl(sku.getMainImgUrl());
+            cartSku.setTrgVideoService(sku.isTrgVideoService());
             cartSku.setCurrencySymbol("");
-            cartSku.setName(productSku.getName());
-            cartSku.setSalePrice(productSku.getSalePrice());
+            cartSku.setName(sku.getName());
+            cartSku.setSalePrice(sku.getSalePrice());
             cartSku.setQuantity(0);
-            cartSkus.put(productSkuId, cartSku);
+            cartSkus.put(skuId, cartSku);
         }
 
         int cur_Quantity=cartSku.getQuantity();
@@ -735,19 +735,19 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 handler.callAnimation();
 
-                cartSkus.get(productSkuId).setQuantity(cur_Quantity + 1);
+                cartSkus.get(skuId).setQuantity(cur_Quantity + 1);
 
                 break;
             case CartOperateType.DECREASE:
                 cur_Quantity -= 1;
                 if (cur_Quantity == 0) {
-                    cartSkus.remove(productSkuId);
+                    cartSkus.remove(skuId);
                 } else {
-                    cartSkus.get(productSkuId).setQuantity(cur_Quantity);
+                    cartSkus.get(skuId).setQuantity(cur_Quantity);
                 }
                 break;
             case CartOperateType.DELETE:
-                cartSkus.remove(productSkuId);
+                cartSkus.remove(skuId);
                 break;
         }
 
@@ -768,7 +768,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 if (activity instanceof ProductKindActivity) {
                     ProductKindActivity ac = (ProductKindActivity) activity;
-                    ac.reSetProductKindBodyAdapter();
+                    ac.reSetKindBodyAdapter();
                     TextView txt_cart_sumquantity = (TextView) ac.findViewById(R.id.txt_cart_sumquantity);
                     TextView txt_cart_sumsalesprice = (TextView) ac.findViewById(R.id.txt_cart_sumsalesprice);
                     if (txt_cart_sumquantity != null) {
