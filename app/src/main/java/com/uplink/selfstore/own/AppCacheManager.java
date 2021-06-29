@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by chingment on 2018/1/16.
@@ -19,7 +18,7 @@ public class AppCacheManager {
     private static String Cache_Key_OpUserInfo = "Cache_Key_OpUserInfo";
     private static String Cache_Key_LastUserName = "Cache_LastUserName";
     private static String Cache_Key_LastUpdateTime = "Cache_LastUpdateTime";
-    private static String Cache_Key_Machine = "Cache_Machine";
+    private static String Cache_Key_Device = "Cache_Device";
     private static String Cache_Key_GlobalDataSet = "Cache_Key_GlobalDataSet";
 
 
@@ -78,22 +77,22 @@ public class AppCacheManager {
     }
 
 
-    public static MachineBean getMachine() {
+    public static DeviceBean getDevice() {
 
-        MachineBean bean=new MachineBean();
+        DeviceBean bean=new DeviceBean();
 
         GlobalDataSetBean globalDataSet = getGlobalDataSet();
         if(globalDataSet==null) {
-            bean.setMachineId("");
+            bean.setDeviceId("");
             return bean;
         }
 
-        if(globalDataSet.getMachine()==null){
-            bean.setMachineId("");
+        if(globalDataSet.getDevice()==null){
+            bean.setDeviceId("");
             return bean;
         }
 
-        bean = globalDataSet.getMachine();
+        bean = globalDataSet.getDevice();
 
         if(bean.getScanner()==null){
             ScannerBean scanner=new ScannerBean();

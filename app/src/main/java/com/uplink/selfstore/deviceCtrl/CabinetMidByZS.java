@@ -1,5 +1,7 @@
 package com.uplink.selfstore.deviceCtrl;
 
+import android.zqcom.zqcom;
+
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.serialport.ChangeToolUtils;
@@ -23,7 +25,7 @@ public class CabinetMidByZS {
     public static int RC_WRITEERROR = 4;
     public static int RC_READERROR = 5;
 
-    private static SerialPort mSerialPort = null;
+    private static zqcom mSerialPort = null;
     private OutputStream out = null;
     private InputStream in = null;
     private int nTimeout = 200;
@@ -42,7 +44,7 @@ public class CabinetMidByZS {
             return RC_INVALID_PARAM;
         } else {
             try {
-                mSerialPort = new SerialPort(new File("/dev/" + strPort), nBaudrate, 0);
+                mSerialPort = new android.zqcom.zqcom(new File("/dev/" + strPort), nBaudrate, 0);
                 this.out = mSerialPort.getOutputStream();
                 this.in = mSerialPort.getInputStream();
 
@@ -186,7 +188,7 @@ public class CabinetMidByZS {
             }
 
             if (mSerialPort != null) {
-                mSerialPort.close();
+                mSerialPort.Close();
             }
 
             isReadStop = true;

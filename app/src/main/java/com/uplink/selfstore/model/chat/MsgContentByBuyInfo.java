@@ -4,18 +4,18 @@ import java.util.List;
 
 public class MsgContentByBuyInfo {
 
-    private  String machineId;
+    private  String deviceId;
     private  String storeName;
     private  int handleStatus;
     private  String handleDescribe;
     private String operateUserName;
 
     private List<SkuBean> skus;
-    public String getMachineId() {
-        return machineId;
+    public String getDeviceId() {
+        return deviceId;
     }
-    public void setMachineId(String machineId) {
-        this.machineId = machineId;
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
     public String getStoreName() {
         return storeName;

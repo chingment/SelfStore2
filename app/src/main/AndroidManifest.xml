@@ -81,7 +81,7 @@
             android:name=".activity.CartActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.SmHomeActivity" />
-        <activity android:name=".activity.SmMachineInfoActivity" />
+        <activity android:name=".activity.SmDeviceInfoActivity" />
 
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
@@ -113,7 +113,7 @@
         <!-- </intent-filter> -->
         <!-- </receiver> -->
         <activity android:name=".activity.SmLoginActivity" />
-        <activity android:name=".activity.SmMachineStockActivity" />
+        <activity android:name=".activity.SmDeviceStockActivity" />
 
         <service android:name=".service.UpdateAppService" />
         <service

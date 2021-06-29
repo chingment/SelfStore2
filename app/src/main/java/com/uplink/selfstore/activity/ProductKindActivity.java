@@ -131,7 +131,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         KindNameAdapter list_kind_name_adapter = new KindNameAdapter(getAppContext(), kinds, cur_Kind_Position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
-        if(globalDataSet.getMachine().isHiddenKind()) {
+        if(globalDataSet.getDevice().isHiddenKind()) {
             list_kind_name.setVisibility(View.GONE);
         }
 

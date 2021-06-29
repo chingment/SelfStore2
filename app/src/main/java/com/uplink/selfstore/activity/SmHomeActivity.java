@@ -111,7 +111,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         break;
                     case "fun.door":
 
-                        String mstVern=getMachine().getMstVern();
+                        String mstVern=getDevice().getMstVern();
                         if(mstVern!=null) {
                             switch (mstVern) {
                                 case "DS":
@@ -131,15 +131,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                         params.put("appId", BuildConfig.APPLICATION_ID);
                         params.put("loginWay", 5);
+                        params.put("deviceId", getDevice().getDeviceId() + "");
 
-                        try {
-                            JSONObject loginPms = new JSONObject();
-                            loginPms.put("machineId", getMachine().getMachineId() + "");
-                            params.put("loginPms", loginPms);
-                        }catch (JSONException e) {
-                            e.printStackTrace();
-                            return;
-                        }
                         postByMy(SmHomeActivity.this, Config.URL.own_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
@@ -180,7 +173,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
-        Map<String, CabinetBean> cabinets = getMachine().getCabinets();
+        Map<String, CabinetBean> cabinets = getDevice().getCabinets();
 
 
         List<HashMap.Entry<String,CabinetBean>> sort_cabinets=new ArrayList<>(cabinets.entrySet());
@@ -212,11 +205,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
             }
 
             CabinetBean cabinet = entry.getValue();
-            gridviewitems.add(new NineGridItemBean(cabinet.getName()+getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.machinestock", i_cabinet_icon,cabinet));
+            gridviewitems.add(new NineGridItemBean(cabinet.getName()+getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.devicestock", i_cabinet_icon,cabinet));
             i_cabinet++;
         }
 
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_machineset), NineGridItemType.Function, "fun.machineinfo", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_deviceset), NineGridItemType.Function, "fun.deviceinfo", R.drawable.ic_sm_device));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_runexhandle), NineGridItemType.Function, "fun.runexhandle", R.drawable.ic_sm_runexhandle));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_hardware), NineGridItemType.Function, "fun.hardware", R.drawable.ic_sm_hardware));
@@ -244,13 +237,13 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         case NineGridItemType.Function:
                             intent = new Intent();
                             switch (action) {
-                                case "fun.machineinfo":
-                                    intent = new Intent(getAppContext(), SmMachineInfoActivity.class);
+                                case "fun.deviceinfo":
+                                    intent = new Intent(getAppContext(), SmDeviceInfoActivity.class);
                                     startActivity(intent);
                                     break;
-                                case "fun.machinestock":
+                                case "fun.devicestock":
                                     CabinetBean cabinet = (CabinetBean)gridviewitem.getTag();
-                                    intent = new Intent(getAppContext(), SmMachineStockActivity.class);
+                                    intent = new Intent(getAppContext(), SmDeviceStockActivity.class);
                                     intent.putExtra("cabinetId", cabinet.getCabinetId());
                                     startActivity(intent);
                                     break;

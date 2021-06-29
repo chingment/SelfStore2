@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import com.alibaba.fastjson.JSON;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.MqttBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
@@ -59,18 +59,18 @@ public class MqttServer extends Service {
     private Runnable timRunable = new Runnable() {
         @Override
         public void run() {
-            sendMachineStatus();
+            sendDeviceStatus();
             timHandler.postDelayed(this, 5 * 1000);
         }
     };
 
 
-    private void  sendMachineStatus(){
+    private void  sendDeviceStatus(){
 
 
        //LogUtil.d(TAG,"正在执行发送机器状态");
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
         String status = "unknow";
         String activityName="";
@@ -80,7 +80,7 @@ public class MqttServer extends Service {
             if (activityName.contains(".Sm")) {
                 status = "setting";
             } else {
-                if (machine.isExIsHas()) {
+                if (device.isExIsHas()) {
                     status = "exception";
                 } else {
                     status = "running";
@@ -94,7 +94,7 @@ public class MqttServer extends Service {
             NetFlowInfo flowInfo= NetFlowUtil.getAppFlowInfo("com.uplink.selfstore",getApplicationContext());
 
             msg_content.put("activity",activityName);
-            msg_content.put("machineId",machine.getMachineId());
+            msg_content.put("deviceId",device.getDeviceId());
             msg_content.put("status",status);
             msg_content.put("upKb", flowInfo.getUpKb());
             msg_content.put("downKb", flowInfo.getDownKb());
@@ -104,7 +104,7 @@ public class MqttServer extends Service {
             return;
         }
 
-        publish("machine_status","心跳包",msg_content,1);
+        publish("status","心跳包",msg_content,1);
     }
 
     @Override
@@ -154,11 +154,11 @@ public class MqttServer extends Service {
 
     private void buildMQTTClient() { // 连接操作
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
-        CLIENT_ID = "mch_" + machine.getMachineId();
+        CLIENT_ID = "mch_" + device.getDeviceId();
 
-        MqttBean mqtt = machine.getMqtt();
+        MqttBean mqtt = device.getMqtt();
 
         if (mqtt != null) {
             HOST = mqtt.getHost();
@@ -166,9 +166,9 @@ public class MqttServer extends Service {
             PASSWORD = mqtt.getPassword();
         }
 
-        SUBSCRIBE_TOPIC_A = "topic_s_mch/" + machine.getMachineId();//订阅主题
-        PUBLISH_TOPIC_A = "topic_p_mch/" + machine.getMachineId();//发布主题
-        RESPONSE_TOPIC_A = "topic_r_mch/" + machine.getMachineId();//响应主题
+        SUBSCRIBE_TOPIC_A = "topic_s_mch/" + device.getDeviceId();//订阅主题
+        PUBLISH_TOPIC_A = "topic_p_mch/" + device.getDeviceId();//发布主题
+        RESPONSE_TOPIC_A = "topic_r_mch/" + device.getDeviceId();//响应主题
 
 
         mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), HOST, CLIENT_ID);

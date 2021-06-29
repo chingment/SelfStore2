@@ -256,10 +256,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             case 4://反馈成功
                                 //todo 暂时默认发送命令既成功
                                 PickupActionResult pickupActionResult = new PickupActionResult();
-                                //pickupResult.setPickupComplete(true);
+
                                 curPickupSku_Tv_Tip2.setText("取货完成");
                                 pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
-
+                                setCurPickupSkuComplete(curPickupSku);
 //                                CabinetCtrlByZS.ZSCabBoxStatusResult result = (CabinetCtrlByZS.ZSCabBoxStatusResult) bundle.getSerializable("result");
 //                                if (result != null) {
 //                                    if (result.getCabBoxs() != null) {
@@ -417,6 +417,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 finish();
             }
         });
+
         dialog_PickupCompelte.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -458,7 +459,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             curPickupSku_Tv_Tip1.setText(pickupSku.getName());
             curPickupSku_Tv_Tip2.setText("准备出货......");
 
-            CabinetBean cabinet = getMachine().getCabinets().get(pickupSku.getCabinetId());
+            CabinetBean cabinet = getDevice().getCabinets().get(pickupSku.getCabinetId());
 
 
 
@@ -504,6 +505,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private void  setCurPickupSkuComplete(PickupSkuBean pickupSku) {
 
+        if(pickupSku==null)
+            return;
+
         List<OrderDetailsSkuBean> skus = orderDetails.getSkus();
 
         for (int i = 0; i < skus.size(); i++) {
@@ -545,6 +549,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     }
 
     private void  setPickupException(PickupSkuBean pickupSku){
+        
+        if(pickupSku==null)
+            return;
 
         if(isHappneException) {
 
@@ -565,6 +572,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     private void pickupEventNotify(PickupSkuBean pickupSku, int pickupStatus, String remark, PickupActionResult actionResult) {
 
+        if(pickupSku==null)
+            return;
         //捕捉相片
 
         IdWorker worker = new IdWorker(1,1,1);

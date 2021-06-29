@@ -28,10 +28,9 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.SmRescueToolActivity;
-import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -51,7 +50,6 @@ import com.uplink.selfstore.utils.ToastUtil;
 
 import org.json.JSONObject;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -82,8 +80,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         return globalDataSet;
     }
 
-    public MachineBean getMachine() {
-        return AppCacheManager.getMachine();
+    public DeviceBean getDevice() {
+        return AppCacheManager.getDevice();
     }
 
     public AppContext getAppContext() {
@@ -140,7 +138,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
 //    public void setScannerCtrl(Context context) {
-//        if(getMachine().getScanner().getUse()) {
+//        if(getDevice().getScanner().getUse()) {
 //            scannerCtrl = ScannerCtrl.getInstance();
 //            scannerCtrl.connect();
 //
@@ -199,10 +197,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     public void checkIsHasExHappen() {
-        MachineBean machine=getMachine();
-        if(machine!=null) {
-            if(!machine.getMachineId().equals("")) {
-                if(machine.isExIsHas()) {
+        DeviceBean device=getDevice();
+        if(device!=null) {
+            if(!device.getDeviceId().equals("")) {
+                if(device.isExIsHas()) {
                         getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                         getDialogBySystemWarn().show();
                 }
@@ -273,7 +271,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().addActivity(this);
 
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getMachine().getMachineId()) || this.getGlobalDataSet() == null) {
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getDevice().getDeviceId()) || this.getGlobalDataSet() == null) {
             Activity activity = AppManager.getAppManager().currentActivity();
             if (activity instanceof InitDataActivity||activity instanceof SmRescueToolActivity) {
 
@@ -284,9 +282,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 finish();
             }
         } else {
-            dialog_SystemWarn.setCsrPhoneNumber(getMachine().getCsrPhoneNumber());
-            dialog_SystemWarn.setCsrQrcode(getMachine().getCsrQrCode());
-            dialog_SystemWarn.setCsrHelpTip(getMachine().getCsrHelpTip());
+            dialog_SystemWarn.setCsrPhoneNumber(getDevice().getCsrPhoneNumber());
+            dialog_SystemWarn.setCsrQrcode(getDevice().getCsrQrCode());
+            dialog_SystemWarn.setCsrHelpTip(getDevice().getCsrHelpTip());
         }
 
 
@@ -322,18 +320,18 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         });
     }
 
-    public void showMachineId() {
-        RelativeLayout layout_machineid = findViewById(R.id.layout_machineid);
-        if (layout_machineid != null) {
-            layout_machineid.getBackground().setAlpha(50);
-            layout_machineid.setVisibility(View.VISIBLE);
-            TextView tv_machineId_title =findViewById(R.id.tv_machineId_title);
-            TextView tv_machineId_value =findViewById(R.id.tv_machineId_value);
-            if(tv_machineId_value!=null){
+    public void showDeviceId() {
+        RelativeLayout layout_deviceid = findViewById(R.id.layout_deviceid);
+        if (layout_deviceid != null) {
+            layout_deviceid.getBackground().setAlpha(50);
+            layout_deviceid.setVisibility(View.VISIBLE);
+            TextView tv_deviceId_title =findViewById(R.id.tv_deviceId_title);
+            TextView tv_deviceId_value =findViewById(R.id.tv_deviceId_value);
+            if(tv_deviceId_value!=null){
 
-                tv_machineId_value.setText(getMachine().getMachineId());
-                tv_machineId_value.setTextColor(Color.argb(255, 0, 255, 0));
-                tv_machineId_title.setTextColor(Color.argb(255, 0, 255, 0));
+                tv_deviceId_value.setText(getDevice().getDeviceId());
+                tv_deviceId_value.setTextColor(Color.argb(255, 0, 255, 0));
+                tv_deviceId_title.setTextColor(Color.argb(255, 0, 255, 0));
             }
         }
     }
@@ -463,62 +461,63 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         return super.dispatchTouchEvent(ev);
     }
 
-    public void getByMy(Context context, String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
-
-        HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
-
-            @Override
-            public void onBeforeSend() {
-
-                if (isShowLoading) {
-                    if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-
-                        Message m = new Message();
-                        m.what=1;
-                        m.obj=context;
-                        laodingUIHandler.sendMessage(m);
-                    }
-                }
-            }
-
-            @Override
-            public void onSuccess(String response) {
-                if (isShowLoading) {
-                    Message m = new Message();
-                    m.what=2;
-                    m.obj=context;
-                    laodingUIHandler.sendMessage(m);
-                }
-                final String s = response;
-
-                if (s.indexOf("\"result\":") > -1) {
-                    //运行在子线程,,
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            handler.onSuccess(s);
-                        }
-                    });
-                } else {
-
-                    LogUtil.e("解释错误：原始数据》》" + s);
-                    handler.onFailure("解释原始数据发生异常", null);
-                }
-            }
-
-            @Override
-            public void onFailure(String msg, Exception e) {
-                if (isShowLoading) {
-                    Message m = new Message();
-                    m.what=2;
-                    m.obj=context;
-                    laodingUIHandler.sendMessage(m);
-                }
-                handler.onFailure(msg, e);
-            }
-        });
-    }
-
+//    public void getByMy(Context context, String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
+//
+//        HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
+//
+//            @Override
+//            public void onBeforeSend() {
+//
+//                if (isShowLoading) {
+//                    if (!StringUtil.isEmptyNotNull(loadingMsg)) {
+//
+//                        Message m = new Message();
+//                        m.what=1;
+//                        m.obj=context;
+//                        laodingUIHandler.sendMessage(m);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onSuccess(String response) {
+//                if (isShowLoading) {
+//                    Message m = new Message();
+//                    m.what=2;
+//                    m.obj=context;
+//                    laodingUIHandler.sendMessage(m);
+//                }
+//                final String s = response;
+//
+//                if (s.indexOf("\"result\":") > -1) {
+//                    //运行在子线程,,
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            handler.onSuccess(s);
+//                        }
+//                    });
+//                } else {
+//
+//                    LogUtil.e("解释错误：原始数据》》" + s);
+//                    handler.onFailure("解释原始数据发生异常", null);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(String msg, Exception e) {
+//                if (isShowLoading) {
+//                    Message m = new Message();
+//                    m.what=2;
+//                    m.obj=context;
+//                    laodingUIHandler.sendMessage(m);
+//                }
+//                handler.onFailure(msg, e);
+//            }
+//        });
+//    }
+//
+//
     public void postByMy(Context context,String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, filePaths, new HttpResponseHandler() {
@@ -571,10 +570,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     public void orderCancle(Context context, String orderId,int type, String reason) {
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", machine.getMachineId() + "");
+        params.put("deviceId", device.getDeviceId() + "");
         params.put("orderId", orderId);
         params.put("type", type);
         params.put("reason", reason);
@@ -588,12 +587,11 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     public static void eventNotify(String eventCode,String eventRemark, JSONObject content){
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
         Map<String, Object> params = new HashMap<>();
         params.put("appId", BuildConfig.APPLICATION_ID);
-        params.put("deviceId", AppContext.getInstance().getDeviceId());
-        params.put("machineId", machine.getMachineId() + "");
+        params.put("deviceId", device.getDeviceId());
         params.put("lat", LocationUtil.LAT);
         params.put("lng", LocationUtil.LNG);
         params.put("eventCode", eventCode);
@@ -602,7 +600,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             params.put("content", content);
         }
 
-        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_EventNotify, params, null, new HttpResponseHandler() {
+        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
@@ -622,12 +620,12 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
     public void orderSearchByPickupCode(Context context, String pickCode) {
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
 
-        params.put("machineId", this.getMachine().getMachineId());
+        params.put("deviceId", this.getDevice().getDeviceId());
         params.put("pickupCode", pickCode);
 
-        getByMy(context,Config.URL.order_SearchByPickupCode, params, false, "正在寻找订单", new HttpResponseHandler() {
+        postByMy(context,Config.URL.order_SearchByPickupCode, params,null, true, "正在寻找订单", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

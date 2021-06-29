@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.SmMachineStockActivity;
+import com.uplink.selfstore.activity.SmDeviceStockActivity;
 import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
@@ -29,7 +29,7 @@ import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.SkuSearchResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SearchSkuBean;
@@ -55,7 +55,7 @@ import java.util.UUID;
 public class CustomSlotEditDialog extends Dialog {
     private static final String TAG = "CustomSlotEditDialog";
     private View mLayoutRes;// 布局文件
-    private SmMachineStockActivity mContext;
+    private SmDeviceStockActivity mContext;
     private Dialog mThis;
 
     private View btn_close;
@@ -95,7 +95,7 @@ public class CustomSlotEditDialog extends Dialog {
     public CustomSlotEditDialog(final Context context) {
         super(context, R.style.dialog_style);
         mThis = this;
-        mContext = (SmMachineStockActivity) context;
+        mContext = (SmDeviceStockActivity) context;
         mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_slotedit, null);
 
         initView();
@@ -306,7 +306,7 @@ public class CustomSlotEditDialog extends Dialog {
             }
         }));
 
-//        if (mContext.getMachine().getScanner().getUse()) {
+//        if (mContext.getDevice().getScanner().getUse()) {
 //            scannerCtrl = ScannerCtrl.getInstance();
 //            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
 //                        @Override
@@ -490,7 +490,7 @@ public class CustomSlotEditDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                MachineBean machine = AppCacheManager.getMachine();
+                DeviceBean device = AppCacheManager.getDevice();
 
                 String stockId = String.valueOf(txt_StockId.getText());
                 String slotId = String.valueOf(txt_SlotId.getText());
@@ -508,7 +508,7 @@ public class CustomSlotEditDialog extends Dialog {
                 Map<String, Object> params = new HashMap<>();
                 params.put("slotId", slotId);
                 params.put("stockId", stockId);
-                params.put("machineId", machine.getMachineId());
+                params.put("deviceId", device.getDeviceId());
                 params.put("cabinetId", cabinet.getCabinetId());
                 params.put("skuId", skuId);
                 params.put("sumQuantity", sumQuantity);
@@ -719,14 +719,14 @@ public class CustomSlotEditDialog extends Dialog {
 
     public void searchSkus(String key) {
         txt_searchKey.setText(key);
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
-        params.put("machineId", machine.getMachineId());
+        params.put("deviceId", device.getDeviceId());
         params.put("key", key);
 
-        mContext.getByMy(mContext,Config.URL.product_SearchSku, params, false, "正在寻找", new HttpResponseHandler() {
+        mContext.postByMy(mContext,Config.URL.product_SearchSku, params, null, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

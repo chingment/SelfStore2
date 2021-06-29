@@ -106,7 +106,7 @@ public class KindSkuAdapter extends BaseAdapter {
         txt_name.setText(item.getName());
         int cartQuantity = CartActivity.getSkuQuantity(item.getSkuId());
         txt_quantity.setText(String.valueOf(cartQuantity));
-        txt_price_currencySymbol.setText(globalDataSet.getMachine().getCurrencySymbol());
+        txt_price_currencySymbol.setText(globalDataSet.getDevice().getCurrencySymbol());
 
         String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);

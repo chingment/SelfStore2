@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +15,10 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OpUserInfoBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -67,7 +65,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         btn_appexit=this.findViewById(R.id.btn_appexit);
         btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
 
-        if(getMachine().getFingerVeinner().getUse()) {
+        if(getDevice().getFingerVeinner().getUse()) {
             dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
             dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
                         @Override
@@ -197,7 +195,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
             return;
         }
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
 
         Map<String, Object> params = new HashMap<>();
@@ -205,15 +203,8 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         params.put("password", password);
         params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("loginWay", 5);
+        params.put("deviceId", device.getDeviceId() + "");
 
-        try {
-            JSONObject loginPms = new JSONObject();
-            loginPms.put("machineId", machine.getMachineId() + "");
-            params.put("loginPms", loginPms);
-        }catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
 
         postByMy(SmLoginActivity.this, Config.URL.own_LoginByAccount, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
@@ -246,21 +237,14 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
     public void  loginByFingerVein(byte[] veinData){
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
         Map<String, Object> params = new HashMap<>();
         params.put("veinData",  Base64.encodeToString(veinData, Base64.NO_WRAP));
         params.put("appId", BuildConfig.APPLICATION_ID);
         params.put("loginWay", 5);
+        params.put("deviceId", device.getDeviceId() + "");
 
-        try {
-            JSONObject loginPms = new JSONObject();
-            loginPms.put("machineId", machine.getMachineId() + "");
-            params.put("loginPms", loginPms);
-        }catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
 
         postByMy(SmLoginActivity.this, Config.URL.own_LoginByFingerVein, params, null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override

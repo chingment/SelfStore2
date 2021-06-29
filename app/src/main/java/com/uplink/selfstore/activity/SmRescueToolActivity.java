@@ -6,35 +6,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
-import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
-import com.uplink.selfstore.ostCtrl.OstCtrlBySx;
-import com.uplink.selfstore.ostCtrl.OstCtrlByYs;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SmRescueToolActivity extends SwipeBackActivity implements View.OnClickListener {
 
@@ -89,7 +74,7 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
         MyGridView gridview = (MyGridView) findViewById(R.id.gridview_ninegrid);
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_shownav), NineGridItemType.Function, "fun.shownav", R.drawable.ic_sm_machine));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_shownav), NineGridItemType.Function, "fun.shownav", R.drawable.ic_sm_device));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_checkupdateapp), NineGridItemType.Function, "fun.checkupdateapp", R.drawable.ic_sm_updateapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_closeapp), NineGridItemType.Function, "fun.closeapp", R.drawable.ic_sm_closeapp));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_rootsys), NineGridItemType.Function, "fun.rootsys", R.drawable.ic_sm_root));

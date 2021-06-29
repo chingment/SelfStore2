@@ -113,7 +113,7 @@ public class ProductDetailsActivity extends SwipeBackActivity implements View.On
         txt_briefInfo.setText(sku.getBriefDes());
 
 
-        txt_price_currencySymbol.setText(this.getGlobalDataSet().getMachine().getCurrencySymbol());
+        txt_price_currencySymbol.setText(this.getGlobalDataSet().getDevice().getCurrencySymbol());
 
         String[] price = CommonUtil.getPrice(String.valueOf(sku.getSalePrice()));
         txt_price_integer.setText(price[0]);

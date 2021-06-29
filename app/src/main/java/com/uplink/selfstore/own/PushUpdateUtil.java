@@ -114,7 +114,7 @@ public class PushUpdateUtil {
 
         GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
 
-        globalDataSet.getMachine().setLogoImgUrl(updateHomeLogo.getUrl());
+        globalDataSet.getDevice().setLogoImgUrl(updateHomeLogo.getUrl());
 
         List<Activity> acts = AppManager.getAppManager().getActivityStack();
         if (acts != null) {

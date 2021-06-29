@@ -87,7 +87,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         });
 
-        showMachineId();
+        showDeviceId();
 
         //拦截扫码器回调,获取扫码内容
 //        scanKeyManager = new ScanKeyManager(new ScanKeyManager.OnScanValueListener() {
@@ -164,7 +164,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-        loadLogo(this.getGlobalDataSet().getMachine().getLogoImgUrl());
+        loadLogo(this.getGlobalDataSet().getDevice().getLogoImgUrl());
         loadAds(this.getGlobalDataSet().getAds());
     }
 

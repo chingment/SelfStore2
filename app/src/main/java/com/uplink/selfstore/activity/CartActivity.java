@@ -27,7 +27,7 @@ import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.ImBean;
 import com.uplink.selfstore.model.api.ImSeatBean;
 import com.uplink.selfstore.model.api.ImServiceSeatsRealtBean;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
@@ -181,7 +181,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         btn_pay_z_aggregate = findViewById(R.id.btn_pay_z_aggregate);
 
 
-        List<TerminalPayOptionBean> payOptions = this.getMachine().getPayOptions();
+        List<TerminalPayOptionBean> payOptions = this.getDevice().getPayOptions();
         if (payOptions != null) {
             for (int i = 0; i < payOptions.size(); i++) {
                 if (payOptions.get(i).getCaller() == 10) {
@@ -252,7 +252,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                 LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
 
                 Map<String, Object> params = new HashMap<>();
-                params.put("machineId", getMachine().getMachineId() + "");
+                params.put("deviceId", getDevice().getDeviceId() + "");
                 JSONArray json_Skus = new JSONArray();
 
                 try {
@@ -287,7 +287,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                 @Override
                                 public void call(ImSeatBean v) {
 
-                                   ImBean im= getMachine().getIm();
+                                   ImBean im= getDevice().getIm();
 
                                     EMClient.getInstance().login(im.getUserName(), im.getPassword(), new EMCallBack() {
 
@@ -304,8 +304,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                                                 jsonExMessage.put("type", "buyinfo");
 
                                                 JSONObject jsonExMessageContent = new JSONObject();
-                                                jsonExMessageContent.put("machineId", getMachine().getMachineId());
-                                                jsonExMessageContent.put("storeName", getMachine().getStoreName());
+                                                jsonExMessageContent.put("deviceId", getDevice().getDeviceId());
+                                                jsonExMessageContent.put("storeName", getDevice().getStoreName());
                                                 JSONArray json_Skus = new JSONArray();
                                                 for (String key : cartSkus.keySet()) {
                                                     CartSkuBean bean = cartSkus.get(key);
@@ -430,7 +430,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                     payOption=(TerminalPayOptionBean)v.getTag();
 
-                    if(getMachine().getIm().isUse()) {
+                    if(getDevice().getIm().isUse()) {
                         boolean isHasVieoService = false;
                         LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
                         for (String key : cartSkus.keySet()) {
@@ -548,7 +548,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", getMachine().getMachineId() + "");
+        params.put("deviceId", getDevice().getDeviceId() + "");
         params.put("shopMethod", 1);
         JSONArray json_Skus = new JSONArray();
 
@@ -601,12 +601,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         if (StringUtil.isEmptyNotNull(LAST_PAYTRANSID) && StringUtil.isEmptyNotNull(LAST_ORDERID))
             return;
 
-        Map<String, String> params = new HashMap<>();
-        params.put("machineId", this.getMachine().getMachineId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("deviceId", this.getDevice().getDeviceId());
         params.put("payTransId", LAST_PAYTRANSID);
         params.put("orderId", LAST_ORDERID);
 
-        getByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params, false, "", new HttpResponseHandler() {
+        postByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params,null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -698,7 +698,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
     public static void operate(int type,String skuId, final CarOperateHandler handler) {
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
         LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
         HashMap<String, SkuBean> skus = AppCacheManager.getGlobalDataSet().getSkus();
@@ -728,8 +728,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     mSumQuantity += cartSkus.get(key).getQuantity();
                 }
 
-                if ((mSumQuantity + 1) > machine.getMaxBuyNumber()) {
-                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过" + machine.getMaxBuyNumber() + "个", Toast.LENGTH_LONG);
+                if ((mSumQuantity + 1) > device.getMaxBuyNumber()) {
+                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过" + device.getMaxBuyNumber() + "个", Toast.LENGTH_LONG);
                     return;
                 }
 

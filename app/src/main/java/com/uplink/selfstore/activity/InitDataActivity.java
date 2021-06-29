@@ -1,8 +1,6 @@
 package com.uplink.selfstore.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
@@ -22,7 +20,7 @@ import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
@@ -37,15 +35,11 @@ import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
-import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
-import com.uplink.selfstore.utils.IdWorker;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,7 +74,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
             if(!initIsRun) {
                 initIsRun=true;
-                setMachineInitData();
+                setDeviceInitData();
             }
 
             initHandler.postDelayed(this, 1000);
@@ -97,6 +91,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
+
+
+        String a= android.os.Build.SERIAL;
 
 
 //        IdWorker worker = new IdWorker(1,1,1);
@@ -281,10 +278,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 return false;
                             }
 
-                            MachineBean machine = data_globalDataSet.getMachine();//机器数据
+                            DeviceBean device = data_globalDataSet.getDevice();//机器数据
 
-                            if(machine==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：data_globalDataSet.machine对象为控");
+                            if(device==null) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：data_globalDataSet.device对象为控");
                                 return false;
                             }
 
@@ -293,10 +290,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                             AppCacheManager.clearCartSkus();//清空购物车数据
 
-                            ScannerCtrl.getInstance().setComId(machine.getScanner().getComId());//设置扫描器串口ID
+                            ScannerCtrl.getInstance().setComId(device.getScanner().getComId());//设置扫描器串口ID
 
                             //根据机构类型设置串口信息
-                            HashMap<String, CabinetBean> cabinets = machine.getCabinets();
+                            HashMap<String, CabinetBean> cabinets = device.getCabinets();
 
                             HashMap<String, String> modelNos = new HashMap<>();
 
@@ -321,7 +318,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 }
                             }
 
-                            CameraWindow.setInSampleSize(machine.getPicInSampleSize());
+                            CameraWindow.setInSampleSize(device.getPicInSampleSize());
 
                             Intent mqttServerService = new Intent(InitDataActivity.this, MqttServer.class);
 
@@ -420,9 +417,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setHandleMessage(what,msg,null);
     }
 
-    public void setMachineInitData() {
+    public void setDeviceInitData() {
 
-        setHandleMessage(WHAT_TIPS, getAppContext().getString(R.string.aty_initdata_tips_settingmachine));
+        setHandleMessage(WHAT_TIPS, getAppContext().getString(R.string.aty_initdata_tips_settingdevice));
 
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
@@ -433,21 +430,21 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());
         params.put("macAddress", getAppContext().getMacAddress());
 
-        postByMy(InitDataActivity.this, Config.URL.machine_InitData, params,null, false, "", new HttpResponseHandler() {
+        postByMy(InitDataActivity.this, Config.URL.device_InitData, params,null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
                 });
                 if (rt.getResult() == Result.SUCCESS) {
-                    setHandleMessage(WHAT_READ_CONFIG_SUCCESS, getAppContext().getString(R.string.aty_initdata_tips_settingmachinecfgreadsuccess),rt.getData());
+                    setHandleMessage(WHAT_READ_CONFIG_SUCCESS, getAppContext().getString(R.string.aty_initdata_tips_settingdevicecfgreadsuccess),rt.getData());
                 } else {
-                    setHandleMessage(WHAT_READ_CONFIG_FAILURE, getAppContext().getString(R.string.aty_initdata_tips_settingmachinecfgreadfailure) + ":" + rt.getMessage());
+                    setHandleMessage(WHAT_READ_CONFIG_FAILURE, getAppContext().getString(R.string.aty_initdata_tips_settingdevicecfgreadfailure) + ":" + rt.getMessage());
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
-                setHandleMessage(WHAT_READ_CONFIG_FAILURE, getAppContext().getString(R.string.aty_initdata_tips_settingmachinecfgreadfailure) + ":" + msg);
+                setHandleMessage(WHAT_READ_CONFIG_FAILURE, getAppContext().getString(R.string.aty_initdata_tips_settingdevicecfgreadfailure) + ":" + msg);
             }
         });
     }

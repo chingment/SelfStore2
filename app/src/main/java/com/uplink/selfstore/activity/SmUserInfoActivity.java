@@ -13,7 +13,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.MachineBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OwnInfoResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -106,9 +106,9 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
     private void  getInfo(){
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
 
-        getByMy(SmUserInfoActivity.this, Config.URL.own_GetInfo, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmUserInfoActivity.this, Config.URL.own_GetInfo, params,null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -202,10 +202,10 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
     private void  uploadFingerVeinData(byte[] data){
 
-        MachineBean machine = AppCacheManager.getMachine();
+        DeviceBean device = AppCacheManager.getDevice();
 
         Map<String, Object> params = new HashMap<>();
-        params.put("machineId", machine.getMachineId() + "");
+        params.put("deviceId", device.getDeviceId() + "");
         params.put("veinData", Base64.encodeToString(data, Base64.NO_WRAP));
 
         postByMy(SmUserInfoActivity.this, Config.URL.own_UploadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {

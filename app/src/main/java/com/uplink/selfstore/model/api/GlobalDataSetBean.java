@@ -11,17 +11,17 @@ import java.util.List;
 public class GlobalDataSetBean implements Serializable {
 
 
-    private MachineBean machine;
+    private DeviceBean device;
     private List<KindBean> kinds;
     private HashMap<String, SkuBean> skus;
     private HashMap<String, AdBean> ads;
 
-    public MachineBean getMachine() {
-        return machine;
+    public DeviceBean getDevice() {
+        return device;
     }
 
-    public void setMachine(MachineBean machine) {
-        this.machine = machine;
+    public void setDevice(DeviceBean device) {
+        this.device = device;
     }
 
 

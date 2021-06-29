@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_nav_header" />
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/size_10"
+        android:paddingRight="@dimen/size_10"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/size_10"
+            android:paddingTop="@dimen/size_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/aty_smdevicestock_tvtx_cabinetname"
+                android:textColor="@color/field_name"
+                android:textSize="@dimen/size_10" />
+
+            <TextView
+                android:id="@+id/txt_CabinetName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_10"
+                android:gravity="left"
+                android:textColor="@color/field_value"
+                android:textSize="@dimen/size_10" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:layout_gravity="right"
+                >
+
+                <Button
+                    android:id="@+id/btn_AutoTest"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_20"
+                    android:background="@drawable/widget_btn_blue"
+                    android:text="@string/btntx_autotest"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_10"/>
+
+                <Button
+                    android:layout_marginLeft="@dimen/size_10"
+                    android:id="@+id/btn_ScanSlots"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_20"
+                    android:background="@drawable/widget_btn_green"
+                    android:text="@string/btntx_scanslot"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    android:textSize="@dimen/sp_10"/>
+
+                <Button
+                    android:layout_marginLeft="@dimen/size_10"
+                    android:id="@+id/btn_RefreshStock"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_20"
+                    android:background="@drawable/widget_common_btn"
+                    android:text="@string/btntx_refreshstock"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_10"/>
+
+                <Button
+                    android:visibility="gone"
+                    android:layout_marginLeft="@dimen/size_10"
+                    android:id="@+id/btn_save"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_20"
+                    android:background="@drawable/widget_btn_orange"
+                    android:text="@string/btntx_savedata"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_10"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_32"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/size_10"
+        android:paddingRight="@dimen/size_10"
+        android:orientation="horizontal">
+
+        <LinearLayout
+
+            android:layout_width="@dimen/size_80"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+
+            android:gravity="center_vertical|left">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/aty_smdeviceinfo_tvtx_devicestatus"
+                android:textColor="@color/field_name"
+                android:layout_marginRight="@dimen/size_10"
+                android:textSize="@dimen/size_10" />
+
+            <com.uplink.selfstore.ui.my.MyBreathLight
+                android:id="@+id/breathlight_device"
+
+                android:layout_width="@dimen/size_10"
+                android:layout_height="@dimen/size_10" />
+        </LinearLayout>
+        <LinearLayout
+
+            android:layout_width="@dimen/size_80"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+
+            android:gravity="center_vertical|left">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/aty_smdeviceinfo_tvtx_scanganstatus"
+                android:textColor="@color/field_name"
+                android:layout_marginRight="@dimen/size_10"
+                android:textSize="@dimen/size_10" />
+
+            <com.uplink.selfstore.ui.my.MyBreathLight
+                android:id="@+id/breathlight_scangan"
+
+                android:layout_width="@dimen/size_10"
+                android:layout_height="@dimen/size_10" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+    <TableLayout
+        android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/table_slotstock"/>
+    </ScrollView>
+</LinearLayout>

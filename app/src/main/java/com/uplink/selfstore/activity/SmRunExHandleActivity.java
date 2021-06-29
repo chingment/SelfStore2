@@ -20,7 +20,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.ExHandleItemBean;
 import com.uplink.selfstore.model.api.ExHandleUniqueBean;
 import com.uplink.selfstore.model.api.ExHandleReasonBean;
-import com.uplink.selfstore.model.api.MachineGetRunExHandleItemsResultBean;
+import com.uplink.selfstore.model.api.DeviceGetRunExHandleItemsResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
@@ -87,7 +87,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
 
                 Map<String, Object> params = new HashMap<>();
-                params.put("machineId", getMachine().getMachineId() + "");
+                params.put("deviceId", getDevice().getDeviceId() + "");
 
                 JSONArray json_items = new JSONArray();
                 JSONArray json_reasons = new JSONArray();
@@ -131,7 +131,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
                 params.put("exItems", json_items);
                 params.put("exReasons", json_reasons);
-                postByMy(SmRunExHandleActivity.this, Config.URL.machine_HandleRunExItems, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(SmRunExHandleActivity.this, Config.URL.device_HandleRunExItems, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -210,15 +210,15 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
     private void getRunExHandleItems() {
 
-        Map<String, String> params = new HashMap<>();
-        params.put("machineId", getMachine().getMachineId());
+        Map<String, Object> params = new HashMap<>();
+        params.put("deviceId", getDevice().getDeviceId());
 
-        getByMy(SmRunExHandleActivity.this, Config.URL.machine_GetRunExHandleItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmRunExHandleActivity.this, Config.URL.device_GetRunExHandleItems, params,null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<MachineGetRunExHandleItemsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<MachineGetRunExHandleItemsResultBean>>() {
+                ApiResultBean<DeviceGetRunExHandleItemsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<DeviceGetRunExHandleItemsResultBean>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {

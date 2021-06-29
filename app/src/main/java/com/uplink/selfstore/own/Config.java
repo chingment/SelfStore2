@@ -18,18 +18,18 @@ public class Config {
 //        LogUtil.e(TAG, "sortedStr>>==>>" + sortedStr);
         String sha256edStr = SHA256Encrypt.bin2hex(sortedStr).toLowerCase();
 //        LogUtil.e(TAG, "sha256edStr>>==>>" + sha256edStr);
-        String base64Str = Base64.encodeToString(sha256edStr.getBytes(), Base64.NO_WRAP);
+//        String base64Str = Base64.encodeToString(sha256edStr.getBytes(), Base64.NO_WRAP);
 //        String base64Str = StringUtils.replaceEnter(Base64.encodeToString(sha256edStr.getBytes(), Base64.NO_WRAP), "");
 //        LogUtil.e(TAG, "加密后>>==>>" + base64Str);
-        return base64Str;
+        return sha256edStr;
     }
 
     public class URL {
-        public static final String machine_InitData= BuildConfig.ENVIRONMENT + "/api/machine/InitData";
-        public static final String machine_CheckUpdate= BuildConfig.ENVIRONMENT + "/api/machine/CheckUpdate";
-        public static final String machine_EventNotify = BuildConfig.ENVIRONMENT + "/api/Machine/EventNotify";
-        public static final String machine_GetRunExHandleItems= BuildConfig.ENVIRONMENT + "/api/Machine/GetRunExHandleItems";
-        public static final String machine_HandleRunExItems= BuildConfig.ENVIRONMENT + "/api/Machine/HandleRunExItems";
+        public static final String device_InitData= BuildConfig.ENVIRONMENT + "/api/device/InitData";
+        public static final String device_CheckUpdate= BuildConfig.ENVIRONMENT + "/api/device/CheckUpdate";
+        public static final String device_EventNotify = BuildConfig.ENVIRONMENT + "/api/device/EventNotify";
+        public static final String device_GetRunExHandleItems= BuildConfig.ENVIRONMENT + "/api/device/GetRunExHandleItems";
+        public static final String device_HandleRunExItems= BuildConfig.ENVIRONMENT + "/api/device/HandleRunExItems";
         public static final String order_Reserve = BuildConfig.ENVIRONMENT + "/api/Order/Reserve";
         public static final String order_BuildPayParams = BuildConfig.ENVIRONMENT + "/api/Order/BuildPayParams";
         public static final String order_Cancle = BuildConfig.ENVIRONMENT + "/api/Order/Cancle";
@@ -45,7 +45,7 @@ public class Config {
         public static final String own_GetInfo= BuildConfig.ENVIRONMENT + "/api/Own/GetInfo";
         public static final String own_UploadFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/UploadFingerVeinData";
         public static final String own_DeleteFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/DeleteFingerVeinData";
-        public static final String uploadfile= BuildConfig.ENVIRONMENT + "/api/machine/upload";
+        public static final String uploadfile= BuildConfig.ENVIRONMENT + "/api/device/upload";
         public static final String imservice_Seats= BuildConfig.ENVIRONMENT + "/api/ImService/Seats";
     }
 }

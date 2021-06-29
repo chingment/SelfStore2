@@ -238,10 +238,12 @@ public class UpdateAppService extends Service {
             super.run();
 
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, Object> params = new HashMap<>();
             params.put("appId", BuildConfig.APPLICATION_ID);
             params.put("appKey", BuildConfig.APPKEY);
-            HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.machine_CheckUpdate, params, new HttpResponseHandler() {
+
+
+            HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.device_CheckUpdate, params,null, new HttpResponseHandler() {
 
                 @Override
                 public void onBeforeSend() {

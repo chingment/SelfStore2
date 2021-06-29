@@ -145,12 +145,13 @@ public class AppContext extends Application {
             deviceId="";
         }
 
+        return  "202004220047";
 
-        if(Config.IS_BUILD_DEBUG) {
-            return "02:00:00:00:00:00";
-        }
-
-        return deviceId;
+//        if(Config.IS_BUILD_DEBUG) {
+//            return "02:00:00:00:00:00";
+//        }
+//
+//        return deviceId;
     }
 
     public String getImeiId() {
