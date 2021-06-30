@@ -24,7 +24,7 @@ import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.service.MqttServer;
+import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
@@ -200,9 +200,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
                                     setCurPickupSkuComplete(curPickupSku);
                                     break;
-                                case 5://取货失败，机器异常
+                                case 5://取货失败，设备异常
                                     isHappneException = true;
-                                    exceptionMessage = "取货失败,机器发生异常:" + message;
+                                    exceptionMessage = "取货失败,设备发生异常:" + message;
                                     LogUtil.e(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
@@ -609,7 +609,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             content.put("remark", remark);
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
 
-            MqttServer.publish("pickup","商品取货",content,2);
+            MqttService.publish("pickup","商品取货",content,2);
 
             eventNotify("Pickup","商品取货", content);
 

@@ -31,7 +31,7 @@ public class PickupActionResult implements Serializable {
         switch (actionId){
 
             case  0:
-                this.actionName="机器停止复位";
+                this.actionName="设备停止复位";
                 break;
             case  1:
                 this.actionName="回到原点";

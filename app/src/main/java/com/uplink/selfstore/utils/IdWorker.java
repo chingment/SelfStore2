@@ -2,7 +2,7 @@ package com.uplink.selfstore.utils;
 
 public class IdWorker{
 
-    //下面两个每个5位，加起来就是10位的工作机器id
+    //下面两个每个5位，加起来就是10位的工作设备id
     private long workerId;    //工作id
     private long datacenterId;   //数据id
     //12位的序列号

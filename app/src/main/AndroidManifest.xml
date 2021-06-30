@@ -121,7 +121,11 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <service android:name=".service.MqttServer"
+        <service android:name=".service.MqttService"
+            android:enabled="true"
+            android:exported="true"
+            />
+        <service android:name=".service.AiotMqttService"
             android:enabled="true"
             android:exported="true"
             />

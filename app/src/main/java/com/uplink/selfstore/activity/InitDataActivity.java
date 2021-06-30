@@ -29,7 +29,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.GlobalDataSetBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
-import com.uplink.selfstore.service.MqttServer;
+import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
@@ -93,7 +93,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
 
-        String a= android.os.Build.SERIAL;
 
 
 //        IdWorker worker = new IdWorker(1,1,1);
@@ -148,39 +147,13 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Intent alarmService = new Intent(this, AlarmService.class);
         startService(alarmService);
 
-        Intent mqttServer = new Intent(this, MqttServer.class);
-        stopService(mqttServer);
+        Intent mqttService = new Intent(this, MqttService.class);
+        stopService(mqttService);
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
-
-
-//        getByMy("http://127.0.0.1/api/Machine/initData" ,null, false, "", new HttpResponseHandler() {
-//            @Override
-//            public void onSuccess(String response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String msg, Exception e) {
-//
-//            }
-//        });
-
-//        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(CartActivity.this, new PermissionsResultAction() {
-//            @Override
-//            public void onGranted() {
-//
-////              Toast.makeText(MainActivity.this, "All permissions have been granted", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDenied(String permission) {
-//                //Toast.makeText(MainActivity.this, "Permission " + permission + " has been denied", Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
     }
 
@@ -258,30 +231,30 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                     case WHAT_TIPS:
                         break;
                     case WHAT_READ_CONFIG_SUCCESS:
-                        setHandleMessage(WHAT_TIPS, "正在配置机器信息");
+                        setHandleMessage(WHAT_TIPS, "正在配置设备信息");
                         try {
 
                             if(bundle==null){
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：bundle对象为控");
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：bundle对象为控");
                                 return false;
                             }
 
                             if(bundle.getSerializable("globalDataSetBean")==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：bundle.globalDataSetBean对象为控");
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：bundle.globalDataSetBean对象为控");
                                 return false;
                             }
 
                             GlobalDataSetBean data_globalDataSet = (GlobalDataSetBean) bundle.getSerializable("globalDataSetBean");//全局数据
 
                             if(data_globalDataSet==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：data_globalDataSet对象为控");
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：data_globalDataSet对象为控");
                                 return false;
                             }
 
-                            DeviceBean device = data_globalDataSet.getDevice();//机器数据
+                            DeviceBean device = data_globalDataSet.getDevice();//设备数据
 
                             if(device==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：data_globalDataSet.device对象为控");
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：data_globalDataSet.device对象为控");
                                 return false;
                             }
 
@@ -320,11 +293,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                             CameraWindow.setInSampleSize(device.getPicInSampleSize());
 
-                            Intent mqttServerService = new Intent(InitDataActivity.this, MqttServer.class);
 
-                            startService(mqttServerService);
-
-                            setHandleMessage(WHAT_SET_CONFIG_SUCCESS, "信息配置完成，正在启动机器恢复原始状态");
+                            setHandleMessage(WHAT_SET_CONFIG_SUCCESS, "信息配置完成，正在启动设备恢复原始状态");
 
                             new Thread(new Runnable() {
                                 public void run() {
@@ -332,17 +302,19 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                                     setHandleMessage(WHAT_TIPS, "配置结束，进入购物车界面");
 
+
+
                                     Intent intent = new Intent(getAppContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
                             }).start();
                         } catch (Exception ex) {
-                            setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置机器信息失败：" + ex.getMessage());
+                            setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：" + ex.getMessage());
                         }
                         break;
                     case WHAT_READ_CONFIG_FAILURE:
-                        setHandleMessage(WHAT_TIPS, "重新尝试读取机器信息");
+                        setHandleMessage(WHAT_TIPS, "重新尝试读取设备信息");
                         initIsRun=false;
                         break;
                 }
@@ -424,7 +396,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getAppContext().getDeviceId());
         params.put("imeiId",getAppContext().getImeiId());
-        params.put("jPushRegId", "");
         params.put("appVersionCode", BuildConfig.VERSION_CODE);
         params.put("appVersionName", BuildConfig.VERSION_NAME);
         params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());

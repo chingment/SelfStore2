@@ -22,7 +22,7 @@ import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.service.MqttServer;
+import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 //import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
@@ -187,10 +187,10 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                         curPickupSku_Tv_Tip2.setText("取货完成");
                                         pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
                                         break;
-                                    case 5://取货失败，机器异常
+                                    case 5://取货失败，设备异常
                                         cabinetCtrlByDS.stopPickup();
                                         isHappneException = true;
-                                        exceptionMessage = "取货失败,机器发生异常:" + message;
+                                        exceptionMessage = "取货失败,设备发生异常:" + message;
                                         LogUtil.e(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
@@ -264,7 +264,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                 mContext.eventNotify("PickupTest", "商品测试取货", content);
             }
 
-            //MqttServer.publish("pickup_test","商品测试取货",content);
+            //MqttService.publish("pickup_test","商品测试取货",content);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -375,12 +375,12 @@ public class CustomPickupAutoTestDialog extends Dialog {
                 if (curPickupSku == null) {
                     isHappneException = false;
                     isExit = true;
-                    exceptionMessage = "空闲停止机器";
+                    exceptionMessage = "空闲停止设备";
                 }
                 else {
                     isHappneException = true;
                     isExit = true;
-                    exceptionMessage = "非空闲停止机器";
+                    exceptionMessage = "非空闲停止设备";
                 }
 
                 cabinetCtrlByDS.stopPickup();
@@ -395,13 +395,13 @@ public class CustomPickupAutoTestDialog extends Dialog {
                 if (curPickupSku == null) {
                     isHappneException = false;
                     isExit = true;
-                    exceptionMessage = "空闲停止机器";
+                    exceptionMessage = "空闲停止设备";
 
                 }
                 else {
                     isHappneException=true;
                     isExit=true;
-                    exceptionMessage="非空闲停止机器";
+                    exceptionMessage="非空闲停止设备";
                 }
                 cabinetCtrlByDS.stopPickup();
                 cabinetCtrlByDS.stopPickup();
@@ -413,7 +413,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if(isHappneException){
-                    mContext.showToast("取货异常，请退出，检查机器");
+                    mContext.showToast("取货异常，请退出，检查设备");
                     return;
                 }
                 curPickupSku = getCurrentPickupSku();
@@ -432,11 +432,11 @@ public class CustomPickupAutoTestDialog extends Dialog {
                 if (curPickupSku == null) {
                     isHappneException = false;
                     isExit = true;
-                    exceptionMessage = "空闲停止机器";
+                    exceptionMessage = "空闲停止设备";
                 } else {
                     isHappneException = true;
                     isExit = true;
-                    exceptionMessage = "非空闲停止机器";
+                    exceptionMessage = "非空闲停止设备";
                 }
                 cabinetCtrlByDS.stopPickup();
                 cabinetCtrlByDS.stopPickup();

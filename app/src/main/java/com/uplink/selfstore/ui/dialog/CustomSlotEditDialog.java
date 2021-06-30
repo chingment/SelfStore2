@@ -202,7 +202,7 @@ public class CustomSlotEditDialog extends Dialog {
                             break;
                         case 5://取货超时
                             isHappneException = true;
-                            exceptionMessage = "取货失败,机器发生异常:" + message;
+                            exceptionMessage = "取货失败,设备发生异常:" + message;
                             LogUtil.e(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomSlotEditDialog ", "pickuptest");
@@ -429,12 +429,12 @@ public class CustomSlotEditDialog extends Dialog {
                         }
 
                         if (!cabinetCtrlByDS.isConnect()) {
-                            mContext.showToast("机器连接失败");
+                            mContext.showToast("设备连接失败");
                             return;
                         }
 
                         if (!cabinetCtrlByDS.isNormarl()) {
-                            mContext.showToast("机器状态异常");
+                            mContext.showToast("设备状态异常");
                             return;
                         }
 
@@ -809,7 +809,7 @@ public class CustomSlotEditDialog extends Dialog {
                 content.put("imgId2", "");
             }
 
-            //MqttServer.publish("pickup_test","商品测试取货",content);
+            //MqttService.publish("pickup_test","商品测试取货",content);
             mContext.eventNotify("PickupTest","商品测试取货", content);
         }catch (JSONException e) {
             e.printStackTrace();

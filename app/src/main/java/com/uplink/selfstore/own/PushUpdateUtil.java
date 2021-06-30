@@ -48,15 +48,15 @@ public class PushUpdateUtil {
                 break;
             case "MCmdUpdateHomeLogo":
                 LogUtil.d("进入update:HomeLogo");
-                updateHomeLogo(content);//更新机器logo
+                updateHomeLogo(content);//更新设备logo
                 break;
             case "MCmdUpdateAds":
                 LogUtil.d("进入update:Ads");
-                updateAds(content);//更新机器banner
+                updateAds(content);//更新设备banner
                 break;
             case "MCmdUpdateSkuStock":
                 LogUtil.d("进入update:SkuStock");
-                //updateSkuStock(content);//更新机器种类
+                //updateSkuStock(content);//更新设备种类
                 break;
             case "MCmdPaySuccess":
                 LogUtil.d("进入paySuccess");
