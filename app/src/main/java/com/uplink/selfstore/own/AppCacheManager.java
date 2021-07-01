@@ -19,9 +19,7 @@ public class AppCacheManager {
     private static String Cache_Key_LastUserName = "Cache_LastUserName";
     private static String Cache_Key_LastUpdateTime = "Cache_LastUpdateTime";
     private static String Cache_Key_Device = "Cache_Device";
-    private static String Cache_Key_GlobalDataSet = "Cache_Key_GlobalDataSet";
-
-
+    private static String Cache_Key_CustomDataByVending = "Cache_CustomDataByVending";
     private static String Cache_Key_Cart = "Cache_Key_Cart";
 
 
@@ -79,63 +77,55 @@ public class AppCacheManager {
 
     public static DeviceBean getDevice() {
 
-        DeviceBean bean=new DeviceBean();
+        DeviceBean device = (DeviceBean) AppCacheManager.getCache().getAsObject(Cache_Key_Device);
 
-        GlobalDataSetBean globalDataSet = getGlobalDataSet();
-        if(globalDataSet==null) {
-            bean.setDeviceId("");
-            return bean;
+        if(device==null) {
+            device=new DeviceBean();
+            device.setDeviceId("");
+            return device;
         }
 
-        if(globalDataSet.getDevice()==null){
-            bean.setDeviceId("");
-            return bean;
-        }
-
-        bean = globalDataSet.getDevice();
-
-        if(bean.getScanner()==null){
+        if(device.getScanner()==null){
             ScannerBean scanner=new ScannerBean();
             scanner.setUse(false);
-            bean.setScanner(scanner);
+            device.setScanner(scanner);
         }
 
-        if(bean.getFingerVeinner()==null){
+        if(device.getFingerVeinner()==null){
             FingerVeinnerBean fingerVeinner=new FingerVeinnerBean();
             fingerVeinner.setUse(false);
-            bean.setFingerVeinner(fingerVeinner);
+            device.setFingerVeinner(fingerVeinner);
         }
 
-        if(bean.getCabinets()==null){
+        if(device.getCabinets()==null){
             HashMap<String, CabinetBean> cabinets=new HashMap<String, CabinetBean>();
-            bean.setCabinets(cabinets);
+            device.setCabinets(cabinets);
         }
 
-        if(bean.getPayOptions()==null){
+        if(device.getPayOptions()==null){
             List<TerminalPayOptionBean> payOptions=new ArrayList<>();
-            bean.setPayOptions(payOptions);
+            device.setPayOptions(payOptions);
         }
 
-        return bean;
+        return device;
 
     }
 
-    public static void setGlobalDataSet(GlobalDataSetBean bean) {
-        AppCacheManager.getCache().remove(Cache_Key_GlobalDataSet);
-        AppCacheManager.getCache().put(Cache_Key_GlobalDataSet, bean);
+    public static void setDevice(DeviceBean bean) {
+        AppCacheManager.getCache().remove(Cache_Key_Device);
+        AppCacheManager.getCache().put(Cache_Key_Device, bean);
     }
 
 
-    public static GlobalDataSetBean _globalDataSet;
+    public static void setCustomDataByVending(CustomDataByVendingBean bean) {
+        AppCacheManager.getCache().remove(Cache_Key_CustomDataByVending);
+        AppCacheManager.getCache().put(Cache_Key_CustomDataByVending, bean);
+    }
 
-    public static GlobalDataSetBean getGlobalDataSet() {
 
-        //if (_globalDataSet == null) {
-            _globalDataSet = (GlobalDataSetBean) AppCacheManager.getCache().getAsObject(Cache_Key_GlobalDataSet);
-        //}
-
-        return _globalDataSet;
-
+    public static CustomDataByVendingBean getCustomDataByVending() {
+        CustomDataByVendingBean customDataByVending = (CustomDataByVendingBean) AppCacheManager.getCache().getAsObject(Cache_Key_CustomDataByVending);
+        return customDataByVending;
     }
 
     public static void setCartSkus(LinkedHashMap<String, CartSkuBean> list) {
@@ -167,12 +157,12 @@ public class AppCacheManager {
     public static SkuBean getSku(String skuId) {
         SkuBean bean = null;
 
-        GlobalDataSetBean globalDataSet = getGlobalDataSet();
+        CustomDataByVendingBean customDataByVending = getCustomDataByVending();
 
-        if (globalDataSet != null) {
-            if (globalDataSet.getSkus() != null) {
+        if (customDataByVending != null) {
+            if (customDataByVending.getSkus() != null) {
 
-                HashMap<String, SkuBean> skus = globalDataSet.getSkus();
+                HashMap<String, SkuBean> skus = customDataByVending.getSkus();
 
                 bean = skus.get(skuId);
 

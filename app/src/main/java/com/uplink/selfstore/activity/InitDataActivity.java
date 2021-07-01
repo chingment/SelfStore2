@@ -21,12 +21,13 @@ import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
+import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.DeviceInitDataResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttService;
@@ -239,27 +240,35 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 return false;
                             }
 
-                            if(bundle.getSerializable("globalDataSetBean")==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：bundle.globalDataSetBean对象为控");
+                            if(bundle.getSerializable("deviceInitDataResultBean")==null) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：初始数据为空");
                                 return false;
                             }
 
-                            GlobalDataSetBean data_globalDataSet = (GlobalDataSetBean) bundle.getSerializable("globalDataSetBean");//全局数据
+                            DeviceInitDataResultBean initData = (DeviceInitDataResultBean) bundle.getSerializable("deviceInitDataResultBean");//全局数据
 
-                            if(data_globalDataSet==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：data_globalDataSet对象为控");
+                            if(initData==null) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：初始对象为空");
                                 return false;
                             }
 
-                            DeviceBean device = data_globalDataSet.getDevice();//设备数据
+                            DeviceBean device = initData.getDevice();//设备数据
 
-                            if(device==null) {
-                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：data_globalDataSet.device对象为控");
+                            if(device==null&& StringUtil.isEmptyNotNull(device.getDeviceId())) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：设备对象为空");
                                 return false;
                             }
 
+                            if(StringUtil.isEmptyNotNull(device.getType())) {
+                                setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：未知设备类型");
+                                return false;
+                            }
 
-                            AppCacheManager.setGlobalDataSet(data_globalDataSet);//设置全局缓存数据
+                            AppCacheManager.setDevice(initData.getDevice());//保存设备信息
+
+                            CustomDataByVendingBean customDataByVending = JSON.parseObject(JSON.toJSONString(initData.getCustomData()), CustomDataByVendingBean.class);
+
+                            AppCacheManager.setCustomDataByVending(customDataByVending);//设置全局缓存数据
 
                             AppCacheManager.clearCartSkus();//清空购物车数据
 
@@ -277,7 +286,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 }
                             }
 
-
                             for (HashMap.Entry<String, String> modelNo : modelNos.entrySet()) {
                                 switch (modelNo.getKey()) {
                                     case "dsx01":
@@ -293,7 +301,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                             CameraWindow.setInSampleSize(device.getPicInSampleSize());
 
-
                             setHandleMessage(WHAT_SET_CONFIG_SUCCESS, "信息配置完成，正在启动设备恢复原始状态");
 
                             new Thread(new Runnable() {
@@ -302,13 +309,12 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                                     setHandleMessage(WHAT_TIPS, "配置结束，进入购物车界面");
 
-
-
                                     Intent intent = new Intent(getAppContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }
                             }).start();
+
                         } catch (Exception ex) {
                             setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：" + ex.getMessage());
                         }
@@ -373,13 +379,13 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         FingerVeinnerCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
     }
 
-    public void setHandleMessage(int what, String msg,GlobalDataSetBean globalDataSet) {
+    public void setHandleMessage(int what, String msg, DeviceInitDataResultBean deviceInitDataResult) {
         final Message m = new Message();
         m.what = what;
         Bundle bundle = new Bundle();
         bundle.putString("message", msg);
-        if(globalDataSet!=null) {
-            bundle.putSerializable("globalDataSetBean", globalDataSet);
+        if(deviceInitDataResult!=null) {
+            bundle.putSerializable("deviceInitDataResultBean", deviceInitDataResult);
         }
         m.setData(bundle);
         handler_msg.sendMessage(m);
@@ -404,7 +410,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         postByMy(InitDataActivity.this, Config.URL.device_InitData, params,null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
-                ApiResultBean<GlobalDataSetBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<GlobalDataSetBean>>() {
+                ApiResultBean<DeviceInitDataResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<DeviceInitDataResultBean>>() {
                 });
                 if (rt.getResult() == Result.SUCCESS) {
                     setHandleMessage(WHAT_READ_CONFIG_SUCCESS, getAppContext().getString(R.string.aty_initdata_tips_settingdevicecfgreadsuccess),rt.getData());

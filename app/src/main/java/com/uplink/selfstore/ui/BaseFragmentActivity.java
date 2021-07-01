@@ -29,7 +29,7 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.SmRescueToolActivity;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
@@ -64,24 +64,30 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private CustomLoadingDialog dialog_Loading;
     private CustomSystemWarnDialog dialog_SystemWarn;
     private ClosePageCountTimer closePageCountTimer;
-    private GlobalDataSetBean globalDataSet;
+    private CustomDataByVendingBean customDataByVending;
+    private DeviceBean device;
     //private ScannerCtrl scannerCtrl;
     private Handler laodingUIHandler;
     public LocationUtil locationUtil;
 
     private Map<String,Boolean> orderSearchByPickupCode=new HashMap<String, Boolean>();
 
-    public GlobalDataSetBean getGlobalDataSet() {
+    public CustomDataByVendingBean getCustomDataByVending() {
 
-        if (globalDataSet == null) {
-            globalDataSet = AppCacheManager.getGlobalDataSet();
+        if (customDataByVending == null) {
+            customDataByVending = AppCacheManager.getCustomDataByVending();
         }
 
-        return globalDataSet;
+        return customDataByVending;
     }
 
     public DeviceBean getDevice() {
-        return AppCacheManager.getDevice();
+
+        if (device == null) {
+            device = AppCacheManager.getDevice();
+        }
+
+        return device;
     }
 
     public AppContext getAppContext() {
@@ -271,7 +277,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         AppManager.getAppManager().addActivity(this);
 
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getDevice().getDeviceId()) || this.getGlobalDataSet() == null) {
+        if (StringUtil.isEmptyNotNull(AppCacheManager.getDevice().getDeviceId())) {
             Activity activity = AppManager.getAppManager().currentActivity();
             if (activity instanceof InitDataActivity||activity instanceof SmRescueToolActivity) {
 
@@ -282,9 +288,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 finish();
             }
         } else {
-            dialog_SystemWarn.setCsrPhoneNumber(getDevice().getCsrPhoneNumber());
-            dialog_SystemWarn.setCsrQrcode(getDevice().getCsrQrCode());
-            dialog_SystemWarn.setCsrHelpTip(getDevice().getCsrHelpTip());
+            DeviceBean device = getDevice();
+            dialog_SystemWarn.setCsrPhoneNumber(device.getConsult().getCsrPhoneNumber());
+            dialog_SystemWarn.setCsrQrcode(device.getConsult().getCsrQrCode());
+            dialog_SystemWarn.setCsrHelpTip(device.getConsult().getCsrHelpTip());
         }
 
 

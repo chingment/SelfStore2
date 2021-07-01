@@ -21,7 +21,7 @@ import com.uplink.selfstore.activity.adapter.KindNameAdapter;
 import com.uplink.selfstore.activity.adapter.KindSkuAdapter;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.KindBean;
 import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -107,11 +107,11 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
 
     public void loadKindData() {
 
-        GlobalDataSetBean globalDataSet = this.getGlobalDataSet();
-        if(globalDataSet==null)
+        CustomDataByVendingBean customDataByVending = this.getCustomDataByVending();
+        if(customDataByVending==null)
             return;
 
-        kinds = globalDataSet.getKinds();
+        kinds = customDataByVending.getKinds();
 
         if (kinds == null)
             return;
@@ -131,13 +131,13 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         KindNameAdapter list_kind_name_adapter = new KindNameAdapter(getAppContext(), kinds, cur_Kind_Position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
-        if(globalDataSet.getDevice().isHiddenKind()) {
+        if(customDataByVending.isHiddenKind()) {
             list_kind_name.setVisibility(View.GONE);
         }
 
         List<SkuBean> skusByKind = new ArrayList<>();
 
-        HashMap<String, SkuBean> skus = globalDataSet.getSkus();
+        HashMap<String, SkuBean> skus = customDataByVending.getSkus();
 
         for (String skuId : kind.getChilds()) {
             if(skus!=null) {
@@ -149,7 +149,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         }
 
 
-        kindSkuAdapter = new KindSkuAdapter(ProductKindActivity.this, skusByKind,globalDataSet);
+        kindSkuAdapter = new KindSkuAdapter(ProductKindActivity.this, skusByKind,getDevice(),customDataByVending);
         kindSkuAdapter.setCallBackListener(new KindSkuAdapter.CallBackListener() {
             @Override
             public void callBackImg(ImageView goodsImg) {

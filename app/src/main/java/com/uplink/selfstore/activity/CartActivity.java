@@ -24,6 +24,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartStatisticsBean;
+import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.ImBean;
 import com.uplink.selfstore.model.api.ImSeatBean;
 import com.uplink.selfstore.model.api.ImServiceSeatsRealtBean;
@@ -699,9 +700,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     public static void operate(int type,String skuId, final CarOperateHandler handler) {
 
         DeviceBean device = AppCacheManager.getDevice();
-
+        CustomDataByVendingBean customDataByVending = AppCacheManager.getCustomDataByVending();
         LinkedHashMap<String, CartSkuBean> cartSkus = AppCacheManager.getCartSkus();
-        HashMap<String, SkuBean> skus = AppCacheManager.getGlobalDataSet().getSkus();
+        HashMap<String, SkuBean> skus = customDataByVending.getSkus();
         CartSkuBean cartSku = cartSkus.get(skuId);
         SkuBean sku = skus.get(skuId);
 
@@ -728,8 +729,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     mSumQuantity += cartSkus.get(key).getQuantity();
                 }
 
-                if ((mSumQuantity + 1) > device.getMaxBuyNumber()) {
-                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过" + device.getMaxBuyNumber() + "个", Toast.LENGTH_LONG);
+                if ((mSumQuantity + 1) > customDataByVending.getMaxBuyNumber()) {
+                    ToastUtil.showMessage(AppManager.getAppManager().currentActivity(), "商品购买总量不能超过" + customDataByVending.getMaxBuyNumber() + "个", Toast.LENGTH_LONG);
                     return;
                 }
 

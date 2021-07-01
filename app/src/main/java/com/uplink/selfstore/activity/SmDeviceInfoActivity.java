@@ -71,8 +71,8 @@ public class SmDeviceInfoActivity extends SwipeBackActivity implements View.OnCl
         txt_JPushRegId.setText("");
         txt_AppVersion.setText(BuildConfig.VERSION_NAME);
         txt_CabinetCtrlSdkVersionByDS.setText(cabinetCtrlByDS.vesion());
-        txt_Currency.setText(getDevice().getCurrency());
-        txt_CurrencySymbol.setText(getDevice().getCurrencySymbol());
+        txt_Currency.setText("");
+        txt_CurrencySymbol.setText("");
         txt_Location.setText(LocationUtil.LAT+","+ LocationUtil.LNG);
         txt_ComName.setText(BuildConfig.COMNAME);
     }

@@ -18,7 +18,8 @@ import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.ProductDetailsActivity;
 import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.model.api.CartOperateType;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.DeviceBean;
+import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -37,12 +38,15 @@ public class KindSkuAdapter extends BaseAdapter {
     private Context context;
     private List<SkuBean> items = new ArrayList<>();
     private CallBackListener mCallBackListener;
-    private GlobalDataSetBean globalDataSet;
 
-    public KindSkuAdapter(Context context, List<SkuBean> items, GlobalDataSetBean globalDataSet) {
+    private DeviceBean device;
+    private CustomDataByVendingBean customDataByVending;
+
+    public KindSkuAdapter(Context context, List<SkuBean> items,DeviceBean device,  CustomDataByVendingBean customDataByVending) {
         this.context = context;
         this.items = items;
-        this.globalDataSet = globalDataSet;
+        this.device=device;
+        this.customDataByVending = customDataByVending;
     }
 
 
@@ -106,7 +110,7 @@ public class KindSkuAdapter extends BaseAdapter {
         txt_name.setText(item.getName());
         int cartQuantity = CartActivity.getSkuQuantity(item.getSkuId());
         txt_quantity.setText(String.valueOf(cartQuantity));
-        txt_price_currencySymbol.setText(globalDataSet.getDevice().getCurrencySymbol());
+        txt_price_currencySymbol.setText("");
 
         String[] price = CommonUtil.getPrice(String.valueOf(item.getSalePrice()));
         txt_price_integer.setText(price[0]);

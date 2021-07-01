@@ -164,8 +164,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-        loadLogo(this.getGlobalDataSet().getDevice().getLogoImgUrl());
-        loadAds(this.getGlobalDataSet().getAds());
+        loadLogo(this.getDevice().getLogoImgUrl());
+        loadAds(this.getCustomDataByVending().getAds());
     }
 
     public void loadLogo(String url) {

@@ -12,40 +12,29 @@ public class DeviceBean implements Serializable {
 
     private String deviceId;
     public  String name;
+    public  String type;
     private String merchName;
     private String storeName;
     private String shopName;
     private String shopAddress;
     private String logoImgUrl;
-    private String currency;
-    private String currencySymbol;
-    private String csrQrCode;
-    private String csrPhoneNumber;
-    private String csrHelpTip;
     private HashMap<String, CabinetBean> cabinets;
-    private boolean isHiddenKind;
-    private int kindRowCellSize;
     private List<TerminalPayOptionBean> payOptions;
     private boolean cameraByChkIsUse;
     private boolean cameraByRlIsUse;
     private boolean cameraByJgIsUse;
-    private int maxBuyNumber;
     private boolean exIsHas;
     private String ostVern;
     private String mstVern;
+    private ConsultBean consult;
     private FingerVeinnerBean fingerVeinner;
     private ScannerBean scanner;
     private ImBean im;
     private MqttBean mqtt;
+
     private int picInSampleSize=8;
 
-    public String getCsrHelpTip() {
-        return csrHelpTip;
-    }
 
-    public void setCsrHelpTip(String csrHelpTip) {
-        this.csrHelpTip = csrHelpTip;
-    }
 
     public boolean isExIsHas() {
         return exIsHas;
@@ -55,21 +44,6 @@ public class DeviceBean implements Serializable {
         this.exIsHas = exIsHas;
     }
 
-    public int getMaxBuyNumber() {
-        return maxBuyNumber;
-    }
-
-    public void setMaxBuyNumber(int maxBuyNumber) {
-        this.maxBuyNumber = maxBuyNumber;
-    }
-
-    public String getCsrQrCode() {
-        return csrQrCode;
-    }
-
-    public void setCsrQrCode(String csrQrCode) {
-        this.csrQrCode = csrQrCode;
-    }
 
     public String getLogoImgUrl() {
         return logoImgUrl;
@@ -112,37 +86,6 @@ public class DeviceBean implements Serializable {
         this.storeName = storeName;
     }
 
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getCurrencySymbol() {
-        return currencySymbol;
-    }
-
-    public void setCurrencySymbol(String currencySymbol) {
-        this.currencySymbol = currencySymbol;
-    }
-
-    public boolean isHiddenKind() {
-        return isHiddenKind;
-    }
-
-    public void setHiddenKind(boolean hiddenKind) {
-        isHiddenKind = hiddenKind;
-    }
-
-    public int getKindRowCellSize() {
-        return kindRowCellSize;
-    }
-
-    public void setKindRowCellSize(int kindRowCellSize) {
-        this.kindRowCellSize = kindRowCellSize;
-    }
 
     public List<TerminalPayOptionBean> getPayOptions() {
         return payOptions;
@@ -152,13 +95,6 @@ public class DeviceBean implements Serializable {
         this.payOptions = payOptions;
     }
 
-    public String getCsrPhoneNumber() {
-        return csrPhoneNumber;
-    }
-
-    public void setCsrPhoneNumber(String csrPhoneNumber) {
-        this.csrPhoneNumber = csrPhoneNumber;
-    }
 
     public HashMap<String, CabinetBean> getCabinets() {
         return cabinets;
@@ -263,5 +199,21 @@ public class DeviceBean implements Serializable {
 
     public void setPicInSampleSize(int picInSampleSize) {
         this.picInSampleSize = picInSampleSize;
+    }
+
+    public ConsultBean getConsult() {
+        return consult;
+    }
+
+    public void setConsult(ConsultBean consult) {
+        this.consult = consult;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

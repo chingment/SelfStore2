@@ -10,7 +10,8 @@ import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.AdBean;
-import com.uplink.selfstore.model.api.GlobalDataSetBean;
+import com.uplink.selfstore.model.api.DeviceBean;
+import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
 import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.model.push.UpdateHomeLogoBean;
@@ -112,9 +113,9 @@ public class PushUpdateUtil {
         });
 
 
-        GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
+        DeviceBean device = AppCacheManager.getDevice();
 
-        globalDataSet.getDevice().setLogoImgUrl(updateHomeLogo.getUrl());
+        device.setLogoImgUrl(updateHomeLogo.getUrl());
 
         List<Activity> acts = AppManager.getAppManager().getActivityStack();
         if (acts != null) {
@@ -137,11 +138,11 @@ public class PushUpdateUtil {
         HashMap<String, AdBean> ads = JSON.parseObject(content, new TypeReference<HashMap<String, AdBean>>() {
         });
 
-        GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
+        CustomDataByVendingBean customDataByVending = AppCacheManager.getCustomDataByVending();
 
-        globalDataSet.setAds(ads);
+        customDataByVending.setAds(ads);
 
-        AppCacheManager.setGlobalDataSet(globalDataSet);
+        AppCacheManager.setCustomDataByVending(customDataByVending);
 
         List<Activity> acts = AppManager.getAppManager().getActivityStack();
         if (acts != null) {
@@ -164,9 +165,9 @@ public class PushUpdateUtil {
             });
 
 
-            GlobalDataSetBean globalDataSet = AppCacheManager.getGlobalDataSet();
+            CustomDataByVendingBean customDataByVending = AppCacheManager.getCustomDataByVending();
 
-            HashMap<String, SkuBean> skus = globalDataSet.getSkus();
+            HashMap<String, SkuBean> skus = customDataByVending.getSkus();
 
             String skuId = updateSkuStock.getSkuId();
 
@@ -182,7 +183,7 @@ public class PushUpdateUtil {
 
                     skus.put(skuId, sku);
 
-                    globalDataSet.setSkus(skus);
+                    customDataByVending.setSkus(skus);
                 }
             }
 
