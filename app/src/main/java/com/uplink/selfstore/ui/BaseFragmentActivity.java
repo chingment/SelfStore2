@@ -279,14 +279,18 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         if (StringUtil.isEmptyNotNull(AppCacheManager.getDevice().getDeviceId())) {
             Activity activity = AppManager.getAppManager().currentActivity();
-            if (activity instanceof InitDataActivity||activity instanceof SmRescueToolActivity) {
+            if(activity!=null){
+                if (activity instanceof InitDataActivity||activity instanceof SmRescueToolActivity) {
 
-            } else {
-                showToast("检查异常，设备重新运行");
-                Intent intent = new Intent(appContext, InitDataActivity.class);
-                startActivity(intent);
-                finish();
+                } else {
+                    showToast("检查异常，设备重新运行");
+                    Intent intent = new Intent(appContext, InitDataActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
             }
+
         } else {
             DeviceBean device = getDevice();
             dialog_SystemWarn.setCsrPhoneNumber(device.getConsult().getCsrPhoneNumber());

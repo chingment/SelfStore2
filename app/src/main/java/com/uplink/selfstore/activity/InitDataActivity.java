@@ -309,6 +309,9 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                                     setHandleMessage(WHAT_TIPS, "配置结束，进入购物车界面");
 
+                                    Intent mqttService = new Intent(getAppContext(), MqttService.class);
+                                    startService(mqttService);
+
                                     Intent intent = new Intent(getAppContext(), MainActivity.class);
                                     startActivity(intent);
                                     finish();

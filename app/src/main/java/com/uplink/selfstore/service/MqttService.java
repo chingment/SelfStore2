@@ -115,6 +115,7 @@ public class MqttService extends Service {
         @Override
         public void onSuccess(IMqttToken asyncActionToken) {
             LogUtil.i(TAG,"连接成功");
+
             closeReconnectTask();
 
             try {
@@ -123,7 +124,6 @@ public class MqttService extends Service {
             } catch (MqttException e) {
                 e.printStackTrace();
             }
-
 
             if (timHandler != null && timRunable != null) {
                 timHandler.removeCallbacks(timRunable);
