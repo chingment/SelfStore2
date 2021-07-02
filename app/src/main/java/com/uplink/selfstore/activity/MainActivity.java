@@ -16,6 +16,8 @@ import com.uplink.selfstore.activity.adapter.AdContentAdapter;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.AdBean;
+import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
+import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
@@ -175,8 +177,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     public void loadAds(HashMap<String, AdBean> ads) {
 
-       // HashMap<String, AdBean> ads = this.getGlobalDataSet().getAds();
-
         if(ads==null)
             return;
 
@@ -199,7 +199,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     startActivity(intent);
                     break;
                 case R.id.btn_pick:
-                    dialog_NumKey.show();
+                   dialog_NumKey.show();
                     break;
             }
         }

@@ -25,6 +25,7 @@ import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.service.MqttService;
+import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
@@ -315,7 +316,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         PickupSkuBean pickSku=null;
 
+
         List<OrderDetailsSkuBean> skus =orderDetails.getSkus();
+
+        if(skus==null)
+            return  pickSku;
 
         boolean isHas=false;
         for (int i = 0; i < skus.size(); i++) {
@@ -355,6 +360,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         List<OrderDetailsSkuBean> skus =orderDetails.getSkus();
 
+        if(skus==null)
+            return isCompelte;
+
         for (int i = 0; i < skus.size(); i++) {
 
             OrderDetailsSkuBean sku = skus.get(i);
@@ -377,7 +385,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         return  isCompelte;
     }
 
-
     public void  setAllPickupComplete() {
         curPickupSku_Img_Mainimg.setImageResource(R.drawable.icon_pickupcomplete);
         curPickupSku_Tv_Tip1.setText("出货完成");
@@ -389,6 +396,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
         }, 30);
         closePageCountTimerStart();
+
     }
 
     private void initView() {
@@ -446,9 +454,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         txt_OrderId.setText(orderDetails.getOrderId());
 
+        List<OrderDetailsSkuBean> skus= orderDetails.getSkus();
 
-        OrderDetailsSkuAdapter orderDetailsSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, orderDetails.getSkus());
-        list_Skus.setAdapter(orderDetailsSkuAdapter);
+        if(skus!=null) {
+
+            OrderDetailsSkuAdapter orderDetailsSkuAdapter = new OrderDetailsSkuAdapter(OrderDetailsActivity.this, skus);
+            list_Skus.setAdapter(orderDetailsSkuAdapter);
+        }
     }
 
     //设置商品卡槽去货中
@@ -569,7 +581,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
-
     private void pickupEventNotify(PickupSkuBean pickupSku, int pickupStatus, String remark, PickupActionResult actionResult) {
 
         if(pickupSku==null)
@@ -638,7 +649,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
-
     @Override
     public void onStop() {
         super.onStop();
@@ -690,5 +700,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         CameraWindow.releaseCameraByJg();
         CameraWindow.releaseCameraByChk();
+
+        TinySyncExecutor.getInstance().finish();
     }
+
 }

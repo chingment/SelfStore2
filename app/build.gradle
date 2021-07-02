@@ -10,7 +10,7 @@ def static buildTime() {
 android {
 
 
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     sourceSets {
@@ -57,7 +57,7 @@ android {
     defaultConfig {
         applicationId "com.uplink.selfstore"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 155
         versionName "1.1.6.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -145,7 +145,10 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.2'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
+    compile 'com.androidwind:tinylog:1.0.1'
+    compile 'com.airbnb.android:lottie:2.5.4'
 //    implementation 'org.greenrobot:greendao:3.2.2'
+    compile project(':tinytask')
     implementation files('libs/SYMVDIO.jar')
     implementation files('libs/BioVein.jar')
     implementation files('libs/ysapi.jar')

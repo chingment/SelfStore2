@@ -4,15 +4,21 @@ import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
 import com.alibaba.fastjson.JSON;
+import com.uplink.selfstore.activity.CartActivity;
+import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.MqttBean;
+import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.PushUpdateUtil;
+import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
+import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NetFlowInfo;
 import com.uplink.selfstore.utils.NetFlowUtil;
@@ -39,18 +45,23 @@ import java.util.concurrent.TimeUnit;
 public class MqttService extends Service {
 
     private static final String TAG = "MqttService";
-    private static MqttAndroidClient mqttAndroidClient;
-    private MqttConnectOptions mMqttConnectOptions;
-    private String HOST = "";
-    private String USERNAME = "admin";//用户名
-    private String PASSWORD = "public";//密码
 
-    private static String SUBSCRIBE_TOPIC_A = "";//订阅主题
-    private static String PUBLISH_TOPIC_A = "";//发布主题
-    private static String RESPONSE_TOPIC_A = "";//响应主题
-    private String CLIENT_ID = "";
+    private static MqttAndroidClient mqttAndroidClient;
+    private static MqttConnectOptions mMqttConnectOptions;
 
     private ScheduledExecutorService reconnectPool;//重连线程池
+
+    private String host = "";
+    private String userName = "";
+    private String password = "";
+    private String clientId = "";
+    private String deviceName="";
+    private String productName="";
+
+    private static String topic_Subscribe="";//订阅主题
+    private static String topic_Pubish="";//发布主题
+    private static String topic_Response = "";//响应主题
+
 
     private Handler timHandler = new Handler();
 
@@ -111,7 +122,7 @@ public class MqttService extends Service {
         buildMqttClient();
     }
 
-    private IMqttActionListener iMqttActionListener = new IMqttActionListener() {
+    private IMqttActionListener mqttActionListener = new IMqttActionListener() {
         @Override
         public void onSuccess(IMqttToken asyncActionToken) {
             LogUtil.i(TAG,"连接成功");
@@ -119,81 +130,194 @@ public class MqttService extends Service {
             closeReconnectTask();
 
             try {
-                //订阅公有主题和私有主题
-                mqttAndroidClient.subscribe(SUBSCRIBE_TOPIC_A, 1);//订阅主题，参数：主题、服务质量
+                mqttAndroidClient.subscribe(topic_Subscribe, 1);
             } catch (MqttException e) {
                 e.printStackTrace();
             }
 
             if (timHandler != null && timRunable != null) {
                 timHandler.removeCallbacks(timRunable);
+                timHandler.postDelayed(timRunable, 1000);
             }
-
-            //主线程中调用：
-            timHandler.postDelayed(timRunable, 1000);//延时100毫秒
-
         }
 
         @Override
         public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-
             LogUtil.i(TAG,"连接失败-"+exception);
-
             startReconnectTask();
         }
     };
+//{"id":"160865432","method":"thing.event.property.post","params":{"LightSwitch":1},"version":"1.0"}
+    private MqttCallback mqttCallback = new MqttCallbackExtended() {  //回传
+        @Override
+        public void connectComplete(boolean reconnect, String serverURI) {
 
+        }
+
+        @Override
+        public void connectionLost(Throwable cause) {
+            LogUtil.d(TAG,"连接断开");
+            if (cause != null) {//null表示被关闭
+                startReconnectTask();
+            }
+        }
+
+        @Override
+        public void messageArrived(String topic, MqttMessage message) throws Exception {  // 接收的消息
+
+            int id = message.getId();
+            String payload = new String(message.getPayload());
+            int qos = message.getQos();
+            LogUtil.d(TAG, "topic:" + topic);
+            LogUtil.d(TAG, "id:" + id);
+            LogUtil.d(TAG, "payload:" + payload);
+            LogUtil.d(TAG, "qos:" + qos);
+//
+//
+//            //执行主要信息
+//            if (topic.contains("topic_s_mch")) {
+//
+//                Map msg_map = JSON.parseObject(msg);
+//
+//                String msg_id = "";
+//                String type = "";
+//                String content = "";
+//                if (msg_map.containsKey("msg_id")) {
+//                    msg_id = msg_map.get("msg_id").toString();
+//                }
+//
+//                if (msg_map.containsKey("type")) {
+//                    type = msg_map.get("type").toString();
+//                }
+//
+//                if (msg_map.containsKey("content")) {
+//                    content = msg_map.get("content").toString();
+//                }
+//
+//
+//                LogUtil.d(TAG, "=>msg_id:" + msg_id);
+//                LogUtil.d(TAG, "=>type:" + type);
+//                LogUtil.d(TAG, "=>content:" + content);
+//
+//
+//                PushUpdateUtil.receive(type, content);
+//
+//
+//                response("{\"msg_id\":\""+msg_id+"\",\"status\":1}");
+//
+//
+                BaseSyncTask task = new BaseSyncTask() {
+                    @Override
+                    public void doTask() {
+
+                        LogUtil.d(TAG,"DDD");
+
+                        Activity activity = AppManager.getAppManager().currentActivity();
+                        if(activity!=null){
+                            if (activity instanceof OrderDetailsActivity) {
+                                LogUtil.d(TAG,"有订单正在执行");
+                                return;
+                            }
+                        }
+
+
+                        Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
+                        Bundle bundle = new Bundle();
+                        OrderDetailsBean orderDetails = new OrderDetailsBean();
+                        orderDetails.setOrderId("dadsdsad");
+                        orderDetails.setStatus(10000);
+                        //orderDetails.setSkus(bean.getSkus());
+                        bundle.putSerializable("dataBean", orderDetails);
+
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+
+                        //TinySyncExecutor.getInstance().finish();
+                    }
+                };
+
+                TinySyncExecutor.getInstance().enqueue(task);
+//
+//            }
+
+
+        }
+
+        @Override
+        public void deliveryComplete(IMqttDeliveryToken token) {
+
+        }
+    };
+
+   // final private String PRODUCTKEY = "a1A2Mq6w5lN";
+   // private String DEVICENAME = "test";//设备名
+   // final private String DEVICESECRET = "445ee6df957de4fdcba1028025c619ec";//设备密钥
 
     private void buildMqttClient() {
 
-        closeMqttClient();//先关闭上一个连接
+        closeMqttClient();
 
         DeviceBean device = AppCacheManager.getDevice();
-
-        CLIENT_ID = "mch_" + device.getDeviceId();
 
         MqttBean mqtt = device.getMqtt();
 
         if (mqtt != null) {
-            HOST = mqtt.getHost();
-            USERNAME = mqtt.getUserName();
-            PASSWORD = mqtt.getPassword();
+
+            host = mqtt.getHost();
+            userName = mqtt.getUserName();
+            password = mqtt.getPassword();
+            clientId = mqtt.getClientId();
+
+
+            //HOST = "tcp://" + PRODUCTKEY + ".iot-as-mqtt.cn-shanghai.aliyuncs.com:443";
+
+//            /* 获取MQTT连接信息clientId、username、password。 */
+//            AiotMqttOption aiotMqttOption = new AiotMqttOption().getMqttOption(PRODUCTKEY, DEVICENAME, DEVICESECRET);
+//            if (aiotMqttOption == null) {
+//                LogUtil.d(TAG, "device info error");
+//            } else {
+//                CLIENT_ID = aiotMqttOption.getClientId();
+//                USERNAME = aiotMqttOption.getUsername();
+//                PASSWORD = aiotMqttOption.getPassword();
+//            }
+
         }
 
-        SUBSCRIBE_TOPIC_A = "topic_s_mch/" + device.getDeviceId();//订阅主题
-        PUBLISH_TOPIC_A = "topic_p_mch/" + device.getDeviceId();//发布主题
-        RESPONSE_TOPIC_A = "topic_r_mch/" + device.getDeviceId();//响应主题
+        topic_Subscribe = "/" + clientId + "/user/subscribe";
+        topic_Pubish = "/" + clientId + "/user/pubish";
+        topic_Response = "/" + clientId + "/user/response";
 
+        //topic_Subscribe = "/" + productName + "/" + deviceName + "/user/get";
+        //topic_Pubish = "/" + productName + "/" + deviceName + "/user/update";
+        //topic_Response = "/" + productName + "/" + deviceName + "/user/get";
 
-        mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), HOST, CLIENT_ID);
+        mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), host, clientId);
 
         mMqttConnectOptions = new MqttConnectOptions();
         // 在重新启动和重新连接时记住状态
-        mMqttConnectOptions.setCleanSession(true);
+        //mMqttConnectOptions.setCleanSession(true);
         // 设置连接的用户名
-        mMqttConnectOptions.setUserName(USERNAME);
+        mMqttConnectOptions.setUserName(userName);
         // 设置密码connect-onFailure-java
-        mMqttConnectOptions.setPassword(PASSWORD.toCharArray());
+        mMqttConnectOptions.setPassword(password.toCharArray());
         // 设置超时时间，单位：秒
-        mMqttConnectOptions.setConnectionTimeout(10);
+        //mMqttConnectOptions.setConnectionTimeout(10);
         // 心跳包发送间隔，单位：秒
-        mMqttConnectOptions.setKeepAliveInterval(20);
-
-        mMqttConnectOptions.setAutomaticReconnect(true);
+        //mMqttConnectOptions.setKeepAliveInterval(20);
+        //mMqttConnectOptions.setAutomaticReconnect(true);
 
 
         mqttAndroidClient.setCallback(mqttCallback);// 回调
 
         connectMqttClient();
 
-
     }
 
     private synchronized void connectMqttClient() {
         if (!mqttAndroidClient.isConnected()) {
             try {
-
-                mqttAndroidClient.connect(mMqttConnectOptions, getApplicationContext(), iMqttActionListener);
+                mqttAndroidClient.connect(mMqttConnectOptions, getApplicationContext(), mqttActionListener);
                 LogUtil.d(TAG,"连接中，ClientId："+mqttAndroidClient.getClientId());
             } catch (MqttException e) {
                 e.printStackTrace();
@@ -222,6 +346,7 @@ public class MqttService extends Service {
     }
 
     public void closeMqttClient(){
+        LogUtil.d(TAG,"关闭连接");
         closeReconnectTask();
         if (mqttAndroidClient != null){
             try {
@@ -235,107 +360,13 @@ public class MqttService extends Service {
         }
     }
 
-    private MqttCallback mqttCallback = new MqttCallbackExtended() {  //回传
-        @Override
-        public void connectComplete(boolean reconnect, String serverURI) {
-            /**
-             *与服务器的连接成功完成时调用。
-             * @param reconnect如果为true，则连接是自动重新连接的结果。
-             * @param serverURI建立连接的服务器URI。
-             **/
-
-        }
-
-        @Override
-        public void connectionLost(Throwable cause) {
-            LogUtil.d(TAG,"连接断开");
-
-            if (cause != null) {//null表示被关闭
-                startReconnectTask();
-            }
-        }
-
-        @Override
-        public void messageArrived(String topic, MqttMessage message) throws Exception {  // 接收的消息
-
-            String msg = new String(message.getPayload());
-
-            LogUtil.d(TAG, "主题:" + topic + ",内容:" + msg);
-
-            if (topic.contains("topic_s_mch")) {
-
-                Map msg_map = JSON.parseObject(msg);
-
-                String msg_id = "";
-                String type = "";
-                String content = "";
-                if (msg_map.containsKey("msg_id")) {
-                    msg_id = msg_map.get("msg_id").toString();
-                }
-
-                if (msg_map.containsKey("type")) {
-                    type = msg_map.get("type").toString();
-                }
-
-                if (msg_map.containsKey("content")) {
-                    content = msg_map.get("content").toString();
-                }
-
-
-                LogUtil.d(TAG, "=>msg_id:" + msg_id);
-                LogUtil.d(TAG, "=>type:" + type);
-                LogUtil.d(TAG, "=>content:" + content);
-
-
-                PushUpdateUtil.receive(type, content);
-
-
-                response("{\"msg_id\":\""+msg_id+"\",\"status\":1}");
-
-            }
-
-        }
-
-        @Override
-        public void deliveryComplete(IMqttDeliveryToken token) {
-
-        }
-    };
-
-
-
-    /**
-     * 发布消息 publish(主题,消息的字节数组,服务质量,是否在服务器保留断开连接后的最后一条消息);
-     *
-     * @param message
-     */
-
-    /**
-     * 将消息发布到服务器上的主题。
-     * <p>
-     * 一种方便的方法，它将创建一个新的{@link MqttMessage}对象
-     * 具有字节数组有效负载和指定的QoS，然后将其发布。
-     * </ p>
-     *
-     * @throws IllegalArgumentException 如果QoS的值不为0、1或2。
-     * @param主题 将消息传递到例如“ finance / stock / ibm”。
-     * @参数有效负载 用作有效载荷的字节数组
-     * @参数qos 提供消息的服务质量。有效值是0、1或2。
-     * @param保留 服务器是否应保留此消息。
-     * @return令牌用于跟踪并等待发布完成。的 令牌将传递给已设置的任何回调。
-     * @抛出MqttPersistenceException 发生问题时存储消息
-     * @抛出MqttException 用于发布消息时遇到的其他错误。
-     * 例如，正在处理太多消息。
-     * @see #publish（String topic, byte[] payload, int qos,boolean retained）
-     **/
     public static void publish(String message,int qos) {
-        String topic = PUBLISH_TOPIC_A;
+        String topic = topic_Pubish;
         Boolean retained = false;
         try {
             if (mqttAndroidClient != null) {
                 if (mqttAndroidClient.isConnected()) {
-                    //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
-                    mqttAndroidClient.publish(topic, message.getBytes(), qos, retained.booleanValue());
+                    mqttAndroidClient.publish(topic, message.getBytes(), qos, retained);
                 }
             }
         } catch (MqttException e) {
@@ -363,32 +394,17 @@ public class MqttService extends Service {
 
     }
 
-
     public void response(String message) {
-        Integer qos = 1;
+        String topic = topic_Response;
+        int qos = 1;
         Boolean retained = false;
         try {
-            //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
-            mqttAndroidClient.publish(RESPONSE_TOPIC_A, message.getBytes(), qos.intValue(), retained.booleanValue());
+            mqttAndroidClient.publish(topic, message.getBytes(), qos, retained);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * 将通信通道返回到服务。如果可能返回null
-     * 客户端无法绑定到服务。返回的
-     * {@link IBinder}通常用于复杂的界面
-     * 已<a href="{@docRoot}guide/components/aidl.html">描述为aidl </a>。
-     * <p> <em>请注意，与其他应用程序组件不同，调用
-     * 此处返回的IBinder接口可能不会在主线程上发生
-     * 的过程</ em>。有关主线程的更多信息，请参见
-     * <a href="{@docRoot}guide/topics/fundamentals/processes-and-threads.html">流程和线程</a>。</ p>
-     *
-     * @param intent 用于绑定到此服务的Intent，
-     *               如{@link Context＃bindServiceContext.bindService}。请注意，随附的所有其他功能此时的意图不会在这里显示。
-     * @return返回IBinder，客户端可以通过该IBinder调用 服务。
-     **/
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -398,9 +414,7 @@ public class MqttService extends Service {
     public void onDestroy() {
         super.onDestroy();
         try {
-
             closeMqttClient();
-
             if(timHandler!=null&&timRunable!=null) {
                 timHandler.removeCallbacks(timRunable);
             }

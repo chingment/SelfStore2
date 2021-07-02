@@ -29,6 +29,8 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.DeviceInitDataResultBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.service.AiotMqttOption;
+import com.uplink.selfstore.service.AiotMqttService;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.service.UpdateAppService;
@@ -37,6 +39,7 @@ import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.FileUtil;
+import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -88,12 +91,14 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     public final int WHAT_SET_CONFIG_SUCCESS = 4;
     public final int WHAT_SET_CONFIG_FALURE = 5;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-
+        //Intent mqttService2 = new Intent(getAppContext(), AiotMqttService.class);
+        //startService(mqttService2);
 
 
 //        IdWorker worker = new IdWorker(1,1,1);
