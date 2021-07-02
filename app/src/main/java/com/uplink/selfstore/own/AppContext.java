@@ -1,5 +1,6 @@
 package com.uplink.selfstore.own;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -16,6 +17,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.utils.EMPreferenceManager;
 import com.uplink.selfstore.utils.LogUtil;
@@ -249,5 +251,6 @@ public class AppContext extends Application {
         }
         return mac;
     }
+
 
 }

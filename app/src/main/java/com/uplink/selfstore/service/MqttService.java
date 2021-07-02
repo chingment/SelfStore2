@@ -16,7 +16,7 @@ import com.uplink.selfstore.model.api.MqttBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.PushUpdateUtil;
+import com.uplink.selfstore.own.CommandManager;
 import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.utils.LogUtil;
@@ -74,15 +74,15 @@ public class MqttService extends Service {
     };
 
 
-    private void  sendDeviceStatus(){
+    private void  sendDeviceStatus() {
 
 
-       //LogUtil.d(TAG,"正在执行发送设备状态");
+        //LogUtil.d(TAG,"正在执行发送设备状态");
 
         DeviceBean device = AppCacheManager.getDevice();
 
         String status = "unknow";
-        String activityName="";
+        String activityName = "";
         Activity activity = AppManager.getAppManager().currentActivity();
         if (activity != null) {
             activityName = activity.getLocalClassName();
@@ -97,23 +97,23 @@ public class MqttService extends Service {
             }
         }
 
-        JSONObject msg_content = new JSONObject();
+        JSONObject params = new JSONObject();
         try {
 
-            NetFlowInfo flowInfo= NetFlowUtil.getAppFlowInfo("com.uplink.selfstore",getApplicationContext());
+            NetFlowInfo flowInfo = NetFlowUtil.getAppFlowInfo("com.uplink.selfstore", getApplicationContext());
 
-            msg_content.put("activity",activityName);
-            msg_content.put("deviceId",device.getDeviceId());
-            msg_content.put("status",status);
-            msg_content.put("upKb", flowInfo.getUpKb());
-            msg_content.put("downKb", flowInfo.getDownKb());
+            params.put("activity", activityName);
+            params.put("deviceId", device.getDeviceId());
+            params.put("status", status);
+            params.put("upKb", flowInfo.getUpKb());
+            params.put("downKb", flowInfo.getDownKb());
 
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        publish("status","心跳包",msg_content,1);
+        publish(UUID.randomUUID().toString().replace("-", ""), "device_status", params, 1);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class MqttService extends Service {
             startReconnectTask();
         }
     };
-//{"id":"160865432","method":"thing.event.property.post","params":{"LightSwitch":1},"version":"1.0"}
+
     private MqttCallback mqttCallback = new MqttCallbackExtended() {  //回传
         @Override
         public void connectComplete(boolean reconnect, String serverURI) {
@@ -165,79 +165,84 @@ public class MqttService extends Service {
         @Override
         public void messageArrived(String topic, MqttMessage message) throws Exception {  // 接收的消息
 
-            int id = message.getId();
+
             String payload = new String(message.getPayload());
             int qos = message.getQos();
+
             LogUtil.d(TAG, "topic:" + topic);
-            LogUtil.d(TAG, "id:" + id);
             LogUtil.d(TAG, "payload:" + payload);
             LogUtil.d(TAG, "qos:" + qos);
-//
-//
-//            //执行主要信息
-//            if (topic.contains("topic_s_mch")) {
-//
-//                Map msg_map = JSON.parseObject(msg);
-//
-//                String msg_id = "";
-//                String type = "";
-//                String content = "";
-//                if (msg_map.containsKey("msg_id")) {
-//                    msg_id = msg_map.get("msg_id").toString();
-//                }
-//
-//                if (msg_map.containsKey("type")) {
-//                    type = msg_map.get("type").toString();
-//                }
-//
-//                if (msg_map.containsKey("content")) {
-//                    content = msg_map.get("content").toString();
-//                }
-//
-//
-//                LogUtil.d(TAG, "=>msg_id:" + msg_id);
-//                LogUtil.d(TAG, "=>type:" + type);
-//                LogUtil.d(TAG, "=>content:" + content);
-//
-//
-//                PushUpdateUtil.receive(type, content);
-//
-//
-//                response("{\"msg_id\":\""+msg_id+"\",\"status\":1}");
-//
-//
-                BaseSyncTask task = new BaseSyncTask() {
-                    @Override
-                    public void doTask() {
-
-                        LogUtil.d(TAG,"DDD");
-
-                        Activity activity = AppManager.getAppManager().currentActivity();
-                        if(activity!=null){
-                            if (activity instanceof OrderDetailsActivity) {
-                                LogUtil.d(TAG,"有订单正在执行");
-                                return;
-                            }
-                        }
 
 
-                        Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
-                        Bundle bundle = new Bundle();
-                        OrderDetailsBean orderDetails = new OrderDetailsBean();
-                        orderDetails.setOrderId("dadsdsad");
-                        orderDetails.setStatus(10000);
-                        //orderDetails.setSkus(bean.getSkus());
-                        bundle.putSerializable("dataBean", orderDetails);
+            if (topic.contains("topic_s_mch")) {
 
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                Map map_payload = JSON.parseObject(payload);
 
+                String id = "";
+                String method = "";
+                String params = "";
 
-                        //TinySyncExecutor.getInstance().finish();
+                if (map_payload.containsKey("id")) {
+                    Object obj_id = map_payload.get("id");
+                    if (obj_id != null) {
+                        id = obj_id.toString();
                     }
-                };
+                }
 
-                TinySyncExecutor.getInstance().enqueue(task);
+                if (map_payload.containsKey("method")) {
+                    Object obj_method = map_payload.get("method");
+                    if (obj_method != null) {
+                        method = obj_method.toString();
+                    }
+                }
+
+                if (map_payload.containsKey("params")) {
+                    Object obj_params = map_payload.get("params");
+                    if (obj_params != null) {
+                        params = obj_params.toString();
+                    }
+                }
+
+                publish(id, "msg_arrive", null, 1);
+
+
+                CommandManager.Execute(id, method, params);
+
+
+            }
+
+//                BaseSyncTask task = new BaseSyncTask() {
+//                    @Override
+//                    public void doTask() {
+//
+//                        LogUtil.d(TAG,"DDD");
+//
+//                        Activity activity = AppManager.getAppManager().currentActivity();
+//                        if(activity!=null){
+//                            if (activity instanceof OrderDetailsActivity) {
+//                                LogUtil.d(TAG,"有订单正在执行");
+//                                return;
+//                            }
+//                        }
+//
+//
+//                        Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        OrderDetailsBean orderDetails = new OrderDetailsBean();
+//                        orderDetails.setOrderId("dadsdsad");
+//                        orderDetails.setStatus(10000);
+//                        //orderDetails.setSkus(bean.getSkus());
+//                        bundle.putSerializable("dataBean", orderDetails);
+//
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//
+//
+//                        //TinySyncExecutor.getInstance().finish();
+//                    }
+//                };
+//
+//                TinySyncExecutor.getInstance().enqueue(task);
 //
 //            }
 
@@ -284,9 +289,9 @@ public class MqttService extends Service {
 
         }
 
-        topic_Subscribe = "/" + clientId + "/user/subscribe";
-        topic_Pubish = "/" + clientId + "/user/pubish";
-        topic_Response = "/" + clientId + "/user/response";
+        topic_Subscribe = "/topic_s_mch/" + clientId;
+        topic_Pubish = "/topic_p_mch/" + clientId;
+
 
         //topic_Subscribe = "/" + productName + "/" + deviceName + "/user/get";
         //topic_Pubish = "/" + productName + "/" + deviceName + "/user/update";
@@ -360,13 +365,13 @@ public class MqttService extends Service {
         }
     }
 
-    public static void publish(String message,int qos) {
+    public static void publish(String payload,int qos) {
         String topic = topic_Pubish;
         Boolean retained = false;
         try {
             if (mqttAndroidClient != null) {
                 if (mqttAndroidClient.isConnected()) {
-                    mqttAndroidClient.publish(topic, message.getBytes(), qos, retained);
+                    mqttAndroidClient.publish(topic, payload.getBytes(), qos, retained);
                 }
             }
         } catch (MqttException e) {
@@ -374,35 +379,25 @@ public class MqttService extends Service {
         }
     }
 
-    public static void publish(String type,String remark,JSONObject content, int qos) {
+    public static void publish(String id, String method,JSONObject params, int qos) {
 
-        JSONObject msg = new JSONObject();
+        //UUID.randomUUID().toString().replace("-","")
+
+        JSONObject obj_Payload = new JSONObject();
 
         try {
-            msg.put("msg_id", UUID.randomUUID().toString().replace("-",""));
-            msg.put("type", type);
-            msg.put("status", "0");
-            msg.put("content",content);
+            obj_Payload.put("id", id);
+            obj_Payload.put("method", method);
+            obj_Payload.put("params",params);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
         }
 
-        String str_msg=msg.toString();
+        String str_Payload=obj_Payload.toString();
 
-        publish(str_msg,qos);
+        publish(str_Payload,qos);
 
-    }
-
-    public void response(String message) {
-        String topic = topic_Response;
-        int qos = 1;
-        Boolean retained = false;
-        try {
-            mqttAndroidClient.publish(topic, message.getBytes(), qos, retained);
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
