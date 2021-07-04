@@ -147,9 +147,9 @@ public class AppContext extends Application {
             deviceId="";
         }
 
-       return  "202004220047";
+       //return  "202004220047";
 
-       //return "202101040205";
+       return "202101040205";
 //        if(Config.IS_BUILD_DEBUG) {
 //            return "02:00:00:00:00:00";
 //        }

@@ -112,7 +112,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 //        testBean.setName("大毛");
 //        testBean.setPhone("13600000001");
 //
-//        TestBeanDao testBeanDao= DbManager.getInstance().getDaoSession().getTestBeanDao();
+//      TestBeanDao testBeanDao= DbManager.getInstance().getDaoSession().getTestBeanDao();
 //
 ////插入数据
 //        testBeanDao.insert(testBean);

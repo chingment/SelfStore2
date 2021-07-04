@@ -22,6 +22,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CheckUpdateBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
@@ -239,6 +240,7 @@ public class UpdateAppService extends Service {
 
 
             Map<String, Object> params = new HashMap<>();
+            params.put("deviceId", AppContext.getInstance().getDeviceId());
             params.put("appId", BuildConfig.APPLICATION_ID);
             params.put("appKey", BuildConfig.APPKEY);
 

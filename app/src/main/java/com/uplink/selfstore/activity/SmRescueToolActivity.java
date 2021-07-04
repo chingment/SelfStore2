@@ -68,6 +68,7 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                 dialog_confirm.hide();
             }
         });
+
     }
 
     private void initView() {
