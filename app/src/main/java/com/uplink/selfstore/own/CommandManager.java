@@ -57,30 +57,37 @@ public class CommandManager {
             switch (method) {
                 case "reboot_sys":
                     reboot_sys();
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "shutdown_sys":
                     shutdown_sys();
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "set_sys_status":
                     set_sys_status(params);
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "update_home_logo":
                     update_home_logo(params);
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "update_ads":
                     update_ads(params);
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "update_stock":
                     update_stock(params);
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "pay_success":
                     pay_success(params);
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "open_pickup_door":
-                    open_pickup_door();
+                    open_pickup_door(); MqttService.publish(id, "msg_exec_end", null, 1);
+
                     break;
                 case "order_pickup":
-
 
                     if (!TinySyncExecutor.getInstance().currentTaskIsNull()) {
                         LogUtil.d(TAG, "已有订单正在执行");

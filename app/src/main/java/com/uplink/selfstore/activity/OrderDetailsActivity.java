@@ -618,11 +618,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 content.put("imgId2", "");
             }
             content.put("remark", remark);
+
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
 
-            MqttService.publish("pickup","商品取货",content,2);
+            MqttService.publish("vending_pickup","商品取货",content,2);
 
-            eventNotify("Pickup","商品取货", content);
+            eventNotify("vending_pickup","商品取货", content);
 
         } catch (JSONException e) {
             e.printStackTrace();

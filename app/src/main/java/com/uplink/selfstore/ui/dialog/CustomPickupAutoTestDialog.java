@@ -261,10 +261,8 @@ public class CustomPickupAutoTestDialog extends Dialog {
             content.put("remark", remark);
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
             if (mContext != null) {
-                mContext.eventNotify("PickupTest", "商品测试取货", content);
+                mContext.eventNotify("vending_pickup_test", "商品测试取货", content);
             }
-
-            //MqttService.publish("pickup_test","商品测试取货",content);
 
         } catch (JSONException e) {
             e.printStackTrace();

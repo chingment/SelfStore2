@@ -654,7 +654,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             content.put("cabinetId", cabinet.getCabinetId());
             content.put("status", status);
             content.put("remark", remark);
-            eventNotify("ScanSlots","扫描货道",content);
+            eventNotify("vending_scan_slots","扫描货道",content);
         }catch (JSONException e) {
             e.printStackTrace();
         }

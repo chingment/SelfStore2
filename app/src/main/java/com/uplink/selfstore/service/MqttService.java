@@ -48,11 +48,10 @@ public class MqttService extends Service {
 
 
     private String deviceName="";
-    private String productName="";
+    private String deviceClass="";
 
     private static String topic_Subscribe="";//订阅主题
     private static String topic_Pubish="";//发布主题
-    private static String topic_Response = "";//响应主题
 
 
     private Handler timHandler = new Handler();
@@ -165,7 +164,7 @@ public class MqttService extends Service {
             LogUtil.d(TAG, "qos:" + qos);
 
 
-            if (topic.contains("topic_s_mch")) {
+            if (topic.contains("/user/get")) {
 
                 Map map_payload = JSON.parseObject(payload);
 
@@ -202,40 +201,6 @@ public class MqttService extends Service {
 
             }
 
-//                BaseSyncTask task = new BaseSyncTask() {
-//                    @Override
-//                    public void doTask() {
-//
-//                        LogUtil.d(TAG,"DDD");
-//
-//                        Activity activity = AppManager.getAppManager().currentActivity();
-//                        if(activity!=null){
-//                            if (activity instanceof OrderDetailsActivity) {
-//                                LogUtil.d(TAG,"有订单正在执行");
-//                                return;
-//                            }
-//                        }
-//
-//
-//                        Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        OrderDetailsBean orderDetails = new OrderDetailsBean();
-//                        orderDetails.setOrderId("dadsdsad");
-//                        orderDetails.setStatus(10000);
-//                        //orderDetails.setSkus(bean.getSkus());
-//                        bundle.putSerializable("dataBean", orderDetails);
-//
-//                        intent.putExtras(bundle);
-//                        startActivity(intent);
-//
-//
-//                        //TinySyncExecutor.getInstance().finish();
-//                    }
-//                };
-//
-//                TinySyncExecutor.getInstance().enqueue(task);
-//
-//            }
 
 
         }
@@ -264,19 +229,19 @@ public class MqttService extends Service {
         String password = "";
 
         if (mqtt != null) {
-
-
             if(mqtt.getType().equals("exmq")) {
                 com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
                 host = pms.getString("host");
                 userName = pms.getString("userName");
                 password = pms.getString("password");
                 clientId = pms.getString("clientId");
+                deviceClass=pms.getString("deviceClass");
                 deviceName=pms.getString("clientId");
             }
             else if(mqtt.getType().equals("almq")) {
                 com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
                 String productKey = pms.getString("productKey");
+                deviceClass = productKey;
                 deviceName = pms.getString("deviceName");
                 String deviceSecret = pms.getString("deviceSecret");
 
@@ -285,14 +250,14 @@ public class MqttService extends Service {
                 AiotMqttOption aiotMqttOption = new AiotMqttOption().getMqttOption(productKey, deviceName, deviceSecret);
 
                 userName = aiotMqttOption.getUsername();
-                password =  aiotMqttOption.getPassword();
+                password = aiotMqttOption.getPassword();
                 clientId = aiotMqttOption.getClientId();
             }
 
         }
 
-        topic_Subscribe = "/topic_s_mch/" + deviceName;
-        topic_Pubish = "/topic_p_mch/" + deviceName;
+        topic_Subscribe ="/" + deviceClass + "/" + deviceName + "/user/get";
+        topic_Pubish = "/" + deviceClass + "/" + deviceName + "/user/update";
 
 
         //topic_Subscribe = "/" + productName + "/" + deviceName + "/user/get";
