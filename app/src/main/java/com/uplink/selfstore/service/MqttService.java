@@ -2,23 +2,17 @@ package com.uplink.selfstore.service;
 
 import android.app.Activity;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
 import com.alibaba.fastjson.JSON;
-import com.uplink.selfstore.activity.CartActivity;
-import com.uplink.selfstore.activity.OrderDetailsActivity;
+import com.alibaba.fastjson.parser.JSONToken;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.MqttBean;
-import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.CommandManager;
-import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
-import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NetFlowInfo;
 import com.uplink.selfstore.utils.NetFlowUtil;
@@ -35,6 +29,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Dictionary;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -51,10 +46,7 @@ public class MqttService extends Service {
 
     private ScheduledExecutorService reconnectPool;//重连线程池
 
-    private String host = "";
-    private String userName = "";
-    private String password = "";
-    private String clientId = "";
+
     private String deviceName="";
     private String productName="";
 
@@ -103,7 +95,6 @@ public class MqttService extends Service {
             NetFlowInfo flowInfo = NetFlowUtil.getAppFlowInfo("com.uplink.selfstore", getApplicationContext());
 
             params.put("activity", activityName);
-            params.put("deviceId", device.getDeviceId());
             params.put("status", status);
             params.put("upKb", flowInfo.getUpKb());
             params.put("downKb", flowInfo.getDownKb());
@@ -267,30 +258,41 @@ public class MqttService extends Service {
 
         MqttBean mqtt = device.getMqtt();
 
+        String clientId="";
+        String host = "";
+        String userName = "";
+        String password = "";
+
         if (mqtt != null) {
 
-            host = mqtt.getHost();
-            userName = mqtt.getUserName();
-            password = mqtt.getPassword();
-            clientId = mqtt.getClientId();
 
+            if(mqtt.getType().equals("exmq")) {
+                com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
+                host = pms.getString("host");
+                userName = pms.getString("userName");
+                password = pms.getString("password");
+                clientId = pms.getString("clientId");
+                deviceName=pms.getString("clientId");
+            }
+            else if(mqtt.getType().equals("almq")) {
+                com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
+                String productKey = pms.getString("productKey");
+                deviceName = pms.getString("deviceName");
+                String deviceSecret = pms.getString("deviceSecret");
 
-            //HOST = "tcp://" + PRODUCTKEY + ".iot-as-mqtt.cn-shanghai.aliyuncs.com:443";
+                host = "tcp://" + productKey + ".iot-as-mqtt.cn-shanghai.aliyuncs.com:443";
 
-//            /* 获取MQTT连接信息clientId、username、password。 */
-//            AiotMqttOption aiotMqttOption = new AiotMqttOption().getMqttOption(PRODUCTKEY, DEVICENAME, DEVICESECRET);
-//            if (aiotMqttOption == null) {
-//                LogUtil.d(TAG, "device info error");
-//            } else {
-//                CLIENT_ID = aiotMqttOption.getClientId();
-//                USERNAME = aiotMqttOption.getUsername();
-//                PASSWORD = aiotMqttOption.getPassword();
-//            }
+                AiotMqttOption aiotMqttOption = new AiotMqttOption().getMqttOption(productKey, deviceName, deviceSecret);
+
+                userName = aiotMqttOption.getUsername();
+                password =  aiotMqttOption.getPassword();
+                clientId = aiotMqttOption.getClientId();
+            }
 
         }
 
-        topic_Subscribe = "/topic_s_mch/" + clientId;
-        topic_Pubish = "/topic_p_mch/" + clientId;
+        topic_Subscribe = "/topic_s_mch/" + deviceName;
+        topic_Pubish = "/topic_p_mch/" + deviceName;
 
 
         //topic_Subscribe = "/" + productName + "/" + deviceName + "/user/get";
