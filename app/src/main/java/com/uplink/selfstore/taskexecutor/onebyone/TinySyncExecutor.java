@@ -64,8 +64,11 @@ public class TinySyncExecutor {
     }
 
     public void finish() {
-        System.out.println("[OneByOne]finish task, task id = " + currentTask.getId() + "; pendingQueue size = " + pendingQueue.size());
+        if (currentTask != null) {
+            System.out.println("[OneByOne]finish task, task id = " + currentTask.getId() + "; pendingQueue size = " + pendingQueue.size());
+        }
         coreExecute();
+
     }
 
     public  boolean currentTaskIsNull(){
