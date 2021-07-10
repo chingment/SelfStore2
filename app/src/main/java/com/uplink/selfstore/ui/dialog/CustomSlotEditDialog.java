@@ -72,6 +72,7 @@ public class CustomSlotEditDialog extends Dialog {
     private TextView txt_LockQty;
     private TextView txt_SumQty;
     private TextView txt_MaxQty;
+    private TextView txt_WrnQty;
     private ImageButton btn_keydelete;
     private Button btn_delete;
     private Button btn_fill;
@@ -81,6 +82,9 @@ public class CustomSlotEditDialog extends Dialog {
     private View btn_pick_test;
     private View btn_decreasebymax;
     private View btn_increasebymax;
+    private View btn_decreasebywrn;
+    private View btn_increasebywrn;
+
     private ListView list_search_skus;
     private SlotBean slot;
     private CabinetBean cabinet;
@@ -357,6 +361,7 @@ public class CustomSlotEditDialog extends Dialog {
         txt_LockQty = ViewHolder.get(mLayoutRes, R.id.txt_LockQty);
         txt_SumQty = ViewHolder.get(mLayoutRes, R.id.txt_SumQty);
         txt_MaxQty = ViewHolder.get(mLayoutRes, R.id.txt_MaxQty);
+        txt_WrnQty= ViewHolder.get(mLayoutRes, R.id.txt_WrnQty);
         list_search_skus = ViewHolder.get(mLayoutRes, R.id.list_search_skus);
         btn_keydelete = ViewHolder.get(mLayoutRes, R.id.btn_keydelete);
         btn_pick_test = ViewHolder.get(mLayoutRes, R.id.btn_pick_test);
@@ -367,7 +372,8 @@ public class CustomSlotEditDialog extends Dialog {
         btn_save = ViewHolder.get(mLayoutRes, R.id.btn_save);
         btn_decreasebymax = ViewHolder.get(mLayoutRes, R.id.btn_decreasebymax);
         btn_increasebymax = ViewHolder.get(mLayoutRes, R.id.btn_increasebymax);
-
+        btn_decreasebywrn = ViewHolder.get(mLayoutRes, R.id.btn_decreasebywrn);
+        btn_increasebywrn = ViewHolder.get(mLayoutRes, R.id.btn_increasebywrn);
         dialog_Running = new CustomLoadingDialog(this.mContext);
 
     }
@@ -499,12 +505,18 @@ public class CustomSlotEditDialog extends Dialog {
                 int sellQuantity = Integer.valueOf(txt_SellQty.getText() + "");
                 int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 int maxQuantity = Integer.valueOf(txt_MaxQty.getText() + "");
-
+                int warnQuantity = Integer.valueOf(txt_WrnQty.getText() + "");
                 if(maxQuantity<sumQuantity){
 
                     mContext.showToast("保存失败，最大数量不能小于实际数据");
                     return;
                 }
+
+                if(warnQuantity>sumQuantity){
+                    mContext.showToast("保存失败，报警数量不能大于实际数据");
+                    return;
+                }
+
                 Map<String, Object> params = new HashMap<>();
                 params.put("slotId", slotId);
                 params.put("stockId", stockId);
@@ -513,8 +525,9 @@ public class CustomSlotEditDialog extends Dialog {
                 params.put("skuId", skuId);
                 params.put("sumQuantity", sumQuantity);
                 params.put("holdQuantity", 0);
-                params.put("warnQuantity", 0);
+                params.put("warnQuantity", warnQuantity);
                 params.put("maxQuantity", maxQuantity);
+
                 params.put("version", version);
 
                 mContext.postByMy(mContext,Config.URL.stockSetting_SaveCabinetSlot, params, null, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
@@ -636,6 +649,54 @@ public class CustomSlotEditDialog extends Dialog {
             }
         });
 
+
+        btn_decreasebywrn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
+                    mContext.showToast("请先设置商品");
+                    return;
+                }
+
+
+                int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
+                int wrnQty = Integer.valueOf(txt_WrnQty.getText() + "");
+
+
+                if (wrnQty > 0) {
+                    wrnQty = wrnQty - 1;
+                }
+
+                if(wrnQty<sumQty){
+                    mContext.showToast("报警数据不能小于实际数量");
+                    return;
+                }
+
+                txt_WrnQty.setText(String.valueOf(wrnQty));
+            }
+        });
+
+        //点击添加
+        btn_increasebywrn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (StringUtil.isEmptyNotNull(txt_SkuId.getText() + "")) {
+                    mContext.showToast("请先设置商品");
+                    return;
+                }
+
+                int wrnQty = Integer.valueOf(txt_WrnQty.getText() + "");
+
+                wrnQty = wrnQty + 1;
+
+
+                txt_WrnQty.setText(String.valueOf(wrnQty));
+            }
+        });
+
+
         LinearLayout all_key = ViewHolder.get(mLayoutRes, R.id.all_key);
         for (int i = 0; i < all_key.getChildCount(); i++) {
             LinearLayout viewchild = (LinearLayout) all_key.getChildAt(i);
@@ -678,6 +739,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_LockQty.setText("0");
             txt_SumQty.setText("0");
             txt_MaxQty.setText("0");
+            txt_WrnQty.setText("0");
             img_SkuImg.setImageResource(R.drawable.default_image);
         } else {
             txt_Version.setText(String.valueOf(slot.getVersion()));
@@ -690,7 +752,7 @@ public class CustomSlotEditDialog extends Dialog {
             txt_LockQty.setText(String.valueOf(slot.getLockQuantity()));
             txt_SumQty.setText(String.valueOf(slot.getSumQuantity()));
             txt_MaxQty.setText(String.valueOf(slot.getMaxQuantity()));
-
+            txt_WrnQty.setText(String.valueOf(slot.getWarnQuantity()));
             if(slot.getCanAlterMaxQuantity()!=null) {
                 if (slot.getCanAlterMaxQuantity()) {
                     btn_decreasebymax.setVisibility(View.VISIBLE);
@@ -698,7 +760,6 @@ public class CustomSlotEditDialog extends Dialog {
                 } else {
                     btn_decreasebymax.setVisibility(View.INVISIBLE);
                     btn_increasebymax.setVisibility(View.INVISIBLE);
-
                 }
             }
 
@@ -751,7 +812,7 @@ public class CustomSlotEditDialog extends Dialog {
                             txt_SellQty.setText("0");
                             txt_LockQty.setText("0");
                             txt_SumQty.setText("0");
-
+                            txt_WrnQty.setText("0");
                             CommonUtil.loadImageFromUrl(mContext, img_SkuImg, sku.getMainImgUrl());
 
                         }

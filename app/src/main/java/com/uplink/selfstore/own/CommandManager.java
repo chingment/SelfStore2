@@ -67,10 +67,6 @@ public class CommandManager {
                     set_sys_status(params);
                     MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
-                case "update_home_logo":
-                    update_home_logo(params);
-                    MqttService.publish(id, "msg_exec_end", null, 1);
-                    break;
                 case "update_ads":
                     update_ads(params);
                     MqttService.publish(id, "msg_exec_end", null, 1);
@@ -84,8 +80,8 @@ public class CommandManager {
                     MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "open_pickup_door":
-                    open_pickup_door(); MqttService.publish(id, "msg_exec_end", null, 1);
-
+                    open_pickup_door();
+                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "order_pickup":
 
@@ -190,32 +186,6 @@ public class CommandManager {
                 currentActivity.getDialogBySystemWarn().show();
         }
 
-    }
-
-    private static void update_home_logo(String content) {
-
-        UpdateHomeLogoBean updateHomeLogo = JSON.parseObject(content, new TypeReference<UpdateHomeLogoBean>() {
-        });
-
-
-        DeviceBean device = AppCacheManager.getDevice();
-
-        device.setLogoImgUrl(updateHomeLogo.getUrl());
-
-        List<Activity> acts = AppManager.getAppManager().getActivityStack();
-        if (acts != null) {
-            if (acts.size() > 0) {
-                for (Activity act : acts) {
-
-                    if (act instanceof MainActivity) {
-
-                        MainActivity act_Main = (MainActivity) act;
-                        act_Main.loadLogo(updateHomeLogo.getUrl());
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     private static void update_ads(String content) {

@@ -16,6 +16,7 @@ import com.uplink.selfstore.activity.adapter.AdContentAdapter;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
 import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.AdBean;
+import com.uplink.selfstore.model.api.AdContentBean;
 import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -33,6 +34,7 @@ import com.uplink.selfstore.utils.runtimepermissions.PermissionsManager;
 import com.uplink.selfstore.utils.runtimepermissions.PermissionsResultAction;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -166,13 +168,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-        loadLogo(this.getDevice().getLogoImgUrl());
         loadAds(this.getCustomDataByVending().getAds());
-    }
-
-    public void loadLogo(String url) {
-
-        CommonUtil.loadImageFromUrl(getAppContext(), img_logo, url);
     }
 
     public void loadAds(HashMap<String, AdBean> ads) {
@@ -180,13 +176,30 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if(ads==null)
             return;
 
-        //200 是首页主广告
+        //100 是首页主广告
         if(ads.containsKey("100")) {
             AdBean ad = ads.get("100");
-            AdContentAdapter adContent_adapter = new AdContentAdapter(getAppContext(), ad.getContents(), ImageView.ScaleType.FIT_XY);
-            banner_pager.setAdapter(adContent_adapter);
-            banner_indicator.setViewPager(banner_pager);
+            if(ad!=null) {
+                List<AdContentBean> ad_Contents = ad.getContents();
+                if (ad_Contents != null) {
+                    AdContentAdapter adContent_adapter = new AdContentAdapter(getAppContext(), ad_Contents, ImageView.ScaleType.FIT_XY);
+                    banner_pager.setAdapter(adContent_adapter);
+                    banner_indicator.setViewPager(banner_pager);
+                }
+            }
         }
+
+        if(ads.containsKey("101")){
+            AdBean ad = ads.get("101");
+            if(ad!=null) {
+                List<AdContentBean> ad_Contents = ad.getContents();
+                if (ad_Contents != null&&ad_Contents.size()>0) {
+                    CommonUtil.loadImageFromUrl(getAppContext(), img_logo, ad_Contents.get(0).getDataUrl());
+                }
+            }
+        }
+
+
     }
 
     @Override

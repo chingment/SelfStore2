@@ -17,7 +17,6 @@ public class DeviceBean implements Serializable {
     private String storeName;
     private String shopName;
     private String shopAddress;
-    private String logoImgUrl;
     private HashMap<String, CabinetBean> cabinets;
     private List<TerminalPayOptionBean> payOptions;
     private boolean cameraByChkIsUse;
@@ -42,15 +41,6 @@ public class DeviceBean implements Serializable {
 
     public void setExIsHas(boolean exIsHas) {
         this.exIsHas = exIsHas;
-    }
-
-
-    public String getLogoImgUrl() {
-        return logoImgUrl;
-    }
-
-    public void setLogoImgUrl(String logoImgUrl) {
-        this.logoImgUrl = logoImgUrl;
     }
 
 

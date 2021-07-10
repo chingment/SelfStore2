@@ -264,11 +264,19 @@ public class CabinetCtrlByDS {
                     sym.SN_MV_MotorAction(1, 0, 0);//回原点
 
                     try {
-                        Thread.sleep(5*1000);
+                        Thread.sleep(4000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    //关闭取货口
+
+                    sym.SN_MV_ManuProc(1, 0, 0);//打开取货们
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     sym.SN_MV_ManuProc(2, 0, 0);//关闭取货们
                 }
             }
