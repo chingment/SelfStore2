@@ -194,6 +194,8 @@ public class MqttService extends Service {
                 }
 
 
+                publish(id, "msg_arrive", null, 1);
+
                 CommandManager.Execute(id, method, params);
 
 
