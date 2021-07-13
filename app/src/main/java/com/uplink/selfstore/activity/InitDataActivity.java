@@ -164,19 +164,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
 
-        DeviceBean device = AppCacheManager.getDevice();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("appId", BuildConfig.APPLICATION_ID);
-        params.put("deviceId", device.getDeviceId());
-        params.put("lat", LocationUtil.LAT);
-        params.put("lng", LocationUtil.LNG);
-        params.put("eventCode", "1110");
-        params.put("eventRemark", "sdad");
-
-
-        int msg_id= DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify,JSON.toJSONString(params));
-
     }
 
     private void initView() {
