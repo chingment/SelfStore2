@@ -76,7 +76,7 @@ public class AppLogcatManager {
             Map<String, String> filePaths = new HashMap<>();
             filePaths.put("file",filePath);
 
-            HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
+            HttpClient.postFileByMy(Config.URL.uploadfile, fields, filePaths, new HttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     if(response!=null){

@@ -707,7 +707,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 Map<String, String> filePaths = new HashMap<>();
                 filePaths.put("file", filePath);
 
-                HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET,Config.URL.uploadfile, params, filePaths, null);
+                HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
 
                 Log.e(TAG, "拍照结束");
             } catch (Exception e) {

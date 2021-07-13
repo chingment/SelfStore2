@@ -259,7 +259,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                             DeviceBean device = initData.getDevice();//设备数据
 
-                            if(device==null&& StringUtil.isEmptyNotNull(device.getDeviceId())) {
+                            if(device==null|| StringUtil.isEmptyNotNull(device.getDeviceId())) {
                                 setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：设备对象为空");
                                 return false;
                             }

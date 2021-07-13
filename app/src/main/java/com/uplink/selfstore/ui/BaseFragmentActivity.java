@@ -531,7 +531,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 //
     public void postByMy(Context context,String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
-        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, filePaths, new HttpResponseHandler() {
+        HttpClient.postByMy(url, params, filePaths, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
@@ -611,7 +611,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             params.put("content", content);
         }
 
-        HttpClient.postByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
+        HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {

@@ -52,9 +52,7 @@ public class HttpClient {
     private static final int MAX_REQUESTS_PER_HOST = 10;
     private static final String TAG = HttpClient.class.getSimpleName();
     private static final String UTF_8 = "UTF-8";
-    private static final MediaType MEDIA_TYPE = MediaType.parse("text/plain;");
     private static OkHttpClient client;
-    //json请求
     private static final MediaType MediaType_JSON = MediaType.parse("application/json; charset=utf-8");
 
     static {
@@ -65,8 +63,6 @@ public class HttpClient {
         builder.networkInterceptors().add(new LoggingInterceptor());
         builder.addInterceptor((new RetryIntercepter(3)));
         client = builder.build();
-
-
         client.dispatcher().setMaxRequestsPerHost(MAX_REQUESTS_PER_HOST);
     }
 
@@ -132,81 +128,7 @@ public class HttpClient {
     }
 
 
-//    public static void getByAppSecret(String appKey, String appSecret, String url, Map<String, String> param, final HttpResponseHandler handler) {
-//
-//        try {
-//            if (!isNetworkAvailable()) {
-//                handler.sendFailureMessage("网络连接不可用,请检查设置", null);
-//                return;
-//            }
-//
-//            handler.sendBeforeSendMessage();
-//
-//            String data = "";
-//            if (param != null && param.size() > 0) {
-//                data = mapToQueryString(param);
-//                url = url + "?" + data;
-//
-//            }
-//
-//            Request.Builder requestBuilder = new Request.Builder().url(url);
-//            requestBuilder.addHeader("appId", "" + BuildConfig.APPLICATION_ID);
-//            requestBuilder.addHeader("appKey", "" + appKey);
-//            String currenttime = (System.currentTimeMillis() / 1000) + "";
-//            requestBuilder.addHeader("timestamp", currenttime);
-//
-//            //LogUtil.d("key:"+key);
-//            //LogUtil.d("secret:"+secret);
-//            //LogUtil.d("data:"+data);
-//            //LogUtil.d("currenttime:"+currenttime);
-//
-//            String sign = Config.getSign(BuildConfig.APPLICATION_ID,appKey, appSecret, data, currenttime);
-//            //LogUtil.d("sign:"+sign);
-//            requestBuilder.addHeader("sign", "" + sign);
-//            requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
-//
-//            if(AppCacheManager.getOpUserInfo()!=null) {
-//                requestBuilder.addHeader("X-Token", "" + AppCacheManager.getOpUserInfo().getToken());
-//            }
-//
-//            LogUtil.i(TAG, "Request.url====>>>" + url);
-//            Request request = requestBuilder.build();
-//            client.newCall(request).enqueue(new Callback() {
-//                @Override
-//                public void onResponse(Call call, Response response) {
-//                    try {
-//                        String body = response.body().string();
-//                        LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
-//                        handler.sendSuccessMessage(body);
-//                    } catch (Exception e) {
-//                        LogUtil.i(TAG, "Request.onFailure====>>>" + e.getMessage());
-//                        handler.sendFailureMessage("读取数据发生异常", e);
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//
-//                    String msg = "读取数据服务发生异常";
-//
-//                    if (e instanceof SocketTimeoutException) {
-//                        msg = "读取数据服务连接超时";
-//                    } else if (e instanceof ConnectException) {
-//                        msg = "读取数据服务连接失败";
-//
-//                    } else if (e instanceof UnknownHostException) {
-//                        msg = "读取数据服务连接不存在";
-//                    }
-//                    handler.sendFailureMessage(msg, e);
-//
-//                }
-//            });
-//        } catch (Exception ex) {
-//            handler.sendFailureMessage("数据获取发生异常",ex);
-//        }
-//    }
-
-    public static void postByAppSecret(String appKey, String appSecret, String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public static void postByMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
 
         try
         {
@@ -234,13 +156,14 @@ public class HttpClient {
                 return;
             }
 
+
             Request.Builder requestBuilder = new Request.Builder().url(url);
 
             requestBuilder.addHeader("appId", "" + BuildConfig.APPLICATION_ID);
-            requestBuilder.addHeader("appKey", "" + appKey);
+            requestBuilder.addHeader("appKey", "" + BuildConfig.APPKEY);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
-            String sign = Config.getSign(BuildConfig.APPLICATION_ID,appKey, appSecret, json.toString(), currenttime);
+            String sign = Config.getSign(BuildConfig.APPLICATION_ID, BuildConfig.APPKEY, BuildConfig.APPSECRET, json.toString(), currenttime);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
@@ -330,8 +253,7 @@ public class HttpClient {
         }
     }
 
-
-    public static void postFile(String appKey, String appSecret,String url, Map<String, String> fields, Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public static void postFileByMy(String url, Map<String, String> fields, Map<String, String> filePaths, final HttpResponseHandler handler) {
 
         try {
             if (!isNetworkAvailable()) {
@@ -385,10 +307,10 @@ public class HttpClient {
             requestBuilder.post(requestBody);
 
             requestBuilder.addHeader("appId", "" + BuildConfig.APPLICATION_ID);
-            requestBuilder.addHeader("appKey", "" + appKey);
+            requestBuilder.addHeader("appKey", "" + BuildConfig.APPKEY);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
-            String sign = Config.getSign(BuildConfig.APPLICATION_ID,appKey, appSecret, fields_data, currenttime);
+            String sign = Config.getSign(BuildConfig.APPLICATION_ID,BuildConfig.APPKEY, BuildConfig.APPSECRET, fields_data, currenttime);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
@@ -438,45 +360,6 @@ public class HttpClient {
         }
     }
 
-//    public static void getByMy(String url, Map<String, String> param, final HttpResponseHandler handler) {
-//        getByAppSecret(BuildConfig.APPKEY,BuildConfig.APPSECRET,url,param,handler);
-//    }
-//
-//    public static void postByMy(String url, Map<String, Object> params,Map<String, String> filePaths, final HttpResponseHandler handler) {
-//        postByAppSecret(BuildConfig.APPKEY,BuildConfig.APPSECRET,url,params,filePaths,handler);
-//    }
-
-    /**
-     * 判断是否为 json
-     *
-     * @param responseBody
-     * @return
-     * @throws Exception
-     */
-
-    private static String judgeJSON(String responseBody) throws Exception {
-        if (!isJsonString(responseBody)) {
-            throw new Exception("server response not json string (response = " + responseBody + ")");
-        }
-        return responseBody;
-    }
-
-    /**
-     * 判断是否为 json
-     *
-     * @param responseBody
-     * @return
-     */
-    private static boolean isJsonString(String responseBody) {
-        return !TextUtils.isEmpty(responseBody) && (responseBody.startsWith("{") && responseBody.endsWith("}"));
-    }
-
-    /**
-     * get
-     *
-     * @param map
-     * @return
-     */
     public static String mapToQueryString(Map<String, String> map) {
         StringBuilder string = new StringBuilder();
         /*if(map.size() > 0) {

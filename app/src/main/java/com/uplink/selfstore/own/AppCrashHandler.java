@@ -206,7 +206,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
             filePaths.put("file", filePath);
 
 
-            HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, fields, filePaths,null);
+            HttpClient.postFileByMy(Config.URL.uploadfile, fields, filePaths,null);
         }
     }
 

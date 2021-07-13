@@ -251,7 +251,7 @@ public class CameraWindow {
                 Map<String, String> filePaths = new HashMap<>();
                 filePaths.put("file", filePath);
 
-                HttpClient.postFile(BuildConfig.APPKEY, BuildConfig.APPSECRET, Config.URL.uploadfile, params, filePaths, null);
+                HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
 
                 LogUtil.e(TAG, "拍照结束");
             } catch (Exception ex) {
