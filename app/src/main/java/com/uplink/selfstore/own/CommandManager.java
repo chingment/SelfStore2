@@ -52,36 +52,27 @@ public class CommandManager {
 
         try {
 
-            MqttService.publish(id, "msg_exec_start", null, 1);
-
             switch (method) {
                 case "reboot_sys":
                     reboot_sys();
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "shutdown_sys":
                     shutdown_sys();
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "set_sys_status":
                     set_sys_status(params);
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "update_ads":
                     update_ads(params);
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "update_stock":
                     update_stock(params);
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "pay_success":
                     pay_success(params);
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "open_pickup_door":
                     open_pickup_door();
-                    MqttService.publish(id, "msg_exec_end", null, 1);
                     break;
                 case "order_pickup":
 
@@ -136,8 +127,6 @@ public class CommandManager {
                                 intent.putExtras(bundle);
 
                                 AppContext.getInstance().startActivity(intent);
-
-                                MqttService.publish(id, "msg_exec_end", null, 1);
 
                             }
                         };

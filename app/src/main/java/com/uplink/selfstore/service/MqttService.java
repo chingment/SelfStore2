@@ -193,8 +193,6 @@ public class MqttService extends Service {
                     }
                 }
 
-                publish(id, "msg_arrive", null, 1);
-
 
                 CommandManager.Execute(id, method, params);
 
@@ -207,7 +205,47 @@ public class MqttService extends Service {
 
         @Override
         public void deliveryComplete(IMqttDeliveryToken token) {
+            try {
 
+                MqttMessage msg=token.getMessage();
+
+                String payload=new String(msg.getPayload());
+                Map map_payload = JSON.parseObject(payload);
+
+                String id = "";
+                String method = "";
+                String params = "";
+
+                if (map_payload.containsKey("id")) {
+                    Object obj_id = map_payload.get("id");
+                    if (obj_id != null) {
+                        id = obj_id.toString();
+                    }
+                }
+
+                if (map_payload.containsKey("method")) {
+                    Object obj_method = map_payload.get("method");
+                    if (obj_method != null) {
+                        method = obj_method.toString();
+                    }
+                }
+
+                if (map_payload.containsKey("params")) {
+                    Object obj_params = map_payload.get("params");
+                    if (obj_params != null) {
+                        params = obj_params.toString();
+                    }
+                }
+
+                LogUtil.d(TAG,"delivery.id:"+id);
+                LogUtil.d(TAG,"delivery.method:"+id);
+                LogUtil.d(TAG,"delivery.params:"+params);
+                LogUtil.d(TAG,"delivery.isComplete---------"+token.isComplete());
+
+            }
+            catch (Exception ex){
+
+            }
         }
     };
 
