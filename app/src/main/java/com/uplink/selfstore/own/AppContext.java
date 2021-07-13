@@ -154,7 +154,8 @@ public class AppContext extends Application {
        //return "202101040205";
 
         if(Config.IS_BUILD_DEBUG) {
-            return "202012110204";
+           // return "202012110204";
+            return "202004220011";
         }
 
         return Build.SERIAL;
