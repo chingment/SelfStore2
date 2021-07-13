@@ -217,18 +217,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/CommandManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="52">
-              <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="151">
@@ -294,11 +282,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/http/HttpClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="122" column="10" selection-start-line="122" selection-start-column="10" selection-end-line="122" selection-end-column="10" />
+            <state relative-caret-position="2415">
+              <caret line="325" column="44" lean-forward="true" selection-start-line="325" selection-start-column="44" selection-end-line="325" selection-end-column="44" />
               <folding>
                 <element signature="method#post#0;class#HttpClient#0" />
-                <element signature="e#12539#16343#0" />
               </folding>
             </state>
           </provider>
@@ -321,7 +308,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>currentTask</find>
       <find>IHanldeListener</find>
       <find>topic_Subscribe</find>
       <find>setAllPickupComplete</find>
@@ -351,6 +337,7 @@
       <find>laodingUIHandler</find>
       <find>dialog_SystemWarn</find>
       <find>MqttService.publish</find>
+      <find>isJsonString</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -867,7 +854,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1229" height="775" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.19713564" />
       <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
@@ -888,10 +874,10 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.13193278" side_tool="true" weight="0.2767584" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.35951662" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" weight="0.35321102" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" visible="true" weight="0.35321102" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Build" order="13" sideWeight="0.597479" visible="true" weight="0.16055046" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.22171254" />
       <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" sideWeight="0.8263773" weight="0.4244713" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
       <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.5198777" />
@@ -1213,13 +1199,6 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/common/NineGridItemBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/DeviceInitDataResultBean.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1623,13 +1602,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/e99b7b608968f16b07104b93e62cb90701174d0/okhttp-3.10.0-sources.jar!/okhttp3/MultipartBody.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-6">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/http/HttpClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="122" column="10" selection-start-line="122" selection-start-column="10" selection-end-line="122" selection-end-column="10" />
+        <state relative-caret-position="2415">
+          <caret line="325" column="44" lean-forward="true" selection-start-line="325" selection-start-column="44" selection-end-line="325" selection-end-column="44" />
           <folding>
             <element signature="method#post#0;class#HttpClient#0" />
-            <element signature="e#12539#16343#0" />
           </folding>
         </state>
       </provider>
