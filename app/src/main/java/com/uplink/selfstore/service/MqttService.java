@@ -199,8 +199,6 @@ public class MqttService extends Service {
 
             }
 
-
-
         }
 
         @Override
