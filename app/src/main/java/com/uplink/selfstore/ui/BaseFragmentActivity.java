@@ -28,11 +28,13 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.SmRescueToolActivity;
+import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
@@ -611,20 +613,31 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
             params.put("content", content);
         }
 
+
+        int msg_id= DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify,JSON.toJSONString(params));
+
         HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
+
 
             }
 
             @Override
             public void onSuccess(String response) {
 
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                });
+
+                if(rt.getResult()==Result.SUCCESS){
+                    DbManager.getInstance().deleteTripMsg(msg_id);
+                }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
+
             }
         });
     }

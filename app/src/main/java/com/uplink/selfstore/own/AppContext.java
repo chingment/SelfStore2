@@ -17,6 +17,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
+import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.utils.EMPreferenceManager;
@@ -88,8 +89,7 @@ public class AppContext extends Application {
         }); //初始异常日志收集器
 
         OstCtrlInterface.init(context);//  初始化Ost控制
-
-        //DbManager.getInstance().init(context);
+        DbManager.getInstance().init();
 
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证

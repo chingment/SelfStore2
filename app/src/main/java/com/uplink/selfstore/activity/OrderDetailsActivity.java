@@ -621,8 +621,6 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
 
-            MqttService.publish("vending_pickup","商品取货",content,2);
-
             eventNotify("vending_pickup","商品取货", content);
 
         } catch (JSONException e) {

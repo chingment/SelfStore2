@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
-apply plugin: 'org.greenrobot.greendao'
+//apply plugin: 'org.greenrobot.greendao'
 //apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'com.jfrog.bintray'
 
 version = "2.4"
 android {
     compileSdkVersion 26
-    buildToolsVersion versionBuildTool
+   // buildToolsVersion versionBuildTool
 
     defaultConfig {
         minSdkVersion 14
@@ -22,11 +22,11 @@ android {
     }
 }
 
-greendao {
-    targetGenDir 'src/main/java'
-    schemaVersion 2
-    daoPackage 'com.tamic.statinterface.stats.db'
-}
+//greendao {
+//    targetGenDir 'src/main/java'
+//    schemaVersion 2
+//    daoPackage 'com.tamic.statinterface.stats.db'
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
+import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
@@ -39,6 +40,7 @@ import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.FileUtil;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -160,6 +162,20 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
+
+
+        DeviceBean device = AppCacheManager.getDevice();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("appId", BuildConfig.APPLICATION_ID);
+        params.put("deviceId", device.getDeviceId());
+        params.put("lat", LocationUtil.LAT);
+        params.put("lng", LocationUtil.LNG);
+        params.put("eventCode", "1110");
+        params.put("eventRemark", "sdad");
+
+
+        int msg_id= DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify,JSON.toJSONString(params));
 
     }
 

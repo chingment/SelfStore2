@@ -8,7 +8,16 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.broadcast.AlarmReceiver;
+import com.uplink.selfstore.db.DbManager;
+import com.uplink.selfstore.http.HttpClient;
+import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.TripMsgBean;
+import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
@@ -18,6 +27,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class AlarmService  extends Service {
     private static final String TAG = "AlarmService";
@@ -45,6 +56,8 @@ public class AlarmService  extends Service {
                 AlarmService.delete(picDir,7);
                 String moveDir = OwnFileUtil.getMovieSaveDir();
                 AlarmService.delete(moveDir,7);
+
+                AlarmService.deleteTripMsgs();
             }
         }).start();
 
@@ -91,5 +104,45 @@ public class AlarmService  extends Service {
                 return isFlag;
             }
         });
+    }
+
+
+    public static void deleteTripMsgs() {
+
+
+        List<TripMsgBean> tripMsgs = DbManager.getInstance().getTripMsgs();
+
+        if(tripMsgs!=null){
+
+            for (TripMsgBean trip: tripMsgs ) {
+
+                Map<String, Object> params = JSON.parseObject(trip.getContent(), new TypeReference<Map<String, Object>>() {
+                });
+
+                HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
+
+                    @Override
+                    public void onBeforeSend() {
+
+
+                    }
+                    @Override
+                    public void onSuccess(String response) {
+
+                        ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                        });
+
+                        if(rt.getResult()== Result.SUCCESS){
+                            DbManager.getInstance().deleteTripMsg(trip.getMsgId());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg, Exception e) {
+
+                    }
+                });
+            }
+        }
     }
 }
