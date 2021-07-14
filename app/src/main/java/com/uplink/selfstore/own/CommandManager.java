@@ -74,7 +74,7 @@ public class CommandManager {
                 case "open_pickup_door":
                     open_pickup_door();
                     break;
-                case "order_pickup":
+                case "device_ship":
 
                     if (!TinySyncExecutor.getInstance().currentTaskIsNull()) {
                         LogUtil.d(TAG, "已有订单正在执行");
