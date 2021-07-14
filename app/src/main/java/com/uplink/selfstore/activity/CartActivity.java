@@ -645,7 +645,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     Bundle bundle = new Bundle();
                     OrderDetailsBean orderDetails = new OrderDetailsBean();
                     orderDetails.setOrderId(bean.getOrderId());
-                    orderDetails.setStatus(bean.getPayStatus());
+                    orderDetails.setPayStatus(bean.getPayStatus());
+                    orderDetails.setStatus(bean.getOrderStatus());
                     orderDetails.setSkus(bean.getSkus());
                     bundle.putSerializable("dataBean", orderDetails);
                     intent.putExtras(bundle);

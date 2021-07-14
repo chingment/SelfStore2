@@ -119,10 +119,11 @@ public class CommandManager {
 
                                 Intent intent = new Intent(AppContext.getInstance(), OrderDetailsActivity.class);
                                 Bundle bundle = new Bundle();
-                                OrderDetailsBean orderDetails = new OrderDetailsBean();
-                                orderDetails.setOrderId("dadsdsad");
-                                orderDetails.setStatus(10000);
-                                //orderDetails.setSkus(bean.getSkus());
+
+                                OrderDetailsBean orderDetails = JSON.parseObject(params, new TypeReference<OrderDetailsBean>() {
+                                });
+
+
                                 bundle.putSerializable("dataBean", orderDetails);
                                 intent.putExtras(bundle);
 

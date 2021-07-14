@@ -3,8 +3,10 @@ package com.uplink.selfstore.service;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.JSONToken;
@@ -64,6 +66,7 @@ public class MqttService extends Service {
         }
     };
 
+    private Handler handler_msg;
 
     private void  sendDeviceStatus() {
 
@@ -109,6 +112,59 @@ public class MqttService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
+        handler_msg = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                Bundle bundle=msg.getData();
+                String topic = bundle.getString("topic", "");
+                String payload = bundle.getString("payload", "");
+
+                LogUtil.d(TAG, "topic:" + topic);
+                LogUtil.d(TAG, "payload:" + payload);
+
+                if (topic.contains("/user/get")) {
+
+                    Map map_payload = JSON.parseObject(payload);
+
+                    String id = "";
+                    String method = "";
+                    String params = "";
+
+                    if (map_payload.containsKey("id")) {
+                        Object obj_id = map_payload.get("id");
+                        if (obj_id != null) {
+                            id = obj_id.toString();
+                        }
+                    }
+
+                    if (map_payload.containsKey("method")) {
+                        Object obj_method = map_payload.get("method");
+                        if (obj_method != null) {
+                            method = obj_method.toString();
+                        }
+                    }
+
+                    if (map_payload.containsKey("params")) {
+                        Object obj_params = map_payload.get("params");
+                        if (obj_params != null) {
+                            params = obj_params.toString();
+                        }
+                    }
+
+
+                    publish(id, "msg_arrive", null, 1);
+
+                    CommandManager.Execute(id, method, params);
+
+
+                }
+
+                return  false;
+            }
+        });
+
         buildMqttClient();
     }
 
@@ -157,49 +213,21 @@ public class MqttService extends Service {
 
 
             String payload = new String(message.getPayload());
-            int qos = message.getQos();
 
-            LogUtil.d(TAG, "topic:" + topic);
-            LogUtil.d(TAG, "payload:" + payload);
-            LogUtil.d(TAG, "qos:" + qos);
+            final Message m = new Message();
+            m.what = 1;
+            Bundle bundle = new Bundle();
+            bundle.putString("topic", topic);
+            bundle.putString("payload", payload);
+            m.setData(bundle);
+            handler_msg.sendMessage(m);
 
+            //int qos = message.getQos();
 
-            if (topic.contains("/user/get")) {
+            //LogUtil.d(TAG, "topic:" + topic);
+            //LogUtil.d(TAG, "payload:" + payload);
+            //LogUtil.d(TAG, "qos:" + qos);
 
-                Map map_payload = JSON.parseObject(payload);
-
-                String id = "";
-                String method = "";
-                String params = "";
-
-                if (map_payload.containsKey("id")) {
-                    Object obj_id = map_payload.get("id");
-                    if (obj_id != null) {
-                        id = obj_id.toString();
-                    }
-                }
-
-                if (map_payload.containsKey("method")) {
-                    Object obj_method = map_payload.get("method");
-                    if (obj_method != null) {
-                        method = obj_method.toString();
-                    }
-                }
-
-                if (map_payload.containsKey("params")) {
-                    Object obj_params = map_payload.get("params");
-                    if (obj_params != null) {
-                        params = obj_params.toString();
-                    }
-                }
-
-
-                publish(id, "msg_arrive", null, 1);
-
-                CommandManager.Execute(id, method, params);
-
-
-            }
 
         }
 
@@ -237,10 +265,10 @@ public class MqttService extends Service {
                     }
                 }
 
-                LogUtil.d(TAG,"delivery.id:"+id);
-                LogUtil.d(TAG,"delivery.method:"+id);
-                LogUtil.d(TAG,"delivery.params:"+params);
-                LogUtil.d(TAG,"delivery.isComplete---------"+token.isComplete());
+                //LogUtil.d(TAG,"delivery.id:"+id);
+                //LogUtil.d(TAG,"delivery.method:"+id);
+                //LogUtil.d(TAG,"delivery.params:"+params);
+                //LogUtil.d(TAG,"delivery.isComplete---------"+token.isComplete());
 
             }
             catch (Exception ex){
