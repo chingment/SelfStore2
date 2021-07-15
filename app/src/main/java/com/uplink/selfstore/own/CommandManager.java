@@ -129,6 +129,19 @@ public class CommandManager {
         if (sysSetStatusBean == null)
             return;
 
+
+        DeviceBean device=AppCacheManager.getDevice();
+
+
+        if (sysSetStatusBean.getStatus() == 1) {
+            device.setExIsHas(false);
+        }else if (sysSetStatusBean.getStatus() == 2) {
+            device.setExIsHas(true);
+        }
+
+        AppCacheManager.setDevice(device);
+
+
         BaseFragmentActivity currentActivity = (BaseFragmentActivity) AppManager.getAppManager().currentActivity();
 
         if (currentActivity == null)
@@ -137,12 +150,18 @@ public class CommandManager {
         if (currentActivity.getDialogBySystemWarn() == null)
             return;
 
+        String activityName = currentActivity.getLocalClassName();
+        if (activityName.contains(".Sm")) {
+            return;
+        }
+
+
         if (sysSetStatusBean.getStatus() == 1) {
-                currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
-                currentActivity.getDialogBySystemWarn().hide();
+            currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+            currentActivity.getDialogBySystemWarn().hide();
         } else if (sysSetStatusBean.getStatus() == 2) {
-                currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
-                currentActivity.getDialogBySystemWarn().show();
+            currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+            currentActivity.getDialogBySystemWarn().show();
         }
 
     }

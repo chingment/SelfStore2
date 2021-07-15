@@ -212,6 +212,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                         getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
                         getDialogBySystemWarn().show();
                 }
+                else {
+                    getDialogBySystemWarn().hide();
+                }
             }
         }
     }
@@ -376,6 +379,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         startService(UsbService.class, usbConnection, null);
 
 
+
         //HeartbeatService.sendHeartbeatBag();
 
         //if(scannerCtrl!=null) {
@@ -474,63 +478,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         return super.dispatchTouchEvent(ev);
     }
 
-//    public void getByMy(Context context, String url, Map<String, String> params, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
-//
-//        HttpClient.getByAppSecret(BuildConfig.APPKEY, BuildConfig.APPSECRET, url, params, new HttpResponseHandler() {
-//
-//            @Override
-//            public void onBeforeSend() {
-//
-//                if (isShowLoading) {
-//                    if (!StringUtil.isEmptyNotNull(loadingMsg)) {
-//
-//                        Message m = new Message();
-//                        m.what=1;
-//                        m.obj=context;
-//                        laodingUIHandler.sendMessage(m);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onSuccess(String response) {
-//                if (isShowLoading) {
-//                    Message m = new Message();
-//                    m.what=2;
-//                    m.obj=context;
-//                    laodingUIHandler.sendMessage(m);
-//                }
-//                final String s = response;
-//
-//                if (s.indexOf("\"result\":") > -1) {
-//                    //运行在子线程,,
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            handler.onSuccess(s);
-//                        }
-//                    });
-//                } else {
-//
-//                    LogUtil.e("解释错误：原始数据》》" + s);
-//                    handler.onFailure("解释原始数据发生异常", null);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(String msg, Exception e) {
-//                if (isShowLoading) {
-//                    Message m = new Message();
-//                    m.what=2;
-//                    m.obj=context;
-//                    laodingUIHandler.sendMessage(m);
-//                }
-//                handler.onFailure(msg, e);
-//            }
-//        });
-//    }
-//
-//
     public void postByMy(Context context,String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.postByMy(url, params, filePaths, new HttpResponseHandler() {
