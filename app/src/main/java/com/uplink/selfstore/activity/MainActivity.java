@@ -1,6 +1,8 @@
 package com.uplink.selfstore.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
@@ -176,7 +178,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         if(ads==null)
             return;
 
-        //100 是首页主广告
+        //100 是首页中部轮播广告
         if(ads.containsKey("100")) {
             AdBean ad = ads.get("100");
             if(ad!=null) {
@@ -189,12 +191,18 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         }
 
+        //101 是首页头部LOGO
         if(ads.containsKey("101")){
             AdBean ad = ads.get("101");
             if(ad!=null) {
                 List<AdContentBean> ad_Contents = ad.getContents();
                 if (ad_Contents != null&&ad_Contents.size()>0) {
                     CommonUtil.loadImageFromUrl(getAppContext(), img_logo, ad_Contents.get(0).getDataUrl());
+                }
+                else {
+                    //img_logo.setImageDrawable(0);
+                    Bitmap bitmap = BitmapFactory.decodeResource(MainActivity.this.getResources(), R.drawable.logo_empty);
+                    img_logo.setImageBitmap(bitmap);
                 }
             }
         }
