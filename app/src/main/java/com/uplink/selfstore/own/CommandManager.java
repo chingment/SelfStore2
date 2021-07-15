@@ -75,41 +75,15 @@ public class CommandManager {
                     open_pickup_door();
                     break;
                 case "device_ship":
-
-                    if (!TinySyncExecutor.getInstance().currentTaskIsNull()) {
-                        LogUtil.d(TAG, "已有订单正在执行");
-                    } else {
-
-                        DeviceBean device=AppCacheManager.getDevice();
-
-                        if (StringUtil.isEmptyNotNull(device.getDeviceId())) {
-                            LogUtil.d(TAG, "设备未配置");
-                            return;
-                        }
-
-                        String status = "unknow";
-                        Activity activity = AppManager.getAppManager().currentActivity();
-                        if (activity != null) {
-                            String  activityName = activity.getLocalClassName();
-                            if (activityName.contains(".Sm")) {
-                                status = "setting";
-                            } else {
-                                if (device.isExIsHas()) {
-                                    status = "exception";
-                                } else {
-                                    status = "running";
-                                }
-                            }
-                        }
-
-
-                        if(device.isExIsHas()){
-                            LogUtil.d(TAG, "设备存在异常");
-                            return;
-                        }
-
-                        if(status!="running"){
+                    synchronized(CommandManager.class) {
+                        String status = AppUtil.getDeviceStatus();
+                        if (!status.equals("running")) {
                             LogUtil.d(TAG, "设备正在维护或存在异常");
+                            return;
+                        }
+
+                        if (!TinySyncExecutor.getInstance().currentTaskIsNull()) {
+                            LogUtil.d(TAG, "已有订单正在执行");
                             return;
                         }
 
@@ -123,7 +97,6 @@ public class CommandManager {
                                 OrderDetailsBean orderDetails = JSON.parseObject(params, new TypeReference<OrderDetailsBean>() {
                                 });
 
-
                                 bundle.putSerializable("dataBean", orderDetails);
                                 intent.putExtras(bundle);
 
@@ -131,12 +104,8 @@ public class CommandManager {
 
                             }
                         };
-
-
                         TinySyncExecutor.getInstance().enqueue(task);
                     }
-
-
                     break;
             }
         } finally {

@@ -14,6 +14,7 @@ import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.MqttBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppManager;
+import com.uplink.selfstore.own.AppUtil;
 import com.uplink.selfstore.own.CommandManager;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NetFlowInfo;
@@ -71,33 +72,15 @@ public class MqttService extends Service {
     private void  sendDeviceStatus() {
 
 
-        //LogUtil.d(TAG,"正在执行发送设备状态");
-
-        DeviceBean device = AppCacheManager.getDevice();
-
-        String status = "unknow";
-        String activityName = "";
         Activity activity = AppManager.getAppManager().currentActivity();
-        if (activity != null) {
-            activityName = activity.getLocalClassName();
-            if (activityName.contains(".Sm")) {
-                status = "setting";
-            } else {
-                if (device.isExIsHas()) {
-                    status = "exception";
-                } else {
-                    status = "running";
-                }
-            }
-        }
 
         JSONObject params = new JSONObject();
         try {
 
             NetFlowInfo flowInfo = NetFlowUtil.getAppFlowInfo("com.uplink.selfstore", getApplicationContext());
 
-            params.put("activity", activityName);
-            params.put("status", status);
+            params.put("activity", activity == null ? "" : activity.getLocalClassName());
+            params.put("status", AppUtil.getDeviceStatus());
             params.put("upKb", flowInfo.getUpKb());
             params.put("downKb", flowInfo.getDownKb());
 

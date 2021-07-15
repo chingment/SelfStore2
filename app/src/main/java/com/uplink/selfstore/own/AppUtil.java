@@ -3,17 +3,25 @@ package com.uplink.selfstore.own;
 import android.app.Activity;
 
 import com.uplink.selfstore.model.api.DeviceBean;
+import com.uplink.selfstore.utils.StringUtil;
 
-public class AppDeviceUtil {
+public class AppUtil {
 
-    public  static  String getDeviceStatus(){
+    public  static  String getDeviceStatus() {
+        String status = "unknow";
+
         DeviceBean device = AppCacheManager.getDevice();
 
-        String status = "unknow";
-        String activityName = "";
+        if (device == null)
+            return status;
+
+        if(StringUtil.isEmptyNotNull(device.getDeviceId()))
+            return status;
+
+
         Activity activity = AppManager.getAppManager().currentActivity();
         if (activity != null) {
-            activityName = activity.getLocalClassName();
+            String activityName = activity.getLocalClassName();
             if (activityName.contains(".Sm")) {
                 status = "setting";
             } else {
@@ -24,7 +32,6 @@ public class AppDeviceUtil {
                 }
             }
         }
-
         return status;
     }
 }
