@@ -449,7 +449,8 @@ public class CustomSlotEditDialog extends Dialog {
                         cabinetCtrlByDS.startPickUp(true, dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
                         break;
                     case "zsx01":
-                        cabinetCtrlByZS.unLock(cabinet.getCodeNo(),Integer.valueOf(slotId));
+                        String[] parms=slotId.split("-");
+                        cabinetCtrlByZS.unLock(Integer.valueOf(parms[1]),Integer.valueOf(parms[0]));
                         break;
                 }
             }

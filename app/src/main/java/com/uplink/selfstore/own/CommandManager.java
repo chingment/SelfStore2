@@ -43,7 +43,7 @@ public class CommandManager {
 
     private static Lock lock = new ReentrantLock();
 
-    private static final String TAG = "CommandManager";
+    private static final String TAG = "MqttService";
 
     public static void Execute(String id,String method, String params) {
 

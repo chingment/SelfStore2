@@ -507,7 +507,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     cabinetCtrlByDS.startPickUp(isGoZero,dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
                     break;
                 case "zsx01":
-                    cabinetCtrlByZS.unLock(cabinet.getCodeNo(), Integer.valueOf(pickupSku.getSlotId()));
+                    String[] parms=pickupSku.getSlotId().split("-");
+                    cabinetCtrlByZS.unLock(Integer.valueOf(parms[1]),Integer.valueOf(parms[0]));
                     break;
             }
 

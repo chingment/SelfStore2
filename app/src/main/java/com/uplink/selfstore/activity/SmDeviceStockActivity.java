@@ -22,9 +22,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.ScanSlotResult;
-import com.uplink.selfstore.model.ZSCabColLayoutBean;
 import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
-import com.uplink.selfstore.model.ZsCabRowLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceSlotsResultBean;
@@ -403,9 +401,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         }
     }
 
-    public void drawsCabinetSlotsByZS(String strRowColLayout, HashMap<String, SlotBean> slots) {
+    public void drawsCabinetSlotsByZS(String json_layout, HashMap<String, SlotBean> slots) {
 
-        this.cabinet.setRowColLayout(strRowColLayout);
+        this.cabinet.setRowColLayout(json_layout);
 
         if (slots == null) {
             slots = new HashMap<String, SlotBean>();
@@ -414,25 +412,38 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         this.cabinetSlots = slots;
 
 
-        ZSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<ZSCabRowColLayoutBean>() {});
+        ZSCabRowColLayoutBean layout = JSON.parseObject(json_layout, new TypeReference<ZSCabRowColLayoutBean>() {});
 
 
-        List<ZsCabRowLayoutBean> rows=dSCabRowColLayout.getRows();
-
+        if(layout==null)
+            return;
 
         //清除表格所有行
         table_slotstock.removeAllViews();
         //全部列自动填充空白处
         table_slotstock.setStretchAllColumns(true);
+
+
         //生成X行，Y列的表格
+
+
+        List<List<String>> rows=layout.getRows();
+
         for (int i = 0; i <rows.size(); i++) {
 
             TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
 
-            List<ZSCabColLayoutBean> cols=rows.get(i).getCols();
+            List<String> cols=rows.get(i);
 
             for (int j = 0; j < cols.size(); j++) {
                 //tv用于显示
+                String[] col=cols.get(j).split("-");
+
+                String id=col[0];
+                String plate=col[1];
+                String nick=col[2];
+                String nouse=col[3];
+
                 final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
                 LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
@@ -445,9 +456,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
-                ZSCabColLayoutBean col=cols.get(j);
 
-                final String slotId =col.getId();
+                final String slotId =cols.get(j);
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);
@@ -465,7 +475,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 }
 
                 if (slot.getSkuId() == null) {
-                    if(col.isCanUse()) {
+                    if(nouse.equals("0")) {
                         txt_name.setText(R.string.tips_noproduct);
                     }
                     else {
@@ -495,7 +505,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
                 convertView.setTag(slot);
 
-                if(col.isCanUse()) {
+                if(nouse.equals("0")) {
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
