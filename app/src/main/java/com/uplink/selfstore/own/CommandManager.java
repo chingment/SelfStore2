@@ -11,6 +11,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.activity.CartActivity;
 import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
+import com.uplink.selfstore.activity.ProductKindActivity;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.DeviceBean;
@@ -208,17 +209,33 @@ public class CommandManager {
                 if (skus.containsKey(skuId)) {
 
                     SkuBean sku = skus.get(skuId);
-
-                    sku.setSellQuantity(updateSkuStock.getSellQuantity());
-                    sku.setSalePrice(updateSkuStock.getSalePrice());
-                    sku.setSalePriceByVip(updateSkuStock.getSalePriceByVip());
-                    sku.setOffSell(updateSkuStock.isOffSell());
-
-                    skus.put(skuId, sku);
-
-                    customDataByVending.setSkus(skus);
+                    if(sku!=null) {
+                        sku.setSellQuantity(updateSkuStock.getSellQuantity());
+                        sku.setSalePrice(updateSkuStock.getSalePrice());
+                        sku.setSalePriceByVip(updateSkuStock.getSalePriceByVip());
+                        sku.setOffSell(updateSkuStock.isOffSell());
+                        skus.put(skuId, sku);
+                        customDataByVending.setSkus(skus);
+                    }
                 }
             }
+
+            AppCacheManager.setCustomDataByVending(customDataByVending);
+
+            List<Activity> acts = AppManager.getAppManager().getActivityStack();
+            if (acts != null) {
+                if (acts.size() > 0) {
+                    for (Activity act : acts) {
+                        if (act instanceof ProductKindActivity) {
+                            ProductKindActivity act_MainActivity = (ProductKindActivity) act;
+                            act_MainActivity.loadKindData(customDataByVending);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
 
         } catch (Exception ex) {
             LogUtil.e(TAG, ex);

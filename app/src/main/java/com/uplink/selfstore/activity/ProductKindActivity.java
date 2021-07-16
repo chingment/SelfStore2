@@ -54,6 +54,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     private List<KindBean> kinds;
     private static int cur_Kind_Position = 0;
 
+    private CustomDataByVendingBean customDataByVending=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,20 +99,20 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 cur_Kind_Position = position;
-                loadKindData();
+                loadKindData(customDataByVending);
             }
         });
 
 
     }
 
-    public void loadKindData() {
+    public void loadKindData(CustomDataByVendingBean customDataByVending) {
 
-        CustomDataByVendingBean customDataByVending = this.getCustomDataByVending();
-        if(customDataByVending==null)
+        this.customDataByVending=customDataByVending;
+        if(this.customDataByVending==null)
             return;
 
-        kinds = customDataByVending.getKinds();
+        kinds = this.customDataByVending.getKinds();
 
         if (kinds == null)
             return;
@@ -131,13 +132,13 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         KindNameAdapter list_kind_name_adapter = new KindNameAdapter(getAppContext(), kinds, cur_Kind_Position);
         list_kind_name.setAdapter(list_kind_name_adapter);
 
-        if(customDataByVending.isHiddenKind()) {
+        if(this.customDataByVending.isHiddenKind()) {
             list_kind_name.setVisibility(View.GONE);
         }
 
         List<SkuBean> skusByKind = new ArrayList<>();
 
-        HashMap<String, SkuBean> skus = customDataByVending.getSkus();
+        HashMap<String, SkuBean> skus = this.customDataByVending.getSkus();
 
         for (String skuId : kind.getChilds()) {
             if(skus!=null) {
@@ -149,7 +150,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
         }
 
 
-        kindSkuAdapter = new KindSkuAdapter(ProductKindActivity.this, skusByKind,getDevice(),customDataByVending);
+        kindSkuAdapter = new KindSkuAdapter(ProductKindActivity.this, skusByKind,getDevice(),this.getCustomDataByVending());
         kindSkuAdapter.setCallBackListener(new KindSkuAdapter.CallBackListener() {
             @Override
             public void callBackImg(ImageView goodsImg) {
@@ -163,9 +164,10 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     }
 
     private void initData() {
-        loadKindData();
+        customDataByVending = this.getCustomDataByVending();
+        loadKindData(customDataByVending);
         CartStatisticsBean cartStatistics = CartActivity.getStatistics();
-        if(cartStatistics!=null) {
+        if (cartStatistics != null) {
             txt_cart_sumquantity.setText(String.valueOf(cartStatistics.getSumQuantity()));
             txt_cart_sumsalesprice.setText(CommonUtil.ConvertPrice(cartStatistics.getSumSalesPrice()));
         }
@@ -205,7 +207,7 @@ public class ProductKindActivity extends SwipeBackActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        loadKindData();
+        loadKindData(customDataByVending);
         checkIsHasExHappen();
     }
 
