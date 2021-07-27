@@ -297,7 +297,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                             for (HashMap.Entry<String, String> modelNo : modelNos.entrySet()) {
                                 switch (modelNo.getKey()) {
                                     case "dsx01":
-                                        cabinetCtrlByDS.setComId(modelNo.getValue());
+                                        cabinetCtrlByDS.setComId("ttyS4");
                                         cabinetCtrlByDS.connect();
                                         cabinetCtrlByDS.firstSet();
                                         break;

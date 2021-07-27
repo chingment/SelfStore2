@@ -16,7 +16,7 @@ public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
     private static CabinetCtrlByZS mCabinetCtrlByZS= null;
     private static String ComId="ttymxc4";
-    private int nBaudrate=9600;
+    private int nBaudrate=115200;//9600
     private Handler mHandler = null;
     public static final int MESSAGE_WHAT_ONEUNLOCK = 1;
     public static final int MESSAGE_WHAT_ALLUNLOCK = 2;
@@ -143,7 +143,7 @@ public class CabinetCtrlByZS {
 
         sendMessage(curMessageWhat, 2, "准备就绪");
 
-        int rc_unLock = mCabinetMidByZS.queryLockStatus(1, 12);
+        int rc_unLock = mCabinetMidByZS.unLock(1, 11);
 
         if (rc_unLock != CabinetMidByZS.RC_SUCCESS) {
             sendMessage(curMessageWhat, 6, "发送命令失败[" + rc_unLock + "]");
