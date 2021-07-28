@@ -124,7 +124,8 @@
     <string name="tips_notpickupcompelte">商品取货未完成不能退出</string>
     <string name="ds_hd_btntx_connect">连接</string>
     <string name="zs_hd_title">格子柜(zs)</string>
-    <string name="zs_hd_tvtx_ck">串口:</string>
+    <string name="tvtx_com_id">串口:</string>
+    <string name="tvtx_com_baud">波特:</string>
     <string name="zs_hd_tvtx_plateid">锁版ID:</string>
     <string name="zs_hd_tvtx_numid">箱子ID:</string>
     <string name="zs_hd_btntx_connect">连接</string>

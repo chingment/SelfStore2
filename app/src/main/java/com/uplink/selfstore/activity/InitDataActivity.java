@@ -285,27 +285,31 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                             //根据机构类型设置串口信息
                             HashMap<String, CabinetBean> cabinets = device.getCabinets();
 
-                            HashMap<String, String> modelNos = new HashMap<>();
+                            List<String> modelNos = new ArrayList<>();
 
                             for (HashMap.Entry<String, CabinetBean> entry : cabinets.entrySet()) {
                                 CabinetBean cabinet = entry.getValue();
-                                if (!modelNos.containsKey(cabinet.getModelNo())) {
-                                    modelNos.put(cabinet.getModelNo(), cabinet.getComId());
+
+                                String modelNo=cabinet.getModelNo();
+
+                                if (!modelNos.contains(modelNo)) {
+                                    modelNos.add(modelNo);
+                                    switch (modelNo) {
+                                        case "dsx01":
+                                            cabinetCtrlByDS.setComId(cabinet.getComId());
+                                            cabinetCtrlByDS.setComBaud(cabinet.getComBaud());
+                                            cabinetCtrlByDS.connect();
+                                            cabinetCtrlByDS.firstSet();
+                                            break;
+                                        case "zsx01":
+                                            cabinetCtrlByZS.setComId(cabinet.getComId());
+                                            cabinetCtrlByZS.setComBaud(cabinet.getComBaud());
+                                            break;
+                                    }
                                 }
+
                             }
 
-                            for (HashMap.Entry<String, String> modelNo : modelNos.entrySet()) {
-                                switch (modelNo.getKey()) {
-                                    case "dsx01":
-                                        cabinetCtrlByDS.setComId("ttyS4");
-                                        cabinetCtrlByDS.connect();
-                                        cabinetCtrlByDS.firstSet();
-                                        break;
-                                    case "zsx01":
-                                        cabinetCtrlByZS.setComId(modelNo.getValue());
-                                        break;
-                                }
-                            }
 
                             CameraWindow.setInSampleSize(device.getPicInSampleSize());
 

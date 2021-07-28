@@ -45,6 +45,8 @@ public class CabinetCtrlByDS {
 
     private static String ComId="ttyS0";
 
+    private static int ComBaud=9600;
+
     private  CabinetCtrlByDS() {
         try {
             sym = new symvdio();
@@ -82,25 +84,37 @@ public class CabinetCtrlByDS {
         return CabinetCtrlByDS.ComId;
     }
 
+    public void setComBaud(int comBaud) {
+        CabinetCtrlByDS.ComBaud = comBaud;
+    }
+
+
+    public int getComBaud() {
+        return CabinetCtrlByDS.ComBaud;
+    }
+
     public boolean connect() {
+        String comId = CabinetCtrlByDS.ComId;
+        int comBaud = CabinetCtrlByDS.ComBaud;
+        LogUtil.i(TAG, "打开串口:" + comId + "，波特：" + comBaud);
         if (sym == null) {
-            LogUtil.e(TAG, "打开串口:" +getComId() + ",失败，sym为 NULL");
+            LogUtil.e(TAG, "打开串口:" + comId + "，波特：" + comBaud + "，失败，sym为 NULL");
             isConnect = false;
         } else {
-            File file = new File("/dev/" + getComId());
+            File file = new File("/dev/" + comId);
             if (file.exists()) {
-                int rc_status = sym.Connect(getComId(), 9600);
-                LogUtil.e(TAG, "打开串口：" + getComId() + "，状态为：" + rc_status);
+                int rc_status = sym.Connect(comId, comBaud);
+                LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，状态为：" + rc_status);
                 if (rc_status == 0) {
                     isConnect = true;
                 }
             } else {
-                LogUtil.e(TAG, "打开串口：" + getComId() + "，失败，串口ID不存在");
+                LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，串口ID不存在");
             }
         }
 
-        if(!isConnect){
-            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","connect");
+        if (!isConnect) {
+            AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "connect");
         }
 
         return isConnect;

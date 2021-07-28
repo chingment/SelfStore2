@@ -8,7 +8,7 @@ public class CabinetBean implements Serializable {
     private String rowColLayout;
     private int priority;
     private String comId;
-
+    private int comBaud;
 
     public String getComId() {
         return comId;
@@ -81,4 +81,11 @@ public class CabinetBean implements Serializable {
         return codeNo;
     }
 
+    public int getComBaud() {
+        return comBaud;
+    }
+
+    public void setComBaud(int comBaud) {
+        this.comBaud = comBaud;
+    }
 }

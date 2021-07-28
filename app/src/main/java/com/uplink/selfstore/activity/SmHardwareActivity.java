@@ -78,7 +78,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private Button zs_hd_btn_connect;
     private EditText zs_hd_et_plateid;
     private EditText zs_hd_et_numid;
-    private EditText zs_hd_et_ck;
+    private EditText zs_hd_et_com_id;
+    private EditText zs_hd_et_com_baud;
     private Button zs_hd_btn_testopen;
     private Button zs_hd_btn_teststatus;
     private CabinetCtrlByZS zs_CabinetCtrlByZS;
@@ -86,7 +87,8 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     //德尚硬件诊断
     private CabinetCtrlByDS ds_CabinetCtrlByDS=null;
-    private EditText ds_hd_et_ck;
+    private EditText ds_hd_et_com_id;
+    private EditText ds_hd_et_com_baud;
     private Button ds_hd_btn_connect;
     private Button ds_hd_btn_gozero;
     private Button ds_hd_btn_openpickupdoor;
@@ -187,9 +189,11 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         zs_hd_layout= (LinearLayout) findViewById(R.id.zs_hd_layout);
         zs_hd_et_plateid= (EditText) findViewById(R.id.zs_hd_et_plateid);
         zs_hd_et_numid= (EditText) findViewById(R.id.zs_hd_et_numid);
-        zs_hd_et_ck= (EditText) findViewById(R.id.zs_hd_et_ck);
+        zs_hd_et_com_id= (EditText) findViewById(R.id.zs_hd_et_com_id);
+        zs_hd_et_com_id.setText(zs_CabinetCtrlByZS.getComId());
 
-        zs_hd_et_ck.setText(zs_CabinetCtrlByZS.getComId());
+        zs_hd_et_com_baud= (EditText) findViewById(R.id.zs_hd_et_com_baud);
+        zs_hd_et_com_baud.setText(zs_CabinetCtrlByZS.getComBaud()+"");
 
         zs_hd_btn_connect= (Button) findViewById(R.id.zs_hd_btn_connect);
         zs_hd_btn_testopen= (Button) findViewById(R.id.zs_hd_btn_testopen);
@@ -239,7 +243,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             }
         }));
 
-        zs_hd_et_ck.setText(zs_CabinetCtrlByZS.getComId());
     }
 
     private void  initViewByDS() {
@@ -258,8 +261,12 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             }
         }));
 
-        ds_hd_et_ck = (EditText) findViewById(R.id.ds_hd_et_ck);
-        ds_hd_et_ck.setText(ds_CabinetCtrlByDS.getComId());
+        ds_hd_et_com_id = (EditText) findViewById(R.id.ds_hd_et_com_id);
+        ds_hd_et_com_id.setText(ds_CabinetCtrlByDS.getComId());
+
+        ds_hd_et_com_baud = (EditText) findViewById(R.id.ds_hd_et_com_baud);
+        ds_hd_et_com_baud.setText(ds_CabinetCtrlByDS.getComBaud()+"");
+
         ds_hd_btn_connect = (Button) findViewById(R.id.ds_hd_btn_connect);
         ds_hd_btn_gozero = (Button) findViewById(R.id.ds_hd_btn_gozero);
         ds_hd_btn_stop= (Button) findViewById(R.id.ds_hd_btn_stop);
@@ -373,8 +380,10 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     public void onClick(View v) {
         super.onClick(v);
 
-        String str_ds_hd_et_ck=ds_hd_et_ck.getText()+"";
-        String str_zs_hd_et_ck=zs_hd_et_ck.getText()+"";
+        String str_ds_hd_et_com_id=ds_hd_et_com_id.getText()+"";
+        int str_ds_hd_et_com_baud=Integer.valueOf(ds_hd_et_com_baud.getText()+"");
+        String str_zs_hd_et_com_id=zs_hd_et_com_id.getText()+"";
+        int str_zs_hd_et_com_baud=Integer.valueOf(zs_hd_et_com_baud.getText()+"");
         String str_wg_hd_et_ck=wg_hd_et_ck.getText()+"";
         String str_zs_hd_et_plateid=zs_hd_et_plateid.getText()+"";
         String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
@@ -518,11 +527,12 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
                     break;
                 case R.id.ds_hd_btn_connect:
-                    if (StringUtil.isEmpty(str_ds_hd_et_ck)) {
+                    if (StringUtil.isEmpty(str_ds_hd_et_com_id)) {
                         showToast("[ds设备]请输入串口名称");
                         return;
                     }
-                    ds_CabinetCtrlByDS.setComId(str_ds_hd_et_ck);
+                    ds_CabinetCtrlByDS.setComId(str_ds_hd_et_com_id);
+                    ds_CabinetCtrlByDS.setComBaud(str_ds_hd_et_com_baud);
                     ds_CabinetCtrlByDS.connect();
 
                     if(!ds_CabinetCtrlByDS.isConnect()){
@@ -562,11 +572,12 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     ds_CabinetCtrlByDS.startPickUp(true,0,0,null);
                     break;
                 case R.id.zs_hd_btn_connect:
-                    if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
+                    if (StringUtil.isEmpty(str_zs_hd_et_com_id)) {
                         showToast("[zs设备]请输入串口名称");
                         return;
                     }
-                    zs_CabinetCtrlByZS.setComId(str_zs_hd_et_ck);
+                    zs_CabinetCtrlByZS.setComBaud(str_zs_hd_et_com_baud);
+                    zs_CabinetCtrlByZS.setComId(str_zs_hd_et_com_id);
                     zs_CabinetCtrlByZS.connect();
 
                     if(!zs_CabinetCtrlByZS.isConnect()){
@@ -578,7 +589,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
                     break;
                 case R.id.zs_hd_btn_testopen:
-                    if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
+                    if (StringUtil.isEmpty(str_zs_hd_et_com_id)) {
                         showToast("[zs设备]请输入串口名称");
                         return;
                     }
@@ -597,7 +608,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     zs_CabinetCtrlByZS.unLock(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
                     break;
                 case R.id.zs_hd_btn_teststatus:
-                    if (StringUtil.isEmpty(str_zs_hd_et_ck)) {
+                    if (StringUtil.isEmpty(str_zs_hd_et_com_id)) {
                         showToast("[zs设备]请输入串口名称");
                         return;
                     }

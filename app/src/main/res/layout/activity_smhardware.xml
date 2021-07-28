@@ -260,15 +260,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_12"
-                    android:text="@string/zs_hd_tvtx_ck"
+                    android:text="@string/tvtx_com_id"
                     />
 
                 <EditText
-                    android:id="@+id/ds_hd_et_ck"
+                    android:id="@+id/ds_hd_et_com_id"
                     android:layout_width="@dimen/size_60"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_12"
-                    android:text="ttyS0" />
+                    android:text="" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_12"
+                    android:text="@string/tvtx_com_baud"
+                    />
+
+                <EditText
+                    android:id="@+id/ds_hd_et_com_baud"
+                    android:layout_width="@dimen/size_60"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_12"
+                    android:text="" />
 
 
             </LinearLayout>
@@ -379,15 +393,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_12"
-                        android:text="@string/zs_hd_tvtx_ck"
+                        android:text="@string/tvtx_com_id"
                         />
 
                     <EditText
-                        android:id="@+id/zs_hd_et_ck"
+                        android:id="@+id/zs_hd_et_com_id"
                         android:layout_width="@dimen/size_60"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_12"
-                        android:text="ttymxc3" />
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="@string/tvtx_com_baud"
+                        />
+
+                    <EditText
+                        android:id="@+id/zs_hd_et_com_baud"
+                        android:layout_width="@dimen/size_60"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_12"
+                        android:text="" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -501,7 +529,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_12"
-                    android:text="@string/zs_hd_tvtx_ck"
+                    android:text="@string/tvtx_com_id"
                     />
 
                 <EditText

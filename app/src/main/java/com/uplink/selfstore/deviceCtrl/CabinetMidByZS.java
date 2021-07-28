@@ -35,6 +35,7 @@ public class CabinetMidByZS {
     private ArrayList<Byte> buffer_List = new ArrayList<Byte>();
     public int connect(String strPort, int nBaudrate) {
 
+        LogUtil.i(TAG, "打开串口:" + strPort + "，波特：" + nBaudrate);
 
         if (strPort.equals("")) {
             LogUtil.e(TAG, "the serial path is null");
