@@ -104,8 +104,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/SlotBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/SlotBean.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -167,20 +167,20 @@
     </favorites_list>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="41" column="41" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
+            <state relative-caret-position="31">
+              <caret line="188" column="8" selection-start-line="188" selection-start-column="8" selection-end-line="188" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1761">
+            <state relative-caret-position="388">
               <caret line="470" column="44" selection-start-line="470" selection-start-column="37" selection-end-line="470" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -197,7 +197,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/SlotBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="48">
+            <state relative-caret-position="90">
               <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
             </state>
           </provider>
@@ -332,9 +332,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="61" />
-    <option name="y" value="30" />
+    <option name="y" value="25" />
     <option name="width" value="1232" />
     <option name="height" value="775" />
   </component>
@@ -346,6 +346,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="SelfStore2" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="~/Documents/github/SelfStore2" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -363,11 +374,6 @@
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -390,41 +396,13 @@
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="dialog" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
+              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -435,17 +413,6 @@
         </subPane>
       </pane>
       <pane id="ProjectPane" />
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="SelfStore2" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/Documents/github/SelfStore2" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -798,8 +765,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="30" width="1232" height="775" extended-state="0" />
-    <editor active="true" />
+    <frame x="61" y="25" width="1232" height="775" extended-state="1" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.21344538" />
       <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
@@ -820,11 +786,11 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.13193278" side_tool="true" weight="0.2767584" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" visible="true" weight="0.28899083" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" weight="0.28899083" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.099388376" />
-      <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8263773" weight="0.4244713" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" visible="true" weight="0.099388376" />
+      <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" sideWeight="0.8263773" weight="0.4244713" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
       <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.38379204" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -1518,23 +1484,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="41" column="41" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/SlotBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
+        <state relative-caret-position="90">
           <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1761">
+        <state relative-caret-position="388">
           <caret line="470" column="44" selection-start-line="470" selection-start-column="37" selection-end-line="470" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1544,6 +1503,13 @@
             <element signature="method#onStop#0;class#SmDeviceStockActivity#0" />
             <element signature="method#onPause#0;class#SmDeviceStockActivity#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="188" column="8" selection-start-line="188" selection-start-column="8" selection-end-line="188" selection-end-column="24" />
         </state>
       </provider>
     </entry>
