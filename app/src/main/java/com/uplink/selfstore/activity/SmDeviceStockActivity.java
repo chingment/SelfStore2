@@ -313,6 +313,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         //全部列自动填充空白处
         table_slotstock.setStretchAllColumns(true);
         //生成X行，Y列的表格
+        int no=1;
         for (int i = rowLength; i > 0; i--) {
             TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
             int colLength = rowColLayout[i - 1];
@@ -332,6 +333,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
                     LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
                     TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
+                    TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
 
                     TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
                     TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
@@ -340,10 +342,15 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
 
-                    final String slotId = "r" + (i - 1) + "c" + j;
-
+                    String slotId = "r" + (i - 1) + "c" + j;
                     txt_SlotId.setText(slotId);
-                    txt_SlotId.setVisibility(View.GONE);
+                    //txt_SlotId.setVisibility(View.GONE);
+
+
+
+
+                    txt_SlotName.setText(no+"");
+                    no++;
                     SlotBean slot = null;
 
                     if (slots.size() > 0) {
@@ -449,7 +456,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
 
                 TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
-
+                TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
                 TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
                 TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
                 TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
@@ -461,6 +468,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
                 txt_SlotId.setText(slotId);
                 txt_SlotId.setVisibility(View.GONE);
+
+                txt_SlotName.setText(nick);
+
                 SlotBean slot = null;
 
                 if (slots.size() > 0) {
