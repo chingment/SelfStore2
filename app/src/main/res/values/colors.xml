@@ -102,4 +102,7 @@
     <color name="tag_chartag3">#f56c6c</color>
     <color name="tag_istrgvideoservice">#FF0000</color>
     <color name="textdes">#888</color>
+    <color name="slot_num_bg">#e66e18</color>
+    <color name="slot_num">#fff</color>
+
 </resources>

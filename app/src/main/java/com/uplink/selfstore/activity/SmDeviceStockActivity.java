@@ -313,7 +313,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         //全部列自动填充空白处
         table_slotstock.setStretchAllColumns(true);
         //生成X行，Y列的表格
-        int no=1;
+        int slot_Name=1;
         for (int i = rowLength; i > 0; i--) {
             TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
             int colLength = rowColLayout[i - 1];
@@ -343,14 +343,12 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
 
                     String slotId = "r" + (i - 1) + "c" + j;
+
                     txt_SlotId.setText(slotId);
-                    //txt_SlotId.setVisibility(View.GONE);
+                    txt_SlotName.setText(String.valueOf(slot_Name));
 
+                    slot_Name++;
 
-
-
-                    txt_SlotName.setText(no+"");
-                    no++;
                     SlotBean slot = null;
 
                     if (slots.size() > 0) {
@@ -443,13 +441,14 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             List<String> cols=rows.get(i);
 
             for (int j = 0; j < cols.size(); j++) {
-                //tv用于显示
-                String[] col=cols.get(j).split("-");
 
-                String id=col[0];
-                String plate=col[1];
-                String nick=col[2];
-                String nouse=col[3];
+                String slot_Id =cols.get(j);
+
+                String[] slot_Prams=slot_Id.split("-");
+
+                String slot_Plate=slot_Prams[1];
+                String slot_Name=slot_Prams[2];
+                String slot_NoUse=slot_Prams[3];
 
                 final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
@@ -463,29 +462,23 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
                 ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
-
-                final String slotId =cols.get(j);
-
-                txt_SlotId.setText(slotId);
-                txt_SlotId.setVisibility(View.GONE);
-
-                txt_SlotName.setText(nick);
+                txt_SlotId.setText(slot_Id);
+                txt_SlotName.setText(slot_Name);
 
                 SlotBean slot = null;
 
                 if (slots.size() > 0) {
-                    slot = slots.get(slotId);
+                    slot = slots.get(slot_Id);
                 }
-
 
                 if (slot == null) {
                     slot = new SlotBean();
-                    slot.setSlotId(slotId);
-                    slots.put(slotId, slot);
+                    slot.setSlotId(slot_Id);
+                    slots.put(slot_Id, slot);
                 }
 
                 if (slot.getSkuId() == null) {
-                    if(nouse.equals("0")) {
+                    if(slot_NoUse.equals("0")) {
                         txt_name.setText(R.string.tips_noproduct);
                     }
                     else {
@@ -515,7 +508,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
                 convertView.setTag(slot);
 
-                if(nouse.equals("0")) {
+                if(slot_NoUse.equals("0")) {
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

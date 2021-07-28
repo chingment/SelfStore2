@@ -90,7 +90,8 @@
     <string name="aty_smrunexhandle_navtitle">异常处理</string>
     <string name="dlg_confirm_btntx_cancle">否</string>
     <string name="dlg_confirm_btntx_sure">是</string>
-    <string name="dlg_slotedit_tvtx_skuslotname">货道编号</string>
+    <string name="dlg_slotedit_tvtx_slotid">货道编号</string>
+    <string name="dlg_slotedit_tvtx_slotname">货道名称</string>
     <string name="dlg_slotedit_tvtx_skucumcode">商品编码</string>
     <string name="dlg_slotedit_tvtx_skuname">商品名称</string>
     <string name="dlg_slotedit_tvtx_skuspecdes">商品规格</string>

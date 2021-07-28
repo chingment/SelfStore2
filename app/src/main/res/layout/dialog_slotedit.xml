@@ -48,22 +48,82 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="@dimen/size_100"
-                android:layout_height="@dimen/size_100"
+                android:layout_width="@dimen/size_120"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top|center_vertical"
                 android:gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/size_5"
+                android:paddingEnd="@dimen/size_5"
                 >
 
-            <ImageView
+               <ImageView
 
                 android:id="@+id/img_SkuImg"
 
-                android:layout_width="@dimen/size_78"
-                android:layout_height="@dimen/size_78"
+                android:layout_width="@dimen/size_58"
+                android:layout_height="@dimen/size_58"
                 android:src="@drawable/default_image"
                 android:contentDescription="@string/image_content_description"
                 />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/size_3"
+                    android:paddingTop="@dimen/size_3">
+
+                    <TextView
+                        android:id="@+id/txt_SkuId"
+                        android:layout_height="0dp"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:text=""/>
+
+
+                    <TextView
+                        android:id="@+id/txt_SkuName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:textColor="@color/field_value"
+                        android:textSize="@dimen/sp_10"
+                        android:text=""
+
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_20"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/size_3"
+                    android:paddingTop="@dimen/size_3">
+                    <TextView
+                        android:id="@+id/txt_SkuCumCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/field_value"
+                        android:textSize="@dimen/sp_10" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_20"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/size_3"
+                    android:paddingTop="@dimen/size_3">
+                    <TextView
+                        android:id="@+id/txt_SkuSpecDes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/field_value"
+                        android:textSize="@dimen/sp_10" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -75,7 +135,8 @@
                 android:orientation="vertical"
                 android:paddingRight="@dimen/size_10"
                 >
-                    <LinearLayout
+                <LinearLayout
+                    android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_20"
                         android:gravity="center_vertical"
@@ -86,7 +147,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_skuslotname"
+                            android:text="@string/dlg_slotedit_tvtx_slotid"
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10" />
 
@@ -111,113 +172,61 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_20"
+                    android:layout_height="@dimen/size_24"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingBottom="@dimen/size_3"
-                    android:paddingTop="@dimen/size_3">
+                    android:paddingBottom="@dimen/size_2"
+                    android:paddingTop="@dimen/size_2">
+                    <TextView
+                        android:id="@+id/txt_Version"
+                        android:layout_height="0dp"
+                        android:layout_width="0dp"
+                        android:visibility="gone"
+                        android:text=""/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dlg_slotedit_tvtx_skucumcode"
+                        android:text="@string/dlg_slotedit_tvtx_slotname"
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 
                     <TextView
-                        android:id="@+id/txt_SkuCumCode"
+                        android:id="@+id/txt_SlotName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="@color/field_value"
                         android:textSize="@dimen/sp_10" />
                 </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_20"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/size_3"
-                        android:paddingTop="@dimen/size_3">
-
-                        <TextView
-                            android:id="@+id/txt_SkuId"
-                            android:layout_height="0dp"
-                            android:layout_width="0dp"
-                            android:visibility="gone"
-                            android:text=""/>
-
-                        <TextView
-                            android:id="@+id/txt_Version"
-                            android:layout_height="0dp"
-                            android:layout_width="0dp"
-                            android:visibility="gone"
-                            android:text=""/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_skuname"
-                            android:textColor="@color/field_name"
-                            android:textSize="@dimen/sp_10"  />
-
-                        <TextView
-                            android:id="@+id/txt_SkuName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:textColor="@color/field_value"
-                            android:textSize="@dimen/sp_10" />
-                    </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_20"
+                    android:layout_height="@dimen/size_24"
+                    android:paddingBottom="@dimen/size_2"
+                    android:paddingTop="@dimen/size_2"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/size_3"
-                    android:paddingTop="@dimen/size_3">
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dlg_slotedit_tvtx_skuspecdes"
+                        android:text="@string/dlg_slotedit_tvtx_skusellqty"
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 
                     <TextView
-                        android:id="@+id/txt_SkuSpecDes"
+                        android:id="@+id/txt_SellQty"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textColor="@color/field_value"
-                        android:textSize="@dimen/sp_10" />
+                        android:textSize="@dimen/sp_10"  />
                 </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_20"
-                        android:paddingBottom="@dimen/size_3"
-                        android:paddingTop="@dimen/size_3"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_skusellqty"
-                            android:textColor="@color/field_name"
-                            android:textSize="@dimen/sp_10"  />
-
-                        <TextView
-                            android:id="@+id/txt_SellQty"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:textColor="@color/field_value"
-                            android:textSize="@dimen/sp_10"  />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_20"
-                        android:paddingBottom="@dimen/size_3"
-                        android:paddingTop="@dimen/size_3"
+                        android:paddingBottom="@dimen/size_2"
+                        android:paddingTop="@dimen/size_2"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
@@ -238,7 +247,7 @@
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_20"
+                        android:layout_height="@dimen/size_24"
                         android:paddingBottom="@dimen/size_3"
                         android:paddingTop="@dimen/size_3"
                         android:gravity="center_vertical"
@@ -297,7 +306,7 @@
                     </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_20"
+                    android:layout_height="@dimen/size_24"
                     android:paddingBottom="@dimen/size_3"
                     android:paddingTop="@dimen/size_3"
                     android:gravity="center_vertical"
@@ -357,9 +366,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_20"
-                    android:paddingBottom="@dimen/size_3"
-                    android:paddingTop="@dimen/size_3"
+                    android:layout_height="@dimen/size_24"
+                    android:paddingBottom="@dimen/size_2"
+                    android:paddingTop="@dimen/size_2"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 

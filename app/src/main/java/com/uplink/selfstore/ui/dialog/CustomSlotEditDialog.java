@@ -63,6 +63,7 @@ public class CustomSlotEditDialog extends Dialog {
     private ImageView img_SkuImg;
     private TextView txt_SlotId;
     private TextView txt_StockId;
+    private TextView txt_SlotName;
     private TextView txt_Version;
     private TextView txt_SkuId;
     private TextView txt_SkuCumCode;
@@ -352,6 +353,7 @@ public class CustomSlotEditDialog extends Dialog {
         txt_Version=ViewHolder.get(mLayoutRes, R.id.txt_Version);
         img_SkuImg = ViewHolder.get(mLayoutRes, R.id.img_SkuImg);
         txt_SlotId = ViewHolder.get(mLayoutRes, R.id.txt_SlotId);
+        txt_SlotName = ViewHolder.get(mLayoutRes, R.id.txt_SlotName);
         txt_StockId  = ViewHolder.get(mLayoutRes, R.id.txt_StockId);
         txt_SkuCumCode= ViewHolder.get(mLayoutRes, R.id.txt_SkuCumCode);
         txt_SkuId = ViewHolder.get(mLayoutRes, R.id.txt_SkuId);
@@ -386,6 +388,7 @@ public class CustomSlotEditDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 _this.dismiss();
             }
         });
@@ -408,7 +411,6 @@ public class CustomSlotEditDialog extends Dialog {
 
                 String slotId = String.valueOf(txt_SlotId.getText());
 
-
                 String skuId=String.valueOf(txt_SkuId.getText());
 
                 pickupEventNotify(skuId,slotId,3011,"发起取货",null);
@@ -420,11 +422,6 @@ public class CustomSlotEditDialog extends Dialog {
 
                         if(cabinet.getCabinetId()==null){
                             mContext.showToast("准备出货异常......机柜编号为空");
-                            return;
-                        }
-
-                        if(slotId==null){
-                            mContext.showToast("准备出货异常......货道编号为空");
                             return;
                         }
 
@@ -443,7 +440,6 @@ public class CustomSlotEditDialog extends Dialog {
                             mContext.showToast("设备状态异常");
                             return;
                         }
-
 
                         DSCabRowColLayoutBean dSCabRowColLayout= JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {});
                         cabinetCtrlByDS.startPickUp(true, dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(),dSCabRowColLayout.getPendantRows());
@@ -469,6 +465,7 @@ public class CustomSlotEditDialog extends Dialog {
                 txt_SkuId.setText("");
                 txt_SkuName.setText("暂无设置");
                 txt_SkuSpecDes.setText("");
+                txt_SkuCumCode.setText("");
                 txt_SellQty.setText("0");
                 txt_LockQty.setText("0");
                 txt_SumQty.setText("0");
@@ -541,7 +538,7 @@ public class CustomSlotEditDialog extends Dialog {
                         mContext.showToast(rt.getMessage());
 
                         if (rt.getResult() == Result.SUCCESS) {
-                            _this.hide();
+                            _this.dismiss();
                             mContext.setSlot(rt.getData());
                         }
                     }
@@ -587,10 +584,12 @@ public class CustomSlotEditDialog extends Dialog {
                     return;
                 }
 
+
                 int maxQty = Integer.valueOf(txt_MaxQty.getText() + "");
                 int sumQty = Integer.valueOf(txt_SumQty.getText() + "");
                 int lockQty = Integer.valueOf(txt_LockQty.getText() + "");
                 sumQty += 1;
+
 
 
                 int sellQty = sumQty - lockQty;

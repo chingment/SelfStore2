@@ -10,6 +10,7 @@ public class CabinetBean implements Serializable {
     private String comId;
     private int comBaud;
 
+
     public String getComId() {
         return comId;
     }
