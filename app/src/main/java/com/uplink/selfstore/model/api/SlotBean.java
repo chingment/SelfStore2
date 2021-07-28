@@ -38,6 +38,8 @@ public class SlotBean implements Serializable {
         this.slotId = slotId;
     }
 
+
+
     public String getSkuId() {
         return skuId;
     }
