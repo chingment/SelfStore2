@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -8,53 +9,73 @@
 
     <include layout="@layout/layout_nav_header" />
 
-    <LinearLayout
-        android:background="@color/white"
+
+    <RelativeLayout
+        android:id="@+id/layout_body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical|left"
-        android:paddingLeft="@dimen/size_10"
-        android:paddingRight="@dimen/size_10"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:baselineAligned="false"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/size_10"
-            android:paddingTop="@dimen/size_10">
+            tools:ignore="UselessParent">
+            <ListView
+                android:id="@+id/lv_Cabinets"
+                android:layout_width="@dimen/size_60"
+                android:layout_height="match_parent"
+                android:background="@color/gray"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:paddingLeft="@dimen/size_10"
+            android:paddingRight="@dimen/size_10"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                >
+                android:paddingTop="@dimen/size_5"
+                android:paddingBottom="@dimen/size_5"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/aty_smdevicestock_tvtx_cabinetname"
-                android:textColor="@color/field_name"
-                android:textSize="@dimen/size_10" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aty_smdevicestock_tvtx_cabinetname"
+                    android:textColor="@color/field_name"
+                    android:textSize="@dimen/sp_10" />
 
-            <TextView
-                android:id="@+id/txt_CabinetName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/size_10"
-                android:gravity="left"
-                android:textColor="@color/field_value"
-                android:textSize="@dimen/size_10" />
+                <TextView
+                    android:id="@+id/txt_CabinetName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/size_10"
+                    android:gravity="left"
+                    android:textColor="@color/field_value"
+                    android:textSize="@dimen/sp_10" />
+
 
             </LinearLayout>
-
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical|right"
-                android:layout_gravity="right"
-                >
+                android:paddingBottom="@dimen/size_5"
+                android:gravity="right"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_AutoTest"
@@ -99,78 +120,23 @@
 
 
             </LinearLayout>
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:background="@color/white"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+                <TableLayout
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tl_CabinetSlot"/>
+            </ScrollView>
 
         </LinearLayout>
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:visibility="gone"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_32"
-        android:gravity="center_vertical|left"
-        android:paddingLeft="@dimen/size_10"
-        android:paddingRight="@dimen/size_10"
-        android:orientation="horizontal">
-
-        <LinearLayout
-
-            android:layout_width="@dimen/size_80"
-            android:layout_height="match_parent"
-            android:baselineAligned="false"
-
-            android:gravity="center_vertical|left">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/aty_smdeviceinfo_tvtx_devicestatus"
-                android:textColor="@color/field_name"
-                android:layout_marginRight="@dimen/size_10"
-                android:textSize="@dimen/size_10" />
-
-            <com.uplink.selfstore.ui.my.MyBreathLight
-                android:id="@+id/breathlight_device"
-
-                android:layout_width="@dimen/size_10"
-                android:layout_height="@dimen/size_10" />
-        </LinearLayout>
-        <LinearLayout
-
-            android:layout_width="@dimen/size_80"
-            android:layout_height="match_parent"
-            android:baselineAligned="false"
-
-            android:gravity="center_vertical|left">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/aty_smdeviceinfo_tvtx_scanganstatus"
-                android:textColor="@color/field_name"
-                android:layout_marginRight="@dimen/size_10"
-                android:textSize="@dimen/size_10" />
-
-            <com.uplink.selfstore.ui.my.MyBreathLight
-                android:id="@+id/breathlight_scangan"
-
-                android:layout_width="@dimen/size_10"
-                android:layout_height="@dimen/size_10" />
         </LinearLayout>
 
+    </RelativeLayout>
 
-    </LinearLayout>
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
-    <TableLayout
-        android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/table_slotstock"/>
-    </ScrollView>
+
 </LinearLayout>

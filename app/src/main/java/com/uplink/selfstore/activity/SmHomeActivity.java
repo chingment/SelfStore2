@@ -173,42 +173,43 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
-        Map<String, CabinetBean> cabinets = getDevice().getCabinets();
+//        Map<String, CabinetBean> cabinets = getDevice().getCabinets();
+//
+//
+//        List<HashMap.Entry<String,CabinetBean>> sort_cabinets=new ArrayList<>(cabinets.entrySet());
+//
+//        Collections.sort(sort_cabinets, new Comparator<HashMap.Entry<String, CabinetBean>>() {
+//            @Override
+//            public int compare(Map.Entry<String, CabinetBean> t1, Map.Entry<String, CabinetBean> t2) {
+//                return t2.getValue().getPriority()-t1.getValue().getPriority();
+//            }
+//        });
+//
+//
+//        int i_cabinet=0;
+//
+//        for (HashMap.Entry<String,CabinetBean> entry : sort_cabinets) {
+//
+//            int i_cabinet_icon;
+//            if(i_cabinet==0){
+//                i_cabinet_icon=R.drawable.ic_sm_stock_0;
+//            }
+//            else if(i_cabinet==1){
+//                i_cabinet_icon=R.drawable.ic_sm_stock_1;
+//            }
+//            else if(i_cabinet==2){
+//                i_cabinet_icon=R.drawable.ic_sm_stock_2;
+//            }
+//            else {
+//                i_cabinet_icon = R.drawable.ic_sm_stock_0;
+//            }
+//
+//            CabinetBean cabinet = entry.getValue();
+//
+//
+//        }
 
-
-        List<HashMap.Entry<String,CabinetBean>> sort_cabinets=new ArrayList<>(cabinets.entrySet());
-
-        Collections.sort(sort_cabinets, new Comparator<HashMap.Entry<String, CabinetBean>>() {
-            @Override
-            public int compare(Map.Entry<String, CabinetBean> t1, Map.Entry<String, CabinetBean> t2) {
-                return t2.getValue().getPriority()-t1.getValue().getPriority();
-            }
-        });
-
-
-        int i_cabinet=0;
-
-        for (HashMap.Entry<String,CabinetBean> entry : sort_cabinets) {
-
-            int i_cabinet_icon;
-            if(i_cabinet==0){
-                i_cabinet_icon=R.drawable.ic_sm_stock_0;
-            }
-            else if(i_cabinet==1){
-                i_cabinet_icon=R.drawable.ic_sm_stock_1;
-            }
-            else if(i_cabinet==2){
-                i_cabinet_icon=R.drawable.ic_sm_stock_2;
-            }
-            else {
-                i_cabinet_icon = R.drawable.ic_sm_stock_0;
-            }
-
-            CabinetBean cabinet = entry.getValue();
-            gridviewitems.add(new NineGridItemBean(cabinet.getName()+getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.devicestock", i_cabinet_icon,cabinet));
-            i_cabinet++;
-        }
-
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.devicestock",R.drawable.ic_sm_stock));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_deviceset), NineGridItemType.Function, "fun.deviceinfo", R.drawable.ic_sm_device));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_runexhandle), NineGridItemType.Function, "fun.runexhandle", R.drawable.ic_sm_runexhandle));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
@@ -242,9 +243,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     startActivity(intent);
                                     break;
                                 case "fun.devicestock":
-                                    CabinetBean cabinet = (CabinetBean)gridviewitem.getTag();
                                     intent = new Intent(getAppContext(), SmDeviceStockActivity.class);
-                                    intent.putExtra("cabinetId", cabinet.getCabinetId());
                                     startActivity(intent);
                                     break;
                                 case "fun.runexhandle":

@@ -7,9 +7,11 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
+import com.uplink.selfstore.activity.adapter.CabinetAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
@@ -36,7 +39,6 @@ import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
 import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
-import com.uplink.selfstore.ui.my.MyBreathLight;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
@@ -49,6 +51,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,24 +61,24 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private static final String TAG = "SmDeviceStockActivity";
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
-    private TableLayout table_slotstock;
+    private TableLayout tl_CabinetSlot;
     private CustomSlotEditDialog dialog_SlotEdit;
     private CustomPickupAutoTestDialog dialog_PickupAutoTest;
-    private CabinetBean cabinet =null;//机柜信息
-    private HashMap<String, SlotBean> cabinetSlots = null;//机柜货道信息
+    private ListView lv_Cabinets;
+    private CabinetBean cur_Cabinet =null;//当前机柜信息
+    private HashMap<String, SlotBean> slots = null;//机柜货道信息
+    private List<CabinetBean> cabinets=new ArrayList<>();
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
     private Button btn_AutoTest;
+    private TextView tv_CabinetName;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
+    private CustomLoadingDialog dialog_Running;
+    private static int cur_Cabinet_Position = 0;
     //private ScannerCtrl scannerCtrl;
 
-    private CustomLoadingDialog dialog_Running;
 
-    private TextView txt_CabinetName;
-    private Handler handler_UpdateUI;
-    private MyBreathLight breathlight_device;
-    private MyBreathLight breathlight_scangan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +95,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     case UsbService.MESSAGE_FROM_SERIAL_PORT:
                         String data = (String) msg.obj;
                         LogUtil.d(TAG, "扫描数据：" + data);
-                        if(!StringUtil.isEmptyNotNull(data)) {
+                        if (!StringUtil.isEmptyNotNull(data)) {
                             data = data.trim();
                             if (dialog_SlotEdit != null) {
                                 dialog_SlotEdit.searchSkus(data);
@@ -101,15 +104,21 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         break;
                 }
 
-                return  true;
+                return true;
             }
         }));
 
-        String cabinetId = getIntent().getStringExtra("cabinetId");
-        cabinet = getDevice().getCabinets().get(cabinetId);
-        if (cabinet == null) {
-            showToast("未配置对应机柜，请联系管理员");
-            return;
+        HashMap<String, CabinetBean> l_Cabinets=getDevice().getCabinets();
+        if(l_Cabinets!=null) {
+
+            cabinets = new ArrayList<>(l_Cabinets.values());
+
+            Collections.sort(cabinets, new Comparator<CabinetBean>() {
+                @Override
+                public int compare(CabinetBean t1, CabinetBean t2) {
+                    return t2.getPriority() - t1.getPriority();
+                }
+            });
         }
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
@@ -150,11 +159,11 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                                     DSCabRowColLayoutBean sSCabRowColLayoutBean = new DSCabRowColLayoutBean();
                                     sSCabRowColLayoutBean.setRows(result.rowColLayout);
                                     String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
-                                    saveCabinetRowColLayout(cabinet.getCabinetId(), strRowColLayout);
+                                    saveCabinetRowColLayout(strRowColLayout);
                                 }
                                 break;
                             case 5://扫描超时
-                                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
+                                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "scanslot");
                                 scanSlotsEventNotify(5000, "扫描超时");
                                 if (dialog_Running != null) {
                                     dialog_Running.hide();
@@ -162,7 +171,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                                 showToast(message);
                                 break;
                             case 6://扫描失败
-                                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ","scanslot");
+                                AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "scanslot");
                                 scanSlotsEventNotify(6000, "扫描失败");
                                 if (dialog_Running != null) {
                                     dialog_Running.hide();
@@ -179,8 +188,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         cabinetCtrlByZS.connect();
 
         //if (getDevice().getScanner().getUse()) {
-          //  scannerCtrl = ScannerCtrl.getInstance();
-            //scannerCtrl.connect();
+        //  scannerCtrl = ScannerCtrl.getInstance();
+        //scannerCtrl.connect();
         //}
 
 
@@ -190,55 +199,72 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     }
 
     private void initView() {
-        table_slotstock = (TableLayout) findViewById(R.id.table_slotstock);
-
+        tl_CabinetSlot = (TableLayout) findViewById(R.id.tl_CabinetSlot);
         dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         btn_AutoTest= (Button) findViewById(R.id.btn_AutoTest);
-        txt_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
+        tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         dialog_Running = new CustomLoadingDialog(this);
-
-
-        switch (cabinet.getModelNo()) {
-            case "dsx01":
-                btn_ScanSlots.setVisibility(View.VISIBLE);
-                break;
-        }
-
-//        breathlight_device=(MyBreathLight) findViewById(R.id.breathlight_device);
-//        breathlight_device.setInterval(2000) //设置闪烁间隔时间
-//                .setCoreRadius(5f)//设置中心圆半径
-//                .setDiffusMaxWidth(8f)//设置闪烁圆的最大半径
-//                .setDiffusColor(Color.parseColor("#ff4600"))//设置闪烁圆的颜色
-//                .setCoreColor(Color.parseColor("#FA931E"))//设置中心圆的颜色
-//                .onStart();
-//
-//        breathlight_scangan=(MyBreathLight) findViewById(R.id.breathlight_scangan);
-//        breathlight_scangan.setInterval(2000) //设置闪烁间隔时间
-//                .setCoreRadius(5f)//设置中心圆半径
-//                .setDiffusMaxWidth(8f)//设置闪烁圆的最大半径
-//                .setDiffusColor(Color.parseColor("#ff4600"))//设置闪烁圆的颜色
-//                .setCoreColor(Color.parseColor("#FA931E"))//设置中心圆的颜色
-//                .onStart();
+        lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
     }
 
     private void initEvent() {
         btn_ScanSlots.setOnClickListener(this);
         btn_RefreshStock.setOnClickListener(this);
         btn_AutoTest.setOnClickListener(this);
+        lv_Cabinets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                cur_Cabinet_Position = position;
+                loadCabinetData();
+            }
+        });
     }
 
     private void initData() {
+        loadCabinetData();
+    }
 
+    private void loadCabinetData() {
+        if (cabinets == null)
+            return;
+        if (cabinets.size() == 0)
+            return;
+
+        if(cabinets.size()==1){
+            lv_Cabinets.setVisibility(View.GONE);
+        }
+
+        cur_Cabinet = cabinets.get(cur_Cabinet_Position);
+
+        if (cur_Cabinet == null)
+            return;
+
+        CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
+        lv_Cabinets.setAdapter(list_cabinet_adapter);
 
         getCabinetSlots();
 
+        tv_CabinetName.setText( cur_Cabinet.getName() + "(" + cur_Cabinet.getCabinetId() + ")");
 
-        txt_CabinetName.setText(cabinet.getName() + "(" + cabinet.getCabinetId() + ")");
+        switch (cur_Cabinet.getModelNo()) {
+            case "dsx01":
+                btn_ScanSlots.setVisibility(View.VISIBLE);
+                btn_AutoTest.setVisibility(View.VISIBLE);
+                break;
+            default:
+                btn_ScanSlots.setVisibility(View.GONE);
+                btn_AutoTest.setVisibility(View.GONE);
+                break;
+        }
     }
 
     public void setSlot(SlotBean slot) {
+
+        if(cur_Cabinet==null)
+            return;
 
         if (slot == null)
             return;
@@ -248,14 +274,15 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         if (StringUtil.isEmpty(slotId))
             return;
 
-        if (cabinetSlots == null)
+        if (slots == null)
             return;
 
-        if (!cabinetSlots.containsKey(slotId))
+        if (!slots.containsKey(slotId))
             return;
 
-
-        SlotBean l_slot = cabinetSlots.get(slot.getSlotId());
+        SlotBean l_slot = slots.get(slot.getSlotId());
+        if(l_slot==null)
+            return;
 
         l_slot.setSlotId(slot.getSlotId());
         l_slot.setStockId(slot.getStockId());
@@ -275,32 +302,35 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         l_slot.setVersion(slot.getVersion());
         l_slot.setCanAlterMaxQuantity(slot.getCanAlterMaxQuantity());
 
-        cabinetSlots.put(slotId,l_slot);
+        slots.put(slotId,l_slot);
 
-        switch (cabinet.getModelNo()) {
+        switch (cur_Cabinet.getModelNo()) {
             case "dsx01":
-                drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinetSlots);
+                drawsCabinetSlotsByDS(cur_Cabinet.getRowColLayout(), slots);
                 break;
             case "zsx01":
-                drawsCabinetSlotsByZS(cabinet.getRowColLayout(), cabinetSlots);
+                drawsCabinetSlotsByZS(cur_Cabinet.getRowColLayout(), slots);
                 break;
         }
 
 
     }
 
-    public void drawsCabinetSlotsByDS(String strRowColLayout, HashMap<String, SlotBean> slots) {
+    public void drawsCabinetSlotsByDS(String json_layout, HashMap<String, SlotBean> slots) {
 
-        this.cabinet.setRowColLayout(strRowColLayout);
+        if(cur_Cabinet==null)
+            return;
+
+        this.cur_Cabinet.setRowColLayout(json_layout);
 
         if (slots == null) {
             slots = new HashMap<String, SlotBean>();
         }
 
-        this.cabinetSlots = slots;
+        this.slots = slots;
 
 
-        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
+        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cur_Cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
         });
 
 
@@ -309,9 +339,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         int rowLength = rowColLayout.length;
 
         //清除表格所有行
-        table_slotstock.removeAllViews();
+        tl_CabinetSlot.removeAllViews();
         //全部列自动填充空白处
-        table_slotstock.setStretchAllColumns(true);
+        tl_CabinetSlot.setStretchAllColumns(true);
         //生成X行，Y列的表格
         int slot_Name=1;
         for (int i = rowLength; i > 0; i--) {
@@ -390,7 +420,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
                             dialog_SlotEdit=new CustomSlotEditDialog(SmDeviceStockActivity.this);
-                            dialog_SlotEdit.setCabinet(cabinet);
+                            dialog_SlotEdit.setCabinet(cur_Cabinet);
                             dialog_SlotEdit.setSlot(l_Slot);
                             dialog_SlotEdit.clearSearch();
                             dialog_SlotEdit.show();
@@ -401,20 +431,23 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 }
             }
 
-            table_slotstock.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+            tl_CabinetSlot.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
 
         }
     }
 
     public void drawsCabinetSlotsByZS(String json_layout, HashMap<String, SlotBean> slots) {
 
-        this.cabinet.setRowColLayout(json_layout);
+        if(cur_Cabinet==null)
+            return;
+
+        this.cur_Cabinet.setRowColLayout(json_layout);
 
         if (slots == null) {
             slots = new HashMap<String, SlotBean>();
         }
 
-        this.cabinetSlots = slots;
+        this.slots = slots;
 
 
         ZSCabRowColLayoutBean layout = JSON.parseObject(json_layout, new TypeReference<ZSCabRowColLayoutBean>() {});
@@ -424,9 +457,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             return;
 
         //清除表格所有行
-        table_slotstock.removeAllViews();
+        tl_CabinetSlot.removeAllViews();
         //全部列自动填充空白处
-        table_slotstock.setStretchAllColumns(true);
+        tl_CabinetSlot.setStretchAllColumns(true);
 
 
         //生成X行，Y列的表格
@@ -514,7 +547,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
                             dialog_SlotEdit=new CustomSlotEditDialog(SmDeviceStockActivity.this);
-                            dialog_SlotEdit.setCabinet(cabinet);
+                            dialog_SlotEdit.setCabinet(cur_Cabinet);
                             dialog_SlotEdit.setSlot(l_Slot);
                             dialog_SlotEdit.clearSearch();
                             dialog_SlotEdit.show();
@@ -525,7 +558,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
             }
 
-            table_slotstock.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+            tl_CabinetSlot.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
 
         }
     }
@@ -614,8 +647,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             dialog_PickupAutoTest.dismiss();
         }
 
-        if(table_slotstock!=null) {
-            table_slotstock.removeAllViews();
+        if(tl_CabinetSlot!=null) {
+            tl_CabinetSlot.removeAllViews();
         }
 
 //        if (cabinetCtrlByDS != null) {
@@ -652,7 +685,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     break;
                 case R.id.btn_AutoTest:
                     dialog_PickupAutoTest=new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
-                    dialog_PickupAutoTest.setSlots(cabinet,getPickupSkus());
+                    dialog_PickupAutoTest.setSlots(cur_Cabinet,getPickupSkus());
                     dialog_PickupAutoTest.show();
                     break;
                 default:
@@ -662,24 +695,28 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     }
 
     private void scanSlotsEventNotify(int status, String remark) {
+        if (cur_Cabinet == null)
+            return;
         try {
             JSONObject content = new JSONObject();
-            content.put("cabinetId", cabinet.getCabinetId());
+            content.put("cabinetId", cur_Cabinet.getCabinetId());
             content.put("status", status);
             content.put("remark", remark);
-            eventNotify("vending_scan_slots","扫描货道",content);
-        }catch (JSONException e) {
+            eventNotify("vending_scan_slots", "扫描货道", content);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void getCabinetSlots() {
 
+        if(cur_Cabinet==null)
+            return;
 
         Map<String, Object> params = new HashMap<>();
 
         params.put("deviceId", getDevice().getDeviceId());
-        params.put("cabinetId",String.valueOf(cabinet.getCabinetId()));
+        params.put("cabinetId",String.valueOf(cur_Cabinet.getCabinetId()));
 
         //显示loading 会影响点击屏幕触发
         postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
@@ -690,11 +727,10 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 ApiResultBean<DeviceSlotsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<DeviceSlotsResultBean>>() {
                 });
 
-
                 if (rt.getResult() == Result.SUCCESS) {
                     DeviceSlotsResultBean d = rt.getData();
 
-                    switch (cabinet.getModelNo()){
+                    switch (cur_Cabinet.getModelNo()){
                         case "dsx01":
                             drawsCabinetSlotsByDS(d.getRowColLayout(), d.getSlots());
                             break;
@@ -714,11 +750,15 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         });
     }
 
-    private void saveCabinetRowColLayout(final String cabinetId, final String cabinetRowColLayout) {
+    private void saveCabinetRowColLayout(final String rowColLayout) {
+
+        if(cur_Cabinet==null)
+            return;
+
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getDevice().getDeviceId());
-        params.put("cabinetId", cabinetId);
-        params.put("rowColLayout", cabinetRowColLayout);
+        params.put("cabinetId", String.valueOf(cur_Cabinet.getCabinetId()));
+        params.put("rowColLayout", rowColLayout);
 
         postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
@@ -749,11 +789,23 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
     public List<PickupSkuBean> getPickupSkus(){
 
-        List<PickupSkuBean> slots=new ArrayList<>();
+        List<PickupSkuBean> skus=new ArrayList<>();
 
-        for (String key :this.cabinetSlots.keySet()){
-             SlotBean l_slot= this.cabinetSlots.get(key);
-             for (int i=1;i<l_slot.getSellQuantity();i++){
+
+        int j=0;
+        switch (cur_Cabinet.getModelNo()) {
+            case "dsx01":
+                j = 1;
+                break;
+            default:
+                j = 0;
+                break;
+        }
+
+
+        for (String key :slots.keySet()){
+             SlotBean l_slot= slots.get(key);
+             for (int i=j;i<l_slot.getSellQuantity();i++){
                  PickupSkuBean a_slot=new PickupSkuBean();
                  a_slot.setUniqueId(UUID.randomUUID().toString());
                  a_slot.setSkuId(l_slot.getSkuId());
@@ -763,13 +815,13 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                  a_slot.setName(l_slot.getSkuName());
                  a_slot.setStatus(3010);
                  a_slot.setTips("待取货");
-                 slots.add(a_slot);
+                 skus.add(a_slot);
              }
         }
 
-        Collections.shuffle(slots);
+        Collections.shuffle(skus);
 
-        return slots;
+        return skus;
 
     }
 
