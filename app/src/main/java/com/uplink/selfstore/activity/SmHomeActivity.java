@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmHomeActivity";
-    private CustomConfirmDialog dialog_confirm;
+    private CustomConfirmDialog dialog_Confirm;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     @Override
@@ -94,8 +94,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         updateAppService.setAction("android.intent.action.updateAppService");
         sendBroadcast(updateAppService);
 
-        dialog_confirm = new CustomConfirmDialog(SmHomeActivity.this, "", true);
-        dialog_confirm.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_Confirm = new CustomConfirmDialog(SmHomeActivity.this, "", true);
+        dialog_Confirm.getBtnSure().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tag = v.getTag().toString();
@@ -155,14 +155,14 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
 
                         break;
                 }
-                dialog_confirm.hide();
+                dialog_Confirm.hide();
             }
         });
 
-        dialog_confirm.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+        dialog_Confirm.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_confirm.hide();
+                dialog_Confirm.hide();
             }
         });
     }
@@ -172,42 +172,6 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         MyGridView gridview = (MyGridView) findViewById(R.id.gridview_ninegrid);
 
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
-
-//        Map<String, CabinetBean> cabinets = getDevice().getCabinets();
-//
-//
-//        List<HashMap.Entry<String,CabinetBean>> sort_cabinets=new ArrayList<>(cabinets.entrySet());
-//
-//        Collections.sort(sort_cabinets, new Comparator<HashMap.Entry<String, CabinetBean>>() {
-//            @Override
-//            public int compare(Map.Entry<String, CabinetBean> t1, Map.Entry<String, CabinetBean> t2) {
-//                return t2.getValue().getPriority()-t1.getValue().getPriority();
-//            }
-//        });
-//
-//
-//        int i_cabinet=0;
-//
-//        for (HashMap.Entry<String,CabinetBean> entry : sort_cabinets) {
-//
-//            int i_cabinet_icon;
-//            if(i_cabinet==0){
-//                i_cabinet_icon=R.drawable.ic_sm_stock_0;
-//            }
-//            else if(i_cabinet==1){
-//                i_cabinet_icon=R.drawable.ic_sm_stock_1;
-//            }
-//            else if(i_cabinet==2){
-//                i_cabinet_icon=R.drawable.ic_sm_stock_2;
-//            }
-//            else {
-//                i_cabinet_icon = R.drawable.ic_sm_stock_0;
-//            }
-//
-//            CabinetBean cabinet = entry.getValue();
-//
-//
-//        }
 
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.devicestock",R.drawable.ic_sm_stock));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_deviceset), NineGridItemType.Function, "fun.deviceinfo", R.drawable.ic_sm_device));
@@ -220,7 +184,6 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_door), NineGridItemType.Function, "fun.door", R.drawable.ic_sm_door));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_exitmanager), NineGridItemType.Function, "fun.exitmanager", R.drawable.ic_sm_exit));
 
-
         NineGridItemAdapter nineGridItemdapter = new NineGridItemAdapter(getAppContext(), gridviewitems);
 
         gridview.setAdapter(nineGridItemdapter);
@@ -228,7 +191,6 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 if (!NoDoubleClickUtil.isDoubleClick()) {
                     NineGridItemBean gridviewitem = gridviewitems.get(position);
                     int type = gridviewitem.getType();
@@ -265,28 +227,28 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     sendBroadcast(intent);
                                     break;
                                 case "fun.closeapp":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.closeapp");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
+                                    dialog_Confirm.getBtnSure().setTag("fun.closeapp");
+                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
+                                    dialog_Confirm.show();
                                     break;
                                 case "fun.rootsys":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.rootsys");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
+                                    dialog_Confirm.getBtnSure().setTag("fun.rootsys");
+                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
+                                    dialog_Confirm.show();
                                     break;
                                 case "fun.door":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.door");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_door));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
+                                    dialog_Confirm.getBtnSure().setTag("fun.door");
+                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_door));
+                                    dialog_Confirm.show();
                                     break;
                                 case "fun.exitmanager":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.exitmanager");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
+                                    dialog_Confirm.getBtnSure().setTag("fun.exitmanager");
+                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
+                                    dialog_Confirm.show();
                                     break;
                             }
                     }
@@ -360,8 +322,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_confirm != null) {
-            dialog_confirm.cancel();
+        if (dialog_Confirm != null) {
+            dialog_Confirm.cancel();
         }
 
         if(cabinetCtrlByZS!=null){
