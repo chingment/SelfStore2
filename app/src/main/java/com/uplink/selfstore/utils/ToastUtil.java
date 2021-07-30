@@ -87,7 +87,7 @@ public class ToastUtil {
                 Toast toast =Toast.makeText(context, message, Toast.LENGTH_LONG);
                 LinearLayout layout = (LinearLayout) toast.getView();
                 TextView tv = (TextView) layout.getChildAt(0);
-                tv.setTextSize(context.getResources().getDimensionPixelSize(R.dimen.sp_14));
+                tv.setTextSize(DisplayUtil.px2sp(context,context.getResources().getDimension(R.dimen.sp_14)));
                 layout.setBackgroundResource(R.drawable.dialog_loading_bg);
                 tv.setTextColor(context.getResources().getColor(R.color.white));
                 tv.setPadding(25,5,25,5);

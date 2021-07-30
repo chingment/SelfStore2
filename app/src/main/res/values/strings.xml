@@ -111,6 +111,7 @@
     <string name="btntx_recollotfingervein">重新采集</string>
     <string name="btntx_refreshstock">刷新库存</string>
     <string name="btntx_autotest">自动测试</string>
+    <string name="btntx_rshplan">补货计划</string>
     <string name="btntx_goback">返回</string>
     <string name="btntx_handle">确认处理</string>
     <string name="btntx_starttestpickup">开始</string>

@@ -36,6 +36,7 @@ import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
+import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
 import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
@@ -61,24 +62,24 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private static final String TAG = "SmDeviceStockActivity";
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
-    private TableLayout tl_CabinetSlot;
+    private TableLayout tl_Slots;
     private CustomSlotEditDialog dialog_SlotEdit;
     private CustomPickupAutoTestDialog dialog_PickupAutoTest;
     private ListView lv_Cabinets;
     private CabinetBean cur_Cabinet =null;//当前机柜信息
+    private static int cur_Cabinet_Position = 0;
     private HashMap<String, SlotBean> slots = null;//机柜货道信息
     private List<CabinetBean> cabinets=new ArrayList<>();
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
     private Button btn_AutoTest;
+    private Button btn_RshPlan;
     private TextView tv_CabinetName;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
-    private static int cur_Cabinet_Position = 0;
+    private CustomConfirmDialog dialog_Confirm;
     //private ScannerCtrl scannerCtrl;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,14 +200,35 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     }
 
     private void initView() {
-        tl_CabinetSlot = (TableLayout) findViewById(R.id.tl_CabinetSlot);
-        dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
+        tl_Slots = (TableLayout) findViewById(R.id.tl_Slots);
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         btn_AutoTest= (Button) findViewById(R.id.btn_AutoTest);
         tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
-        dialog_Running = new CustomLoadingDialog(this);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
+
+        dialog_Running = new CustomLoadingDialog(SmDeviceStockActivity.this);
+        dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
+        dialog_Confirm = new CustomConfirmDialog(SmDeviceStockActivity.this, "", true);
+        dialog_Confirm.getBtnSure().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = v.getTag().toString();
+                LogUtil.e("tag:" + tag);
+                switch (tag) {
+                    case "fun.scanslots":
+                        cabinetCtrlByDS.scanSlot();
+                        break;
+                }
+                dialog_Confirm.hide();
+            }
+        });
+        dialog_Confirm.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_Confirm.hide();
+            }
+        });
     }
 
     private void initEvent() {
@@ -339,9 +361,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         int rowLength = rowColLayout.length;
 
         //清除表格所有行
-        tl_CabinetSlot.removeAllViews();
+        tl_Slots.removeAllViews();
         //全部列自动填充空白处
-        tl_CabinetSlot.setStretchAllColumns(true);
+        tl_Slots.setStretchAllColumns(true);
         //生成X行，Y列的表格
         int slot_Name=1;
         for (int i = rowLength; i > 0; i--) {
@@ -372,12 +394,11 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
 
 
-                    String slotId = "r" + (i - 1) + "c" + j;
+                    String slotId = (i - 1) + "-" + j+"-"+slot_Name;
 
                     txt_SlotId.setText(slotId);
                     txt_SlotName.setText(String.valueOf(slot_Name));
 
-                    slot_Name++;
 
                     SlotBean slot = null;
 
@@ -389,7 +410,12 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     if (slot == null) {
                         slot = new SlotBean();
                         slot.setSlotId(slotId);
+                        slot.setSlotName(slot_Name+"");
                         slots.put(slotId, slot);
+                    }
+                    else
+                    {
+                        slot.setSlotName(slot_Name+"");
                     }
 
                     if (slot.getSkuId() == null) {
@@ -427,11 +453,13 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         }
                     });
 
+                    slot_Name++;
+
                     tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
                 }
             }
 
-            tl_CabinetSlot.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+            tl_Slots.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
 
         }
     }
@@ -457,9 +485,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             return;
 
         //清除表格所有行
-        tl_CabinetSlot.removeAllViews();
+        tl_Slots.removeAllViews();
         //全部列自动填充空白处
-        tl_CabinetSlot.setStretchAllColumns(true);
+        tl_Slots.setStretchAllColumns(true);
 
 
         //生成X行，Y列的表格
@@ -558,7 +586,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
             }
 
-            tl_CabinetSlot.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+            tl_Slots.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
 
         }
     }
@@ -647,8 +675,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             dialog_PickupAutoTest.dismiss();
         }
 
-        if(tl_CabinetSlot!=null) {
-            tl_CabinetSlot.removeAllViews();
+        if(tl_Slots!=null) {
+            tl_Slots.removeAllViews();
         }
 
 //        if (cabinetCtrlByDS != null) {
@@ -678,7 +706,10 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     finish();
                     break;
                 case R.id.btn_ScanSlots:
-                    cabinetCtrlByDS.scanSlot();
+                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
+                    dialog_Confirm.getBtnSure().setTag("fun.scanslots");
+                    dialog_Confirm.getTipsText().setText("确定要扫描货道？");
+                    dialog_Confirm.show();
                     break;
                 case R.id.btn_RefreshStock:
                     getCabinetSlots();
@@ -687,6 +718,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     dialog_PickupAutoTest=new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
                     dialog_PickupAutoTest.setSlots(cur_Cabinet,getPickupSkus());
                     dialog_PickupAutoTest.show();
+                    break;
+                case R.id.btn_RshPlan:
+
                     break;
                 default:
                     break;

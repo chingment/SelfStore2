@@ -57,16 +57,12 @@ public class DSCabSlotNRC {
         if (slotId == null)
             return null;
 
-        int r_index = slotId.indexOf('r');
-        if (r_index < 0) {
+        String[] prams = slotId.split("-");
+        if (prams.length!=3) {
             return null;
         }
 
-        int c_index = slotId.indexOf('c');
 
-        if (c_index < 0) {
-            return null;
-        }
 
         DSCabSlotNRC dsCabSlotNRC = new DSCabSlotNRC();
 
@@ -74,11 +70,9 @@ public class DSCabSlotNRC {
         dsCabSlotNRC.setCab(cabinetId.substring(5, 8));
 
 
-        String str_r = slotId.substring(r_index + 1, c_index);
-        String str_c = slotId.substring(c_index + 1, slotId.length());
 
-        dsCabSlotNRC.setRow(Integer.valueOf(str_r));
-        dsCabSlotNRC.setCol(Integer.valueOf(str_c));
+        dsCabSlotNRC.setRow(Integer.valueOf(prams[0]));
+        dsCabSlotNRC.setCol(Integer.valueOf(prams[1]));
 
         return dsCabSlotNRC;
 

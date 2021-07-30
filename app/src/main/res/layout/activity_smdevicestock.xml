@@ -77,7 +77,19 @@
                 android:gravity="right"
                 android:orientation="horizontal">
 
+
                 <Button
+                    android:id="@+id/btn_RshPlan"
+                    android:layout_width="@dimen/size_50"
+                    android:layout_height="@dimen/size_20"
+                    android:background="@drawable/widget_btn_orange"
+                    android:text="@string/btntx_rshplan"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_10"/>
+
+
+                <Button
+                    android:layout_marginLeft="@dimen/size_10"
                     android:id="@+id/btn_AutoTest"
                     android:layout_width="@dimen/size_50"
                     android:layout_height="@dimen/size_20"
@@ -129,7 +141,7 @@
                     android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/tl_CabinetSlot"/>
+                    android:id="@+id/tl_Slots"/>
             </ScrollView>
 
         </LinearLayout>

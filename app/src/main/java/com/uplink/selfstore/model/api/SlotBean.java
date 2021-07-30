@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class SlotBean implements Serializable {
     private  String slotId;
+    private  String slotName;
     private  String stockId;
     private  String cabinetId;
     private  String skuId;
@@ -38,7 +39,13 @@ public class SlotBean implements Serializable {
         this.slotId = slotId;
     }
 
+    public String getSlotName() {
+        return slotName;
+    }
 
+    public void setSlotName(String slotName) {
+        this.slotName = slotName;
+    }
 
     public String getSkuId() {
         return skuId;

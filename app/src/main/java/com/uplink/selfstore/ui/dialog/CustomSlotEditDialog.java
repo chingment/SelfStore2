@@ -504,15 +504,18 @@ public class CustomSlotEditDialog extends Dialog {
                 int sumQuantity = Integer.valueOf(txt_SumQty.getText() + "");
                 int maxQuantity = Integer.valueOf(txt_MaxQty.getText() + "");
                 int warnQuantity = Integer.valueOf(txt_WrnQty.getText() + "");
-                if(maxQuantity<sumQuantity){
 
-                    mContext.showToast("保存失败，最大数量不能小于实际数据");
-                    return;
-                }
+                if(!StringUtil.isEmptyNotNull(skuId)) {
+                    if (maxQuantity < sumQuantity) {
 
-                if(warnQuantity>sumQuantity){
-                    mContext.showToast("保存失败，报警数量不能大于实际数据");
-                    return;
+                        mContext.showToast("保存失败，最大数量不能小于实际数据");
+                        return;
+                    }
+
+                    if (warnQuantity > sumQuantity) {
+                        mContext.showToast("保存失败，报警数量不能大于实际数据");
+                        return;
+                    }
                 }
 
                 Map<String, Object> params = new HashMap<>();
@@ -727,7 +730,7 @@ public class CustomSlotEditDialog extends Dialog {
         this.slot = slot;
 
         txt_SlotId.setText(slot.getSlotId());
-
+        txt_SlotName.setText(slot.getSlotName());
         if (StringUtil.isEmptyNotNull(slot.getSkuId())) {
             txt_Version.setText(String.valueOf(slot.getVersion()));
             txt_StockId.setText("");
