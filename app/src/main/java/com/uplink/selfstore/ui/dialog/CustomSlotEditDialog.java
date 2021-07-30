@@ -512,8 +512,8 @@ public class CustomSlotEditDialog extends Dialog {
                         return;
                     }
 
-                    if (warnQuantity > sumQuantity) {
-                        mContext.showToast("保存失败，报警数量不能大于实际数据");
+                    if (warnQuantity > maxQuantity) {
+                        mContext.showToast("保存失败，报警数量不能大于最大数量");
                         return;
                     }
                 }
