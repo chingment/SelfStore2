@@ -186,18 +186,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="68" column="80" selection-start-line="68" selection-start-column="80" selection-end-line="68" selection-end-column="80" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
@@ -769,9 +757,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1229" height="775" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.2232519" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.2232519" />
       <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
       <window_info id="Captures" order="2" sideWeight="0.17922078" side_tool="true" weight="0.2898914" />
       <window_info id="Build Variants" order="3" sideWeight="0.17547569" side_tool="true" weight="0.2579832" />
@@ -790,10 +777,10 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.13193278" side_tool="true" weight="0.2767584" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" weight="0.28899083" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" visible="true" weight="0.28899083" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" visible="true" weight="0.19724771" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.19724771" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8263773" weight="0.4244713" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.32885906" />
       <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.3379205" />
