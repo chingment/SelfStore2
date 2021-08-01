@@ -78,7 +78,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smreplenishplandetail);
 
-        setNavTtile(this.getResources().getString(R.string.aty_smdevicestock_navtitle));
+        setNavTtile(this.getResources().getString(R.string.aty_smreplenishplandetail_navtitle));
 
         setNavGoBackBtnVisible(true);
 
@@ -230,12 +230,12 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         //生成X行，Y列的表格
         int slot_Name=1;
         for (int i = rowLength; i > 0; i--) {
-            TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
+            TableRow tableRow = new TableRow(SmReplenishPlanDetailActivity.this);
             int colLength = rowColLayout[i - 1];
 
             if(colLength==0){
 
-                final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+                final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
                 TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
                 convertView.setVisibility(View.INVISIBLE);
                 txt_name.setText("该行没有格数");
@@ -245,7 +245,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
                 for (int j = colLength - 1; j >= 0; j--) {
                     //tv用于显示
-                    final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+                    final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
                     LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
                     TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
                     TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
@@ -293,7 +293,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
                         txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
 
-                        CommonUtil.loadImageFromUrl(SmDeviceStockActivity.this, img_main, slot.getSkuMainImgUrl());
+                        CommonUtil.loadImageFromUrl(SmReplenishPlanDetailActivity.this, img_main, slot.getSkuMainImgUrl());
 
                         if (slot.getLockQuantity() > 0) {
                             GradientDrawable drawable = new GradientDrawable();
@@ -308,7 +308,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomSlotEditDialog(SmDeviceStockActivity.this);
+                            dialog_SlotEdit=new CustomSlotEditDialog(SmReplenishPlanDetailActivity.this);
                             dialog_SlotEdit.setCabinet(cur_Cabinet);
                             dialog_SlotEdit.setSlot(l_Slot);
                             dialog_SlotEdit.clearSearch();
@@ -360,7 +360,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
         for (int i = 0; i <rows.size(); i++) {
 
-            TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
+            TableRow tableRow = new TableRow(SmReplenishPlanDetailActivity.this);
 
             List<String> cols=rows.get(i);
 
@@ -374,7 +374,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                 String slot_Name=slot_Prams[2];
                 String slot_NoUse=slot_Prams[3];
 
-                final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+                final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
                 LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
 
@@ -420,7 +420,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                     txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
                     txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
 
-                    CommonUtil.loadImageFromUrl(SmDeviceStockActivity.this, img_main, slot.getSkuMainImgUrl());
+                    CommonUtil.loadImageFromUrl(SmReplenishPlanDetailActivity.this, img_main, slot.getSkuMainImgUrl());
 
                     if (slot.getLockQuantity() > 0) {
                         GradientDrawable drawable = new GradientDrawable();
@@ -437,7 +437,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomSlotEditDialog(SmDeviceStockActivity.this);
+                            dialog_SlotEdit=new CustomSlotEditDialog(SmReplenishPlanDetailActivity.this);
                             dialog_SlotEdit.setCabinet(cur_Cabinet);
                             dialog_SlotEdit.setSlot(l_Slot);
                             dialog_SlotEdit.clearSearch();
@@ -494,19 +494,8 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                 case R.id.nav_back:
                     finish();
                     break;
-                case R.id.btn_ScanSlots:
-                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
-                    dialog_Confirm.getBtnSure().setTag("fun.scanslots");
-                    dialog_Confirm.getTipsText().setText("确定要扫描货道？");
-                    dialog_Confirm.show();
-                    break;
                 case R.id.btn_RefreshStock:
                     getCabinetSlots();
-                    break;
-                case R.id.btn_AutoTest:
-                    dialog_PickupAutoTest=new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
-                    dialog_PickupAutoTest.setSlots(cur_Cabinet,getPickupSkus());
-                    dialog_PickupAutoTest.show();
                     break;
                 default:
                     break;
@@ -525,7 +514,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         params.put("cabinetId",String.valueOf(cur_Cabinet.getCabinetId()));
 
         //显示loading 会影响点击屏幕触发
-        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmReplenishPlanDetailActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

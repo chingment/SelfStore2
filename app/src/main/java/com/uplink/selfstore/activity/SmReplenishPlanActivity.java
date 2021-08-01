@@ -83,7 +83,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
     }
 
     private void initEvent() {
-
+        btn_AutoTest.setOnClickListener(this);
     }
 
     private void initData() {
@@ -100,7 +100,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
                     finish();
                     break;
                 case R.id.btn_AutoTest:
-                    Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
+                    Intent intent = new Intent(getAppContext(), SmReplenishPlanDetailActivity.class);
                     startActivity(intent);
                     break;
                 default:

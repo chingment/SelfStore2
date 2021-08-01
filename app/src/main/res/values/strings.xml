@@ -46,6 +46,7 @@
     <string name="aty_smdevicestock_navtitle">机器库存</string>
     <string name="aty_smdevicestock_tvtx_cabinetname">当前机柜</string>
     <string name="aty_smreplenishplan_navtitle">补货计划</string>
+    <string name="aty_smreplenishplandetail_navtitle">补货计划详情</string>
     <string name="aty_cart_navtitle">购物车</string>
     <string name="aty_cart_btntx_goshopping">去逛一逛商品</string>
     <string name="aty_cart_btntx_gopay">去支付</string>
