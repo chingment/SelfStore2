@@ -720,9 +720,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     dialog_PickupAutoTest.setSlots(cur_Cabinet,getPickupSkus());
                     dialog_PickupAutoTest.show();
                     break;
-                case R.id.btn_RshPlan:
-
-                    break;
                 default:
                     break;
             }

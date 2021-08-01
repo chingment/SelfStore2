@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,6 +62,8 @@ import java.util.UUID;
 
 public class SmReplenishPlanActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmReplenishPlanActivity";
+
+    private Button btn_AutoTest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,22 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
         setNavTtile(this.getResources().getString(R.string.aty_smreplenishplan_navtitle));
 
         setNavGoBackBtnVisible(true);
+
+        initView();
+        initEvent();
+        initData();
+    }
+
+    private void initView() {
+        btn_AutoTest= (Button) findViewById(R.id.btn_AutoTest);
+    }
+
+    private void initEvent() {
+
+    }
+
+    private void initData() {
+
     }
 
     @Override
@@ -79,6 +98,10 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
             switch (v.getId()) {
                 case R.id.nav_back:
                     finish();
+                    break;
+                case R.id.btn_AutoTest:
+                    Intent intent = new Intent(getAppContext(), SmHomeActivity.class);
+                    startActivity(intent);
                     break;
                 default:
                     break;
