@@ -48,21 +48,45 @@ public class ReplenishPlanAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_list_replenishplan, parent, false);
         }
+
         final ReplenishPlanBean item = items.get(position);
 
         TextView tv_PlanCumCode = ViewHolder.get(convertView, R.id.tv_PlanCumCode);
-        TextView tv_Status= ViewHolder.get(convertView, R.id.tv_Status);
-        TextView tv_RsherName= ViewHolder.get(convertView, R.id.tv_RsherName);
-        TextView tv_RshTime= ViewHolder.get(convertView, R.id.tv_RshTime);
-        TextView tv_MakerName= ViewHolder.get(convertView, R.id.tv_MakerName);
-        TextView tv_MakeTime= ViewHolder.get(convertView, R.id.tv_MakeTime);
+        TextView tv_Status = ViewHolder.get(convertView, R.id.tv_Status);
+        TextView tv_RsherName = ViewHolder.get(convertView, R.id.tv_RsherName);
+        TextView tv_RshTime = ViewHolder.get(convertView, R.id.tv_RshTime);
+        TextView tv_MakerName = ViewHolder.get(convertView, R.id.tv_MakerName);
+        TextView tv_MakeTime = ViewHolder.get(convertView, R.id.tv_MakeTime);
+        TextView btn_Handle = ViewHolder.get(convertView, R.id.btn_Handle);
         tv_PlanCumCode.setText(item.getPlanCumCode());
         tv_Status.setText(item.getStatus().getText());
         tv_RsherName.setText(item.getRsherName());
         tv_RshTime.setText(item.getRshTime());
         tv_MakerName.setText(item.getMakerName());
         tv_MakeTime.setText(item.getMakeTime());
+
+        btn_Handle.setTag(item);
+        btn_Handle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReplenishPlanBean l_Bean=(ReplenishPlanBean)view.getTag();
+                if (onClickListener != null) {
+                    onClickListener.onClick(l_Bean);
+                }
+            }
+        });
+
         return convertView;
     }
 
+
+    private OnClickListener onClickListener;
+
+    public void  setOnClickListener(OnClickListener l){
+        this.onClickListener=l;
+    }
+
+    public  interface OnClickListener{
+        void onClick(ReplenishPlanBean v);
+    }
 }

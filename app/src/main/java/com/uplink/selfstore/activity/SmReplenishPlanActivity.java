@@ -33,6 +33,7 @@ import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceSlotsResultBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.ReplenishGetPlansResultBean;
+import com.uplink.selfstore.model.api.ReplenishPlanBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
@@ -113,6 +114,15 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
                     ReplenishGetPlansResultBean d = rt.getData();
 
                     ReplenishPlanAdapter adapter=new ReplenishPlanAdapter(SmReplenishPlanActivity.this,d.getItems());
+
+                    adapter.setOnClickListener(new ReplenishPlanAdapter.OnClickListener() {
+                        @Override
+                        public void onClick(ReplenishPlanBean v) {
+                            Intent intent = new Intent(getAppContext(), SmReplenishPlanDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
                     lv_Plans.setAdapter(adapter);
 
                     if(d.getTotal()==0){
@@ -145,10 +155,6 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
             switch (v.getId()) {
                 case R.id.nav_back:
                     finish();
-                    break;
-                case R.id.btn_AutoTest:
-                    Intent intent = new Intent(getAppContext(), SmReplenishPlanDetailActivity.class);
-                    startActivity(intent);
                     break;
                 default:
                     break;
