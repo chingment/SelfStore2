@@ -47,5 +47,6 @@ public class Config {
         public static final String own_DeleteFingerVeinData= BuildConfig.ENVIRONMENT + "/api/Own/DeleteFingerVeinData";
         public static final String uploadfile= BuildConfig.ENVIRONMENT + "/api/device/upload";
         public static final String imservice_Seats= BuildConfig.ENVIRONMENT + "/api/ImService/Seats";
+        public static final String replenish_GetPlans= BuildConfig.ENVIRONMENT + "/api/Replenish/GetPlans";
     }
 }
