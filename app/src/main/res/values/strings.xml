@@ -104,6 +104,8 @@
     <string name="dlg_slotedit_tvtx_skusumqty">实际数量</string>
     <string name="dlg_slotedit_tvtx_skumaxqty">最大数量</string>
     <string name="dlg_slotedit_tvtx_skuwrnqty">报警数量</string>
+    <string name="tvtx_planrshqty">计划补充</string>
+    <string name="tvtx_realrshqty">实际补充</string>
     <string name="btntx_save">保存</string>
     <string name="btntx_savedata">保存数据</string>
     <string name="btntx_fill">置满</string>

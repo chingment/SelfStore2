@@ -37,9 +37,9 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogReplenish;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
-import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
@@ -64,7 +64,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout tl_Slots;
-    private CustomSlotEditDialog dialog_SlotEdit;
+    private CustomDialogReplenish dialog_Replenish;
     private ListView lv_Cabinets;
     private CabinetBean cur_Cabinet =null;//当前机柜信息
     private static int cur_Cabinet_Position = 0;
@@ -308,11 +308,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomSlotEditDialog(SmReplenishPlanDetailActivity.this);
-                            dialog_SlotEdit.setCabinet(cur_Cabinet);
-                            dialog_SlotEdit.setSlot(l_Slot);
-                            dialog_SlotEdit.clearSearch();
-                            dialog_SlotEdit.show();
+                            dialog_Replenish=new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+                            dialog_Replenish.setData(cur_Cabinet,l_Slot);
+                            dialog_Replenish.show();
                         }
                     });
 
@@ -437,11 +435,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomSlotEditDialog(SmReplenishPlanDetailActivity.this);
-                            dialog_SlotEdit.setCabinet(cur_Cabinet);
-                            dialog_SlotEdit.setSlot(l_Slot);
-                            dialog_SlotEdit.clearSearch();
-                            dialog_SlotEdit.show();
+                            dialog_Replenish=new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+                            dialog_Replenish.setData(cur_Cabinet,l_Slot);
+                            dialog_Replenish.show();
                         }
                     });
                 }
@@ -474,9 +470,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         super.onDestroy();
 
 
-        if(dialog_SlotEdit!=null) {
-            dialog_SlotEdit.cancel();
-            dialog_SlotEdit.dismiss();
+        if(dialog_Replenish!=null) {
+            dialog_Replenish.cancel();
+            dialog_Replenish.dismiss();
         }
 
         if(tl_Slots!=null) {

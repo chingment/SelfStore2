@@ -20,13 +20,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_20"
-            android:gravity="right|center_vertical"
+            android:gravity="end|center_vertical"
             android:orientation="horizontal"
             >
-
             <LinearLayout
                 android:layout_width="@dimen/size_30"
-                android:id="@+id/btn_close"
+                android:id="@+id/dlg_Close"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center_horizontal|center_vertical"
@@ -64,7 +63,6 @@
                     android:gravity="center"
                     >
 
-
                     <LinearLayout
                         android:id="@+id/tmp_wapper"
                         android:layout_width="match_parent"
@@ -75,7 +73,7 @@
                         android:layout_centerHorizontal="true">
                <ImageView
 
-                android:id="@+id/img_SkuImg"
+                android:id="@+id/iv_SkuImg"
                 android:layout_width="@dimen/size_58"
                 android:layout_height="@dimen/size_58"
                 android:src="@drawable/default_image"
@@ -85,7 +83,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/txt_SlotName"
+                        android:id="@+id/tv_SlotName"
                         android:layout_width="@dimen/size_30"
                         android:layout_height="@dimen/size_30"
                         android:layout_alignParentRight="true"
@@ -108,15 +106,7 @@
                     android:paddingTop="@dimen/size_3">
 
                     <TextView
-                        android:id="@+id/txt_SkuId"
-                        android:layout_height="0dp"
-                        android:layout_width="0dp"
-                        android:visibility="gone"
-                        android:text=""/>
-
-
-                    <TextView
-                        android:id="@+id/txt_SkuName"
+                        android:id="@+id/tv_SkuName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -135,7 +125,7 @@
                     android:paddingBottom="@dimen/size_3"
                     android:paddingTop="@dimen/size_3">
                     <TextView
-                        android:id="@+id/txt_SkuCumCode"
+                        android:id="@+id/tv_SkuCumCode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -150,7 +140,7 @@
                     android:paddingBottom="@dimen/size_3"
                     android:paddingTop="@dimen/size_3">
                     <TextView
-                        android:id="@+id/txt_SkuSpecDes"
+                        android:id="@+id/tv_SkuSpecDes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -167,46 +157,6 @@
                 android:paddingRight="@dimen/size_10"
                 >
                 <LinearLayout
-                    android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_20"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingBottom="@dimen/size_3"
-                        android:paddingTop="@dimen/size_3">
-
-                    <TextView
-                        android:id="@+id/txt_Version"
-                        android:layout_height="0dp"
-                        android:layout_width="0dp"
-                        android:visibility="gone"
-                        android:text=""/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dlg_slotedit_tvtx_slotid"
-                            android:textColor="@color/field_name"
-                            android:textSize="@dimen/sp_10" />
-
-                        <TextView
-                            android:id="@+id/txt_SlotId"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:textColor="@color/field_value"
-                            android:textSize="@dimen/sp_10" />
-
-                        <TextView
-                            android:id="@+id/txt_StockId"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:gravity="right"
-                            android:textColor="@color/field_value"
-                            android:textSize="@dimen/sp_10" />
-                    </LinearLayout>
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/size_24"
                     android:paddingBottom="@dimen/size_2"
@@ -221,13 +171,26 @@
                         android:textColor="@color/field_name"
                         android:textSize="@dimen/sp_10"  />
 
-                    <TextView
-                        android:id="@+id/txt_SellQty"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:textColor="@color/field_value"
-                        android:textSize="@dimen/sp_10"  />
+                        android:layout_weight="1"
+                        android:baselineAligned="false"
+                        android:layout_gravity="end|center_vertical"
+                        android:gravity="end|center_vertical"
+                        >
+                        <TextView
+                            android:id="@+id/tv_SellQty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:width="@dimen/size_12"
+                            android:text="0"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="@dimen/sp_10" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                     <LinearLayout
@@ -245,13 +208,26 @@
                             android:textColor="@color/field_name"
                             android:textSize="@dimen/sp_10"  />
 
-                        <TextView
-                            android:id="@+id/txt_LockQty"
-                            android:layout_width="match_parent"
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
-                            android:textColor="@color/field_value"
-                            android:textSize="@dimen/sp_10"  />
+                            android:layout_weight="1"
+                            android:baselineAligned="false"
+                            android:layout_gravity="end|center_vertical"
+                            android:gravity="end|center_vertical"
+                            >
+                            <TextView
+                                android:id="@+id/tv_LockQty"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:width="@dimen/size_12"
+                                android:text="0"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="@dimen/sp_10" />
+                        </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -274,13 +250,12 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:baselineAligned="false"
-                            android:layout_gravity="right|center_vertical"
-                            android:gravity="right|center_vertical"
+                            android:layout_gravity="end|center_vertical"
+                            android:gravity="end|center_vertical"
                             >
 
-
                             <ImageView
-                                android:id="@+id/btn_decrease"
+                                android:id="@+id/btn_DecSumQty"
                                 android:layout_width="@dimen/size_18"
                                 android:layout_height="@dimen/size_18"
                                 android:background="@null"
@@ -289,7 +264,7 @@
                                 android:src="@drawable/tmp_btn_cart_decrease" />
 
                             <TextView
-                                android:id="@+id/txt_SumQty"
+                                android:id="@+id/tv_SumQty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -297,10 +272,10 @@
                                 android:gravity="center"
                                 android:text="1"
                                 android:textColor="#333333"
-                                android:textSize="@dimen/size_10" />
+                                android:textSize="@dimen/sp_10" />
 
                             <ImageView
-                                android:id="@+id/btn_increase"
+                                android:id="@+id/btn_IncSumQty"
                                 android:layout_width="@dimen/size_18"
                                 android:layout_height="@dimen/size_18"
                                 android:background="@null"
@@ -333,13 +308,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:baselineAligned="false"
-                        android:layout_gravity="right|center_vertical"
-                        android:gravity="right|center_vertical"
+                        android:layout_gravity="end|center_vertical"
+                        android:gravity="end|center_vertical"
                         >
 
 
                         <ImageView
-                            android:id="@+id/btn_decreasebymax"
+                            android:id="@+id/btn_DecMaxQty"
                             android:layout_width="@dimen/size_18"
                             android:layout_height="@dimen/size_18"
                             android:background="@null"
@@ -348,7 +323,7 @@
                             android:src="@drawable/tmp_btn_cart_decrease" />
 
                         <TextView
-                            android:id="@+id/txt_MaxQty"
+                            android:id="@+id/tv_MaxQty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -359,7 +334,7 @@
                             android:textSize="@dimen/size_10" />
 
                         <ImageView
-                            android:id="@+id/btn_increasebymax"
+                            android:id="@+id/btn_IncMaxQty"
                             android:layout_width="@dimen/size_18"
                             android:layout_height="@dimen/size_18"
                             android:background="@null"
@@ -399,7 +374,7 @@
 
 
                         <ImageView
-                            android:id="@+id/btn_decreasebywrn"
+                            android:id="@+id/btn_DecWrnQty"
                             android:layout_width="@dimen/size_18"
                             android:layout_height="@dimen/size_18"
                             android:background="@null"
@@ -408,7 +383,7 @@
                             android:src="@drawable/tmp_btn_cart_decrease" />
 
                         <TextView
-                            android:id="@+id/txt_WrnQty"
+                            android:id="@+id/tv_WrnQty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -419,7 +394,7 @@
                             android:textSize="@dimen/size_10" />
 
                         <ImageView
-                            android:id="@+id/btn_increasebywrn"
+                            android:id="@+id/btn_IncWrnQty"
                             android:layout_width="@dimen/size_18"
                             android:layout_height="@dimen/size_18"
                             android:background="@null"
@@ -441,19 +416,19 @@
 
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_32"
-            android:gravity="center_vertical|right"
+            android:gravity="center_vertical|end"
             android:paddingLeft="@dimen/size_10"
             android:paddingRight="@dimen/size_10"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_weight="1"
-                android:gravity="center_vertical|left"
+                android:gravity="center_vertical|start"
                 android:layout_width="@dimen/size_100"
                 android:layout_height="@dimen/size_32"
                 android:orientation="horizontal">
                 <Button
-                    android:id="@+id/btn_pick_test"
+                    android:id="@+id/btn_PickTest"
                     android:layout_width="@dimen/size_50"
                     android:layout_height="@dimen/size_20"
                     android:background="@drawable/widget_common_btn"
@@ -464,14 +439,14 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_weight="1"
-                android:gravity="center_vertical|right"
+                android:gravity="center_vertical|end"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_32"
                 android:orientation="horizontal">
 
             <Button
                 android:layout_marginLeft="@dimen/size_10"
-                android:id="@+id/btn_delete"
+                android:id="@+id/btn_DeleteSlot"
                 android:layout_width="@dimen/size_50"
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_blue"
@@ -482,7 +457,7 @@
 
             <Button
                 android:layout_marginLeft="@dimen/size_10"
-                android:id="@+id/btn_fill"
+                android:id="@+id/btn_FillSlot"
                 android:layout_width="@dimen/size_50"
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_green"
@@ -493,7 +468,7 @@
 
             <Button
                 android:layout_marginLeft="@dimen/size_10"
-                android:id="@+id/btn_save"
+                android:id="@+id/btn_SaveSlot"
                 android:layout_width="@dimen/size_50"
                 android:layout_height="@dimen/size_20"
                 android:background="@drawable/widget_btn_orange"
@@ -503,9 +478,6 @@
                 android:textSize="@dimen/sp_10"/>
 
             </LinearLayout>
-
-
-
 
         </LinearLayout>
 
@@ -517,9 +489,8 @@
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
 
-
             <TextView
-                android:id="@+id/txt_searchKey"
+                android:id="@+id/tv_SearchSkuKey"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:layout_height="@dimen/size_32"
@@ -535,7 +506,7 @@
 
 
             <ImageButton
-                android:id="@+id/btn_keydelete"
+                android:id="@+id/btn_DeleteSearchSkuKey"
                 android:layout_width="@dimen/size_42"
                 android:layout_height="@dimen/size_26"
                 android:background="@null"
@@ -548,9 +519,7 @@
                 />
 
 
-
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/table_num"
@@ -855,7 +824,7 @@
 
 
             <ListView
-                android:id="@+id/list_search_skus"
+                android:id="@+id/lv_SearchSkus"
                 android:layout_width="@dimen/size_100"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -868,6 +837,42 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_20"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/tv_SkuId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/field_value"
+                android:textSize="@dimen/sp_10"/>
+
+
+            <TextView
+                android:id="@+id/tv_Version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/field_value"
+                android:textSize="@dimen/sp_10" />
+
+            <TextView
+                android:id="@+id/tv_SlotId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/field_value"
+                android:textSize="@dimen/sp_10" />
+
+            <TextView
+                android:id="@+id/tv_StockId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/field_value"
+                android:textSize="@dimen/sp_10" />
+        </LinearLayout>
 
 
 

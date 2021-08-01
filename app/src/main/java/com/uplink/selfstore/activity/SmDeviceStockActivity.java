@@ -39,7 +39,7 @@ import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
-import com.uplink.selfstore.ui.dialog.CustomSlotEditDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogSlotEdit;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.InterUtil;
@@ -63,7 +63,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout tl_Slots;
-    private CustomSlotEditDialog dialog_SlotEdit;
+    private CustomDialogSlotEdit dialog_SlotEdit;
     private CustomPickupAutoTestDialog dialog_PickupAutoTest;
     private ListView lv_Cabinets;
     private CabinetBean cur_Cabinet =null;//当前机柜信息
@@ -446,9 +446,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomSlotEditDialog(SmDeviceStockActivity.this);
-                            dialog_SlotEdit.setCabinet(cur_Cabinet);
-                            dialog_SlotEdit.setSlot(l_Slot);
+                            dialog_SlotEdit=new CustomDialogSlotEdit(SmDeviceStockActivity.this);
+                            dialog_SlotEdit.setData(cur_Cabinet,l_Slot);
                             dialog_SlotEdit.clearSearch();
                             dialog_SlotEdit.show();
                         }
@@ -575,9 +574,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomSlotEditDialog(SmDeviceStockActivity.this);
-                            dialog_SlotEdit.setCabinet(cur_Cabinet);
-                            dialog_SlotEdit.setSlot(l_Slot);
+                            dialog_SlotEdit=new CustomDialogSlotEdit(SmDeviceStockActivity.this);
+                            dialog_SlotEdit.setData(cur_Cabinet,l_Slot);
                             dialog_SlotEdit.clearSearch();
                             dialog_SlotEdit.show();
                         }
