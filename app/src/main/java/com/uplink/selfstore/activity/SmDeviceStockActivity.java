@@ -73,7 +73,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
     private Button btn_AutoTest;
-    private Button btn_RshPlan;
     private TextView tv_CabinetName;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;

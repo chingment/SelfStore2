@@ -174,7 +174,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         final List<NineGridItemBean> gridviewitems = new ArrayList<NineGridItemBean>();
 
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_stockset), NineGridItemType.Function, "fun.devicestock",R.drawable.ic_sm_stock));
-        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_rshplan), NineGridItemType.Function, "fun.replenishplan",R.drawable.ic_sm_stock));
+        gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_replenishplan), NineGridItemType.Function, "fun.replenishplan",R.drawable.ic_sm_replenishplan));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_deviceset), NineGridItemType.Function, "fun.deviceinfo", R.drawable.ic_sm_device));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_runexhandle), NineGridItemType.Function, "fun.runexhandle", R.drawable.ic_sm_runexhandle));
         gridviewitems.add(new NineGridItemBean(getAppContext().getString(R.string.aty_smhome_ngtitle_userinfo), NineGridItemType.Function, "fun.userinfo", R.drawable.ic_sm_userinfo));
