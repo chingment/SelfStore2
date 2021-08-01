@@ -388,7 +388,6 @@ public class CustomSlotEditDialog extends Dialog {
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 _this.dismiss();
             }
         });
@@ -414,7 +413,6 @@ public class CustomSlotEditDialog extends Dialog {
                 String skuId=String.valueOf(txt_SkuId.getText());
 
                 pickupEventNotify(skuId,slotId,3011,"发起取货",null);
-
 
                 switch (cabinet.getModelNo()){
                     case "dsx01":
@@ -507,7 +505,6 @@ public class CustomSlotEditDialog extends Dialog {
 
                 if(!StringUtil.isEmptyNotNull(skuId)) {
                     if (maxQuantity < sumQuantity) {
-
                         mContext.showToast("保存失败，最大数量不能小于实际数据");
                         return;
                     }
