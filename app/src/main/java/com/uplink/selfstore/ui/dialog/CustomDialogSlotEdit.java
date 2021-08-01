@@ -352,7 +352,6 @@ public class CustomDialogSlotEdit extends Dialog {
         tv_SearchSkuKey = ViewHolder.get(mLayoutRes, R.id.tv_SearchSkuKey);
         lv_SearchSkus = ViewHolder.get(mLayoutRes, R.id.lv_SearchSkus);
         btn_DeleteSearchSkuKey = ViewHolder.get(mLayoutRes, R.id.btn_DeleteSearchSkuKey);
-
         tv_Version=ViewHolder.get(mLayoutRes, R.id.tv_Version);
         iv_SkuImg = ViewHolder.get(mLayoutRes, R.id.iv_SkuImg);
         tv_SlotId = ViewHolder.get(mLayoutRes, R.id.tv_SlotId);
@@ -367,7 +366,6 @@ public class CustomDialogSlotEdit extends Dialog {
         tv_SumQty = ViewHolder.get(mLayoutRes, R.id.tv_SumQty);
         tv_MaxQty = ViewHolder.get(mLayoutRes, R.id.tv_MaxQty);
         tv_WrnQty= ViewHolder.get(mLayoutRes, R.id.tv_WrnQty);
-
         btn_PickTest = ViewHolder.get(mLayoutRes, R.id.btn_PickTest);
         btn_DeleteSlot = ViewHolder.get(mLayoutRes, R.id.btn_DeleteSlot);
         btn_FillSlot = ViewHolder.get(mLayoutRes, R.id.btn_FillSlot);

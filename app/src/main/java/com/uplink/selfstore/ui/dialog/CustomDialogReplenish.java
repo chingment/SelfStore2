@@ -148,7 +148,18 @@ public class CustomDialogReplenish  extends Dialog {
             @Override
             public void onClick(View v) {
 
+                int realRshQty = Integer.valueOf(tv_RealRshQty.getText() + "");
+                int sellQty = Integer.valueOf(tv_SellQty.getText() + "");
+                int sumQty = Integer.valueOf(tv_SumQty.getText() + "");
+                if (realRshQty > 0) {
+                    realRshQty -=1;
+                    sellQty -= 1;
+                    sumQty -= 1;
+                }
 
+                tv_RealRshQty.setText(String.valueOf(realRshQty));
+                tv_SellQty.setText(String.valueOf(sellQty));
+                tv_SumQty.setText(String.valueOf(sumQty));
             }
         });
 
@@ -156,6 +167,17 @@ public class CustomDialogReplenish  extends Dialog {
             @Override
             public void onClick(View v) {
 
+                int realRshQty = Integer.valueOf(tv_RealRshQty.getText() + "");
+                int sellQty = Integer.valueOf(tv_SellQty.getText() + "");
+                int sumQty = Integer.valueOf(tv_SumQty.getText() + "");
+
+                realRshQty += 1;
+                sellQty += 1;
+                sumQty += 1;
+
+                tv_RealRshQty.setText(String.valueOf(realRshQty));
+                tv_SellQty.setText(String.valueOf(sellQty));
+                tv_SumQty.setText(String.valueOf(sumQty));
             }
         });
 
