@@ -79,6 +79,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
     private CustomConfirmDialog dialog_Confirm;
+
     //private ScannerCtrl scannerCtrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         setContentView(R.layout.activity_smdevicestock);
 
         setNavTtile(this.getResources().getString(R.string.aty_smdevicestock_navtitle));
+
         setNavGoBackBtnVisible(true);
 
         setScanCtrlHandler(new Handler(new Handler.Callback() {
@@ -109,8 +111,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             }
         }));
 
-        HashMap<String, CabinetBean> l_Cabinets=getDevice().getCabinets();
-        if(l_Cabinets!=null) {
+        HashMap<String, CabinetBean> l_Cabinets = getDevice().getCabinets();
+        if (l_Cabinets != null) {
 
             cabinets = new ArrayList<>(l_Cabinets.values());
 

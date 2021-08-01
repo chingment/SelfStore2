@@ -41,20 +41,18 @@
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-
-
-<!--        <provider-->
-<!--            android:name="android.support.v4.content.FileProvider"-->
-<!--            android:authorities="com.uplink.selfstore.fileprovider"-->
-<!--            android:grantUriPermissions="true"-->
-<!--            android:exported="false">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/file_paths" />-->
-<!--        </provider>-->
-
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.SmReplenishPlanActivity"></activity>
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="com.uplink.selfstore.fileprovider" -->
+        <!-- android:grantUriPermissions="true" -->
+        <!-- android:exported="false"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/file_paths" /> -->
+        <!-- </provider> -->
         <activity android:name=".activity.InitDataActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,7 +71,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask" /> <!-- Rich push 核心功能 since 2.0.6 -->
-
         <activity android:name=".activity.ProductKindActivity" />
         <activity
             android:name=".activity.ProductDetailsActivity"
@@ -87,17 +84,17 @@
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </receiver>
         <receiver android:name=".broadcast.MainReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-
-        <!-- <receiver android:name=".broadcast.USBBroadcastReceiver"> -->
+        </receiver> <!-- <receiver android:name=".broadcast.USBBroadcastReceiver"> -->
         <!-- <intent-filter android:priority="200"> -->
         <!-- <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/> -->
         <!-- </intent-filter> -->
@@ -122,16 +119,16 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
-        <service android:name=".service.MqttService"
+        <service
+            android:name=".service.MqttService"
             android:enabled="true"
-            android:exported="true"
-            />
-        <service android:name=".service.AiotMqttService"
+            android:exported="true" />
+        <service
+            android:name=".service.AiotMqttService"
             android:enabled="true"
-            android:exported="true"
-            />
-        <receiver android:name=".broadcast.AlarmReceiver" />
+            android:exported="true" />
 
+        <receiver android:name=".broadcast.AlarmReceiver" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -141,9 +138,8 @@
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />
         <service
-            android:name="com.uplink.selfstore.service.UsbService"
-            android:enabled="true">
-        </service>
+            android:name=".service.UsbService"
+            android:enabled="true"></service>
         <service
             android:name="com.hyphenate.chat.EMJobService"
             android:exported="true"

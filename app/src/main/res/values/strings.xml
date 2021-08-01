@@ -45,6 +45,7 @@
     <string name="aty_smdeviceinfo_tvtx_currencysymbol">货币符号</string>
     <string name="aty_smdevicestock_navtitle">机器库存</string>
     <string name="aty_smdevicestock_tvtx_cabinetname">当前机柜</string>
+    <string name="aty_smreplenishplan_navtitle">补货计划</string>
     <string name="aty_cart_navtitle">购物车</string>
     <string name="aty_cart_btntx_goshopping">去逛一逛商品</string>
     <string name="aty_cart_btntx_gopay">去支付</string>
@@ -63,6 +64,7 @@
     <string name="aty_initdata_tvtx_comname">COM.N</string>
     <string name="aty_smhome_navtitle">设置中心</string>
     <string name="aty_smhome_ngtitle_stockset">库存设置</string>
+    <string name="aty_smhome_ngtitle_rshplan">补货计划</string>
     <string name="aty_smhome_ngtitle_deviceset">设备信息</string>
     <string name="aty_smhome_ngtitle_shownav">显示导航</string>
     <string name="aty_smhome_ngtitle_runexhandle">异常处理</string>

@@ -28,7 +28,7 @@ android {
 
     flavorDimensions "mode"
     productFlavors {
-        dev{
+        dev {
             //开发版本
             buildConfigField "Boolean", "ISAPPDEBUG", "true"
             buildConfigField "String", "COMNAME", "\"dev\""
@@ -36,7 +36,7 @@ android {
             buildConfigField "String", "APPKEY", "\"test\""
             buildConfigField "String", "APPSECRET", "\"6ZB97cdVz211O08EKZ6yriAYrHXFBowC\""
         }
-        taian{
+        taian {
             //泰安版本
             buildConfigField "Boolean", "ISAPPDEBUG", "true"
             buildConfigField "String", "COMNAME", "\"taian\""
@@ -85,7 +85,7 @@ android {
 
     buildTypes {
         debug {
-             signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
 //            buildConfigField "Boolean", "ISAPPDEBUG", "true"
 //            buildConfigField "String", "ENVIRONMENT", "\"http://automat.taianjk.com\""
 //            buildConfigField "String", "APPKEY", "\"test\""
@@ -104,7 +104,7 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.all {
 
-                    def fileName='fanju.apk'
+                    def fileName = 'fanju.apk'
 
                     if (variant.buildType.name.equals('release')) {//如果是release包
                         fileName = "fanju_${productFlavors[0].name}_release_v${defaultConfig.versionName}_t${buildTime()}.apk"
@@ -123,7 +123,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    packagingOptions{
+    packagingOptions {
         doNotStrip '*/mips/*.so'
         doNotStrip '*/mips64/*.so'
     }
@@ -131,6 +131,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -145,8 +146,8 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.2'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'com.github.felHR85:UsbSerial:6.1.0'
-    compile 'com.androidwind:tinylog:1.0.1'
-    compile 'com.airbnb.android:lottie:2.5.4'
+    implementation 'com.androidwind:tinylog:1.0.1'
+    implementation 'com.airbnb.android:lottie:2.5.4'
 //    implementation 'org.greenrobot:greendao:3.2.2'
     compile project(':tinytask')
     implementation files('libs/SYMVDIO.jar')
