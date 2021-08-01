@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CabinetAdapter;
+import com.uplink.selfstore.activity.adapter.ReplenishPlanAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
@@ -65,7 +66,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
     private static final String TAG = "SmReplenishPlanActivity";
 
     private MyListView lv_Plans;
-
+    private LinearLayout ll_Plans_Empty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +82,8 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
     }
 
     private void initView() {
-        lv_Plans= (MyListView) findViewById(R.id.lv_Plans);
+        lv_Plans = (MyListView) findViewById(R.id.lv_Plans);
+        ll_Plans_Empty = (LinearLayout) findViewById(R.id.ll_Plans_Empty);
     }
 
     private void initEvent() {
@@ -109,72 +111,16 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
                 if (rt.getResult() == Result.SUCCESS) {
 
                     ReplenishGetPlansResultBean d = rt.getData();
-//
-//                    ImSeatAdapter imSeatAdapter = new ImSeatAdapter(CartActivity.this, d.getSeats());
-//                    imSeatAdapter.setOnLinster(new ImSeatAdapter.OnItemListener() {
-//                        @Override
-//                        public void call(ImSeatBean v) {
-//
-//                            ImBean im= getDevice().getIm();
-//
-//                            EMClient.getInstance().login(im.getUserName(), im.getPassword(), new EMCallBack() {
-//
-//                                @Override
-//                                public void onSuccess() {
-//                                    Log.d(TAG, "EMClient->login: onSuccess");
-//
-//                                    currentSvcConsulterId=v.getUserId();
-//
-//                                    JSONObject jsonExMessage = new JSONObject();
-//
-//                                    try {
-//
-//                                        jsonExMessage.put("type", "buyinfo");
-//
-//                                        JSONObject jsonExMessageContent = new JSONObject();
-//                                        jsonExMessageContent.put("deviceId", getDevice().getDeviceId());
-//                                        jsonExMessageContent.put("storeName", getDevice().getStoreName());
-//                                        JSONArray json_Skus = new JSONArray();
-//                                        for (String key : cartSkus.keySet()) {
-//                                            CartSkuBean bean = cartSkus.get(key);
-//                                            JSONObject json_Sku = new JSONObject();
-//                                            json_Sku.put("skuId", bean.getSkuId());
-//                                            json_Sku.put("name", bean.getName());
-//                                            json_Sku.put("mainImgUrl", bean.getMainImgUrl());
-//                                            json_Sku.put("quantity", bean.getQuantity());
-//                                            json_Skus.put(json_Sku);
-//                                        }
-//                                        jsonExMessageContent.put("skus", json_Skus);
-//                                        jsonExMessage.put("content", jsonExMessageContent);
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//
-//                                    LogUtil.i(TAG, "jsonExMessage:" + jsonExMessage.toString());
-//                                    Intent intent = new Intent(CartActivity.this, EmVideoCallActivity.class);
-//                                    intent.putExtra("username", v.getImUserName());
-//                                    intent.putExtra("isComingCall", false);
-//                                    intent.putExtra("ex_nickName", v.getNickName());
-//                                    intent.putExtra("ex_message", jsonExMessage.toString());
-//
-//                                    startActivityForResult(intent, 0x002);
-//
-//                                }
-//
-//                                @Override
-//                                public void onProgress(int progress, String status) {
-//                                    Log.d(TAG, "EMClient->login: onProgress");
-//                                }
-//
-//                                @Override
-//                                public void onError(final int code, final String message) {
-//                                    Log.d(TAG, "EMClient->login: onError: " + code);
-//                                }
-//                            });
-//                        }
-//                    });
-//
-//                    v.setAdapter(imSeatAdapter);
+
+                    ReplenishPlanAdapter adapter=new ReplenishPlanAdapter(SmReplenishPlanActivity.this,d.getItems());
+                    lv_Plans.setAdapter(adapter);
+
+                    if(d.getTotal()==0){
+                        ll_Plans_Empty.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        ll_Plans_Empty.setVisibility(View.GONE);
+                    }
 
                 } else {
                     showToast(rt.getMessage());
