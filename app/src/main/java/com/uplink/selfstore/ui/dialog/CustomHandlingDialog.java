@@ -22,7 +22,7 @@ public class CustomHandlingDialog extends Dialog {
     private TextView txt_tips;//等待提示
     private TextView txt_seconds;//等待秒数
     private LinearLayout btn_close;
-    private CustomConfirmDialog dialog_ConfirmClose;
+    private CustomDialogConfirm dialog_ConfirmClose;
     private CountDownTimer countDownTimer;
 
     private IHanldeListener mHanldeListener;
@@ -40,20 +40,17 @@ public class CustomHandlingDialog extends Dialog {
         txt_tips =  ViewHolder.get(mLayoutRes,R.id.txt_tips);
         txt_tips.setText(tips);
 
-        dialog_ConfirmClose = new CustomConfirmDialog(context,"确定要退出等候？" , true);
-        dialog_ConfirmClose.getTipsImage().setVisibility(View.GONE);
-        dialog_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_ConfirmClose = new CustomDialogConfirm(context,"确定要退出等候？" , true);
+        dialog_ConfirmClose.setTipsImageVisibility(View.GONE);
+        dialog_ConfirmClose.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSure() {
                 dialog_ConfirmClose.hide();
                 mThis.hide();
                 hanldeListener.onCancle();
             }
-        });
-
-        dialog_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_ConfirmClose.hide();
             }
         });

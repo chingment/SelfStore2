@@ -27,7 +27,7 @@ import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -51,7 +51,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private View btn_PickupCompeled;
     private View btn_ContactKefu;
 
-    private CustomConfirmDialog dialog_PickupCompelte;
+    private CustomDialogConfirm dialog_PickupCompelte;
 
     private PickupSkuBean curPickupSku=null;
     private ImageView curPickupSku_Img_Mainimg;
@@ -409,11 +409,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         list_Skus.setPressed(false);
         list_Skus.setEnabled(false);
 
-        dialog_PickupCompelte = new CustomConfirmDialog(OrderDetailsActivity.this, getAppContext().getString(R.string.aty_orderdetails_confirmtips_pickup), true);
-        dialog_PickupCompelte.getTipsImage().setImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this, (R.drawable.dialog_icon_warn)));
-        dialog_PickupCompelte.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_PickupCompelte = new CustomDialogConfirm(OrderDetailsActivity.this, getAppContext().getString(R.string.aty_orderdetails_confirmtips_pickup), true);
+        dialog_PickupCompelte.setTipsImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_PickupCompelte.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSure() {
 
                 if (dialog_PickupCompelte != null) {
                     dialog_PickupCompelte.hide();
@@ -423,11 +423,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 startActivity(intent);
                 finish();
             }
-        });
 
-        dialog_PickupCompelte.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_PickupCompelte.hide();
             }
         });

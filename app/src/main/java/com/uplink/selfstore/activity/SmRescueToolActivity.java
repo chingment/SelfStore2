@@ -12,7 +12,7 @@ import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class SmRescueToolActivity extends SwipeBackActivity implements View.OnClickListener {
 
-    private CustomConfirmDialog dialog_confirm;
+    private CustomDialogConfirm dialog_confirm;
     private Button btn_ShowNav;
     private Button btn_AppExit;
     @Override
@@ -37,11 +37,11 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
 
 
-        dialog_confirm = new CustomConfirmDialog(SmRescueToolActivity.this, "", true);
-        dialog_confirm.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_confirm = new CustomDialogConfirm(SmRescueToolActivity.this, "", true);
+        dialog_confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String tag = v.getTag().toString();
+            public void onSure() {
+                String tag = dialog_confirm.getTag().toString();
                 LogUtil.e("tag:" + tag);
                 switch (tag) {
                     case "fun.closeapp":
@@ -60,11 +60,9 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                 }
                 dialog_confirm.hide();
             }
-        });
 
-        dialog_confirm.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_confirm.hide();
             }
         });
@@ -109,21 +107,21 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                                     sendBroadcast(intent);
                                     break;
                                 case "fun.closeapp":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.closeapp");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
+                                    dialog_confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_confirm.setTag("fun.closeapp");
+                                    dialog_confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
                                     dialog_confirm.show();
                                     break;
                                 case "fun.rootsys":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.rootsys");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
+                                    dialog_confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_confirm.setTag("fun.rootsys");
+                                    dialog_confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
                                     dialog_confirm.show();
                                     break;
                                 case "fun.exitmanager":
-                                    dialog_confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_confirm.getBtnSure().setTag("fun.exitmanager");
-                                    dialog_confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
+                                    dialog_confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_confirm.setTag("fun.exitmanager");
+                                    dialog_confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
                                     dialog_confirm.show();
                                     break;
                             }

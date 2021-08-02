@@ -40,7 +40,7 @@ import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
 import com.uplink.selfstore.ui.my.MyListView;

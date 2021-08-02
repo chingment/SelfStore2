@@ -36,7 +36,7 @@ import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
 import com.uplink.selfstore.ui.dialog.CustomDialogSlotEdit;
@@ -77,7 +77,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     private CustomLoadingDialog dialog_Running;
-    private CustomConfirmDialog dialog_Confirm;
+    private CustomDialogConfirm dialog_Confirm;
 
     //private ScannerCtrl scannerCtrl;
     @Override
@@ -92,7 +92,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         setScanCtrlHandler(new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-
                 switch (msg.what) {
                     case UsbService.MESSAGE_FROM_SERIAL_PORT:
                         String data = (String) msg.obj;
@@ -105,7 +104,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                         }
                         break;
                 }
-
                 return true;
             }
         }));
@@ -124,7 +122,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         }
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
-        cabinetCtrlByDS.connect();
         cabinetCtrlByDS.setScanSlotHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
@@ -185,15 +182,10 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     }
                 })
         );
+        cabinetCtrlByDS.connect();
 
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
         cabinetCtrlByZS.connect();
-
-        //if (getDevice().getScanner().getUse()) {
-        //  scannerCtrl = ScannerCtrl.getInstance();
-        //scannerCtrl.connect();
-        //}
-
 
         initView();
         initEvent();
@@ -210,23 +202,22 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
         dialog_Running = new CustomLoadingDialog(SmDeviceStockActivity.this);
         dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
-        dialog_Confirm = new CustomConfirmDialog(SmDeviceStockActivity.this, "", true);
-        dialog_Confirm.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(SmDeviceStockActivity.this, "", true);
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String tag = v.getTag().toString();
-                LogUtil.e("tag:" + tag);
+            public void onSure() {
+                String tag = dialog_Confirm.getTag().toString();
                 switch (tag) {
                     case "fun.scanslots":
                         cabinetCtrlByDS.scanSlot();
                         break;
+                    default:
+                        break;
                 }
                 dialog_Confirm.hide();
             }
-        });
-        dialog_Confirm.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_Confirm.hide();
             }
         });
@@ -707,9 +698,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     finish();
                     break;
                 case R.id.btn_ScanSlots:
-                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
-                    dialog_Confirm.getBtnSure().setTag("fun.scanslots");
-                    dialog_Confirm.getTipsText().setText("确定要扫描货道？");
+                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                    dialog_Confirm.setTag("fun.scanslots");
+                    dialog_Confirm.setTipsText("确定要扫描货道？");
                     dialog_Confirm.show();
                     break;
                 case R.id.btn_RefreshStock:

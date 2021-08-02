@@ -34,7 +34,7 @@ import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.dialog.CustomDialogReplenish;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -63,7 +63,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private TextView tv_CabinetName;
     private String planDeviceId="";
     private ReplenishGetPlanDetailResultBean planDetailResult=null;
-    private CustomConfirmDialog dialog_ConfrmHandle;
+    private CustomDialogConfirm dialog_ConfrmHandle;
     private Button btn_Handle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,11 +99,12 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
         btn_Handle  = (Button) findViewById(R.id.btn_Handle);
-        dialog_ConfrmHandle = new CustomConfirmDialog(SmReplenishPlanDetailActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
-        dialog_ConfrmHandle.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
-        dialog_ConfrmHandle.getBtnSure().setOnClickListener(new View.OnClickListener() {
+
+        dialog_ConfrmHandle = new CustomDialogConfirm(SmReplenishPlanDetailActivity.this, "确定要处理该补货计划单？", true);
+        dialog_ConfrmHandle.setTipsImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_ConfrmHandle.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSure() {
 
                 if (dialog_ConfrmHandle != null) {
                     dialog_ConfrmHandle.hide();
@@ -165,11 +166,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                     }
                 });
             }
-        });
 
-        dialog_ConfrmHandle.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_ConfrmHandle.hide();
             }
         });

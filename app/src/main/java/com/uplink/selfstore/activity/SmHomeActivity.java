@@ -23,7 +23,7 @@ import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class SmHomeActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmHomeActivity";
-    private CustomConfirmDialog dialog_Confirm;
+    private CustomDialogConfirm dialog_Confirm;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
     @Override
@@ -94,11 +94,11 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
         updateAppService.setAction("android.intent.action.updateAppService");
         sendBroadcast(updateAppService);
 
-        dialog_Confirm = new CustomConfirmDialog(SmHomeActivity.this, "", true);
-        dialog_Confirm.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(SmHomeActivity.this, "", true);
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String tag = v.getTag().toString();
+            public void onSure() {
+                String tag = dialog_Confirm.getTag().toString();
                 LogUtil.e("tag:" + tag);
                 switch (tag) {
                     case "fun.closeapp":
@@ -157,14 +157,13 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                 }
                 dialog_Confirm.hide();
             }
-        });
 
-        dialog_Confirm.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_Confirm.hide();
             }
         });
+
     }
 
     private void initView() {
@@ -232,27 +231,27 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                     sendBroadcast(intent);
                                     break;
                                 case "fun.closeapp":
-                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_Confirm.getBtnSure().setTag("fun.closeapp");
-                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.closeapp");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
                                     dialog_Confirm.show();
                                     break;
                                 case "fun.rootsys":
-                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_Confirm.getBtnSure().setTag("fun.rootsys");
-                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.rootsys");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
                                     dialog_Confirm.show();
                                     break;
                                 case "fun.door":
-                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_Confirm.getBtnSure().setTag("fun.door");
-                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_door));
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.door");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_door));
                                     dialog_Confirm.show();
                                     break;
                                 case "fun.exitmanager":
-                                    dialog_Confirm.getTipsImage().setVisibility(View.GONE);
-                                    dialog_Confirm.getBtnSure().setTag("fun.exitmanager");
-                                    dialog_Confirm.getTipsText().setText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.exitmanager");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
                                     dialog_Confirm.show();
                                     break;
                             }

@@ -41,7 +41,7 @@ public class CustomScanPayDialog extends Dialog {
     private View btn_close;
     private View icon_payway_z_wechat;
     private View icon_payway_z_zhifubao;
-    private CustomConfirmDialog dialog_ConfirmClose;
+    private CustomDialogConfirm dialog_ConfirmClose;
     private CountDownTimer countDownTimer;
 
     private IHanldeListener myHanldeListener;
@@ -92,24 +92,23 @@ public class CustomScanPayDialog extends Dialog {
         txt_payseconds = ViewHolder.get(mLayoutRes,R.id.txt_payseconds);
 
 
-        dialog_ConfirmClose = new CustomConfirmDialog(context,"确定要取消支付？" , true);
-        dialog_ConfirmClose.getTipsImage().setVisibility(View.GONE);
-        dialog_ConfirmClose.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_ConfirmClose = new CustomDialogConfirm(context,"确定要取消支付？" , true);
+        dialog_ConfirmClose.setTipsImageVisibility(View.GONE);
+        dialog_ConfirmClose.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSure() {
                 dialog_ConfirmClose.hide();
                 mThis.hide();
                 myHanldeListener.onSureClose();
             }
-        });
 
-        dialog_ConfirmClose.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_ConfirmClose.hide();
                 myHanldeListener.onCancleClose();
             }
         });
+
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override

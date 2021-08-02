@@ -23,7 +23,7 @@ import com.uplink.selfstore.model.api.ExHandleReasonBean;
 import com.uplink.selfstore.model.api.DeviceGetRunExHandleItemsResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -41,8 +41,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     private MyGridView list_reasons;
     private Button btn_GoBack;
     private Button btn_Handle;
-    private CustomConfirmDialog dialog_ConfrmHandle;
-    private CustomConfirmDialog dialog_HandleComplete;
+    private CustomDialogConfirm dialog_ConfrmHandle;
+    private CustomDialogConfirm dialog_HandleComplete;
     private List<ExHandleItemBean> exItems;
     private List<ExHandleReasonBean> exReasons;
 
@@ -75,11 +75,11 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
         layout_ex=(LinearLayout) findViewById(R.id.layout_ex);
         layout_exorders=(LinearLayout) findViewById(R.id.layout_exorders);
-        dialog_ConfrmHandle = new CustomConfirmDialog(SmRunExHandleActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
-        dialog_ConfrmHandle.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
-        dialog_ConfrmHandle.getBtnSure().setOnClickListener(new View.OnClickListener() {
+        dialog_ConfrmHandle = new CustomDialogConfirm(SmRunExHandleActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
+        dialog_ConfrmHandle.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_ConfrmHandle.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSure() {
 
                 if (dialog_ConfrmHandle != null) {
                     dialog_ConfrmHandle.hide();
@@ -153,23 +153,27 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
                     }
                 });
             }
-        });
 
-        dialog_ConfrmHandle.getBtnCancle().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancle() {
                 dialog_ConfrmHandle.hide();
             }
         });
 
-        dialog_HandleComplete = new CustomConfirmDialog(SmRunExHandleActivity.this, "处理完成，返回主界面", false);
-        dialog_HandleComplete.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_success)));
-        dialog_HandleComplete.setBtnCloseVisibility(View.GONE);
-        dialog_HandleComplete.getBtnSure().setOnClickListener(new View.OnClickListener() {
+
+        dialog_HandleComplete = new CustomDialogConfirm(SmRunExHandleActivity.this, "处理完成，返回主界面", false);
+        dialog_HandleComplete.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_success)));
+        dialog_HandleComplete.setCloseVisibility(View.GONE);
+        dialog_HandleComplete.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSure() {
                 dialog_ConfrmHandle.hide();
                 finish();
+            }
+
+            @Override
+            public void onCancle() {
+
             }
         });
 

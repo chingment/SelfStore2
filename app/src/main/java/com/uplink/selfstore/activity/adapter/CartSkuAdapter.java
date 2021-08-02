@@ -14,7 +14,7 @@ import com.uplink.selfstore.activity.handler.CarOperateHandler;
 import com.uplink.selfstore.model.api.CartOperateType;
 import com.uplink.selfstore.model.api.CartSkuBean;
 import com.uplink.selfstore.ui.ViewHolder;
-import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.utils.CommonUtil;
 
 
@@ -29,7 +29,7 @@ import java.util.List;
 public class CartSkuAdapter extends BaseAdapter {
     private static final String TAG = "CartSkuAdapter";
     private Context context;
-    private CustomConfirmDialog delete_Dialog;
+    private CustomDialogConfirm delete_Dialog;
     private List<CartSkuBean> items = new ArrayList<>();
     public CartSkuAdapter(Context context, LinkedHashMap<String, CartSkuBean> cartSkus) {
         this.context = context;
@@ -96,30 +96,22 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                delete_Dialog = new CustomConfirmDialog(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
-
-                CommonUtil.loadImageFromUrl(context, delete_Dialog.getTipsImage(), item.getMainImgUrl());
-
-                delete_Dialog.getBtnSure().setOnClickListener(new View.OnClickListener() {
+                delete_Dialog = new CustomDialogConfirm(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
+                delete_Dialog.setTipsImageNetwork(item.getMainImgUrl());
+                delete_Dialog.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-
-                        CartSkuBean sku = (CartSkuBean)v.getTag();
+                    public void onSure() {
+                        CartSkuBean sku = (CartSkuBean)delete_Dialog.getTag();
                         operate(CartOperateType.DELETE, sku.getSkuId());
                         delete_Dialog.dismiss();
-
                     }
-                });
 
-                delete_Dialog.getBtnCancle().setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCancle() {
                         delete_Dialog.dismiss();
                     }
                 });
-
-                delete_Dialog.getBtnSure().setTag(item);
+                delete_Dialog.setTag(item);
                 delete_Dialog.show();
 
             }

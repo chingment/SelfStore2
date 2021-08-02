@@ -308,7 +308,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                     Intent intent = new Intent(appContext, InitDataActivity.class);
                     startActivity(intent);
                     finish();
-
                 }
             }
 
