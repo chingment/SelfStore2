@@ -79,7 +79,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private CustomLoadingDialog dialog_Running;
     private CustomDialogConfirm dialog_Confirm;
 
-    //private ScannerCtrl scannerCtrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

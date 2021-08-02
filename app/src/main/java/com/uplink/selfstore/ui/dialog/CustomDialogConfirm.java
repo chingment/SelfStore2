@@ -37,6 +37,7 @@ public class CustomDialogConfirm extends Dialog {
     private View mLayoutRes;
 
     private View dlg_Close;
+    private LinearLayout ll_Cancle;
     private Button btn_Sure;
     private Button btn_Cancle;
     private TextView tv_TipsText;
@@ -72,7 +73,8 @@ public class CustomDialogConfirm extends Dialog {
         dlg_Close.setVisibility(visibility);
     }
 
-
+    public void setCancleVisibility(int visibility){
+    }
     public void setTag(Object tag){
         this.tag=tag;
     }
@@ -93,7 +95,7 @@ public class CustomDialogConfirm extends Dialog {
         iv_TipsImage = ViewHolder.get(mLayoutRes,R.id.iv_TipsImage);
         btn_Sure = ViewHolder.get(mLayoutRes,R.id.btn_Sure);
         btn_Cancle = ViewHolder.get(mLayoutRes,R.id.btn_Cancle);
-        LinearLayout ll_Cancle = ViewHolder.get(mLayoutRes,R.id.ll_Cancle);
+        ll_Cancle = ViewHolder.get(mLayoutRes,R.id.ll_Cancle);
 
         if (!isCancle) {
             ll_Cancle.setVisibility(View.GONE);

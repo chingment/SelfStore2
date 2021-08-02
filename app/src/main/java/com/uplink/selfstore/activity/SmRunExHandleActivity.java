@@ -41,8 +41,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     private MyGridView list_reasons;
     private Button btn_GoBack;
     private Button btn_Handle;
-    private CustomDialogConfirm dialog_ConfrmHandle;
-    private CustomDialogConfirm dialog_HandleComplete;
+    private CustomDialogConfirm dialog_Confirm;
     private List<ExHandleItemBean> exItems;
     private List<ExHandleReasonBean> exReasons;
 
@@ -75,14 +74,14 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
         layout_ex=(LinearLayout) findViewById(R.id.layout_ex);
         layout_exorders=(LinearLayout) findViewById(R.id.layout_exorders);
-        dialog_ConfrmHandle = new CustomDialogConfirm(SmRunExHandleActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
-        dialog_ConfrmHandle.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
-        dialog_ConfrmHandle.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(SmRunExHandleActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
+        dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
             public void onSure() {
 
-                if (dialog_ConfrmHandle != null) {
-                    dialog_ConfrmHandle.hide();
+                if (dialog_Confirm != null) {
+                    dialog_Confirm.hide();
                 }
 
 
@@ -140,7 +139,23 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
                         if (rt.getResult() == Result.SUCCESS) {
 
-                            dialog_HandleComplete.show();
+                            dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_success)));
+                            dialog_Confirm.setCloseVisibility(View.GONE);
+                            dialog_Confirm.setTipsText("处理完成，返回主界面");
+                            dialog_Confirm.setCancleVisibility(View.GONE);
+                            dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+                                @Override
+                                public void onSure() {
+                                    dialog_Confirm.hide();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancle() {
+
+                                }
+                            });
+                            dialog_Confirm.show();
 
                         } else {
                             showToast(rt.getMessage());
@@ -156,27 +171,9 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
             @Override
             public void onCancle() {
-                dialog_ConfrmHandle.hide();
+                dialog_Confirm.hide();
             }
         });
-
-
-        dialog_HandleComplete = new CustomDialogConfirm(SmRunExHandleActivity.this, "处理完成，返回主界面", false);
-        dialog_HandleComplete.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_success)));
-        dialog_HandleComplete.setCloseVisibility(View.GONE);
-        dialog_HandleComplete.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
-            @Override
-            public void onSure() {
-                dialog_ConfrmHandle.hide();
-                finish();
-            }
-
-            @Override
-            public void onCancle() {
-
-            }
-        });
-
     }
 
     protected void initEvent() {
@@ -266,12 +263,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
     protected void onDestroy() {
         super.onDestroy();
 
-        if(dialog_ConfrmHandle!=null){
-            dialog_ConfrmHandle.cancel();
-        }
-
-        if(dialog_HandleComplete!=null){
-            dialog_HandleComplete.cancel();
+        if(dialog_Confirm!=null){
+            dialog_Confirm.cancel();
         }
 
     }
@@ -308,7 +301,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
             }
         }
 
-        dialog_ConfrmHandle.show();
+        dialog_Confirm.show();
 
     }
 }

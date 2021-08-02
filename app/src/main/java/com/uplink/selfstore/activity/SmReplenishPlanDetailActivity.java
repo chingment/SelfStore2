@@ -63,8 +63,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private TextView tv_CabinetName;
     private String planDeviceId="";
     private ReplenishGetPlanDetailResultBean planDetailResult=null;
-    private CustomDialogConfirm dialog_ConfrmHandle;
+    private CustomDialogConfirm dialog_Confirm;
     private Button btn_Handle;
+    private Button btn_GoBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,15 +100,16 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
         btn_Handle  = (Button) findViewById(R.id.btn_Handle);
+        btn_GoBack = (Button) findViewById(R.id.btn_GoBack);
 
-        dialog_ConfrmHandle = new CustomDialogConfirm(SmReplenishPlanDetailActivity.this, "确定要处理该补货计划单？", true);
-        dialog_ConfrmHandle.setTipsImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
-        dialog_ConfrmHandle.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(SmReplenishPlanDetailActivity.this, "确定要处理该补货计划单？", true);
+        dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
             public void onSure() {
 
-                if (dialog_ConfrmHandle != null) {
-                    dialog_ConfrmHandle.hide();
+                if (dialog_Confirm != null) {
+                    dialog_Confirm.hide();
                 }
 
                 Map<String, Object> params = new HashMap<>();
@@ -153,7 +155,23 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         });
 
                         if (rt.getResult() == Result.SUCCESS) {
-                            //dialog_HandleComplete.show();
+                            dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
+                            dialog_Confirm.setCloseVisibility(View.GONE);
+                            dialog_Confirm.setCancleVisibility(View.GONE);
+                            dialog_Confirm.setTipsText("处理完成，返回主界面");
+                            dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+                                @Override
+                                public void onSure() {
+                                    dialog_Confirm.hide();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onCancle() {
+
+                                }
+                            });
+                            dialog_Confirm.show();
 
                         } else {
                             showToast(rt.getMessage());
@@ -169,13 +187,14 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
             @Override
             public void onCancle() {
-                dialog_ConfrmHandle.hide();
+                dialog_Confirm.hide();
             }
         });
     }
 
     private void initEvent() {
         btn_Handle.setOnClickListener(this);
+        btn_GoBack.setOnClickListener(this);
         lv_Cabinets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -517,6 +536,11 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
             dialog_Replenish.dismiss();
         }
 
+        if(dialog_Confirm!=null){
+            dialog_Confirm.cancel();
+            dialog_Confirm.dismiss();
+        }
+
         if(tl_Slots!=null) {
             tl_Slots.removeAllViews();
         }
@@ -529,12 +553,11 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:
+                case R.id.btn_GoBack:
                     finish();
                     break;
                 case R.id.btn_Handle:
-                    dialog_ConfrmHandle.show();
-                    break;
-                default:
+                    dialog_Confirm.show();
                     break;
             }
         }
