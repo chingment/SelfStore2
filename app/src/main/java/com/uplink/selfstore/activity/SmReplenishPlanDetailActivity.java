@@ -2,16 +2,22 @@ package com.uplink.selfstore.activity;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -26,9 +32,9 @@ import com.uplink.selfstore.model.api.ReplenishCabinetBean;
 import com.uplink.selfstore.model.api.ReplenishGetPlanDetailResultBean;
 import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.ViewHolder;
+import com.uplink.selfstore.ui.dialog.CustomConfirmDialog;
 import com.uplink.selfstore.ui.dialog.CustomDialogReplenish;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -57,6 +63,8 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private TextView tv_CabinetName;
     private String planDeviceId="";
     private ReplenishGetPlanDetailResultBean planDetailResult=null;
+    private CustomConfirmDialog dialog_ConfrmHandle;
+    private Button btn_Handle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,9 +98,85 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         tl_Slots = (TableLayout) findViewById(R.id.tl_Slots);
         tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
+        btn_Handle  = (Button) findViewById(R.id.btn_Handle);
+        dialog_ConfrmHandle = new CustomConfirmDialog(SmReplenishPlanDetailActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
+        dialog_ConfrmHandle.getTipsImage().setImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_ConfrmHandle.getBtnSure().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (dialog_ConfrmHandle != null) {
+                    dialog_ConfrmHandle.hide();
+                }
+
+                Map<String, Object> params = new HashMap<>();
+
+                try {
+
+
+                    params.put("deviceId", getDevice().getDeviceId() + "");
+                    params.put("planDeviceId", planDeviceId);
+                    JSONArray json_Slots = new JSONArray();
+                    HashMap<String, ReplenishCabinetBean> l_Cabinets = planDetailResult.getCabinets();
+
+                    for (Map.Entry<String, ReplenishCabinetBean> entry : l_Cabinets.entrySet()) {
+
+                        HashMap<String, ReplenishSlotBean> l_Slots = entry.getValue().getSlots();
+
+                        for (Map.Entry<String, ReplenishSlotBean> entry2 : l_Slots.entrySet()) {
+
+                            ReplenishSlotBean l_Slot = entry2.getValue();
+
+                            if (l_Slot.isPlanRsh()) {
+                                JSONObject json_Slot = new JSONObject();
+                                json_Slot.put("slotId", l_Slot.getSlotId());
+                                json_Slot.put("cabinetId", l_Slot.getCabinetId());
+                                json_Slot.put("realRshQuantity", l_Slot.getRealRshQuantity());
+                                json_Slots.put(json_Slot);
+                            }
+                        }
+                    }
+
+                    params.put("slots", json_Slots);
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_ConfirmReplenish, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+
+                        ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                        });
+
+                        if (rt.getResult() == Result.SUCCESS) {
+                            //dialog_HandleComplete.show();
+
+                        } else {
+                            showToast(rt.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(String msg, Exception e) {
+                        showToast(msg);
+                    }
+                });
+            }
+        });
+
+        dialog_ConfrmHandle.getBtnCancle().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog_ConfrmHandle.hide();
+            }
+        });
     }
 
     private void initEvent() {
+        btn_Handle.setOnClickListener(this);
         lv_Cabinets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -447,6 +531,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
             switch (v.getId()) {
                 case R.id.nav_back:
                     finish();
+                    break;
+                case R.id.btn_Handle:
+                    dialog_ConfrmHandle.show();
                     break;
                 default:
                     break;

@@ -49,5 +49,6 @@ public class Config {
         public static final String imservice_Seats= BuildConfig.ENVIRONMENT + "/api/ImService/Seats";
         public static final String replenish_GetPlans= BuildConfig.ENVIRONMENT + "/api/Replenish/GetPlans";
         public static final String replenish_GetPlanDetail= BuildConfig.ENVIRONMENT + "/api/Replenish/GetPlanDetail";
+        public static final String replenish_ConfirmReplenish= BuildConfig.ENVIRONMENT + "/api/Replenish/ConfirmReplenish";
     }
 }

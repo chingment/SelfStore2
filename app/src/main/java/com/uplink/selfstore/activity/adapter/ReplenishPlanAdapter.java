@@ -65,16 +65,22 @@ public class ReplenishPlanAdapter extends BaseAdapter {
         tv_MakerName.setText(item.getMakerName());
         tv_MakeTime.setText(item.getMakeTime());
 
-        btn_Handle.setTag(item);
-        btn_Handle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ReplenishPlanBean l_Bean=(ReplenishPlanBean)view.getTag();
-                if (onClickListener != null) {
-                    onClickListener.onClick(l_Bean);
+
+        if(item.getStatus().getValue()==1) {
+            btn_Handle.setVisibility(View.VISIBLE);
+            btn_Handle.setTag(item);
+            btn_Handle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ReplenishPlanBean l_Bean = (ReplenishPlanBean) view.getTag();
+                    if (onClickListener != null) {
+                        onClickListener.onClick(l_Bean);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            btn_Handle.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
