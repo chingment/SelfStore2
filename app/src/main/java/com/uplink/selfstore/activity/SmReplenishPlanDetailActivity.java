@@ -339,7 +339,11 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                 if (slot == null) {
                     slot = new ReplenishSlotBean();
                     slot.setSlotId(slot_Id);
+                    slot.setSlotName(slot_Name);
                     slots.put(slot_Id, slot);
+                }
+                else {
+                    slot.setSlotName(slot_Name);
                 }
 
                 if (slot.getSkuId() == null) {

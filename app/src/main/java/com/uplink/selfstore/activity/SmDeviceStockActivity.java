@@ -536,6 +536,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     slot = new SlotBean();
                     slot.setSlotId(slot_Id);
                     slots.put(slot_Id, slot);
+                } else {
+                    slot.setSlotName(slot_Name);
                 }
 
                 if (slot.getSkuId() == null) {

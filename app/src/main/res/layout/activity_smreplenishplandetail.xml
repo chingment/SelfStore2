@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_parentroot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp">
 
-    <include layout="@layout/layout_nav_header" />
+    <include android:id="@+id/include"  layout="@layout/layout_nav_header" />
 
 
     <RelativeLayout
@@ -24,6 +29,7 @@
             android:baselineAligned="false"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
+
             <ListView
                 android:id="@+id/lv_Cabinets"
                 android:layout_width="@dimen/size_60"
@@ -87,5 +93,63 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_footer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_66"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/footer_border_top">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/transparent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical|center_horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btn_GoBack"
+                    android:layout_width="@dimen/size_100"
+                    android:layout_height="@dimen/size_36"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_round_primary"
+                    android:text="@string/btntx_goback"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical|center_horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btn_Handle"
+                    android:layout_width="@dimen/size_100"
+                    android:layout_height="@dimen/size_36"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_round_primary"
+                    android:text="@string/btntx_replenished"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_12" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

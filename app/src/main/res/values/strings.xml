@@ -119,6 +119,7 @@
     <string name="btntx_rshplan">补货计划</string>
     <string name="btntx_goback">返回</string>
     <string name="btntx_handle">确认处理</string>
+    <string name="btntx_replenished">确认已补货</string>
     <string name="btntx_starttestpickup">开始</string>
     <string name="btntx_pausetestpickup">暂停</string>
     <string name="btntx_stoptestpickup">停止</string>
