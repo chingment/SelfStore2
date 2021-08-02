@@ -92,7 +92,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
     }
 
     private void initData() {
-        getPlans();
+        //getPlans();
     }
 
     private void getPlans(){
@@ -148,6 +148,11 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPlans();//刷新数据
+    }
     @Override
     public void onClick(View v) {
         super.onClick(v);

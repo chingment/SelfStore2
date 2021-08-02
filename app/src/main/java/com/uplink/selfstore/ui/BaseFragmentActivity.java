@@ -325,18 +325,22 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                 switch (msg.what) {
                     case 1:
                         if(msg.obj!=null) {
-                            dialog_Loading = new CustomLoadingDialog((Context) msg.obj);
-                            dialog_Loading.setProgressText("正在处理中");
-                            dialog_Loading.show();
-                            new Handler().postDelayed(new Runnable() {
-                                public void run() {
-                                    if (dialog_Loading != null) {
-                                        if (dialog_Loading.isShowing()) {
-                                            laodingUIHandler.sendEmptyMessage(2);
+                            if(dialog_Loading==null) {
+                                dialog_Loading = new CustomLoadingDialog((Context) msg.obj);
+                            }
+                            if(!dialog_Loading.isShowing()) {
+                                dialog_Loading.setProgressText("正在处理中");
+                                dialog_Loading.show();
+                                new Handler().postDelayed(new Runnable() {
+                                    public void run() {
+                                        if (dialog_Loading != null) {
+                                            if (dialog_Loading.isShowing()) {
+                                                laodingUIHandler.sendEmptyMessage(2);
+                                            }
                                         }
                                     }
-                                }
-                            }, 6000);
+                                }, 6000);
+                            }
                         }
                         break;
                     case 2:

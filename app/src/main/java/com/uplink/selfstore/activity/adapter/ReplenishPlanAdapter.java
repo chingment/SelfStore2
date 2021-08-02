@@ -67,6 +67,7 @@ public class ReplenishPlanAdapter extends BaseAdapter {
 
 
         if(item.getStatus().getValue()==1) {
+            tv_Status.setVisibility(View.GONE);
             btn_Handle.setVisibility(View.VISIBLE);
             btn_Handle.setTag(item);
             btn_Handle.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +80,7 @@ public class ReplenishPlanAdapter extends BaseAdapter {
                 }
             });
         }else {
+            tv_Status.setVisibility(View.VISIBLE);
             btn_Handle.setVisibility(View.GONE);
         }
 
