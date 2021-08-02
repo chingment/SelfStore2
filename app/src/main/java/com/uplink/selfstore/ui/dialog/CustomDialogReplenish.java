@@ -31,6 +31,7 @@ import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
+import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.SkuSearchResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SearchSkuBean;
@@ -82,8 +83,7 @@ public class CustomDialogReplenish  extends Dialog {
     private View btn_DecRealRshQty;
     private View btn_IncRealRshQty;
 
-    private SlotBean slot;
-    private CabinetBean cabinet;
+    private ReplenishSlotBean slot;
 
     public CustomDialogReplenish(final Context context) {
         super(context, R.style.dialog_style);
@@ -138,9 +138,9 @@ public class CustomDialogReplenish  extends Dialog {
         btn_Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
+                if(onClickListener!=null){
+                    onClickListener.onSave(slot);
+                }
             }
         });
 
@@ -160,6 +160,10 @@ public class CustomDialogReplenish  extends Dialog {
                 tv_RealRshQty.setText(String.valueOf(realRshQty));
                 tv_SellQty.setText(String.valueOf(sellQty));
                 tv_SumQty.setText(String.valueOf(sumQty));
+
+                slot.setRealRshQuantity(realRshQty);
+                slot.setSellQuantity(sellQty);
+                slot.setSumQuantity(sumQty);
             }
         });
 
@@ -175,9 +179,14 @@ public class CustomDialogReplenish  extends Dialog {
                 sellQty += 1;
                 sumQty += 1;
 
+
                 tv_RealRshQty.setText(String.valueOf(realRshQty));
                 tv_SellQty.setText(String.valueOf(sellQty));
                 tv_SumQty.setText(String.valueOf(sumQty));
+
+                slot.setRealRshQuantity(realRshQty);
+                slot.setSellQuantity(sellQty);
+                slot.setSumQuantity(sumQty);
             }
         });
 
@@ -188,9 +197,8 @@ public class CustomDialogReplenish  extends Dialog {
 
     }
 
-    public void setData(CabinetBean cabinet,SlotBean slot) {
+    public void setData(ReplenishSlotBean slot) {
 
-        this.cabinet = cabinet;
         this.slot = slot;
 
         tv_SlotId.setText(slot.getSlotId());
@@ -204,8 +212,11 @@ public class CustomDialogReplenish  extends Dialog {
         tv_SellQty.setText(String.valueOf(slot.getSellQuantity()));
         tv_LockQty.setText(String.valueOf(slot.getLockQuantity()));
         tv_SumQty.setText(String.valueOf(slot.getSumQuantity()));
+        tv_PlanRshQty.setText(String.valueOf(slot.getPlanRshQuantity()));
+        tv_RealRshQty.setText(String.valueOf(slot.getRealRshQuantity()));
 
         CommonUtil.loadImageFromUrl(mContext, iv_SkuImg, slot.getSkuMainImgUrl());
+
 
     }
 
@@ -220,4 +231,13 @@ public class CustomDialogReplenish  extends Dialog {
         super.show();
     }
 
+    private OnClickListener onClickListener;
+
+    public void  setOnClickListener(OnClickListener onClickListener){
+        this.onClickListener=onClickListener;
+    }
+
+    public  interface OnClickListener{
+        public void onSave(ReplenishSlotBean bean);
+    }
 }
