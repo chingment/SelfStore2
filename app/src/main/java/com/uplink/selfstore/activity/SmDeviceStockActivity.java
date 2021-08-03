@@ -334,6 +334,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         if(cur_Cabinet==null)
             return;
 
+        if(StringUtil.isEmptyNotNull(json_layout))
+            return;
+
         this.cur_Cabinet.setRowColLayout(json_layout);
 
         if (slots == null) {
@@ -457,6 +460,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     public void drawsCabinetSlotsByZS(String json_layout, HashMap<String, SlotBean> slots) {
 
         if(cur_Cabinet==null)
+            return;
+
+        if(StringUtil.isEmptyNotNull(json_layout))
             return;
 
         this.cur_Cabinet.setRowColLayout(json_layout);
@@ -705,8 +711,10 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     getCabinetSlots();
                     break;
                 case R.id.btn_AutoTest:
-                    dialog_PickupAutoTest=new CustomDialogPickupAutoTest(SmDeviceStockActivity.this);
-                    dialog_PickupAutoTest.setSlots(cur_Cabinet,getPickupSkus());
+                    if (cur_Cabinet == null)
+                        return;
+                    dialog_PickupAutoTest = new CustomDialogPickupAutoTest(SmDeviceStockActivity.this);
+                    dialog_PickupAutoTest.setSlots(cur_Cabinet, getPickupSkus());
                     dialog_PickupAutoTest.show();
                     break;
                 default:
