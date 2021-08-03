@@ -450,6 +450,22 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         return super.dispatchTouchEvent(ev);
     }
 
+
+    public void showLoading(Context context) {
+        Message m = new Message();
+        m.what = 1;
+        m.obj = context;
+        laodingUIHandler.sendMessage(m);
+    }
+
+    public void hideLoading(Context context){
+        Message m = new Message();
+        m.what=2;
+        m.obj=context;
+        laodingUIHandler.sendMessage(m);
+    }
+
+
     public void postByMy(Context context,String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
         HttpClient.postByMy(url, params, filePaths, new HttpResponseHandler() {
@@ -457,20 +473,14 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onBeforeSend() {
                 if (isShowLoading) {
-                    Message m = new Message();
-                    m.what=1;
-                    m.obj=context;
-                    laodingUIHandler.sendMessage(m);
+                    showLoading(context);
                 }
             }
 
             @Override
             public void onSuccess(String response) {
                 if (isShowLoading) {
-                    Message m = new Message();
-                    m.what=2;
-                    m.obj=context;
-                    laodingUIHandler.sendMessage(m);
+                   hideLoading(context);
                 }
                 final String s = response;
                 if (s.indexOf("\"result\":") > -1) {
@@ -490,10 +500,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onFailure(String msg, Exception e) {
                 if (isShowLoading) {
-                    Message m = new Message();
-                    m.what=2;
-                    m.obj=context;
-                    laodingUIHandler.sendMessage(m);
+                    hideLoading(context);
                 }
                 handler.onFailure(msg, e);
             }

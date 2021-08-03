@@ -193,9 +193,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     }
 
     private void initData() {
-
         getPlanDetail();
-
     }
 
     public void loadCabinetSlots() {
@@ -206,6 +204,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         if (cabinets == null)
             return;
 
+        showLoading(SmReplenishPlanDetailActivity.this);
 
         CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
         lv_Cabinets.setAdapter(list_cabinet_adapter);
@@ -223,6 +222,8 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                 drawsCabinetSlotsByZS(cur_Cabinet.getRowColLayout(), cur_Cabinet.getRshSlots());
                 break;
         }
+
+        hideLoading(SmReplenishPlanDetailActivity.this);
     }
 
     public void drawsCabinetSlotsByDS(String json_layout, HashMap<String, ReplenishSlotBean> slots) {
