@@ -93,7 +93,7 @@ public class CustomDialogSlotEdit extends Dialog {
     //private ScannerCtrl scannerCtrl;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
-    private CustomLoadingDialog dialog_Running;
+    private CustomDialogLoading dialog_Running;
     //private ScanKeyManager scanKeyManager;
     private boolean isHappneException=false;
     private String exceptionMessage="";
@@ -189,11 +189,11 @@ public class CustomDialogSlotEdit extends Dialog {
                             mContext.showToast(message);
                             break;
                         case 2://启动就绪成功，弹出窗口，同时默认120秒关闭窗口
-                            dialog_Running.setProgressText(message);
+                            dialog_Running.setTipsText(message);
                             dialog_Running.show();
                             break;
                         case 3://取货中
-                            dialog_Running.setProgressText("正在取货中..请稍等");
+                            dialog_Running.setTipsText("正在取货中..请稍等");
                             if (pickupActionResult != null) {
                                 pickupEventNotify(skuId, slotId, 3012, "发起取货", pickupActionResult);
                             }
@@ -257,7 +257,7 @@ public class CustomDialogSlotEdit extends Dialog {
                                 mContext.showToast(message);
                                 break;
                             case 2://启动就绪成功
-                                dialog_Running.setProgressText("取货就绪成功");
+                                dialog_Running.setTipsText("取货就绪成功");
                                 dialog_Running.show();
                                 break;
 //                            case 3://取货中
@@ -376,7 +376,7 @@ public class CustomDialogSlotEdit extends Dialog {
         btn_IncMaxQty = ViewHolder.get(mLayoutRes, R.id.btn_IncMaxQty);
         btn_DecWrnQty = ViewHolder.get(mLayoutRes, R.id.btn_DecWrnQty);
         btn_IncWrnQty = ViewHolder.get(mLayoutRes, R.id.btn_IncWrnQty);
-        dialog_Running = new CustomLoadingDialog(this.mContext);
+        dialog_Running = new CustomDialogLoading(this.mContext);
 
     }
 

@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,7 +16,6 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,7 +34,6 @@ import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
@@ -45,8 +42,8 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.service.UsbService;
-import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
-import com.uplink.selfstore.ui.dialog.CustomSystemWarnDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
+import com.uplink.selfstore.ui.dialog.CustomDialogSystemWarn;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -65,8 +62,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private static final String TAG = "BaseFragmentActivity";
     private AppContext appContext;
     public static boolean isForeground = false;
-    private CustomLoadingDialog dialog_Loading;
-    private CustomSystemWarnDialog dialog_SystemWarn;
+    private CustomDialogLoading dialog_Loading;
+    private CustomDialogSystemWarn dialog_SystemWarn;
     private ClosePageCountTimer closePageCountTimer;
     private CustomDataByVendingBean customDataByVending;
     private DeviceBean device;
@@ -118,9 +115,9 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         return  name;
     }
 
-    public CustomSystemWarnDialog getDialogBySystemWarn(){
+    public CustomDialogSystemWarn getDialogBySystemWarn(){
         if(dialog_SystemWarn==null){
-            dialog_SystemWarn = new CustomSystemWarnDialog(this);
+            dialog_SystemWarn = new CustomDialogSystemWarn(this);
         }
 
         return dialog_SystemWarn;
@@ -289,8 +286,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         locationUtil = LocationUtil.getInstance(this); //阻碍线程线程读取
 
         appContext = (AppContext) getApplication();
-        dialog_Loading = new CustomLoadingDialog(this);
-        dialog_SystemWarn = new CustomSystemWarnDialog(this);
+        dialog_Loading = new CustomDialogLoading(this);
+        dialog_SystemWarn = new CustomDialogSystemWarn(this);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -326,10 +323,10 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                     case 1:
                         if(msg.obj!=null) {
                             if(dialog_Loading==null) {
-                                dialog_Loading = new CustomLoadingDialog((Context) msg.obj);
+                                dialog_Loading = new CustomDialogLoading((Context) msg.obj);
                             }
                             if(!dialog_Loading.isShowing()) {
-                                dialog_Loading.setProgressText("正在处理中");
+                                dialog_Loading.setTipsText("正在处理中");
                                 dialog_Loading.show();
                                 new Handler().postDelayed(new Runnable() {
                                     public void run() {

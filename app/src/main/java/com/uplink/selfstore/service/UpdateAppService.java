@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v4.content.FileProvider;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -27,7 +26,7 @@ import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
-import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
@@ -47,7 +46,7 @@ public class UpdateAppService extends Service {
     private DownloadManager manager;
     private DownloadCompleteReceiver receiver;
     private Handler handler_msg;
-    private CustomLoadingDialog customDialogLoading;
+    private CustomDialogLoading dialog_Loading;
     private CommandReceiver cmdReceiver;
 
     private static String downloadUpdateApkFilePath="";
@@ -130,26 +129,26 @@ public class UpdateAppService extends Service {
                 switch (msg.what)
                 {
                     case  1:
-                        if(customDialogLoading==null) {
-                            customDialogLoading = new CustomLoadingDialog(AppManager.getAppManager().currentActivity());
+                        if(dialog_Loading==null) {
+                            dialog_Loading = new CustomDialogLoading(AppManager.getAppManager().currentActivity());
                         }
-                        customDialogLoading.setProgressText("系统正在更新中....");
-                            customDialogLoading.show();
+                        dialog_Loading.setTipsText("系统正在更新中....");
+                        dialog_Loading.show();
 
                             Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (customDialogLoading != null) {
-                                        customDialogLoading.hide();
+                                    if (dialog_Loading != null) {
+                                        dialog_Loading.hide();
                                     }
                                 }
                             }, 30*60*1000);
 
                         break;
                     case 2:
-                        if(customDialogLoading!=null) {
-                            customDialogLoading.hide();
+                        if(dialog_Loading!=null) {
+                            dialog_Loading.hide();
                         }
                         break;
                     case 3:
@@ -190,8 +189,8 @@ public class UpdateAppService extends Service {
         if (receiver != null)
             unregisterReceiver(receiver);
 
-        if(customDialogLoading!=null){
-            customDialogLoading.cancel();
+        if(dialog_Loading!=null) {
+            dialog_Loading.cancel();
         }
 
         super.onDestroy();

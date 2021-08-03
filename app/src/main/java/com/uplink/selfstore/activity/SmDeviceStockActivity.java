@@ -37,7 +37,7 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
-import com.uplink.selfstore.ui.dialog.CustomLoadingDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
 import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
 import com.uplink.selfstore.ui.dialog.CustomDialogSlotEdit;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -76,7 +76,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private TextView tv_CabinetName;
     private CabinetCtrlByDS cabinetCtrlByDS;
     private CabinetCtrlByZS cabinetCtrlByZS;
-    private CustomLoadingDialog dialog_Running;
+    private CustomDialogLoading dialog_Running;
     private CustomDialogConfirm dialog_Confirm;
 
     @Override
@@ -142,13 +142,13 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                             case 2://启动就绪
                                 scanSlotsEventNotify(2000, "启动就绪");
                                 if (dialog_Running != null) {
-                                    dialog_Running.setProgressText(message);
+                                    dialog_Running.setTipsText(message);
                                     dialog_Running.show();
                                 }
                                 break;
                             case 3://扫描中
                                 if (dialog_Running != null) {
-                                    dialog_Running.setProgressText(message);
+                                    dialog_Running.setTipsText(message);
                                 }
                                 break;
                             case 4://扫描成功
@@ -199,7 +199,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
 
-        dialog_Running = new CustomLoadingDialog(SmDeviceStockActivity.this);
+        dialog_Running = new CustomDialogLoading(SmDeviceStockActivity.this);
         dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
         dialog_Confirm = new CustomDialogConfirm(SmDeviceStockActivity.this, "", true);
         dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {

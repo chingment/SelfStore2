@@ -9,25 +9,21 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomLoadingDialog extends Dialog {
+public class CustomDialogLoading extends Dialog {
 
-	public CustomLoadingDialog(Context context) {
-		super(context,R.style.dialog_loading_style);
-		this.context = context;
-		initDialog(context);
-	}
-
-	private ImageView ivProgress;
-	private TextView tvInfo;
+	private ImageView iv_TipsImage;
+	private TextView tv_TipsText;
 	private Context context;
 
+	public CustomDialogLoading(Context context) {
+		super(context,R.style.dialog_loading_style);
+		this.context = context;
 
-	private void initDialog(Context context) {
 		setContentView(R.layout.dialog_loading);
-		ivProgress = (ImageView)findViewById(R.id.img);
-		tvInfo = (TextView)findViewById(R.id.tipTextView);
+		iv_TipsImage = (ImageView)findViewById(R.id.iv_TipsImage);
+		tv_TipsText = (TextView)findViewById(R.id.tv_TipsText);
 		// 显示文本
-		tvInfo.setText("正在加载...");
+		tv_TipsText.setText("正在加载...");
 	}
 
 	@Override
@@ -35,18 +31,18 @@ public class CustomLoadingDialog extends Dialog {
 		Animation animation = AnimationUtils.loadAnimation(context,
 				R.anim.dialog_load_animation);
 	// 显示动画
-		ivProgress.startAnimation(animation);
+		iv_TipsImage.startAnimation(animation);
 		super.show();
 	}
 
 	@Override
 	public void cancel(){
-		ivProgress.clearAnimation();
+		iv_TipsImage.clearAnimation();
 		super.cancel();
 	}
 	
-	public void setProgressText(String text){
-		tvInfo.setText(text);
+	public void setTipsText(String text){
+		tv_TipsText.setText(text);
 	}
 
 }

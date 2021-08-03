@@ -20,8 +20,8 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
-public class CustomSystemWarnDialog extends Dialog {
-    private static final String TAG = "CustomSystemWarnDialog";
+public class CustomDialogSystemWarn extends Dialog {
+    private static final String TAG = "CustomDialogSystemWarn";
     private View mLayoutRes;
     private Context mContext;
     private Dialog mThis;
@@ -34,7 +34,7 @@ public class CustomSystemWarnDialog extends Dialog {
     private View layout_csrPhoneNumber;
     private TextView txt_csrPhoneNumber;
     private WebView wv_csrHelpTips;
-    public CustomSystemWarnDialog(final Context context) {
+    public CustomDialogSystemWarn(final Context context) {
         super(context, R.style.dialog_style);
         mThis=this;
         mContext = context;
