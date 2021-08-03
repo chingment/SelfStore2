@@ -58,7 +58,7 @@ import java.util.Set;
  * Created by chingment on 2017/8/23.
  */
 
-public class BaseFragmentActivity extends FragmentActivity implements View.OnClickListener {
+public  class BaseFragmentActivity extends FragmentActivity implements View.OnClickListener {
     private static final String TAG = "BaseFragmentActivity";
     private AppContext appContext;
     public static boolean isForeground = false;

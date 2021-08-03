@@ -79,7 +79,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
                         @Override
                         public void onClick(ReplenishPlanBean v) {
                             Intent intent = new Intent(getAppContext(), SmReplenishPlanDetailActivity.class);
-                            intent.putExtra("planDeviceId",v.getId());
+                            intent.putExtra("replenishPlan",v);
                             startActivity(intent);
                         }
                     });

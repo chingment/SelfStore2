@@ -29,6 +29,7 @@ import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.ReplenishGetPlanDetailResultBean;
+import com.uplink.selfstore.model.api.ReplenishPlanBean;
 import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
@@ -60,7 +61,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private int cur_Cabinet_Position = 0;
     private List<CabinetBean> cabinets=new ArrayList<>();
     private TextView tv_CabinetName;
-    private String planDeviceId="";
+    private ReplenishPlanBean replenishPlan;
     private ReplenishGetPlanDetailResultBean planDetailResult=null;
     private CustomDialogConfirm dialog_Confirm;
     private Button btn_Handle;
@@ -70,7 +71,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smreplenishplandetail);
 
-        planDeviceId=getIntent().getStringExtra("planDeviceId");
+        replenishPlan=(ReplenishPlanBean)getIntent().getSerializableExtra("replenishPlan");
 
         setNavTtile(this.getResources().getString(R.string.aty_smreplenishplandetail_navtitle));
 
@@ -88,7 +89,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         btn_Handle  = (Button) findViewById(R.id.btn_Handle);
         btn_GoBack = (Button) findViewById(R.id.btn_GoBack);
 
-        dialog_Confirm = new CustomDialogConfirm(SmReplenishPlanDetailActivity.this, "确定要处理该补货计划单？", true);
+        dialog_Confirm = new CustomDialogConfirm(SmReplenishPlanDetailActivity.this, "确定要处理该补货计划单:"+replenishPlan.getPlanCumCode()+"？", true);
         dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(SmReplenishPlanDetailActivity.this, (R.drawable.dialog_icon_warn)));
         dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
@@ -104,7 +105,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
 
                     params.put("deviceId", getDevice().getDeviceId() + "");
-                    params.put("planDeviceId", planDeviceId);
+                    params.put("planDeviceId", replenishPlan.getId());
                     JSONArray json_Slots = new JSONArray();
                     HashMap<String, CabinetBean> l_Cabinets = planDetailResult.getCabinets();
 
@@ -322,7 +323,9 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                             @Override
                             public void onClick(View v) {
                                 ReplenishSlotBean l_Slot = (ReplenishSlotBean) v.getTag();
-                                dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+                                if(dialog_Replenish==null) {
+                                    dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+                                }
                                 dialog_Replenish.setData(l_Slot);
                                 dialog_Replenish.setOnClickListener(new CustomDialogReplenish.OnClickListener() {
                                     @Override
@@ -533,7 +536,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         Map<String, Object> params = new HashMap<>();
 
         params.put("deviceId", getDevice().getDeviceId());
-        params.put("planDeviceId",planDeviceId);
+        params.put("planDeviceId",replenishPlan.getId());
 
         postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_GetPlanDetail, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
