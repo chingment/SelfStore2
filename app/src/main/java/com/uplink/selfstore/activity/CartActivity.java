@@ -44,9 +44,9 @@ import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
-import com.uplink.selfstore.ui.dialog.CustomHandlingDialog;
-import com.uplink.selfstore.ui.dialog.CustomImSeatListDialog;
-import com.uplink.selfstore.ui.dialog.CustomScanPayDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogHandling;
+import com.uplink.selfstore.ui.dialog.CustomDialogImSeatList;
+import com.uplink.selfstore.ui.dialog.CustomDialogScanPay;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -74,9 +74,9 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
     private View btn_pay_z_aggregate;//第三聚合支付  手机扫二维码
     private MyListView list_skus;
     private View list_empty_tip;
-    private CustomScanPayDialog dialog_ScanPay;
-    private CustomImSeatListDialog dialog_ImSeatList;
-    private CustomHandlingDialog dialog_Handling;
+    private CustomDialogScanPay dialog_ScanPay;
+    private CustomDialogImSeatList dialog_ImSeatList;
+    private CustomDialogHandling dialog_Handling;
     private boolean isWaitHandling=false;
     public static String LAST_PAYTRANSID;
     public static String LAST_ORDERID;
@@ -215,7 +215,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         list_skus.setEnabled(false);
         list_empty_tip = findViewById(R.id.list_empty_tip);
 
-        dialog_ScanPay = new CustomScanPayDialog(CartActivity.this, 120, new CustomScanPayDialog.IHanldeListener() {
+        dialog_ScanPay = new CustomDialogScanPay(CartActivity.this, 120, new CustomDialogScanPay.IHanldeListener() {
             @Override
             public void onShow() {
                 closePageCountTimerStop();
@@ -249,8 +249,8 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         });
 
-        dialog_ImSeatList = new CustomImSeatListDialog(CartActivity.this);
-        dialog_ImSeatList.setOnLinster(new CustomImSeatListDialog.OnLinster() {
+        dialog_ImSeatList = new CustomDialogImSeatList(CartActivity.this);
+        dialog_ImSeatList.setOnLinster(new CustomDialogImSeatList.OnLinster() {
             @Override
             public void setSeats(MyListView v) {
 
@@ -368,7 +368,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
             }
         });
-        dialog_Handling = new CustomHandlingDialog(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候",new CustomHandlingDialog.IHanldeListener(){
+        dialog_Handling = new CustomDialogHandling(CartActivity.this, 60, "咨询结果正在处理中...请耐心等候",new CustomDialogHandling.IHanldeListener(){
             @Override
             public void onShow() {
                 isWaitHandling=true;

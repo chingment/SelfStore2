@@ -37,8 +37,8 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.UUID;
 
-public class CustomPickupAutoTestDialog extends Dialog {
-    private static final String TAG = "CustomPickupAutoTestDialog";
+public class CustomDialogPickupAutoTest extends Dialog {
+    private static final String TAG = "CustomDialogPickupAutoTest";
     private View mLayoutRes;// 布局文件
     private BaseFragmentActivity mContext;
     private Dialog mThis;
@@ -76,7 +76,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
     private boolean isPause=false;
     private String exceptionMessage="";
     private boolean isGoZero=false;
-    public CustomPickupAutoTestDialog(final Context context) {
+    public CustomDialogPickupAutoTest(final Context context) {
         super(context, R.style.dialog_style);
         mThis = this;
         mContext =  (BaseFragmentActivity) context;
@@ -193,7 +193,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                         exceptionMessage = "取货失败,设备发生异常:" + message;
                                         LogUtil.e(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
-                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
+                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogPickupAutoTest ", "pickuptest");
                                         pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                         break;
                                     case 6://取货失败，程序异常
@@ -202,7 +202,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                         exceptionMessage = "取货失败,程序异常:" + message;
                                         LogUtil.e(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
-                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
+                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogPickupAutoTest ", "pickuptest");
                                         pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                         break;
                                     default:
@@ -211,7 +211,7 @@ public class CustomPickupAutoTestDialog extends Dialog {
                                         exceptionMessage = "取货失败，未知状态:" + message;
                                         LogUtil.e(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
-                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomPickupAutoTestDialog ", "pickuptest");
+                                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogPickupAutoTest ", "pickuptest");
                                         pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                         break;
                                 }

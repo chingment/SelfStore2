@@ -13,11 +13,11 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.LogUtil;
 
-public class CustomHandlingDialog extends Dialog {
-    private static final String TAG = "CustomHandlingDialog";
+public class CustomDialogHandling extends Dialog {
+    private static final String TAG = "CustomDialogHandling";
     private View mLayoutRes;// 布局文件
     private Context mContext;
-    private CustomHandlingDialog mThis;
+    private CustomDialogHandling mThis;
 
     private TextView txt_tips;//等待提示
     private TextView txt_seconds;//等待秒数
@@ -26,7 +26,7 @@ public class CustomHandlingDialog extends Dialog {
     private CountDownTimer countDownTimer;
 
     private IHanldeListener mHanldeListener;
-    public CustomHandlingDialog(Context context, int seconds, String tips, IHanldeListener hanldeListener) {
+    public CustomDialogHandling(Context context, int seconds, String tips, IHanldeListener hanldeListener) {
         super(context, R.style.dialog_style);
 
         mThis=this;

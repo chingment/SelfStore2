@@ -20,7 +20,7 @@ import com.uplink.selfstore.model.api.OpUserInfoBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogFingerVein;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
@@ -41,7 +41,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     private EditText txt_password;//密码
     private View btn_appexit;
     private View btn_loginByVeinLock;//指静脉登录按钮
-    private CustomFingerVeinDialog dialog_FingerVein;
+    private CustomDialogFingerVein dialog_FingerVein;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +66,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
 
         if(getDevice().getFingerVeinner().getUse()) {
-            dialog_FingerVein=new CustomFingerVeinDialog(SmLoginActivity.this);
+            dialog_FingerVein=new CustomDialogFingerVein(SmLoginActivity.this);
             dialog_FingerVein.setCheckLoginHandler(new Handler(new Handler.Callback() {
                         @Override
                         public boolean handleMessage(Message msg) {

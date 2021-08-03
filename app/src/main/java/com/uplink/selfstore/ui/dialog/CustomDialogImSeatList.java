@@ -10,12 +10,12 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.my.MyListView;
 
-public class CustomImSeatListDialog extends Dialog {
-    private static final String TAG = "CustomImSeatListDialog";
+public class CustomDialogImSeatList extends Dialog {
+    private static final String TAG = "CustomDialogImSeatList";
     private View mLayoutRes;// 布局文件
     private View btn_close;
     private MyListView list_seats;
-    public CustomImSeatListDialog(final Context context) {
+    public CustomDialogImSeatList(final Context context) {
         super(context, R.style.dialog_style);
         mLayoutRes= LayoutInflater.from(context).inflate(R.layout.dialog_seatlist, null);
         initView();

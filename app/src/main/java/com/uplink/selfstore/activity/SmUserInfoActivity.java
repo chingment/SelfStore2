@@ -19,7 +19,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
-import com.uplink.selfstore.ui.dialog.CustomFingerVeinDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogFingerVein;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 
@@ -32,7 +32,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
     private TextView txt_FullName;
     private TextView txt_FingerVein;
     private ImageView btn_DelFingerVein;
-    private CustomFingerVeinDialog dialog_FingerVeinCollect;
+    private CustomDialogFingerVein dialog_FingerVeinCollect;
     private CustomDialogConfirm dialog_FingerVeinConfirmDel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
             }
         });
 
-        dialog_FingerVeinCollect = new CustomFingerVeinDialog(SmUserInfoActivity.this);
+        dialog_FingerVeinCollect = new CustomDialogFingerVein(SmUserInfoActivity.this);
         dialog_FingerVeinCollect.setCollectHandler(new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {

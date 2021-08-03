@@ -38,7 +38,7 @@ import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
-import com.uplink.selfstore.ui.dialog.CustomPickupAutoTestDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogPickupAutoTest;
 import com.uplink.selfstore.ui.dialog.CustomDialogSlotEdit;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -64,7 +64,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private final int MP = ViewGroup.LayoutParams.MATCH_PARENT;
     private TableLayout tl_Slots;
     private CustomDialogSlotEdit dialog_SlotEdit;
-    private CustomPickupAutoTestDialog dialog_PickupAutoTest;
+    private CustomDialogPickupAutoTest dialog_PickupAutoTest;
     private ListView lv_Cabinets;
     private CabinetBean cur_Cabinet =null;//当前机柜信息
     private int cur_Cabinet_Position = 0;
@@ -200,7 +200,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
 
         dialog_Running = new CustomDialogLoading(SmDeviceStockActivity.this);
-        dialog_PickupAutoTest = new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
+        dialog_PickupAutoTest = new CustomDialogPickupAutoTest(SmDeviceStockActivity.this);
         dialog_Confirm = new CustomDialogConfirm(SmDeviceStockActivity.this, "", true);
         dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
@@ -706,7 +706,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     getCabinetSlots();
                     break;
                 case R.id.btn_AutoTest:
-                    dialog_PickupAutoTest=new CustomPickupAutoTestDialog(SmDeviceStockActivity.this);
+                    dialog_PickupAutoTest=new CustomDialogPickupAutoTest(SmDeviceStockActivity.this);
                     dialog_PickupAutoTest.setSlots(cur_Cabinet,getPickupSkus());
                     dialog_PickupAutoTest.show();
                     break;

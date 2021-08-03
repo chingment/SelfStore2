@@ -28,8 +28,8 @@ import java.util.List;
  * Created by chingment on 2019/9/26.
  */
 
-public class CustomScanPayDialog extends Dialog {
-    private static final String TAG = "CustomScanPayDialog";
+public class CustomDialogScanPay extends Dialog {
+    private static final String TAG = "CustomDialogScanPay";
     private View mLayoutRes;
     private Context mContext;
     private Dialog mThis;
@@ -76,7 +76,7 @@ public class CustomScanPayDialog extends Dialog {
         }
     }
 
-    public CustomScanPayDialog(Context context,int seconds,IHanldeListener hanldeListener) {
+    public CustomDialogScanPay(Context context, int seconds, IHanldeListener hanldeListener) {
         super(context, R.style.dialog_style);
         mThis=this;
         mContext = context;

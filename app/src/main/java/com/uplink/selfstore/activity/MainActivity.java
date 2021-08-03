@@ -23,7 +23,7 @@ import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
-import com.uplink.selfstore.ui.dialog.CustomNumKeyDialog;
+import com.uplink.selfstore.ui.dialog.CustomDialogNumKey;
 import com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager;
 import com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -46,7 +46,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private ImageView img_logo;
     private ImageButton btn_buy;
     private ImageButton btn_pick;
-    private CustomNumKeyDialog dialog_NumKey;
+    private CustomDialogNumKey dialog_NumKey;
 
     //private ScanKeyManager scanKeyManager;
 
@@ -140,7 +140,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         banner_pager.requestFocus();
         banner_pager.setInterval(5000);
 
-        dialog_NumKey = new CustomNumKeyDialog(MainActivity.this);
+        dialog_NumKey = new CustomDialogNumKey(MainActivity.this);
 
     }
 
@@ -159,7 +159,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         });
 
-        dialog_NumKey.setOnSureListener(new CustomNumKeyDialog.OnSureListener() {
+        dialog_NumKey.setOnSureListener(new CustomDialogNumKey.OnSureListener() {
             @Override
             public void onClick(View v, String number) {
                 LogUtil.e("pickupcode:" + number);

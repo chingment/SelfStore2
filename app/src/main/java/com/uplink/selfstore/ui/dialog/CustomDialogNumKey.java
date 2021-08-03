@@ -23,8 +23,8 @@ import java.util.List;
  * Created by chingment on 2018/7/16.
  */
 
-public class CustomNumKeyDialog extends Dialog {
-    private static final String TAG = "CustomNumKeyDialog";
+public class CustomDialogNumKey extends Dialog {
+    private static final String TAG = "CustomDialogNumKey";
 
     private View mLayoutRes;
     private Context mContext;
@@ -33,7 +33,7 @@ public class CustomNumKeyDialog extends Dialog {
     // private LinearLayout txt_all;
     private TextView txt_val;
 
-    public CustomNumKeyDialog(Context context) {
+    public CustomDialogNumKey(Context context) {
         super(context, R.style.dialog_style);
         mContext= context;
         mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_numkey, null);

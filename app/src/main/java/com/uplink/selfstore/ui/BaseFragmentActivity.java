@@ -278,7 +278,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                     finish();
                 }
             }
-
         } else {
             DeviceBean device = getDevice();
             dialog_SystemWarn.setCsrPhoneNumber(device.getConsult().getCsrPhoneNumber());

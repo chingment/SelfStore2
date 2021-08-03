@@ -14,8 +14,8 @@ import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.ViewHolder;
 
-public class CustomFingerVeinDialog extends Dialog {
-    private static final String TAG = "CustomFingerVeinDialog";
+public class CustomDialogFingerVein extends Dialog {
+    private static final String TAG = "CustomDialogFingerVein";
     private View mLayoutRes;// 布局文件
     private BaseFragmentActivity mContext;
 
@@ -24,7 +24,7 @@ public class CustomFingerVeinDialog extends Dialog {
     private Button btn_ReCollect;
     private TextView txt_Title;
     private TextView txt_Message;
-    public CustomFingerVeinDialog(final Context context) {
+    public CustomDialogFingerVein(final Context context) {
         super(context, R.style.dialog_style);
         mContext =(BaseFragmentActivity) context;
         mLayoutRes = LayoutInflater.from(context).inflate(R.layout.dialog_fingervein, null);
