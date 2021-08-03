@@ -28,7 +28,6 @@ import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.ReplenishCabinetBean;
 import com.uplink.selfstore.model.api.ReplenishGetPlanDetailResultBean;
 import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.Result;
@@ -77,19 +76,6 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
         setNavGoBackBtnVisible(true);
 
-        HashMap<String, CabinetBean> l_Cabinets = getDevice().getCabinets();
-        if (l_Cabinets != null) {
-
-            cabinets = new ArrayList<>(l_Cabinets.values());
-
-            Collections.sort(cabinets, new Comparator<CabinetBean>() {
-                @Override
-                public int compare(CabinetBean t1, CabinetBean t2) {
-                    return t2.getPriority() - t1.getPriority();
-                }
-            });
-        }
-
         initView();
         initEvent();
         initData();
@@ -120,11 +106,11 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                     params.put("deviceId", getDevice().getDeviceId() + "");
                     params.put("planDeviceId", planDeviceId);
                     JSONArray json_Slots = new JSONArray();
-                    HashMap<String, ReplenishCabinetBean> l_Cabinets = planDetailResult.getCabinets();
+                    HashMap<String, CabinetBean> l_Cabinets = planDetailResult.getCabinets();
 
-                    for (Map.Entry<String, ReplenishCabinetBean> entry : l_Cabinets.entrySet()) {
+                    for (Map.Entry<String, CabinetBean> entry : l_Cabinets.entrySet()) {
 
-                        HashMap<String, ReplenishSlotBean> l_Slots = entry.getValue().getSlots();
+                        HashMap<String, ReplenishSlotBean> l_Slots = entry.getValue().getRshSlots();
 
                         for (Map.Entry<String, ReplenishSlotBean> entry2 : l_Slots.entrySet()) {
 
@@ -140,7 +126,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                         }
                     }
 
-                    params.put("slots", json_Slots);
+                    params.put("rshSlots", json_Slots);
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
@@ -200,31 +186,12 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 cur_Cabinet_Position = position;
-                cur_Cabinet = cabinets.get(cur_Cabinet_Position);
-                CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
-                lv_Cabinets.setAdapter(list_cabinet_adapter);
                 loadCabinetSlots();
             }
         });
     }
 
     private void initData() {
-
-        if (cabinets == null)
-            return;
-        if (cabinets.size() == 0)
-            return;
-        if(cabinets.size()==1) {
-            lv_Cabinets.setVisibility(View.GONE);
-        }
-
-        cur_Cabinet = cabinets.get(cur_Cabinet_Position);
-
-        if (cur_Cabinet == null)
-            return;
-
-        CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
-        lv_Cabinets.setAdapter(list_cabinet_adapter);
 
         getPlanDetail();
 
@@ -235,27 +202,24 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         if (planDetailResult == null)
             return;
 
-        HashMap<String, ReplenishCabinetBean> cabinets = planDetailResult.getCabinets();
-
         if (cabinets == null)
             return;
 
-        if (!cabinets.containsKey(cur_Cabinet.getCabinetId()))
-            return;
+
+        CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
+        lv_Cabinets.setAdapter(list_cabinet_adapter);
+
+        cur_Cabinet = cabinets.get(cur_Cabinet_Position);
+
 
         tv_CabinetName.setText(cur_Cabinet.getName() + "(" + cur_Cabinet.getCabinetId() + ")");
 
-        ReplenishCabinetBean cabinet = cabinets.get(cur_Cabinet.getCabinetId());
-
-        if (cabinet == null)
-            return;
-
         switch (cur_Cabinet.getModelNo()) {
             case "dsx01":
-                drawsCabinetSlotsByDS(cabinet.getRowColLayout(), cabinet.getSlots());
+                drawsCabinetSlotsByDS(cur_Cabinet.getRowColLayout(), cur_Cabinet.getRshSlots());
                 break;
             case "zsx01":
-                drawsCabinetSlotsByZS(cabinet.getRowColLayout(), cabinet.getSlots());
+                drawsCabinetSlotsByZS(cur_Cabinet.getRowColLayout(), cur_Cabinet.getRshSlots());
                 break;
         }
     }
@@ -363,7 +327,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                                 dialog_Replenish.setOnClickListener(new CustomDialogReplenish.OnClickListener() {
                                     @Override
                                     public void onSave(ReplenishSlotBean bean) {
-                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getSlots().put(bean.getSlotId(),bean);
+                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(),bean);
                                         loadCabinetSlots();
                                         dialog_Replenish.hide();
                                     }
@@ -491,7 +455,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                                     @Override
                                     public void onSave(ReplenishSlotBean bean) {
 
-                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getSlots().put(bean.getSlotId(),bean);
+                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(),bean);
                                         loadCabinetSlots();
                                         dialog_Replenish.hide();
 
@@ -581,6 +545,24 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
                 if (rt.getResult() == Result.SUCCESS) {
                     planDetailResult= rt.getData();
+
+                    if(planDetailResult.getCabinets().size()==0) {
+                        lv_Cabinets.setVisibility(View.GONE);
+                    }
+
+                    HashMap<String, CabinetBean> l_Cabinets = planDetailResult.getCabinets();
+                    if (l_Cabinets != null) {
+
+                        cabinets = new ArrayList<>(l_Cabinets.values());
+
+                        Collections.sort(cabinets, new Comparator<CabinetBean>() {
+                            @Override
+                            public int compare(CabinetBean t1, CabinetBean t2) {
+                                return t2.getPriority() - t1.getPriority();
+                            }
+                        });
+                    }
+
                     loadCabinetSlots();
                 } else {
                     showToast(rt.getMessage());

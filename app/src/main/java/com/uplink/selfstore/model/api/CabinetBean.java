@@ -1,6 +1,7 @@
 package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class CabinetBean implements Serializable {
     private String cabinetId;
@@ -10,6 +11,7 @@ public class CabinetBean implements Serializable {
     private String comId;
     private int comBaud;
 
+    private HashMap<String, ReplenishSlotBean> rshSlots;
 
     public String getComId() {
         return comId;
@@ -88,5 +90,13 @@ public class CabinetBean implements Serializable {
 
     public void setComBaud(int comBaud) {
         this.comBaud = comBaud;
+    }
+
+    public HashMap<String, ReplenishSlotBean> getRshSlots() {
+        return rshSlots;
+    }
+
+    public void setRshSlots(HashMap<String, ReplenishSlotBean> rshSlots) {
+        this.rshSlots = rshSlots;
     }
 }
