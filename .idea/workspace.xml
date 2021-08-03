@@ -103,21 +103,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogSlotEdit.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogSlotEdit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomLoadingDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogLoading.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/dialog_loading.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/dialog_loading.xml" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -181,35 +168,41 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogLoading.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="26">
-              <caret line="11" column="32" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="32" />
+            <state relative-caret-position="89">
+              <caret line="502" selection-start-line="502" selection-end-line="502" />
               <folding>
-                <element signature="e#1128#1129#0" expanded="true" />
-                <element signature="e#1155#1156#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2851#3081#0" />
+                <element signature="e#3087#3239#0" />
+                <element signature="e#3319#3889#0" />
+                <element signature="e#4109#4305#0" />
+                <element signature="e#4311#4621#0" />
+                <element signature="e#13671#13672#0" expanded="true" />
+                <element signature="e#13718#13719#0" expanded="true" />
+                <element signature="e#13615#14307#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
+            <state relative-caret-position="318">
+              <caret line="244" column="28" lean-forward="true" selection-start-line="244" selection-start-column="28" selection-end-line="244" selection-end-column="28" />
+              <folding>
+                <element signature="method#buildBayParams#0;class#CartActivity#0" />
+                <element signature="method#paySend#0;class#CartActivity#0" />
+                <element signature="method#payStatusQuery#0;class#CartActivity#0" />
+                <element signature="method#doPaySuccess#0;class#CartActivity#0" />
+                <element signature="method#getStatistics#0;class#CartActivity#0" />
+                <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
+                <element signature="method#operate#0;class#CartActivity#0" />
+              </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_loading.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="20" column="36" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="36" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2" />
         </entry>
       </file>
     </leaf>
@@ -229,9 +222,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>slotmax</find>
-      <find>cabinetCtrlByZS</find>
-      <find>txt_SlotName</find>
       <find>cur_Kind_Position</find>
       <find>list_kind_name_adapter</find>
       <find>loadKindData</find>
@@ -259,6 +249,9 @@
       <find>CustomHandlingDialog</find>
       <find>isWaitHandling</find>
       <find>CustomDialogLoading</find>
+      <find>CustomDialogSystemWarn</find>
+      <find>orderCancle</find>
+      <find>setScanCtrlHandler</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -325,24 +318,24 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/CabinetBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/api/ReplenishGetPlanDetailResultBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomScanPayDialog.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/CommandManager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSystemWarnDialog.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogSlotEdit.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_loading.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomLoadingDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogLoading.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSystemWarnDialog.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-157" />
+    <option name="x" value="-101" />
     <option name="y" value="25" />
     <option name="width" value="1332" />
     <option name="height" value="775" />
@@ -390,15 +383,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="dialog" type="462c0819:PsiDirectoryNode" />
+              <item name="activity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -837,10 +822,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-157" y="25" width="1332" height="775" extended-state="0" />
+    <frame x="-101" y="25" width="1332" height="775" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.21705426" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.2511628" />
       <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
       <window_info id="Captures" order="2" sideWeight="0.17922078" side_tool="true" weight="0.2898914" />
       <window_info id="Build Variants" order="3" sideWeight="0.17547569" side_tool="true" weight="0.2579832" />
@@ -850,7 +835,7 @@
       <window_info id="Designer" order="7" />
       <window_info id="Resources Explorer" order="8" sideWeight="0.49311927" weight="0.32875606" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.48446682" weight="0.53058106" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.48446682" weight="0.40519878" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7581864" weight="0.3501529" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5285714" weight="0.53058106" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -859,10 +844,10 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.13193278" side_tool="true" weight="0.2767584" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" weight="0.18195719" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" visible="true" weight="0.18195719" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" visible="true" weight="0.43730888" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.20795107" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8263773" weight="0.4235474" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.20795107" />
       <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.2522936" />
@@ -1449,38 +1434,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomScanPayDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="641" column="47" lean-forward="true" selection-start-line="641" selection-start-column="47" selection-end-line="641" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/CommandManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="163" column="55" lean-forward="true" selection-start-line="163" selection-start-column="55" selection-end-line="163" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomSystemWarnDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="112" column="31" lean-forward="true" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
-          <folding>
-            <element signature="method#setCsrQrcode#0;class#CustomSystemWarnDialog#0" />
-            <element signature="method#setCsrPhoneNumber#0;class#CustomSystemWarnDialog#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1503,13 +1460,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="28" selection-start-line="28" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="369" column="39" lean-forward="true" selection-start-line="369" selection-start-column="39" selection-end-line="369" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -1587,10 +1537,74 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_loading.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="20" column="36" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="36" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="48" column="31" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogSystemWarn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+          <folding>
+            <element signature="method#setCsrQrcode#0;class#CustomSystemWarnDialog#0" />
+            <element signature="method#setCsrPhoneNumber#0;class#CustomSystemWarnDialog#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomScanPayDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
+          <folding>
+            <element signature="class#4274:4780" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogLoading.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="32" />
+          <folding>
+            <element signature="e#1128#1129#0" expanded="true" />
+            <element signature="e#1155#1156#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="45" column="45" lean-forward="true" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/swipebacklayout/SwipeBackActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="12" column="50" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="60" column="49" lean-forward="true" selection-start-line="60" selection-start-column="49" selection-end-line="60" selection-end-column="49" />
+        <state relative-caret-position="170">
+          <caret line="90" column="8" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#setSlot#0;class#SmDeviceStockActivity#0" />
@@ -1608,43 +1622,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/swipebacklayout/SwipeBackActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="12" column="46" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="347" column="28" selection-start-line="347" selection-start-column="28" selection-end-line="347" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_loading.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="20" column="36" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="36" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogLoading.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="32" />
+        <state relative-caret-position="89">
+          <caret line="502" selection-start-line="502" selection-end-line="502" />
           <folding>
-            <element signature="e#1128#1129#0" expanded="true" />
-            <element signature="e#1155#1156#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2851#3081#0" />
+            <element signature="e#3087#3239#0" />
+            <element signature="e#3319#3889#0" />
+            <element signature="e#4109#4305#0" />
+            <element signature="e#4311#4621#0" />
+            <element signature="e#13671#13672#0" expanded="true" />
+            <element signature="e#13718#13719#0" expanded="true" />
+            <element signature="e#13615#14307#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="193" column="9" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
+        <state relative-caret-position="318">
+          <caret line="244" column="28" lean-forward="true" selection-start-line="244" selection-start-column="28" selection-end-line="244" selection-end-column="28" />
+          <folding>
+            <element signature="method#buildBayParams#0;class#CartActivity#0" />
+            <element signature="method#paySend#0;class#CartActivity#0" />
+            <element signature="method#payStatusQuery#0;class#CartActivity#0" />
+            <element signature="method#doPaySuccess#0;class#CartActivity#0" />
+            <element signature="method#getStatistics#0;class#CartActivity#0" />
+            <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
+            <element signature="method#operate#0;class#CartActivity#0" />
+          </folding>
         </state>
       </provider>
     </entry>

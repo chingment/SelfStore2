@@ -1,6 +1,7 @@
 package com.uplink.selfstore.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -228,7 +229,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onSure() {
                 closePageCountTimerStart();
-                orderCancle(CartActivity.this, LAST_ORDERID, 1, "取消订单");
+                orderCancle(LAST_ORDERID, 1, "取消订单");
                 LAST_PAYTRANSID = "";
                 LAST_ORDERID="";
             }
@@ -241,7 +242,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onTimeFinish() {
                 closePageCountTimerStart();
-                orderCancle(CartActivity.this, LAST_ORDERID, 1, "支付超时");
+                orderCancle(LAST_ORDERID, 1, "支付超时");
                 LAST_PAYTRANSID = "";
                 LAST_ORDERID="";
             }
@@ -627,6 +628,23 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onFailure(String msg, Exception e) {
                 showToast(msg);
+            }
+        });
+    }
+
+    public void orderCancle(String orderId, int type, String reason) {
+
+        DeviceBean device = AppCacheManager.getDevice();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("deviceId", device.getDeviceId() + "");
+        params.put("orderId", orderId);
+        params.put("type", type);
+        params.put("reason", reason);
+
+        postByMy(CartActivity.this,Config.URL.order_Cancle, params, null, true, "", new HttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
             }
         });
     }

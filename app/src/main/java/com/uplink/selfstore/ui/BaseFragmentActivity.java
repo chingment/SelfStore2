@@ -67,7 +67,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     private ClosePageCountTimer closePageCountTimer;
     private CustomDataByVendingBean customDataByVending;
     private DeviceBean device;
-    //private ScannerCtrl scannerCtrl;
     private Handler laodingUIHandler;
     public LocationUtil locationUtil;
 
@@ -143,34 +142,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
     public void setHideStatusBar(boolean ishidden) {
         OstCtrlInterface.getInstance().setHideStatusBar(appContext, ishidden);
     }
-
-//    public void setScannerCtrl(Context context) {
-//        if(getDevice().getScanner().getUse()) {
-//            scannerCtrl = ScannerCtrl.getInstance();
-//            scannerCtrl.connect();
-//
-//            if(!scannerCtrl.isConnect()) {
-//                LogUtil.e(TAG, "扫描器连接失败");
-//            }
-//
-//            scannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
-//                        @Override
-//                        public boolean handleMessage(Message msg) {
-//                            Bundle bundle;
-//                            bundle = msg.getData();
-//                            String scanResult = bundle.getString("result");
-//                            if (scanResult != null) {
-//                                if (scanResult.contains("pickupcode")) {
-//                                    LogUtil.e("pickupcode:" + scanResult);
-//                                    orderSearchByPickupCode(context,scanResult);
-//                                }
-//                            }
-//                            return false;
-//                        }
-//                    })
-//            );
-//        }
-//    }
 
     public void useClosePageCountTimer() {
         if(closePageCountTimer==null) {
@@ -389,18 +360,8 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         super.onResume();
         closePageCountTimerStart();
         AppManager.getAppManager().setCurrentActivity(this);
-
-
         setFilters();  // Start listening notifications from UsbService
         startService(UsbService.class, usbConnection, null);
-
-
-
-        //HeartbeatService.sendHeartbeatBag();
-
-        //if(scannerCtrl!=null) {
-        //    scannerCtrl.connect();
-        //}
     }
 
     private void setFilters() {
@@ -437,10 +398,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
 
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
-
-        //if(scannerCtrl!=null) {
-        //    scannerCtrl.disConnect();
-        //}
     }
 
     @Override
@@ -540,23 +497,6 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
                     laodingUIHandler.sendMessage(m);
                 }
                 handler.onFailure(msg, e);
-            }
-        });
-    }
-
-    public void orderCancle(Context context, String orderId,int type, String reason) {
-
-        DeviceBean device = AppCacheManager.getDevice();
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("deviceId", device.getDeviceId() + "");
-        params.put("orderId", orderId);
-        params.put("type", type);
-        params.put("reason", reason);
-
-        postByMy(context,Config.URL.order_Cancle, params, null, true, "", new HttpResponseHandler() {
-            @Override
-            public void onSuccess(String response) {
             }
         });
     }
