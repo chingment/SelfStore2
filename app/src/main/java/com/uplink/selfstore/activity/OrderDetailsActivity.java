@@ -567,7 +567,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             if (!OrderDetailsActivity.this.isFinishing()) {
                 getDialogBySystemWarn().setWarnTile("系统维护中..");
-                getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                getDialogBySystemWarn().setCloseVisibility(View.GONE);
                 getDialogBySystemWarn().show();
             }
 
@@ -639,7 +639,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     break;
                 case R.id.btn_ContactKefu:
                     getDialogBySystemWarn().setWarnTile("您好，需要提供帮助吗？");
-                    getDialogBySystemWarn().setBtnCloseVisibility(View.VISIBLE);
+                    getDialogBySystemWarn().setCloseVisibility(View.VISIBLE);
                     getDialogBySystemWarn().show();
                     break;
             }

@@ -99,13 +99,13 @@ public class CustomScanPayDialog extends Dialog {
             public void onSure() {
                 dialog_ConfirmClose.hide();
                 mThis.hide();
-                myHanldeListener.onSureClose();
+                myHanldeListener.onSure();
             }
 
             @Override
             public void onCancle() {
                 dialog_ConfirmClose.hide();
-                myHanldeListener.onCancleClose();
+                myHanldeListener.onCancle();
             }
         });
 
@@ -179,8 +179,8 @@ public class CustomScanPayDialog extends Dialog {
     }
 
     public  interface IHanldeListener{
-         void onCancleClose();
-         void onSureClose();
+         void onCancle();
+         void onSure();
          void onTimeTick();
          void onTimeFinish();
          void onShow();

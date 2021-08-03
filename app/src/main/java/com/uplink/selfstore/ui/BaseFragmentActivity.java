@@ -211,7 +211,7 @@ public class BaseFragmentActivity extends FragmentActivity implements View.OnCli
         if(device!=null) {
             if(!device.getDeviceId().equals("")) {
                 if(device.isExIsHas()) {
-                        getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+                        getDialogBySystemWarn().setCloseVisibility(View.GONE);
                         getDialogBySystemWarn().show();
                 }
                 else {

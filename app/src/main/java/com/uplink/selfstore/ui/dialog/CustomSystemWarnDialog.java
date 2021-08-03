@@ -51,7 +51,7 @@ public class CustomSystemWarnDialog extends Dialog {
         this.setContentView(mLayoutRes);
     }
 
-    public void setBtnCloseVisibility(int visibility) {
+    public void setCloseVisibility(int visibility) {
         this.btn_close.setVisibility(visibility);
     }
 
@@ -98,7 +98,6 @@ public class CustomSystemWarnDialog extends Dialog {
             this.wv_csrHelpTips.setVisibility(View.VISIBLE);
         }
     }
-
 
     protected void initView() {
         img_warn= ViewHolder.get(mLayoutRes, R.id.img_warn);

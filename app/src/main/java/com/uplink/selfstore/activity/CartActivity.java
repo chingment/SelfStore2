@@ -221,12 +221,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             }
 
             @Override
-            public void onCancleClose() {
+            public void onCancle() {
                 closePageCountTimerStart();
             }
 
             @Override
-            public void onSureClose() {
+            public void onSure() {
                 closePageCountTimerStart();
                 orderCancle(CartActivity.this, LAST_ORDERID, 1, "取消订单");
                 LAST_PAYTRANSID = "";

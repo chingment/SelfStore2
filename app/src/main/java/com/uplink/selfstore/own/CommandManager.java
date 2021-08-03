@@ -158,10 +158,10 @@ public class CommandManager {
 
 
         if (sysSetStatusBean.getStatus() == 1) {
-            currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+            currentActivity.getDialogBySystemWarn().setCloseVisibility(View.GONE);
             currentActivity.getDialogBySystemWarn().hide();
         } else if (sysSetStatusBean.getStatus() == 2) {
-            currentActivity.getDialogBySystemWarn().setBtnCloseVisibility(View.GONE);
+            currentActivity.getDialogBySystemWarn().setCloseVisibility(View.GONE);
             currentActivity.getDialogBySystemWarn().show();
         }
 
