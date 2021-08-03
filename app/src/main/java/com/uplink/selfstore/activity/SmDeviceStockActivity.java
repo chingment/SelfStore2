@@ -189,6 +189,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         initView();
         initEvent();
         initData();
+
     }
 
     private void initView() {
