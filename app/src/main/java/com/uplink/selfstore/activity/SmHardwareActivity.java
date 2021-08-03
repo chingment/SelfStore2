@@ -98,12 +98,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     private TextView ds_tv_log;
 
 
-    //微光互联硬件诊断
-    //private ScannerCtrl wg_ScannerCtrl=null;
-    private EditText wg_hd_et_ck;
-    private Button wg_hd_btn_connect;
-    private TextView wg_hd_et_scanresult;
-
     Semaphore mCameraOpenCloseLock = new Semaphore(1);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +110,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         initViewByCamera();
         initViewByDS();
         initViewByZS();
-        initViewByWG();
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -281,28 +274,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
 
     }
 
-    private void  initViewByWG() {
-
-//        wg_ScannerCtrl = ScannerCtrl.getInstance();
-//        wg_ScannerCtrl.setScanHandler(new Handler(new Handler.Callback() {
-//                    @Override
-//                    public boolean handleMessage(Message msg) {
-//                        Bundle bundle;
-//                        bundle = msg.getData();
-//                        String scanResult = bundle.getString("result");
-//                        wg_hd_et_scanresult.setText(scanResult);
-//                        return false;
-//                    }
-//                })
-//        );
-//
-        wg_hd_et_ck = (EditText) findViewById(R.id.wg_hd_et_ck);
-        wg_hd_et_ck.setText("");
-        wg_hd_btn_connect = (Button) findViewById(R.id.wg_hd_btn_connect);
-        wg_hd_et_scanresult = (EditText) findViewById(R.id.wg_hd_et_scanresult);
-        wg_hd_btn_connect.setOnClickListener(this);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -337,10 +308,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
             ds_CabinetCtrlByDS=null;
         }
 
-        //if (wg_ScannerCtrl != null) {
-        //    wg_ScannerCtrl.disConnect();
-        //    wg_ScannerCtrl = null;
-        //}
     }
 
     @Override
@@ -384,7 +351,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
         int str_ds_hd_et_com_baud=Integer.valueOf(ds_hd_et_com_baud.getText()+"");
         String str_zs_hd_et_com_id=zs_hd_et_com_id.getText()+"";
         int str_zs_hd_et_com_baud=Integer.valueOf(zs_hd_et_com_baud.getText()+"");
-        String str_wg_hd_et_ck=wg_hd_et_ck.getText()+"";
         String str_zs_hd_et_plateid=zs_hd_et_plateid.getText()+"";
         String str_zs_hd_et_numid=zs_hd_et_numid.getText()+"";
 
@@ -625,23 +591,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         return;
                     }
                     zs_CabinetCtrlByZS.queryLockStatus(Integer.valueOf(str_zs_hd_et_plateid),Integer.valueOf(str_zs_hd_et_numid));
-                    break;
-                case R.id.wg_hd_btn_connect:
-
-//                    if (StringUtil.isEmpty(str_wg_hd_et_ck)) {
-//                        showToast("[wg扫描设备]请输入串口名称");
-//                        return;
-//                    }
-
-                    //wg_ScannerCtrl.setComId(str_wg_hd_et_ck);
-                    //wg_ScannerCtrl.connect();
-
-
-//                    if(!wg_ScannerCtrl.isConnect()){
-//                        showToast("[wg扫描设备]连接失败");
-//                        return;
-//                    }
-
                     break;
             }
         }
