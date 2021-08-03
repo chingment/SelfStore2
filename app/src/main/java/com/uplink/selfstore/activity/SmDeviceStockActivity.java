@@ -690,7 +690,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     public void onClick(View v) {
         super.onClick(v);
 
-        LogUtil.i(TAG,"点击了");
         if (!NoDoubleClickUtil.isDoubleClick()) {
             switch (v.getId()) {
                 case R.id.nav_back:

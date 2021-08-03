@@ -115,7 +115,6 @@ public class CustomDialogSystemWarn extends Dialog {
         LongClickUtil.setLongClick(new Handler(), img_warn, 500, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                LogUtil.e("长按触发");
                 Intent intent = new Intent(mContext, SmLoginActivity.class);
                 mContext.startActivity(intent);
                 return true;
