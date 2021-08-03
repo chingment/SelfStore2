@@ -67,7 +67,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private CustomPickupAutoTestDialog dialog_PickupAutoTest;
     private ListView lv_Cabinets;
     private CabinetBean cur_Cabinet =null;//当前机柜信息
-    private static int cur_Cabinet_Position = 0;
+    private int cur_Cabinet_Position = 0;
     private HashMap<String, SlotBean> slots = null;//机柜货道信息
     private List<CabinetBean> cabinets=new ArrayList<>();
     private Button btn_ScanSlots;

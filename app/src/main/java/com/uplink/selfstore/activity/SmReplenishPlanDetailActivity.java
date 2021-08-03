@@ -57,7 +57,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private CustomDialogReplenish dialog_Replenish;
     private ListView lv_Cabinets;
     private CabinetBean cur_Cabinet =null;//当前机柜信息
-    private static int cur_Cabinet_Position = 0;
+    private int cur_Cabinet_Position = 0;
     private List<CabinetBean> cabinets=new ArrayList<>();
     private TextView tv_CabinetName;
     private String planDeviceId="";
