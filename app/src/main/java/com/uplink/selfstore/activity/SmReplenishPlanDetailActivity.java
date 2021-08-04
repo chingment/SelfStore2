@@ -24,6 +24,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CabinetAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
+import com.uplink.selfstore.model.CabinetLayoutUtil;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -39,6 +40,7 @@ import com.uplink.selfstore.ui.dialog.CustomDialogReplenish;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 
 import java.util.ArrayList;
@@ -214,176 +216,79 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
         tv_CabinetName.setText(cur_Cabinet.getName() + "(" + cur_Cabinet.getCabinetId() + ")");
 
-        switch (cur_Cabinet.getModelNo()) {
-            case "dsx01":
-                drawsCabinetSlotsByDS(cur_Cabinet.getRowColLayout(), cur_Cabinet.getRshSlots());
-                break;
-            case "zsx01":
-                drawsCabinetSlotsByZS(cur_Cabinet.getRowColLayout(), cur_Cabinet.getRshSlots());
-                break;
-        }
+
+        drawsCabinetLayout(cur_Cabinet.getCabinetId(), cur_Cabinet.getRowColLayout(), cur_Cabinet.getRshSlots());
 
         hideLoading(SmReplenishPlanDetailActivity.this);
     }
 
-    public void drawsCabinetSlotsByDS(String json_layout, HashMap<String, ReplenishSlotBean> slots) {
 
+    public void drawsCabinetLayout(String cabinetId, String json_layout, HashMap<String, ReplenishSlotBean> slots) {
 
-        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(json_layout, new TypeReference<DSCabRowColLayoutBean>() {
-        });
+        this.cur_Cabinet.setRowColLayout(json_layout);
 
-
-        int[] rowColLayout = dSCabRowColLayout.getRows();
-
-        int rowLength = rowColLayout.length;
-
-        //清除表格所有行
-        tl_Slots.removeAllViews();
-        //全部列自动填充空白处
-        tl_Slots.setStretchAllColumns(true);
-        //生成X行，Y列的表格
-        int slot_Name=1;
-        for (int i = rowLength; i > 0; i--) {
-            TableRow tableRow = new TableRow(SmReplenishPlanDetailActivity.this);
-            int colLength = rowColLayout[i - 1];
-
-            if(colLength==0){
-
-                final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
-                TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
-                convertView.setVisibility(View.INVISIBLE);
-                txt_name.setText("该行没有格数");
-
-            }
-            else {
-
-                for (int j = colLength - 1; j >= 0; j--) {
-                    //tv用于显示
-                    final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
-                    LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
-                    TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
-                    TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
-
-                    TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
-                    TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
-                    TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
-                    TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
-                    ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
-
-
-                    String slotId = (i - 1) + "-" + j+"-"+slot_Name;
-
-                    txt_SlotId.setText(slotId);
-                    txt_SlotName.setText(String.valueOf(slot_Name));
-
-
-                    ReplenishSlotBean slot = null;
-
-                    if (slots.size() > 0) {
-                        slot = slots.get(slotId);
-                    }
-
-
-                    if (slot == null) {
-                        slot = new ReplenishSlotBean();
-                        slot.setSlotId(slotId);
-                        slot.setSlotName(slot_Name+"");
-                        slots.put(slotId, slot);
-                    }
-                    else
-                    {
-                        slot.setSlotName(slot_Name+"");
-                    }
-
-                    if (slot.getSkuId() == null) {
-                        txt_name.setText(R.string.tips_noproduct);
-                        txt_sellQuantity.setText("0");
-                        txt_lockQuantity.setText("0");
-                        txt_sumQuantity.setText("0");
-
-                    } else {
-                        txt_name.setText(slot.getSkuName());
-                        txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
-                        txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
-                        txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
-
-                        CommonUtil.loadImageFromUrl(SmReplenishPlanDetailActivity.this, img_main, slot.getSkuMainImgUrl());
-
-                        if (slot.isPlanRsh()) {
-                            GradientDrawable drawable = new GradientDrawable();
-                            drawable.setCornerRadius(0);
-                            drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
-                            tmp_wapper.setBackgroundDrawable(drawable);
-                        }
-                    }
-
-                    convertView.setTag(slot);
-
-                    if(slot.isPlanRsh()) {
-                        convertView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                ReplenishSlotBean l_Slot = (ReplenishSlotBean) v.getTag();
-                                if(dialog_Replenish==null) {
-                                    dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
-                                }
-                                dialog_Replenish.setData(l_Slot);
-                                dialog_Replenish.setOnClickListener(new CustomDialogReplenish.OnClickListener() {
-                                    @Override
-                                    public void onSave(ReplenishSlotBean bean) {
-                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(),bean);
-                                        loadCabinetSlots();
-                                        dialog_Replenish.hide();
-                                    }
-                                });
-                                dialog_Replenish.show();
-                            }
-                        });
-                    }
-
-                    slot_Name++;
-
-                    tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
-                }
-            }
-
-            tl_Slots.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
-
-        }
-    }
-
-    public void drawsCabinetSlotsByZS(String json_layout, HashMap<String, ReplenishSlotBean> slots) {
-
-        ZSCabRowColLayoutBean layout = JSON.parseObject(json_layout, new TypeReference<ZSCabRowColLayoutBean>() {});
-
-        if(layout==null)
+        if (StringUtil.isEmptyNotNull(json_layout))
             return;
 
-        //清除表格所有行
+        if (slots == null) {
+            slots = new HashMap<>();
+        }
+
+        com.alibaba.fastjson.JSONObject layout_keys = null;
+        try {
+            layout_keys = JSON.parseObject(json_layout);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if (layout_keys == null)
+            return;
+
+        if (!layout_keys.containsKey("rows"))
+            return;
+
+
+        List<List<String>> rows = new ArrayList<>();
+        if (cabinetId.contains("ds")) {
+            com.alibaba.fastjson.JSONArray arr = layout_keys.getJSONArray("rows");
+            int[] l_rows = new int[arr.size()];
+            for (int i = 0; i < arr.size(); i++) {
+                l_rows[i] = (int) arr.get(i);
+            }
+            rows = CabinetLayoutUtil.getRowsByDs(l_rows);
+        } else if (cabinetId.contains("zs")) {
+            rows = layout_keys.getObject("rows", new TypeReference<List<List<String>>>() {
+            });
+        }
+
+
         tl_Slots.removeAllViews();
         //全部列自动填充空白处
         tl_Slots.setStretchAllColumns(true);
 
         //生成X行，Y列的表格
 
-
-        List<List<String>> rows=layout.getRows();
-
-        for (int i = 0; i <rows.size(); i++) {
+        for (int i = 0; i < rows.size(); i++) {
 
             TableRow tableRow = new TableRow(SmReplenishPlanDetailActivity.this);
 
-            List<String> cols=rows.get(i);
+            List<String> cols = rows.get(i);
 
             for (int j = 0; j < cols.size(); j++) {
 
-                String slot_Id =cols.get(j);
+                String col = cols.get(j);
 
-                String[] slot_Prams=slot_Id.split("-");
+                String[] col_Prams = col.split("-");
 
-                String slot_Plate=slot_Prams[1];
-                String slot_Name=slot_Prams[2];
-                String slot_NoUse=slot_Prams[3];
+                String slot_Id = col;
+                String slot_Name = "";
+                String slot_NoUse = "0";
+                if (cabinetId.contains("ds")) {
+                    slot_Name = col_Prams[2];
+                } else if (cabinetId.contains("zs")) {
+                    slot_Name = col_Prams[2];
+                    slot_NoUse = col_Prams[3];
+                }
 
                 final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
@@ -408,19 +313,17 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
                 if (slot == null) {
                     slot = new ReplenishSlotBean();
-                    slot.setSlotId(slot_Id);
                     slot.setSlotName(slot_Name);
+                    slot.setSlotId(slot_Id);
                     slots.put(slot_Id, slot);
-                }
-                else {
+                } else {
                     slot.setSlotName(slot_Name);
                 }
 
                 if (slot.getSkuId() == null) {
-                    if(slot_NoUse.equals("0")) {
+                    if (slot_NoUse.equals("0")) {
                         txt_name.setText(R.string.tips_noproduct);
-                    }
-                    else {
+                    } else {
                         convertView.setVisibility(View.INVISIBLE);
                         txt_name.setText(R.string.tips_nocanuse);
                     }
@@ -447,22 +350,22 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
                 convertView.setTag(slot);
 
-                if(slot_NoUse.equals("0")) {
+                if (slot_NoUse.equals("0")) {
                     if(slot.isPlanRsh()) {
                         convertView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ReplenishSlotBean l_Slot = (ReplenishSlotBean) v.getTag();
-                                dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+                                if (dialog_Replenish == null) {
+                                    dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+                                }
                                 dialog_Replenish.setData(l_Slot);
                                 dialog_Replenish.setOnClickListener(new CustomDialogReplenish.OnClickListener() {
                                     @Override
                                     public void onSave(ReplenishSlotBean bean) {
-
-                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(),bean);
+                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(), bean);
                                         loadCabinetSlots();
                                         dialog_Replenish.hide();
-
                                     }
                                 });
                                 dialog_Replenish.show();
@@ -478,6 +381,259 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
         }
     }
+
+//    public void drawsCabinetSlotsByDS(String json_layout, HashMap<String, ReplenishSlotBean> slots) {
+//
+//
+//        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(json_layout, new TypeReference<DSCabRowColLayoutBean>() {
+//        });
+//
+//
+//        int[] rowColLayout = dSCabRowColLayout.getRows();
+//
+//        int rowLength = rowColLayout.length;
+//
+//        //清除表格所有行
+//        tl_Slots.removeAllViews();
+//        //全部列自动填充空白处
+//        tl_Slots.setStretchAllColumns(true);
+//        //生成X行，Y列的表格
+//        int slot_Name=1;
+//        for (int i = rowLength; i > 0; i--) {
+//            TableRow tableRow = new TableRow(SmReplenishPlanDetailActivity.this);
+//            int colLength = rowColLayout[i - 1];
+//
+//            if(colLength==0){
+//
+//                final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+//                TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
+//                convertView.setVisibility(View.INVISIBLE);
+//                txt_name.setText("该行没有格数");
+//
+//            }
+//            else {
+//
+//                for (int j = colLength - 1; j >= 0; j--) {
+//                    //tv用于显示
+//                    final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+//                    LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
+//                    TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
+//                    TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
+//
+//                    TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
+//                    TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
+//                    TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
+//                    TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
+//                    ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
+//
+//
+//                    String slotId = (i - 1) + "-" + j+"-"+slot_Name;
+//
+//                    txt_SlotId.setText(slotId);
+//                    txt_SlotName.setText(String.valueOf(slot_Name));
+//
+//
+//                    ReplenishSlotBean slot = null;
+//
+//                    if (slots.size() > 0) {
+//                        slot = slots.get(slotId);
+//                    }
+//
+//
+//                    if (slot == null) {
+//                        slot = new ReplenishSlotBean();
+//                        slot.setSlotId(slotId);
+//                        slot.setSlotName(slot_Name+"");
+//                        slots.put(slotId, slot);
+//                    }
+//                    else
+//                    {
+//                        slot.setSlotName(slot_Name+"");
+//                    }
+//
+//                    if (slot.getSkuId() == null) {
+//                        txt_name.setText(R.string.tips_noproduct);
+//                        txt_sellQuantity.setText("0");
+//                        txt_lockQuantity.setText("0");
+//                        txt_sumQuantity.setText("0");
+//
+//                    } else {
+//                        txt_name.setText(slot.getSkuName());
+//                        txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
+//                        txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
+//                        txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
+//
+//                        CommonUtil.loadImageFromUrl(SmReplenishPlanDetailActivity.this, img_main, slot.getSkuMainImgUrl());
+//
+//                        if (slot.isPlanRsh()) {
+//                            GradientDrawable drawable = new GradientDrawable();
+//                            drawable.setCornerRadius(0);
+//                            drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
+//                            tmp_wapper.setBackgroundDrawable(drawable);
+//                        }
+//                    }
+//
+//                    convertView.setTag(slot);
+//
+//                    if(slot.isPlanRsh()) {
+//                        convertView.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                ReplenishSlotBean l_Slot = (ReplenishSlotBean) v.getTag();
+//                                if(dialog_Replenish==null) {
+//                                    dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+//                                }
+//                                dialog_Replenish.setData(l_Slot);
+//                                dialog_Replenish.setOnClickListener(new CustomDialogReplenish.OnClickListener() {
+//                                    @Override
+//                                    public void onSave(ReplenishSlotBean bean) {
+//                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(),bean);
+//                                        loadCabinetSlots();
+//                                        dialog_Replenish.hide();
+//                                    }
+//                                });
+//                                dialog_Replenish.show();
+//                            }
+//                        });
+//                    }
+//
+//                    slot_Name++;
+//
+//                    tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
+//                }
+//            }
+//
+//            tl_Slots.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+//
+//        }
+//    }
+//
+//    public void drawsCabinetSlotsByZS(String json_layout, HashMap<String, ReplenishSlotBean> slots) {
+//
+//        ZSCabRowColLayoutBean layout = JSON.parseObject(json_layout, new TypeReference<ZSCabRowColLayoutBean>() {});
+//
+//        if(layout==null)
+//            return;
+//
+//        //清除表格所有行
+//        tl_Slots.removeAllViews();
+//        //全部列自动填充空白处
+//        tl_Slots.setStretchAllColumns(true);
+//
+//        //生成X行，Y列的表格
+//
+//
+//        List<List<String>> rows=layout.getRows();
+//
+//        for (int i = 0; i <rows.size(); i++) {
+//
+//            TableRow tableRow = new TableRow(SmReplenishPlanDetailActivity.this);
+//
+//            List<String> cols=rows.get(i);
+//
+//            for (int j = 0; j < cols.size(); j++) {
+//
+//                String slot_Id =cols.get(j);
+//
+//                String[] slot_Prams=slot_Id.split("-");
+//
+//                String slot_Plate=slot_Prams[1];
+//                String slot_Name=slot_Prams[2];
+//                String slot_NoUse=slot_Prams[3];
+//
+//                final View convertView = LayoutInflater.from(SmReplenishPlanDetailActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
+//
+//                LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
+//
+//                TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
+//                TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
+//                TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
+//                TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
+//                TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
+//                TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
+//                ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
+//
+//                txt_SlotId.setText(slot_Id);
+//                txt_SlotName.setText(slot_Name);
+//
+//                ReplenishSlotBean slot = null;
+//
+//                if (slots.size() > 0) {
+//                    slot = slots.get(slot_Id);
+//                }
+//
+//                if (slot == null) {
+//                    slot = new ReplenishSlotBean();
+//                    slot.setSlotId(slot_Id);
+//                    slot.setSlotName(slot_Name);
+//                    slots.put(slot_Id, slot);
+//                }
+//                else {
+//                    slot.setSlotName(slot_Name);
+//                }
+//
+//                if (slot.getSkuId() == null) {
+//                    if(slot_NoUse.equals("0")) {
+//                        txt_name.setText(R.string.tips_noproduct);
+//                    }
+//                    else {
+//                        convertView.setVisibility(View.INVISIBLE);
+//                        txt_name.setText(R.string.tips_nocanuse);
+//                    }
+//
+//                    txt_sellQuantity.setText("0");
+//                    txt_lockQuantity.setText("0");
+//                    txt_sumQuantity.setText("0");
+//
+//                } else {
+//                    txt_name.setText(slot.getSkuName());
+//                    txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
+//                    txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
+//                    txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
+//
+//                    CommonUtil.loadImageFromUrl(SmReplenishPlanDetailActivity.this, img_main, slot.getSkuMainImgUrl());
+//
+//                    if (slot.isPlanRsh()) {
+//                        GradientDrawable drawable = new GradientDrawable();
+//                        drawable.setCornerRadius(0);
+//                        drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
+//                        tmp_wapper.setBackgroundDrawable(drawable);
+//                    }
+//                }
+//
+//                convertView.setTag(slot);
+//
+//                if(slot_NoUse.equals("0")) {
+//                    if(slot.isPlanRsh()) {
+//                        convertView.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                ReplenishSlotBean l_Slot = (ReplenishSlotBean) v.getTag();
+//                                dialog_Replenish = new CustomDialogReplenish(SmReplenishPlanDetailActivity.this);
+//                                dialog_Replenish.setData(l_Slot);
+//                                dialog_Replenish.setOnClickListener(new CustomDialogReplenish.OnClickListener() {
+//                                    @Override
+//                                    public void onSave(ReplenishSlotBean bean) {
+//
+//                                        planDetailResult.getCabinets().get(bean.getCabinetId()).getRshSlots().put(bean.getSlotId(),bean);
+//                                        loadCabinetSlots();
+//                                        dialog_Replenish.hide();
+//
+//                                    }
+//                                });
+//                                dialog_Replenish.show();
+//                            }
+//                        });
+//                    }
+//                }
+//
+//                tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
+//            }
+//
+//            tl_Slots.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
+//
+//        }
+//    }
 
     @Override
     public void onResume(){

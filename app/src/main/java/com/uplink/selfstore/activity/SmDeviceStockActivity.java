@@ -27,7 +27,6 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.model.CabinetLayoutUtil;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.ScanSlotResult;
-import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
@@ -259,16 +258,14 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         if (cabinets.size() == 0)
             return;
 
-        if(cabinets.size()==1){
+        if(cabinets.size()==1) {
             lv_Cabinets.setVisibility(View.GONE);
         }
 
         cur_Cabinet = cabinets.get(cur_Cabinet_Position);
 
-        if (cur_Cabinet == null)
-            return;
-
         CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
+
         lv_Cabinets.setAdapter(list_cabinet_adapter);
 
         getCabinetSlots(device.getDeviceId(),cur_Cabinet.getCabinetId());
@@ -316,7 +313,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         drawsCabinetLayout(cur_Cabinet.getCabinetId(), cur_Cabinet.getRowColLayout(), cur_CabinetSlots);
     }
 
-
     public void drawsCabinetLayout(String cabinetId, String json_layout, HashMap<String, SlotBean> slots) {
 
         this.cur_Cabinet.setRowColLayout(json_layout);
@@ -362,7 +358,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         tl_Slots.setStretchAllColumns(true);
 
         //生成X行，Y列的表格
-
         for (int i = 0; i < rows.size(); i++) {
 
             TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
@@ -586,7 +581,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     dialog_Confirm.show();
                     break;
                 case R.id.btn_RefreshStock:
-                    getCabinetSlots(device.getDeviceId(),cur_Cabinet.getCabinetId());
+                    if (cur_Cabinet == null)
+                        return;
+                    getCabinetSlots(device.getDeviceId(), cur_Cabinet.getCabinetId());
                     break;
                 case R.id.btn_AutoTest:
                     if (cur_Cabinet == null)
@@ -680,6 +677,12 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
         List<PickupSkuBean> skus=new ArrayList<>();
 
+        if(cur_Cabinet==null)
+            return skus;
+
+        if(cur_CabinetSlots==null)
+            return skus;
+
 
         int j=0;
         switch (cur_Cabinet.getModelNo()) {
@@ -692,20 +695,20 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         }
 
 
-        for (String key :cur_CabinetSlots.keySet()){
-             SlotBean l_slot= cur_CabinetSlots.get(key);
-             for (int i=j;i<l_slot.getSellQuantity();i++){
-                 PickupSkuBean a_slot=new PickupSkuBean();
-                 a_slot.setUniqueId(UUID.randomUUID().toString());
-                 a_slot.setSkuId(l_slot.getSkuId());
-                 a_slot.setSlotId(l_slot.getSlotId());
-                 a_slot.setCabinetId(l_slot.getCabinetId());
-                 a_slot.setMainImgUrl(l_slot.getSkuMainImgUrl());
-                 a_slot.setName(l_slot.getSkuName());
-                 a_slot.setStatus(3010);
-                 a_slot.setTips("待取货");
-                 skus.add(a_slot);
-             }
+        for (String key :cur_CabinetSlots.keySet()) {
+            SlotBean l_slot = cur_CabinetSlots.get(key);
+            for (int i = j; i < l_slot.getSellQuantity(); i++) {
+                PickupSkuBean a_slot = new PickupSkuBean();
+                a_slot.setUniqueId(UUID.randomUUID().toString());
+                a_slot.setSkuId(l_slot.getSkuId());
+                a_slot.setSlotId(l_slot.getSlotId());
+                a_slot.setCabinetId(l_slot.getCabinetId());
+                a_slot.setMainImgUrl(l_slot.getSkuMainImgUrl());
+                a_slot.setName(l_slot.getSkuName());
+                a_slot.setStatus(3010);
+                a_slot.setTips("待取货");
+                skus.add(a_slot);
+            }
         }
 
         Collections.shuffle(skus);
