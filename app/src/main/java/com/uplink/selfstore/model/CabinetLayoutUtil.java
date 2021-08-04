@@ -38,7 +38,7 @@ public class CabinetLayoutUtil {
         int rowLength = rowColLayout.length;
 
         int num = 1;
-        for (int i = rowLength - 1; i > 0; i--) {
+        for (int i = rowLength - 1; i >= 0; i--) {
 
             List<String> cols = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class CabinetLayoutUtil {
 
             for (int j = colLength - 1; j >= 0; j--) {
 
-                String slotId = (i - 1) + "-" + j + "-" + num;
+                String slotId = i+ "-" + j + "-" + num;
                 cols.add(slotId);
                 num++;
             }

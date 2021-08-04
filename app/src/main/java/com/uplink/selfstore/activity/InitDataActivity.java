@@ -101,6 +101,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
 
+//        int[] a=new int[3];
+//        a[0]=1;
+//        a[1]=2;
+//        a[2]=3;
+//        List<List<String>> c = CabinetLayoutUtil.getRowsByDs(a);
         //Intent mqttService2 = new Intent(getAppContext(), AiotMqttService.class);
         //startService(mqttService2);
 
