@@ -19,6 +19,7 @@ import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
+import com.uplink.selfstore.model.CabinetLayoutUtil;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
@@ -99,6 +100,16 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
+        try {
+
+            com.alibaba.fastjson.JSONObject object = JSON.parseObject("{dsd\\ss}");
+        }
+        catch (Exception ex){
+
+        }
+
+
+        //CabinetLayoutUtil.getLayoutByDs("")
         //Intent mqttService2 = new Intent(getAppContext(), AiotMqttService.class);
         //startService(mqttService2);
 

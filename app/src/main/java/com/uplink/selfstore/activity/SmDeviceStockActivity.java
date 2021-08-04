@@ -17,18 +17,21 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CabinetAdapter;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.model.CabinetLayoutUtil;
 import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.DeviceSlotsResultBean;
+import com.uplink.selfstore.model.api.DeviceBean;
+import com.uplink.selfstore.model.api.StockSettingGetCabinetSlotsResultBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
@@ -66,9 +69,11 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private CustomDialogSlotEdit dialog_SlotEdit;
     private CustomDialogPickupAutoTest dialog_PickupAutoTest;
     private ListView lv_Cabinets;
+
     private CabinetBean cur_Cabinet =null;//当前机柜信息
     private int cur_Cabinet_Position = 0;
-    private HashMap<String, SlotBean> slots = null;//机柜货道信息
+    private HashMap<String, SlotBean> cur_CabinetSlots = null;//机柜货道信息
+
     private List<CabinetBean> cabinets=new ArrayList<>();
     private Button btn_ScanSlots;
     private Button btn_RefreshStock;
@@ -79,6 +84,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
     private CustomDialogLoading dialog_Running;
     private CustomDialogConfirm dialog_Confirm;
 
+    private DeviceBean device;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +93,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         setNavTtile(this.getResources().getString(R.string.aty_smdevicestock_navtitle));
 
         setNavGoBackBtnVisible(true);
+
+        device = getDevice();
 
         setScanCtrlHandler(new Handler(new Handler.Callback() {
             @Override
@@ -157,7 +165,11 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                                     DSCabRowColLayoutBean sSCabRowColLayoutBean = new DSCabRowColLayoutBean();
                                     sSCabRowColLayoutBean.setRows(result.rowColLayout);
                                     String strRowColLayout = JSON.toJSONString(sSCabRowColLayoutBean);
-                                    saveCabinetRowColLayout(strRowColLayout);
+                                    saveCabinetRowColLayout(getDevice().getDeviceId(), cur_Cabinet.getCabinetId(), strRowColLayout);
+                                }
+
+                                if (dialog_Running != null) {
+                                    dialog_Running.hide();
                                 }
                                 break;
                             case 5://扫描超时
@@ -259,7 +271,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         CabinetAdapter list_cabinet_adapter = new CabinetAdapter(getAppContext(), cabinets, cur_Cabinet_Position);
         lv_Cabinets.setAdapter(list_cabinet_adapter);
 
-        getCabinetSlots();
+        getCabinetSlots(device.getDeviceId(),cur_Cabinet.getCabinetId());
 
         tv_CabinetName.setText( cur_Cabinet.getName() + "(" + cur_Cabinet.getCabinetId() + ")");
 
@@ -277,25 +289,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
     public void setSlot(SlotBean slot) {
 
-        if(cur_Cabinet==null)
-            return;
-
-        if (slot == null)
-            return;
-
-        String slotId = slot.getSlotId();
-
-        if (StringUtil.isEmpty(slotId))
-            return;
-
-        if (slots == null)
-            return;
-
-        if (!slots.containsKey(slotId))
-            return;
-
-        SlotBean l_slot = slots.get(slot.getSlotId());
-        if(l_slot==null)
+        SlotBean l_slot = cur_CabinetSlots.get(slot.getSlotId());
+        if (l_slot == null)
             return;
 
         l_slot.setSlotId(slot.getSlotId());
@@ -316,197 +311,79 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         l_slot.setVersion(slot.getVersion());
         l_slot.setCanAlterMaxQuantity(slot.getCanAlterMaxQuantity());
 
-        slots.put(slotId,l_slot);
+        cur_CabinetSlots.put(slot.getSlotId(), l_slot);
 
-        switch (cur_Cabinet.getModelNo()) {
-            case "dsx01":
-                drawsCabinetSlotsByDS(cur_Cabinet.getRowColLayout(), slots);
-                break;
-            case "zsx01":
-                drawsCabinetSlotsByZS(cur_Cabinet.getRowColLayout(), slots);
-                break;
-        }
-
-
+        drawsCabinetLayout(cur_Cabinet.getCabinetId(), cur_Cabinet.getRowColLayout(), cur_CabinetSlots);
     }
 
-    public void drawsCabinetSlotsByDS(String json_layout, HashMap<String, SlotBean> slots) {
 
-        if(cur_Cabinet==null)
-            return;
-
-        if(StringUtil.isEmptyNotNull(json_layout))
-            return;
+    public void drawsCabinetLayout(String cabinetId, String json_layout, HashMap<String, SlotBean> slots) {
 
         this.cur_Cabinet.setRowColLayout(json_layout);
+        this.cur_CabinetSlots = slots;
+
+        if (StringUtil.isEmptyNotNull(json_layout))
+            return;
 
         if (slots == null) {
-            slots = new HashMap<String, SlotBean>();
+            slots = new HashMap<>();
         }
 
-        this.slots = slots;
+        com.alibaba.fastjson.JSONObject layout_keys = null;
+        try {
+            layout_keys = JSON.parseObject(json_layout);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if (layout_keys == null)
+            return;
+
+        if (!layout_keys.containsKey("rows"))
+            return;
 
 
-        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cur_Cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
-        });
-
-
-        int[] rowColLayout = dSCabRowColLayout.getRows();
-
-        int rowLength = rowColLayout.length;
-
-        //清除表格所有行
-        tl_Slots.removeAllViews();
-        //全部列自动填充空白处
-        tl_Slots.setStretchAllColumns(true);
-        //生成X行，Y列的表格
-        int slot_Name=1;
-        for (int i = rowLength; i > 0; i--) {
-            TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
-            int colLength = rowColLayout[i - 1];
-
-            if(colLength==0){
-
-                final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
-                TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
-                convertView.setVisibility(View.INVISIBLE);
-                txt_name.setText("该行没有格数");
-
+        List<List<String>> rows = new ArrayList<>();
+        if (cabinetId.contains("ds")) {
+            JSONArray arr = layout_keys.getJSONArray("rows");
+            int[] l_rows = new int[arr.size()];
+            for (int i = 0; i < arr.size(); i++) {
+                l_rows[i] = (int) arr.get(i);
             }
-            else {
-
-                for (int j = colLength - 1; j >= 0; j--) {
-                    //tv用于显示
-                    final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
-                    LinearLayout tmp_wapper = ViewHolder.get(convertView, R.id.tmp_wapper);
-                    TextView txt_SlotId = ViewHolder.get(convertView, R.id.txt_SlotId);
-                    TextView txt_SlotName = ViewHolder.get(convertView, R.id.txt_SlotName);
-
-                    TextView txt_name = ViewHolder.get(convertView, R.id.txt_name);
-                    TextView txt_sellQuantity = ViewHolder.get(convertView, R.id.txt_sellQuantity);
-                    TextView txt_lockQuantity = ViewHolder.get(convertView, R.id.txt_lockQuantity);
-                    TextView txt_sumQuantity = ViewHolder.get(convertView, R.id.txt_sumQuantity);
-                    ImageView img_main = ViewHolder.get(convertView, R.id.img_main);
-
-
-                    String slotId = (i - 1) + "-" + j+"-"+slot_Name;
-
-                    txt_SlotId.setText(slotId);
-                    txt_SlotName.setText(String.valueOf(slot_Name));
-
-
-                    SlotBean slot = null;
-
-                    if (slots.size() > 0) {
-                        slot = slots.get(slotId);
-                    }
-
-
-                    if (slot == null) {
-                        slot = new SlotBean();
-                        slot.setSlotId(slotId);
-                        slot.setSlotName(slot_Name+"");
-                        slots.put(slotId, slot);
-                    }
-                    else
-                    {
-                        slot.setSlotName(slot_Name+"");
-                    }
-
-                    if (slot.getSkuId() == null) {
-                        txt_name.setText(R.string.tips_noproduct);
-                        txt_sellQuantity.setText("0");
-                        txt_lockQuantity.setText("0");
-                        txt_sumQuantity.setText("0");
-
-                    } else {
-                        txt_name.setText(slot.getSkuName());
-                        txt_sellQuantity.setText(String.valueOf(slot.getSellQuantity()));
-                        txt_lockQuantity.setText(String.valueOf(slot.getLockQuantity()));
-                        txt_sumQuantity.setText(String.valueOf(slot.getSumQuantity()));
-
-                        CommonUtil.loadImageFromUrl(SmDeviceStockActivity.this, img_main, slot.getSkuMainImgUrl());
-
-                        if (slot.getLockQuantity() > 0) {
-                            GradientDrawable drawable = new GradientDrawable();
-                            drawable.setCornerRadius(0);
-                            drawable.setStroke(1, getResources().getColor(R.color.lockQuantity));
-                            tmp_wapper.setBackgroundDrawable(drawable);
-                        }
-                    }
-
-                    convertView.setTag(slot);
-                    convertView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomDialogSlotEdit(SmDeviceStockActivity.this);
-                            dialog_SlotEdit.setData(cur_Cabinet,l_Slot);
-                            dialog_SlotEdit.clearSearch();
-                            dialog_SlotEdit.show();
-                        }
-                    });
-
-                    slot_Name++;
-
-                    tableRow.addView(convertView, new TableRow.LayoutParams(MP, WC, 1));
-                }
-            }
-
-            tl_Slots.addView(tableRow, new TableLayout.LayoutParams(MP, WC, 1));
-
-        }
-    }
-
-    public void drawsCabinetSlotsByZS(String json_layout, HashMap<String, SlotBean> slots) {
-
-        if(cur_Cabinet==null)
-            return;
-
-        if(StringUtil.isEmptyNotNull(json_layout))
-            return;
-
-        this.cur_Cabinet.setRowColLayout(json_layout);
-
-        if (slots == null) {
-            slots = new HashMap<String, SlotBean>();
+            rows = CabinetLayoutUtil.getRowsByDs(l_rows);
+        } else if (cabinetId.contains("zs")) {
+            rows = layout_keys.getObject("rows", new TypeReference<List<List<String>>>() {
+            });
         }
 
-        this.slots = slots;
 
-
-        ZSCabRowColLayoutBean layout = JSON.parseObject(json_layout, new TypeReference<ZSCabRowColLayoutBean>() {});
-
-
-        if(layout==null)
-            return;
-
-        //清除表格所有行
         tl_Slots.removeAllViews();
         //全部列自动填充空白处
         tl_Slots.setStretchAllColumns(true);
 
-
         //生成X行，Y列的表格
 
-
-        List<List<String>> rows=layout.getRows();
-
-        for (int i = 0; i <rows.size(); i++) {
+        for (int i = 0; i < rows.size(); i++) {
 
             TableRow tableRow = new TableRow(SmDeviceStockActivity.this);
 
-            List<String> cols=rows.get(i);
+            List<String> cols = rows.get(i);
 
             for (int j = 0; j < cols.size(); j++) {
 
-                String slot_Id =cols.get(j);
+                String col = cols.get(j);
 
-                String[] slot_Prams=slot_Id.split("-");
+                String[] col_Prams = col.split("-");
 
-                String slot_Plate=slot_Prams[1];
-                String slot_Name=slot_Prams[2];
-                String slot_NoUse=slot_Prams[3];
+                String slot_Id = col;
+                String slot_Name = "";
+                String slot_NoUse = "0";
+                if (cabinetId.contains("ds")) {
+                    slot_Name = col_Prams[2];
+                } else if (cabinetId.contains("zs")) {
+                    slot_Name = col_Prams[2];
+                    slot_NoUse = col_Prams[3];
+                }
 
                 final View convertView = LayoutInflater.from(SmDeviceStockActivity.this).inflate(R.layout.item_list_sku_tmp2, tableRow, false);
 
@@ -531,6 +408,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
                 if (slot == null) {
                     slot = new SlotBean();
+                    slot.setSlotName(slot_Name);
                     slot.setSlotId(slot_Id);
                     slots.put(slot_Id, slot);
                 } else {
@@ -538,10 +416,9 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                 }
 
                 if (slot.getSkuId() == null) {
-                    if(slot_NoUse.equals("0")) {
+                    if (slot_NoUse.equals("0")) {
                         txt_name.setText(R.string.tips_noproduct);
-                    }
-                    else {
+                    } else {
                         convertView.setVisibility(View.INVISIBLE);
                         txt_name.setText(R.string.tips_nocanuse);
                     }
@@ -568,13 +445,13 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
 
                 convertView.setTag(slot);
 
-                if(slot_NoUse.equals("0")) {
+                if (slot_NoUse.equals("0")) {
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             SlotBean l_Slot = (SlotBean) v.getTag();
-                            dialog_SlotEdit=new CustomDialogSlotEdit(SmDeviceStockActivity.this);
-                            dialog_SlotEdit.setData(cur_Cabinet,l_Slot);
+                            dialog_SlotEdit = new CustomDialogSlotEdit(SmDeviceStockActivity.this);
+                            dialog_SlotEdit.setData(cur_Cabinet, l_Slot);
                             dialog_SlotEdit.clearSearch();
                             dialog_SlotEdit.show();
                         }
@@ -709,7 +586,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
                     dialog_Confirm.show();
                     break;
                 case R.id.btn_RefreshStock:
-                    getCabinetSlots();
+                    getCabinetSlots(device.getDeviceId(),cur_Cabinet.getCabinetId());
                     break;
                 case R.id.btn_AutoTest:
                     if (cur_Cabinet == null)
@@ -738,36 +615,28 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         }
     }
 
-    private void getCabinetSlots() {
-
-        if(cur_Cabinet==null)
-            return;
+    private void getCabinetSlots(String deviceId, String cabinetId) {
 
         Map<String, Object> params = new HashMap<>();
 
-        params.put("deviceId", getDevice().getDeviceId());
-        params.put("cabinetId",String.valueOf(cur_Cabinet.getCabinetId()));
+        params.put("deviceId", deviceId);
+        params.put("cabinetId",cabinetId);
 
-        //显示loading 会影响点击屏幕触发
+
         postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<DeviceSlotsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<DeviceSlotsResultBean>>() {
+                ApiResultBean<StockSettingGetCabinetSlotsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<StockSettingGetCabinetSlotsResultBean>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    DeviceSlotsResultBean d = rt.getData();
 
-                    switch (cur_Cabinet.getModelNo()){
-                        case "dsx01":
-                            drawsCabinetSlotsByDS(d.getRowColLayout(), d.getSlots());
-                            break;
-                        case "zsx01":
-                            drawsCabinetSlotsByZS(d.getRowColLayout(), d.getSlots());
-                            break;
-                    }
+                    StockSettingGetCabinetSlotsResultBean d = rt.getData();
+
+                    drawsCabinetLayout(cabinetId, d.getRowColLayout(), d.getSlots());
+
                 } else {
                     showToast(rt.getMessage());
                 }
@@ -780,39 +649,29 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         });
     }
 
-    private void saveCabinetRowColLayout(final String rowColLayout) {
-
-        if(cur_Cabinet==null)
-            return;
+    private void saveCabinetRowColLayout(String deviceId, String cabientId, String rowColLayout) {
 
         Map<String, Object> params = new HashMap<>();
-        params.put("deviceId", getDevice().getDeviceId());
-        params.put("cabinetId", String.valueOf(cur_Cabinet.getCabinetId()));
+        params.put("deviceId", deviceId);
+        params.put("cabinetId", cabientId);
         params.put("rowColLayout", rowColLayout);
 
-        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, false, getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, true, getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<SlotBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SlotBean>>() {
+                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
                 });
 
                 showToast(rt.getMessage());
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    getCabinetSlots();
-                }
-
-                if(dialog_Running!=null) {
-                    dialog_Running.hide();
+                    getCabinetSlots(deviceId, cabientId);
                 }
             }
 
             @Override
             public void onFailure(String msg, Exception e) {
-                if (dialog_Running!=null) {
-                    dialog_Running.hide();
-                }
             }
         });
     }
@@ -833,8 +692,8 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         }
 
 
-        for (String key :slots.keySet()){
-             SlotBean l_slot= slots.get(key);
+        for (String key :cur_CabinetSlots.keySet()){
+             SlotBean l_slot= cur_CabinetSlots.get(key);
              for (int i=j;i<l_slot.getSellQuantity();i++){
                  PickupSkuBean a_slot=new PickupSkuBean();
                  a_slot.setUniqueId(UUID.randomUUID().toString());
