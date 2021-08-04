@@ -25,8 +25,6 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.CabinetAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.CabinetLayoutUtil;
-import com.uplink.selfstore.model.DSCabRowColLayoutBean;
-import com.uplink.selfstore.model.ZSCabRowColLayoutBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.ReplenishGetPlanDetailResultBean;

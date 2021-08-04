@@ -33,7 +33,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
     private TextView txt_FingerVein;
     private ImageView btn_DelFingerVein;
     private CustomDialogFingerVein dialog_FingerVeinCollect;
-    private CustomDialogConfirm dialog_FingerVeinConfirmDel;
+    private CustomDialogConfirm dialog_Confirm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,6 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         setNavTtile(this.getResources().getString(R.string.aty_smuserinfo_navtitle));
         setNavGoBackBtnVisible(true);
-
         initView();
         initEvent();
         initData();
@@ -53,8 +52,8 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         txt_FullName = (TextView) findViewById(R.id.txt_FullName);
         txt_FingerVein = (TextView) findViewById(R.id.txt_FingerVein);
         btn_DelFingerVein = (ImageView) findViewById(R.id.btn_DelFingerVein);
-        dialog_FingerVeinConfirmDel = new CustomDialogConfirm(SmUserInfoActivity.this, "确定要删除？", true);
-        dialog_FingerVeinConfirmDel.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(SmUserInfoActivity.this, "确定要删除？", true);
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
             public void onSure() {
                 delFingerVein();
@@ -62,7 +61,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
             @Override
             public void onCancle() {
-                dialog_FingerVeinConfirmDel.hide();
+                dialog_Confirm.hide();
             }
         });
 
@@ -156,7 +155,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                 if (rt.getResult() == Result.SUCCESS) {
                     getInfo();
                 }
-                dialog_FingerVeinConfirmDel.hide();
+                dialog_Confirm.hide();
             }
 
             @Override
@@ -173,9 +172,9 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
                     finish();
                     break;
                 case R.id.btn_DelFingerVein:
-                    dialog_FingerVeinConfirmDel.setTipsImageVisibility(View.GONE);
-                    dialog_FingerVeinConfirmDel.setTipsText(R.string.aty_smuserinfo_tips_confirmdel);
-                    dialog_FingerVeinConfirmDel.show();
+                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                    dialog_Confirm.setTipsText(R.string.aty_smuserinfo_tips_confirmdel);
+                    dialog_Confirm.show();
                     break;
                 case R.id.txt_FingerVein:
                     dialog_FingerVeinCollect.getTxtMessage().setText(R.string.aty_smuserinfo_tips_puthand);
@@ -190,8 +189,8 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
     public void onDestroy() {
         super.onDestroy();
 
-        if(dialog_FingerVeinConfirmDel!=null){
-            dialog_FingerVeinConfirmDel.cancel();
+        if(dialog_Confirm!=null){
+            dialog_Confirm.cancel();
         }
 
         if(dialog_FingerVeinCollect!=null){

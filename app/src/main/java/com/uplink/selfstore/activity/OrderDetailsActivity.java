@@ -51,7 +51,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private View btn_PickupCompeled;
     private View btn_ContactKefu;
 
-    private CustomDialogConfirm dialog_PickupCompelte;
+    private CustomDialogConfirm dialog_Confirm;
 
     private PickupSkuBean curPickupSku=null;
     private ImageView curPickupSku_Img_Mainimg;
@@ -409,14 +409,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         list_Skus.setPressed(false);
         list_Skus.setEnabled(false);
 
-        dialog_PickupCompelte = new CustomDialogConfirm(OrderDetailsActivity.this, getAppContext().getString(R.string.aty_orderdetails_confirmtips_pickup), true);
-        dialog_PickupCompelte.setTipsImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this, (R.drawable.dialog_icon_warn)));
-        dialog_PickupCompelte.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(OrderDetailsActivity.this, getAppContext().getString(R.string.aty_orderdetails_confirmtips_pickup), true);
+        dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(OrderDetailsActivity.this, (R.drawable.dialog_icon_warn)));
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
             public void onSure() {
 
-                if (dialog_PickupCompelte != null) {
-                    dialog_PickupCompelte.hide();
+                if (dialog_Confirm != null) {
+                    dialog_Confirm.hide();
                 }
 
                 Intent intent = new Intent(OrderDetailsActivity.this, ProductKindActivity.class);
@@ -426,7 +426,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
             @Override
             public void onCancle() {
-                dialog_PickupCompelte.hide();
+                dialog_Confirm.hide();
             }
         });
 
@@ -635,7 +635,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         showToast(getAppContext().getString(R.string.tips_notpickupcompelte));
                         return;
                     }
-                    dialog_PickupCompelte.show();
+                    dialog_Confirm.show();
                     break;
                 case R.id.btn_ContactKefu:
                     getDialogBySystemWarn().setWarnTile("您好，需要提供帮助吗？");
@@ -679,10 +679,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_PickupCompelte != null) {
-            dialog_PickupCompelte.cancel();
+        if (dialog_Confirm != null) {
+            dialog_Confirm.cancel();
         }
-
 
         if (cabinetCtrlByDS != null) {
             cabinetCtrlByDS.disConnect();

@@ -100,16 +100,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        try {
 
-            com.alibaba.fastjson.JSONObject object = JSON.parseObject("{dsd\\ss}");
-        }
-        catch (Exception ex){
-
-        }
-
-
-        //CabinetLayoutUtil.getLayoutByDs("")
         //Intent mqttService2 = new Intent(getAppContext(), AiotMqttService.class);
         //startService(mqttService2);
 

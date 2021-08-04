@@ -23,9 +23,8 @@ import java.util.List;
 
 public class SmRescueToolActivity extends SwipeBackActivity implements View.OnClickListener {
 
-    private CustomDialogConfirm dialog_confirm;
-    private Button btn_ShowNav;
-    private Button btn_AppExit;
+    private CustomDialogConfirm dialog_Confirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +36,11 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
         initEvent();
 
 
-        dialog_confirm = new CustomDialogConfirm(SmRescueToolActivity.this, "", true);
-        dialog_confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(SmRescueToolActivity.this, "", true);
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
             public void onSure() {
-                String tag = dialog_confirm.getTag().toString();
+                String tag = dialog_Confirm.getTag().toString();
                 LogUtil.e("tag:" + tag);
                 switch (tag) {
                     case "fun.closeapp":
@@ -58,12 +57,12 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                         finishAffinity();
                         break;
                 }
-                dialog_confirm.hide();
+                dialog_Confirm.hide();
             }
 
             @Override
             public void onCancle() {
-                dialog_confirm.hide();
+                dialog_Confirm.hide();
             }
         });
 
@@ -107,22 +106,22 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
                                     sendBroadcast(intent);
                                     break;
                                 case "fun.closeapp":
-                                    dialog_confirm.setTipsImageVisibility(View.GONE);
-                                    dialog_confirm.setTag("fun.closeapp");
-                                    dialog_confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.closeapp");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_closeapp));
+                                    dialog_Confirm.show();
                                     break;
                                 case "fun.rootsys":
-                                    dialog_confirm.setTipsImageVisibility(View.GONE);
-                                    dialog_confirm.setTag("fun.rootsys");
-                                    dialog_confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.rootsys");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_rootsys));
+                                    dialog_Confirm.show();
                                     break;
                                 case "fun.exitmanager":
-                                    dialog_confirm.setTipsImageVisibility(View.GONE);
-                                    dialog_confirm.setTag("fun.exitmanager");
-                                    dialog_confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
-                                    dialog_confirm.show();
+                                    dialog_Confirm.setTipsImageVisibility(View.GONE);
+                                    dialog_Confirm.setTag("fun.exitmanager");
+                                    dialog_Confirm.setTipsText(getAppContext().getString(R.string.aty_smhome_confrimtips_exitmanager));
+                                    dialog_Confirm.show();
                                     break;
                             }
                     }
@@ -146,8 +145,8 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (dialog_confirm != null) {
-            dialog_confirm.cancel();
+        if (dialog_Confirm != null) {
+            dialog_Confirm.cancel();
         }
     }
 }
