@@ -152,7 +152,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         LongClickUtil.setLongClick(new Handler(), layout_header, 500, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                LogUtil.e("长按触发");
                 Intent intent = new Intent(getAppContext(), SmLoginActivity.class);
                 startActivity(intent);
                 return true;

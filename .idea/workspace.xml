@@ -110,15 +110,8 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanDetailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanDetailActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmRescueToolActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmRescueToolActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmUserInfoActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -181,11 +174,120 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="51" column="33" lean-forward="true" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+            <state relative-caret-position="115">
+              <caret line="208" column="44" lean-forward="true" selection-start-line="208" selection-start-column="44" selection-end-line="208" selection-end-column="44" />
+              <folding>
+                <element signature="method#onPause#0;class#InitDataActivity#0" />
+                <element signature="method#onDestroy#0;class#InitDataActivity#0" />
+                <element signature="method#setHandleMessage#0;class#InitDataActivity#0" />
+                <element signature="method#setDeviceInitData#0;class#InitDataActivity#0" />
+                <element signature="class#15406:16382" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="339">
+              <caret line="164" column="72" selection-start-line="164" selection-start-column="72" selection-end-line="164" selection-end-column="72" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetMidByZS.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="47" column="53" selection-start-line="47" selection-start-column="48" selection-end-line="47" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="389">
+              <caret line="110" column="44" selection-start-line="110" selection-start-column="44" selection-end-line="110" selection-end-column="44" />
+              <folding>
+                <element signature="e#4211#4212#0" expanded="true" />
+                <element signature="e#4280#4281#0" expanded="true" />
+                <element signature="e#5009#5010#0" expanded="true" />
+                <element signature="e#4988#5152#0" expanded="true" />
+                <element signature="e#5151#5152#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-28/android.jar!/android/widget/BaseAdapter.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="71">
+              <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinnerCtrl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="418" selection-start-line="418" selection-end-line="418" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1862">
+              <caret line="408" column="51" selection-start-line="408" selection-start-column="37" selection-end-line="408" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3917#3974#0" expanded="true" />
+                <element signature="method#initView#0;class#CartActivity#0" />
+                <element signature="method#buildBayParams#0;class#CartActivity#0" />
+                <element signature="method#paySend#0;class#CartActivity#0" />
+                <element signature="method#payStatusQuery#0;class#CartActivity#0" />
+                <element signature="method#doPaySuccess#0;class#CartActivity#0" />
+                <element signature="method#getStatistics#0;class#CartActivity#0" />
+                <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByZS.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="97">
+              <caret line="168" selection-start-line="168" selection-end-line="168" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="97">
+              <caret line="292" selection-start-line="292" selection-end-line="292" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="118">
+              <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -210,7 +312,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mContext</find>
       <find>SkuId</find>
       <find>txt_SkuId</find>
       <find>slot</find>
@@ -240,6 +341,7 @@
       <find>setSlot</find>
       <find>cur_Cabinet</find>
       <find>cur_CabinetSlots</find>
+      <find>长按触发</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -272,7 +374,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/dialog_confirm.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomConfirmDialog.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogConfirm.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmRunExHandleActivity.java" />
@@ -307,7 +408,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/BaseFragmentActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogSystemWarn.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/CabinetColBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/model/CabinetRowBean.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmDeviceStockActivity.java" />
@@ -319,11 +419,13 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmRescueToolActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmReplenishPlanDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="11" />
+    <option name="x" value="-13" />
     <option name="y" value="25" />
     <option name="width" value="1332" />
     <option name="height" value="775" />
@@ -799,7 +901,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="11" y="25" width="1332" height="775" extended-state="0" />
+    <frame x="-13" y="25" width="1332" height="775" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.21085271" />
@@ -814,20 +916,20 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.48446682" weight="0.411315" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7581864" weight="0.50155765" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5285714" weight="0.04587156" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5285714" visible="true" weight="0.04587156" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49122807" weight="0.32326284" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.13193278" side_tool="true" weight="0.2767584" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" visible="true" weight="0.38073394" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" weight="0.6529052" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.04587156" />
+      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.33333334" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8263773" weight="0.4235474" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.20795107" />
-      <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.3761468" />
+      <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.3088685" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -842,47 +944,6 @@
       <window_info anchor="right" id="Coverage" order="11" sideWeight="0.5167785" side_tool="true" visible="true" weight="0.026655897" />
       <window_info anchor="right" id="make" order="12" sideWeight="0.4987013" weight="0.3283208" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.20893008" />
-      <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
-      <window_info id="Captures" order="2" sideWeight="0.17922078" side_tool="true" weight="0.2898914" />
-      <window_info id="Build Variants" order="3" sideWeight="0.17547569" side_tool="true" weight="0.2579832" />
-      <window_info id="Capture Tool" order="4" />
-      <window_info id="Favorites" order="5" sideWeight="0.37953794" side_tool="true" weight="0.19466881" />
-      <window_info id="Image Layers" order="6" />
-      <window_info id="Designer" order="7" />
-      <window_info id="Resources Explorer" order="8" sideWeight="0.49311927" weight="0.32875606" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.48446682" weight="0.08715596" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7581864" weight="0.35474005" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5285714" weight="0.62691134" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49122807" weight="0.32326284" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.13193278" side_tool="true" weight="0.2767584" />
-      <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8680672" visible="true" weight="0.17584097" />
-      <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
-      <window_info anchor="bottom" id="Build" order="13" sideWeight="0.597479" weight="0.41284403" />
-      <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8263773" weight="0.4235474" />
-      <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.20795107" />
-      <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8554622" weight="0.44189602" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Android Model" order="3" side_tool="true" />
-      <window_info anchor="right" id="Gradle" order="4" sideWeight="0.7619048" weight="0.194005" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Preview" order="7" weight="0.32956383" />
-      <window_info anchor="right" id="Assistant" order="8" weight="0.16882068" />
-      <window_info anchor="right" id="Palette&#9;" order="9" />
-      <window_info anchor="right" id="Device File Explorer" order="10" sideWeight="0.23809524" side_tool="true" weight="0.1725" />
-      <window_info anchor="right" id="Coverage" order="11" sideWeight="0.5167785" side_tool="true" visible="true" weight="0.026655897" />
-      <window_info anchor="right" id="make" order="12" sideWeight="0.4987013" weight="0.3283208" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -1103,7 +1164,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java</url>
-          <line>204</line>
+          <line>203</line>
           <properties />
           <option name="timeStamp" value="1058" />
         </line-breakpoint>
@@ -1119,6 +1180,12 @@
           <properties />
           <option name="timeStamp" value="1065" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java</url>
+          <line>732</line>
+          <properties />
+          <option name="timeStamp" value="1072" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -1128,66 +1195,6 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogSystemWarn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
-          <folding>
-            <element signature="method#setCsrQrcode#0;class#CustomSystemWarnDialog#0" />
-            <element signature="method#setCsrPhoneNumber#0;class#CustomSystemWarnDialog#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogLoading.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="32" />
-          <folding>
-            <element signature="e#1128#1129#0" expanded="true" />
-            <element signature="e#1155#1156#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogHandling.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="15" column="22" lean-forward="true" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogNumKey.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogImSeatList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogScanPay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="31" column="58" selection-start-line="31" selection-start-column="58" selection-end-line="31" selection-end-column="58" />
-          <folding>
-            <element signature="class#4274:4780" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogPickupAutoTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="213" column="139" selection-start-line="213" selection-start-column="139" selection-end-line="213" selection-end-column="139" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogReplenish.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
@@ -1232,42 +1239,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2149">
-          <caret line="91" column="79" selection-start-line="91" selection-start-column="79" selection-end-line="91" selection-end-column="79" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="class#4242:7137" />
-            <element signature="method#initView#0;class#CartActivity#0" />
-            <element signature="method#buildBayParams#0;class#CartActivity#0" />
-            <element signature="method#paySend#0;class#CartActivity#0" />
-            <element signature="method#payStatusQuery#0;class#CartActivity#0" />
-            <element signature="method#doPaySuccess#0;class#CartActivity#0" />
-            <element signature="method#getStatistics#0;class#CartActivity#0" />
-            <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
-            <element signature="method#operate#0;class#CartActivity#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/EmCallActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-601">
-          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="60" selection-start-line="60" selection-end-line="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1423,13 +1394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="419" column="52" selection-start-line="419" selection-start-column="52" selection-end-line="419" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/ui/dialog/CustomDialogFingerVein.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
@@ -1486,23 +1450,6 @@
             <element signature="e#26682#26683#0" expanded="true" />
             <element signature="e#26712#26713#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="68" column="56" selection-start-line="68" selection-start-column="56" selection-end-line="68" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="104" selection-start-line="104" selection-end-line="104" />
         </state>
       </provider>
     </entry>
@@ -1566,12 +1513,145 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/EmCallActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="33" column="13" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="51" column="33" lean-forward="true" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+        <state relative-caret-position="3906">
+          <caret line="684" selection-start-line="684" selection-end-line="684" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#3192:10581" />
+            <element signature="class#10646:14091" />
+            <element signature="class#14170:14497" />
+            <element signature="method#getCurrentPickupSku#0;class#OrderDetailsActivity#0" />
+            <element signature="method#isPickupCompelte#0;class#OrderDetailsActivity#0" />
+            <element signature="method#setAllPickupComplete#0;class#OrderDetailsActivity#0" />
+            <element signature="class#17877:18403" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmLoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="96" lean-forward="true" selection-start-line="96" selection-end-line="96" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="208" column="44" lean-forward="true" selection-start-line="208" selection-start-column="44" selection-end-line="208" selection-end-column="44" />
+          <folding>
+            <element signature="method#onPause#0;class#InitDataActivity#0" />
+            <element signature="method#onDestroy#0;class#InitDataActivity#0" />
+            <element signature="method#setHandleMessage#0;class#InitDataActivity#0" />
+            <element signature="method#setDeviceInitData#0;class#InitDataActivity#0" />
+            <element signature="class#15406:16382" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByZS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="168" selection-start-line="168" selection-end-line="168" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/SmHomeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="292" selection-start-line="292" selection-end-line="292" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-28/android.jar!/android/app/Dialog.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="75" column="16" selection-start-line="75" selection-start-column="16" selection-end-line="75" selection-end-column="16" />
+          <folding>
+            <element signature="e#2369#2370#0" expanded="true" />
+            <element signature="e#2420#2421#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetMidByZS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="47" column="53" selection-start-line="47" selection-start-column="48" selection-end-line="47" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/handler/CarOperateHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="75" column="19" selection-start-line="75" selection-start-column="19" selection-end-line="75" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/CartActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1862">
+          <caret line="408" column="51" selection-start-line="408" selection-start-column="37" selection-end-line="408" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3917#3974#0" expanded="true" />
+            <element signature="method#initView#0;class#CartActivity#0" />
+            <element signature="method#buildBayParams#0;class#CartActivity#0" />
+            <element signature="method#paySend#0;class#CartActivity#0" />
+            <element signature="method#payStatusQuery#0;class#CartActivity#0" />
+            <element signature="method#doPaySuccess#0;class#CartActivity#0" />
+            <element signature="method#getStatistics#0;class#CartActivity#0" />
+            <element signature="method#getSkuQuantity#0;class#CartActivity#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-28/android.jar!/android/widget/BaseAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/FingerVeinnerCtrl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="418" selection-start-line="418" selection-end-line="418" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="164" column="72" selection-start-line="164" selection-start-column="72" selection-end-line="164" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/adapter/CartSkuAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="110" column="44" selection-start-line="110" selection-start-column="44" selection-end-line="110" selection-end-column="44" />
+          <folding>
+            <element signature="e#4211#4212#0" expanded="true" />
+            <element signature="e#4280#4281#0" expanded="true" />
+            <element signature="e#5009#5010#0" expanded="true" />
+            <element signature="e#4988#5152#0" expanded="true" />
+            <element signature="e#5151#5152#0" expanded="true" />
           </folding>
         </state>
       </provider>

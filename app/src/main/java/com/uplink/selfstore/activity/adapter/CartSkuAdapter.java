@@ -29,7 +29,7 @@ import java.util.List;
 public class CartSkuAdapter extends BaseAdapter {
     private static final String TAG = "CartSkuAdapter";
     private Context context;
-    private CustomDialogConfirm delete_Dialog;
+    private CustomDialogConfirm dialog_Confirm;
     private List<CartSkuBean> items = new ArrayList<>();
     public CartSkuAdapter(Context context, LinkedHashMap<String, CartSkuBean> cartSkus) {
         this.context = context;
@@ -96,23 +96,28 @@ public class CartSkuAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                delete_Dialog = new CustomDialogConfirm(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
-                delete_Dialog.setTipsImageNetwork(item.getMainImgUrl());
-                delete_Dialog.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+                if(dialog_Confirm==null) {
+                    dialog_Confirm = new CustomDialogConfirm(context, context.getString(R.string.aty_cart_confirmtips_delete), true);
+                }
+
+                dialog_Confirm.setTipsImageNetwork(item.getMainImgUrl());
+                dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
                     @Override
                     public void onSure() {
-                        CartSkuBean sku = (CartSkuBean)delete_Dialog.getTag();
+                        CartSkuBean sku = (CartSkuBean) dialog_Confirm.getTag();
                         operate(CartOperateType.DELETE, sku.getSkuId());
-                        delete_Dialog.dismiss();
+                        dialog_Confirm.hide();
+                        dialog_Confirm.dismiss();
+                        dialog_Confirm=null;
                     }
 
                     @Override
                     public void onCancle() {
-                        delete_Dialog.dismiss();
+                        dialog_Confirm.hide();
                     }
                 });
-                delete_Dialog.setTag(item);
-                delete_Dialog.show();
+                dialog_Confirm.setTag(item);
+                dialog_Confirm.show();
 
             }
         });
@@ -150,11 +155,10 @@ public class CartSkuAdapter extends BaseAdapter {
         });
     }
 
-    public void dismiss(){
-
-        if(delete_Dialog!=null){
-            delete_Dialog.cancel();
-            delete_Dialog.dismiss();
+    public void dismiss() {
+        if (dialog_Confirm != null) {
+            dialog_Confirm.cancel();
+            dialog_Confirm = null;
         }
     }
 
