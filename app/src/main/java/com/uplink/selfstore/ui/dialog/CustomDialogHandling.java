@@ -22,7 +22,7 @@ public class CustomDialogHandling extends Dialog {
     private TextView txt_tips;//等待提示
     private TextView txt_seconds;//等待秒数
     private LinearLayout btn_close;
-    private CustomDialogConfirm dialog_ConfirmClose;
+    private CustomDialogConfirm dialog_Confirm;
     private CountDownTimer countDownTimer;
 
     private IHanldeListener mHanldeListener;
@@ -40,25 +40,25 @@ public class CustomDialogHandling extends Dialog {
         txt_tips =  ViewHolder.get(mLayoutRes,R.id.txt_tips);
         txt_tips.setText(tips);
 
-        dialog_ConfirmClose = new CustomDialogConfirm(context,"确定要退出等候？" , true);
-        dialog_ConfirmClose.setTipsImageVisibility(View.GONE);
-        dialog_ConfirmClose.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
+        dialog_Confirm = new CustomDialogConfirm(context,"确定要退出等候？" , true);
+        dialog_Confirm.setTipsImageVisibility(View.GONE);
+        dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
             @Override
             public void onSure() {
-                dialog_ConfirmClose.hide();
+                dialog_Confirm.hide();
                 mThis.hide();
                 hanldeListener.onCancle();
             }
             @Override
             public void onCancle() {
-                dialog_ConfirmClose.hide();
+                dialog_Confirm.hide();
             }
         });
 
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_ConfirmClose.show();
+                dialog_Confirm.show();
             }
         });
 
@@ -96,8 +96,8 @@ public class CustomDialogHandling extends Dialog {
     public void hide() {
         super.hide();
 
-        if(dialog_ConfirmClose!=null) {
-            dialog_ConfirmClose.hide();
+        if(dialog_Confirm!=null) {
+            dialog_Confirm.hide();
         }
 
         if (countDownTimer != null) {
@@ -110,8 +110,8 @@ public class CustomDialogHandling extends Dialog {
     public void cancel(){
         super.cancel();
 
-        if(dialog_ConfirmClose!=null) {
-            dialog_ConfirmClose.cancel();
+        if(dialog_Confirm!=null) {
+            dialog_Confirm.cancel();
         }
 
         if (countDownTimer != null) {
