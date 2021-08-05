@@ -27,8 +27,6 @@ import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,11 +34,11 @@ import java.util.Map;
 public class SmLoginActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmLoginActivity";
     private View nav_back;
-    private Button btn_loginByAccount;//账号密码登录按钮
-    private EditText txt_username;//账户
-    private EditText txt_password;//密码
-    private View btn_appexit;
-    private View btn_loginByVeinLock;//指静脉登录按钮
+    private Button btn_LoginByAccount;//账号密码登录按钮
+    private EditText tv_UserName;//账户
+    private EditText tv_Password;//密码
+    private View btn_AppExit;
+    private View btn_LoginByVeinLock;//指静脉登录按钮
     private CustomDialogFingerVein dialog_FingerVein;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +57,12 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     private void initView() {
 
         nav_back=this.findViewById(R.id.nav_back);
-        btn_loginByAccount = (Button) this.findViewById(R.id.btn_loginByAccount);
-        txt_username = (EditText) this.findViewById(R.id.txt_username);
-        txt_password = (EditText) this.findViewById(R.id.txt_password);
-        btn_appexit=this.findViewById(R.id.btn_appexit);
-        btn_loginByVeinLock= this.findViewById(R.id.btn_loginByVeinLock);
+        btn_LoginByAccount = (Button) this.findViewById(R.id.btn_LoginByAccount);
+        btn_LoginByVeinLock= this.findViewById(R.id.btn_LoginByVeinLock);
+
+        tv_UserName = (EditText) this.findViewById(R.id.tv_UserName);
+        tv_Password = (EditText) this.findViewById(R.id.tv_Password);
+        btn_AppExit=this.findViewById(R.id.btn_AppExit);
 
         if(getDevice().getFingerVeinner().getUse()) {
             dialog_FingerVein=new CustomDialogFingerVein(SmLoginActivity.this);
@@ -96,11 +95,11 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     }
 
     private void initEvent() {
-        btn_loginByAccount.setOnClickListener(this);
-        btn_loginByVeinLock.setOnClickListener(this);
+        btn_LoginByAccount.setOnClickListener(this);
+        btn_LoginByVeinLock.setOnClickListener(this);
         nav_back.setOnClickListener(this);
 
-        LongClickUtil.setLongClick(new Handler(), btn_appexit, 500, new View.OnLongClickListener() {
+        LongClickUtil.setLongClick(new Handler(), btn_AppExit, 500, new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(getAppContext(), SmRescueToolActivity.class);
@@ -116,7 +115,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         String lastUsername = AppCacheManager.getLastUserName();
 
         if (!StringUtil.isEmptyNotNull(lastUsername)) {
-            txt_username.setText(lastUsername);
+            tv_UserName.setText(lastUsername);
         }
     }
 
@@ -124,9 +123,9 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            String userName = txt_username.getText() + "";
+            String userName = tv_UserName.getText() + "";
             if (!StringUtil.isEmptyNotNull(userName)) {
-                txt_password.requestFocus();
+                tv_Password.requestFocus();
             }
         }
     }
@@ -138,10 +137,10 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
                 case R.id.nav_back:
                     finish();
                     break;
-                case R.id.btn_loginByAccount:
+                case R.id.btn_LoginByAccount:
                     loginByAccount();
                     break;
-                case R.id.btn_loginByVeinLock:
+                case R.id.btn_LoginByVeinLock:
                     if(dialog_FingerVein!=null) {
                         dialog_FingerVein.startCheckLogin();
                         dialog_FingerVein.show();
@@ -184,12 +183,12 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
 
     public void  loginByAccount(){
 
-        String userName = txt_username.getText() + "";
+        String userName = tv_UserName.getText() + "";
         if (StringUtil.isEmpty(userName)) {
             showToast("用户名为空");
             return;
         }
-        String password = txt_password.getText() + "";
+        String password = tv_Password.getText() + "";
         if (StringUtil.isEmpty(password)) {
             showToast("密码为空");
             return;

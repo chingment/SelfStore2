@@ -37,16 +37,16 @@ import java.util.Map;
 public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnClickListener {
     private static final String TAG = "SmRunExHandleActivity";
 
-    private MyListView list_exorders;
-    private MyGridView list_reasons;
+    private MyListView lv_ExOrders;
+    private MyGridView gv_Reasons;
     private Button btn_GoBack;
     private Button btn_Handle;
     private CustomDialogConfirm dialog_Confirm;
     private List<ExHandleItemBean> exItems;
     private List<ExHandleReasonBean> exReasons;
 
-    private LinearLayout layout_ex;
-    private LinearLayout layout_exorders;
+    private LinearLayout ll_Ex;
+    private LinearLayout ll_ExOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +64,16 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
         btn_GoBack = (Button) findViewById(R.id.btn_GoBack);
         btn_Handle = (Button) findViewById(R.id.btn_Handle);
-        list_exorders = (MyListView) findViewById(R.id.list_exorders);
-        list_reasons = (MyGridView) findViewById(R.id.list_reasons);
+        lv_ExOrders = (MyListView) findViewById(R.id.lv_ExOrders);
+        gv_Reasons = (MyGridView) findViewById(R.id.gv_Reasons);
 
-        list_exorders.setFocusable(false);
-        list_exorders.setClickable(false);
-        list_exorders.setPressed(false);
-        list_exorders.setEnabled(false);
+        lv_ExOrders.setFocusable(false);
+        lv_ExOrders.setClickable(false);
+        lv_ExOrders.setPressed(false);
+        lv_ExOrders.setEnabled(false);
 
-        layout_ex=(LinearLayout) findViewById(R.id.layout_ex);
-        layout_exorders=(LinearLayout) findViewById(R.id.layout_exorders);
+        ll_Ex=(LinearLayout) findViewById(R.id.ll_Ex);
+        ll_ExOrders=(LinearLayout) findViewById(R.id.ll_ExOrders);
         dialog_Confirm = new CustomDialogConfirm(SmRunExHandleActivity.this, "确定要处理异常，影响实际库存，慎重操作？", true);
         dialog_Confirm.setTipsImageDrawable(ContextCompat.getDrawable(SmRunExHandleActivity.this, (R.drawable.dialog_icon_warn)));
         dialog_Confirm.setOnClickListener(new CustomDialogConfirm.OnClickListener() {
@@ -188,8 +188,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
             if(exItems.size()>0) {
                 ExHandleItemAdapter exHandleItemAdapter = new ExHandleItemAdapter(SmRunExHandleActivity.this, exItems);
-                list_exorders.setAdapter(exHandleItemAdapter);
-                layout_exorders.setVisibility(View.VISIBLE);
+                lv_ExOrders.setAdapter(exHandleItemAdapter);
+                ll_ExOrders.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -200,8 +200,8 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
         }
 
         ExHandleReasonAdapter exHandleReasonAdapter = new ExHandleReasonAdapter(SmRunExHandleActivity.this, exReasons);
-        list_reasons.setAdapter(exHandleReasonAdapter);
-        list_reasons.setVisibility(View.VISIBLE);
+        gv_Reasons.setAdapter(exHandleReasonAdapter);
+        gv_Reasons.setVisibility(View.VISIBLE);
     }
 
     private void initData() {

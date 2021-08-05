@@ -52,7 +52,7 @@
                         android:background="@drawable/ic_input_username" />
 
                     <EditText
-                        android:id="@+id/txt_username"
+                        android:id="@+id/tv_UserName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@+id/ic_input_username"
@@ -96,7 +96,7 @@
                         android:background="@drawable/ic_input_password" />
 
                     <EditText
-                        android:id="@+id/txt_password"
+                        android:id="@+id/tv_Password"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_toRightOf="@+id/ic_input_password"
@@ -116,7 +116,7 @@
 
 
             <Button
-                android:id="@+id/btn_loginByAccount"
+                android:id="@+id/btn_LoginByAccount"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_32"
                 android:layout_below="@+id/login_area"
@@ -133,8 +133,8 @@
             <TextView
                 android:visibility="gone"
                 android:layout_margin="@dimen/size_15"
-                android:id="@+id/btn_loginByVeinLock"
-                android:layout_below="@+id/btn_loginByAccount"
+                android:id="@+id/btn_LoginByVeinLock"
+                android:layout_below="@+id/btn_LoginByAccount"
                 android:textSize="@dimen/sp_10"
                 android:textColor="@color/blue"
                 android:layout_width="match_parent"
@@ -143,8 +143,8 @@
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:layout_below="@+id/btn_loginByVeinLock"
-                android:id="@+id/btn_appexit"
+                android:layout_below="@+id/btn_LoginByVeinLock"
+                android:id="@+id/btn_AppExit"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_100"
                 android:orientation="vertical">
