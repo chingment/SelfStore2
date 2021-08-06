@@ -75,27 +75,56 @@ public class ToastUtil {
     }
 
 
-    public static void showMessage(final Context context, final String message,
-                                   int HIDE_DELAY) {
+    private static android.widget.Toast toast;
+    private static Handler handler = new Handler();
+
+    private static Runnable run = new Runnable() {
+        public void run() {
+            toast.cancel();
+        }
+    };
+
+    public static void showMessage(Context context, String message,
+                                   int duration) {
 
 
-        new Thread() {
+        handler.removeCallbacks(run);
+        // handler的duration不能直接对应Toast的常量时长，在此针对Toast的常量相应定义时长
+        switch (duration) {
+            case LENGTH_SHORT:// Toast.LENGTH_SHORT值为0，对应的持续时间大概为1s
+                duration = 1000;
+                break;
+            case LENGTH_LONG:// Toast.LENGTH_LONG值为1，对应的持续时间大概为3s
+                duration = 3000;
+                break;
+            default:
+                break;
+        }
+        if (null != toast) {
+            toast.setText(message);
+        } else {
+            toast = Toast.makeText(context,message,duration);
+        }
+        handler.postDelayed(run,duration);
+        toast.show();
 
-            public void run() {
-                Looper.prepare();
-
-                Toast toast =Toast.makeText(context, message, Toast.LENGTH_LONG);
-                LinearLayout layout = (LinearLayout) toast.getView();
-                TextView tv = (TextView) layout.getChildAt(0);
-                tv.setTextSize(DisplayUtil.px2sp(context,context.getResources().getDimension(R.dimen.sp_14)));
-                layout.setBackgroundResource(R.drawable.dialog_loading_bg);
-                tv.setTextColor(context.getResources().getColor(R.color.white));
-                tv.setPadding(25,5,25,5);
-                toast.setGravity(Gravity.CENTER, 5, 5);
-                toast.show();
-                Looper.loop();
-            }
-        }.start();
+//        new Thread() {
+//
+//            public void run() {
+//                Looper.prepare();
+//
+//                Toast toast =Toast.makeText(context, message, Toast.LENGTH_LONG);
+//                LinearLayout layout = (LinearLayout) toast.getView();
+//                TextView tv = (TextView) layout.getChildAt(0);
+//                tv.setTextSize(DisplayUtil.px2sp(context,context.getResources().getDimension(R.dimen.sp_14)));
+//                layout.setBackgroundResource(R.drawable.dialog_loading_bg);
+//                tv.setTextColor(context.getResources().getColor(R.color.white));
+//                tv.setPadding(25,5,25,5);
+//                toast.setGravity(Gravity.CENTER, 5, 5);
+//                toast.show();
+//                Looper.loop();
+//            }
+//        }.start();
 //        if (mInstance == null) {
 //            mInstance = new ToastUtil(context);
 //        } else {

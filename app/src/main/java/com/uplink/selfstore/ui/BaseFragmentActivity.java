@@ -69,7 +69,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
     private DeviceBean device;
     private Handler laodingUIHandler;
     public LocationUtil locationUtil;
-
+    public  Toast TOAST;
     private Map<String,Boolean> orderSearchByPickupCode=new HashMap<String, Boolean>();
 
     public CustomDataByVendingBean getCustomDataByVending() {
