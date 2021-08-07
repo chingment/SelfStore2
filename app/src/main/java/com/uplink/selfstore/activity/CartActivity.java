@@ -656,33 +656,30 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
             synchronized(CartActivity.class) {
 
-                BaseSyncTask task = new BaseSyncTask() {
-                    @Override
-                    public void doTask() {
 
                         if (!ordersPaySuccess.containsKey(LAST_PAYTRANSID)) {
-                            ordersPaySuccess.put(LAST_PAYTRANSID, true);
-                            AppCacheManager.setCartSkus(null);
-                            Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
-                            Bundle bundle = new Bundle();
-                            OrderDetailsBean orderDetails = new OrderDetailsBean();
-                            orderDetails.setOrderId(bean.getOrderId());
-                            orderDetails.setPayStatus(bean.getPayStatus());
-                            orderDetails.setStatus(bean.getOrderStatus());
-                            orderDetails.setSkus(bean.getSkus());
-                            bundle.putSerializable("dataBean", orderDetails);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                            finish();
+
+                            BaseSyncTask task = new BaseSyncTask() {
+                                @Override
+                                public void doTask() {
+                                    ordersPaySuccess.put(LAST_PAYTRANSID, true);
+                                    AppCacheManager.setCartSkus(null);
+                                    Intent intent = new Intent(CartActivity.this, OrderDetailsActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    OrderDetailsBean orderDetails = new OrderDetailsBean();
+                                    orderDetails.setOrderId(bean.getOrderId());
+                                    orderDetails.setPayStatus(bean.getPayStatus());
+                                    orderDetails.setStatus(bean.getOrderStatus());
+                                    orderDetails.setSkus(bean.getSkus());
+                                    bundle.putSerializable("dataBean", orderDetails);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            };
+
+                            TinySyncExecutor.getInstance().enqueue(task);
                         }
-
-
-                    }
-                };
-                TinySyncExecutor.getInstance().enqueue(task);
-
-
-
             }
         }
     }
