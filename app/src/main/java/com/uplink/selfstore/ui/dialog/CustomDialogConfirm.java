@@ -71,6 +71,7 @@ public class CustomDialogConfirm extends Dialog {
 
     public void setCloseVisibility(int visibility){
         dlg_Close.setVisibility(visibility);
+        ll_Cancle.setVisibility(visibility);
     }
 
     public void setCancleVisibility(int visibility){

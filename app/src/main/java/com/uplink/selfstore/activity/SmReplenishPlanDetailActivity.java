@@ -61,6 +61,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private int cur_Cabinet_Position = 0;
     private List<CabinetBean> cabinets=new ArrayList<>();
     private TextView tv_CabinetName;
+    private TextView tv_PlanCumCode;
     private ReplenishPlanBean replenishPlan;
     private ReplenishGetPlanDetailResultBean planDetailResult=null;
     private CustomDialogConfirm dialog_Confirm;
@@ -84,7 +85,8 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
     private void initView() {
         tl_Slots = (TableLayout) findViewById(R.id.tl_Slots);
-        tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
+        tv_CabinetName= (TextView) findViewById(R.id.tv_CabinetName);
+        tv_PlanCumCode= (TextView) findViewById(R.id.tv_PlanCumCode);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
         btn_Handle  = (Button) findViewById(R.id.btn_Handle);
         btn_GoBack = (Button) findViewById(R.id.btn_GoBack);
@@ -200,6 +202,8 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
 
         if (planDetailResult == null)
             return;
+
+        tv_PlanCumCode.setText(replenishPlan.getPlanCumCode());
 
         if (cabinets == null)
             return;

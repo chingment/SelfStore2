@@ -208,7 +208,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         btn_ScanSlots = (Button) findViewById(R.id.btn_ScanSlots);
         btn_RefreshStock= (Button) findViewById(R.id.btn_RefreshStock);
         btn_AutoTest= (Button) findViewById(R.id.btn_AutoTest);
-        tv_CabinetName= (TextView) findViewById(R.id.txt_CabinetName);
+        tv_CabinetName= (TextView) findViewById(R.id.tv_CabinetName);
         lv_Cabinets = (ListView) findViewById(R.id.lv_Cabinets);
 
         dialog_Running = new CustomDialogLoading(SmDeviceStockActivity.this);
