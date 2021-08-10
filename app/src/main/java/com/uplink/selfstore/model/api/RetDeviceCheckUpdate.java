@@ -2,7 +2,7 @@ package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
 
-public class CheckUpdateBean implements Serializable {
+public class RetDeviceCheckUpdate implements Serializable {
     private String versionCode;
     private String versionName;
     private String downloadUrl;

@@ -19,7 +19,7 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.CheckUpdateBean;
+import com.uplink.selfstore.model.api.RetDeviceCheckUpdate;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
@@ -253,11 +253,11 @@ public class UpdateAppService extends Service {
 
                 @Override
                 public void onSuccess(String response) {
-                    ApiResultBean<CheckUpdateBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<CheckUpdateBean>>() {
+                    ApiResultBean<RetDeviceCheckUpdate> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceCheckUpdate>>() {
                     });
 
                     if (rt.getResult() == Result.SUCCESS) {
-                        CheckUpdateBean d = rt.getData();
+                        RetDeviceCheckUpdate d = rt.getData();
                         if (d != null) {
                             if (d.getVersionName() != null && d.getDownloadUrl() != null) {
                                 int c = compareVersion(d.getVersionName(), BuildConfig.VERSION_NAME);

@@ -2,7 +2,7 @@ package com.uplink.selfstore.model.push;
 
 import java.io.Serializable;
 
-public class SysSetStatusBean implements Serializable {
+public class SetSysStatusBean implements Serializable {
     private int status;
     private String helpTip="";
 

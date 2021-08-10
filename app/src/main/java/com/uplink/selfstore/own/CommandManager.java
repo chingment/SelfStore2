@@ -122,7 +122,7 @@ public class CommandManager {
 
     private static void set_sys_status(String content) {
 
-        SysSetStatusBean sysSetStatusBean = JSON.parseObject(content, new TypeReference<SysSetStatusBean>() {
+        SetSysStatusBean sysSetStatusBean = JSON.parseObject(content, new TypeReference<SetSysStatusBean>() {
         });
 
         if (sysSetStatusBean == null)
