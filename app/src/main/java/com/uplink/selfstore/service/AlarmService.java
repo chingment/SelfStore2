@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 
@@ -16,7 +17,9 @@ import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.TripMsgBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.DateUtil;
@@ -28,6 +31,7 @@ import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AlarmService  extends Service {
@@ -35,8 +39,14 @@ public class AlarmService  extends Service {
     /**
      * 每1分钟更新一次数据
      */
-    private static final int ONE_Miniute=60*1000;
-    private static final int PENDING_REQUEST=0;
+    //private static final int Miniute=60*1000;
+    //private static final int PENDING_REQUEST=0;
+
+
+    private static final int handler1_Miniute=5*60*1000;
+    private Handler handler1;
+    private Runnable handler1_Runnable;
+
 
     public AlarmService() {
     }
@@ -47,26 +57,48 @@ public class AlarmService  extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        //这里模拟后台操作
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LogUtil.i(TAG,"定时删除文件："+ System.currentTimeMillis());
-                String picDir = OwnFileUtil.getPicSaveDir();
-                AlarmService.delete(picDir,7);
-                String moveDir = OwnFileUtil.getMovieSaveDir();
-                AlarmService.delete(moveDir,7);
+        synchronized (AlarmService.this) {
+            if (handler1 == null) {
+                handler1 = new Handler();
+                handler1_Runnable = new Runnable() {
+                    @Override
 
-                AlarmService.deleteTripMsgs();
+                    public void run() {
+                        Date currentTime = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+                        String dateString = sdf.format(currentTime);
+
+                        LogUtil.i(TAG, "定时任务：" + dateString);
+
+
+                        deleteTempFile();
+                        changeLighting();
+
+                        handler1.postDelayed(this, handler1_Miniute);
+
+                    }
+
+                };
+                handler1.postDelayed(handler1_Runnable, handler1_Miniute);
             }
-        }).start();
 
-        //通过AlarmManager定时启动广播
-        AlarmManager alarmManager= (AlarmManager) getSystemService(ALARM_SERVICE);
-        long triggerAtTime= SystemClock.elapsedRealtime()+ONE_Miniute;//从开机到现在的毫秒书（手机睡眠(sleep)的时间也包括在内
-        Intent i=new Intent(this, AlarmReceiver.class);
-        PendingIntent pIntent=PendingIntent.getBroadcast(this,PENDING_REQUEST,i,PENDING_REQUEST);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pIntent);
+        }
+
+//        //这里模拟后台操作
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//            }
+//        }).start();
+
+//        //通过AlarmManager定时启动广播
+//        AlarmManager alarmManager= (AlarmManager) getSystemService(ALARM_SERVICE);
+//        long triggerAtTime= SystemClock.elapsedRealtime()+Miniute;//从开机到现在的毫秒书（手机睡眠(sleep)的时间也包括在内
+//        Intent i=new Intent(this, AlarmReceiver.class);
+//        PendingIntent pIntent=PendingIntent.getBroadcast(this,PENDING_REQUEST,i,PENDING_REQUEST);
+//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pIntent);
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -75,6 +107,36 @@ public class AlarmService  extends Service {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        if(handler1!=null&&handler1_Runnable!=null) {
+            handler1.removeCallbacks(handler1_Runnable);
+        }
+    }
+
+    public static void  deleteTempFile(){
+        LogUtil.i(TAG, "定时任务：删除临时文件");
+        String picDir = OwnFileUtil.getPicSaveDir();
+        AlarmService.delete(picDir, 7);
+        String moveDir = OwnFileUtil.getMovieSaveDir();
+        AlarmService.delete(moveDir, 7);
+        AlarmService.deleteTripMsgs();
+    }
+
+    public static void changeLighting(){
+        LogUtil.i(TAG, "定时任务：改变灯光");
+
+        DeviceBean device=AppCacheManager.getDevice();
+        if(device==null)
+            return;
+
+
+       // device.getLighting()
+
     }
 
     //删除dirPath文件下 前几天的文件
