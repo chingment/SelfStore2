@@ -1,6 +1,6 @@
 package com.uplink.selfstore.model.api;
 
-public class OrderBuildPayParamsResultBean {
+public class RetOrderBuildPayParams {
     private String chargeAmount;
     private String paramType;
     private String paramData;

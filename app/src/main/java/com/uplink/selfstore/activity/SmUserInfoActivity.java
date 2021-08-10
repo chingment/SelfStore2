@@ -14,7 +14,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.DeviceBean;
-import com.uplink.selfstore.model.api.OwnInfoResultBean;
+import com.uplink.selfstore.model.api.RetOwnInfo;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
@@ -111,12 +111,12 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<OwnInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OwnInfoResultBean>>() {
+                ApiResultBean<RetOwnInfo> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetOwnInfo>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    OwnInfoResultBean d=rt.getData();
+                    RetOwnInfo d=rt.getData();
                     txt_UserName.setText(d.getUserName());
                     txt_FullName.setText(d.getFullName());
 
@@ -147,7 +147,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<OwnInfoResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OwnInfoResultBean>>() {
+                ApiResultBean<RetOwnInfo> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetOwnInfo>>() {
                 });
 
                 showToast(rt.getMessage());

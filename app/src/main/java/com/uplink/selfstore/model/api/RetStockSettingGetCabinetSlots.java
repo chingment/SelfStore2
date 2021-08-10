@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class StockSettingGetCabinetSlotsResultBean implements Serializable {
+public class RetStockSettingGetCabinetSlots implements Serializable {
     private  String rowColLayout;
 
     public String getRowColLayout() {

@@ -30,7 +30,7 @@ import com.uplink.selfstore.model.ScanSlotResult;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
-import com.uplink.selfstore.model.api.StockSettingGetCabinetSlotsResultBean;
+import com.uplink.selfstore.model.api.RetStockSettingGetCabinetSlots;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SlotBean;
@@ -625,12 +625,12 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<StockSettingGetCabinetSlotsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<StockSettingGetCabinetSlotsResultBean>>() {
+                ApiResultBean<RetStockSettingGetCabinetSlots> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetStockSettingGetCabinetSlots>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    StockSettingGetCabinetSlotsResultBean d = rt.getData();
+                    RetStockSettingGetCabinetSlots d = rt.getData();
 
                     drawsCabinetLayout(cabinetId, d.getRowColLayout(), d.getSlots());
 

@@ -2,7 +2,7 @@ package com.uplink.selfstore.model.api;
 
 import java.io.Serializable;
 
-public class OwnInfoResultBean implements Serializable {
+public class RetOwnInfo implements Serializable {
     private String introduction;
     private String avatar;
     private String fullName;

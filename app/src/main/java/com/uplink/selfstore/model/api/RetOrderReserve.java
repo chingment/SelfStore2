@@ -7,7 +7,7 @@ import java.util.List;
  * Created by chingment on 2018/10/8.
  */
 
-public class OrderReserveResultBean implements Serializable {
+public class RetOrderReserve implements Serializable {
 
     private  String orderId;
     private  String chargeAmount;

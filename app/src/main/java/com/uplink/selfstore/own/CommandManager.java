@@ -17,13 +17,11 @@ import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
-import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
+import com.uplink.selfstore.model.api.RetOrderPayStatusQuery;
 import com.uplink.selfstore.model.api.SkuBean;
-import com.uplink.selfstore.model.push.UpdateHomeLogoBean;
 import com.uplink.selfstore.model.push.UpdateSkuStockBean;
 import com.uplink.selfstore.model.push.*;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
-import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -245,7 +243,7 @@ public class CommandManager {
 
     private static void pay_success(String content) {
 
-        OrderPayStatusQueryResultBean payResult = JSON.parseObject(content, new TypeReference<OrderPayStatusQueryResultBean>() {
+        RetOrderPayStatusQuery payResult = JSON.parseObject(content, new TypeReference<RetOrderPayStatusQuery>() {
         });
 
         if (payResult != null) {

@@ -27,7 +27,7 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.CabinetLayoutUtil;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.ReplenishGetPlanDetailResultBean;
+import com.uplink.selfstore.model.api.RetReplenishGetPlanDetail;
 import com.uplink.selfstore.model.api.ReplenishPlanBean;
 import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.Result;
@@ -63,7 +63,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
     private TextView tv_CabinetName;
     private TextView tv_PlanCumCode;
     private ReplenishPlanBean replenishPlan;
-    private ReplenishGetPlanDetailResultBean planDetailResult=null;
+    private RetReplenishGetPlanDetail planDetailResult=null;
     private CustomDialogConfirm dialog_Confirm;
     private Button btn_Handle;
     private Button btn_GoBack;
@@ -702,7 +702,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<ReplenishGetPlanDetailResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<ReplenishGetPlanDetailResultBean>>() {
+                ApiResultBean<RetReplenishGetPlanDetail> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetReplenishGetPlanDetail>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {

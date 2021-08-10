@@ -14,12 +14,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
-import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
-import com.uplink.selfstore.model.CabinetLayoutUtil;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
@@ -29,10 +27,8 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.DeviceInitDataResultBean;
+import com.uplink.selfstore.model.api.RetDeviceInitData;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.service.AiotMqttOption;
-import com.uplink.selfstore.service.AiotMqttService;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.service.UpdateAppService;
@@ -41,8 +37,6 @@ import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.FileUtil;
-import com.uplink.selfstore.utils.LocationUtil;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
@@ -260,7 +254,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                 return false;
                             }
 
-                            DeviceInitDataResultBean initData = (DeviceInitDataResultBean) bundle.getSerializable("deviceInitDataResultBean");//全局数据
+                            RetDeviceInitData initData = (RetDeviceInitData) bundle.getSerializable("deviceInitDataResultBean");//全局数据
 
                             if(initData==null) {
                                 setHandleMessage(WHAT_SET_CONFIG_FALURE, "配置设备信息失败：初始对象为空");
@@ -401,7 +395,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         FingerVeinnerCtrl.getInstance().unregisterReceiver(InitDataActivity.this);
     }
 
-    public void setHandleMessage(int what, String msg, DeviceInitDataResultBean deviceInitDataResult) {
+    public void setHandleMessage(int what, String msg, RetDeviceInitData deviceInitDataResult) {
         final Message m = new Message();
         m.what = what;
         Bundle bundle = new Bundle();
@@ -432,7 +426,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         postByMy(InitDataActivity.this, Config.URL.device_InitData, params,null, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
-                ApiResultBean<DeviceInitDataResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<DeviceInitDataResultBean>>() {
+                ApiResultBean<RetDeviceInitData> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceInitData>>() {
                 });
                 if (rt.getResult() == Result.SUCCESS) {
                     setHandleMessage(WHAT_READ_CONFIG_SUCCESS, getAppContext().getString(R.string.aty_initdata_tips_settingdevicecfgreadsuccess),rt.getData());

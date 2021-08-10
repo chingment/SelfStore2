@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 import java.util.List;
 
-public class ImServiceSeatsRealtBean  implements Serializable {
+public class RetImServiceSeats implements Serializable {
 
     private List<ImSeatBean> seats;
 

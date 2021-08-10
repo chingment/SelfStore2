@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class ReplenishGetPlanDetailResultBean implements Serializable {
+public class RetReplenishGetPlanDetail implements Serializable {
     private HashMap<String, CabinetBean> cabinets;
 
     public HashMap<String, CabinetBean> getCabinets() {

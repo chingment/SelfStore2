@@ -1,7 +1,6 @@
 package com.uplink.selfstore.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,18 +27,17 @@ import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.ImBean;
 import com.uplink.selfstore.model.api.ImSeatBean;
-import com.uplink.selfstore.model.api.ImServiceSeatsRealtBean;
+import com.uplink.selfstore.model.api.RetImServiceSeats;
 import com.uplink.selfstore.model.api.DeviceBean;
-import com.uplink.selfstore.model.api.OrderBuildPayParamsResultBean;
+import com.uplink.selfstore.model.api.RetOrderBuildPayParams;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
-import com.uplink.selfstore.model.api.OrderPayStatusQueryResultBean;
-import com.uplink.selfstore.model.api.OrderReserveResultBean;
+import com.uplink.selfstore.model.api.RetOrderPayStatusQuery;
+import com.uplink.selfstore.model.api.RetOrderReserve;
 import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.TerminalPayOptionBean;
 import com.uplink.selfstore.model.chat.MsgContentByBuyInfo;
 import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
@@ -279,12 +277,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                     @Override
                     public void onSuccess(String response) {
 
-                        ApiResultBean<ImServiceSeatsRealtBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<ImServiceSeatsRealtBean>>() {
+                        ApiResultBean<RetImServiceSeats> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetImServiceSeats>>() {
                         });
 
                         if (rt.getResult() == Result.SUCCESS) {
 
-                            ImServiceSeatsRealtBean d = rt.getData();
+                            RetImServiceSeats d = rt.getData();
 
                             ImSeatAdapter imSeatAdapter = new ImSeatAdapter(CartActivity.this, d.getSeats());
                             imSeatAdapter.setOnLinster(new ImSeatAdapter.OnItemListener() {
@@ -516,12 +514,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<OrderBuildPayParamsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderBuildPayParamsResultBean>>() {
+                ApiResultBean<RetOrderBuildPayParams> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetOrderBuildPayParams>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    OrderBuildPayParamsResultBean d = rt.getData();
+                    RetOrderBuildPayParams d = rt.getData();
 
                     //taskByCheckPayTimeout.start();
                     LAST_ORDERID=orderId;
@@ -579,12 +577,12 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<OrderReserveResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderReserveResultBean>>() {
+                ApiResultBean<RetOrderReserve> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetOrderReserve>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    OrderReserveResultBean d = rt.getData();
+                    RetOrderReserve d = rt.getData();
                     buildBayParams(d.getOrderId(),payOption);
 
                 } else {
@@ -615,7 +613,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<OrderPayStatusQueryResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<OrderPayStatusQueryResultBean>>() {
+                ApiResultBean<RetOrderPayStatusQuery> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetOrderPayStatusQuery>>() {
                 });
 
 
@@ -648,7 +646,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         });
     }
 
-    public void doPaySuccess(OrderPayStatusQueryResultBean bean) {
+    public void doPaySuccess(RetOrderPayStatusQuery bean) {
         if (bean == null)
             return;
         //3 为 已支付成功

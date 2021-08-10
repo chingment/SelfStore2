@@ -30,7 +30,7 @@ import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.DeviceBean;
-import com.uplink.selfstore.model.api.SkuSearchResultBean;
+import com.uplink.selfstore.model.api.RetSkuSearch;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SearchSkuBean;
 import com.uplink.selfstore.model.api.SlotBean;
@@ -779,12 +779,12 @@ public class CustomDialogSlotEdit extends Dialog {
                 super.onSuccess(response);
 
 
-                ApiResultBean<SkuSearchResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<SkuSearchResultBean>>() {
+                ApiResultBean<RetSkuSearch> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetSkuSearch>>() {
                 });
 
 
                 if (rt.getResult() == Result.SUCCESS) {
-                    SkuSearchResultBean d = rt.getData();
+                    RetSkuSearch d = rt.getData();
 
                     SlotSkuSearchAdapter slotSkuSearchAdapter = new SlotSkuSearchAdapter(mContext, d.getSkus());
                     slotSkuSearchAdapter.setCallBackListener(new SlotSkuSearchAdapter.CallBackListener() {

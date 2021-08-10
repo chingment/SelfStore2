@@ -8,7 +8,7 @@ import java.util.List;
  * Created by chingment on 2018/6/5.
  */
 
-public class DeviceInitDataResultBean implements Serializable {
+public class RetDeviceInitData implements Serializable {
 
     private DeviceBean device;
     private Object customData;

@@ -20,7 +20,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.ExHandleItemBean;
 import com.uplink.selfstore.model.api.ExHandleUniqueBean;
 import com.uplink.selfstore.model.api.ExHandleReasonBean;
-import com.uplink.selfstore.model.api.DeviceGetRunExHandleItemsResultBean;
+import com.uplink.selfstore.model.api.RetDeviceGetRunExHandleItems;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
@@ -219,7 +219,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
             public void onSuccess(String response) {
                 super.onSuccess(response);
 
-                ApiResultBean<DeviceGetRunExHandleItemsResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<DeviceGetRunExHandleItemsResultBean>>() {
+                ApiResultBean<RetDeviceGetRunExHandleItems> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceGetRunExHandleItems>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {

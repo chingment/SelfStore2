@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 import java.util.List;
 
-public class ReplenishGetPlansResultBean implements Serializable {
+public class RetReplenishGetPlans implements Serializable {
 
     private int total;
     private int pageSize;

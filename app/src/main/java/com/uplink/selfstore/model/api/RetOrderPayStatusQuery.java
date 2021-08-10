@@ -7,7 +7,7 @@ import java.util.List;
  * Created by chingment on 2019/2/28.
  */
 
-public class OrderPayStatusQueryResultBean implements Serializable {
+public class RetOrderPayStatusQuery implements Serializable {
 
     private String orderId;
     private int orderStatus;

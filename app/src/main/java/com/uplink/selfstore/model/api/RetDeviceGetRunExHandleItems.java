@@ -3,7 +3,7 @@ package com.uplink.selfstore.model.api;
 import java.io.Serializable;
 import java.util.List;
 
-public class DeviceGetRunExHandleItemsResultBean implements Serializable {
+public class RetDeviceGetRunExHandleItems implements Serializable {
 
 
     private List<ExHandleReasonBean> exReasons;

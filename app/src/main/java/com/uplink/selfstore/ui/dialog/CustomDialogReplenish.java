@@ -4,55 +4,17 @@ package com.uplink.selfstore.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.R;
-import com.uplink.selfstore.activity.SmDeviceStockActivity;
-import com.uplink.selfstore.activity.adapter.SlotSkuSearchAdapter;
-import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
-import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
-import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.model.DSCabRowColLayoutBean;
-import com.uplink.selfstore.model.PickupActionResult;
-import com.uplink.selfstore.model.DSCabSlotNRC;
-import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.ReplenishSlotBean;
-import com.uplink.selfstore.model.api.SkuSearchResultBean;
-import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.model.api.SearchSkuBean;
-import com.uplink.selfstore.model.api.SlotBean;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
-import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.StringUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 
 public class CustomDialogReplenish  extends Dialog {

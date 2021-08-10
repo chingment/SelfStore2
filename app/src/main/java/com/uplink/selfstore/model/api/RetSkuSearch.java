@@ -2,7 +2,7 @@ package com.uplink.selfstore.model.api;
 
 import java.util.List;
 
-public class SkuSearchResultBean {
+public class RetSkuSearch {
     private List<SearchSkuBean> skus;
 
 

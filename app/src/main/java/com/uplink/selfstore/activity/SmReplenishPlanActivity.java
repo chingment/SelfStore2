@@ -11,7 +11,7 @@ import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.ReplenishPlanAdapter;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
-import com.uplink.selfstore.model.api.ReplenishGetPlansResultBean;
+import com.uplink.selfstore.model.api.RetReplenishGetPlans;
 import com.uplink.selfstore.model.api.ReplenishPlanBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.own.Config;
@@ -66,12 +66,12 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<ReplenishGetPlansResultBean> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<ReplenishGetPlansResultBean>>() {
+                ApiResultBean<RetReplenishGetPlans> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetReplenishGetPlans>>() {
                 });
 
                 if (rt.getResult() == Result.SUCCESS) {
 
-                    ReplenishGetPlansResultBean d = rt.getData();
+                    RetReplenishGetPlans d = rt.getData();
 
                     ReplenishPlanAdapter adapter=new ReplenishPlanAdapter(SmReplenishPlanActivity.this,d.getItems());
 
