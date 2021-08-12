@@ -27,7 +27,7 @@ public class CabinetCtrlByDS {
     public static final int S_RC_ERROR = 2;
     public static final int S_ACTION_GOZERO = 1;
     public static final int S_ACTION_DOWN_Y= 6;
-    private boolean isConnect = false;
+
     private boolean cmd_ScanSlotIsStopListener = true;
     private boolean cmd_PickupIsStopListener = true;
     private PickupThread pickupThread;
@@ -38,14 +38,15 @@ public class CabinetCtrlByDS {
     private Handler doorHandler = null;
     private Handler goZeroHandler = null;
     private symvdio sym = null;
+    private boolean mIsConnect = false;
+    private String mComId="ttyS0";
+    private int mComBaud=9600;
+
     private static final int MESSAGE_WHAT_SCANSLOTS = 1;
     private static final int MESSAGE_WHAT_PICKUP = 2;
     private static final int MESSAGE_WHAT_DOOR = 3;
     private static final int MESSAGE_WHAT_GOZERO = 4;
 
-    private static String ComId="ttyS0";
-
-    private static int ComBaud=9600;
 
     private  CabinetCtrlByDS() {
         try {
@@ -77,47 +78,47 @@ public class CabinetCtrlByDS {
     }
 
     public void setComId(String comId) {
-        CabinetCtrlByDS.ComId = comId;
+        mComId = comId;
     }
 
     public String getComId() {
-        return CabinetCtrlByDS.ComId;
+        return mComId;
     }
 
     public void setComBaud(int comBaud) {
-        CabinetCtrlByDS.ComBaud = comBaud;
+        mComBaud = comBaud;
     }
 
 
     public int getComBaud() {
-        return CabinetCtrlByDS.ComBaud;
+        return mComBaud;
     }
 
     public boolean connect() {
-        String comId = CabinetCtrlByDS.ComId;
-        int comBaud = CabinetCtrlByDS.ComBaud;
+        String comId = mComId;
+        int comBaud = mComBaud;
         LogUtil.i(TAG, "打开串口:" + comId + "，波特：" + comBaud);
         if (sym == null) {
             LogUtil.e(TAG, "打开串口:" + comId + "，波特：" + comBaud + "，失败，sym为 NULL");
-            isConnect = false;
+            mIsConnect = false;
         } else {
             File file = new File("/dev/" + comId);
             if (file.exists()) {
                 int rc_status = sym.Connect(comId, comBaud);
                 LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，状态为：" + rc_status);
                 if (rc_status == 0) {
-                    isConnect = true;
+                    mIsConnect = true;
                 }
             } else {
                 LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，串口ID不存在");
             }
         }
 
-        if (!isConnect) {
+        if (!mIsConnect) {
             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS ", "connect");
         }
 
-        return isConnect;
+        return mIsConnect;
 
     }
 
@@ -125,7 +126,7 @@ public class CabinetCtrlByDS {
         if (sym != null) {
             sym.disconnect();
         }
-        isConnect = false;
+        mIsConnect = false;
         cmd_ScanSlotIsStopListener = true;
         cmd_PickupIsStopListener = true;
     }
@@ -137,12 +138,12 @@ public class CabinetCtrlByDS {
 
     public boolean isNormarl() {
 
-        if(!isConnect){
+        if(!mIsConnect){
             LogUtil.e(TAG, "isNormarl：尝试再连接多一次");
             connect();
         }
 
-        if (!isConnect) {
+        if (!mIsConnect) {
             return false;
         }
 
@@ -177,7 +178,7 @@ public class CabinetCtrlByDS {
     }
 
     public boolean isConnect() {
-        return isConnect;
+        return mIsConnect;
     }
 
     public int[] getScanSlotResult() {
@@ -194,12 +195,12 @@ public class CabinetCtrlByDS {
 
     public void goZero() {
 
-        if(!isConnect){
+        if(!mIsConnect){
             LogUtil.e(TAG, "goZero：尝试再连接多一次");
             connect();
         }
 
-        if (!isConnect)
+        if (!mIsConnect)
             return;
 
         if(sym==null)
@@ -218,14 +219,14 @@ public class CabinetCtrlByDS {
     public void firstSet(){
         new Thread(new Runnable() {
             public void run() {
-                LogUtil.d(TAG,"初始设备设置："+isConnect);
+                LogUtil.d(TAG,"初始设备设置："+mIsConnect);
 
-                if(!isConnect){
+                if(!mIsConnect){
                     LogUtil.e(TAG, "firstSet：尝试再连接多一次");
                     connect();
                 }
 
-                if(isConnect) {
+                if(mIsConnect) {
 
                     sym.SN_MV_EmgStop();//急停
 
@@ -267,7 +268,7 @@ public class CabinetCtrlByDS {
         new Thread(new Runnable() {
             public void run() {
 
-                if(isConnect) {
+                if(mIsConnect) {
 
                     try {
                         Thread.sleep(2000);
@@ -303,7 +304,7 @@ public class CabinetCtrlByDS {
 
         new Thread(new Runnable() {
             public void run() {
-                if(isConnect) {
+                if(mIsConnect) {
                     sym.SN_MV_OutputCheck(value);
                 }
             }
@@ -317,7 +318,7 @@ public class CabinetCtrlByDS {
     }
 
     public void emgStop() {
-        if (!isConnect)
+        if (!mIsConnect)
             return;
 
         if (sym == null)
@@ -344,12 +345,12 @@ public class CabinetCtrlByDS {
 
     public boolean isIdle() {
 
-        if(!isConnect){
+        if(!mIsConnect){
             LogUtil.e(TAG, "判断空闲状态：尝试再连接多一次");
             connect();
         }
 
-        if (!isConnect)
+        if (!mIsConnect)
             return false;
 
         if (sym == null)
@@ -475,12 +476,12 @@ public class CabinetCtrlByDS {
         public void run() {
             super.run();
 
-            if(!isConnect){
+            if(!mIsConnect){
                 LogUtil.e(TAG, "扫描流程监听：尝试再连接多一次");
                 connect();
             }
 
-            if (!isConnect) {
+            if (!mIsConnect) {
                 LogUtil.i(TAG, "扫描流程监听：启动前，检查设备连接失败");
                 sendScanSlotHandlerMessage(6, "启动前，检查设备连接失败", null);
                 return;
@@ -650,12 +651,12 @@ public class CabinetCtrlByDS {
 
             sendPickupHandlerMessage(2, "检查设备连接状态中", null);
 
-            if(!isConnect){
+            if(!mIsConnect){
                 LogUtil.e(TAG, "取货流程监听：设备未连接，尝试再连接多一次");
                 connect();
             }
 
-            if (!isConnect) {
+            if (!mIsConnect) {
                 sendPickupHandlerMessage(5, "设备连接失败", null);
                 interrupt();
                 return;
@@ -887,13 +888,13 @@ public class CabinetCtrlByDS {
         public void run() {
             super.run();
 
-            if(!isConnect){
+            if(!mIsConnect){
                 LogUtil.e(TAG, "开门：尝试再连接多一次");
                 connect();
             }
 
 
-            if (!isConnect) {
+            if (!mIsConnect) {
                 sendDoorHandlerMessage(1, "检测设备未连接");
                 return;
             }
@@ -925,12 +926,12 @@ public class CabinetCtrlByDS {
         public void run() {
             super.run();
 
-            if(!isConnect){
+            if(!mIsConnect){
                 LogUtil.e(TAG, "回原点流程监听：尝试再连接多一次");
                 connect();
             }
 
-            if (!isConnect) {
+            if (!mIsConnect) {
                 LogUtil.i(TAG, "回原点流程监听：启动前，检查设备连接失败");
                 sendGoZeroHandlerMessage(5, "启动前，检查设备连接失败");
                 return;

@@ -16,16 +16,16 @@ public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
     private static CabinetCtrlByZS mCabinetCtrlByZS= null;
 
-
-    private static String ComId="ttyS0";
-    private static int ComBaud=115200;//9600
-    private Handler mHandler = null;
     public static final int MESSAGE_WHAT_ONEUNLOCK = 1;
     public static final int MESSAGE_WHAT_ALLUNLOCK = 2;
     public static final int MESSAGE_WHAT_QUERYLOCKSTATUS = 3;
     public static final int MESSAGE_WHAT_DOORCONTROL = 4;
-    private static int curMessageWhat=0;
-    private boolean  isConnect = false;
+
+    private String mComId="ttyS0";
+    private int mComBaud=115200;//9600
+    private Handler mHandler = null;
+    private int curMessageWhat=0;
+    private boolean  mIsConnect = false;
     private CabinetMidByZS mCabinetMidByZS;
 
     private CabinetCtrlByZS() {
@@ -85,28 +85,26 @@ public class CabinetCtrlByZS {
     }
 
     public void setComId(String comId) {
-        CabinetCtrlByZS.ComId = comId;
+        mComId = comId;
     }
 
     public String getComId() {
-       return CabinetCtrlByZS.ComId;
+       return mComId;
     }
-
 
     public void setComBaud(int comBaud) {
-        CabinetCtrlByZS.ComBaud = comBaud;
+        mComBaud = comBaud;
     }
 
-
     public int getComBaud() {
-        return CabinetCtrlByZS.ComBaud;
+        return mComBaud;
     }
 
     public void unLock(int plate,int num) {
 
         curMessageWhat = MESSAGE_WHAT_ONEUNLOCK;
 
-        if (!isConnect) {
+        if (!mIsConnect) {
             sendMessage(curMessageWhat, 6, "连接设备失败");
             return;
         }
@@ -127,7 +125,7 @@ public class CabinetCtrlByZS {
 
         curMessageWhat=MESSAGE_WHAT_QUERYLOCKSTATUS;
 
-        if(!isConnect) {
+        if(!mIsConnect) {
             sendMessage(curMessageWhat,6, "连接设备失败");
             return;
         }
@@ -148,7 +146,7 @@ public class CabinetCtrlByZS {
 
         curMessageWhat = MESSAGE_WHAT_DOORCONTROL;
 
-        if (!isConnect) {
+        if (!mIsConnect) {
             sendMessage(curMessageWhat, 6, "连接设备失败");
             return;
         }
@@ -166,18 +164,18 @@ public class CabinetCtrlByZS {
     }
 
     public boolean connect() {
-        File file = new File("/dev/"+CabinetCtrlByZS.ComId);
+        File file = new File("/dev/"+mComId);
         if (file.exists()) {
-            int rc_status = mCabinetMidByZS.connect(CabinetCtrlByZS.ComId, CabinetCtrlByZS.ComBaud);
+            int rc_status = mCabinetMidByZS.connect(mComId, mComBaud);
             if (rc_status == 0) {
-                isConnect = true;
+                mIsConnect = true;
             }
         }
-        return isConnect;
+        return mIsConnect;
     }
 
     public boolean isConnect() {
-        return isConnect;
+        return mIsConnect;
     }
 
     public void disConnect() {
