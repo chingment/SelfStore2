@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -609,5 +611,33 @@ public final class FileUtil {
         return (file.exists() && file.isFile() ? file.length() : -1);
     }
 
+
+    public static void deleteFile(final String dirPath, final int day) {
+        FileUtil.delete(dirPath, new FilenameFilter() {
+
+            @Override
+            public boolean accept(File file, String filename) {
+
+                boolean isFlag=false;
+                try {
+                    long time = file.lastModified();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String result = formatter.format(time);
+                    Date startTime = formatter.parse(result);
+                    Date endTime = DateUtil.getNowDate();
+                    long diff = endTime.getTime() - startTime.getTime();
+                    long days = diff / (1000 * 60 * 60 * 24);
+                    if(days>=day){
+                        isFlag=true;
+                    }
+                }catch (Exception ex)
+                {
+                    isFlag=false;
+                }
+
+                return isFlag;
+            }
+        });
+    }
 
 }

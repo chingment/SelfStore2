@@ -127,14 +127,13 @@ public class AlarmService  extends Service {
         }
     }
 
-    public static void  deleteTempFile(){
+    public static void deleteTempFile() {
         LogUtil.i(TAG, "定时任务：删除临时文件");
         String picDir = OwnFileUtil.getPicSaveDir();
-        delete(picDir, 7);
+        FileUtil.deleteFile(picDir, 7);
         String moveDir = OwnFileUtil.getMovieSaveDir();
-        delete(moveDir, 7);
+        FileUtil.deleteFile(moveDir, 7);
     }
-
 
     public static void changeLighting() {
         LogUtil.i(TAG, "定时任务：改变灯光");
@@ -190,38 +189,7 @@ public class AlarmService  extends Service {
             }
         }
         // device.getLighting()
-
     }
-
-    //删除dirPath文件下 前几天的文件
-    public static void delete(final String dirPath, final int day) {
-        FileUtil.delete(dirPath, new FilenameFilter() {
-
-            @Override
-            public boolean accept(File file, String filename) {
-
-                boolean isFlag=false;
-                try {
-                    long time = file.lastModified();
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String result = formatter.format(time);
-                    Date startTime = formatter.parse(result);
-                    Date endTime = DateUtil.getNowDate();
-                    long diff = endTime.getTime() - startTime.getTime();
-                    long days = diff / (1000 * 60 * 60 * 24);
-                    if(days>=day){
-                        isFlag=true;
-                    }
-                }catch (Exception ex)
-                {
-                    isFlag=false;
-                }
-
-                return isFlag;
-            }
-        });
-    }
-
 
     public static void deleteTripMsgs() {
 
