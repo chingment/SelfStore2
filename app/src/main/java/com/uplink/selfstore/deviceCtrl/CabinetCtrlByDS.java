@@ -135,7 +135,6 @@ public class CabinetCtrlByDS {
         emgStop();
     }
 
-
     public boolean isNormarl() {
 
         if(!isConnect){
@@ -297,6 +296,18 @@ public class CabinetCtrlByDS {
 
         }).start();
 
+
+    }
+
+    public void setCbLight(int value){
+
+        new Thread(new Runnable() {
+            public void run() {
+                if(isConnect) {
+                    sym.SN_MV_OutputCheck(value);
+                }
+            }
+        }).start();
 
     }
 

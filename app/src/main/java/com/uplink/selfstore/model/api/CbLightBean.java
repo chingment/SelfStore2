@@ -1,6 +1,6 @@
 package com.uplink.selfstore.model.api;
 
-public class LightingCbBean {
+public class CbLightBean {
 
     private String start;
     private String end;

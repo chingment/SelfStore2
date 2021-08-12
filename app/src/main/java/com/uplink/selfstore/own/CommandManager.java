@@ -169,7 +169,6 @@ public class CommandManager {
 
     }
 
-
     private static void set_sys_params(String content) {
 
         SetSysParamsBean setSysParams = JSON.parseObject(content, new TypeReference<SetSysParamsBean>() {

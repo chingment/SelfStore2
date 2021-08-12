@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
@@ -20,6 +21,7 @@ import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
+import com.uplink.selfstore.model.api.CbLightBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.own.AppCacheManager;
@@ -36,6 +38,7 @@ import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
+import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -94,6 +97,23 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
+
+
+//        String content="[{\"start\":\"00:00\",\"end\":\"06:00\",\"value\":1},{\"start\":\"06:00\",\"end\":\"18:00\",\"value\":2},{\"start\":\"18:00\",\"end\":\"24:00\",\"value\":3}]";
+//
+//        List<CbLightBean> cbLights = JSONArray.parseObject(content, new TypeReference<List<CbLightBean>>() {
+//        });
+//
+//
+//        int value=0;
+//
+//        for (CbLightBean cbLight:
+//                cbLights ) {
+//            if(CommonUtil.isBelongPeriodTime(cbLight.getStart(),cbLight.getEnd())){
+//                value=cbLight.getValue();
+//                break;
+//            }
+//        }
 
 //        int[] a=new int[3];
 //        a[0]=1;
@@ -311,6 +331,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
                             }
 
+                            AlarmService.changeLighting();
 
                             CameraWindow.setInSampleSize(device.getPicInSampleSize());
 

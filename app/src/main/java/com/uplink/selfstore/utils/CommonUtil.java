@@ -23,6 +23,7 @@ import com.uplink.selfstore.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -234,5 +235,38 @@ public class CommonUtil {
         return false;
     }
 
+    public static boolean isBelongPeriodTime(String date1, String date2){
+
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");// 设置日期格式
+        Date nowTime = null;
+        Date beginTime = null;
+        Date endTime = null;
+
+        try {
+            nowTime = df.parse(df.format(new Date()));
+            beginTime = df.parse(date1);
+            endTime = df.parse(date2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(beginTime);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+
+        if (date.after(begin) && date.before(end)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
 
 }
