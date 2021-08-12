@@ -35,7 +35,20 @@ public class AppUtil {
         return status;
     }
 
-    public  static Boolean deviceIsIdle(){
+    public  static Boolean deviceIsIdle() {
+
+        Activity activity = AppManager.getAppManager().currentActivity();
+
+        if (activity == null)
+            return true;
+
+        String activityName = activity.getLocalClassName();
+
+        if (activityName.contains(".OrderDetails"))
+            return false;
+
+        if (activityName.contains(".SmDeviceStock"))
+            return false;
 
         return true;
     }
