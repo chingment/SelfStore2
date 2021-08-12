@@ -53,6 +53,7 @@ public class AlarmService  extends Service {
     private Handler handler1;
     private Runnable handler1_Runnable;
 
+    public static int cb_Light_Value=0;
 
     public AlarmService() {
     }
@@ -183,13 +184,16 @@ public class AlarmService  extends Service {
                             break;
                     }
 
-                    LogUtil.i(TAG,"cbLight.value:"+t_value);
-                    CabinetCtrlByDS.getInstance().connect();
-                    CabinetCtrlByDS.getInstance().setCbLight(t_value);
+                    LogUtil.i(TAG, "cbLight.value:" + t_value);
+
+                    if(cb_Light_Value!=t_value) {
+                        cb_Light_Value = t_value;
+                        CabinetCtrlByDS.getInstance().connect();
+                        CabinetCtrlByDS.getInstance().setCbLight(t_value);
+                    }
                 }
             }
         }
-        // device.getLighting()
     }
 
     public static void deleteTripMsgs() {

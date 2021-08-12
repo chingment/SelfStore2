@@ -104,7 +104,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceed9491-cd0c-4a67-b74d-060e55d4a84e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java" afterDir="false" />
     </list>
     <ignored path="SelfStore2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -168,63 +169,34 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-896">
-              <caret line="43" column="51" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="51" />
-              <folding>
-                <element signature="method#onBind#0;class#AlarmService#0" />
-                <element signature="method#onDestroy#0;class#AlarmService#0" />
-                <element signature="method#deleteTempFile#0;class#AlarmService#0" />
-                <element signature="method#changeLighting#0;class#AlarmService#0" />
-                <element signature="method#deleteTripMsgs#0;class#AlarmService#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-185">
+            <state relative-caret-position="15">
               <caret line="70" column="27" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/CommandManager.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AiotMqttService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="157" column="40" lean-forward="true" selection-start-line="157" selection-start-column="40" selection-end-line="157" selection-end-column="40" />
-              <folding>
-                <element signature="method#reboot_sys#0;class#CommandManager#0" />
-                <element signature="method#shutdown_sys#0;class#CommandManager#0" />
-                <element signature="method#set_sys_status#0;class#CommandManager#0" />
-                <element signature="method#update_ads#0;class#CommandManager#0" />
-                <element signature="method#update_stock#0;class#CommandManager#0" />
-                <element signature="method#pay_success#0;class#CommandManager#0" />
-                <element signature="method#open_pickup_door#0;class#CommandManager#0" />
-                <element signature="e#8930#10248#0" />
-              </folding>
+            <state relative-caret-position="75">
+              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppUtil.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/OrderDetailsActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-608">
-              <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+            <state relative-caret-position="274">
+              <caret line="195" column="9" selection-start-line="195" selection-start-column="9" selection-end-line="195" selection-end-column="9" />
+              <folding>
+                <element signature="method#onBind#0;class#AlarmService#0" />
+                <element signature="method#onDestroy#0;class#AlarmService#0" />
+                <element signature="method#deleteTempFile#0;class#AlarmService#0" />
+                <element signature="method#deleteTripMsgs#0;class#AlarmService#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -354,8 +326,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/deviceCtrl/CabinetCtrlByDS.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/utils/FileUtil.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/CommandManager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppUtil.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java" />
       </list>
     </option>
   </component>
@@ -418,14 +390,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="activity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="selfstore" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="own" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SelfStore2" type="1abcf292:AndroidViewProjectNode" />
@@ -846,7 +811,7 @@
     <frame x="25" y="25" width="1229" height="775" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.23420388" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.23420388" />
       <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
       <window_info id="Captures" order="2" sideWeight="0.17922078" side_tool="true" weight="0.2898914" />
       <window_info id="Build Variants" order="3" sideWeight="0.17547569" side_tool="true" weight="0.2579832" />
@@ -862,16 +827,16 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49122807" weight="0.32326284" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.15922494" side_tool="true" visible="true" weight="0.25688073" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.15417017" side_tool="true" visible="true" weight="0.31957185" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8466723" weight="0.5474006" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.84582984" visible="true" weight="0.31957185" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
       <window_info anchor="bottom" id="Build" order="13" sideWeight="0.5812974" weight="0.22477064" />
       <window_info anchor="bottom" id="Android Profiler" order="14" sideWeight="0.8263773" weight="0.4235474" />
       <window_info anchor="bottom" id="Thumbnails" order="15" weight="0.20795107" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="16" sideWeight="0.8407751" visible="true" weight="0.25688073" />
+      <window_info anchor="bottom" id="Logcat" order="16" sideWeight="0.8407751" weight="0.74923545" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1333,13 +1298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AiotMqttService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/UpdateAppService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
@@ -1499,27 +1457,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-185">
-          <caret line="70" column="27" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-896">
-          <caret line="43" column="51" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="51" />
-          <folding>
-            <element signature="method#onBind#0;class#AlarmService#0" />
-            <element signature="method#onDestroy#0;class#AlarmService#0" />
-            <element signature="method#deleteTempFile#0;class#AlarmService#0" />
-            <element signature="method#changeLighting#0;class#AlarmService#0" />
-            <element signature="method#deleteTripMsgs#0;class#AlarmService#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/CommandManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
@@ -1539,8 +1476,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/own/AppUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+        <state relative-caret-position="76">
+          <caret line="49" column="49" selection-start-line="49" selection-start-column="36" selection-end-line="49" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/activity/InitDataActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="70" column="27" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AiotMqttService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/uplink/selfstore/service/AlarmService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="195" column="9" selection-start-line="195" selection-start-column="9" selection-end-line="195" selection-end-column="9" />
+          <folding>
+            <element signature="method#onBind#0;class#AlarmService#0" />
+            <element signature="method#onDestroy#0;class#AlarmService#0" />
+            <element signature="method#deleteTempFile#0;class#AlarmService#0" />
+            <element signature="method#deleteTripMsgs#0;class#AlarmService#0" />
+          </folding>
         </state>
       </provider>
     </entry>
