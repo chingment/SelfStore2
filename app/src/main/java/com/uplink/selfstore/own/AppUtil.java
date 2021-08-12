@@ -34,4 +34,9 @@ public class AppUtil {
         }
         return status;
     }
+
+    public  static Boolean deviceIsIdle(){
+
+        return true;
+    }
 }

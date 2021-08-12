@@ -183,6 +183,7 @@ public class AlarmService  extends Service {
                             break;
                     }
 
+                    LogUtil.i(TAG,"cbLight.value:"+t_value);
                     CabinetCtrlByDS.getInstance().connect();
                     CabinetCtrlByDS.getInstance().setCbLight(t_value);
                 }

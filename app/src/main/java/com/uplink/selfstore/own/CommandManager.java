@@ -23,6 +23,7 @@ import com.uplink.selfstore.model.api.SkuBean;
 import com.uplink.selfstore.model.push.UpdateSkuStockBean;
 import com.uplink.selfstore.model.push.*;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
+import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.taskexecutor.onebyone.BaseSyncTask;
 import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -78,37 +79,7 @@ public class CommandManager {
                     open_pickup_door();
                     break;
                 case "device_ship":
-                    synchronized(CommandManager.class) {
-                        String status = AppUtil.getDeviceStatus();
-                        if (!status.equals("running")) {
-                            LogUtil.d(TAG, "设备正在维护或存在异常");
-                            return;
-                        }
-
-                        if (!TinySyncExecutor.getInstance().currentTaskIsNull()) {
-                            LogUtil.d(TAG, "已有订单正在执行");
-                            return;
-                        }
-
-                        BaseSyncTask task = new BaseSyncTask() {
-                            @Override
-                            public void doTask() {
-
-                                Intent intent = new Intent(AppContext.getInstance(), OrderDetailsActivity.class);
-                                Bundle bundle = new Bundle();
-
-                                OrderDetailsBean orderDetails = JSON.parseObject(params, new TypeReference<OrderDetailsBean>() {
-                                });
-
-                                bundle.putSerializable("dataBean", orderDetails);
-                                intent.putExtras(bundle);
-
-                                AppContext.getInstance().startActivity(intent);
-
-                            }
-                        };
-                        TinySyncExecutor.getInstance().enqueue(task);
-                    }
+                    device_ship(params);
                     break;
             }
         } finally {
@@ -180,18 +151,15 @@ public class CommandManager {
         DeviceBean device = AppCacheManager.getDevice();
 
         if(setSysParams.getLights()!=null) {
-
             HashMap<String, String> lights = setSysParams.getLights();
-
-            if (lights.containsKey("cb")) {
-
-
-            }
-
             device.setLights(lights);
         }
 
         AppCacheManager.setDevice(device);
+
+        if(AppUtil.deviceIsIdle()){
+            AlarmService.changeLighting();
+        }
     }
 
     private static void update_ads(String content) {
@@ -298,5 +266,39 @@ public class CommandManager {
         CabinetCtrlByDS cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByDS.connect();
         cabinetCtrlByDS.openPickupDoor();
+    }
+
+    private static void device_ship(String content){
+        synchronized(CommandManager.class) {
+            String status = AppUtil.getDeviceStatus();
+            if (!status.equals("running")) {
+                LogUtil.d(TAG, "设备正在维护或存在异常");
+                return;
+            }
+
+            if (!TinySyncExecutor.getInstance().currentTaskIsNull()) {
+                LogUtil.d(TAG, "已有订单正在执行");
+                return;
+            }
+
+            BaseSyncTask task = new BaseSyncTask() {
+                @Override
+                public void doTask() {
+
+                    Intent intent = new Intent(AppContext.getInstance(), OrderDetailsActivity.class);
+                    Bundle bundle = new Bundle();
+
+                    OrderDetailsBean orderDetails = JSON.parseObject(content, new TypeReference<OrderDetailsBean>() {
+                    });
+
+                    bundle.putSerializable("dataBean", orderDetails);
+                    intent.putExtras(bundle);
+
+                    AppContext.getInstance().startActivity(intent);
+
+                }
+            };
+            TinySyncExecutor.getInstance().enqueue(task);
+        }
     }
 }
