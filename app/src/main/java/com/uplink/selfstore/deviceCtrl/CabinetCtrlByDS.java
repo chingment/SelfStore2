@@ -95,6 +95,10 @@ public class CabinetCtrlByDS {
     }
 
     public boolean connect() {
+
+//        if (mIsConnect)
+//            return true;
+
         String comId = mComId;
         int comBaud = mComBaud;
         LogUtil.i(TAG, "打开串口:" + comId + "，波特：" + comBaud);

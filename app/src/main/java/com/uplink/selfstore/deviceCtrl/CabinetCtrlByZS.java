@@ -164,7 +164,11 @@ public class CabinetCtrlByZS {
     }
 
     public boolean connect() {
-        File file = new File("/dev/"+mComId);
+
+//        if (mIsConnect)
+//            return true;
+
+        File file = new File("/dev/" + mComId);
         if (file.exists()) {
             int rc_status = mCabinetMidByZS.connect(mComId, mComBaud);
             if (rc_status == 0) {

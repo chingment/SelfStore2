@@ -325,6 +325,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
                                         case "zsx01":
                                             cabinetCtrlByZS.setComId(cabinet.getComId());
                                             cabinetCtrlByZS.setComBaud(cabinet.getComBaud());
+                                            cabinetCtrlByZS.connect();
                                             break;
                                     }
                                 }
