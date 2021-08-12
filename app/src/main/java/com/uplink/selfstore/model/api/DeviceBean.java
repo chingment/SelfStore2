@@ -19,7 +19,7 @@ public class DeviceBean implements Serializable {
     private String shopAddress;
     private HashMap<String, CabinetBean> cabinets;
     private List<TerminalPayOptionBean> payOptions;
-    private LightingBean lighting;
+    private HashMap<String, String> lights;
     private boolean cameraByChkIsUse;
     private boolean cameraByRlIsUse;
     private boolean cameraByJgIsUse;
@@ -209,11 +209,11 @@ public class DeviceBean implements Serializable {
     }
 
 
-    public LightingBean getLighting() {
-        return lighting;
+    public HashMap<String, String> getLights() {
+        return lights;
     }
 
-    public void setLighting(LightingBean lighting) {
-        this.lighting = lighting;
+    public void setLights(HashMap<String, String> lights) {
+        this.lights = lights;
     }
 }

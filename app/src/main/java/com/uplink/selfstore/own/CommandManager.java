@@ -13,6 +13,7 @@ import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.ProductKindActivity;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.model.push.SetSysParamsBean;
 import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
@@ -60,6 +61,9 @@ public class CommandManager {
                     break;
                 case "set_sys_status":
                     set_sys_status(params);
+                    break;
+                case "set_sys_params":
+                    set_sys_params(params);
                     break;
                 case "update_ads":
                     update_ads(params);
@@ -163,6 +167,32 @@ public class CommandManager {
             currentActivity.getDialogBySystemWarn().show();
         }
 
+    }
+
+
+    private static void set_sys_params(String content) {
+
+        SetSysParamsBean setSysParams = JSON.parseObject(content, new TypeReference<SetSysParamsBean>() {
+        });
+
+        if (setSysParams == null)
+            return;
+
+        DeviceBean device = AppCacheManager.getDevice();
+
+        if(setSysParams.getLights()!=null) {
+
+            HashMap<String, String> lights = setSysParams.getLights();
+
+            if (lights.containsKey("cb")) {
+
+
+            }
+
+            device.setLights(lights);
+        }
+
+        AppCacheManager.setDevice(device);
     }
 
     private static void update_ads(String content) {
