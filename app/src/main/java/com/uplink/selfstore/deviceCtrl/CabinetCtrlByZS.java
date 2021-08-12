@@ -15,6 +15,8 @@ import java.util.HashMap;
 public class CabinetCtrlByZS {
     private static final String TAG = "CabinetCtrlByZS";
     private static CabinetCtrlByZS mCabinetCtrlByZS= null;
+
+
     private static String ComId="ttyS0";
     private static int ComBaud=115200;//9600
     private Handler mHandler = null;
