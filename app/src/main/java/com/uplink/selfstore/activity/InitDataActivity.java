@@ -98,6 +98,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         setContentView(R.layout.activity_initdata);
 
 
+        //String aaa=Config.getSign("com.uplink.selfstore","fanju","7460e6512f1940f68c00fe1fdb2b7eb1","{\"deviceId\":\"202108020005\",\"eventRemark\":\"商品取货\",\"appId\":\"com.uplink.selfstore\",\"content\":{\"signId\":1427105705646755840,\"orderId\":\"610696120210816110624974\",\"uniqueId\":\"6106961202108161106249747\",\"skuId\":\"c9c36d03379249f9b5beedaf917fd986\",\"cabinetId\":\"dsx01n01\",\"slotId\":\"1-8-35\",\"pickupStatus\":3011,\"actionId\":-1,\"actionName\":\"未知动作\",\"actionStatusCode\":0,\"actionStatusName\":\"\",\"pickupUseTime\":0,\"imgId\":\"\",\"imgId2\":\"\",\"remark\":\"发起取货\"},\"lat\":0,\"lng\":0,\"eventCode\":\"vending_pickup\"}","1629083489");
 
 //        String content="[{\"start\":\"00:00\",\"end\":\"06:00\",\"value\":1},{\"start\":\"06:00\",\"end\":\"18:00\",\"value\":2},{\"start\":\"18:00\",\"end\":\"24:00\",\"value\":3}]";
 //

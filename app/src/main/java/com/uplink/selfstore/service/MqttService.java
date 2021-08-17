@@ -279,28 +279,37 @@ public class MqttService extends Service {
 
         if (mqtt != null) {
             if(mqtt.getType().equals("exmq")) {
-                com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
-                host = pms.getString("host");
-                userName = pms.getString("userName");
-                password = pms.getString("password");
-                clientId = pms.getString("clientId");
-                deviceClass=pms.getString("deviceClass");
-                deviceName=pms.getString("clientId");
+                if( mqtt.getParams()!=null) {
+                    com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
+                    if (pms != null) {
+                        host = pms.getString("host");
+                        userName = pms.getString("userName");
+                        password = pms.getString("password");
+                        clientId = pms.getString("clientId");
+                        deviceClass = pms.getString("deviceClass");
+                        deviceName = pms.getString("clientId");
+                    }
+                }
             }
             else if(mqtt.getType().equals("almq")) {
-                com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
-                String productKey = pms.getString("productKey");
-                deviceClass = productKey;
-                deviceName = pms.getString("deviceName");
-                String deviceSecret = pms.getString("deviceSecret");
+                if(mqtt.getParams()!=null) {
+                    com.alibaba.fastjson.JSONObject pms = (com.alibaba.fastjson.JSONObject) mqtt.getParams();
 
-                host = "tcp://" + productKey + ".iot-as-mqtt.cn-shanghai.aliyuncs.com:443";
+                    if (pms != null) {
+                        String productKey = pms.getString("productKey");
+                        deviceClass = productKey;
+                        deviceName = pms.getString("deviceName");
+                        String deviceSecret = pms.getString("deviceSecret");
 
-                AiotMqttOption aiotMqttOption = new AiotMqttOption().getMqttOption(productKey, deviceName, deviceSecret);
+                        host = "tcp://" + productKey + ".iot-as-mqtt.cn-shanghai.aliyuncs.com:443";
 
-                userName = aiotMqttOption.getUsername();
-                password = aiotMqttOption.getPassword();
-                clientId = aiotMqttOption.getClientId();
+                        AiotMqttOption aiotMqttOption = new AiotMqttOption().getMqttOption(productKey, deviceName, deviceSecret);
+
+                        userName = aiotMqttOption.getUsername();
+                        password = aiotMqttOption.getPassword();
+                        clientId = aiotMqttOption.getClientId();
+                    }
+                }
             }
 
         }
