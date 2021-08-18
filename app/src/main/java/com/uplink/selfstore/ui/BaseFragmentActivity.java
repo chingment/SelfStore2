@@ -538,7 +538,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         int msg_id = DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify, content2);
 
         params.put("msgId", msg_id);
-
+        params.put("msgMode", "normal");
         HttpClient.postByMy(Config.URL.device_EventNotify, params, new HttpResponseHandler() {
 
             @Override
