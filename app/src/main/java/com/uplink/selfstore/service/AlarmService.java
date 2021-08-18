@@ -209,28 +209,20 @@ public class AlarmService  extends Service {
                     params.put("msgMode","timer");
                     String json = params.toString();
                     HttpClient.postByMy(Config.URL.device_EventNotify, json, new HttpResponseHandler() {
-
                         @Override
                         public void onBeforeSend() {
-
-
                         }
-
                         @Override
                         public void onSuccess(String response) {
-
                             ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
                             });
-
                             if (rt.getResult() == Result.SUCCESS) {
                                 RetDeviceEventNotify ret = rt.getData();
                                 DbManager.getInstance().deleteTripMsg(ret.getMsgId());
                             }
                         }
-
                         @Override
                         public void onFailure(String msg, Exception e) {
-
                         }
                     });
                 }
