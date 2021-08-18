@@ -827,9 +827,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1229" height="775" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.23083404" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8262712" visible="true" weight="0.23083404" />
       <window_info id="Structure" order="1" sideWeight="0.49584487" weight="0.24853064" />
       <window_info id="Captures" order="2" sideWeight="0.17922078" side_tool="true" weight="0.2898914" />
       <window_info id="Build Variants" order="3" sideWeight="0.17547569" side_tool="true" weight="0.2579832" />
@@ -848,7 +847,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.16596462" side_tool="true" visible="true" weight="0.3088685" />
       <window_info active="true" anchor="bottom" id="Android Monitor" order="8" sideWeight="0.7641357" visible="true" weight="0.52605045" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.716792" weight="0.24311927" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.8340354" visible="true" weight="0.3088685" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.8340354" visible="true" weight="0.3088685" />
       <window_info anchor="bottom" id="Gradle Console" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.48707592" weight="0.32941177" />
       <window_info anchor="bottom" id="Build" order="13" sideWeight="0.5728728" weight="0.21865444" />
