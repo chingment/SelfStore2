@@ -273,7 +273,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
                 params.put("skus", json_Skus);
 
-                postByMy(CartActivity.this,Config.URL.imservice_Seats, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(CartActivity.this,Config.URL.imservice_Seats, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -510,7 +510,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         params.put("orderId", orderId);
         params.put("payPartner", payOption.getPartner() + "");
         params.put("payCaller", payOption.getCaller() + "");
-        postByMy(CartActivity.this, Config.URL.order_BuildPayParams, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(CartActivity.this, Config.URL.order_BuildPayParams, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -573,7 +573,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
         params.put("skus", json_Skus);
 
-        postByMy(CartActivity.this, Config.URL.order_Reserve, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(CartActivity.this, Config.URL.order_Reserve, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -608,7 +608,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         params.put("payTransId", LAST_PAYTRANSID);
         params.put("orderId", LAST_ORDERID);
 
-        postByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params,null, false, "", new HttpResponseHandler() {
+        postByMy(CartActivity.this, Config.URL.order_PayStatusQuery, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -639,7 +639,7 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
         params.put("type", type);
         params.put("reason", reason);
 
-        postByMy(CartActivity.this,Config.URL.order_Cancle, params, null, true, "", new HttpResponseHandler() {
+        postByMy(CartActivity.this,Config.URL.order_Cancle, params, true, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
             }

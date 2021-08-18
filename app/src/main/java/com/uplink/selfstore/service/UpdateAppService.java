@@ -244,7 +244,7 @@ public class UpdateAppService extends Service {
             params.put("appKey", BuildConfig.APPKEY);
 
 
-            HttpClient.postByMy(Config.URL.device_CheckUpdate, params,null, new HttpResponseHandler() {
+            HttpClient.postByMy(Config.URL.device_CheckUpdate, params, new HttpResponseHandler() {
 
                 @Override
                 public void onBeforeSend() {

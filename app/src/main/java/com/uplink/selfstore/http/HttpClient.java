@@ -128,7 +128,7 @@ public class HttpClient {
     }
 
 
-    public static void postByMy(String url, Map<String, Object> params, Map<String, String> filePaths, final HttpResponseHandler handler) {
+    public static void postByMy(String url, String jsonBody, final HttpResponseHandler handler) {
 
         try
         {
@@ -141,21 +141,7 @@ public class HttpClient {
                 handler.sendBeforeSendMessage();
             }
 
-            JSONObject json = new JSONObject();
-            try {
-                if(params!=null) {
-                    for (Map.Entry<String, Object> entry : params.entrySet()) {
-                        json.put(entry.getKey(), entry.getValue());
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                if(handler!=null) {
-                    handler.sendFailureMessage("提交数据转换发生异常", null);
-                }
-                return;
-            }
-
+            String data =jsonBody;
 
             Request.Builder requestBuilder = new Request.Builder().url(url);
 
@@ -163,7 +149,7 @@ public class HttpClient {
             requestBuilder.addHeader("appKey", "" + BuildConfig.APPKEY);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
-            String sign = Config.getSign(BuildConfig.APPLICATION_ID, BuildConfig.APPKEY, BuildConfig.APPSECRET, json.toString(), currenttime);
+            String sign = Config.getSign(BuildConfig.APPLICATION_ID, BuildConfig.APPKEY, BuildConfig.APPSECRET, data, currenttime);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
@@ -171,32 +157,7 @@ public class HttpClient {
                 requestBuilder.addHeader("X-Token", "" + AppCacheManager.getOpUserInfo().getToken());
             }
 
-            try {
-                JSONObject jsonImgData = new JSONObject();
-                if (filePaths != null) {
-                    if (filePaths.size() > 0) {
-                        for (Map.Entry<String, String> entry : filePaths.entrySet()) {
-                            JSONObject jsonImgItem = new JSONObject();
-                            String filePath = entry.getValue();
-                            LogUtil.e(TAG, "filePath>>==>>" + filePath);
-                            jsonImgItem.put("type", filePath.substring(filePath.lastIndexOf(".")));
-                            String base64ImgStr = AbFileUtil.GetBase64ImageStr(filePath);
-                            LogUtil.e(TAG, "filePath>>==>>" + base64ImgStr.length());
-                            jsonImgItem.put("data", base64ImgStr);
-                            jsonImgData.put(entry.getKey(), jsonImgItem);
-                        }
-                        json.put("imgData", jsonImgData);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                if(handler!=null) {
-                    handler.handleFailureMessage("提交数据转换发生异常", e);
-                }
-                return;
-            }
 
-            String data = json.toString();
 
             LogUtil.i("Request.url:" + url);
             LogUtil.i("Request.postData:" + data);
@@ -210,7 +171,6 @@ public class HttpClient {
             client.newCall(requestBuilder.build()).enqueue(new Callback() {
                 @Override
                 public void onResponse(Call call, Response response) {
-
                     try {
                         String body = response.body().string();
                         LogUtil.i(TAG, "Request.onSuccess====>>>" + body);
@@ -224,7 +184,6 @@ public class HttpClient {
                             handler.sendFailureMessage("读取数据发生异常", e);
                         }
                     }
-
                 }
 
                 @Override
@@ -252,6 +211,30 @@ public class HttpClient {
             }
         }
     }
+
+    public static void postByMy(String url, Map<String, Object> params, final HttpResponseHandler handler) {
+
+        JSONObject json = new JSONObject();
+        try {
+            if(params!=null) {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    json.put(entry.getKey(), entry.getValue());
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            if(handler!=null) {
+                handler.sendFailureMessage("提交数据转换发生异常", null);
+            }
+            return;
+        }
+
+        String data = json.toString();
+
+        postByMy(url,data,handler);
+
+    }
+
 
     public static void postFileByMy(String url, Map<String, String> fields, Map<String, String> filePaths, final HttpResponseHandler handler) {
 

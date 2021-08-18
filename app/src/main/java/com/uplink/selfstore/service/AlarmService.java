@@ -12,6 +12,7 @@ import android.os.SystemClock;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
+import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.broadcast.AlarmReceiver;
 import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
@@ -30,6 +31,7 @@ import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.File;
@@ -205,12 +207,13 @@ public class AlarmService  extends Service {
 
             for (TripMsgBean trip: tripMsgs ) {
 
-                Map<String, Object> params = JSON.parseObject(trip.getContent(), new TypeReference<Map<String, Object>>() {
-                });
+                com.alibaba.fastjson.JSONObject params = JSON.parseObject(trip.getContent());
 
                 params.put("msgId",trip.getMsgId());
 
-                HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
+                String json=params.toString();
+
+                HttpClient.postByMy(Config.URL.device_EventNotify, json, new HttpResponseHandler() {
 
                     @Override
                     public void onBeforeSend() {

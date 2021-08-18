@@ -136,7 +136,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                     return;
                 }
 
-                postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_ConfirmReplenish, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_ConfirmReplenish, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -697,7 +697,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         params.put("deviceId", getDevice().getDeviceId());
         params.put("planDeviceId",replenishPlan.getId());
 
-        postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_GetPlanDetail, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_GetPlanDetail, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

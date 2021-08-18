@@ -620,7 +620,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         params.put("cabinetId",cabinetId);
 
 
-        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_GetCabinetSlots, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -653,7 +653,7 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         params.put("cabinetId", cabientId);
         params.put("rowColLayout", rowColLayout);
 
-        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_SaveCabinetRowColLayout, params, null, true, getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmDeviceStockActivity.this, Config.URL.stockSetting_SaveCabinetRowColLayout, params, true, getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

@@ -467,9 +467,9 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
     }
 
 
-    public void postByMy(Context context,String url, Map<String, Object> params, Map<String, String> filePaths, final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
+    public void postByMy(Context context,String url, Map<String, Object> params,final Boolean isShowLoading, final String loadingMsg, final HttpResponseHandler handler) {
 
-        HttpClient.postByMy(url, params, filePaths, new HttpResponseHandler() {
+        HttpClient.postByMy(url, params,new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
@@ -508,7 +508,8 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         });
     }
 
-    public static void eventNotify(String eventCode,String eventRemark, JSONObject content){
+    public static void eventNotify(String eventCode,String eventRemark, JSONObject content) {
+
 
         DeviceBean device = AppCacheManager.getDevice();
 
@@ -519,16 +520,26 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         params.put("lng", LocationUtil.LNG);
         params.put("eventCode", eventCode);
         params.put("eventRemark", eventRemark);
-        if(content!=null) {
+        if (content != null) {
             params.put("content", content);
         }
 
+        JSONObject json = new JSONObject();
+        try {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                json.put(entry.getKey(), entry.getValue());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-        int msg_id= DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify,JSON.toJSONString(params));
+        String content2 = json.toString();
+
+        int msg_id = DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify, content2);
 
         params.put("msgId", msg_id);
 
-        HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
+        HttpClient.postByMy(Config.URL.device_EventNotify, params, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
@@ -542,8 +553,8 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
                 ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
                 });
 
-                if(rt.getResult()==Result.SUCCESS){
-                    RetDeviceEventNotify ret=rt.getData();
+                if (rt.getResult() == Result.SUCCESS) {
+                    RetDeviceEventNotify ret = rt.getData();
                     DbManager.getInstance().deleteTripMsg(ret.getMsgId());
                 }
             }
@@ -562,7 +573,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         params.put("deviceId", this.getDevice().getDeviceId());
         params.put("pickupCode", pickCode);
 
-        postByMy(context,Config.URL.order_SearchByPickupCode, params,null, true, "正在寻找订单", new HttpResponseHandler() {
+        postByMy(context,Config.URL.order_SearchByPickupCode, params, true, "正在寻找订单", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

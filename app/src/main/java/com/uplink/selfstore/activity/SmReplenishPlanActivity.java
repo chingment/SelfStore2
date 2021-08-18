@@ -62,7 +62,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
         params.put("page",0);
         params.put("limit",10);
 
-        postByMy(SmReplenishPlanActivity.this,Config.URL.replenish_GetPlans, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmReplenishPlanActivity.this,Config.URL.replenish_GetPlans, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

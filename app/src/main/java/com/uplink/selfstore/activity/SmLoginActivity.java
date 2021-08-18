@@ -205,7 +205,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         params.put("deviceId", device.getDeviceId() + "");
 
 
-        postByMy(SmLoginActivity.this, Config.URL.own_LoginByAccount, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmLoginActivity.this, Config.URL.own_LoginByAccount, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -245,7 +245,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         params.put("deviceId", device.getDeviceId() + "");
 
 
-        postByMy(SmLoginActivity.this, Config.URL.own_LoginByFingerVein, params, null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmLoginActivity.this, Config.URL.own_LoginByFingerVein, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

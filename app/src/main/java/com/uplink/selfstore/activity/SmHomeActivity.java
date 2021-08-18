@@ -133,7 +133,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         params.put("loginWay", 5);
                         params.put("deviceId", getDevice().getDeviceId() + "");
 
-                        postByMy(SmHomeActivity.this, Config.URL.own_Logout, params,null, true, "正在退出", new HttpResponseHandler() {
+                        postByMy(SmHomeActivity.this, Config.URL.own_Logout, params, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {

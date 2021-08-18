@@ -40,8 +40,11 @@ import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.FileUtil;
+import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -96,6 +99,47 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
+
+
+//        try {
+//
+//            JSONObject content = new JSONObject();
+//            content.put("uniqueId", "1");
+//            content.put("skuId", "2");
+//
+//            Map<String, Object> params = new HashMap<>();
+//            params.put("appId", BuildConfig.APPLICATION_ID);
+//            params.put("deviceId","111");
+//            params.put("lat", LocationUtil.LAT);
+//            params.put("lng", LocationUtil.LNG);
+//            if(content!=null) {
+//                params.put("content", content);
+//            }
+//
+//            JSONObject json = new JSONObject();
+//
+//            for (Map.Entry<String, Object> entry : params.entrySet()) {
+//                json.put(entry.getKey(), entry.getValue());
+//            }
+//
+//            String cc=json.toString();
+//
+//            String v=cc;
+//
+//
+//           com.alibaba.fastjson.JSONObject params2 = JSON.parseObject(v);
+//
+//            params2.put("msgId",111);
+//
+//
+//            String cc2=params2.toString();
+//
+//            String v2=cc2;
+//
+//        }
+//        catch (Exception ex){
+//            ex.printStackTrace();
+//        }
 
 
         //String aaa=Config.getSign("com.uplink.selfstore","fanju","7460e6512f1940f68c00fe1fdb2b7eb1","{\"deviceId\":\"202108020005\",\"eventRemark\":\"商品取货\",\"appId\":\"com.uplink.selfstore\",\"content\":{\"signId\":1427105705646755840,\"orderId\":\"610696120210816110624974\",\"uniqueId\":\"6106961202108161106249747\",\"skuId\":\"c9c36d03379249f9b5beedaf917fd986\",\"cabinetId\":\"dsx01n01\",\"slotId\":\"1-8-35\",\"pickupStatus\":3011,\"actionId\":-1,\"actionName\":\"未知动作\",\"actionStatusCode\":0,\"actionStatusName\":\"\",\"pickupUseTime\":0,\"imgId\":\"\",\"imgId2\":\"\",\"remark\":\"发起取货\"},\"lat\":0,\"lng\":0,\"eventCode\":\"vending_pickup\"}","1629083489");
@@ -446,7 +490,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());
         params.put("macAddress", getAppContext().getMacAddress());
 
-        postByMy(InitDataActivity.this, Config.URL.device_InitData, params,null, false, "", new HttpResponseHandler() {
+        postByMy(InitDataActivity.this, Config.URL.device_InitData, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 ApiResultBean<RetDeviceInitData> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceInitData>>() {

@@ -106,7 +106,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, Object> params = new HashMap<>();
 
-        postByMy(SmUserInfoActivity.this, Config.URL.own_GetInfo, params,null, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmUserInfoActivity.this, Config.URL.own_GetInfo, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -142,7 +142,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
 
         Map<String, String> params = new HashMap<>();
 
-        postByMy(SmUserInfoActivity.this, Config.URL.own_DeleteFingerVeinData, null, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmUserInfoActivity.this, Config.URL.own_DeleteFingerVeinData, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
@@ -206,7 +206,7 @@ public class SmUserInfoActivity extends SwipeBackActivity implements View.OnClic
         params.put("deviceId", device.getDeviceId() + "");
         params.put("veinData", Base64.encodeToString(data, Base64.NO_WRAP));
 
-        postByMy(SmUserInfoActivity.this, Config.URL.own_UploadFingerVeinData, params, null, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmUserInfoActivity.this, Config.URL.own_UploadFingerVeinData, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

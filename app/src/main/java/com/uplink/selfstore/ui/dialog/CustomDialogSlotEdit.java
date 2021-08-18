@@ -525,7 +525,7 @@ public class CustomDialogSlotEdit extends Dialog {
 
                 params.put("version", version);
 
-                mContext.postByMy(mContext,Config.URL.stockSetting_SaveCabinetSlot, params, null, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                mContext.postByMy(mContext,Config.URL.stockSetting_SaveCabinetSlot, params, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -773,7 +773,7 @@ public class CustomDialogSlotEdit extends Dialog {
         params.put("deviceId", device.getDeviceId());
         params.put("key", key);
 
-        mContext.postByMy(mContext,Config.URL.product_SearchSku, params, null, false, "正在寻找", new HttpResponseHandler() {
+        mContext.postByMy(mContext,Config.URL.product_SearchSku, params, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);
