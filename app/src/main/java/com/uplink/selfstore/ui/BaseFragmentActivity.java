@@ -34,6 +34,7 @@ import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.model.api.RetDeviceEventNotify;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
@@ -525,6 +526,8 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
 
         int msg_id= DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify,JSON.toJSONString(params));
 
+        params.put("msgId", msg_id);
+
         HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
 
             @Override
@@ -536,11 +539,12 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
                 });
 
                 if(rt.getResult()==Result.SUCCESS){
-                    DbManager.getInstance().deleteTripMsg(msg_id);
+                    RetDeviceEventNotify ret=rt.getData();
+                    DbManager.getInstance().deleteTripMsg(ret.getMsgId());
                 }
             }
 

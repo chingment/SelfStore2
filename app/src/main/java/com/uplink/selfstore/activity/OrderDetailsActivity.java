@@ -583,7 +583,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         if(pickupSku==null)
             return;
-        //捕捉相片
+
+        if(orderDetails==null)
+            return;
 
         IdWorker worker = new IdWorker(1,1,1);
 

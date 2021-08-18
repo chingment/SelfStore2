@@ -23,6 +23,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CbLightBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.Result;
+import com.uplink.selfstore.model.api.RetDeviceEventNotify;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
@@ -207,6 +208,8 @@ public class AlarmService  extends Service {
                 Map<String, Object> params = JSON.parseObject(trip.getContent(), new TypeReference<Map<String, Object>>() {
                 });
 
+                params.put("msgId",trip.getMsgId());
+
                 HttpClient.postByMy(Config.URL.device_EventNotify, params, null, new HttpResponseHandler() {
 
                     @Override
@@ -217,11 +220,12 @@ public class AlarmService  extends Service {
                     @Override
                     public void onSuccess(String response) {
 
-                        ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {
+                        ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
                         });
 
-                        if(rt.getResult()== Result.SUCCESS){
-                            DbManager.getInstance().deleteTripMsg(trip.getMsgId());
+                        if(rt.getResult()==Result.SUCCESS){
+                            RetDeviceEventNotify ret=rt.getData();
+                            DbManager.getInstance().deleteTripMsg(ret.getMsgId());
                         }
                     }
 
