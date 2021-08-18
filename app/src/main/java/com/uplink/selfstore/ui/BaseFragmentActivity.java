@@ -510,36 +510,30 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
 
     public static void eventNotify(String eventCode,String eventRemark, JSONObject content) {
 
-
         DeviceBean device = AppCacheManager.getDevice();
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("appId", BuildConfig.APPLICATION_ID);
-        params.put("deviceId", device.getDeviceId());
-        params.put("lat", LocationUtil.LAT);
-        params.put("lng", LocationUtil.LNG);
-        params.put("eventCode", eventCode);
-        params.put("eventRemark", eventRemark);
-        if (content != null) {
-            params.put("content", content);
-        }
-
-        JSONObject json = new JSONObject();
+        String str_content="";
         try {
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                json.put(entry.getKey(), entry.getValue());
+            JSONObject params = new JSONObject();
+            params.put("appId", BuildConfig.APPLICATION_ID);
+            params.put("deviceId", device.getDeviceId());
+            params.put("lat", LocationUtil.LAT);
+            params.put("lng", LocationUtil.LNG);
+            params.put("eventCode", eventCode);
+            params.put("eventRemark", eventRemark);
+            if (content != null) {
+                params.put("content", content);
             }
+            str_content = params.toString();
+            int msg_id = DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify, str_content);
+            params.put("msgId", msg_id);
+            params.put("msgMode", "normal");
+            str_content= params.toString();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        String content2 = json.toString();
-
-        int msg_id = DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify, content2);
-
-        params.put("msgId", msg_id);
-        params.put("msgMode", "normal");
-        HttpClient.postByMy(Config.URL.device_EventNotify, params, new HttpResponseHandler() {
+        HttpClient.postByMy(Config.URL.device_EventNotify, str_content, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {

@@ -100,120 +100,17 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-
-//        try {
-//
-//            JSONObject content = new JSONObject();
-//            content.put("uniqueId", "1");
-//            content.put("skuId", "2");
-//
-//            Map<String, Object> params = new HashMap<>();
-//            params.put("appId", BuildConfig.APPLICATION_ID);
-//            params.put("deviceId","111");
-//            params.put("lat", LocationUtil.LAT);
-//            params.put("lng", LocationUtil.LNG);
-//            if(content!=null) {
-//                params.put("content", content);
-//            }
-//
-//            JSONObject json = new JSONObject();
-//
-//            for (Map.Entry<String, Object> entry : params.entrySet()) {
-//                json.put(entry.getKey(), entry.getValue());
-//            }
-//
-//            String cc=json.toString();
-//
-//            String v=cc;
-//
-//
-//           com.alibaba.fastjson.JSONObject params2 = JSON.parseObject(v);
-//
-//            params2.put("msgId",111);
-//
-//
-//            String cc2=params2.toString();
-//
-//            String v2=cc2;
-//
-//        }
-//        catch (Exception ex){
-//            ex.printStackTrace();
-//        }
-
-
-        //String aaa=Config.getSign("com.uplink.selfstore","fanju","7460e6512f1940f68c00fe1fdb2b7eb1","{\"deviceId\":\"202108020005\",\"eventRemark\":\"商品取货\",\"appId\":\"com.uplink.selfstore\",\"content\":{\"signId\":1427105705646755840,\"orderId\":\"610696120210816110624974\",\"uniqueId\":\"6106961202108161106249747\",\"skuId\":\"c9c36d03379249f9b5beedaf917fd986\",\"cabinetId\":\"dsx01n01\",\"slotId\":\"1-8-35\",\"pickupStatus\":3011,\"actionId\":-1,\"actionName\":\"未知动作\",\"actionStatusCode\":0,\"actionStatusName\":\"\",\"pickupUseTime\":0,\"imgId\":\"\",\"imgId2\":\"\",\"remark\":\"发起取货\"},\"lat\":0,\"lng\":0,\"eventCode\":\"vending_pickup\"}","1629083489");
-
-//        String content="[{\"start\":\"00:00\",\"end\":\"06:00\",\"value\":1},{\"start\":\"06:00\",\"end\":\"18:00\",\"value\":2},{\"start\":\"18:00\",\"end\":\"24:00\",\"value\":3}]";
-//
-//        List<CbLightBean> cbLights = JSONArray.parseObject(content, new TypeReference<List<CbLightBean>>() {
-//        });
-//
-//
-//        int value=0;
-//
-//        for (CbLightBean cbLight:
-//                cbLights ) {
-//            if(CommonUtil.isBelongPeriodTime(cbLight.getStart(),cbLight.getEnd())){
-//                value=cbLight.getValue();
-//                break;
-//            }
-//        }
-
-//        int[] a=new int[3];
-//        a[0]=1;
-//        a[1]=2;
-//        a[2]=3;
-//        List<List<String>> c = CabinetLayoutUtil.getRowsByDs(a);
-        //Intent mqttService2 = new Intent(getAppContext(), AiotMqttService.class);
-        //startService(mqttService2);
-
-
-//        IdWorker worker = new IdWorker(1,1,1);
-//
-//        long id=worker.nextId();
-//
-//        long id2=worker.nextId();
-//
-//        long id3=worker.nextId();
-//        TestBean testBean=new TestBean();
-//        testBean.setName("大毛");
-//        testBean.setPhone("13600000001");
-//
-//      TestBeanDao testBeanDao= DbManager.getInstance().getDaoSession().getTestBeanDao();
-//
-////插入数据
-//        testBeanDao.insert(testBean);
-////数据存在则替换，数据不存在则插入
-//        testBeanDao.insertOrReplace(testBean);
-//
-////条件查询10条数据
-//        List<TestBean> list=testBeanDao.queryBuilder().where(TestBeanDao.Properties.Name.eq("大毛")).limit(10).build().list();
-//
-////查询全部
-//        List<TestBean> list2=testBeanDao.queryBuilder().build().list();
-//
-////删除
-//        testBeanDao.delete(testBean);
-
-
         //因mqtt文件被锁定未被删除造成对象未空，因此进入程序首先删除MqttConnection文件 防止对象未空
 
         File mqttConnection= getAppContext().getExternalFilesDir("MqttConnection");
 
-        //String dirPath = Environment.getExternalStorageDirectory() + "/Android/data/"+BuildConfig.APPLICATION_ID+"/files/MqttConnection";
-        //String dirPath="/storage/emulated/0/Android/data/com.uplink.selfstore/files/MqttConnection/mch_202004220011-tcp112741791851883";
-
-
         FileUtil.deleteDirWihtFile(mqttConnection);
-
 
         initView();
         initEvent();
         initData();
 
         initHandler.postDelayed(initRunable, 1000);
-
 
         Intent updateAppService = new Intent(this, UpdateAppService.class);
         startService(updateAppService);
@@ -228,7 +125,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
-
 
     }
 

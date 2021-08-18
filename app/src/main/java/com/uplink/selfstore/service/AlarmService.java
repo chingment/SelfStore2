@@ -201,18 +201,13 @@ public class AlarmService  extends Service {
     public static void deleteTripMsgs() {
         try {
             List<TripMsgBean> tripMsgs = DbManager.getInstance().getTripMsgs();
-
             if (tripMsgs != null) {
 
                 for (TripMsgBean trip : tripMsgs) {
-
                     com.alibaba.fastjson.JSONObject params = JSON.parseObject(trip.getContent());
-
                     params.put("msgId", trip.getMsgId());
                     params.put("msgMode","timer");
-
                     String json = params.toString();
-
                     HttpClient.postByMy(Config.URL.device_EventNotify, json, new HttpResponseHandler() {
 
                         @Override
