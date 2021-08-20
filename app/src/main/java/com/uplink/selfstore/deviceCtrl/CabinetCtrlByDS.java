@@ -101,9 +101,9 @@ public class CabinetCtrlByDS {
 
         String comId = mComId;
         int comBaud = mComBaud;
-        LogUtil.i(TAG, "打开串口:" + comId + "，波特：" + comBaud);
+        LogUtil.i(TAG, "打开串口：" + comId + "，波特：" + comBaud);
         if (sym == null) {
-            LogUtil.e(TAG, "打开串口:" + comId + "，波特：" + comBaud + "，失败，sym为 NULL");
+            LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，sym为 NULL");
             mIsConnect = false;
         } else {
             File file = new File("/dev/" + comId);
@@ -279,6 +279,7 @@ public class CabinetCtrlByDS {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                     sym.SN_MV_MotorAction(1, 0, 0);//回原点
 
                     try {

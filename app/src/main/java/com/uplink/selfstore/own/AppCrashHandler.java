@@ -171,8 +171,7 @@ public class AppCrashHandler implements Thread.UncaughtExceptionHandler {
         try {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
-
-            String fileName = "crash-" + time + "-" + timestamp + ".log";
+            String fileName = "crash-" + Build.SERIAL + "-" + timestamp + ".log";
             String path = OwnFileUtil.getLogDir();
             File dir = new File(path);
             if (!dir.exists()) {

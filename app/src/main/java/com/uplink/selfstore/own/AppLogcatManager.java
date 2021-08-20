@@ -1,5 +1,7 @@
 package com.uplink.selfstore.own;
 
+import android.os.Build;
+
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -38,7 +40,7 @@ public class AppLogcatManager {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
 
-            String fileName = "logcat_"+action+"_" + time + "_" + timestamp;
+            String fileName ="logcat_"+ Build.SERIAL+"_"+action+"_"+timestamp;
             String fileExt=".log";
 
             String path = OwnFileUtil.getLogDir();
