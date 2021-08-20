@@ -587,9 +587,10 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         if(orderDetails==null)
             return;
 
-        IdWorker worker = new IdWorker(1,1,1);
-
         try {
+
+            IdWorker worker = new IdWorker(1,1,1);
+
             JSONObject content = new JSONObject();
             content.put("signId", worker.nextId());
             content.put("orderId", orderDetails.getOrderId());

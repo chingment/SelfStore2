@@ -40,6 +40,7 @@ import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.FileUtil;
+import com.uplink.selfstore.utils.IdWorker;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
@@ -99,6 +100,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
+
+        IdWorker worker = new IdWorker(1,1,1);
+        for (int i = 0; i < 300; i++) {
+            System.out.println(worker.nextId());
+        }
 
         //因mqtt文件被锁定未被删除造成对象未空，因此进入程序首先删除MqttConnection文件 防止对象未空
 
