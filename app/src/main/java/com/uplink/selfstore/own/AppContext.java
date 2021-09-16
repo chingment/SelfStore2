@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.NetworkInterface;
@@ -158,11 +160,30 @@ public class AppContext extends Application {
 
         if(Config.IS_BUILD_DEBUG) {
 //           // return "202012110204";
-          return "202101040206";
-//           return "202004220011";
+ //         return "202101040206";
+           return "202004220011";
   //          return  "202004220047";
  //          return "202107270001";
         }
+
+
+//        try {
+//            File file = new File(Environment.getExternalStorageDirectory(), "deviceinfo.txt");
+//            if (file.exists()) {
+//                BufferedReader br = new BufferedReader(new FileReader(file));
+//                String readline = "";
+//                StringBuffer sb = new StringBuffer();
+//                while ((readline = br.readLine()) != null) {
+//                    sb.append(readline);
+//                }
+//                br.close();
+//                return sb.toString();
+//            }
+//        }
+//        catch (Exception ex){
+//
+//        }
+
 
         return Build.SERIAL;
     }

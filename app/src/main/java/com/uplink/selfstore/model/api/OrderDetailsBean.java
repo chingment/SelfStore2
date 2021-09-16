@@ -14,7 +14,6 @@ public class OrderDetailsBean implements Serializable {
     private int payStatus;
     private List<OrderDetailsSkuBean> Skus;
 
-
     public String getOrderId() {
         return orderId;
     }

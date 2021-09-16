@@ -29,7 +29,10 @@ import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.SmRescueToolActivity;
 import com.uplink.selfstore.db.DbManager;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
 import com.uplink.selfstore.model.api.ApiResultBean;
+import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
@@ -51,7 +54,10 @@ import com.uplink.selfstore.utils.StringUtil;
 import com.uplink.selfstore.utils.ToastUtil;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -267,23 +273,47 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         AppManager.getAppManager().addActivity(this);
 
 
-        if (StringUtil.isEmptyNotNull(AppCacheManager.getDevice().getDeviceId())) {
-            Activity activity = AppManager.getAppManager().currentActivity();
-            if(activity!=null){
-                if (activity instanceof InitDataActivity||activity instanceof SmRescueToolActivity) {
+        Activity activity = this;
+        String activityName = activity.getLocalClassName();
 
-                } else {
-                    showToast("检查异常，设备重新运行");
-                    Intent intent = new Intent(appContext, InitDataActivity.class);
-                    startActivity(intent);
-                    finish();
+        if (!activityName.contains("InitDataActivity")&&!activityName.contains("SmRescueToolActivity")) {
+            if (StringUtil.isEmptyNotNull(AppCacheManager.getDevice().getDeviceId())) {
+
+                showToast("检查异常，设备重新运行");
+                Intent intent = new Intent(appContext, InitDataActivity.class);
+                startActivity(intent);
+                finish();
+
+            } else {
+                DeviceBean device = getDevice();
+                dialog_SystemWarn.setCsrPhoneNumber(device.getConsult().getCsrPhoneNumber());
+                dialog_SystemWarn.setCsrQrcode(device.getConsult().getCsrQrCode());
+                dialog_SystemWarn.setCsrHelpTip(device.getConsult().getCsrHelpTip());
+
+                CabinetCtrlByDS cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
+                CabinetCtrlByZS cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
+                HashMap<String, CabinetBean> cabinets = device.getCabinets();
+
+                List<String> modelNos = new ArrayList<>();
+
+                for (HashMap.Entry<String, CabinetBean> entry : cabinets.entrySet()) {
+                    CabinetBean cabinet = entry.getValue();
+                    String modelNo = cabinet.getModelNo();
+                    if (!modelNos.contains(modelNo)) {
+                        modelNos.add(modelNo);
+                        switch (modelNo) {
+                            case "dsx01":
+                                cabinetCtrlByDS.setComId(cabinet.getComId());
+                                cabinetCtrlByDS.setComBaud(cabinet.getComBaud());
+                                break;
+                            case "zsx01":
+                                cabinetCtrlByZS.setComId(cabinet.getComId());
+                                cabinetCtrlByZS.setComBaud(cabinet.getComBaud());
+                                break;
+                        }
+                    }
                 }
             }
-        } else {
-            DeviceBean device = getDevice();
-            dialog_SystemWarn.setCsrPhoneNumber(device.getConsult().getCsrPhoneNumber());
-            dialog_SystemWarn.setCsrQrcode(device.getConsult().getCsrQrCode());
-            dialog_SystemWarn.setCsrHelpTip(device.getConsult().getCsrHelpTip());
         }
 
 
@@ -292,11 +322,11 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             public boolean handleMessage(Message msg) {
                 switch (msg.what) {
                     case 1:
-                        if(msg.obj!=null) {
-                            if(dialog_Loading==null) {
+                        if (msg.obj != null) {
+                            if (dialog_Loading == null) {
                                 dialog_Loading = new CustomDialogLoading((Context) msg.obj);
                             }
-                            if(!dialog_Loading.isShowing()) {
+                            if (!dialog_Loading.isShowing()) {
                                 dialog_Loading.setTipsText("正在处理中");
                                 dialog_Loading.show();
                                 new Handler().postDelayed(new Runnable() {
@@ -314,7 +344,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
                     case 2:
                         if (dialog_Loading != null) {
                             dialog_Loading.cancel();
-                            dialog_Loading=null;
+                            dialog_Loading = null;
                         }
                         break;
                 }

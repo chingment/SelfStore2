@@ -511,14 +511,10 @@ public class CabinetCtrlByDS {
                 return;
             }
 
-            LogUtil.i(TAG, "扫描流程监听：扫描货道启动成功");
-            sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
+            sendScanSlotHandlerMessage(2, "扫描货道就绪成功", null);
 
-            long nStart = System.currentTimeMillis();
-            long nEnd = System.currentTimeMillis();
-            boolean bTryAgain = false;
             boolean bCanSelfAutoScan = false;
-            for (; (nEnd - nStart <= (long) 60 * 1000 || bTryAgain); nEnd = System.currentTimeMillis()) {
+            for (int i=0; i<60; i++) {
                 int[] result = sym.SN_MV_Get_MotionStatus();
                 boolean isInZero = false;
                 if (result[0] == S_RC_SUCCESS) {
@@ -526,12 +522,9 @@ public class CabinetCtrlByDS {
                         isInZero = true;
                     }
                 }
-
                 if (isInZero) {
                     bCanSelfAutoScan = true;
                     break;
-                } else {
-                    bTryAgain = true;
                 }
 
                 try {
@@ -541,6 +534,7 @@ public class CabinetCtrlByDS {
                 }
             }
 
+
             if (!bCanSelfAutoScan) {
                 LogUtil.i(TAG, "扫描流程监听：回原点失败");
                 sendScanSlotHandlerMessage(6, "回原点失败", null);
@@ -549,15 +543,20 @@ public class CabinetCtrlByDS {
 
             int rc_selfAutoScan = sym.SN_MV_SelfAutoScan(0);
 
-
             if (rc_selfAutoScan != S_RC_SUCCESS) {
                 LogUtil.i(TAG, "扫描流程监听：扫描货道启动失败");
                 sendScanSlotHandlerMessage(6, "扫描货道启动失败", null);
                 return;
             }
+            else
+            {
+                sendScanSlotHandlerMessage(2, "扫描货道启动成功", null);
+            }
+
             cmd_ScanSlotIsStopListener = false;
             long nScanSlotStartTime = System.currentTimeMillis();
             while (!cmd_ScanSlotIsStopListener) {
+
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
