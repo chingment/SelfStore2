@@ -1,5 +1,6 @@
 package com.uplink.selfstore.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +26,7 @@ import com.uplink.selfstore.model.api.CbLightBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
@@ -101,10 +103,11 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        IdWorker worker = new IdWorker(1,1,1);
-        for (int i = 0; i < 300; i++) {
-            System.out.println(worker.nextId());
-        }
+
+//        IdWorker worker = new IdWorker(1,1,1);
+//        for (int i = 0; i < 300; i++) {
+//            System.out.println(worker.nextId());
+//        }
 
         //因mqtt文件被锁定未被删除造成对象未空，因此进入程序首先删除MqttConnection文件 防止对象未空
 
