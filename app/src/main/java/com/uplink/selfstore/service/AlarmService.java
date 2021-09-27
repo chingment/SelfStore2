@@ -1,5 +1,6 @@
 package com.uplink.selfstore.service;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -26,6 +27,7 @@ import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.RetDeviceEventNotify;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -142,6 +144,14 @@ public class AlarmService  extends Service {
     public static void changeLighting() {
         LogUtil.i(TAG, "定时任务：改变灯光");
 
+        Activity activity = AppManager.getAppManager().currentActivity();
+        if (activity != null) {
+            String activityName = activity.getLocalClassName();
+            if (activityName.contains(".OrderDetailsActivity")) {
+                return;
+            }
+        }
+
         DeviceBean device = AppCacheManager.getDevice();
         if (device == null)
             return;
@@ -191,6 +201,7 @@ public class AlarmService  extends Service {
 
 //                    if(cb_Light_Value!=t_value) {
 //                        cb_Light_Value = t_value;
+
                     CabinetCtrlByDS.getInstance().connect();
                     CabinetCtrlByDS.getInstance().setCbLight(t_value);
                 }
