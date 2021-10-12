@@ -60,6 +60,9 @@ public class CommandManager {
                 case "shutdown_sys":
                     shutdown_sys();
                     break;
+                case "update_app":
+                    update_app();
+                    break;
                 case "set_sys_status":
                     set_sys_status(params);
                     break;
@@ -159,6 +162,10 @@ public class CommandManager {
 
         if(AppUtil.deviceIsIdle()){
             AlarmService.changeLighting();
+        }
+
+        if(setSysParams.getConsult()!=null){
+            device.setConsult(setSysParams.getConsult());
         }
     }
 
@@ -300,5 +307,12 @@ public class CommandManager {
             };
             TinySyncExecutor.getInstance().enqueue(task);
         }
+    }
+
+    private static void update_app() {
+        Intent intent = new Intent();
+        intent.putExtra("from", 2);
+        intent.setAction("android.intent.action.updateAppService");
+        AppContext.getInstance().sendBroadcast(intent);
     }
 }

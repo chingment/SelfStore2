@@ -114,6 +114,7 @@ public class AppContext extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+
     }
 
     private void restartApp() {
