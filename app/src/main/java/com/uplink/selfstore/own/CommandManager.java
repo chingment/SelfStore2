@@ -310,6 +310,11 @@ public class CommandManager {
     }
 
     private static void update_app() {
+
+        if(!AppUtil.deviceIsIdle()) {
+            return;
+        }
+
         Intent intent = new Intent();
         intent.putExtra("from", 2);
         intent.setAction("android.intent.action.updateAppService");
