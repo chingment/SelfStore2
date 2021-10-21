@@ -193,7 +193,7 @@ public class AppContext extends Application {
 //        }
 
 
-        return "202004220011";
+        return Build.SERIAL;
     }
 
     public String getImeiId() {

@@ -221,7 +221,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     break;
                 case R.id.btn_pick:
                    dialog_NumKey.show();
-                   int a=111/0;
                     break;
             }
         }
