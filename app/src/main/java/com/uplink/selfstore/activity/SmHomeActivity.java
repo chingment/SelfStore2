@@ -23,6 +23,8 @@ import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
+import com.uplink.selfstore.service.MqttService;
+import com.uplink.selfstore.service.WhiteService;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
@@ -103,6 +105,8 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                 switch (tag) {
                     case "fun.closeapp":
                         setHideStatusBar(false);
+                        Intent whiteIntent = new Intent(SmHomeActivity.this, WhiteService.class);
+                        stopService(whiteIntent);
                         AppManager.getAppManager().AppExit(SmHomeActivity.this);
                         break;
                     case "fun.rootsys":

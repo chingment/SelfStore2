@@ -36,6 +36,7 @@ import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.service.UpdateAppService;
+import com.uplink.selfstore.service.WhiteService;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
@@ -129,6 +130,10 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         Intent mqttService = new Intent(this, MqttService.class);
         stopService(mqttService);
+
+
+        Intent whiteIntent = new Intent(this, WhiteService.class);
+        startService(whiteIntent);
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.adapter.AdContentAdapter;
 import com.uplink.selfstore.activity.adapter.BannerAdapter;
@@ -220,6 +221,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                     break;
                 case R.id.btn_pick:
                    dialog_NumKey.show();
+                   int a=111/0;
                     break;
             }
         }

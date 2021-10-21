@@ -130,7 +130,11 @@
             android:name=".service.AiotMqttService"
             android:enabled="true"
             android:exported="true" />
-
+        <service
+            android:name=".service.WhiteService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":white" />
         <receiver android:name=".broadcast.AlarmReceiver" />
 
         <meta-data

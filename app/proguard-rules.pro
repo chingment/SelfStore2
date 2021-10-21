@@ -51,3 +51,6 @@
 
 -keep class com.superrtc.** {*;}
 -dontwarn  com.superrtc.**
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

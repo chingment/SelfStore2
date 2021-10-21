@@ -13,9 +13,11 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.db.DbManager;
@@ -32,8 +34,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.NetworkInterface;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by chingment on 2017/8/23.
@@ -83,17 +87,20 @@ public class AppContext extends Application {
 
         Context context = getApplicationContext();
 
-        AppCrashHandler.getInstance().init(context, new AppCrashHandler.HandlerResult() {
-            @Override
-            public void complete(Thread thread, Throwable ex) {
+        CrashReport.initCrashReport(getApplicationContext(), "b9d0425e4c", true);
 
-                OstCtrlInterface.getInstance().setHideStatusBar(context, false);
-
-                restartApp();
-            }
-        }); //初始异常日志收集器
+//        AppCrashHandler.getInstance().init(context, new AppCrashHandler.HandlerResult() {
+//            @Override
+//            public void complete(Thread thread, Throwable ex) {
+//
+//                OstCtrlInterface.getInstance().setHideStatusBar(context, false);
+//
+//                restartApp();
+//            }
+//        }); //初始异常日志收集器
 
         OstCtrlInterface.init(context);//  初始化Ost控制
+
         DbManager.getInstance().init();
 
         EMOptions options = new EMOptions();
@@ -186,7 +193,7 @@ public class AppContext extends Application {
 //        }
 
 
-        return Build.SERIAL;
+        return "202004220011";
     }
 
     public String getImeiId() {
