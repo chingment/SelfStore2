@@ -164,12 +164,12 @@ public class CustomDialogSlotEdit extends Dialog {
 
                     if(CameraWindow.cameraIsRunningByChk()) {
                         pickupActionResult.setImgId(UUID.randomUUID().toString());
-                        LogUtil.e(TAG,"开始拍照->出货口");
+                        LogUtil.d(TAG,"开始拍照->出货口");
                         CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
                     }
 
                     if(CameraWindow.cameraIsRunningByJg()) {
-                        LogUtil.e(TAG,"开始拍照->机柜");
+                        LogUtil.d(TAG,"开始拍照->机柜");
                         pickupActionResult.setImgId2(UUID.randomUUID().toString());
                         CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
                     }
@@ -209,7 +209,7 @@ public class CustomDialogSlotEdit extends Dialog {
                         case 5://取货超时
                             isHappneException = true;
                             exceptionMessage = "取货失败,设备发生异常:" + message;
-                            LogUtil.e(TAG, exceptionMessage);
+                            LogUtil.d(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogSlotEdit ", "pickuptest");
                             pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
@@ -218,7 +218,7 @@ public class CustomDialogSlotEdit extends Dialog {
                         case 6://取货失败
                             isHappneException = true;
                             exceptionMessage = "取货失败,程序发生异常:" + message;
-                            LogUtil.e(TAG, exceptionMessage);
+                            LogUtil.d(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogSlotEdit ", "pickuptest");
                             pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
@@ -227,7 +227,7 @@ public class CustomDialogSlotEdit extends Dialog {
                         default:
                             isHappneException = true;
                             exceptionMessage = "取货失败，未知状态:" + message;
-                            LogUtil.e(TAG, exceptionMessage);
+                            LogUtil.d(TAG, exceptionMessage);
                             dialog_Running.hide();
                             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogSlotEdit ", "pickuptest");
                             pickupEventNotify(skuId, slotId, 6000, exceptionMessage, pickupActionResult);
@@ -295,7 +295,7 @@ public class CustomDialogSlotEdit extends Dialog {
                                 dialog_Running.hide();
                                 mContext.showToast(message);
                                 pickupEventNotify(skuId, slotId, 6000, "取货超时", null);
-                                LogUtil.e(TAG,"取货超时");
+                                LogUtil.d(TAG,"取货超时");
                                 break;
                             case 6://取货失败
                                 if (dialog_Running != null) {
@@ -303,7 +303,7 @@ public class CustomDialogSlotEdit extends Dialog {
                                 }
                                 mContext.showToast(message);
                                 pickupEventNotify(skuId, slotId, 6000, "取货失败[" + message + "]", null);
-                                LogUtil.e(TAG,"取货失败");
+                                LogUtil.d(TAG,"取货失败");
                                 break;
                         }
                         break;

@@ -363,7 +363,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.renlian_camera_btn_open:
                     try {
-                        LogUtil.e(TAG,"点击操作人脸摄像头:"+renlian_camera_isRunning);
+                        LogUtil.d(TAG,"点击操作人脸摄像头:"+renlian_camera_isRunning);
                         if(!renlian_camera_isRunning) {
                             if (camerasNumber == 0) {
                                 showToast("摄像头数量为0");
@@ -407,7 +407,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.jigui_camera_btn_open:
                     try {
-                        LogUtil.e(TAG,"点击操作机柜摄像头:"+jigui_camera_isRunning);
+                        LogUtil.d(TAG,"点击操作机柜摄像头:"+jigui_camera_isRunning);
                         if(!jigui_camera_isRunning) {
 
                             if (camerasNumber == 0) {
@@ -449,7 +449,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     break;
                 case R.id.chuhuokou_camera_btn_open:
                     try {
-                        LogUtil.e(TAG,"点击操作出货口摄像头:"+chuhuokou_camera_isRunning);
+                        LogUtil.d(TAG,"点击操作出货口摄像头:"+chuhuokou_camera_isRunning);
                         if(!chuhuokou_camera_isRunning) {
                             if (camerasNumber == 0) {
                                 showToast("摄像头数量为0");

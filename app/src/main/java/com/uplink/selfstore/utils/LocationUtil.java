@@ -146,7 +146,6 @@ public class LocationUtil {
          */
         @Override
         public void onLocationChanged(Location location) {
-            LogUtil.e(TAG,"4");
             location.getAccuracy();//精确度
             setLocation( location );
         }

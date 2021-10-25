@@ -253,7 +253,7 @@ public class CameraWindow {
 
                 HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
 
-                LogUtil.e(TAG, "拍照结束");
+                LogUtil.d(TAG, "拍照结束");
             } catch (Exception ex) {
 
             }

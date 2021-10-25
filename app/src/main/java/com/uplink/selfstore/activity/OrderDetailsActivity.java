@@ -149,7 +149,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
                             if(CameraWindow.cameraIsRunningByChk()) {
                                 pickupActionResult.setImgId(UUID.randomUUID().toString());
-                                LogUtil.e(TAG,"开始拍照->出货口");
+                                LogUtil.d(TAG,"开始拍照->出货口");
                                 CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
 
 //                                final String imgId=pickupResult.getImgId();
@@ -169,7 +169,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             }
 
                             if(CameraWindow.cameraIsRunningByJg()) {
-                                LogUtil.e(TAG,"开始拍照->机柜");
+                                LogUtil.d(TAG,"开始拍照->机柜");
                                 pickupActionResult.setImgId2(UUID.randomUUID().toString());
                                 CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
                             }
@@ -203,7 +203,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 case 5://取货失败，设备异常
                                     isHappneException = true;
                                     exceptionMessage = "取货失败,设备发生异常:" + message;
-                                    LogUtil.e(TAG, exceptionMessage);
+                                    LogUtil.d(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     setPickupException(curPickupSku);
@@ -211,7 +211,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 case 6://取货失败，程序异常
                                     isHappneException = true;
                                     exceptionMessage = "取货失败，程序发生异常:" + message;
-                                    LogUtil.e(TAG, exceptionMessage);
+                                    LogUtil.d(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     setPickupException(curPickupSku);
@@ -219,7 +219,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 default:
                                     isHappneException = true;
                                     exceptionMessage = "取货失败，未知状态:" + message;
-                                    LogUtil.e(TAG, exceptionMessage);
+                                    LogUtil.d(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                                     setPickupException(curPickupSku);

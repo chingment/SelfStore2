@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class InitDataActivity extends BaseFragmentActivity implements View.OnClickListener {
@@ -104,6 +105,18 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
+//        try {
+//
+//            Map<String,String> connections = new ConcurrentHashMap<>();
+//
+//            String client = connections.get("ds");
+//
+//        }
+//        catch (Exception ex){
+//
+//            ex.printStackTrace();
+//            String s=ex.getMessage();
+//        }
 
 //        IdWorker worker = new IdWorker(1,1,1);
 //        for (int i = 0; i < 300; i++) {

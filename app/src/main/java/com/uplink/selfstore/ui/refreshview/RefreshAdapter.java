@@ -88,7 +88,7 @@ public abstract class RefreshAdapter extends RecyclerView.Adapter {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    LogUtil.e(TAG, "====>>>>>>>>bottom onClick()");
+                    LogUtil.d(TAG, "====>>>>>>>>bottom onClick()");
                     if (listenter != null && !isRefresh && (state == STATE_MORE || state == STATE_ERROR)) {
                         setState(STATE_LOAIND);
                         listenter.onBottomClick(view);

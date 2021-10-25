@@ -42,7 +42,7 @@ public class SmRescueToolActivity extends SwipeBackActivity implements View.OnCl
             @Override
             public void onSure() {
                 String tag = dialog_Confirm.getTag().toString();
-                LogUtil.e("tag:" + tag);
+                LogUtil.d("tag:" + tag);
                 switch (tag) {
                     case "fun.closeapp":
                         setHideStatusBar(false);

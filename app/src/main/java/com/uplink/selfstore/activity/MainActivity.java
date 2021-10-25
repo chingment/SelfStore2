@@ -162,7 +162,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         dialog_NumKey.setOnSureListener(new CustomDialogNumKey.OnSureListener() {
             @Override
             public void onClick(View v, String number) {
-                LogUtil.e("pickupcode:" + number);
+                LogUtil.d("pickupcode:" + number);
                 orderSearchByPickupCode(MainActivity.this, "pickupcode@v1:"+number);
             }
         });

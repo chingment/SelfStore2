@@ -191,7 +191,7 @@ public class CustomDialogPickupAutoTest extends Dialog {
                                         cabinetCtrlByDS.stopPickup();
                                         isHappneException = true;
                                         exceptionMessage = "取货失败,设备发生异常:" + message;
-                                        LogUtil.e(TAG, exceptionMessage);
+                                        LogUtil.d(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogPickupAutoTest ", "pickuptest");
                                         pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
@@ -200,7 +200,7 @@ public class CustomDialogPickupAutoTest extends Dialog {
                                         cabinetCtrlByDS.stopPickup();
                                         isHappneException = true;
                                         exceptionMessage = "取货失败,程序异常:" + message;
-                                        LogUtil.e(TAG, exceptionMessage);
+                                        LogUtil.d(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogPickupAutoTest ", "pickuptest");
                                         pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
@@ -209,7 +209,7 @@ public class CustomDialogPickupAutoTest extends Dialog {
                                         cabinetCtrlByDS.stopPickup();
                                         isHappneException = true;
                                         exceptionMessage = "取货失败，未知状态:" + message;
-                                        LogUtil.e(TAG, exceptionMessage);
+                                        LogUtil.d(TAG, exceptionMessage);
                                         curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                         AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS CustomDialogPickupAutoTest ", "pickuptest");
                                         pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);

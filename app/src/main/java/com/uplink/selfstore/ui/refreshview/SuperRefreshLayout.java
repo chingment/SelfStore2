@@ -107,7 +107,7 @@ public class SuperRefreshLayout extends SwipeRefreshLayout {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                LogUtil.e(TAG, "====>>>>>>>>addOnScrollListener loadMore()");
+                LogUtil.d(TAG, "====>>>>>>>>addOnScrollListener loadMore()");
                 if (onRefreshHandler != null
                         && !isRefreshing()
                         && (adapter.getState() == RefreshAdapter.STATE_MORE || adapter.getState() == RefreshAdapter.STATE_ERROR)
@@ -169,7 +169,7 @@ public class SuperRefreshLayout extends SwipeRefreshLayout {
 
         @Override
         public void onRefresh() {
-            LogUtil.e(TAG, "====>>>>>>>>OnRefreshCallBack onRefresh()");
+            LogUtil.d(TAG, "====>>>>>>>>OnRefreshCallBack onRefresh()");
             if (adapter != null && adapter.getState() != RefreshAdapter.STATE_MORE) {
                 adapter.setState(RefreshAdapter.STATE_MORE);
             }

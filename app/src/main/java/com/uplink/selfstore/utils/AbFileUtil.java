@@ -333,7 +333,7 @@ public class AbFileUtil {
 				/**
 				 * options.outHeight为原始图片的高
 				 */
-				LogUtil.e("Bitmap Height == " + options.outHeight);
+				LogUtil.d("Bitmap Height == " + options.outHeight);
 				if (options.outHeight > 200) {
 					// 文件存在
 					if (type == AbImageUtil.CUTIMG) {

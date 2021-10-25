@@ -103,18 +103,18 @@ public class CabinetCtrlByDS {
         int comBaud = mComBaud;
         LogUtil.i(TAG, "打开串口：" + comId + "，波特：" + comBaud);
         if (sym == null) {
-            LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，sym为 NULL");
+            LogUtil.d(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，sym为 NULL");
             mIsConnect = false;
         } else {
             File file = new File("/dev/" + comId);
             if (file.exists()) {
                 int rc_status = sym.Connect(comId, comBaud);
-                LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，状态为：" + rc_status);
+                LogUtil.d(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，状态为：" + rc_status);
                 if (rc_status == 0) {
                     mIsConnect = true;
                 }
             } else {
-                LogUtil.e(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，串口ID不存在");
+                LogUtil.d(TAG, "打开串口：" + comId + "，波特：" + comBaud + "，失败，串口ID不存在");
             }
         }
 
@@ -143,7 +143,7 @@ public class CabinetCtrlByDS {
     public boolean isNormarl() {
 
         if(!mIsConnect){
-            LogUtil.e(TAG, "isNormarl：尝试再连接多一次");
+            LogUtil.d(TAG, "isNormarl：尝试再连接多一次");
             connect();
         }
 
@@ -200,7 +200,7 @@ public class CabinetCtrlByDS {
     public void goZero() {
 
         if(!mIsConnect){
-            LogUtil.e(TAG, "goZero：尝试再连接多一次");
+            LogUtil.d(TAG, "goZero：尝试再连接多一次");
             connect();
         }
 
@@ -226,7 +226,7 @@ public class CabinetCtrlByDS {
                 LogUtil.d(TAG,"初始设备设置："+mIsConnect);
 
                 if(!mIsConnect){
-                    LogUtil.e(TAG, "firstSet：尝试再连接多一次");
+                    LogUtil.d(TAG, "firstSet：尝试再连接多一次");
                     connect();
                 }
 
@@ -351,7 +351,7 @@ public class CabinetCtrlByDS {
     public boolean isIdle() {
 
         if(!mIsConnect){
-            LogUtil.e(TAG, "判断空闲状态：尝试再连接多一次");
+            LogUtil.d(TAG, "判断空闲状态：尝试再连接多一次");
             connect();
         }
 
@@ -482,7 +482,7 @@ public class CabinetCtrlByDS {
             super.run();
 
             if(!mIsConnect){
-                LogUtil.e(TAG, "扫描流程监听：尝试再连接多一次");
+                LogUtil.d(TAG, "扫描流程监听：尝试再连接多一次");
                 connect();
             }
 
@@ -618,7 +618,7 @@ public class CabinetCtrlByDS {
                         }
 
                     } else {
-                        LogUtil.e(TAG, "扫描流程监听：扫描超时");
+                        LogUtil.d(TAG, "扫描流程监听：扫描超时");
                         goZero();
                         cmd_ScanSlotIsStopListener = true;
                         sendScanSlotHandlerMessage(5, "扫描超时", null);
@@ -656,7 +656,7 @@ public class CabinetCtrlByDS {
             sendPickupHandlerMessage(2, "检查设备连接状态中", null);
 
             if(!mIsConnect){
-                LogUtil.e(TAG, "取货流程监听：设备未连接，尝试再连接多一次");
+                LogUtil.d(TAG, "取货流程监听：设备未连接，尝试再连接多一次");
                 connect();
             }
 
@@ -854,7 +854,7 @@ public class CabinetCtrlByDS {
                                             } else if (rc_flowStatus[3] == S_Motor_Timeout) {
                                                 cmd_PickupIsStopListener = true;
                                                 sym.SN_MV_EmgStop();
-                                                LogUtil.e(TAG, "取货流程监听：单动作运行取货超时");
+                                                LogUtil.d(TAG, "取货流程监听：单动作运行取货超时");
                                                 sendPickupHandlerMessage(5, "单动作运行取货超时", result);
                                             }
                                         }
@@ -870,7 +870,7 @@ public class CabinetCtrlByDS {
                             } else {
                                 cmd_PickupIsStopListener = true;
                                 sym.SN_MV_EmgStop();
-                                LogUtil.e(TAG, "取货流程监听：整体动作运行取货超时");
+                                LogUtil.d(TAG, "取货流程监听：整体动作运行取货超时");
                                 sendPickupHandlerMessage(5, "整体动作运行取货超时", null);
                             }
                         } catch (Exception ex) {
@@ -893,7 +893,7 @@ public class CabinetCtrlByDS {
             super.run();
 
             if(!mIsConnect){
-                LogUtil.e(TAG, "开门：尝试再连接多一次");
+                LogUtil.d(TAG, "开门：尝试再连接多一次");
                 connect();
             }
 
@@ -931,7 +931,7 @@ public class CabinetCtrlByDS {
             super.run();
 
             if(!mIsConnect){
-                LogUtil.e(TAG, "回原点流程监听：尝试再连接多一次");
+                LogUtil.d(TAG, "回原点流程监听：尝试再连接多一次");
                 connect();
             }
 
