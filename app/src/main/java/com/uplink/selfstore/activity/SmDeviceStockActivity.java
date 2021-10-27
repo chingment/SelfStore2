@@ -37,6 +37,7 @@ import com.uplink.selfstore.model.api.SlotBean;
 import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.service.UsbService;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
@@ -52,11 +53,14 @@ import com.uplink.selfstore.utils.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -200,7 +204,6 @@ public class SmDeviceStockActivity extends SwipeBackActivity implements View.OnC
         initView();
         initEvent();
         initData();
-
     }
 
     private void initView() {

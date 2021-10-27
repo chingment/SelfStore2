@@ -122,6 +122,7 @@ public class CameraWindow {
 
     public static void openCameraByJg(){
         try {
+            releaseCameraByJg();
             cameraJg = Camera.open(1);
             cameraJg.setPreviewDisplay(cameraHolderByJg);
             cameraJg.startPreview();
@@ -155,6 +156,9 @@ public class CameraWindow {
 
     public static void openCameraByChk(){
         try {
+
+            releaseCameraByChk();
+
             cameraChk = Camera.open(2);
             cameraChk.setPreviewDisplay(cameraHolderyChk);
             cameraChk.startPreview();
@@ -186,8 +190,6 @@ public class CameraWindow {
         }
     }
 
-
-
     public static void takeCameraPicByJg(String imgId){
         try {
             if(cameraJg!=null) {
@@ -199,8 +201,6 @@ public class CameraWindow {
 
         }
     }
-
-
 
     public static void takeCameraPicByChk(String imgId){
         try {

@@ -345,14 +345,20 @@ public class MqttService extends Service {
     }
 
     private synchronized void connectMqttClient() {
-        if (!mqttAndroidClient.isConnected()) {
-            try {
-                mqttAndroidClient.connect(mMqttConnectOptions, getApplicationContext(), mqttActionListener);
-                LogUtil.d(TAG,"连接中，ClientId："+mqttAndroidClient.getClientId());
-            } catch (MqttException e) {
-                e.printStackTrace();
-            }
+        if (mMqttConnectOptions == null)
+            return;
+        if (mqttAndroidClient == null)
+            return;
+        if (mqttAndroidClient.isConnected())
+            return;
+
+        try {
+            mqttAndroidClient.connect(mMqttConnectOptions, getApplicationContext(), mqttActionListener);
+            LogUtil.d(TAG, "连接中，ClientId：" + mqttAndroidClient.getClientId());
+        } catch (MqttException e) {
+            e.printStackTrace();
         }
+
     }
 
     private synchronized void startReconnectTask(){

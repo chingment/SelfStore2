@@ -87,7 +87,9 @@ public class AppContext extends Application {
 
         Context context = getApplicationContext();
 
-        CrashReport.initCrashReport(getApplicationContext(), "b9d0425e4c", true);
+        CrashReport.UserStrategy strategy=new CrashReport.UserStrategy(context);
+        strategy.setDeviceID(getDeviceId());
+        CrashReport.initCrashReport(getApplicationContext(), "b9d0425e4c", true,strategy);
 
 //        AppCrashHandler.getInstance().init(context, new AppCrashHandler.HandlerResult() {
 //            @Override

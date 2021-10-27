@@ -28,6 +28,7 @@ import com.uplink.selfstore.model.ZSCabBoxBean;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
+import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -128,8 +129,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 //rennian_camera_surfaceView.setSurfaceTextureListener(renlian_cameraSurface);
             }
         }
-
-
     }
 
 
