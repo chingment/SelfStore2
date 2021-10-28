@@ -120,15 +120,19 @@ public class CameraWindow {
         }
     }
 
-    public static void openCameraByJg(){
+    private static boolean safeToTakePicByJg=false;
+    private static boolean safeToTakePicByChk=false;
+
+    public static void openCameraByJg() {
         try {
             releaseCameraByJg();
             cameraJg = Camera.open(1);
             cameraJg.setPreviewDisplay(cameraHolderByJg);
             cameraJg.startPreview();
-        }
-        catch (Exception ex) {
+            safeToTakePicByJg = true;
+        } catch (Exception ex) {
             cameraJg = null;
+            ex.printStackTrace();
         }
     }
 
@@ -143,6 +147,7 @@ public class CameraWindow {
         }
         catch (Exception ex){
             cameraJg=null;
+            ex.printStackTrace();
         }
     }
 
@@ -154,7 +159,7 @@ public class CameraWindow {
         return true;
     }
 
-    public static void openCameraByChk(){
+    public static void openCameraByChk() {
         try {
 
             releaseCameraByChk();
@@ -162,9 +167,10 @@ public class CameraWindow {
             cameraChk = Camera.open(2);
             cameraChk.setPreviewDisplay(cameraHolderyChk);
             cameraChk.startPreview();
-        }
-        catch (Exception ex) {
+            safeToTakePicByChk = true;
+        } catch (Exception ex) {
             cameraChk = null;
+            ex.printStackTrace();
         }
     }
 
@@ -187,41 +193,125 @@ public class CameraWindow {
         }
         catch (Exception ex){
             cameraChk=null;
+            ex.printStackTrace();
         }
     }
+
 
     public static void takeCameraPicByJg(String imgId){
         try {
             if(cameraJg!=null) {
-                cameraJg.takePicture(null, null, new TakePicCallback(imgId));
+                if(safeToTakePicByJg) {
+                    cameraJg.takePicture(null, null, new TakePicCallbackByJg(imgId));
+                }
             }
 
         }
-        catch (Exception ex){
-
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
     public static void takeCameraPicByChk(String imgId){
         try {
             if(cameraChk!=null) {
-                cameraChk.takePicture(null, null, new TakePicCallback(imgId));
+                if(safeToTakePicByChk) {
+                    cameraChk.takePicture(null, null, new TakePicCallbackByChk(imgId));
+                }
             }
         }
         catch (Exception ex){
-
+            ex.printStackTrace();
         }
     }
 
-    public static class TakePicCallback implements Camera.PictureCallback {
+    public static class TakePicCallbackByJg implements Camera.PictureCallback {
 
         private String imgId;
-        public  TakePicCallback(String imgId){
+
+        public TakePicCallbackByJg(String imgId) {
+            this.imgId = imgId;
+        }
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+            safeToTakePicByJg = false;
+            try {
+                //保存在本地
+
+                String mSaveDir = OwnFileUtil.getPicSaveDir();
+
+                File pathFile = new File(mSaveDir);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
+                }
+
+                //   Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                Bitmap bitmap = byteToBitmap(data);
+                if (bitmap == null)
+                    return;
+                String filePath = mSaveDir + "/" + imgId + ".jpg";
+                File file = new File(filePath);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+                outputStream.close();
+
+
+                Map<String, String> params = new HashMap<>();
+                params.put("fileName", imgId);
+                params.put("folder", "pickup");
+
+                Map<String, String> filePaths = new HashMap<>();
+                filePaths.put("file", filePath);
+
+                HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
+
+                LogUtil.d(TAG, "拍照结束");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+
+        public static Bitmap byteToBitmap(byte[] imgByte) {
+            Bitmap bitmap = null;
+            try {
+                InputStream input = null;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = inSampleSize;
+                input = new ByteArrayInputStream(imgByte);
+                SoftReference softRef = new SoftReference(BitmapFactory.decodeStream(
+                        input, null, options));
+                bitmap = (Bitmap) softRef.get();
+                if (imgByte != null) {
+                    imgByte = null;
+                }
+
+                if (input != null)
+                    input.close();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return bitmap;
+        }
+
+    }
+
+
+    public static class TakePicCallbackByChk implements Camera.PictureCallback {
+
+        private String imgId;
+        public  TakePicCallbackByChk(String imgId){
             this.imgId=imgId;
         }
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+
+            safeToTakePicByChk=true;
 
             try {
                 //保存在本地
@@ -233,7 +323,7 @@ public class CameraWindow {
                     pathFile.mkdirs();
                 }
 
-             //   Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                //   Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Bitmap bitmap = byteToBitmap(data);
                 if(bitmap==null)
                     return;
@@ -255,7 +345,7 @@ public class CameraWindow {
 
                 LogUtil.d(TAG, "拍照结束");
             } catch (Exception ex) {
-
+                ex.printStackTrace();
             }
         }
 
@@ -279,10 +369,12 @@ public class CameraWindow {
 
             } catch (IOException ex) {
 
+                ex.printStackTrace();
             }
 
             return bitmap;
         }
 
     }
+
 }
