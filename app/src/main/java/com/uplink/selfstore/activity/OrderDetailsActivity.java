@@ -461,7 +461,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     }
 
     //设置商品卡槽去货中
-    private void  setCurPickupSku(PickupSkuBean pickupSku) {
+    private void setCurPickupSku(PickupSkuBean pickupSku) {
         if (pickupSku != null) {
             LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",skuId:" + pickupSku.getSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
             CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
@@ -513,7 +513,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         }
     }
 
-    private void  setCurPickupSkuComplete(PickupSkuBean pickupSku) {
+    private void setCurPickupSkuComplete(PickupSkuBean pickupSku) {
 
         if(pickupSku==null)
             return;
@@ -558,7 +558,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     }
 
-    private void  setPickupException(PickupSkuBean pickupSku){
+    private void setPickupException(PickupSkuBean pickupSku){
         
         if(pickupSku==null)
             return;

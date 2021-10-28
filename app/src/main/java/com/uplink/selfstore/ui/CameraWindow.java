@@ -52,8 +52,10 @@ public class CameraWindow {
     private static SurfaceView cameraViewByChk;
     private static SurfaceHolder cameraHolderyChk;
 
+    private static boolean safeToTakePicByJg=false;
+    private static boolean safeToTakePicByChk=false;
 
-    public  static  void setInSampleSize(int size) {
+    public static void setInSampleSize(int size) {
         inSampleSize = size;
     }
 
@@ -120,9 +122,6 @@ public class CameraWindow {
         }
     }
 
-    private static boolean safeToTakePicByJg=false;
-    private static boolean safeToTakePicByChk=false;
-
     public static void openCameraByJg() {
         try {
             releaseCameraByJg();
@@ -151,7 +150,7 @@ public class CameraWindow {
         }
     }
 
-    public static boolean  cameraIsRunningByJg() {
+    public static boolean cameraIsRunningByJg() {
 
         if (cameraJg == null)
             return false;
@@ -174,7 +173,7 @@ public class CameraWindow {
         }
     }
 
-    public static boolean  cameraIsRunningByChk() {
+    public static boolean cameraIsRunningByChk() {
 
         if (cameraChk == null)
             return false;
@@ -196,7 +195,6 @@ public class CameraWindow {
             ex.printStackTrace();
         }
     }
-
 
     public static void takeCameraPicByJg(String imgId){
         try {
@@ -299,7 +297,6 @@ public class CameraWindow {
         }
 
     }
-
 
     public static class TakePicCallbackByChk implements Camera.PictureCallback {
 
