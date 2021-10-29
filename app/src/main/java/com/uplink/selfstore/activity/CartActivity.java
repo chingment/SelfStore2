@@ -468,19 +468,19 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
             dialog_ScanPay.cancel();
         }
 
-        if(dialog_ImSeatList!=null) {
+        if (dialog_ImSeatList != null) {
             dialog_ImSeatList.cancel();
         }
 
-        if(dialog_Handling!=null) {
+        if (dialog_Handling != null) {
             dialog_Handling.cancel();
         }
 
-        if(cartSkuAdapter!=null){
+        if (cartSkuAdapter != null) {
             cartSkuAdapter.dismiss();
         }
 
-        if(msgListener!=null){
+        if (msgListener != null) {
             EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         }
     }
