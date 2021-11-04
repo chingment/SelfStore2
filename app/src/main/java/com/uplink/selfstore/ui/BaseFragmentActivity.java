@@ -513,18 +513,20 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
                 if (isShowLoading) {
                    hideLoading(context);
                 }
-                final String s = response;
-                if (s.indexOf("\"result\":") > -1) {
-                    //运行在子线程,,
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            handler.onSuccess(s);
-                        }
-                    });
-                } else {
-                    showToast("服务器数据异常");
-                    LogUtil.e("解释错误：原始数据》》" + s);
+
+                if(response!=null) {
+                    if (response.contains("\"result\":")) {
+                        //运行在子线程,,
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                handler.onSuccess(response);
+                            }
+                        });
+                    } else {
+                        showToast("服务器数据异常");
+                        LogUtil.e("解释错误：原始数据》》" + response);
+                    }
                 }
             }
 
@@ -574,12 +576,16 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             @Override
             public void onSuccess(String response) {
 
-                ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
-                });
+                if (response != null) {
+                    if (response.contains("\"result\":")) {
+                        ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
+                        });
 
-                if (rt.getResult() == Result.SUCCESS) {
-                    RetDeviceEventNotify ret = rt.getData();
-                    DbManager.getInstance().deleteTripMsg(ret.getMsgId());
+                        if (rt.getResult() == Result.SUCCESS) {
+                            RetDeviceEventNotify ret = rt.getData();
+                            DbManager.getInstance().deleteTripMsg(ret.getMsgId());
+                        }
+                    }
                 }
             }
 

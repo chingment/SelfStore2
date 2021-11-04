@@ -225,11 +225,17 @@ public class AlarmService  extends Service {
                         }
                         @Override
                         public void onSuccess(String response) {
-                            ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
-                            });
-                            if (rt.getResult() == Result.SUCCESS) {
-                                RetDeviceEventNotify ret = rt.getData();
-                                DbManager.getInstance().deleteTripMsg(ret.getMsgId());
+
+                            if (response != null) {
+                                if (response.contains("\"result\":")) {
+
+                                    ApiResultBean<RetDeviceEventNotify> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceEventNotify>>() {
+                                    });
+                                    if (rt.getResult() == Result.SUCCESS) {
+                                        RetDeviceEventNotify ret = rt.getData();
+                                        DbManager.getInstance().deleteTripMsg(ret.getMsgId());
+                                    }
+                                }
                             }
                         }
                         @Override

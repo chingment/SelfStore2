@@ -253,21 +253,26 @@ public class UpdateAppService extends Service {
 
                 @Override
                 public void onSuccess(String response) {
-                    ApiResultBean<RetDeviceCheckUpdate> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceCheckUpdate>>() {
-                    });
 
-                    if (rt.getResult() == Result.SUCCESS) {
-                        RetDeviceCheckUpdate d = rt.getData();
-                        if (d != null) {
-                            if (d.getVersionName() != null && d.getDownloadUrl() != null) {
-                                int c = compareVersion(d.getVersionName(), BuildConfig.VERSION_NAME);
-                                if (c == 1) {
-                                    downloadManagerApk(d.getDownloadUrl());
-                                }
-                                else {
-                                    Message m = new Message();
-                                    m.what = 3;
-                                    handler_msg.sendMessage(m);
+
+                    if (response != null) {
+                        if (response.contains("\"result\":")) {
+                            ApiResultBean<RetDeviceCheckUpdate> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceCheckUpdate>>() {
+                            });
+
+                            if (rt.getResult() == Result.SUCCESS) {
+                                RetDeviceCheckUpdate d = rt.getData();
+                                if (d != null) {
+                                    if (d.getVersionName() != null && d.getDownloadUrl() != null) {
+                                        int c = compareVersion(d.getVersionName(), BuildConfig.VERSION_NAME);
+                                        if (c == 1) {
+                                            downloadManagerApk(d.getDownloadUrl());
+                                        } else {
+                                            Message m = new Message();
+                                            m.what = 3;
+                                            handler_msg.sendMessage(m);
+                                        }
+                                    }
                                 }
                             }
                         }
