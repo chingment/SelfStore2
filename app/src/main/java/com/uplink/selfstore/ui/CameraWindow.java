@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.Build;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -268,6 +269,10 @@ public class CameraWindow {
                 LogUtil.d(TAG, "拍照结束");
             } catch (Exception ex) {
                 ex.printStackTrace();
+
+                LogUtil.e(TAG, "拍照处理失败，onPictureTaken");
+                LogUtil.e(TAG, ex);
+                AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
             }
         }
 
@@ -291,6 +296,10 @@ public class CameraWindow {
 
             } catch (IOException ex) {
                 ex.printStackTrace();
+
+                LogUtil.e(TAG, "拍照处理失败，byteToBitmap");
+                LogUtil.e(TAG, ex);
+                AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
             }
 
             return bitmap;
@@ -343,6 +352,10 @@ public class CameraWindow {
                 LogUtil.d(TAG, "拍照结束");
             } catch (Exception ex) {
                 ex.printStackTrace();
+
+                LogUtil.e(TAG, "拍照处理失败，onPictureTaken");
+                LogUtil.e(TAG, ex);
+                AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
             }
         }
 
@@ -367,6 +380,10 @@ public class CameraWindow {
             } catch (IOException ex) {
 
                 ex.printStackTrace();
+
+                LogUtil.e(TAG, "拍照处理失败，byteToBitmap");
+                LogUtil.e(TAG, ex);
+                AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
             }
 
             return bitmap;
