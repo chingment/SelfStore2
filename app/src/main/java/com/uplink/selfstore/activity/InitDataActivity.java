@@ -106,18 +106,18 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-        try {
-
-            Map<String,String> connections = new ConcurrentHashMap<>();
-
-            String client = connections.get(null);
-
-        }
-        catch (Exception ex){
-
-            ex.printStackTrace();
-            String s=ex.getMessage();
-        }
+//        try {
+//
+//            Map<String,String> connections = new ConcurrentHashMap<>();
+//
+//            String client = connections.get(null);
+//
+//        }
+//        catch (Exception ex){
+//
+//            ex.printStackTrace();
+//            String s=ex.getMessage();
+//        }
 
 //        IdWorker worker = new IdWorker(1,1,1);
 //        for (int i = 0; i < 300; i++) {
