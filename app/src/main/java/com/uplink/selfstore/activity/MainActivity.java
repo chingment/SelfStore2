@@ -79,6 +79,34 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             CameraWindow.show(this);
         }
 
+
+//        new Thread(new Runnable() {
+//            public void run() {
+//
+//                int i=0;
+//                while (true) {
+////                    if (!CameraWindow.cameraIsRunningByChk()) {
+////                        CameraWindow.openCameraByChk();
+////                    }
+//
+//                    if (!CameraWindow.cameraIsRunningByJg()) {
+//                        CameraWindow.openCameraByJg();
+//                    }
+//
+//                    //  CameraWindow.takeCameraPicByChk(UUID.randomUUID().toString());
+//
+//                    i++;
+//                    CameraWindow.takeCameraPicByJg(String.valueOf(i));
+//
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
+
         /**
          * 请求所有必要的权限----原理就是获取清单文件中申请的权限
          */

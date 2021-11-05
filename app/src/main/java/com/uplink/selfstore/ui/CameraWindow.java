@@ -1,11 +1,16 @@
 package com.uplink.selfstore.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,6 +23,7 @@ import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -27,6 +33,7 @@ import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +62,13 @@ public class CameraWindow {
 
     private static boolean safeToTakePicByJg=false;
     private static boolean safeToTakePicByChk=false;
+
+    private static List<Integer> mWaitActionByJg = new LinkedList<>(); //暂存拍照的队列
+    private static List<Integer> mWaitActionByChk = new LinkedList<>(); //暂存拍照的队列
+
+    private  static  Handler mHandler =null;
+
+
 
     public static void setInSampleSize(int size) {
         inSampleSize = size;
@@ -95,10 +109,32 @@ public class CameraWindow {
 
                 windowManager.addView(cameraViewByChk, params);
 
+
+                mHandler = new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+
+                        if (msg.what == 1) {
+                            Bundle bundle = msg.getData();
+                            String imgId = bundle.getString("imgId", "");
+                            int type = bundle.getInt("type", 0);
+                            if (!StringUtil.isEmptyNotNull(imgId)) {
+                                if (type == 0) {
+                                    doTakeActionByJg(imgId);
+                                } else if(type == 1) {
+                                    doTakeActionByJg(imgId);
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+
+
                 LogUtil.d(TAG, TAG + " showing");
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
 
         }
     }
@@ -129,7 +165,6 @@ public class CameraWindow {
             cameraJg = Camera.open(1);
             cameraJg.setPreviewDisplay(cameraHolderByJg);
             cameraJg.startPreview();
-            safeToTakePicByJg = true;
         } catch (Exception ex) {
             cameraJg = null;
             ex.printStackTrace();
@@ -161,13 +196,10 @@ public class CameraWindow {
 
     public static void openCameraByChk() {
         try {
-
             releaseCameraByChk();
-
             cameraChk = Camera.open(2);
             cameraChk.setPreviewDisplay(cameraHolderyChk);
             cameraChk.startPreview();
-            safeToTakePicByChk = true;
         } catch (Exception ex) {
             cameraChk = null;
             ex.printStackTrace();
@@ -197,45 +229,113 @@ public class CameraWindow {
         }
     }
 
-    public static void takeCameraPicByJg(String imgId){
-        try {
-            if(cameraJg!=null) {
-                if(safeToTakePicByJg) {
-                    cameraJg.takePicture(null, null, new TakePicCallbackByJg(imgId));
-                }
+    public static void takeCameraPicByJg(String imgId) {
+        if (cameraJg != null) {
+            //判断是否处于拍照，如果正在拍照，则将请求放入缓存队列
+            if (safeToTakePicByJg) {
+                mWaitActionByJg.add(1);
+            } else {
+                doTakeActionByJg(imgId);
             }
+        }
+    }
 
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    private static void doTakeActionByJg(String imgId) {   //拍照方法
+        safeToTakePicByJg = true;
+        cameraJg.takePicture(null, null, new TakePicCallbackJg(0,imgId));
     }
 
     public static void takeCameraPicByChk(String imgId){
-        try {
-            if(cameraChk!=null) {
-                if(safeToTakePicByChk) {
-                    cameraChk.takePicture(null, null, new TakePicCallbackByChk(imgId));
-                }
+
+
+        if (cameraChk != null) {
+            //判断是否处于拍照，如果正在拍照，则将请求放入缓存队列
+            if (safeToTakePicByChk) {
+                mWaitActionByChk.add(1);
+            } else {
+                doTakeActionByChk(imgId);
             }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
         }
     }
 
-    public static class TakePicCallbackByJg implements Camera.PictureCallback {
+    private static void doTakeActionByChk(String imgId) {   //拍照方法
+        safeToTakePicByChk = true;
+        cameraJg.takePicture(null, null, new TakePicCallbackChk(1,imgId));
+    }
 
+    public static class TakePicCallbackJg implements Camera.PictureCallback {
+        private int type;
         private String imgId;
 
-        public TakePicCallbackByJg(String imgId) {
+        public TakePicCallbackJg(int type, String imgId) {
+            this.type = type;
             this.imgId = imgId;
         }
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+            if (mWaitActionByJg.size() > 0) {
+                mWaitActionByJg.remove(0);   //移除队列中的第一条拍照请求，并执行拍照请求
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", type);
+                bundle.putString("imgId", imgId);
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);  //主线程中调用拍照
+            } else {
+                //队列中没有拍照请求，走正常流程
+                safeToTakePicByJg = false;
+            }
 
-            safeToTakePicByJg = false;
+            new SavePictureTask(imgId).execute(data);  //异步保存照片
+        }
+    }
+
+
+    public static class TakePicCallbackChk implements Camera.PictureCallback {
+        private int type;
+        private String imgId;
+
+        public TakePicCallbackChk(int type, String imgId) {
+            this.type = type;
+            this.imgId = imgId;
+        }
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            if (mWaitActionByChk.size() > 0) {
+                mWaitActionByChk.remove(0);   //移除队列中的第一条拍照请求，并执行拍照请求
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putInt("type", type);
+                bundle.putString("imgId", imgId);
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);  //主线程中调用拍照
+            } else {
+                //队列中没有拍照请求，走正常流程
+                safeToTakePicByChk = false;
+            }
+
+            new SavePictureTask(imgId).execute(data);  //异步保存照片
+        }
+    }
+
+    public static class SavePictureTask extends AsyncTask<byte[], String, String> {
+
+        private String imgId;
+
+        public SavePictureTask(String imgId) {
+            this.imgId = imgId;
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        @Override
+        protected String doInBackground(byte[]... params) {
+            byte[] data = params[0];   //回调的数据
+
+
             try {
                 //保存在本地
 
@@ -249,7 +349,7 @@ public class CameraWindow {
                 //   Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                 Bitmap bitmap = byteToBitmap(data);
                 if (bitmap == null)
-                    return;
+                    return null;
                 String filePath = mSaveDir + "/" + imgId + ".jpg";
                 File file = new File(filePath);
                 FileOutputStream outputStream = new FileOutputStream(file);
@@ -257,14 +357,14 @@ public class CameraWindow {
                 outputStream.close();
 
 
-                Map<String, String> params = new HashMap<>();
-                params.put("fileName", imgId);
-                params.put("folder", "pickup");
+                Map<String, String> post_params = new HashMap<>();
+                post_params.put("fileName", imgId);
+                post_params.put("folder", "pickup");
 
                 Map<String, String> filePaths = new HashMap<>();
                 filePaths.put("file", filePath);
 
-                HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
+                HttpClient.postFileByMy(Config.URL.uploadfile, post_params, filePaths, null);
 
                 LogUtil.d(TAG, "拍照结束");
             } catch (Exception ex) {
@@ -274,10 +374,12 @@ public class CameraWindow {
                 LogUtil.e(TAG, ex);
                 AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
             }
+
+
+            return null;
         }
 
-
-        public static Bitmap byteToBitmap(byte[] imgByte) {
+        private Bitmap byteToBitmap(byte[] imgByte) {
             Bitmap bitmap = null;
             try {
                 InputStream input = null;
@@ -296,7 +398,6 @@ public class CameraWindow {
 
             } catch (IOException ex) {
                 ex.printStackTrace();
-
                 LogUtil.e(TAG, "拍照处理失败，byteToBitmap");
                 LogUtil.e(TAG, ex);
                 AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
@@ -304,91 +405,6 @@ public class CameraWindow {
 
             return bitmap;
         }
-
-    }
-
-    public static class TakePicCallbackByChk implements Camera.PictureCallback {
-
-        private String imgId;
-        public  TakePicCallbackByChk(String imgId){
-            this.imgId=imgId;
-        }
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-
-            safeToTakePicByChk=true;
-
-            try {
-                //保存在本地
-
-                String mSaveDir = OwnFileUtil.getPicSaveDir();
-
-                File pathFile = new File(mSaveDir);
-                if (!pathFile.exists()) {
-                    pathFile.mkdirs();
-                }
-
-                //   Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                Bitmap bitmap = byteToBitmap(data);
-                if(bitmap==null)
-                    return;
-                String filePath = mSaveDir + "/" + imgId + ".jpg";
-                File file = new File(filePath);
-                FileOutputStream outputStream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
-                outputStream.close();
-
-
-                Map<String, String> params = new HashMap<>();
-                params.put("fileName", imgId);
-                params.put("folder", "pickup");
-
-                Map<String, String> filePaths = new HashMap<>();
-                filePaths.put("file", filePath);
-
-                HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
-
-                LogUtil.d(TAG, "拍照结束");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-
-                LogUtil.e(TAG, "拍照处理失败，onPictureTaken");
-                LogUtil.e(TAG, ex);
-                AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
-            }
-        }
-
-
-        public static Bitmap byteToBitmap(byte[] imgByte) {
-            Bitmap bitmap = null;
-            try {
-                InputStream input = null;
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = inSampleSize;
-                input = new ByteArrayInputStream(imgByte);
-                SoftReference softRef = new SoftReference(BitmapFactory.decodeStream(
-                        input, null, options));
-                bitmap = (Bitmap) softRef.get();
-                if (imgByte != null) {
-                    imgByte = null;
-                }
-
-                if (input != null)
-                    input.close();
-
-            } catch (IOException ex) {
-
-                ex.printStackTrace();
-
-                LogUtil.e(TAG, "拍照处理失败，byteToBitmap");
-                LogUtil.e(TAG, ex);
-                AppLogcatManager.saveLogcat2Server("logcat -d -s CameraWindow ", "CameraWindow");
-            }
-
-            return bitmap;
-        }
-
     }
 
 }
