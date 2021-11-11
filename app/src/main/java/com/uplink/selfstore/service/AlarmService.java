@@ -5,10 +5,12 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -27,6 +29,7 @@ import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.RetDeviceEventNotify;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
@@ -78,6 +81,9 @@ public class AlarmService  extends Service {
                     public void run() {
                         Date currentTime = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+
+
+
                         String dateString = sdf.format(currentTime);
 
                         LogUtil.i(TAG, "定时任务：" + dateString);
@@ -88,6 +94,7 @@ public class AlarmService  extends Service {
                         deleteTripMsgs();
 
                         changeLighting();
+
 
                         handler1.postDelayed(this, handler1_Miniute);
 
