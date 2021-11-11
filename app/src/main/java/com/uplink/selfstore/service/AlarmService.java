@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.text.format.Time;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -28,11 +29,13 @@ import com.uplink.selfstore.model.api.CbLightBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.RetDeviceEventNotify;
+import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
+import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
@@ -95,6 +98,7 @@ public class AlarmService  extends Service {
 
                         changeLighting();
 
+                        alarmReboot();
 
                         handler1.postDelayed(this, handler1_Miniute);
 
@@ -254,5 +258,68 @@ public class AlarmService  extends Service {
         }catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public static void alarmReboot(){
+
+        SharedPreferences mPerferences = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance().getApplicationContext());
+        boolean reboot = mPerferences.getBoolean("reboot", false);
+        if(atTheCurrentTime(4,30,5,0)) {
+
+            LogUtil.i(TAG, "定时任务：检测重启");
+
+            if (!reboot) {
+                Activity activity = AppManager.getAppManager().currentActivity();
+                if (activity != null) {
+                    String activityName = activity.getLocalClassName();
+                    if (activityName.contains(".MainActivity")) {
+                        SharedPreferences.Editor editor = mPerferences.edit();
+                        editor.putBoolean("reboot", true);
+                        editor.commit();
+
+                        BaseFragmentActivity.eventNotify("device_reboot","重启系统", null);
+
+                        OstCtrlInterface.getInstance().reboot(AppContext.getInstance().getApplicationContext());
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            SharedPreferences.Editor editor = mPerferences.edit();
+            editor.putBoolean("reboot", false);
+            editor.commit();
+        }
+    }
+
+    public static boolean atTheCurrentTime(int beginHour, int beginMin, int endHour, int endMin) {
+        boolean result = false;
+        final long aDayInMillis = 1000 * 60 * 60 * 24;
+        final long currentTimeMillis = System.currentTimeMillis();
+        Time now = new Time();
+        now.set(currentTimeMillis);
+        Time startTime = new Time();
+        startTime.set(currentTimeMillis);
+        startTime.hour = beginHour;
+        startTime.minute = beginMin;
+        Time endTime = new Time();
+        endTime.set(currentTimeMillis);
+        endTime.hour = endHour;
+        endTime.minute = endMin;
+        /**跨天的特殊情况(比如23:00-2:00)*/
+        if (!startTime.before(endTime)) {
+            startTime.set(startTime.toMillis(true) - aDayInMillis);
+            result = !now.before(startTime) && !now.after(endTime); // startTime <= now <= endTime
+            Time startTimeInThisDay = new Time();
+            startTimeInThisDay.set(startTime.toMillis(true) + aDayInMillis);
+            if (!now.before(startTimeInThisDay)) {
+                result = true;
+            }
+        } else {
+            /**普通情况(比如5:00-10:00)*/
+            result = !now.before(startTime) && !now.after(endTime); // startTime <= now <= endTime
+        }
+        return result;
     }
 }
