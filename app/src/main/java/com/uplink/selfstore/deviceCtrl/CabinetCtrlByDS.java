@@ -765,11 +765,11 @@ public class CabinetCtrlByDS {
 
                 sendPickupHandlerMessage(2, "取货就绪成功..请稍等", null);
 
-                //尝试3次发送取货命令
+
                 boolean isAutoStart = false;
                 boolean isCanSendCmdByAutoStart=true;
                 for (int i = 0; i < 10; i++) {
-                    if(isCanSendCmdByAutoStart) {
+                    if (isCanSendCmdByAutoStart) {
                         isCanSendCmdByAutoStart = false;
                         int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
                         if (rc_autoStart == S_RC_SUCCESS) {
@@ -778,10 +778,54 @@ public class CabinetCtrlByDS {
                             break;
                         } else {
                             LogUtil.i(TAG, "取货流程监听：取货启动失败,状态" + rc_autoStart + ",正在尝试" + i + "次,休息1秒");
+
+                            //先急停
+                            sym.SN_MV_EmgStop();
+
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            //尝试3次发送回原点
+                            boolean isGoZero_Cmd = false;
+                            for (int j = 0; j < 3; j++) {
+                                int rt_goZero = sym.SN_MV_MotorAction(1, 0, 0);
+                                if (rt_goZero == S_RC_SUCCESS) {
+                                    isGoZero_Cmd = true;
+                                    break;
+                                }
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            if (!isGoZero_Cmd) {
+                                LogUtil.i(TAG, "取货流程监听：启动回原点命令失败");
+                                sendPickupHandlerMessage(5, "启动回原点命令失败", null);
+                                interrupt();
+                                return;
+                            }
+
+
+                            for (int j = 0; j < 60; j++) {
+                                int[] rc_status1 = sym.SN_MV_Get_MotionStatus();
+                                if (rc_status1[0] == S_RC_SUCCESS) {
+                                    if (rc_status1[2] == S_Motor_Idle || rc_status1[2] == S_Motor_Done) {
+                                        isCanSendCmdByAutoStart = true;
+                                        break;
+                                    }
+                                }
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
-                    else {
-                        LogUtil.i(TAG, "取货流程监听：取货启动失败,正在尝试" + i + "次,休息1秒,不能再发送取后命令");
                     }
 
                     try {
@@ -789,15 +833,42 @@ public class CabinetCtrlByDS {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
-                    if (rc_flowStatus[0] == S_RC_SUCCESS) {
-                        LogUtil.i(TAG, "取货流程监听：取货启动失败,正在尝试" + i + "次,休息1秒,当前状态"+rc_flowStatus[3]);
-                        if (rc_flowStatus[3] != 1) {
-                            isCanSendCmdByAutoStart = true;
-                        }
-                    }
                 }
+
+
+//                //尝试3次发送取货命令
+//                boolean isAutoStart = false;
+//                boolean isCanSendCmdByAutoStart=true;
+//                for (int i = 0; i < 10; i++) {
+//                    if(isCanSendCmdByAutoStart) {
+//                        isCanSendCmdByAutoStart = false;
+//                        int rc_autoStart = sym.SN_MV_AutoStart(mode, row, col);
+//                        if (rc_autoStart == S_RC_SUCCESS) {
+//                            sendPickupHandlerMessage(2, "正在出货中", null);
+//                            isAutoStart = true;
+//                            break;
+//                        } else {
+//                            LogUtil.i(TAG, "取货流程监听：取货启动失败,状态" + rc_autoStart + ",正在尝试" + i + "次,休息1秒");
+//                        }
+//                    }
+//                    else {
+//                        LogUtil.i(TAG, "取货流程监听：取货启动失败,正在尝试" + i + "次,休息1秒,不能再发送取后命令");
+//                    }
+//
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    int[] rc_flowStatus = sym.SN_MV_Get_FlowStatus();
+//                    if (rc_flowStatus[0] == S_RC_SUCCESS) {
+//                        LogUtil.i(TAG, "取货流程监听：取货启动失败,正在尝试" + i + "次,休息1秒,当前状态"+rc_flowStatus[3]);
+//                        if (rc_flowStatus[3] != 1) {
+//                            isCanSendCmdByAutoStart = true;
+//                        }
+//                    }
+//                }
 
                 if (!isAutoStart) {
                     LogUtil.i(TAG, "取货流程监听：取货命令启动失败");
