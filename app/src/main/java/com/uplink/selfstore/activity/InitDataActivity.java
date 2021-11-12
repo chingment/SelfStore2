@@ -106,25 +106,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initdata);
 
-//        try {
-//
-//            Map<String,String> connections = new ConcurrentHashMap<>();
-//
-//            String client = connections.get(null);
-//
-//        }
-//        catch (Exception ex){
-//
-//            ex.printStackTrace();
-//            String s=ex.getMessage();
-//        }
-
-//        IdWorker worker = new IdWorker(1,1,1);
-//        for (int i = 0; i < 300; i++) {
-//            System.out.println(worker.nextId());
-//        }
-
-        //因mqtt文件被锁定未被删除造成对象未空，因此进入程序首先删除MqttConnection文件 防止对象未空
 
         File mqttConnection= getAppContext().getExternalFilesDir("MqttConnection");
 
@@ -144,7 +125,6 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         Intent mqttService = new Intent(this, MqttService.class);
         stopService(mqttService);
-
 
         Intent whiteIntent = new Intent(this, WhiteService.class);
         startService(whiteIntent);

@@ -386,9 +386,11 @@ public class MqttService extends Service {
         closeReconnectTask();
         if (mqttAndroidClient != null){
             try {
+                LogUtil.d(TAG,"closeMqttClient:1");
                 mqttAndroidClient.unregisterResources();
+                LogUtil.d(TAG,"closeMqttClient:2");
                 mqttAndroidClient.disconnect();
-                LogUtil.i(TAG,"关闭连接，ClientId："+mqttAndroidClient.getClientId());
+                LogUtil.i(TAG,"closeMqttClient:3,ClientId："+mqttAndroidClient.getClientId());
                 mqttAndroidClient = null;
             } catch (MqttException e) {
                 e.printStackTrace();
