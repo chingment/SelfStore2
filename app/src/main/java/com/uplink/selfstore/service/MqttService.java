@@ -13,6 +13,7 @@ import com.alibaba.fastjson.parser.JSONToken;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.MqttBean;
 import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.AppUtil;
 import com.uplink.selfstore.own.CommandManager;
@@ -50,6 +51,10 @@ public class MqttService extends Service {
     private ScheduledExecutorService reconnectPool;//重连线程池
 
 
+    private String clientId="";
+    private String host = "";
+    private String userName = "";
+    private String password = "";
     private String deviceName="";
     private String deviceClass="";
 
@@ -156,7 +161,7 @@ public class MqttService extends Service {
         public void onSuccess(IMqttToken asyncActionToken) {
             LogUtil.i(TAG,"连接成功");
 
-            closeReconnectTask();
+            //closeReconnectTask();
 
             try {
                 mqttAndroidClient.subscribe(topic_Subscribe, 1);
@@ -172,14 +177,23 @@ public class MqttService extends Service {
 
         @Override
         public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-            LogUtil.i(TAG,"连接失败-"+exception);
-            startReconnectTask();
+            //startReconnectTask();
         }
     };
 
     private MqttCallback mqttCallback = new MqttCallbackExtended() {  //回传
         @Override
         public void connectComplete(boolean reconnect, String serverURI) {
+            LogUtil.d(TAG,"连接成功："+reconnect+",serverURI:"+serverURI);
+            try {
+
+                if (mqttAndroidClient != null) {
+                    mqttAndroidClient.subscribe(topic_Subscribe, 1);
+                }
+            }
+            catch (Exception ex){
+                LogUtil.e(TAG,ex);
+            }
 
         }
 
@@ -187,7 +201,7 @@ public class MqttService extends Service {
         public void connectionLost(Throwable cause) {
             LogUtil.d(TAG,"连接断开");
             if (cause != null) {//null表示被关闭
-                startReconnectTask();
+                //startReconnectTask();
             }
         }
 
@@ -260,9 +274,6 @@ public class MqttService extends Service {
         }
     };
 
-   // final private String PRODUCTKEY = "a1A2Mq6w5lN";
-   // private String DEVICENAME = "test";//设备名
-   // final private String DEVICESECRET = "445ee6df957de4fdcba1028025c619ec";//设备密钥
 
     private void buildMqttClient() {
 
@@ -272,10 +283,7 @@ public class MqttService extends Service {
 
         MqttBean mqtt = device.getMqtt();
 
-        String clientId="";
-        String host = "";
-        String userName = "";
-        String password = "";
+
 
         if (mqtt != null) {
             if(mqtt.getType().equals("exmq")) {
@@ -318,10 +326,6 @@ public class MqttService extends Service {
         topic_Pubish = "/" + deviceClass + "/" + deviceName + "/user/update";
 
 
-        //topic_Subscribe = "/" + productName + "/" + deviceName + "/user/get";
-        //topic_Pubish = "/" + productName + "/" + deviceName + "/user/update";
-        //topic_Response = "/" + productName + "/" + deviceName + "/user/get";
-
         mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), host, clientId);
 
         mMqttConnectOptions = new MqttConnectOptions();
@@ -335,9 +339,7 @@ public class MqttService extends Service {
         //mMqttConnectOptions.setConnectionTimeout(10);
         // 心跳包发送间隔，单位：秒
         //mMqttConnectOptions.setKeepAliveInterval(20);
-        //mMqttConnectOptions.setAutomaticReconnect(true);
-
-
+        mMqttConnectOptions.setAutomaticReconnect(true);
         mqttAndroidClient.setCallback(mqttCallback);// 回调
 
         connectMqttClient();
@@ -389,6 +391,7 @@ public class MqttService extends Service {
                 LogUtil.d(TAG,"closeMqttClient:1");
                 mqttAndroidClient.unregisterResources();
                 LogUtil.d(TAG,"closeMqttClient:2");
+                mqttAndroidClient.close();
                 mqttAndroidClient.disconnect();
                 LogUtil.i(TAG,"closeMqttClient:3,ClientId："+mqttAndroidClient.getClientId());
                 mqttAndroidClient = null;
@@ -449,6 +452,5 @@ public class MqttService extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

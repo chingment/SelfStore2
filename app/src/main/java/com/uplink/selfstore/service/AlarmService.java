@@ -33,6 +33,7 @@ import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.own.AppCacheManager;
 import com.uplink.selfstore.own.AppContext;
 import com.uplink.selfstore.own.AppManager;
+import com.uplink.selfstore.own.AppUtil;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
@@ -41,6 +42,11 @@ import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
 import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
+import com.uplink.selfstore.utils.NetFlowInfo;
+import com.uplink.selfstore.utils.NetFlowUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -50,6 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 public class AlarmService  extends Service {
     private static final String TAG = "AlarmService";
@@ -91,6 +98,8 @@ public class AlarmService  extends Service {
 
                         LogUtil.i(TAG, "定时任务：" + dateString);
 
+
+                        sendDeviceStatus();
 
                         deleteTempFile();
 
@@ -142,6 +151,29 @@ public class AlarmService  extends Service {
         if(handler1!=null&&handler1_Runnable!=null) {
             handler1.removeCallbacks(handler1_Runnable);
         }
+    }
+
+    private void  sendDeviceStatus() {
+
+        Activity activity = AppManager.getAppManager().currentActivity();
+
+        JSONObject params = new JSONObject();
+        try {
+
+            NetFlowInfo flowInfo = NetFlowUtil.getAppFlowInfo("com.uplink.selfstore", getApplicationContext());
+
+            params.put("activity", activity == null ? "" : activity.getLocalClassName());
+            params.put("status", AppUtil.getDeviceStatus());
+            params.put("upKb", flowInfo.getUpKb());
+            params.put("downKb", flowInfo.getDownKb());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+       BaseFragmentActivity.eventNotify("device_status","轮询定时发送状态",params);
+
     }
 
     public static void deleteTempFile() {

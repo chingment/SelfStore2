@@ -134,6 +134,8 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
+
+
     }
 
     private void initView() {

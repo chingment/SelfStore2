@@ -19,6 +19,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
+import com.uplink.selfstore.own.AppLogcatManager;
 import com.uplink.selfstore.own.AppManager;
 import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
@@ -79,7 +80,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                                 showToast(message);
                                 break;
                         }
-                        return true;
+                        return false;
                     }
                 })
         );
@@ -107,17 +108,23 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         OstCtrlInterface.getInstance().reboot(SmHomeActivity.this);
                         break;
                     case "door":
-
-                        String mstVern=getDevice().getMstVern();
-                        if(mstVern!=null) {
-                            switch (mstVern) {
-                                case "DS":
-                                    cabinetCtrlByDS.doorControl();
-                                    break;
-                                case "ZS":
-                                    cabinetCtrlByZS.doorControl();
-                                    break;
+                        try {
+                            String mstVern = getDevice().getMstVern();
+                            if (mstVern != null) {
+                                switch (mstVern) {
+                                    case "DS":
+                                        cabinetCtrlByDS.doorControl();
+                                        break;
+                                    case "ZS":
+                                        cabinetCtrlByZS.doorControl();
+                                        break;
+                                }
                             }
+                        }
+                        catch (Exception ex) {
+                            LogUtil.e(TAG,ex);
+                            showToast("开锁异常:" + ex.getMessage());
+                            AppLogcatManager.saveLogcat2Server("logcat -d -s SmHomeActivity ", "SmHomeActivity");
                         }
 
                         break;
