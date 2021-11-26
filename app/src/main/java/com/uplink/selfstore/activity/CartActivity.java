@@ -206,10 +206,10 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
 
 
         list_skus = (MyListView) findViewById(R.id.list_skus);
-        list_skus.setFocusable(false);
-        list_skus.setClickable(false);
-        list_skus.setPressed(false);
-        list_skus.setEnabled(false);
+//        list_skus.setFocusable(false);
+//        list_skus.setClickable(false);
+//        list_skus.setPressed(false);
+//        list_skus.setEnabled(false);
         list_empty_tip = findViewById(R.id.list_empty_tip);
 
         dialog_ScanPay = new CustomDialogScanPay(CartActivity.this, 120, new CustomDialogScanPay.IHanldeListener() {

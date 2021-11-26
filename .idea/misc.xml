@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.18802083333333333" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/activity_orderdetails.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/activity_productdetails.xml" value="0.20930232558139536" />
@@ -15,6 +16,7 @@
         <entry key="app/src/main/res/layout/activity_smrunexhandle.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/activity_smuserinfo.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/dialog_scanpay.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_list_cart_sku.xml" value="0.16343669250645995" />
       </map>
     </option>
   </component>

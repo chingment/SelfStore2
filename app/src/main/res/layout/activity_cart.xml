@@ -8,68 +8,121 @@
     android:orientation="vertical">
     <include layout="@layout/layout_nav_header" />
 
-    <com.uplink.selfstore.ui.my.MyScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_above="@+id/layout_footer"
-        android:layout_below="@+id/layout_header"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:scrollbars="none"
-        tools:ignore="ObsoleteLayoutParam">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <com.uplink.selfstore.ui.my.MyListView
-                android:id="@+id/list_skus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:divider="@color/dividerline"
-                android:dividerHeight="1px"
-                android:fadingEdge="none"
-                android:overScrollMode="never"
-                android:paddingLeft="@dimen/size_10"
-                android:paddingRight="@dimen/size_10"
-                android:scrollbars="none" />
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:id="@+id/list_empty_tip"
-                >
+                <com.uplink.selfstore.ui.my.MyListView
+                    android:id="@+id/list_skus"
+                    android:layout_above="@+id/layout_footer"
+                    android:layout_below="@+id/layout_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:divider="@color/dividerline"
+                    android:dividerHeight="1px"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never"
+                    android:paddingLeft="@dimen/size_10"
+                    android:paddingRight="@dimen/size_10"
+                    android:scrollbars="none" />
 
-                <ImageView
-                    android:layout_width="@dimen/size_250"
-                    android:layout_height="@dimen/size_250"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/size_20"
-                    android:layout_marginRight="@dimen/size_20"
-                    android:layout_marginTop="@dimen/size_100"
-                    android:src="@drawable/cart_empty"
-                />
 
-                <TextView
-                    android:id="@+id/btn_goshopping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/size_30"
-                    android:layout_marginBottom="@dimen/size_30"
-                    android:layout_gravity="center"
-                    android:text="@string/aty_cart_btntx_goshopping"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/size_16" />
+                <LinearLayout
+                    android:id="@+id/list_empty_tip"
+                    android:layout_above="@+id/layout_footer"
+                    android:layout_below="@+id/layout_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:ignore="UseCompoundDrawables">
 
-            </LinearLayout>
-        </LinearLayout>
-    </com.uplink.selfstore.ui.my.MyScrollView>
+                    <ImageView
+                        android:layout_width="@dimen/size_250"
+                        android:layout_height="@dimen/size_250"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/size_20"
+                        android:layout_marginRight="@dimen/size_20"
+                        android:layout_marginTop="@dimen/size_100"
+                        android:src="@drawable/cart_empty"
+                    />
+
+                    <TextView
+                        android:id="@+id/btn_goshopping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/size_30"
+                        android:layout_marginBottom="@dimen/size_30"
+                        android:layout_gravity="center"
+                        android:text="@string/aty_cart_btntx_goshopping"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/size_16" />
+
+                </LinearLayout>
+
+
+<!--    <com.uplink.selfstore.ui.my.MyScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_above="@+id/layout_footer"-->
+<!--        android:layout_below="@+id/layout_header"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/white"-->
+<!--        android:scrollbars="none"-->
+<!--        tools:ignore="ObsoleteLayoutParam">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/white"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <com.uplink.selfstore.ui.my.MyListView-->
+<!--                android:id="@+id/list_skus"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:background="@color/white"-->
+<!--                android:divider="@color/dividerline"-->
+<!--                android:dividerHeight="1px"-->
+<!--                android:fadingEdge="none"-->
+<!--                android:overScrollMode="never"-->
+<!--                android:paddingLeft="@dimen/size_10"-->
+<!--                android:paddingRight="@dimen/size_10"-->
+<!--                android:scrollbars="none" />-->
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:visibility="gone"-->
+<!--                android:id="@+id/list_empty_tip"-->
+<!--                >-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="@dimen/size_250"-->
+<!--                    android:layout_height="@dimen/size_250"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginLeft="@dimen/size_20"-->
+<!--                    android:layout_marginRight="@dimen/size_20"-->
+<!--                    android:layout_marginTop="@dimen/size_100"-->
+<!--                    android:src="@drawable/cart_empty"-->
+<!--                />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/btn_goshopping"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="@dimen/size_30"-->
+<!--                    android:layout_marginBottom="@dimen/size_30"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/aty_cart_btntx_goshopping"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="@dimen/size_16" />-->
+
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+<!--    </com.uplink.selfstore.ui.my.MyScrollView>-->
 
     <RelativeLayout
         android:id="@+id/layout_footer"
