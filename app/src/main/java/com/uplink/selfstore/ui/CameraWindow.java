@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -24,6 +23,8 @@ import com.uplink.selfstore.own.Config;
 import com.uplink.selfstore.own.OwnFileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
+
+import org.apache.commons.logging.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -168,6 +169,9 @@ public class CameraWindow {
         } catch (Exception ex) {
             cameraJg = null;
             ex.printStackTrace();
+
+            LogUtil.e(TAG,ex);
+            AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByJg");
         }
     }
 
@@ -203,6 +207,9 @@ public class CameraWindow {
         } catch (Exception ex) {
             cameraChk = null;
             ex.printStackTrace();
+
+            LogUtil.e(TAG,ex);
+            AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByChk");
         }
     }
 
