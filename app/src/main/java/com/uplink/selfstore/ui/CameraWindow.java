@@ -75,6 +75,14 @@ public class CameraWindow {
         inSampleSize = size;
     }
 
+    public  static void clearWaitAction(){
+        if(mWaitActionByJg!=null) {
+            mWaitActionByJg.clear();
+        }
+        if(mWaitActionByChk!=null) {
+            mWaitActionByChk.clear();
+        }
+    }
     /**
      * 显示全局窗口
      *
@@ -169,9 +177,7 @@ public class CameraWindow {
         } catch (Exception ex) {
             cameraJg = null;
             ex.printStackTrace();
-
             LogUtil.e(TAG,ex);
-            AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByJg");
         }
     }
 
@@ -207,9 +213,7 @@ public class CameraWindow {
         } catch (Exception ex) {
             cameraChk = null;
             ex.printStackTrace();
-
             LogUtil.e(TAG,ex);
-            AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByChk");
         }
     }
 

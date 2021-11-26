@@ -75,6 +75,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
 
+        CameraWindow.clearWaitAction();
+
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
 
         initView();

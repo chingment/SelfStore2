@@ -13,6 +13,7 @@ import com.uplink.selfstore.activity.MainActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
 import com.uplink.selfstore.activity.ProductKindActivity;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
+import com.uplink.selfstore.model.LogcatCommand;
 import com.uplink.selfstore.model.push.SetSysParamsBean;
 import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.DeviceBean;
@@ -83,6 +84,9 @@ public class CommandManager {
                     break;
                 case "device_ship":
                     device_ship(params);
+                    break;
+                case "locat_log":
+                    locat_log(params);
                     break;
             }
         } finally {
@@ -319,5 +323,19 @@ public class CommandManager {
         intent.putExtra("from", 2);
         intent.setAction("android.intent.action.updateAppService");
         AppContext.getInstance().sendBroadcast(intent);
+    }
+
+    private static void locat_log(String content){
+
+        try {
+
+            LogcatCommand command = JSON.parseObject(content, new TypeReference<LogcatCommand>() {
+            });
+
+            AppLogcatManager.saveLogcat2Server(command.getCommand(), "locat_log");
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

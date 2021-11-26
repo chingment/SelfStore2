@@ -391,7 +391,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     catch (Exception ex){
                         showToast("("+camerasNumber+")人脸摄像头发生异常:"+ex.getMessage());
                         LogUtil.e(TAG,ex);
-                        AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByRl");
                     }
                     break;
                 case R.id.renlian_camera_btn_captureStill:
@@ -438,7 +437,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                     catch (Exception ex){
                         showToast("("+camerasNumber+")打开机柜摄像头发生异常:"+ex.getMessage());
                         LogUtil.e(TAG,ex);
-                        AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByJg");
                     }
                     break;
                 case R.id.jigui_camera_btn_captureStill:
@@ -485,7 +483,6 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                         showToast("("+camerasNumber+")打开出货口发生异常:"+ex.getMessage());
 
                         LogUtil.e(TAG,ex);
-                        AppLogcatManager.saveLogcat2Server("logcat -v ", "openCameraByChk");
                     }
                     break;
                 case R.id.chuhuokou_camera_btn_captureStill:
