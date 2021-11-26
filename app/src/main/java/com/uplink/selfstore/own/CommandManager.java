@@ -85,8 +85,8 @@ public class CommandManager {
                 case "device_ship":
                     device_ship(params);
                     break;
-                case "locat_log":
-                    locat_log(params);
+                case "logcat":
+                    logcat(params);
                     break;
             }
         } finally {
@@ -325,14 +325,14 @@ public class CommandManager {
         AppContext.getInstance().sendBroadcast(intent);
     }
 
-    private static void locat_log(String content){
+    private static void logcat(String content){
 
         try {
 
             LogcatCommand command = JSON.parseObject(content, new TypeReference<LogcatCommand>() {
             });
 
-            AppLogcatManager.saveLogcat2Server(command.getCommand(), "locat_log");
+            AppLogcatManager.saveLogcat2Server(command.getCommand(), "logcat");
         }
         catch (Exception ex){
             ex.printStackTrace();
