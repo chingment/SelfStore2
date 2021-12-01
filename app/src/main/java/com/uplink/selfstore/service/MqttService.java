@@ -48,9 +48,6 @@ public class MqttService extends Service {
     private static MqttAndroidClient mqttAndroidClient;
     private static MqttConnectOptions mMqttConnectOptions;
 
-    private ScheduledExecutorService reconnectPool;//重连线程池
-
-
     private String clientId="";
     private String host = "";
     private String userName = "";
@@ -61,9 +58,7 @@ public class MqttService extends Service {
     private static String topic_Subscribe="";//订阅主题
     private static String topic_Pubish="";//发布主题
 
-
     private Handler timHandler = new Handler();
-
     private Runnable timRunable = new Runnable() {
         @Override
         public void run() {
@@ -161,8 +156,6 @@ public class MqttService extends Service {
         public void onSuccess(IMqttToken asyncActionToken) {
             LogUtil.i(TAG,"连接成功");
 
-            //closeReconnectTask();
-
             try {
                 mqttAndroidClient.subscribe(topic_Subscribe, 1);
             } catch (MqttException e) {
@@ -177,7 +170,7 @@ public class MqttService extends Service {
 
         @Override
         public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-            //startReconnectTask();
+
         }
     };
 
@@ -194,15 +187,11 @@ public class MqttService extends Service {
             catch (Exception ex){
                 LogUtil.e(TAG,ex);
             }
-
         }
 
         @Override
         public void connectionLost(Throwable cause) {
             LogUtil.d(TAG,"连接断开");
-            if (cause != null) {//null表示被关闭
-                //startReconnectTask();
-            }
         }
 
         @Override
@@ -273,7 +262,6 @@ public class MqttService extends Service {
             }
         }
     };
-
 
     private void buildMqttClient() {
 
@@ -363,37 +351,14 @@ public class MqttService extends Service {
 
     }
 
-    private synchronized void startReconnectTask(){
-        LogUtil.d(TAG,"开启重连任务");
-        if (reconnectPool != null)return;
-        reconnectPool = Executors.newScheduledThreadPool(1);
-        reconnectPool.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                connectMqttClient();
-            }
-        } , 0 , 5*1000 , TimeUnit.MILLISECONDS);
-    }
-
-    private synchronized void closeReconnectTask(){
-        LogUtil.d(TAG,"关闭重连任务");
-        if (reconnectPool != null) {
-            reconnectPool.shutdownNow();
-            reconnectPool = null;
-        }
-    }
-
     public void closeMqttClient(){
         LogUtil.d(TAG,"关闭连接");
-        closeReconnectTask();
         if (mqttAndroidClient != null){
             try {
-                LogUtil.d(TAG,"closeMqttClient:1");
+                LogUtil.i(TAG,"关闭连接.ClientId："+mqttAndroidClient.getClientId());
                 mqttAndroidClient.unregisterResources();
-                LogUtil.d(TAG,"closeMqttClient:2");
                 mqttAndroidClient.close();
                 mqttAndroidClient.disconnect();
-                LogUtil.i(TAG,"closeMqttClient:3,ClientId："+mqttAndroidClient.getClientId());
                 mqttAndroidClient = null;
             } catch (MqttException e) {
                 e.printStackTrace();
