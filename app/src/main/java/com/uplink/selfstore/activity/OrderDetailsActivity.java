@@ -19,6 +19,7 @@ import com.uplink.selfstore.model.DSCabRowColLayoutBean;
 import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.api.CabinetBean;
+import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
@@ -66,6 +67,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     private boolean isHappneException=false;
     private String exceptionMessage="";
     private boolean isGoZero=true;
+
+    private DeviceBean device;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
         cabinetCtrlByDS = CabinetCtrlByDS.getInstance();
         cabinetCtrlByZS = CabinetCtrlByZS.getInstance();
-
+        device = getDevice();
         CameraWindow.clearWaitAction();
 
         orderDetails = (OrderDetailsBean) getIntent().getSerializableExtra("dataBean");
@@ -90,11 +93,11 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     @Override
                     public boolean handleMessage(Message msg) {
 
-                        if(!CameraWindow.cameraIsRunningByChk()){
+                        if (!CameraWindow.cameraIsRunningByChk()) {
                             CameraWindow.openCameraByChk();
                         }
 
-                        if(!CameraWindow.cameraIsRunningByJg()){
+                        if (!CameraWindow.cameraIsRunningByJg()) {
                             CameraWindow.openCameraByJg();
                         }
 
@@ -107,51 +110,50 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         }
 
                         if (!StringUtil.isEmptyNotNull(message)) {
-                            LogUtil.i(TAG,"取货消息：" + message);
+                            LogUtil.i(TAG, "取货消息：" + message);
                         }
 
-                        String componentName =getTopComponentName();
-                        if(componentName==null) {
+                        String componentName = getTopComponentName();
+                        if (componentName == null) {
+                            isHappneException = true;
+                            exceptionMessage = "取货异常，取货不在当前界面";
+                        } else if (!componentName.toLowerCase().contains("orderdetailsactivity")) {
                             isHappneException = true;
                             exceptionMessage = "取货异常，取货不在当前界面";
                         }
-                        else if(!componentName.toLowerCase().contains("orderdetailsactivity")) {
-                            isHappneException = true;
-                            exceptionMessage = "取货异常，取货不在当前界面";
-                        }
 
-                        boolean isTakePic=false;
+                        boolean isTakePic = false;
 
-                        if(isHappneException) {
+                        if (isHappneException) {
                             isTakePic = true;
                         }
 
-                        if(!isTakePic) {
+                        if (!isTakePic) {
                             if (status == 5 || status > 6) {
                                 isTakePic = true;
                             }
                         }
 
-                        if(pickupActionResult!=null) {
+                        if (pickupActionResult != null) {
                             if (pickupActionResult.getActionId() == 8) {
                                 isTakePic = true;
                             }
                         }
 
                         //判断是使用WIFI网络，则每一步捕捉相片
-                        if(CommonUtil.isWifi(OrderDetailsActivity.this)) {
+                        if (CommonUtil.isWifi(OrderDetailsActivity.this)) {
                             isTakePic = true;
                         }
 
-                        if(isTakePic){
+                        if (isTakePic) {
 
-                            if(pickupActionResult==null){
-                                pickupActionResult=new PickupActionResult();
+                            if (pickupActionResult == null) {
+                                pickupActionResult = new PickupActionResult();
                             }
 
-                            if(CameraWindow.cameraIsRunningByChk()) {
+                            if (CameraWindow.cameraIsRunningByChk()) {
                                 pickupActionResult.setImgId(UUID.randomUUID().toString());
-                                LogUtil.d(TAG,"开始拍照->出货口");
+                                LogUtil.d(TAG, "开始拍照->出货口");
                                 CameraWindow.takeCameraPicByChk(pickupActionResult.getImgId());
 
 //                                final String imgId=pickupResult.getImgId();
@@ -170,8 +172,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //                                }
                             }
 
-                            if(CameraWindow.cameraIsRunningByJg()) {
-                                LogUtil.d(TAG,"开始拍照->机柜");
+                            if (CameraWindow.cameraIsRunningByJg()) {
+                                LogUtil.d(TAG, "开始拍照->机柜");
                                 pickupActionResult.setImgId2(UUID.randomUUID().toString());
                                 CameraWindow.takeCameraPicByJg(pickupActionResult.getImgId2());
                             }
@@ -183,8 +185,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             }
                             pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
                             setPickupException(curPickupSku);
-                        }
-                        else {
+                        } else {
                             switch (status) {
                                 case 1: //消息提示
                                     showToast(message);
@@ -197,7 +198,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     pickupEventNotify(curPickupSku, 3012, "取货中", pickupActionResult);
                                     break;
                                 case 4://取货成功
-                                    isGoZero=false;
+                                    isGoZero = false;
                                     curPickupSku_Tv_Tip2.setText("取货完成");
                                     pickupEventNotify(curPickupSku, 4000, "取货完成", pickupActionResult);
                                     setCurPickupSkuComplete(curPickupSku);
@@ -278,12 +279,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 //                                }
                                 break;
                             case 5://取货超时
-                                isHappneException=true;
+                                isHappneException = true;
                                 curPickupSku_Tv_Tip2.setText("取货发生异常..");
                                 pickupEventNotify(curPickupSku, 6000, "取货失败，取货超时," + message, null);
                                 break;
                             case 6://取货失败
-                                isHappneException=true;
+                                isHappneException = true;
                                 curPickupSku_Tv_Tip2.setText("取货发生异常...");
                                 pickupEventNotify(curPickupSku, 6000, "取货失败,程序异常", null);
                                 break;
@@ -679,6 +680,8 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             cabinetCtrlByZS.disConnect();
             cabinetCtrlByZS = null;
         }
+
+
     }
 
     @Override
@@ -703,6 +706,17 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
         CameraWindow.releaseCameraByChk();
 
         TinySyncExecutor.getInstance().finish();
+
+        new Thread(new Runnable() {
+            public void run() {
+                if(device!=null) {
+                    if(device.isOpenLog()) {
+                        AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS OrderDetailsActivity ", "order");
+                    }
+                }
+            }
+        }).start();
+
     }
 
 }

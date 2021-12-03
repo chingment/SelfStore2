@@ -24,6 +24,7 @@ public class DeviceBean implements Serializable {
     private boolean cameraByRlIsUse;
     private boolean cameraByJgIsUse;
     private boolean exIsHas;
+    private boolean isOpenLog;
     private String ostVern;
     private String mstVern;
     private ConsultBean consult;
@@ -33,7 +34,6 @@ public class DeviceBean implements Serializable {
     private MqttBean mqtt;
 
     private int picInSampleSize=8;
-
 
 
     public boolean isExIsHas() {
@@ -215,5 +215,13 @@ public class DeviceBean implements Serializable {
 
     public void setLights(HashMap<String, String> lights) {
         this.lights = lights;
+    }
+
+    public boolean isOpenLog() {
+        return isOpenLog;
+    }
+
+    public void setOpenLog(boolean openLog) {
+        isOpenLog = openLog;
     }
 }
