@@ -184,7 +184,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 cabinetCtrlByDS.emgStop();
                             }
                             pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                            setPickupException(curPickupSku);
+                            setPickupException(curPickupSku,exceptionMessage);
                         } else {
                             switch (status) {
                                 case 1: //消息提示
@@ -209,7 +209,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     LogUtil.d(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                                    setPickupException(curPickupSku);
+                                    setPickupException(curPickupSku,exceptionMessage);
                                     break;
                                 case 6://取货失败，程序异常
                                     isHappneException = true;
@@ -217,7 +217,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     LogUtil.d(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                                    setPickupException(curPickupSku);
+                                    setPickupException(curPickupSku,exceptionMessage);
                                     break;
                                 default:
                                     isHappneException = true;
@@ -225,7 +225,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                     LogUtil.d(TAG, exceptionMessage);
                                     curPickupSku_Tv_Tip2.setText(exceptionMessage);
                                     pickupEventNotify(curPickupSku, 6000, exceptionMessage, pickupActionResult);
-                                    setPickupException(curPickupSku);
+                                    setPickupException(curPickupSku,exceptionMessage);
                                     break;
                             }
                         }
@@ -280,13 +280,13 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                                 break;
                             case 5://取货超时
                                 isHappneException = true;
-                                curPickupSku_Tv_Tip2.setText("取货发生异常..");
                                 pickupEventNotify(curPickupSku, 6000, "取货失败，取货超时," + message, null);
+                                setPickupException(curPickupSku,"取货发生异常..");
                                 break;
                             case 6://取货失败
                                 isHappneException = true;
-                                curPickupSku_Tv_Tip2.setText("取货发生异常...");
                                 pickupEventNotify(curPickupSku, 6000, "取货失败,程序异常", null);
+                                setPickupException(curPickupSku,"取货失败,程序异常..");
                                 break;
                         }
                         break;
@@ -483,18 +483,18 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                     case "dsx01":
 
                         if (pickupSku.getCabinetId() == null) {
-                            curPickupSku_Tv_Tip2.setText("准备出货异常......机柜编号为空");
+                            setPickupException(pickupSku,"准备出货异常......机柜编号为空");
                             return;
                         }
 
                         if (pickupSku.getSlotId() == null) {
-                            curPickupSku_Tv_Tip2.setText("准备出货异常......货道编号为空");
+                            setPickupException(pickupSku,"准备出货异常......货道编号为空");
                             return;
                         }
 
                         DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(pickupSku.getCabinetId(), pickupSku.getSlotId());
                         if (dsCabSlotNRC == null) {
-                            curPickupSku_Tv_Tip2.setText("准备出货异常......机柜（" + pickupSku.getCabinetId() + "）货道编号（" + pickupSku.getSlotId() + "）解释错误");
+                            setPickupException(pickupSku,"准备出货异常......机柜（" + pickupSku.getCabinetId() + "）货道编号（" + pickupSku.getSlotId() + "）解释错误");
                             return;
                         }
 
@@ -502,7 +502,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                         });
 
                         if (dSCabRowColLayout == null) {
-                            curPickupSku_Tv_Tip2.setText("准备出货异常......机柜货道解释异常");
+                            setPickupException(pickupSku,"准备出货异常......机柜货道解释异常");
+                            return;
+                        }
+
+                        if(cabinetCtrlByDS==null) {
+                            setPickupException(pickupSku, "准备出货异常......设备解释异常");
                             return;
                         }
 
@@ -517,9 +522,9 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
         }
         catch (Exception ex){
-            curPickupSku_Tv_Tip2.setText("准备启动异常......");
             LogUtil.e(TAG,ex);
             LogUtil.e(TAG,"准备启动异常："+ex.getMessage());
+            setPickupException(pickupSku,"准备启动异常......");
             AppLogcatManager.saveLogcat2Server("logcat -v time  ", "startPickUp");
         }
     }
@@ -569,7 +574,7 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     }
 
-    private void setPickupException(PickupSkuBean pickupSku){
+    private void setPickupException(PickupSkuBean pickupSku,String remark){
         
         if(pickupSku==null)
             return;
@@ -582,8 +587,12 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                 getDialogBySystemWarn().show();
             }
 
-            cabinetCtrlByDS.emgStop();
-            curPickupSku_Tv_Tip2.setText("取货失败，程序发生异常");
+            if (cabinetCtrlByDS != null) {
+                cabinetCtrlByDS.emgStop();
+            }
+            curPickupSku_Tv_Tip2.setText(remark);
+
+            LogUtil.d(TAG, "取货失败:" + remark);
 
             AppLogcatManager.saveLogcat2Server("logcat -d -s symvdio CabinetCtrlByDS OrderDetailsActivity ", "pickup");
 
