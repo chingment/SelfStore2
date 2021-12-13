@@ -69,6 +69,8 @@ public class MqttService extends Service {
 
     private Handler handler_msg;
 
+    private Handler handler_connect;
+
     private void  sendDeviceStatus() {
 
 
@@ -148,6 +150,14 @@ public class MqttService extends Service {
             }
         });
 
+        handler_connect = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                connectMqttClient();
+                return  false;
+            }
+        });
+
         buildMqttClient();
     }
 
@@ -170,7 +180,10 @@ public class MqttService extends Service {
 
         @Override
         public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-
+            LogUtil.i(TAG,"连接失败");
+            if(handler_connect!=null) {
+                handler_connect.sendEmptyMessage(0);
+            }
         }
     };
 
@@ -270,7 +283,6 @@ public class MqttService extends Service {
         DeviceBean device = AppCacheManager.getDevice();
 
         MqttBean mqtt = device.getMqtt();
-
 
 
         if (mqtt != null) {

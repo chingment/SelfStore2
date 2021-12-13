@@ -81,11 +81,13 @@ public class LocationUtil {
     }
 
     private void setLocation(Location location) {
-        this.location = location;
-        LocationUtil.LAT=location.getLatitude();
-        LocationUtil.LNG=location.getLongitude();
-        String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
-        LogUtil.d(TAG, address );
+        if(location!=null) {
+            this.location = location;
+            LocationUtil.LAT = location.getLatitude();
+            LocationUtil.LNG = location.getLongitude();
+            String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
+            LogUtil.d(TAG, address);
+        }
     }
 
     //获取经纬度
@@ -146,8 +148,10 @@ public class LocationUtil {
          */
         @Override
         public void onLocationChanged(Location location) {
-            location.getAccuracy();//精确度
-            setLocation( location );
+            if(location!=null) {
+                location.getAccuracy();//精确度
+                setLocation(location);
+            }
         }
     };
 

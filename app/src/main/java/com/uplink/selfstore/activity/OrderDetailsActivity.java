@@ -465,54 +465,62 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
 
     //设置商品卡槽去货中
     private void setCurPickupSku(PickupSkuBean pickupSku) {
-        if (pickupSku != null) {
-            LogUtil.d(TAG,"当前取货:" + pickupSku.getName() + ",skuId:" + pickupSku.getSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
-            CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
-            curPickupSku_Tv_Tip1.setText(pickupSku.getName());
-            curPickupSku_Tv_Tip2.setText("准备出货......");
 
-            CabinetBean cabinet = getDevice().getCabinets().get(pickupSku.getCabinetId());
+        try {
+            if (pickupSku != null) {
+                LogUtil.d(TAG, "当前取货:" + pickupSku.getName() + ",skuId:" + pickupSku.getSkuId() + ",slotId:" + pickupSku.getSlotId() + ",uniqueId:" + pickupSku.getUniqueId());
+                CommonUtil.loadImageFromUrl(OrderDetailsActivity.this, curPickupSku_Img_Mainimg, pickupSku.getMainImgUrl());
+                curPickupSku_Tv_Tip1.setText(pickupSku.getName());
+                curPickupSku_Tv_Tip2.setText("准备出货......");
 
-
-
-            pickupEventNotify(pickupSku, 3011, "发起取货", null);
+                CabinetBean cabinet = getDevice().getCabinets().get(pickupSku.getCabinetId());
 
 
-            switch (cabinet.getModelNo()) {
-                case "dsx01":
+                pickupEventNotify(pickupSku, 3011, "发起取货", null);
 
-                    if(pickupSku.getCabinetId()==null){
-                        curPickupSku_Tv_Tip2.setText("准备出货异常......机柜编号为空");
-                        return;
-                    }
 
-                    if(pickupSku.getSlotId()==null){
-                        curPickupSku_Tv_Tip2.setText("准备出货异常......货道编号为空");
-                        return;
-                    }
+                switch (cabinet.getModelNo()) {
+                    case "dsx01":
 
-                    DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(pickupSku.getCabinetId(), pickupSku.getSlotId());
-                    if (dsCabSlotNRC == null) {
-                        curPickupSku_Tv_Tip2.setText("准备出货异常......机柜（" + pickupSku.getCabinetId() + "）货道编号（" + pickupSku.getSlotId() + "）解释错误");
-                        return;
-                    }
+                        if (pickupSku.getCabinetId() == null) {
+                            curPickupSku_Tv_Tip2.setText("准备出货异常......机柜编号为空");
+                            return;
+                        }
 
-                    DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
-                    });
+                        if (pickupSku.getSlotId() == null) {
+                            curPickupSku_Tv_Tip2.setText("准备出货异常......货道编号为空");
+                            return;
+                        }
 
-                    if(dSCabRowColLayout==null){
-                        curPickupSku_Tv_Tip2.setText("准备出货异常......机柜货道解释异常");
-                        return;
-                    }
+                        DSCabSlotNRC dsCabSlotNRC = DSCabSlotNRC.GetSlotNRC(pickupSku.getCabinetId(), pickupSku.getSlotId());
+                        if (dsCabSlotNRC == null) {
+                            curPickupSku_Tv_Tip2.setText("准备出货异常......机柜（" + pickupSku.getCabinetId() + "）货道编号（" + pickupSku.getSlotId() + "）解释错误");
+                            return;
+                        }
 
-                    cabinetCtrlByDS.startPickUp(isGoZero,dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
-                    break;
-                case "zsx01":
-                    String[] parms=pickupSku.getSlotId().split("-");
-                    cabinetCtrlByZS.unLock(Integer.valueOf(parms[1]),Integer.valueOf(parms[0]));
-                    break;
+                        DSCabRowColLayoutBean dSCabRowColLayout = JSON.parseObject(cabinet.getRowColLayout(), new TypeReference<DSCabRowColLayoutBean>() {
+                        });
+
+                        if (dSCabRowColLayout == null) {
+                            curPickupSku_Tv_Tip2.setText("准备出货异常......机柜货道解释异常");
+                            return;
+                        }
+
+                        cabinetCtrlByDS.startPickUp(isGoZero, dsCabSlotNRC.getRow(), dsCabSlotNRC.getCol(), dSCabRowColLayout.getPendantRows());
+                        break;
+                    case "zsx01":
+                        String[] parms = pickupSku.getSlotId().split("-");
+                        cabinetCtrlByZS.unLock(Integer.valueOf(parms[1]), Integer.valueOf(parms[0]));
+                        break;
+                }
+
             }
-
+        }
+        catch (Exception ex){
+            curPickupSku_Tv_Tip2.setText("准备启动异常......");
+            LogUtil.e(TAG,ex);
+            LogUtil.e(TAG,"准备启动异常："+ex.getMessage());
+            AppLogcatManager.saveLogcat2Server("logcat -v time  ", "startPickUp");
         }
     }
 
@@ -623,12 +631,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
             }
             content.put("remark", remark);
 
-            LogUtil.d(TAG,"pickupStatus:" + pickupStatus);
+            LogUtil.d(TAG,"pickupStatus1:" + pickupStatus);
 
             eventNotify("vending_pickup","商品取货", content);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            LogUtil.d(TAG,"pickupStatus2");
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -656,30 +666,30 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
     public void onStop() {
         super.onStop();
 
-        if (cabinetCtrlByDS != null) {
-            cabinetCtrlByDS.disConnect();
-            cabinetCtrlByDS = null;
-        }
-
-        if (cabinetCtrlByZS != null) {
-            cabinetCtrlByZS.disConnect();
-            cabinetCtrlByZS = null;
-        }
+//        if (cabinetCtrlByDS != null) {
+//            cabinetCtrlByDS.disConnect();
+//            cabinetCtrlByDS = null;
+//        }
+//
+//        if (cabinetCtrlByZS != null) {
+//            cabinetCtrlByZS.disConnect();
+//            cabinetCtrlByZS = null;
+//        }
     }
 
     @Override
     public void onPause(){
         super.onPause();
 
-        if(cabinetCtrlByDS!=null){
-            cabinetCtrlByDS.disConnect();
-            cabinetCtrlByDS = null;
-        }
-
-        if (cabinetCtrlByZS != null) {
-            cabinetCtrlByZS.disConnect();
-            cabinetCtrlByZS = null;
-        }
+//        if(cabinetCtrlByDS!=null){
+//            cabinetCtrlByDS.disConnect();
+//            cabinetCtrlByDS = null;
+//        }
+//
+//        if (cabinetCtrlByZS != null) {
+//            cabinetCtrlByZS.disConnect();
+//            cabinetCtrlByZS = null;
+//        }
 
 
     }
