@@ -43,13 +43,13 @@
         android:layout_above="@+id/layout_footer"
         android:layout_marginBottom="@dimen/size_4"
         >
+
         <com.uplink.selfstore.ui.loopviewpager.AutoLoopViewPager
             android:id="@+id/banner_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fadingEdge="none"
-            android:overScrollMode="never"
-            />
+            android:overScrollMode="never" />
 
         <com.uplink.selfstore.ui.viewpagerindicator.CirclePageIndicator
             android:id="@+id/banner_indicator"

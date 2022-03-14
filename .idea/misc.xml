@@ -4,19 +4,24 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.18802083333333333" />
+        <entry key="app/src/main/res/drawable/btn_round_primary.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/footer_border_top.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/activity_orderdetails.xml" value="0.20930232558139536" />
-        <entry key="app/src/main/res/layout/activity_productdetails.xml" value="0.20930232558139536" />
-        <entry key="app/src/main/res/layout/activity_productkind.xml" value="0.20930232558139536" />
+        <entry key="app/src/main/res/layout/activity_productdetails.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_productkind.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_smdeviceinfo.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_smhome.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/activity_smlogin.xml" value="0.17118863049095606" />
         <entry key="app/src/main/res/layout/activity_smreplenishplan.xml" value="0.45" />
         <entry key="app/src/main/res/layout/activity_smrunexhandle.xml" value="0.20930232558139536" />
         <entry key="app/src/main/res/layout/activity_smuserinfo.xml" value="0.20930232558139536" />
-        <entry key="app/src/main/res/layout/dialog_scanpay.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_scanpay.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/dialog_slotedit.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_list_cart_sku.xml" value="0.16343669250645995" />
+        <entry key="app/src/main/res/layout/layout_deviceid.xml" value="0.1847545219638243" />
+        <entry key="app/src/main/res/layout/layout_nav_header.xml" value="0.1789405684754522" />
       </map>
     </option>
   </component>

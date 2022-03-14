@@ -227,6 +227,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             }
         }
     };
+
     private UsbService usbService;
     private Handler mScanCtrlHandler;
     private final ServiceConnection usbConnection = new ServiceConnection() {

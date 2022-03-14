@@ -37,6 +37,7 @@ import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.service.WhiteService;
+import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
@@ -134,7 +135,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
 
         FingerVeinnerCtrl.getInstance().tryGetPermission(InitDataActivity.this);
 
-
+        TinySyncExecutor.getInstance().clearTask();
 
     }
 

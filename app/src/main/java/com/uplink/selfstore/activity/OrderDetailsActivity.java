@@ -113,14 +113,14 @@ public class OrderDetailsActivity extends SwipeBackActivity implements View.OnCl
                             LogUtil.i(TAG, "取货消息：" + message);
                         }
 
-                        String componentName = getTopComponentName();
-                        if (componentName == null) {
-                            isHappneException = true;
-                            exceptionMessage = "取货异常，取货不在当前界面";
-                        } else if (!componentName.toLowerCase().contains("orderdetailsactivity")) {
-                            isHappneException = true;
-                            exceptionMessage = "取货异常，取货不在当前界面";
-                        }
+//                        String componentName = getTopComponentName();
+//                        if (componentName == null) {
+//                            isHappneException = true;
+//                            exceptionMessage = "取货异常，取货不在当前界面";
+//                        } else if (!componentName.toLowerCase().contains("orderdetailsactivity")) {
+//                            isHappneException = true;
+//                            exceptionMessage = "取货异常，取货不在当前界面";
+//                        }
 
                         boolean isTakePic = false;
 

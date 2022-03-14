@@ -75,11 +75,11 @@ public class CameraWindow {
         inSampleSize = size;
     }
 
-    public  static void clearWaitAction(){
-        if(mWaitActionByJg!=null) {
+    public  static void clearWaitAction() {
+        if (mWaitActionByJg != null) {
             mWaitActionByJg.clear();
         }
-        if(mWaitActionByChk!=null) {
+        if (mWaitActionByChk != null) {
             mWaitActionByChk.clear();
         }
     }

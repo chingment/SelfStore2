@@ -670,6 +670,20 @@ public class CartActivity extends SwipeBackActivity implements View.OnClickListe
                             bundle.putSerializable("dataBean", orderDetails);
                             intent.putExtras(bundle);
                             startActivity(intent);
+
+                            if (dialog_ScanPay != null) {
+                                dialog_ScanPay.cancel();
+                            }
+
+                            if (dialog_ImSeatList != null) {
+                                dialog_ImSeatList.cancel();
+                            }
+
+                            if (dialog_Handling != null) {
+                                dialog_Handling.cancel();
+                            }
+
+
                             finish();
                         }
                     };
