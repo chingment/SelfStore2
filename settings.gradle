@@ -1,1 +1,2 @@
 include ':app', ':tinytask'
+rootProject.name='SelfStore2'
