@@ -24,7 +24,7 @@ import com.uplink.selfstore.model.api.CartStatisticsBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
 import com.uplink.selfstore.model.api.KindBean;
 import com.uplink.selfstore.model.api.SkuBean;
-import com.uplink.selfstore.own.AppCacheManager;
+import com.uplink.selfstore.app.AppCacheManager;
 import com.uplink.selfstore.ui.XCRoundImageView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.CommonUtil;

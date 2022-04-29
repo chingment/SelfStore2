@@ -13,11 +13,9 @@ import android.widget.TextView;
 
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.SmLoginActivity;
-import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
+import com.uplink.selfstore.utils.tinytaskonebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.BitmapUtil;
-import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 

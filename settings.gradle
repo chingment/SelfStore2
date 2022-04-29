@@ -1,2 +1,2 @@
-include ':app', ':tinytask'
+include ':app'
 rootProject.name='SelfStore2'

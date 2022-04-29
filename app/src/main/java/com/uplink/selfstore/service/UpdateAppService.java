@@ -21,9 +21,9 @@ import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.RetDeviceCheckUpdate;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.own.AppContext;
-import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.app.AppContext;
+import com.uplink.selfstore.app.AppManager;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
@@ -244,7 +244,7 @@ public class UpdateAppService extends Service {
             params.put("appKey", BuildConfig.APPKEY);
 
 
-            HttpClient.postByMy(Config.URL.device_CheckUpdate, params, new HttpResponseHandler() {
+            HttpClient.postByMy(ReqUrl.device_CheckUpdate, params, new HttpResponseHandler() {
 
                 @Override
                 public void onBeforeSend() {

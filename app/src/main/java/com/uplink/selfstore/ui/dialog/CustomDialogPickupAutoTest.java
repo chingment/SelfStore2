@@ -21,8 +21,7 @@ import com.uplink.selfstore.model.DSCabSlotNRC;
 import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.api.CabinetBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.service.MqttService;
+import com.uplink.selfstore.app.AppLogcatManager;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 //import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
@@ -35,7 +34,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.UUID;
 
 public class CustomDialogPickupAutoTest extends Dialog {
     private static final String TAG = "CustomDialogPickupAutoTest";

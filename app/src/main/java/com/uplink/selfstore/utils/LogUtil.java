@@ -3,7 +3,8 @@ package com.uplink.selfstore.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.BuildConfig;
+import com.uplink.selfstore.model.api.ReqUrl;
 
 /**
  * 项目名称：LGF_project
@@ -30,26 +31,26 @@ public class LogUtil {
     }
 
     public static void d(String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.d(tag, content);
     }
 
     public static void d(String tag, String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.d(tag, content);
     }
 
     public static void d(String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.d(tag, content, tr);
     }
 
     public static void e(String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.e(tag, content);
@@ -61,107 +62,107 @@ public class LogUtil {
     }
 
     public static void e(String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.e(tag, content, tr);
     }
 
     public static void e(String tag, String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.e(tag, content);
     }
 
     public static void e(String tag, String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.e(tag, content,tr);
     }
 
     public static void i(String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.i(tag, content);
     }
 
     public static void i(String tag, String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.i(tag, content);
     }
 
     public static void i(String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.i(tag, content, tr);
     }
 
     public static void v(String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.v(tag, content);
     }
 
     public static void v(String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.v(tag, content, tr);
     }
 
     public static void v(String tag, String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.v(tag, content);
     }
 
     public static void w(String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.w(tag, content);
     }
 
     public static void w(String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.w(tag, content, tr);
     }
 
     public static void w(Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.w(tag, tr);
     }
 
     public static void w(String tag, String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.w(tag, content);
     }
 
     public static void wtf(String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.wtf(tag, content);
     }
 
     public static void wtf(String content, Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.wtf(tag, content, tr);
     }
 
     public static void wtf(String tag, String content) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         Log.wtf(tag, content);
     }
 
     public static void wtf(Throwable tr) {
-        if (!Config.IS_APP_DEBUG) return;
+        if (!BuildConfig.ISAPPDEBUG) return;
         String tag = generateTag();
 
         Log.wtf(tag, tr);

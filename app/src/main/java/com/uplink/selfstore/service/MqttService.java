@@ -9,14 +9,12 @@ import android.os.IBinder;
 import android.os.Message;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.parser.JSONToken;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.MqttBean;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.AppUtil;
-import com.uplink.selfstore.own.CommandManager;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.app.AppManager;
+import com.uplink.selfstore.app.AppUtil;
+import com.uplink.selfstore.app.CommandManager;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NetFlowInfo;
 import com.uplink.selfstore.utils.NetFlowUtil;
@@ -33,12 +31,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Dictionary;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 public class MqttService extends Service {

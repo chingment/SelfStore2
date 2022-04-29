@@ -19,9 +19,9 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.app.AppLogcatManager;
+import com.uplink.selfstore.app.AppManager;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.service.WhiteService;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
@@ -137,7 +137,7 @@ public class SmHomeActivity extends SwipeBackActivity implements View.OnClickLis
                         params.put("loginWay", 5);
                         params.put("deviceId", getDevice().getDeviceId() + "");
 
-                        postByMy(SmHomeActivity.this, Config.URL.own_Logout, params, true, "正在退出", new HttpResponseHandler() {
+                        postByMy(SmHomeActivity.this, ReqUrl.own_Logout, params, true, "正在退出", new HttpResponseHandler() {
                             @Override
                             public void onSuccess(String response) {
                                 ApiResultBean<Object> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<Object>>() {

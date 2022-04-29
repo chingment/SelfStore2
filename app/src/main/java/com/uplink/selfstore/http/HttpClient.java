@@ -3,9 +3,6 @@ package com.uplink.selfstore.http;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,22 +14,18 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.uplink.selfstore.BuildConfig;
-import com.uplink.selfstore.R;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppContext;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.app.AppContext;
 import com.uplink.selfstore.utils.LogUtil;
-import com.uplink.selfstore.utils.AbFileUtil;
-import com.uplink.selfstore.utils.ToastUtil;
+import com.uplink.selfstore.utils.SHA256Encrypt;
+import com.uplink.selfstore.utils.StringUtil;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -149,7 +142,7 @@ public class HttpClient {
             requestBuilder.addHeader("appKey", "" + BuildConfig.APPKEY);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
-            String sign = Config.getSign(BuildConfig.APPLICATION_ID, BuildConfig.APPKEY, BuildConfig.APPSECRET, data, currenttime);
+            String sign = getSign(BuildConfig.APPLICATION_ID, BuildConfig.APPKEY, BuildConfig.APPSECRET, data, currenttime);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
@@ -293,7 +286,7 @@ public class HttpClient {
             requestBuilder.addHeader("appKey", "" + BuildConfig.APPKEY);
             String currenttime = (System.currentTimeMillis() / 1000) + "";
             requestBuilder.addHeader("timestamp", currenttime);
-            String sign = Config.getSign(BuildConfig.APPLICATION_ID,BuildConfig.APPKEY, BuildConfig.APPSECRET, fields_data, currenttime);
+            String sign = getSign(BuildConfig.APPLICATION_ID,BuildConfig.APPKEY, BuildConfig.APPSECRET, fields_data, currenttime);
             requestBuilder.addHeader("sign", "" + sign);
             requestBuilder.addHeader("version", com.uplink.selfstore.BuildConfig.VERSION_NAME);
 
@@ -359,6 +352,20 @@ public class HttpClient {
             e.printStackTrace();
         }
         return string.toString().substring(0, string.length() - 1);
+    }
+
+    public static String getSign(String appId, String appKey, String appSecret, String data, String currenttime) {
+        // 待加密
+        String queryStr =appId+ appKey + appSecret + currenttime + data;
+//        LogUtil.e(TAG, "queryStr>>==>>" + queryStr);
+        String sortedStr = StringUtil.sortString(queryStr);
+//        LogUtil.e(TAG, "sortedStr>>==>>" + sortedStr);
+        String sha256edStr = SHA256Encrypt.bin2hex(sortedStr).toLowerCase();
+//        LogUtil.e(TAG, "sha256edStr>>==>>" + sha256edStr);
+//        String base64Str = Base64.encodeToString(sha256edStr.getBytes(), Base64.NO_WRAP);
+//        String base64Str = StringUtils.replaceEnter(Base64.encodeToString(sha256edStr.getBytes(), Base64.NO_WRAP), "");
+//        LogUtil.e(TAG, "加密后>>==>>" + base64Str);
+        return sha256edStr;
     }
 
 }

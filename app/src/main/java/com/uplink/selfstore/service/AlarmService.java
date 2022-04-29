@@ -1,46 +1,37 @@
 package com.uplink.selfstore.service;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
-import com.uplink.selfstore.BuildConfig;
-import com.uplink.selfstore.broadcast.AlarmReceiver;
 import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.TripMsgBean;
-import com.uplink.selfstore.model.api.AdBean;
 import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.CbLightBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.RetDeviceEventNotify;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppContext;
-import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.AppUtil;
-import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.own.OwnFileUtil;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.app.AppContext;
+import com.uplink.selfstore.app.AppManager;
+import com.uplink.selfstore.app.AppUtil;
+import com.uplink.selfstore.model.api.ReqUrl;
+import com.uplink.selfstore.app.AppFileUtil;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.utils.CommonUtil;
-import com.uplink.selfstore.utils.DateUtil;
 import com.uplink.selfstore.utils.FileUtil;
-import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NetFlowInfo;
 import com.uplink.selfstore.utils.NetFlowUtil;
@@ -48,15 +39,11 @@ import com.uplink.selfstore.utils.NetFlowUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
 
 public class AlarmService  extends Service {
     private static final String TAG = "AlarmService";
@@ -178,9 +165,9 @@ public class AlarmService  extends Service {
 
     public static void deleteTempFile() {
         LogUtil.i(TAG, "定时任务：删除临时文件");
-        String picDir = OwnFileUtil.getPicSaveDir();
+        String picDir = AppFileUtil.getPicSaveDir();
         FileUtil.deleteFile(picDir, 7);
-        String moveDir = OwnFileUtil.getMovieSaveDir();
+        String moveDir = AppFileUtil.getMovieSaveDir();
         FileUtil.deleteFile(moveDir, 7);
     }
 
@@ -262,7 +249,7 @@ public class AlarmService  extends Service {
                     params.put("msgId", trip.getMsgId());
                     params.put("msgMode","timer");
                     String json = params.toString();
-                    HttpClient.postByMy(Config.URL.device_EventNotify, json, new HttpResponseHandler() {
+                    HttpClient.postByMy(ReqUrl.device_EventNotify, json, new HttpResponseHandler() {
                         @Override
                         public void onBeforeSend() {
                         }

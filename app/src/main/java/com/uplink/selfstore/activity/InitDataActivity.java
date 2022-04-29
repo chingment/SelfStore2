@@ -1,6 +1,5 @@
 package com.uplink.selfstore.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -12,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
 import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.activity.adapter.LogAdapter;
@@ -22,12 +20,10 @@ import com.uplink.selfstore.deviceCtrl.FingerVeinnerCtrl;
 import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.model.LogBean;
 import com.uplink.selfstore.model.api.CabinetBean;
-import com.uplink.selfstore.model.api.CbLightBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.CustomDataByVendingBean;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppManager;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.http.HttpResponseHandler;
 import com.uplink.selfstore.model.api.ApiResultBean;
@@ -37,19 +33,14 @@ import com.uplink.selfstore.service.AlarmService;
 import com.uplink.selfstore.service.MqttService;
 import com.uplink.selfstore.service.UpdateAppService;
 import com.uplink.selfstore.service.WhiteService;
-import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
+import com.uplink.selfstore.utils.tinytaskonebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.BaseFragmentActivity;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.LoadingView;
 import com.uplink.selfstore.ui.my.MyListView;
-import com.uplink.selfstore.utils.CommonUtil;
 import com.uplink.selfstore.utils.FileUtil;
-import com.uplink.selfstore.utils.IdWorker;
-import com.uplink.selfstore.utils.LocationUtil;
 import com.uplink.selfstore.utils.LongClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -59,8 +50,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class InitDataActivity extends BaseFragmentActivity implements View.OnClickListener {
@@ -397,7 +386,7 @@ public class InitDataActivity extends BaseFragmentActivity implements View.OnCli
         params.put("ctrlSdkVersionCode", cabinetCtrlByDS.vesion());
         params.put("macAddress", getAppContext().getMacAddress());
 
-        postByMy(InitDataActivity.this, Config.URL.device_InitData, params, false, "", new HttpResponseHandler() {
+        postByMy(InitDataActivity.this, ReqUrl.device_InitData, params, false, "", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 ApiResultBean<RetDeviceInitData> rt = JSON.parseObject(response, new TypeReference<ApiResultBean<RetDeviceInitData>>() {

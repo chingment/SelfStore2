@@ -24,8 +24,8 @@ import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.OrderDetailsSkuBean;
 import com.uplink.selfstore.model.api.PickupSkuBean;
 import com.uplink.selfstore.model.api.PickupSlotBean;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.taskexecutor.onebyone.TinySyncExecutor;
+import com.uplink.selfstore.app.AppLogcatManager;
+import com.uplink.selfstore.utils.tinytaskonebyone.TinySyncExecutor;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ClosePageCountTimer;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
@@ -37,7 +37,6 @@ import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
 import com.uplink.selfstore.utils.StringUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;

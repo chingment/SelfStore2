@@ -34,9 +34,9 @@ import com.uplink.selfstore.model.api.RetSkuSearch;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.SearchSkuBean;
 import com.uplink.selfstore.model.api.SlotBean;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.app.AppLogcatManager;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ui.CameraWindow;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.utils.CommonUtil;
@@ -525,7 +525,7 @@ public class CustomDialogSlotEdit extends Dialog {
 
                 params.put("version", version);
 
-                mContext.postByMy(mContext,Config.URL.stockSetting_SaveCabinetSlot, params, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                mContext.postByMy(mContext, ReqUrl.stockSetting_SaveCabinetSlot, params, true, mContext.getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -773,7 +773,7 @@ public class CustomDialogSlotEdit extends Dialog {
         params.put("deviceId", device.getDeviceId());
         params.put("key", key);
 
-        mContext.postByMy(mContext,Config.URL.product_SearchSku, params, false, "正在寻找", new HttpResponseHandler() {
+        mContext.postByMy(mContext, ReqUrl.product_SearchSku, params, false, "正在寻找", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

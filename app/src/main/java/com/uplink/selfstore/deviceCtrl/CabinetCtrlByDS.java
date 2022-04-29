@@ -4,11 +4,10 @@ import android.VendingMachine.symvdio;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.uplink.selfstore.model.PickupActionResult;
 import com.uplink.selfstore.model.ScanSlotResult;
-import com.uplink.selfstore.own.AppLogcatManager;
+import com.uplink.selfstore.app.AppLogcatManager;
 import com.uplink.selfstore.utils.LogUtil;
 
 import java.io.File;

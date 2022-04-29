@@ -2,12 +2,10 @@ package com.uplink.selfstore.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,15 +14,12 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
-import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.http.HttpClient;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.own.OwnFileUtil;
+import com.uplink.selfstore.app.AppLogcatManager;
+import com.uplink.selfstore.model.api.ReqUrl;
+import com.uplink.selfstore.app.AppFileUtil;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.StringUtil;
-
-import org.apache.commons.logging.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -32,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -350,7 +344,7 @@ public class CameraWindow {
             try {
                 //保存在本地
 
-                String mSaveDir = OwnFileUtil.getPicSaveDir();
+                String mSaveDir = AppFileUtil.getPicSaveDir();
 
                 File pathFile = new File(mSaveDir);
                 if (!pathFile.exists()) {
@@ -375,7 +369,7 @@ public class CameraWindow {
                 Map<String, String> filePaths = new HashMap<>();
                 filePaths.put("file", filePath);
 
-                HttpClient.postFileByMy(Config.URL.uploadfile, post_params, filePaths, null);
+                HttpClient.postFileByMy(ReqUrl.uploadfile, post_params, filePaths, null);
 
                 LogUtil.d(TAG, "拍照结束");
             } catch (Exception ex) {

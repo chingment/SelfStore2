@@ -14,7 +14,7 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.RetReplenishGetPlans;
 import com.uplink.selfstore.model.api.ReplenishPlanBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ui.my.MyListView;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -62,7 +62,7 @@ public class SmReplenishPlanActivity extends SwipeBackActivity implements View.O
         params.put("page",0);
         params.put("limit",10);
 
-        postByMy(SmReplenishPlanActivity.this,Config.URL.replenish_GetPlans, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmReplenishPlanActivity.this, ReqUrl.replenish_GetPlans, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

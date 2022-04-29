@@ -22,14 +22,10 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
-import com.uplink.selfstore.deviceCtrl.ScannerCtrl;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.model.ZSCabBoxBean;
-import com.uplink.selfstore.own.AppLogcatManager;
-import com.uplink.selfstore.own.Config;
-import com.uplink.selfstore.own.OwnFileUtil;
-import com.uplink.selfstore.ui.BaseFragmentActivity;
-import com.uplink.selfstore.ui.CameraWindow;
+import com.uplink.selfstore.model.api.ReqUrl;
+import com.uplink.selfstore.app.AppFileUtil;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
 import com.uplink.selfstore.utils.NoDoubleClickUtil;
@@ -37,9 +33,7 @@ import com.uplink.selfstore.utils.StringUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Semaphore;
@@ -645,11 +639,11 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
     }
 
     private void  savePic(String imgId, byte[] data) {
-        if (Config.IS_BUILD_DEBUG) {
+        if (BuildConfig.ISAPPDEBUG) {
             try {
                 //保存在本地
 
-                String mSaveDir = OwnFileUtil.getPicSaveDir();
+                String mSaveDir = AppFileUtil.getPicSaveDir();
 
                 File pathFile = new File(mSaveDir);
                 if (!pathFile.exists()) {
@@ -671,7 +665,7 @@ public class SmHardwareActivity extends SwipeBackActivity implements View.OnClic
                 Map<String, String> filePaths = new HashMap<>();
                 filePaths.put("file", filePath);
 
-                HttpClient.postFileByMy(Config.URL.uploadfile, params, filePaths, null);
+                HttpClient.postFileByMy(ReqUrl.uploadfile, params, filePaths, null);
 
                 Log.e(TAG, "拍照结束");
             } catch (Exception e) {

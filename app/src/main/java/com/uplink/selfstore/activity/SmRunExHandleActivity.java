@@ -22,7 +22,7 @@ import com.uplink.selfstore.model.api.ExHandleUniqueBean;
 import com.uplink.selfstore.model.api.ExHandleReasonBean;
 import com.uplink.selfstore.model.api.RetDeviceGetRunExHandleItems;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyGridView;
 import com.uplink.selfstore.ui.my.MyListView;
@@ -130,7 +130,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
 
                 params.put("exItems", json_items);
                 params.put("exReasons", json_reasons);
-                postByMy(SmRunExHandleActivity.this, Config.URL.device_HandleRunExItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(SmRunExHandleActivity.this, ReqUrl.device_HandleRunExItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -214,7 +214,7 @@ public class SmRunExHandleActivity extends SwipeBackActivity implements View.OnC
         Map<String, Object> params = new HashMap<>();
         params.put("deviceId", getDevice().getDeviceId());
 
-        postByMy(SmRunExHandleActivity.this, Config.URL.device_GetRunExHandleItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmRunExHandleActivity.this, ReqUrl.device_GetRunExHandleItems, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

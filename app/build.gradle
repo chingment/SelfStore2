@@ -150,7 +150,6 @@ dependencies {
     implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
 //    implementation 'org.greenrobot:greendao:3.2.2'
-    compile project(':tinytask')
     implementation files('libs/SYMVDIO.jar')
     implementation files('libs/BioVein.jar')
     implementation files('libs/ysapi.jar')

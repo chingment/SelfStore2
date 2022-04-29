@@ -27,7 +27,6 @@ import com.uplink.selfstore.BuildConfig;
 import com.uplink.selfstore.R;
 import com.uplink.selfstore.activity.InitDataActivity;
 import com.uplink.selfstore.activity.OrderDetailsActivity;
-import com.uplink.selfstore.activity.SmRescueToolActivity;
 import com.uplink.selfstore.db.DbManager;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByDS;
 import com.uplink.selfstore.deviceCtrl.CabinetCtrlByZS;
@@ -38,12 +37,12 @@ import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OrderDetailsBean;
 import com.uplink.selfstore.model.api.Result;
 import com.uplink.selfstore.model.api.RetDeviceEventNotify;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.AppContext;
-import com.uplink.selfstore.own.AppManager;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.app.AppContext;
+import com.uplink.selfstore.app.AppManager;
 import com.uplink.selfstore.http.HttpClient;
 import com.uplink.selfstore.http.HttpResponseHandler;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
 import com.uplink.selfstore.service.UsbService;
 import com.uplink.selfstore.ui.dialog.CustomDialogLoading;
@@ -558,7 +557,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
                 params.put("content", content);
             }
             str_content = params.toString();
-            int msg_id = DbManager.getInstance().saveTripMsg(Config.URL.device_EventNotify, str_content);
+            int msg_id = DbManager.getInstance().saveTripMsg(ReqUrl.device_EventNotify, str_content);
             params.put("msgId", msg_id);
             params.put("msgMode", "normal");
             str_content= params.toString();
@@ -566,7 +565,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
             ex.printStackTrace();
         }
 
-        HttpClient.postByMy(Config.URL.device_EventNotify, str_content, new HttpResponseHandler() {
+        HttpClient.postByMy(ReqUrl.device_EventNotify, str_content, new HttpResponseHandler() {
 
             @Override
             public void onBeforeSend() {
@@ -604,7 +603,7 @@ public  class BaseFragmentActivity extends FragmentActivity implements View.OnCl
         params.put("deviceId", this.getDevice().getDeviceId());
         params.put("pickupCode", pickCode);
 
-        postByMy(context,Config.URL.order_SearchByPickupCode, params, true, "正在寻找订单", new HttpResponseHandler() {
+        postByMy(context, ReqUrl.order_SearchByPickupCode, params, true, "正在寻找订单", new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

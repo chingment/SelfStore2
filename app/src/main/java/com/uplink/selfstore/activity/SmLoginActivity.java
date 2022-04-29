@@ -18,8 +18,8 @@ import com.uplink.selfstore.model.api.ApiResultBean;
 import com.uplink.selfstore.model.api.DeviceBean;
 import com.uplink.selfstore.model.api.OpUserInfoBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.own.AppCacheManager;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.app.AppCacheManager;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ui.dialog.CustomDialogFingerVein;
 import com.uplink.selfstore.ui.swipebacklayout.SwipeBackActivity;
 import com.uplink.selfstore.utils.LogUtil;
@@ -205,7 +205,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         params.put("deviceId", device.getDeviceId() + "");
 
 
-        postByMy(SmLoginActivity.this, Config.URL.own_LoginByAccount, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmLoginActivity.this, ReqUrl.own_LoginByAccount, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
@@ -245,7 +245,7 @@ public class SmLoginActivity extends SwipeBackActivity implements View.OnClickLi
         params.put("deviceId", device.getDeviceId() + "");
 
 
-        postByMy(SmLoginActivity.this, Config.URL.own_LoginByFingerVein, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmLoginActivity.this, ReqUrl.own_LoginByFingerVein, params, false, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 

@@ -40,7 +40,8 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.BuildConfig;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ui.bitmap.AbFileCache;
 import com.uplink.selfstore.ui.bitmap.AbImageUtil;
 
@@ -1391,10 +1392,8 @@ public class AbFileUtil {
 				value = true;
 			}
 		} catch (MalformedURLException e) {
-			if (Config.IS_APP_DEBUG)
 				e.printStackTrace();
 		} catch (IOException e) {
-			if (Config.IS_APP_DEBUG)
 				e.printStackTrace();
 		}
 		return value;

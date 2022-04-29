@@ -31,7 +31,7 @@ import com.uplink.selfstore.model.api.RetReplenishGetPlanDetail;
 import com.uplink.selfstore.model.api.ReplenishPlanBean;
 import com.uplink.selfstore.model.api.ReplenishSlotBean;
 import com.uplink.selfstore.model.api.Result;
-import com.uplink.selfstore.own.Config;
+import com.uplink.selfstore.model.api.ReqUrl;
 import com.uplink.selfstore.ui.ViewHolder;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.dialog.CustomDialogReplenish;
@@ -136,7 +136,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
                     return;
                 }
 
-                postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_ConfirmReplenish, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+                postByMy(SmReplenishPlanDetailActivity.this, ReqUrl.replenish_ConfirmReplenish, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
 
@@ -697,7 +697,7 @@ public class SmReplenishPlanDetailActivity extends SwipeBackActivity implements 
         params.put("deviceId", getDevice().getDeviceId());
         params.put("planDeviceId",replenishPlan.getId());
 
-        postByMy(SmReplenishPlanDetailActivity.this, Config.URL.replenish_GetPlanDetail, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
+        postByMy(SmReplenishPlanDetailActivity.this, ReqUrl.replenish_GetPlanDetail, params, true, getAppContext().getString(R.string.tips_hanlding), new HttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 super.onSuccess(response);

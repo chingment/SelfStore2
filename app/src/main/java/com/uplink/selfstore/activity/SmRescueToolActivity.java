@@ -10,7 +10,7 @@ import com.uplink.selfstore.activity.adapter.NineGridItemAdapter;
 import com.uplink.selfstore.model.common.NineGridItemBean;
 import com.uplink.selfstore.model.common.NineGridItemType;
 import com.uplink.selfstore.ostCtrl.OstCtrlInterface;
-import com.uplink.selfstore.own.AppManager;
+import com.uplink.selfstore.app.AppManager;
 import com.uplink.selfstore.service.WhiteService;
 import com.uplink.selfstore.ui.dialog.CustomDialogConfirm;
 import com.uplink.selfstore.ui.my.MyGridView;

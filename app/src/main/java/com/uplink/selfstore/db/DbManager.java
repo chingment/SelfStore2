@@ -6,10 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 import com.uplink.selfstore.model.TripMsgBean;
-import com.uplink.selfstore.own.AppContext;
+import com.uplink.selfstore.app.AppContext;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
