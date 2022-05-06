@@ -32,7 +32,7 @@ public class CustomDialogSystemWarn extends Dialog {
     private ImageView img_crsQrcode;
     private View layout_csrPhoneNumber;
     private TextView txt_csrPhoneNumber;
-    private WebView wv_csrHelpTips;
+    private TextView wv_csrHelpTips;
     public CustomDialogSystemWarn(final Context context) {
         super(context, R.style.dialog_style);
         mThis=this;
@@ -86,8 +86,8 @@ public class CustomDialogSystemWarn extends Dialog {
                 + csrHelpTip
                 + "</body></html>";
 
-        this.wv_csrHelpTips.loadData(html, "text/html", "uft-8");
-
+        //this.wv_csrHelpTips.loadData(html, "text/html", "uft-8");
+        this.wv_csrHelpTips.setText("\t\t\t\t"+csrHelpTip);
         if(StringUtil.isEmptyNotNull(csrHelpTip))
         {
             this.wv_csrHelpTips.setVisibility(View.GONE);

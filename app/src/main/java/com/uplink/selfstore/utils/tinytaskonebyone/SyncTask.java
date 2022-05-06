@@ -5,6 +5,5 @@ package com.uplink.selfstore.utils.tinytaskonebyone;
  * @website http://blog.csdn.net/ddnosh
  */
 public interface SyncTask {
-
     void doTask();
 }

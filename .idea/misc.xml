@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/layout/dialog_numkey.xml" value="0.270671834625323" />
         <entry key="app/src/main/res/layout/dialog_scanpay.xml" value="0.45" />
         <entry key="app/src/main/res/layout/dialog_slotedit.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/dialog_systemwarn.xml" value="0.55" />
         <entry key="app/src/main/res/layout/item_list_cart_sku.xml" value="0.16343669250645995" />
         <entry key="app/src/main/res/layout/layout_deviceid.xml" value="0.1847545219638243" />
         <entry key="app/src/main/res/layout/layout_nav_header.xml" value="0.1789405684754522" />

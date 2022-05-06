@@ -120,12 +120,14 @@
             </LinearLayout>
 
 
-            <WebView
+            <TextView
                 android:id="@+id/wv_csrHelpTips"
                 android:visibility="gone"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="@dimen/size_200"
-                android:layout_height="@dimen/size_200" />
+                android:textSize="@dimen/sp_14"
+
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/layout_csrPhoneNumber"
