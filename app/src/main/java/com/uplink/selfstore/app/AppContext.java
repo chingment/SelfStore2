@@ -161,7 +161,7 @@ public class AppContext extends Application {
 
        //return "202101040205";
 
-        if(BuildConfig.ISAPPDEBUG) {
+        if(BuildConfig.DEBUG) {
 //           // return "202012110204";
  //         return "202101040206";
            return "202004220011";
@@ -230,7 +230,7 @@ public class AppContext extends Application {
 
     private static String getMacFromHardware() {
 
-        if(BuildConfig.ISAPPDEBUG) {
+        if(BuildConfig.DEBUG) {
             return "02:00:00:00:00:00";
         }
 
